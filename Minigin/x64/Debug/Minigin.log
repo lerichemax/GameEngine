@@ -1,0 +1,28 @@
+﻿  MiniginPCH.cpp
+  Font.cpp
+  GameObject.cpp
+  InputManager.cpp
+  Main.cpp
+  Minigin.cpp
+  Renderer.cpp
+  ResourceManager.cpp
+  Scene.cpp
+  SceneManager.cpp
+  TextObject.cpp
+  Texture2D.cpp
+  Transform.cpp
+  Generating Code...
+     Creating library D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.lib and object D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.exp
+  Minigin.vcxproj -> D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.exe
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2\lib\x64\SDL2.dll
+  1 File(s) copied
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\libjpeg-9.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\libpng16-16.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\libtiff-5.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\libwebp-7.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\SDL2_image.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_image\lib\x64\zlib1.dll
+  6 File(s) copied
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll
+  D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2_ttf\lib\x64\SDL2_ttf.dll
+  2 File(s) copied
