@@ -1,18 +1,4 @@
-﻿  MiniginPCH.cpp
-  Font.cpp
-  GameObject.cpp
-  InputManager.cpp
-  Main.cpp
-  Minigin.cpp
-  Renderer.cpp
-  ResourceManager.cpp
-  Scene.cpp
-  SceneManager.cpp
-  TextObject.cpp
-  Texture2D.cpp
-  Transform.cpp
-  Generating Code...
-     Creating library D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.lib and object D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.exp
+﻿  Scene.cpp
   Minigin.vcxproj -> D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.exe
   D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2\lib\x64\SDL2.dll
   1 File(s) copied
