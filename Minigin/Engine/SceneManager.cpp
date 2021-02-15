@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "TextObject.h"
 
 dae::SceneManager::~SceneManager()
 {

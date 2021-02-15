@@ -2,10 +2,9 @@ d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\e
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\vc142.pdb
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\vc142.idb
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\miniginpch.obj
-d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\transform.obj
+d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\transformcomponent.obj
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\texture2d.obj
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\textrenderercomponent.obj
-d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\textobject.obj
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\sceneobject.obj
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\scenemanager.obj
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\scene.obj
@@ -23,7 +22,6 @@ d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\e
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\x64\debug\minigin.pdb
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\x64\debug\minigin.lib
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\x64\debug\minigin.exp
-d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\minigin.new.obj.enc
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\minigin.tlog\cl.command.1.tlog
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\minigin.tlog\cl.read.1.tlog
 d:\howest\onedrive - hogeschool west-vlaanderen\cours\semester 4\programming 4\engine\gameengine\minigin\x64\debug\minigin.tlog\cl.write.1.tlog

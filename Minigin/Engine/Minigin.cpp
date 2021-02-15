@@ -7,10 +7,10 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-#include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
-
+#include "RendererComponent.h"
+#include "TextRendererComponent.h"
 #include <chrono>
 
 using namespace std;
@@ -46,16 +46,20 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto* go = new GameObject{new RendererComponent{"background.jpg"}};
+	auto* go = new GameObject{};
+	go->AddComponent<RendererComponent>("background.jpg");
 	scene.Add(go);
 
-	go = new GameObject{ new RendererComponent{"logo.png"} };
-	go->SetPosition(216, 180);
+	go = new GameObject{ };
+	go->AddComponent<RendererComponent>("logo.png");
+	go->AddComponent<TransformComponent>(216.f, 180.f);
 	scene.Add(go);
+
 	
 	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = new TextObject{ "Programming 4 Assignment", font };
-	to->SetPosition(80, 20);
+	auto to = new GameObject{  };
+	to->AddComponent<TextRendererComponent>("Programming 4 Assignment", font);
+	to->AddComponent<TransformComponent>(80.f, 20.f);
 	scene.Add(to);
 }
 

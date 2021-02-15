@@ -1,17 +1,19 @@
 #pragma once
-#include "Transform.h"
 
 namespace dae
 {
-	class Component
+	class SceneObject;
+	class Component // Eventually make pure virtual
 	{
 	public:
-		Component() = default;
+		Component();
 		virtual ~Component() = default;
-		void SetLocalTransform(const Transform& local);
+		
+		virtual void Init(SceneObject* pParent);
+		virtual void Update() = 0;
+	
 	private:
-		Transform m_Local;
-		virtual void MakeItPolymorphic() const = 0; //TEMP
+		SceneObject* m_pParentObject;
 	};
 
 }

@@ -11,7 +11,7 @@ RendererComponent::RendererComponent(std::string const& filename)
 {
 }
 
-void RendererComponent::Render(Transform const& transform) const
+void RendererComponent::Render(TransformComponent const& transform) const
 {
 	if (m_pTexture != nullptr)
 	{

@@ -16,6 +16,9 @@
     <Filter Include="SceneObjects\GameObject">
       <UniqueIdentifier>{5656e67f-88be-4a3a-bee4-19443bec7f66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Components\ECS">
+      <UniqueIdentifier>{73b5b772-09f6-4a48-8812-11c9d0e64cb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h">
@@ -57,14 +60,14 @@
     <ClInclude Include="Engine\SceneObject.h">
       <Filter>SceneObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\TextObject.h">
-      <Filter>SceneObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\TextRendererComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Transform.h">
+    <ClInclude Include="Engine\ECS.h">
+      <Filter>Engine\Components\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TransformComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -108,16 +111,13 @@
     <ClCompile Include="Engine\RendererComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\TextObject.cpp">
-      <Filter>SceneObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\SceneObject.cpp">
       <Filter>SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="Engine\TextRendererComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Transform.cpp">
+    <ClCompile Include="Engine\TransformComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
   </ItemGroup>

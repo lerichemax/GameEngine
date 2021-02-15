@@ -10,15 +10,21 @@ namespace dae
 	class TextRendererComponent final : public RendererComponent
 	{
 	public:
-		TextRendererComponent(Font* const font);
+		TextRendererComponent(std::string const& text, Font* const pFont);
 		TextRendererComponent(TextRendererComponent const& other) = delete;
 		TextRendererComponent(TextRendererComponent&& other) = delete;
 		TextRendererComponent& operator=(TextRendererComponent const& rhs) = delete;
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
 		~TextRendererComponent() = default;
-		void Update(std::string const& text);
+
+		void Init(SceneObject* pParent) override;
+		void Update() override;
+
+		void SetText(const std::string& text);
+	
 	private:
+		bool m_NeedsUpdate;
+		std::string m_Text;
 		Font* const m_pFont;
-		void MakeItPolymorphic() const override {} //temp do nothing
 	};
 }

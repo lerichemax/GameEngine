@@ -3,7 +3,12 @@
 
 using namespace dae;
 
-void Component::SetLocalTransform(const Transform& local)
+Component::Component()
+	:m_pParentObject{}
 {
-	m_Local = local;
+}
+
+void Component::Init(SceneObject* pParent)
+{
+	m_pParentObject = pParent;
 }

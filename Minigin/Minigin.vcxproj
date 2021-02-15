@@ -194,6 +194,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\ECS.h" />
     <ClInclude Include="Engine\Font.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\InputManager.h" />
@@ -206,10 +207,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
-    <ClInclude Include="Engine\TextObject.h" />
     <ClInclude Include="Engine\TextRendererComponent.h" />
     <ClInclude Include="Engine\Texture2D.h" />
-    <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Engine\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component.cpp" />
@@ -231,10 +231,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Engine\Scene.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\SceneObject.cpp" />
-    <ClCompile Include="Engine\TextObject.cpp" />
     <ClCompile Include="Engine\TextRendererComponent.cpp" />
     <ClCompile Include="Engine\Texture2D.cpp" />
-    <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Engine\TransformComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Texture2D.h"
-#include "Transform.h"
+#include "TransformComponent.h"
 
 namespace dae
 {
@@ -15,12 +15,12 @@ namespace dae
 		RendererComponent& operator=(RendererComponent const& rhs) = delete;
 		RendererComponent& operator=(RendererComponent&& rhs) = delete;
 		virtual ~RendererComponent() = default;
-		
-		void Render(Transform const& transform) const;
+
+		void Update() override{};
+		void Render(TransformComponent const& transform = TransformComponent{}) const;
 		void SetTexture(std::string const& filename);
+	
 	protected:
 		Texture2D* m_pTexture{};
-		
-		void MakeItPolymorphic() const override {} //temp do nothing
 	};
 }

@@ -1,8 +1,5 @@
 #pragma once
-#include "Transform.h"
 #include "SceneObject.h"
-#include "Component.h"
-#include "RendererComponent.h"
 
 namespace dae
 {
@@ -11,7 +8,6 @@ namespace dae
 	{
 	public:
 		GameObject() = default;
-		GameObject(RendererComponent* pRenderComp);
 		virtual ~GameObject();
 		GameObject(const GameObject & other) = delete;
 		GameObject(GameObject && other) = delete;
@@ -21,9 +17,6 @@ namespace dae
 		void Update() override;
 
 		void SetTexture(const std::string& filename);
-
-
-	
 	private:
 	};
 	

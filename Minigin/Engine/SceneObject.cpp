@@ -4,12 +4,6 @@
 using namespace dae;
 
 SceneObject::SceneObject()
-	:m_Transform{},
-	m_pComponents{}
+	:m_pComponents{}
 {
-}
-
-void SceneObject::SetPosition(float x, float y)
-{
-	m_Transform.SetPosition(x, y, 0.0f);
 }

@@ -4,7 +4,7 @@
 namespace dae
 {
 	class SceneObject;
-	class TextObject;
+	class GameObject;
 	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
@@ -24,8 +24,10 @@ namespace dae
 
 		std::string m_Name;
 		std::vector<SceneObject*> m_pObjects{};
-		TextObject* m_pFpsCounter;
-		static unsigned int m_IdCounter; 
+		GameObject* m_pFpsCounter;
+		static unsigned int m_IdCounter;
+
+		void Refresh();
 	};
 
 }
