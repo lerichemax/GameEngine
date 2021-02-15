@@ -14,9 +14,9 @@ Scene::Scene(const std::string& name)
 	: m_Name{name},
 	m_pFpsCounter{ new GameObject{ } }
 {
-	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	/*auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	m_pFpsCounter->AddComponent<TextRendererComponent>("FPS ", font);
-	m_pFpsCounter->AddComponent<TransformComponent>(20.f, 20.f);
+	m_pFpsCounter->AddComponent<TransformComponent>(20.f, 20.f);*/
 }
 
 Scene::~Scene()
@@ -33,14 +33,14 @@ void Scene::Add(SceneObject* object)
 	m_pObjects.emplace_back(std::move(object));
 }
 
-void Scene::Update(float deltaTime)
+void Scene::Update()
 {
 	for(auto& object : m_pObjects)
 	{
 		object->Update();
 	}
-	m_pFpsCounter->GetComponent<TextRendererComponent>().SetText("FPS " + std::to_string(1000 / (int)deltaTime));
-	m_pFpsCounter->Update();
+	//m_pFpsCounter->GetComponent<TextRendererComponent>().SetText("FPS " + std::to_string(1000 / (int)deltaTime));
+	//m_pFpsCounter->Update();
 	Refresh();
 }
 
@@ -71,7 +71,7 @@ void Scene::Render() const
 			}
 		}
 	}
-	m_pFpsCounter->GetComponent<TextRendererComponent>().Render(m_pFpsCounter->GetComponent<TransformComponent>());
+	//m_pFpsCounter->GetComponent<TextRendererComponent>().Render(m_pFpsCounter->GetComponent<TransformComponent>());
 }
 
 void Scene::Refresh()

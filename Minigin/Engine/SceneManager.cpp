@@ -10,11 +10,11 @@ dae::SceneManager::~SceneManager()
 	}
 }
 
-void dae::SceneManager::Update(float deltaTime)
+void dae::SceneManager::Update()
 {
 	for(auto& scene : m_pScenes)
 	{
-		scene->Update(deltaTime);
+		scene->Update();
 	}
 }
 

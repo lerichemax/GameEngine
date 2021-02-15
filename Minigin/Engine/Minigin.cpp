@@ -37,6 +37,11 @@ void dae::Minigin::Initialize()
 	}
 	
 	Renderer::GetInstance().Init(m_Window);
+
+	m_pFpsCounter = new GameObject{};
+	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	m_pFpsCounter->AddComponent<TextRendererComponent>("FPS ",font );
+	m_pFpsCounter->AddComponent<TransformComponent>(20.f, 20.f);
 }
 
 /**
@@ -45,7 +50,7 @@ void dae::Minigin::Initialize()
 void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
-
+	
 	auto* go = new GameObject{};
 	go->AddComponent<RendererComponent>("background.jpg");
 	scene.Add(go);
@@ -61,11 +66,13 @@ void dae::Minigin::LoadGame() const
 	to->AddComponent<TextRendererComponent>("Programming 4 Assignment", font);
 	to->AddComponent<TransformComponent>(80.f, 20.f);
 	scene.Add(to);
+	scene.Add(m_pFpsCounter);
 }
 
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
+	delete m_pFpsCounter;
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
@@ -98,10 +105,12 @@ void dae::Minigin::Run()
 			
 			while (lag >= m_MsPerFrame/1000.f)
 			{
-				sceneManager.Update(m_MsPerFrame );
+				sceneManager.Update();
+				
 				lag -= (m_MsPerFrame / 1000.f);
 			}
-
+			m_pFpsCounter->GetComponent<TextRendererComponent>().SetText("FPS " + std::to_string(1000 / (int)m_MsPerFrame));
+			m_pFpsCounter->Update();
 			//renderer.Render(lag / m_MsPerUpdate);
 			renderer.Render();
 			

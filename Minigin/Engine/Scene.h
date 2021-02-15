@@ -17,7 +17,7 @@ namespace dae
 		
 		void Add(SceneObject* object);
 
-		void Update(float deltaTime);
+		void Update();
 		void Render() const;
 	private: 
 		explicit Scene(const std::string& name);

@@ -42,10 +42,6 @@ namespace dae
 
 		template <typename T, typename... TArgs>
 		T& AddComponent(TArgs&&... mArgs);
-
-		//template <typename T>
-		//static ID GetTypeID() noexcept;
-		//static ID GetTypeID();
 		
 		bool IsActive() const { return m_IsActive; }
 		void Destroy() { m_IsActive = false; }

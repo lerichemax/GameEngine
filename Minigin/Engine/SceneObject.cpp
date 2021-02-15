@@ -4,6 +4,7 @@
 using namespace dae;
 
 SceneObject::SceneObject()
-	:m_pComponents{}
+	:m_pComponents{},
+	m_IsActive{true}
 {
 }
