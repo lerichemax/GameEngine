@@ -10,11 +10,11 @@ dae::SceneManager::~SceneManager()
 	}
 }
 
-void dae::SceneManager::Update()
+void dae::SceneManager::Update(float deltaTime)
 {
 	for(auto& scene : m_pScenes)
 	{
-		scene->Update();
+		scene->Update(deltaTime);
 	}
 }
 
@@ -26,9 +26,9 @@ void dae::SceneManager::Render()
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+dae::Scene& dae::SceneManager::CreateScene(const std::string& name, bool bIncludeFpsCounter)
 {
-	const auto pScene = new Scene{ name };
+	const auto pScene = new Scene{ name, bIncludeFpsCounter };
 	m_pScenes.push_back(pScene);
 	return *pScene;
 }

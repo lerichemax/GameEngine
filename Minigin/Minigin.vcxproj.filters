@@ -10,14 +10,14 @@
     <Filter Include="Engine\Components">
       <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SceneObjects">
-      <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneObjects\GameObject">
-      <UniqueIdentifier>{5656e67f-88be-4a3a-bee4-19443bec7f66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Components\ECS">
       <UniqueIdentifier>{73b5b772-09f6-4a48-8812-11c9d0e64cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\SceneObjects">
+      <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\imgui">
+      <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,16 +51,12 @@
     <ClInclude Include="Engine\Texture2D.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject.h">
-      <Filter>SceneObjects\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\RendererComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\SceneObject.h">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\TextRendererComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
@@ -69,6 +65,39 @@
     </ClInclude>
     <ClInclude Include="Engine\TransformComponent.h">
       <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Singleton.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Command.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imconfig.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imgui.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imgui_internal.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_rectpack.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_textedit.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_truetype.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.h">
+      <Filter>Engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject.h">
+      <Filter>Engine\SceneObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,20 +134,44 @@
     <ClCompile Include="Engine\Texture2D.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject.cpp">
-      <Filter>SceneObjects\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\RendererComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Engine\SceneObject.cpp">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="Engine\TextRendererComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Engine\TransformComponent.cpp">
       <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Command.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_demo.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_draw.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_tables.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_widgets.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.cpp">
+      <Filter>Engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject.cpp">
+      <Filter>Engine\SceneObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

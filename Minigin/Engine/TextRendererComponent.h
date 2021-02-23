@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	class TextRendererComponent final : public RendererComponent
+	class TextRendererComponent : public RendererComponent
 	{
 	public:
 		TextRendererComponent(std::string const& text, Font* const pFont);
@@ -15,16 +15,17 @@ namespace dae
 		TextRendererComponent(TextRendererComponent&& other) = delete;
 		TextRendererComponent& operator=(TextRendererComponent const& rhs) = delete;
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
-		~TextRendererComponent() = default;
+		virtual ~TextRendererComponent() = default;
 
 		void Init(SceneObject* pParent) override;
 		void Update() override;
 
 		void SetText(const std::string& text);
-	
-	private:
-		bool m_NeedsUpdate;
+
+	protected:
 		std::string m_Text;
+		bool m_NeedsUpdate;
+	private:
 		Font* const m_pFont;
 	};
 }

@@ -7,9 +7,9 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		Scene& CreateScene(const std::string& name, bool bIncludeFpsCounter = false);
 		~SceneManager();
-		void Update();
+		void Update(float deltaTime);
 		void Render();
 	private:
 		friend class Singleton<SceneManager>;

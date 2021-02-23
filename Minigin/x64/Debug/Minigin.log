@@ -1,4 +1,9 @@
 ﻿  Minigin.cpp
+  Renderer.cpp
+  RendererComponent.cpp
+  ResourceManager.cpp
+  TextRendererComponent.cpp
+  Generating Code...
   Minigin.vcxproj -> D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\x64\Debug\Minigin.exe
   D:\Howest\OneDrive - Hogeschool West-Vlaanderen\Cours\Semester 4\Programming 4\Engine\GameEngine\3rdParty\SDL2\lib\x64\SDL2.dll
   1 File(s) copied

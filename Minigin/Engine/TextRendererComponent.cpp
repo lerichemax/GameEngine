@@ -13,7 +13,6 @@ TextRendererComponent::TextRendererComponent(std::string const& text, Font* cons
 	m_pFont{pFont},
 	m_NeedsUpdate{true}
 {
-	Update();
 }
 
 void TextRendererComponent::Init(SceneObject* pParent)
