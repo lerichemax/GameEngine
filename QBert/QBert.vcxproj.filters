@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PlayerDieCommand.cpp" />
+    <ClCompile Include="QBert.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayerDieCommand.h" />
+    <ClInclude Include="QBert.h" />
+  </ItemGroup>
+</Project>

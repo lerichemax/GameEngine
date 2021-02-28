@@ -19,59 +19,20 @@
     <Filter Include="Engine\imgui">
       <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Rendering">
+      <UniqueIdentifier>{0fe6aa5f-1a96-4194-a580-c9fc24be3fd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Observers">
+      <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base">
+      <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\TempExercises">
+      <UniqueIdentifier>{1c13fab6-a4cf-4627-a01d-15d32a1cc040}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Component.h">
-      <Filter>Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\InputManager.h">
-      <Filter>Engine\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ResourceManager.h">
-      <Filter>Engine\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SceneManager.h">
-      <Filter>Engine\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Font.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Minigin.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\MiniginPCH.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Renderer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Texture2D.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\RendererComponent.h">
-      <Filter>Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SceneObject.h">
-      <Filter>Engine\SceneObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TextRendererComponent.h">
-      <Filter>Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ECS.h">
-      <Filter>Engine\Components\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TransformComponent.h">
-      <Filter>Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Singleton.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Command.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imconfig.h">
       <Filter>Engine\imgui</Filter>
     </ClInclude>
@@ -96,59 +57,77 @@
     <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.h">
       <Filter>Engine\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject.h">
+    <ClInclude Include="Engine\ECSExample.h">
+      <Filter>Engine\Components\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Component.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SubjectComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendererComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObject.h">
       <Filter>Engine\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Engine\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Engine\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>Engine\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Engine\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniginPCH.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDieCommand.h">
+      <Filter>Engine\TempExercises</Filter>
+    </ClInclude>
+    <ClInclude Include="QBert.h">
+      <Filter>Engine\TempExercises</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Component.cpp">
-      <Filter>Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\InputManager.cpp">
-      <Filter>Engine\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ResourceManager.cpp">
-      <Filter>Engine\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\SceneManager.cpp">
-      <Filter>Engine\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Font.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Main.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Minigin.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\MiniginPCH.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Renderer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Texture2D.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\RendererComponent.cpp">
-      <Filter>Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\SceneObject.cpp">
-      <Filter>Engine\SceneObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TextRendererComponent.cpp">
-      <Filter>Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TransformComponent.cpp">
-      <Filter>Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Command.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\imgui.cpp">
       <Filter>Engine\imgui</Filter>
     </ClCompile>
@@ -170,8 +149,72 @@
     <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.cpp">
       <Filter>Engine\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject.cpp">
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Component.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SubjectComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendererComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObject.cpp">
       <Filter>Engine\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Engine\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>Engine\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Engine\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniginPCH.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDieCommand.cpp">
+      <Filter>Engine\TempExercises</Filter>
+    </ClCompile>
+    <ClCompile Include="QBert.cpp">
+      <Filter>Engine\TempExercises</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
