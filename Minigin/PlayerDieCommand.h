@@ -6,7 +6,7 @@ class PlayerDieCommand final : public dae::Command
 {
 public:
 	PlayerDieCommand(KeyActionState state, QBert* pPlayer);
-	
+
 	bool Execute() override;
 
 private:

@@ -1,17 +1,19 @@
 #pragma once
-#include "SceneObject.h"
+
 
 namespace dae
 {
 	enum class Event
 	{
-		PlayerDied
+		PlayerDied,
+		IncreasePoints
 	};
+	class SceneObject;
 	class Observer
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void Notify(const SceneObject& object, Event event) = 0;
+		virtual void Notify(SceneObject* object, Event event) = 0;
 	};
 }
 

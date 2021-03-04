@@ -9,14 +9,6 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "GameObject.h"
-#include "Scene.h"
-#include "RendererComponent.h"
-#include "TextRendererComponent.h"
-#include "SubjectComponent.h"
-#include "Command.h"
-#include "PlayerDieCommand.h"
-#include "QBert.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -47,32 +39,10 @@ void dae::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void dae::Minigin::LoadGame() const
-{
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo", true);
-	
-	auto* go = new GameObject{Tag::other};
-	go->AddComponent<RendererComponent>("background.jpg");
-	scene.Add(go);
-
-	go = new GameObject{Tag::other };
-	go->AddComponent<RendererComponent>("logo.png");
-	go->AddComponent<TransformComponent>(216.f, 180.f);
-	scene.Add(go);
-	
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = new GameObject{ Tag::other };
-	to->AddComponent<TextRendererComponent>("Programming 4 Assignment", font);
-	to->AddComponent<TransformComponent>(80.f, 20.f);
-	scene.Add(to);
-	
-	auto const ui = new UIObject{};
-	scene.Add(ui);
-	
-	auto const player = new QBert{ui};
-	scene.Add(player);
-	InputManager::GetInstance().AddCommand(SDLK_q, new PlayerDieCommand{ KeyActionState::pressed, player });
-}
+//void dae::Minigin::LoadGame() const
+//{
+//
+//}
 
 void dae::Minigin::Cleanup()
 {

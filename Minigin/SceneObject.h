@@ -1,11 +1,13 @@
 #pragma once
 #include <bitset>
 #include <array>
-#include <memory>
+#include <vector>
 
 #include "Component.h"
+#include "Observer.h"
 
 using ID = unsigned int;
+constexpr unsigned int MAX_OBSERVERS = 32;
 
 namespace dae
 {
@@ -24,7 +26,8 @@ namespace dae
 
 	enum class Tag
 	{
-		player,
+		player1,
+		player2,
 		enemy,
 		UI,
 		other
@@ -55,6 +58,11 @@ namespace dae
 		void Destroy() { m_IsActive = false; }
 
 		bool HasTag(Tag tag) const { return m_Tag == tag; }
+
+		void AddObserver(Observer* pObserver);
+		void RemoveObserver(Observer* pObserver);
+		void Notify(SceneObject* object, Event event);
+	
 	protected:
 		static unsigned int const m_MaxNbrComponents{ 32 };
 		bool m_IsActive;
@@ -63,7 +71,13 @@ namespace dae
 		std::array<Component*, m_MaxNbrComponents> m_CompArray;
 		std::bitset<m_MaxNbrComponents> m_CompBitSet;
 
+		Observer* m_pObservers[MAX_OBSERVERS];
+		unsigned int m_NbrObservers;
+
 		Tag m_Tag;
+
+	private:
+		void ShiftArray(int startIndex);
 	};
 	
 	template <typename T>

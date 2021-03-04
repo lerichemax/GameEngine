@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-
+#include <vector>
 namespace dae
 {
 	class Texture2D;

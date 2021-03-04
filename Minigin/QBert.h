@@ -5,11 +5,12 @@
 class QBert final : public dae::GameObject
 {
 public:
-	QBert(dae::UIObject* plivesCounter);
+	QBert(dae::Tag tag);
 	void Die();
-
+	void EarnPoints();
+	int GetPoints() const { return m_NbrPoints; }
 private:
 	int m_NbrLives;
-	dae::UIObject* m_pScreenCounter;
-	
+	int m_NbrPoints;
+
 };

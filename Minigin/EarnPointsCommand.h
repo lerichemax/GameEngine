@@ -2,11 +2,11 @@
 #include "Command.h"
 
 class QBert;
-class PlayerDieCommand final : public dae::Command
+class EarnPointsCommand final : public dae::Command
 {
 public:
-	PlayerDieCommand();
-	
+	EarnPointsCommand(KeyActionState state, QBert* pPlayer);
+
 	bool Execute() override;
 
 private:

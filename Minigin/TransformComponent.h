@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning(push)
 #pragma warning (disable:4201)
-#include "glm/mat3x3.hpp"
+#include <glm/vec3.hpp>
 #pragma warning(pop)
 
 #include "Component.h"

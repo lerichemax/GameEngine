@@ -2,6 +2,8 @@
 #include "InputManager.h"
 #include "Command.h"
 
+#include <algorithm>
+
 using namespace dae;
 
 InputManager::InputManager()
@@ -18,97 +20,46 @@ InputManager::~InputManager()
 
 bool InputManager::ProcessInput()
 {
-	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentControllerState);
-
-	if (!ProcessControllerInput())
+	if (m_bUseKeyboard)
 	{
-		return false;
+		return ProcessKeyboardInput();
 	}
-	if(!ProcessKeyboardInput())
-	{
-		return false;
-	}
-
-	return true;
+	
+	return ProcessControllerInput();
 }
 
 bool InputManager::IsPressed(ControllerButton button) const
 {
-	switch (button)
-	{
-	case ControllerButton::ButtonA:
-		return m_CurrentControllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A;
-	case ControllerButton::ButtonB:
-		return m_CurrentControllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B;
-	case ControllerButton::ButtonX:
-		return m_CurrentControllerState.Gamepad.wButtons & XINPUT_GAMEPAD_X;
-	case ControllerButton::ButtonY:
-		return m_CurrentControllerState.Gamepad.wButtons & XINPUT_GAMEPAD_Y;
-	default: return false;
-	}
+	return m_CurrentControllerState.Gamepad.wButtons & static_cast<int>(button);
 }
 
 bool InputManager::ProcessKeyboardInput()
 {
-	SDL_Event e;
-	for (auto& pair : m_CommandMap)
+	SDL_Event e;	
+	while (SDL_PollEvent(&e))
 	{
-		while (SDL_PollEvent(&e))
+		if (m_CommandMap.find(e.key.keysym.sym) != m_CommandMap.end())
 		{
-			if (e.key.keysym.sym == pair.first)
+			auto cmdPair = m_CommandMap.at(e.key.keysym.sym);
+			switch (e.type)
 			{
-				switch (pair.second->GetKeyActionState())
-				{
-				case KeyActionState::pressed:
-					if (e.type == SDL_KEYDOWN)
-					{
-						if (pair.second->GetLastKeyState() == LastKeyState::up)
-						{
-							pair.second->SetLastKeyState(LastKeyState::down);
-							if (!pair.second->Execute())
-							{
-								return false;
-							}
-						}
-					}
-					else
-					{
-						pair.second->SetLastKeyState(LastKeyState::up);
-					}
-					break;
-				case KeyActionState::held:
-					if (e.type == SDL_KEYDOWN)
-					{
-						if (!pair.second->Execute())
-						{
-							return false;
-						}
-					}
-					else
-					{
-						pair.second->SetLastKeyState(LastKeyState::up);
-					}
-					break;
-				case KeyActionState::released:
-					if (e.type == SDL_KEYUP)
-					{
-						pair.second->SetLastKeyState(LastKeyState::up);
-						if (!pair.second->Execute())
-						{
-							return false;
-						}
-					}
-					else
-					{
-						pair.second->SetLastKeyState(LastKeyState::down);
-					}
-					break;
-				}
-			}
-			else if (e.type == SDL_QUIT)
-			{
+			case SDL_QUIT:
 				return false;
+			case SDL_KEYDOWN:
+				if (cmdPair->GetKeyActionState() == KeyActionState::held ||
+					(cmdPair->GetKeyActionState() == KeyActionState::pressed && cmdPair->GetLastKeyPosition() == LastKeyPosition::up))
+				{
+					cmdPair->Execute();
+				}
+				cmdPair->SetLastKeyPosition(LastKeyPosition::down);
+				break;
+			case SDL_KEYUP:
+				if (cmdPair->GetKeyActionState() == KeyActionState::released)
+				{
+					cmdPair->Execute();
+				}
+				cmdPair->SetLastKeyPosition(LastKeyPosition::up);
+				break;
 			}
 		}
 	}
@@ -117,48 +68,48 @@ bool InputManager::ProcessKeyboardInput()
 
 bool InputManager::ProcessControllerInput()
 {
-	XINPUT_STATE state;
-	ZeroMemory(&state, sizeof(XINPUT_STATE));
-	XInputGetState(0, &state);
-	int key{ state.Gamepad.wButtons };
+	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
+	XInputGetState(0, &m_CurrentControllerState);
 
-	//Pressed + Held
-	if (m_CommandMap.find(key) != m_CommandMap.end())
-	{
-		switch (m_CommandMap.at(key)->GetKeyActionState())
+	std::for_each(m_CommandMap.begin(), m_CommandMap.end(), [this](std::pair<const int, Command*>& cmdPair)
 		{
-		case KeyActionState::pressed:
-			if (m_CurrentControllerState.Gamepad.wButtons != key)
+			switch (cmdPair.second->GetKeyActionState())
 			{
-				if (!m_CommandMap.at(key)->Execute())
+			case KeyActionState::held:
+				if (IsPressed(static_cast<ControllerButton>(cmdPair.first)))
 				{
-					return false;
+					
+					cmdPair.second->SetLastKeyPosition(LastKeyPosition::down);
+					cmdPair.second->Execute();
 				}
+				cmdPair.second->SetLastKeyPosition(LastKeyPosition::up);
+				break;
+			case KeyActionState::pressed:
+				if (IsPressed(static_cast<ControllerButton>(cmdPair.first)))
+				{
+					if (cmdPair.second->GetLastKeyPosition() == LastKeyPosition::up)
+					{
+						cmdPair.second->Execute();
+					}
+					cmdPair.second->SetLastKeyPosition(LastKeyPosition::down);
+					break;
+				}
+				cmdPair.second->SetLastKeyPosition(LastKeyPosition::up);
+				break;
+			case KeyActionState::released:
+				if (!IsPressed(static_cast<ControllerButton>(cmdPair.first)))
+				{
+					if (cmdPair.second->GetLastKeyPosition() == LastKeyPosition::down)
+					{
+						cmdPair.second->Execute();
+					}
+					cmdPair.second->SetLastKeyPosition(LastKeyPosition::up);
+					break;
+				}
+				cmdPair.second->SetLastKeyPosition(LastKeyPosition::down);
+				break;
 			}
-			break;
-		case KeyActionState::held:
-			if (!m_CommandMap.at(key)->Execute())
-			{
-				return false;
-			}
-			break;
-		}
-	}
-
-	//Released
-	if (m_CommandMap.find(m_CurrentControllerState.Gamepad.wButtons) != m_CommandMap.end()
-		&& m_CommandMap.at(m_CurrentControllerState.Gamepad.wButtons)->GetKeyActionState() == KeyActionState::released)
-	{
-		if (m_CurrentControllerState.Gamepad.wButtons != key)
-		{
-			if(!m_CommandMap.at(m_CurrentControllerState.Gamepad.wButtons)->Execute())
-			{
-				return false;
-			}
-		}
-	}
-
-	m_CurrentControllerState = state;
+		});
 	return true;
 }
 

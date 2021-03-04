@@ -35,15 +35,16 @@ namespace dae
 		
 		bool ProcessInput();
 		bool IsPressed(ControllerButton button) const;
-		bool IsPressed(SDL_Keycode keyCode);
-		
 		
 		void AddCommand(SDL_Keycode code, Command* pCommand);
+		void SetUseKeyboard(bool bUseKb) { m_bUseKeyboard = bUseKb; }
 	private:
 		XINPUT_STATE m_CurrentControllerState{};
 		
 		std::map<int, Command*> m_CommandMap;
 
+		bool m_bUseKeyboard{false};
+		
 		bool ProcessControllerInput();
 		bool ProcessKeyboardInput();
 	};
