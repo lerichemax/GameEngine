@@ -1,17 +1,18 @@
 #pragma once
 #include "Observer.h"
-#include "UIObject.h"
 
 namespace dae
 {
+	class UIObject;
 	class PlayerObserver final : public Observer
 	{
 	public:
-		PlayerObserver(dae::UIObject* pPoints);
+		PlayerObserver(dae::UIObject* const pPoints, dae::UIObject* const pLives);
 		~PlayerObserver() = default;
-		void Notify(SceneObject* object, Event event) override;
+		void Notify(Component* object, Event event) override;
 	
 	private:
-		dae::UIObject* m_pPointsCounter;
+		dae::UIObject* const m_pPointsCounter;
+		dae::UIObject* const m_LivesCounter;
 	};
 }

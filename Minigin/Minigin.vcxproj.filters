@@ -1,242 +1,276 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Base">
-      <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{2faf1865-9176-497a-bc11-13a43cc4a7cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
+    <Filter Include="Game\Commands">
+      <UniqueIdentifier>{e402fd1a-650c-4ef7-82db-a0fc5d3aa393}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\ECS">
-      <UniqueIdentifier>{73b5b772-09f6-4a48-8812-11c9d0e64cb8}</UniqueIdentifier>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{fa0d60de-54e4-4fae-8348-9c4e32347e2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Managers">
+    <Filter Include="Engine\Managers">
       <UniqueIdentifier>{e982279b-fa55-4db3-b618-9c2bd15871cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Observers">
+    <Filter Include="Engine\imgui">
+      <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Components">
+      <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Components\ECS">
+      <UniqueIdentifier>{73b5b772-09f6-4a48-8812-11c9d0e64cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base">
+      <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Observers">
       <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering">
+    <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{0fe6aa5f-1a96-4194-a580-c9fc24be3fd8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SceneObjects">
+    <Filter Include="Engine\SceneObjects">
       <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{e402fd1a-650c-4ef7-82db-a0fc5d3aa393}</UniqueIdentifier>
+    <Filter Include="Engine\State">
+      <UniqueIdentifier>{95b56b6a-7f95-4312-be6d-7421267bb049}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-master\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imstb_rectpack.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imstb_textedit.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECSExample.h">
-      <Filter>Components\ECS</Filter>
+      <Filter>Engine\Components\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="RendererComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextRendererComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="UIObject.h">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClInclude>
     <ClInclude Include="SceneObject.h">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Managers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Managers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerObserver.h">
-      <Filter>Observers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
-      <Filter>Observers</Filter>
+      <Filter>Engine\Observers</Filter>
     </ClInclude>
     <ClInclude Include="Minigin.h">
-      <Filter>Base</Filter>
+      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="MiniginPCH.h">
-      <Filter>Base</Filter>
+      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="MainGame.h" />
-    <ClInclude Include="QBert.h" />
     <ClInclude Include="QuitCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="EarnPointsCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="FartCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="FireCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="JumpCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDieCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClInclude>
     <ClInclude Include="DuckCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QBert.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
-      <Filter>Commands</Filter>
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Engine\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-master\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\imgui_tables.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="RendererComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextRendererComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="UIObject.cpp">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="SceneObject.cpp">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>SceneObjects</Filter>
+      <Filter>Engine\SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Managers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Managers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerObserver.cpp">
-      <Filter>Observers</Filter>
+      <Filter>Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="Observer.cpp">
-      <Filter>Observers</Filter>
+      <Filter>Engine\Observers</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Base</Filter>
+      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Minigin.cpp">
-      <Filter>Base</Filter>
+      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="MiniginPCH.cpp">
-      <Filter>Base</Filter>
+      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="QBert.cpp" />
     <ClCompile Include="EarnPointsCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="FartCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="FireCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="JumpCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDieCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="QuitCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
     </ClCompile>
     <ClCompile Include="DuckCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QBert.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Engine\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

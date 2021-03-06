@@ -7,7 +7,6 @@
 #include "Observer.h"
 
 using ID = unsigned int;
-constexpr unsigned int MAX_OBSERVERS = 32;
 
 namespace dae
 {
@@ -24,19 +23,11 @@ namespace dae
 		return typeId;
 	}
 
-	enum class Tag
-	{
-		player1,
-		player2,
-		enemy,
-		UI,
-		other
-	};
 	
 	class SceneObject
 	{
 	public:
-		SceneObject(Tag tag);
+		SceneObject();
 		virtual ~SceneObject();
 		SceneObject(const SceneObject & other) = delete;
 		SceneObject(SceneObject && other) = delete;
@@ -56,12 +47,6 @@ namespace dae
 		
 		bool IsActive() const { return m_IsActive; }
 		void Destroy() { m_IsActive = false; }
-
-		bool HasTag(Tag tag) const { return m_Tag == tag; }
-
-		void AddObserver(Observer* pObserver);
-		void RemoveObserver(Observer* pObserver);
-		void Notify(SceneObject* object, Event event);
 	
 	protected:
 		static unsigned int const m_MaxNbrComponents{ 32 };
@@ -70,14 +55,6 @@ namespace dae
 		std::vector<Component*> m_pComponents;
 		std::array<Component*, m_MaxNbrComponents> m_CompArray;
 		std::bitset<m_MaxNbrComponents> m_CompBitSet;
-
-		Observer* m_pObservers[MAX_OBSERVERS];
-		unsigned int m_NbrObservers;
-
-		Tag m_Tag;
-
-	private:
-		void ShiftArray(int startIndex);
 	};
 	
 	template <typename T>

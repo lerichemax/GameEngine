@@ -1,14 +1,17 @@
 #pragma once
 #include "Command.h"
 
-class QBert;
+namespace dae
+{
+	class GameObject;
+}
 class PlayerDieCommand final : public dae::Command
 {
 public:
-	PlayerDieCommand(KeyActionState state, QBert* pPlayer);
+	PlayerDieCommand(KeyActionState state, dae::GameObject* pPlayer);
 
 	bool Execute() override;
 
 private:
-	QBert* m_pPlayerCharacter;
+	dae::GameObject* m_pPlayerCharacter;
 };

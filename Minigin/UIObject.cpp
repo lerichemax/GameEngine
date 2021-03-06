@@ -7,7 +7,6 @@
 using namespace dae;
 
 UIObject::UIObject()
-	:SceneObject{Tag::UI}
 {
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	AddComponent<TransformComponent>(0.f, 0.f);

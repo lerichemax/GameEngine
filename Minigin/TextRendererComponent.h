@@ -3,7 +3,7 @@
 #include "Font.h"
 
 #include <string>
-#include <memory>
+#include <SDL_pixels.h>
 
 namespace dae
 {
@@ -21,11 +21,12 @@ namespace dae
 		void Update() override;
 
 		void SetText(const std::string& text);
-
+		void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
 	protected:
 		std::string m_Text;
 		bool m_NeedsUpdate;
 	private:
 		Font* const m_pFont;
+		SDL_Color m_TextColor;
 	};
 }

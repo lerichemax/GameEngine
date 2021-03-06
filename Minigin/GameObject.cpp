@@ -5,8 +5,7 @@
 
 using namespace dae;
 
-GameObject::GameObject(Tag tag)
-	:SceneObject{tag}
+GameObject::GameObject()
 {
 	AddComponent<TransformComponent>(0.f,0.f);
 }

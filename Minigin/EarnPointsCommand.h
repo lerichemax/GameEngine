@@ -1,14 +1,17 @@
 #pragma once
 #include "Command.h"
 
-class QBert;
+namespace dae
+{
+	class GameObject;
+}
 class EarnPointsCommand final : public dae::Command
 {
 public:
-	EarnPointsCommand(KeyActionState state, QBert* pPlayer);
+	EarnPointsCommand(KeyActionState state, dae::GameObject* const pPlayer);
 
 	bool Execute() override;
 
 private:
-	QBert* m_pPlayerCharacter;
+	dae::GameObject* const m_pPlayerCharacter;
 };

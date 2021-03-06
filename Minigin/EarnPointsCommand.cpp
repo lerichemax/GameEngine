@@ -1,10 +1,12 @@
 #include "MiniginPCH.h"
 #include "EarnPointsCommand.h"
+
+#include "GameObject.h"
 #include "QBert.h"
 
 using namespace dae;
 
-EarnPointsCommand::EarnPointsCommand(KeyActionState state, QBert* pPlayer)
+EarnPointsCommand::EarnPointsCommand(KeyActionState state, GameObject* const pPlayer)
 	: Command{ state },
 	m_pPlayerCharacter{ pPlayer }
 {
@@ -12,6 +14,6 @@ EarnPointsCommand::EarnPointsCommand(KeyActionState state, QBert* pPlayer)
 
 bool EarnPointsCommand::Execute()
 {
-	m_pPlayerCharacter->EarnPoints();
+	m_pPlayerCharacter->GetComponent<QBert>().EarnPoints();
 	return true;
 }

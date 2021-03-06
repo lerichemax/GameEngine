@@ -41,7 +41,7 @@ void Scene::Add(SceneObject* object)
 
 void Scene::AddFpsCounter()
 {
-	m_pFpsCounter = new GameObject{Tag::UI};
+	m_pFpsCounter = new GameObject{};
 	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	m_pFpsCounter->AddComponent<TextRendererComponent>("FPS ", font);
 	m_pFpsCounter->AddComponent<TransformComponent>(20.f, 20.f);

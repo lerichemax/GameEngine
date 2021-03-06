@@ -4,10 +4,10 @@
 namespace dae
 {
 	class Texture2D;
-	class GameObject : public SceneObject
+	class GameObject final : public SceneObject
 	{
 	public:
-		GameObject(Tag tag);
+		GameObject();
 		virtual ~GameObject();
 		GameObject(const GameObject & other) = delete;
 		GameObject(GameObject && other) = delete;

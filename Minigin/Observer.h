@@ -8,12 +8,12 @@ namespace dae
 		PlayerDied,
 		IncreasePoints
 	};
-	class SceneObject;
+	class Component;
 	class Observer
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void Notify(SceneObject* object, Event event) = 0;
+		virtual void Notify(Component* object, Event event) = 0;
 	};
 }
 
