@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="DuckCommand.cpp" />
     <ClCompile Include="EarnPointsCommand.cpp" />
     <ClCompile Include="FartCommand.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="QuitCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="DuckCommand.h" />
     <ClInclude Include="EarnPointsCommand.h" />
     <ClInclude Include="FartCommand.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="QBert.h" />
     <ClInclude Include="QuitCommand.h" />
+    <ClInclude Include="SoundCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

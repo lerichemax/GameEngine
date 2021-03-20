@@ -11,12 +11,15 @@
 #include "GameObject.h"
 #include "QBert.h"
 #include "UIObject.h"
-
 #include "RendererComponent.h"
 #include "TextRendererComponent.h"
 #include "Subject.h"
 #include "EarnPointsCommand.h"
 #include "PlayerDieCommand.h"
+#include "SoundCommands.h"
+#include "ServiceLocator.h"
+#include "SoundSystem.h"
+#include "LoggingSoundSystem.h"
 
 using namespace empire;
 
@@ -81,4 +84,14 @@ void MainGame::LoadGame() const
 	InputManager::GetInstance().AddCommand(SDLK_q, new EarnPointsCommand{ KeyActionState::pressed , player2 });
 	InputManager::GetInstance().AddCommand(SDLK_w, new PlayerDieCommand{ KeyActionState::pressed, player1 });
 	InputManager::GetInstance().AddCommand(SDLK_s, new PlayerDieCommand{ KeyActionState::pressed , player2 });
+
+	ServiceLocator<SoundSystem>::Register(new SoundSystem{});
+	ServiceLocator<LoggingSoundSystem>::Register(new LoggingSoundSystem{true});
+
+
+	auto id1 = ServiceLocator<SoundSystem>::GetService().AddEffect("../Data/Sounds/jump.mp3");
+	auto id2 = ServiceLocator<LoggingSoundSystem>::GetService().AddEffect("../Data/Sounds/fall.mp3");
+
+	InputManager::GetInstance().AddCommand(SDLK_o, new PlaySoundCommand<SoundSystem>{ id1, 50, KeyActionState::pressed });
+	InputManager::GetInstance().AddCommand(SDLK_p, new PlaySoundCommand<LoggingSoundSystem>{ id2, 50, KeyActionState::pressed });
 }

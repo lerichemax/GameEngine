@@ -7,7 +7,6 @@
 #include "backends/imgui_impl_opengl2.h"
 
 #include <SDL.h>
-
 #include "SceneManager.h"
 #include "Texture2D.h"
 
@@ -31,11 +30,14 @@ void empire::Renderer::Render()
 {
 	SDL_RenderClear(m_Renderer);
 
-	SceneManager::GetInstance().Render();
-	
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_pWindow);
 	ImGui::NewFrame();
+	
+	ImGui::Begin("Viewport");
+	SceneManager::GetInstance().Render();
+	ImGui::End();
+	
 	ImGui::Begin("Test");
 	ImGui::Button("Single Player");
 	ImGui::Button("Co-op");
@@ -43,7 +45,7 @@ void empire::Renderer::Render()
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	
+
 	SDL_RenderPresent(m_Renderer);
 }
 
@@ -67,6 +69,7 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+
 }
 
 void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
