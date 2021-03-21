@@ -2,7 +2,6 @@
 #include "SoundSystem.h"
 #include "SoundEffect.h"
 
-#include <iostream>
 #include <algorithm>
 
 using namespace empire;
@@ -28,7 +27,7 @@ void SoundSystem::Update()
 	{
 		return;
 	}
-	
+
 	for (unsigned int i{}; i < m_NbrPending; i++)
 	{
 		m_pSounds[m_Pending[i].id]->Play(m_Pending[i].volume);
@@ -39,7 +38,7 @@ void SoundSystem::Update()
 
 void SoundSystem::Play(unsigned int id, float volume)
 {
-	if (!m_bIsMuted && m_NbrPending < MAX_PENDING-1)
+	if (!m_bIsMuted && m_NbrPending < MAX_PENDING - 1)
 	{
 		m_Pending[m_NbrPending] = ToPlay{ id,volume };
 		m_NbrPending++;

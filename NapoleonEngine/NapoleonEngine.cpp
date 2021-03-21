@@ -5,6 +5,8 @@
 #include <thread>
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <thread>
+#include <functional>
 
 #include "InputManager.h"
 #include "SceneManager.h"
@@ -81,6 +83,7 @@ void empire::NapoleonEngine::Run()
 		bool doContinue = true;
 		auto lastTime{ high_resolution_clock::now() };
 		float lag = 0.f;
+	
 		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
@@ -88,10 +91,11 @@ void empire::NapoleonEngine::Run()
 			lastTime = currentTime;
 			lag += deltaTime;
 			doContinue = input.ProcessInput();
-
+			
 			sceneManager.Update(deltaTime);
-			ServiceLocator<SoundSystem>::GetService().Update();
-			ServiceLocator<LoggingSoundSystem>::GetService().Update();
+			
+			std::thread thread1(&SoundInterface::Update, &ServiceLocator<SoundSystem>::GetService());
+			std::thread thread2(&SoundInterface::Update, &ServiceLocator<LoggingSoundSystem>::GetService());
 			
 			////Fps = 1/deltatime
 			//while (lag >= m_MsPerFrame/1000.f) //wrong update loop (only physics)
@@ -103,10 +107,14 @@ void empire::NapoleonEngine::Run()
 			////renderer.Render(lag / m_MsPerUpdate);
 			
 			renderer.Render();
+
+			thread1.detach();
+			thread2.detach();
 			
 			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(m_MsPerFrame) - high_resolution_clock::now());
 			this_thread::sleep_for(sleepTime);
 		}
+
 	}
 
 	Cleanup();

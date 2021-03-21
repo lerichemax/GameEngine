@@ -119,7 +119,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="ServiceLocator.h" />
-    <ClInclude Include="SoundSystem.h">
+    <ClInclude Include="SoundInterface.h">
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="NullSoundSystem.h">
@@ -129,6 +129,9 @@
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSoundSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
@@ -210,13 +213,13 @@
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="SoundSystem.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
     <ClCompile Include="SoundEffect.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
