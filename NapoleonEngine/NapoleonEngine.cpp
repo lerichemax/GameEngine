@@ -12,10 +12,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-
 #include "ServiceLocator.h"
-#include "SoundSystem.h"
-#include "LoggingSoundSystem.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -48,14 +45,6 @@ void empire::NapoleonEngine::Initialize()
 	
 	Renderer::GetInstance().Init(m_Window);
 }
-
-/**
- * Code constructing the scene world starts here
- */
-//void empire::NapoleonEngine::LoadGame() const
-//{
-//
-//}
 
 void empire::NapoleonEngine::Cleanup()
 {
@@ -92,29 +81,14 @@ void empire::NapoleonEngine::Run()
 			lag += deltaTime;
 			doContinue = input.ProcessInput();
 			
-			sceneManager.Update(deltaTime);
-			
-			std::thread thread1(&SoundInterface::Update, &ServiceLocator<SoundSystem>::GetService());
-			std::thread thread2(&SoundInterface::Update, &ServiceLocator<LoggingSoundSystem>::GetService());
-			
-			////Fps = 1/deltatime
-			//while (lag >= m_MsPerFrame/1000.f) //wrong update loop (only physics)
-			//{
-			//	
-			//	
-			//	lag -= (m_MsPerFrame / 1000.f);
-			//}
-			////renderer.Render(lag / m_MsPerUpdate);
+			sceneManager.Update(deltaTime);	
+			ServiceLocator::GetService().Update();
 			
 			renderer.Render();
 
-			thread1.detach();
-			thread2.detach();
-			
 			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(m_MsPerFrame) - high_resolution_clock::now());
 			this_thread::sleep_for(sleepTime);
 		}
-
 	}
 
 	Cleanup();

@@ -3,17 +3,28 @@
 
 using namespace empire;
 
-LoggingSoundSystem::LoggingSoundSystem(bool isMuted) : SoundSystem(isMuted)
+LoggingSoundSystem::~LoggingSoundSystem()
 {
-	
+	delete m_pRealSoundSystem;
+}
+
+LoggingSoundSystem::LoggingSoundSystem(SoundInterface* pRealSS, bool isMuted)
+	:m_pRealSoundSystem(pRealSS)
+{
+	m_bIsMuted = isMuted;
 }
 
 void LoggingSoundSystem::Play(unsigned int id, float volume)
 {
 	if (!m_bIsMuted)
 	{
-		SoundSystem::Play(id, volume);
+		m_pRealSoundSystem->Play(id, volume);
 	}
 
 	std::cout << "Playing " << id << " at volume " << volume << std::endl;
+}
+
+void LoggingSoundSystem::Update()
+{
+	m_pRealSoundSystem->Update();
 }

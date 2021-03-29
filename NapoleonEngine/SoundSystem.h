@@ -30,13 +30,7 @@ namespace empire
 
 		ID AddEffect(SoundEffect* pEffect);
 		ID AddEffect(std::string const& path);
-
-		void Mute();
-		void UnMute();
-
-	protected:
-		bool m_bIsMuted;
-
+	
 	private:
 		static unsigned int const MAX_PENDING{ 16 };
 

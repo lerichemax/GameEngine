@@ -7,6 +7,7 @@
 using namespace empire;
 
 InputManager::InputManager()
+	:m_CommandMap()
 {
 }
 
@@ -38,13 +39,15 @@ bool InputManager::ProcessKeyboardInput()
 	SDL_Event e;	
 	while (SDL_PollEvent(&e))
 	{
+		if (e.type == SDL_QUIT)
+		{
+			return false;
+		}
 		if (m_CommandMap.find(e.key.keysym.sym) != m_CommandMap.end())
 		{
 			auto cmdPair = m_CommandMap.at(e.key.keysym.sym);
 			switch (e.type)
 			{
-			case SDL_QUIT:
-				return false;
 			case SDL_KEYDOWN:
 				if (cmdPair->GetKeyActionState() == KeyActionState::held ||
 					(cmdPair->GetKeyActionState() == KeyActionState::pressed && cmdPair->GetLastKeyPosition() == LastKeyPosition::up))

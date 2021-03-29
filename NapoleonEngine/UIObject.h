@@ -1,9 +1,9 @@
 #pragma once
-#include "SceneObject.h"
+#include "GameObject.h"
 
 namespace empire
 {
-	class UIObject final : public SceneObject
+	class UIObject final : public GameObject
 	{
 	public:
 		UIObject();

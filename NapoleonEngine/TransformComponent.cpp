@@ -8,7 +8,7 @@ TransformComponent::TransformComponent(float x, float y, float z)
 {
 }
 
-void TransformComponent::SetPosition(const float x, const float y, const float z)
+void TransformComponent::Translate(const float x, const float y, const float z)
 {
 	m_Position.x = x;
 	m_Position.y = y;

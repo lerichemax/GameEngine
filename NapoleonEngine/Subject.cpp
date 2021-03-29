@@ -1,8 +1,16 @@
 #include "PCH.h"
 #include "Subject.h"
-#include "SceneObject.h"
+#include "GameObject.h"
 
 using namespace empire;
+
+Subject::~Subject()
+{
+	for (auto obs : m_pObservers)
+	{
+		delete obs;
+	}
+}
 
 void Subject::AddObserver(Observer* pObserver)
 {

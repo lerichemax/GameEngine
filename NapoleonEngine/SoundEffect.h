@@ -21,9 +21,6 @@ namespace empire
 
 		void SetVolume(float volume);
 		ID GetId() const { return m_Id; }
-		
-		void Mute();
-		void UnMute();
 	private:
 		static ID m_AutoIncrementId;
 
@@ -32,7 +29,5 @@ namespace empire
 
 		float m_Volume;
 		float m_SavedVolume;
-
-		bool m_bIsMuted;
 	};
 }

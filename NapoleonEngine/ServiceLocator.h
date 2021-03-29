@@ -1,24 +1,16 @@
 #pragma once
+#include "SoundSystem.h"
 
 namespace empire
 {
-	template <typename T>
 	class ServiceLocator final
 	{
 	public:
-		
-		static T& GetService() { return *m_pService; }
-		static void Register(T* p) { m_pService = p == nullptr ? &m_NullService : p; }
+		static SoundInterface& GetService() { return *m_pSoundSystem; }
+		static void Register(SoundInterface* pSound); 
 
 	private:
-		static T* m_pService;
-		static T m_NullService;
+		static SoundInterface* m_pSoundSystem;
+		static NullSoundInterface m_NullSoundSystem;
 	};
 }
-
-template <typename T>
-T empire::ServiceLocator<T>::m_NullService{};
-
-template <typename T>
-T* empire::ServiceLocator<T>::m_pService = &m_NullService;
-

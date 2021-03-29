@@ -7,9 +7,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\ECS">
-      <UniqueIdentifier>{73b5b772-09f6-4a48-8812-11c9d0e64cb8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
     </Filter>
@@ -33,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\ECSExample.h">
-      <Filter>Components\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -49,12 +43,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="UIObject.h">
-      <Filter>SceneObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>SceneObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>SceneObjects</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
@@ -122,9 +110,6 @@
     <ClInclude Include="SoundInterface.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="NullSoundSystem.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
     <ClInclude Include="SoundEffect.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -133,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="SoundSystem.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>SceneObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,12 +137,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="UIObject.cpp">
-      <Filter>SceneObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObject.cpp">
-      <Filter>SceneObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -222,5 +204,9 @@
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp" />
   </ItemGroup>
 </Project>

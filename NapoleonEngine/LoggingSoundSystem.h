@@ -1,18 +1,21 @@
 #pragma once
-#include "SoundSystem.h"
+#include "SoundInterface.h"
 
 namespace empire
 {
-	class LoggingSoundSystem final : public SoundSystem
+	class LoggingSoundSystem final : public SoundInterface
 	{
 	public:
-		LoggingSoundSystem(bool isMuted = false);
+		LoggingSoundSystem(SoundInterface* pRealSS, bool isMuted = false);
 		LoggingSoundSystem(LoggingSoundSystem const& other) = delete;
 		LoggingSoundSystem(LoggingSoundSystem&& other) = delete;
 		LoggingSoundSystem& operator=(LoggingSoundSystem const& rhs) = delete;
 		LoggingSoundSystem& operator=(LoggingSoundSystem&& rhs) = delete;
-		~LoggingSoundSystem() = default;
+		~LoggingSoundSystem();
 
 		void Play(unsigned int id, float volume) override;
+		void Update() override;
+	private:
+		SoundInterface* m_pRealSoundSystem;
 	};
 }

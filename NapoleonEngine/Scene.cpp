@@ -34,7 +34,7 @@ Scene::~Scene()
 	}
 }
 
-void Scene::Add(SceneObject* object)
+void Scene::Add(GameObject* object)
 {
 	m_pObjects.emplace_back(std::move(object));
 }
@@ -43,15 +43,15 @@ void Scene::AddFpsCounter()
 {
 	m_pFpsCounter = new GameObject{};
 	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
-	m_pFpsCounter->AddComponent<TextRendererComponent>("FPS ", font);
-	m_pFpsCounter->AddComponent<TransformComponent>(20.f, 20.f);
+	m_pFpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
+	m_pFpsCounter->GetTransform()->Translate(20.f, 20.f);
 }
 
 void Scene::Update(float deltaTime)
 {
 	if (m_bHasFpsCounter)
 	{
-		m_pFpsCounter->GetComponent<TextRendererComponent>().SetText("FPS " + std::to_string(int((1 / deltaTime))));
+		m_pFpsCounter->GetComponent<TextRendererComponent>()->SetText("FPS " + std::to_string(int((1 / deltaTime))));
 		m_pFpsCounter->Update(deltaTime);
 	}
 	for(auto& object : m_pObjects)
@@ -69,34 +69,34 @@ void Scene::Render() const
 		{
 			if (object->HasComponent<TransformComponent>())
 			{
-				object->GetComponent<RendererComponent>().Render(object->GetComponent<TransformComponent>());
+				object->GetComponent<RendererComponent>()->Render(*object->GetComponent<TransformComponent>());
 			}
 			else
 			{
-				object->GetComponent<RendererComponent>().Render();
+				object->GetComponent<RendererComponent>()->Render();
 			}
 		}
 		if (object->HasComponent<TextRendererComponent>())
 		{
 			if (object->HasComponent<TransformComponent>())
 			{
-				object->GetComponent<TextRendererComponent>().Render(object->GetComponent<TransformComponent>());
+				object->GetComponent<TextRendererComponent>()->Render(*object->GetComponent<TransformComponent>());
 			}
 			else
 			{
-				object->GetComponent<TextRendererComponent>().Render();
+				object->GetComponent<TextRendererComponent>()->Render();
 			}
 		}
 	}
 	if (m_bHasFpsCounter)
 	{
-		m_pFpsCounter->GetComponent<TextRendererComponent>().Render(m_pFpsCounter->GetComponent<TransformComponent>());
+		m_pFpsCounter->GetComponent<TextRendererComponent>()->Render(*m_pFpsCounter->GetComponent<TransformComponent>());
 	}
 }
 
 void Scene::Refresh()
 {
-	m_pObjects.erase(std::remove_if(m_pObjects.begin(), m_pObjects.end(), [](SceneObject* pOb)
+	m_pObjects.erase(std::remove_if(m_pObjects.begin(), m_pObjects.end(), [](GameObject* pOb)
 		{
 			return !pOb->IsActive();
 		}),m_pObjects.end());

@@ -8,7 +8,7 @@ Component::Component()
 {
 }
 
-void Component::Init(SceneObject* pParent)
+void Component::Init(GameObject* pParent)
 {
 	m_pParentObject = pParent;
 }

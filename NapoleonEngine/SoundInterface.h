@@ -1,21 +1,27 @@
 #pragma once
-#include "Singleton.h"
-#include <map>
-#include <string>
 
 namespace empire
 {
 	class SoundInterface 
 	{
 	public:
-		SoundInterface() = default;
-		SoundInterface(SoundInterface const& other) = delete;
-		SoundInterface(SoundInterface&& other) = delete;
-		SoundInterface& operator=(SoundInterface const&  rhs) = delete;
-		SoundInterface& operator=(SoundInterface&& rhs) = delete;
 		virtual ~SoundInterface() = default;
-
+		
 		virtual void Play(unsigned int id, float volume) = 0;
 		virtual void Update() = 0;
+
+		void Mute() { m_bIsMuted = true; };
+		void UnMute() { m_bIsMuted = false; };
+
+	protected:
+		bool m_bIsMuted{};
+
+	};
+
+	class NullSoundInterface final : public SoundInterface
+	{
+	public:
+		void Play(unsigned int, float) override {};
+		void Update() override{};
 	};
 }

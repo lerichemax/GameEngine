@@ -3,7 +3,6 @@
 
 namespace empire
 {
-	class SceneObject;
 	class GameObject;
 	class Scene
 	{
@@ -17,7 +16,7 @@ namespace empire
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 		
-		void Add(SceneObject* object);
+		void Add(GameObject* object);
 		
 		void Update(float deltaTime);
 		void Render() const;
@@ -27,7 +26,7 @@ namespace empire
 		explicit Scene(const std::string& name, bool bIncludeFpsCounter);
 
 		std::string m_Name;
-		std::vector<SceneObject*> m_pObjects{};
+		std::vector<GameObject*> m_pObjects{};
 		GameObject* m_pFpsCounter;
 		
 		static unsigned int m_IdCounter;
@@ -37,7 +36,6 @@ namespace empire
 		
 		void Refresh();
 		void AddFpsCounter();
-		
 	};
 
 }

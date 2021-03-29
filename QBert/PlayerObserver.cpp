@@ -19,7 +19,7 @@ void PlayerObserver::Notify(Component* object, Event event)
 	switch (event)
 	{
 	case Event::PlayerDied:
-		m_LivesCounter->GetComponent<TextRendererComponent>().SetText("P"+ 
+		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P"+ 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		
@@ -27,7 +27,7 @@ void PlayerObserver::Notify(Component* object, Event event)
 		break;
 	case Event::IncreasePoints:
 		{
-		m_pPointsCounter->GetComponent<TextRendererComponent>().SetText("P" + 
+		m_pPointsCounter->GetComponent<TextRendererComponent>()->SetText("P" + 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Points: " +
 			std::to_string(static_cast<QBert*>(object)->GetPoints()));
 		}

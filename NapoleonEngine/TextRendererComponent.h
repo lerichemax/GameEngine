@@ -17,7 +17,7 @@ namespace empire
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
 		~TextRendererComponent();
 
-		void Init(SceneObject* pParent) override;
+		void Init(GameObject* pParent) override;
 		void Update() override;
 
 		void SetText(const std::string& text);

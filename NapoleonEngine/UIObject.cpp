@@ -6,14 +6,13 @@
 
 using namespace empire;
 
-UIObject::UIObject()
+UIObject::UIObject() : GameObject()
 {
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
-	AddComponent<TransformComponent>(0.f, 0.f);
-	AddComponent<TextRendererComponent>(" ",font);
+	AddComponent(new TextRendererComponent(" ",font));
 	
 }
 void UIObject::Update(float)
 {
-	GetComponent<TextRendererComponent>().Update();
+	GetComponent<TextRendererComponent>()->Update();
 }

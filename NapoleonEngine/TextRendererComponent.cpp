@@ -22,7 +22,7 @@ TextRendererComponent::~TextRendererComponent()
 	m_pTexture = nullptr;
 }
 
-void TextRendererComponent::Init(SceneObject* pParent)
+void TextRendererComponent::Init(GameObject* pParent)
 {
 	Component::Init(pParent);
 	Update();
@@ -43,6 +43,7 @@ void TextRendererComponent::Update()
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
+		
 		delete m_pTexture;
 		m_pTexture = new Texture2D{ texture };
 	}

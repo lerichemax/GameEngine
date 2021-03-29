@@ -31,6 +31,9 @@
     <ClCompile Include="DemoScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="SoundCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />

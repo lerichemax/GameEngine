@@ -3,13 +3,16 @@
 #include "SoundEffect.h"
 
 #include <algorithm>
+#include <thread>
 
 using namespace empire;
 
 SoundSystem::SoundSystem(bool isMuted)
 	:m_pSounds(),
-	m_bIsMuted(isMuted)
+	m_NbrPending(),
+	m_Pending{}
 {
+	m_bIsMuted = isMuted;
 }
 
 SoundSystem::~SoundSystem()
@@ -27,13 +30,17 @@ void SoundSystem::Update()
 	{
 		return;
 	}
+	
+	std::thread updateThread([this]()
+		{
+			for (unsigned int i{}; i < m_NbrPending; i++)
+			{
+				m_pSounds[m_Pending[i].id]->Play(m_Pending[i].volume);
+			}
 
-	for (unsigned int i{}; i < m_NbrPending; i++)
-	{
-		m_pSounds[m_Pending[i].id]->Play(m_Pending[i].volume);
-	}
-
-	m_NbrPending = 0;
+			m_NbrPending = 0;
+		});
+	updateThread.detach();
 }
 
 void SoundSystem::Play(unsigned int id, float volume)
@@ -56,22 +63,4 @@ ID SoundSystem::AddEffect(std::string const& path)
 	auto pEffect = new SoundEffect{ path };
 	m_pSounds.insert(std::make_pair(pEffect->m_Id, pEffect));
 	return pEffect->m_Id;
-}
-
-void SoundSystem::Mute()
-{
-	m_bIsMuted = true;
-	std::for_each(m_pSounds.begin(), m_pSounds.end(), [](auto& pair)
-		{
-			pair.second->Mute();
-		});
-}
-
-void SoundSystem::UnMute()
-{
-	m_bIsMuted = false;
-	std::for_each(m_pSounds.begin(), m_pSounds.end(), [](auto& pair)
-		{
-			pair.second->UnMute();
-		});
 }

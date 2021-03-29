@@ -14,6 +14,6 @@ EarnPointsCommand::EarnPointsCommand(KeyActionState state, GameObject* const pPl
 
 bool EarnPointsCommand::Execute()
 {
-	m_pPlayerCharacter->GetComponent<QBert>().EarnPoints();
+	m_pPlayerCharacter->GetComponent<QBert>()->EarnPoints();
 	return true;
 }

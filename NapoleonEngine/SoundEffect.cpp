@@ -51,17 +51,3 @@ void SoundEffect::SetVolume(float volume)
 		Mix_VolumeChunk(m_pMixChunk, (int)volume);
 	}
 }
-
-void SoundEffect::Mute()
-{
-	m_bIsMuted = true;
-	m_SavedVolume = m_Volume;
-	SetVolume(0);
-}
-
-void SoundEffect::UnMute()
-{
-	m_bIsMuted = false;
-	m_Volume = m_SavedVolume;
-	SetVolume(m_Volume);
-}
