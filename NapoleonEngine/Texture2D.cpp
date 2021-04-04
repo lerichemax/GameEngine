@@ -4,15 +4,20 @@
 
 empire::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_Texture);
+	SDL_DestroyTexture(m_pTexture);
 }
 
 SDL_Texture* empire::Texture2D::GetSDLTexture() const
 {
-	return m_Texture;
+	return m_pTexture;
 }
 
 empire::Texture2D::Texture2D(SDL_Texture* texture)
+	:m_pTexture(texture)
 {
-	m_Texture = texture;
+	int width{};
+	int height{};
+	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
+	m_Width = (float)width;
+	m_Height = (float)height;
 }

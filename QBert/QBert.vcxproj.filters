@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="DuckCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -26,7 +25,7 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QBert.cpp">
-      <Filter>GameObjects</Filter>
+      <Filter>GameScripts</Filter>
     </ClCompile>
     <ClCompile Include="DemoScene.cpp">
       <Filter>Scenes</Filter>
@@ -34,10 +33,33 @@
     <ClCompile Include="SoundCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="QBertScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Qube.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="QubePrefab.cpp">
+      <Filter>GamePrefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertObject.cpp">
+      <Filter>GamePrefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="DuckCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -60,13 +82,37 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
-      <Filter>GameObjects</Filter>
+      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="DemoScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="SoundCommands.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Qube.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="QubePrefab.h">
+      <Filter>GamePrefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertObject.h">
+      <Filter>GamePrefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObserver.h">
+      <Filter>Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,11 +122,17 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{c54cf399-963d-41e6-8141-ff59a60492ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects">
-      <UniqueIdentifier>{3ac01da3-fdf9-4720-ba9b-871646496a5d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{6ed8c256-3285-43c5-af32-8e0e67920ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts">
+      <UniqueIdentifier>{3ac01da3-fdf9-4720-ba9b-871646496a5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GamePrefabs">
+      <UniqueIdentifier>{ef02e210-be34-40bc-a0ae-400100c0804f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{e0905e66-5f83-45ca-b3ad-9c97de94b23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

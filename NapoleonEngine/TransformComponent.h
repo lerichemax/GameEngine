@@ -11,7 +11,7 @@ namespace empire
 	class TransformComponent final : public Component
 	{
 	public:
-		TransformComponent() = default;
+		TransformComponent();
 		TransformComponent(float x, float y, float z = 0.0f);
 		TransformComponent(TransformComponent const& other) = default;
 		TransformComponent(TransformComponent&& other) = default;
@@ -21,8 +21,13 @@ namespace empire
 
 		void Update() override {}
 		const glm::vec3& GetPosition() const { return m_Position; }
+		const glm::vec3& GetScale() const { return m_Scale; }
 		void Translate(float x, float y, float z = 0.f);
+		void Translate(glm::vec3 const& pos);
+		void Scale(float x, float y, float z = 1);
+		void Scale(float uniformScale);
 	private:
 		glm::vec3 m_Position;
+		glm::vec3 m_Scale;
 	};
 }

@@ -28,8 +28,8 @@ void empire::NapoleonEngine::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		900,
+		600,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 
@@ -48,6 +48,12 @@ void empire::NapoleonEngine::Initialize()
 
 void empire::NapoleonEngine::Cleanup()
 {
+	auto pService = &ServiceLocator::GetService();
+	if (typeid(*pService) != typeid(NullSoundInterface))
+	{
+		delete pService;
+	}
+	pService = nullptr;
 	Renderer::GetInstance().Destroy();
 	
 	SDL_DestroyWindow(m_Window);

@@ -38,14 +38,18 @@ namespace empire
 			pComp->Init(this);
 		}
 
+		void AddChild(GameObject* pChild);
+		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
 		bool IsActive() const { return m_IsActive; }
 		void Destroy() { m_IsActive = false; }
+		void Render() const;
 
 	protected:
 		bool m_IsActive;
 
 		std::vector<Component*> m_pComponents;
 		TransformComponent* m_pTransform;
+		std::vector<GameObject*> m_pChildren;
 	};
 
 	template <class T>

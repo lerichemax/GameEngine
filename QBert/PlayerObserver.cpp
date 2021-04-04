@@ -14,18 +14,18 @@ PlayerObserver::PlayerObserver(empire::UIObject* const pPoints, empire::UIObject
 	
 }
 
-void PlayerObserver::Notify(Component* object, Event event)
+void PlayerObserver::Notify(Component* object, int event)
 {
-	switch (event)
+	switch ((PlayerEvent)event)
 	{
-	case Event::PlayerDied:
+	case PlayerEvent::PlayerDied:
 		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P"+ 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		
 		std::cout << "Player died !\n";
 		break;
-	case Event::IncreasePoints:
+	case PlayerEvent::IncreasePoints:
 		{
 		m_pPointsCounter->GetComponent<TextRendererComponent>()->SetText("P" + 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Points: " +

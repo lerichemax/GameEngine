@@ -1,18 +1,24 @@
 #pragma once
 #include "Observer.h"
 
-namespace empire
-{
+namespace empire {
 	class UIObject;
-	class PlayerObserver final : public Observer
-	{
-	public:
-		PlayerObserver(empire::UIObject* const pPoints, empire::UIObject* const pLives);
-		~PlayerObserver() = default;
-		void Notify(Component* object, Event event) override;
-	
-	private:
-		empire::UIObject* const m_pPointsCounter;
-		empire::UIObject* const m_LivesCounter;
-	};
 }
+
+enum class PlayerEvent
+{
+	PlayerDied,
+	IncreasePoints
+};
+
+class PlayerObserver final : public empire::Observer
+{
+public:
+	PlayerObserver(empire::UIObject* const pPoints, empire::UIObject* const pLives);
+	~PlayerObserver() = default;
+	void Notify(empire::Component* object, int event) override;
+
+private:
+	empire::UIObject* const m_pPointsCounter;
+	empire::UIObject* const m_LivesCounter;
+};

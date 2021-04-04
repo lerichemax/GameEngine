@@ -7,5 +7,4 @@ public:
 	MainGame() : NapoleonEngine() {}
 
 	void LoadGame() const override;
-	void Cleanup() override;
 };

@@ -14,14 +14,7 @@ empire::SceneManager::~SceneManager()
 
 void empire::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_pScenesMap)
-	{
-		if (scene.second->IsActive())
-		{
-			scene.second->Update(deltaTime);
-			break;
-		}
-	}
+	GetActiveScene()->Update(deltaTime);
 }
 
 void empire::SceneManager::Render()
@@ -36,12 +29,48 @@ void empire::SceneManager::Render()
 	}
 }
 
-empire::Scene& empire::SceneManager::CreateScene(const std::string& name, bool bIncludeFpsCounter)
+void SceneManager::LoadScene(std::string const& name)
 {
-	const auto pScene = new Scene{ name, bIncludeFpsCounter };
-	pScene->m_bIsActive = true;
-	m_pScenesMap.insert({ name, pScene });
-	return *pScene;
+	auto scene = m_pScenesMap.at(name);
+	if (scene == nullptr)
+	{
+		std::cout << "Wrong scene name!\n";
+		return;
+	}
+	if (!scene->IsActive())
+	{
+		auto activeScene = GetActiveScene();
+		activeScene->m_bIsActive = false;
+		activeScene->CleanUpScene();
+		scene->m_bIsActive = true;
+	}
+	else
+	{
+		scene->CleanUpScene();
+	}
+	scene->Initialize();
+}
+
+void SceneManager::ReloadCurrentScene()
+{
+	LoadScene(GetActiveScene()->m_Name);
+}
+
+Scene* SceneManager::GetActiveScene() const
+{
+	for (auto pScenePair : m_pScenesMap)
+	{
+		if (pScenePair.second->IsActive())
+		{
+			return pScenePair.second;
+		}
+	}
+	return nullptr;
+}
+
+void SceneManager::AddScene(Scene* pScene)
+{
+	m_pScenesMap.insert(std::make_pair(pScene->m_Name, pScene));
 }
 
 void SceneManager::RenameScene(std::string const& oldName, std::string const& newName)
@@ -59,10 +88,12 @@ void SceneManager::RenameScene(std::string const& oldName, std::string const& ne
 
 void SceneManager::SetSceneActive(std::string const& name)
 {
-	for (auto & pair : m_pScenesMap)
+	auto scene = GetActiveScene();
+	if (scene != nullptr)
 	{
-		pair.second->m_bIsActive = false;
+		scene->m_bIsActive = false;
 	}
 
 	m_pScenesMap.at(name)->m_bIsActive = true;
+	m_pScenesMap.at(name)->Initialize();
 }

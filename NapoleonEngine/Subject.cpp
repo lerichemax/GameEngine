@@ -37,7 +37,7 @@ void Subject::RemoveObserver(Observer* pObserver)
 	ShiftArray(toRemoveIndex + 1);
 }
 
-void Subject::Notify(Component* object, Event event)
+void Subject::Notify(Component* object, int event)
 {
 	for (unsigned int i = 0; i < m_NbrObservers; i++)
 	{

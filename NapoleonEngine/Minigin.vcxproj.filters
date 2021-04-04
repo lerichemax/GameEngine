@@ -28,6 +28,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{160fbd26-60bd-44c6-b471-406f372e98a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Prefabs">
+      <UniqueIdentifier>{d6f9c765-012c-4870-b324-7d94db18c2b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -58,9 +61,6 @@
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="NapoleonEngine.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniginPCH.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -121,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,5 +214,8 @@
       <Filter>SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
