@@ -10,7 +10,7 @@ namespace empire
 	public:
 		//Scene& CreateScene(const std::string& name);
 		~SceneManager();
-		void Update(float deltaTime);
+		void Update();
 		void Render();
 		Scene const* GetScene(std::string const& sceneName) const { return m_pScenesMap.at(sceneName); }
 		void AddScene(Scene* pScene);

@@ -24,8 +24,8 @@ namespace empire
 		void SetTexture(std::string const& filename);
 		void SetTexture(Texture2D* pText);
 
-		float GetTextureWidth() const { return m_pTexture->GetWidth() * m_pParentObject->GetTransform()->GetScale().x; }
-		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pParentObject->GetTransform()->GetScale().y; }
+		float GetTextureWidth() const { return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x; }
+		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y; }
 	protected:
 		Texture2D* m_pTexture{};
 	};

@@ -6,9 +6,10 @@
 
 QubePrefab::QubePrefab() : GameObject()
 {
-	auto text = ResourceManager::GetInstance().LoadTexture("Qube.png");
-	auto flippedText = ResourceManager::GetInstance().LoadTexture("Qube_Flipped.png");
+	auto text = ResourceManager::GetInstance().GetTexture("Qube.png");
+	auto interText = ResourceManager::GetInstance().GetTexture("Qube_Intermediate.png");
+	auto flippedText = ResourceManager::GetInstance().GetTexture("Qube_Flipped.png");
 	GetTransform()->Scale(1.75f);
-	AddComponent(new Qube(text, flippedText));
+	AddComponent(new Qube(text, interText, flippedText));
 	AddComponent(new RendererComponent(text));
 }

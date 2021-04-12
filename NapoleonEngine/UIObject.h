@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "TextRendererComponent.h"
 
 namespace empire
 {
@@ -8,7 +9,7 @@ namespace empire
 	public:
 		UIObject();
 		~UIObject() = default;
-		void Update(float deltaTime) override;
+		void Update() override;
 	
 	private:
 	};

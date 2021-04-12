@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning(push)
 #pragma warning (disable:4201)
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 #pragma warning(pop)
 
 #include "Component.h"
@@ -24,6 +24,7 @@ namespace empire
 		const glm::vec3& GetScale() const { return m_Scale; }
 		void Translate(float x, float y, float z = 0.f);
 		void Translate(glm::vec3 const& pos);
+		void Translate(glm::vec2 const& pos);
 		void Scale(float x, float y, float z = 1);
 		void Scale(float uniformScale);
 	private:

@@ -3,7 +3,7 @@
 
 #include "QBert.h"
 
-MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, GameController* pController, KeyActionState state)
+MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, Pyramid* pController, KeyActionState state)
 	: Command(state),
 	m_MoveDirection{ dir },
 	m_pQbert(pQbert),
@@ -12,13 +12,6 @@ MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, GameController*
 
 bool MoveCommand::Execute()
 {
-	if (!m_pQbert->GetCurrentQube()->HasConnection(m_MoveDirection))
-	{
-		std::cout << "This direction is not available for your current position\n";
-		return true;
-	}
-
-	auto target = m_pQbert->GetCurrentQube()->GetConnection(m_MoveDirection);
-	m_pQbert->Move(target);
+	m_pQbert->Move(m_MoveDirection);
 	return true;
 }

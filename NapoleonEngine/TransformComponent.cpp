@@ -29,6 +29,12 @@ void TransformComponent::Translate(glm::vec3 const& pos)
 	m_Position = pos;
 }
 
+void TransformComponent::Translate(glm::vec2 const& pos)
+{
+	m_Position.x = pos.x;
+	m_Position.y = pos.y;
+}
+
 void TransformComponent::Scale(float x, float y, float z)
 {
 	m_Scale.x = x;

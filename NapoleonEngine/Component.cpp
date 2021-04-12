@@ -4,11 +4,11 @@
 using namespace empire;
 
 Component::Component()
-	:m_pParentObject{}
+	:m_pGameObject{}
 {
 }
 
 void Component::Init(GameObject* pParent)
 {
-	m_pParentObject = pParent;
+	m_pGameObject = pParent;
 }

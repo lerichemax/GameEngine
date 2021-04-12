@@ -1,37 +1,33 @@
 #pragma once
-#include "Component.h"
+#include "Character.h"
+#include "Qube.h"
 
-namespace empire {
-	class Subject;
-}
-class Qube;
-class QBert final : public empire::Component
+class QBert final : public Character
 {
 public:
-	QBert(); //temp for demo purpose
-	QBert(Qube* pCurrentCube);
+	QBert();
+	//QBert(Qube* pCurrentCube);
 	QBert(QBert const& other) = delete;
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;
 	QBert& operator=(QBert&& rhs) = delete;
 	~QBert();
 
-	void Init(empire::GameObject* pParent) override;
 	void Update() override {}
-	
-	void Die();
-	void EarnPoints();
+
 	int GetPoints() const { return m_NbrPoints; }
 	int GetLives() const { return m_NbrLives; }
-	empire::Subject* const GetSubject() const { return m_pSubject; }
 	int GetPlayerNumber() const { return m_PlayerNbr; }
-	Qube* const GetCurrentQube() const { return m_pCurrentQube; }
-	void Move(Qube* pTargetQube);
+	
+	void Die() override;
+	void EarnPoints(int points);
+	void Move(ConnectionDirection direction) override;
+	void JumpOffDisk();
+	void Reset(bool fullReset, Qube* pTargetQube);
 private:
+	int const MAX_LIVES{ 3 };
+	
 	static int m_PlayerNbr;
 	int m_NbrLives;
 	int m_NbrPoints;
-	Qube* m_pCurrentQube;
-	
-	empire::Subject* const m_pSubject;
 };

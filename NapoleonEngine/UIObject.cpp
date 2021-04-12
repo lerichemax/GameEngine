@@ -2,7 +2,6 @@
 #include "UIObject.h"
 
 #include "ResourceManager.h"
-#include "TextRendererComponent.h"
 
 using namespace empire;
 
@@ -12,7 +11,7 @@ UIObject::UIObject() : GameObject()
 	AddComponent(new TextRendererComponent(" ",font));
 	
 }
-void UIObject::Update(float)
+void UIObject::Update()
 {
 	GetComponent<TextRendererComponent>()->Update();
 }

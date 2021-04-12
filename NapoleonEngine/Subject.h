@@ -14,7 +14,7 @@ namespace empire
 		Subject(Subject&& other) = delete;
 		Subject& operator=(Subject const& rhs) = delete;
 		Subject& operator=(Subject&& rhs) = delete;
-		~Subject();
+		~Subject() = default;
 
 		void AddObserver(Observer* pObserver);
 		void RemoveObserver(Observer* pObserver);

@@ -2,38 +2,30 @@
 #include "QBert.h"
 
 #include "GameObject.h"
-#include "Qube.h"
-#include "TransformComponent.h"
-
 #include "Subject.h"
+
 #include "PlayerObserver.h"
+#include "Qube.h"
+#include "ColoredDisk.h"
+
 using namespace empire;
 
 int QBert::m_PlayerNbr = 0;
-
-QBert::QBert(Qube* pCurrentCube)
-	:m_NbrLives{ 3 },
-	m_NbrPoints{},
-	m_pSubject{new Subject{}},
-	m_pCurrentQube(pCurrentCube)
-{
-	m_PlayerNbr++;
-}
-
-void QBert::Init(empire::GameObject* pParent)
-{
-	Component::Init(pParent);
-	m_pParentObject->GetTransform()->Translate(m_pCurrentQube->GetQbertPos());
-}
+//
+//QBert::QBert(Qube* pCurrentQube)
+//	:Character(pCurrentQube),
+//	m_NbrLives{ MAX_LIVES },
+//	m_NbrPoints{}
+//{
+//	m_PlayerNbr++;
+//}
 
 QBert::QBert()
-	:m_NbrLives{ 3 },
-	m_NbrPoints{},
-	m_pSubject{ new Subject{} },
-	m_pCurrentQube()
+	:Character(),
+	m_NbrLives{ 3 },
+	m_NbrPoints{}
 {
 	m_PlayerNbr++;
-
 }
 
 QBert::~QBert()
@@ -45,19 +37,62 @@ QBert::~QBert()
 void QBert::Die()
 {
 	m_NbrLives--;
-	m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
-
+	if (m_NbrLives <= 0)
+	{
+		m_pSubject->Notify(this, (int)PlayerEvent::GameOver);
+	}
+	else
+	{
+		m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
+	}
 }
 
-void QBert::EarnPoints()
+void QBert::EarnPoints(int points)
 {
-	m_NbrPoints++;
+	m_NbrPoints += points;
 	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
 }
 
-void QBert::Move(Qube* pTargetQube)
+void QBert::Move(ConnectionDirection direction)
 {
-	m_pCurrentQube = pTargetQube;
-	m_pParentObject->GetTransform()->Translate(pTargetQube->GetQbertPos());
-	m_pCurrentQube->Flip();
+	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
+	{
+		Die();
+		return;
+	}
+
+	if (m_pCurrentQube->HasConnection(direction))
+	{
+		m_pCurrentQube->CharacterJumpOut();
+		SetCurrentQube(m_pCurrentQube->GetConnection(direction));
+		m_pCurrentQube->QBertJump();
+	}
+	else if(m_pCurrentQube->HasConnectionToDisk())
+	{
+		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
+		m_pSubject->Notify(this, (int)PlayerEvent::JumpOnDisk);
+		m_pCurrentQube = nullptr;
+	}
+}
+
+void QBert::JumpOffDisk()
+{
+	m_pSubject->Notify(this, (int)PlayerEvent::JumpOffDisk);
+}
+
+void QBert::Reset(bool fullReset, Qube* pTargetQube)
+{
+	SetCurrentQube(pTargetQube);
+
+	if (!fullReset)
+	{
+		return;
+	}
+
+	m_NbrLives = MAX_LIVES;
+	m_NbrPoints = 0;
+
+	//Notify these events to update the HUD
+	m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
+	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
 }

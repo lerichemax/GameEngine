@@ -12,9 +12,9 @@ empire::SceneManager::~SceneManager()
 	}
 }
 
-void empire::SceneManager::Update(float deltaTime)
+void empire::SceneManager::Update()
 {
-	GetActiveScene()->Update(deltaTime);
+	GetActiveScene()->Update();
 }
 
 void empire::SceneManager::Render()

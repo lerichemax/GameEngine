@@ -25,7 +25,7 @@ namespace empire
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
-		InputManager();
+		
 		InputManager(InputManager const& other) = delete;
 		InputManager(InputManager&& other) = delete;
 		InputManager& operator=(InputManager const& rhs) = delete;
@@ -37,7 +37,10 @@ namespace empire
 		
 		void AddCommand(SDL_Keycode code, Command* pCommand);
 		void SetUseKeyboard(bool bUseKb) { m_bUseKeyboard = bUseKb; }
+	
 	private:
+		friend class Singleton<InputManager>;
+		InputManager() :m_CommandMap(){}
 		XINPUT_STATE m_CurrentControllerState{};
 		
 		std::map<int, Command*> m_CommandMap;

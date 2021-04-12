@@ -128,6 +128,12 @@
     <ClInclude Include="PCH.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="ObserverManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -216,6 +222,12 @@
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="FPSCounter.cpp">
       <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

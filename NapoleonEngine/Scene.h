@@ -1,10 +1,9 @@
 #pragma once
 #include "SceneManager.h"
-#include "GameObject.h"
 
 namespace empire
 {
-	
+	class GameObject;
 	class Scene
 	{
 		friend class SceneManager;
@@ -19,7 +18,7 @@ namespace empire
 		virtual void Initialize() = 0;
 		
 		void Add(GameObject* object);
-		void Update(float deltaTime);
+		void Update();
 		void Render() const;
 
 		bool IsActive() const { return m_bIsActive; }

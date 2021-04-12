@@ -14,7 +14,7 @@ ResourceManager::~ResourceManager()
 {
 	for (auto pText : m_pTextures)
 	{
-		delete pText;
+		delete pText.second;
 	}
 	for (auto pFont : m_pFonts)
 	{
@@ -55,8 +55,18 @@ Texture2D* const ResourceManager::LoadTexture(const std::string& file)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	m_pTextures.push_back(new Texture2D{ texture });
-	return m_pTextures.back();
+	m_pTextures.insert(std::make_pair(file, new Texture2D{ texture }));
+	return m_pTextures.at(file);
+}
+
+Texture2D* const ResourceManager::GetTexture(const std::string& file)
+{
+	if (m_pTextures.find(file) == m_pTextures.end())
+	{
+		return LoadTexture(file);
+	}
+	
+	return m_pTextures.at(file);
 }
 
 Font* const empire::ResourceManager::LoadFont(const std::string& file, unsigned int size)

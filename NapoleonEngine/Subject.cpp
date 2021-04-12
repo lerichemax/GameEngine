@@ -4,14 +4,6 @@
 
 using namespace empire;
 
-Subject::~Subject()
-{
-	for (auto obs : m_pObservers)
-	{
-		delete obs;
-	}
-}
-
 void Subject::AddObserver(Observer* pObserver)
 {
 	if (m_NbrObservers < MAX_OBSERVERS)

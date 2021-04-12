@@ -6,11 +6,6 @@
 
 using namespace empire;
 
-InputManager::InputManager()
-	:m_CommandMap()
-{
-}
-
 InputManager::~InputManager()
 {
 	for (auto pair : m_CommandMap)

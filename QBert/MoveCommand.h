@@ -2,12 +2,12 @@
 #include "Command.h"
 #include "Qube.h"
 
-class GameController;
+class Pyramid;
 class QBert;
 class MoveCommand final : public empire::Command
 {
 public:
-	MoveCommand(ConnectionDirection dir, QBert* pQbert, GameController* pController, KeyActionState state = KeyActionState::pressed);
+	MoveCommand(ConnectionDirection dir, QBert* pQbert, Pyramid* pController, KeyActionState state = KeyActionState::pressed);
 	MoveCommand(MoveCommand const& other) = delete;
 	MoveCommand(MoveCommand&& other) = delete;
 	MoveCommand& operator=(MoveCommand const& rhs) = delete;
@@ -19,5 +19,5 @@ public:
 private:
 	ConnectionDirection m_MoveDirection;
 	QBert* m_pQbert;
-	GameController* m_pGameController;
+	Pyramid* m_pGameController;
 };

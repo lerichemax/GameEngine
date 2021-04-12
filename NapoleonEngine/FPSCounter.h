@@ -9,6 +9,6 @@ namespace empire
 		FPSCounter();
 		~FPSCounter() = default;
 
-		void Update(float deltaTime) override;
+		void Update() override;
 	};
 }

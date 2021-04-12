@@ -7,7 +7,7 @@
 using namespace empire;
 
 RendererComponent::RendererComponent(std::string const& filename)
-	:m_pTexture(ResourceManager::GetInstance().LoadTexture(filename))
+	:m_pTexture(ResourceManager::GetInstance().GetTexture(filename))
 {
 }
 
@@ -36,7 +36,7 @@ void RendererComponent::RenderNoScaling(TransformComponent const& transform) con
 
 void RendererComponent::SetTexture(std::string const& filename)
 {
-	m_pTexture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
 }
 
 void RendererComponent::SetTexture(Texture2D* pText)

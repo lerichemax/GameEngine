@@ -1,11 +1,8 @@
 #include "PCH.h"
 #include "NapoleonEngine.h"
 
-#include <chrono>
-#include <thread>
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include <thread>
 #include <functional>
 
 #include "InputManager.h"
@@ -13,9 +10,9 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "ServiceLocator.h"
+#include "Timer.h"
 
 using namespace std;
-using namespace std::chrono;
 
 void empire::NapoleonEngine::Initialize()
 {
@@ -44,6 +41,8 @@ void empire::NapoleonEngine::Initialize()
 	}
 	
 	Renderer::GetInstance().Init(m_Window);
+	
+	std::srand(unsigned int(time(nullptr)));
 }
 
 void empire::NapoleonEngine::Cleanup()
@@ -76,24 +75,21 @@ void empire::NapoleonEngine::Run()
 		auto& input = InputManager::GetInstance();
 
 		bool doContinue = true;
-		auto lastTime{ high_resolution_clock::now() };
-		float lag = 0.f;
 	
 		while (doContinue)
 		{
-			const auto currentTime = high_resolution_clock::now();
-			float const deltaTime = duration<float>(currentTime - lastTime).count();
-			lastTime = currentTime;
-			lag += deltaTime;
+			Timer::GetInstance().Update();
+			
 			doContinue = input.ProcessInput();
 			
-			sceneManager.Update(deltaTime);	
+			sceneManager.Update();	
 			ServiceLocator::GetService().Update();
 			
 			renderer.Render();
 
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(m_MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
+			Timer::GetInstance().Sleep();
+			/*auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(m_MsPerFrame) - high_resolution_clock::now());
+			this_thread::sleep_for(sleepTime);*/
 		}
 	}
 
