@@ -38,7 +38,7 @@ void Enemy::Die()
 	m_pGameObject->Destroy();
 }
 
-ConnectionDirection Enemy::ChooseDirection() const
+ConnectionDirection Enemy::ChooseDirection()
 {
 	int random = rand() % 2 + 1; //down left or down right
 

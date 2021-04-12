@@ -27,19 +27,63 @@ void Coily::Update()
 	}
 }
 
+void Coily::Move(ConnectionDirection direction)
+{
+	if (direction != ConnectionDirection::null)
+	{
+		Enemy::Move(direction);
+	}
+	else
+	{
+		if(m_pCurrentQube->IsSideColumn())
+		{
+			Enemy::Move(direction);
+		}
+		else
+		{
+			SetIsIdle(true);
+		}
+	}
+}
+
+void Coily::SetIsIdle(bool isIdle)
+{
+	m_bIsIdle = isIdle;
+	if (!isIdle)
+	{
+		InitMovementQueue();
+	}
+}
+
 void Coily::Transform()
 {
 	m_pGameObject->GetComponent<RendererComponent>()->
 		SetTexture(empire::ResourceManager::GetInstance().GetTexture("Coily_FaceRight_Tall.png"));
 	m_bIsTransformed = true;
+	InitMovementQueue();
 }
 
-ConnectionDirection Coily::ChooseDirection() const
+void Coily::InitMovementQueue()
+{
+	m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
+	m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+}
+
+ConnectionDirection Coily::ChooseDirection()
 {
 	if (!m_bIsTransformed)
 	{
 		return Enemy::ChooseDirection();
 	}
-
-	return m_pPyramid->FindNextQubeToQbert(m_pCurrentQube);
+	
+	if (m_CurrentlyInQueue == 0)
+	{
+		m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
+		m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+	}
+	
+	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
+	m_CurrentlyInQueue--;
+	
+	return  dirToReturn;
 }

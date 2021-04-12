@@ -23,7 +23,8 @@ int QBert::m_PlayerNbr = 0;
 QBert::QBert()
 	:Character(),
 	m_NbrLives{ 3 },
-	m_NbrPoints{}
+	m_NbrPoints{},
+	m_bCanMove(true)
 {
 	m_PlayerNbr++;
 }
@@ -55,6 +56,11 @@ void QBert::EarnPoints(int points)
 
 void QBert::Move(ConnectionDirection direction)
 {
+	if (!m_bCanMove)
+	{
+		return;
+	}
+	
 	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	{
 		Die();
@@ -70,14 +76,16 @@ void QBert::Move(ConnectionDirection direction)
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
 		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
-		m_pSubject->Notify(this, (int)PlayerEvent::JumpOnDisk);
+		//m_pSubject->Notify(this, (int)PlayerEvent::JumpOnDisk);
 		m_pCurrentQube = nullptr;
+		m_bCanMove = false;
 	}
 }
 
 void QBert::JumpOffDisk()
 {
 	m_pSubject->Notify(this, (int)PlayerEvent::JumpOffDisk);
+	m_bCanMove = true;
 }
 
 void QBert::Reset(bool fullReset, Qube* pTargetQube)

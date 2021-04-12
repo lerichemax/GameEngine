@@ -155,7 +155,6 @@
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="CoilyPrefab.cpp" />
     <ClCompile Include="ColoredDisk.cpp" />
-    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="DiskPrefab.cpp" />
     <ClCompile Include="DuckCommand.cpp" />
     <ClCompile Include="EarnPointsCommand.cpp" />
@@ -182,7 +181,6 @@
     <ClInclude Include="Coily.h" />
     <ClInclude Include="CoilyPrefab.h" />
     <ClInclude Include="ColoredDisk.h" />
-    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="DiskPrefab.h" />
     <ClInclude Include="DuckCommand.h" />
     <ClInclude Include="EarnPointsCommand.h" />

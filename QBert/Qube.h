@@ -11,7 +11,8 @@ enum class ConnectionDirection
 	upRight,
 	downRight,
 	downLeft,
-	upLeft
+	upLeft,
+	null
 };
 
 namespace empire
@@ -46,8 +47,10 @@ public:
 	bool HasConnectionToDisk() const { return m_pDiskConnection != nullptr; }
 	bool HasCharacter() const{ return m_pCharacter != nullptr;}
 	bool IsLastRow() const { return m_bIsLastRow; }
+	bool IsSideColumn()const { return m_bIsSideColumn; }
 	
 	void SetIsLastRow(bool lastRow) { m_bIsLastRow = lastRow; };
+	void SetIsSideColumn(bool sideCol) { m_bIsSideColumn = sideCol; }
 	void SetTexture(Texture2D* pText);
 	void SetQbertPos(glm::vec3 const& pos) { m_CharacterPos = pos; };
 	
@@ -73,6 +76,7 @@ private:
 	
 	bool m_bIsFlipped;
 	bool m_bIsLastRow{ false };
+	bool m_bIsSideColumn{ false };
 	
 	unsigned int m_JumpCounter;
 	

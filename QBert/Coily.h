@@ -10,13 +10,21 @@ public:
 	void Update() override;
 	void Transform();
 
-	void SetIsIdle(bool isIdle) { m_bIsIdle = isIdle; }
+	void Move(ConnectionDirection direction) override;
+	void SetIsIdle(bool isIdle);
+
+	//void Die() override;
 protected:
-	ConnectionDirection ChooseDirection() const override;
+	ConnectionDirection ChooseDirection() override;
 
 private:
+	int static const MOVEMENT_QUEUE_SIZE{ 2 };
 	bool m_bIsTransformed{ false };
 	bool m_bIsIdle{ false };
-	
+
+	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
+	int m_CurrentlyInQueue;
 	Pyramid* m_pPyramid;
+
+	void InitMovementQueue();
 };

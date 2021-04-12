@@ -31,7 +31,7 @@ public:
 	bool AreAllQubesFlipped() const;
 	void Reset();
 	void DiskUsed() { m_NbrDisksSpawned--; }
-	ConnectionDirection FindNextQubeToQbert(Qube* const pStartingQube) const; //used by coily to move to qbert
+	void FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, const int size) const; //used by coily to move to qbert
 
 private:
 	unsigned int const MAX_WIDTH;

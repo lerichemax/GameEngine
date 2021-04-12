@@ -80,10 +80,16 @@ void Pyramid::InitializeQubes(QBert* pQbert)
 			auto pQube = new QubePrefab{};
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			m_pQubes.back()->GetSubject()->AddObserver(observer);
+			
 			if (i == MAX_WIDTH)
 			{
 				m_pQubes.back()->SetIsLastRow(true);
 			}
+			if (j == 0 || j == i-1)
+			{
+				m_pQubes.back()->SetIsSideColumn(true);
+			}
+			
 			pQube->GetTransform()->Translate(lastPos);
 
 			auto pos = pQube->GetTransform()->GetPosition();
@@ -185,10 +191,16 @@ bool Pyramid::IsTop(Qube* pQube) const
 	return pQube == m_pQubes.front();
 }
 
-ConnectionDirection Pyramid::FindNextQubeToQbert(Qube* const pStartingQube) const
+void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
 {
 	int currentIdx = GetIndex(pStartingQube);
 	int targetIdx = GetQBertIndex();
+
+	if (targetIdx == -1)
+	{
+		std::fill_n(directions, size, ConnectionDirection::null);
+		return;
+	}
 	
 	bool* visited = new bool[m_pQubes.size()];
 	
@@ -245,9 +257,23 @@ ConnectionDirection Pyramid::FindNextQubeToQbert(Qube* const pStartingQube) cons
 		path.push_back(predecessors[crawl]);
 		crawl = predecessors[crawl].first;
 	}
+
+	delete[] visited;
+	delete[] predecessors;
+
+	int pathSize = path.size();
 	
-	//return the connection to the first qube on the path
-	return (ConnectionDirection)path.back().second;
+	for (int i{1}; i <= size;i++)
+	{
+		if (i < pathSize)
+		{
+			directions[i - 1] = (ConnectionDirection)path[pathSize - i].second;
+		}
+		else
+		{
+			directions[i - 1] = ConnectionDirection::null;
+		}
+	}
 }
 
 int Pyramid::GetQBertIndex() const

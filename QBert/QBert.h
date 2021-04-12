@@ -30,4 +30,6 @@ private:
 	static int m_PlayerNbr;
 	int m_NbrLives;
 	int m_NbrPoints;
+
+	bool m_bCanMove;
 };

@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="DemoScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="DiskPrefab.cpp">
       <Filter>GamePrefabs</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="DemoScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="DiskPrefab.h">
       <Filter>GamePrefabs</Filter>
     </ClInclude>

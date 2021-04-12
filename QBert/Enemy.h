@@ -11,7 +11,7 @@ public:
 	virtual void Die() override;
 
 protected:
-	virtual ConnectionDirection ChooseDirection() const;
+	virtual ConnectionDirection ChooseDirection();
 
 private:
 	float const MOVE_MAX_TIME{ 1.f };
