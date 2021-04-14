@@ -1,7 +1,8 @@
 #pragma once
 #include "Singleton.h"
 #include "Observer.h"
-#include <vector>
+#include <map>
+
 namespace empire
 {
 	class ObserverManager final : public Singleton<ObserverManager>
@@ -13,12 +14,12 @@ namespace empire
 		ObserverManager& operator=(ObserverManager&& rhs) = delete;
 		~ObserverManager();
 		
-		void AddObserver(Observer* pObserver);
-	
+		void AddObserver(unsigned int id, Observer* pObserver);
+		Observer* GetObserver(unsigned int id) { return m_pObservers.at(id); }
 	private:
 		friend class Singleton<ObserverManager>;
 		ObserverManager() = default;
 
-		std::vector<Observer*> m_pObservers;
+		std::map<unsigned int, Observer*> m_pObservers;
 	};
 }

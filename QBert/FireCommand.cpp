@@ -1,8 +1,7 @@
 #include "PCH.h"
 #include "FireCommand.h"
 
-bool FireCommand::Execute()
+void FireCommand::Execute()
 {
 	std::cout << "Fire\n";
-	return true;
 }

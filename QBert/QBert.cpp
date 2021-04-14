@@ -1,32 +1,35 @@
 #include "PCH.h"
 #include "QBert.h"
-
-#include "GameObject.h"
-#include "Subject.h"
-
 #include "PlayerObserver.h"
 #include "Qube.h"
 #include "ColoredDisk.h"
+#include "Coily.h"
+#include "SlickSam.h"
+
+#include "GameObject.h"
+#include "Subject.h"
+#include "ResourceManager.h"
+#include "RendererComponent.h"
 
 using namespace empire;
 
 int QBert::m_PlayerNbr = 0;
-//
-//QBert::QBert(Qube* pCurrentQube)
-//	:Character(pCurrentQube),
-//	m_NbrLives{ MAX_LIVES },
-//	m_NbrPoints{}
-//{
-//	m_PlayerNbr++;
-//}
 
 QBert::QBert()
-	:Character(),
+	:Character(nullptr, Type::player),
 	m_NbrLives{ 3 },
 	m_NbrPoints{},
 	m_bCanMove(true)
 {
 	m_PlayerNbr++;
+}
+
+void QBert::Initialize()
+{
+	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Qube.png");
+	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Jump.png");
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+	Character::Initialize();
 }
 
 QBert::~QBert()
@@ -67,16 +70,21 @@ void QBert::Move(ConnectionDirection direction)
 		return;
 	}
 
+	SetDirectionTextures(direction);
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
+	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
+		if (m_pCurrentQube->GetConnection(direction)->HasCharacter())
+		{
+			MeetCharacter(m_pCurrentQube->GetConnection(direction)->GetCharacter());
+		}
 		m_pCurrentQube->CharacterJumpOut();
-		SetCurrentQube(m_pCurrentQube->GetConnection(direction));
-		m_pCurrentQube->QBertJump();
+		JumpToQube(m_pCurrentQube->GetConnection(direction));
 	}
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
 		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
-		//m_pSubject->Notify(this, (int)PlayerEvent::JumpOnDisk);
 		m_pCurrentQube = nullptr;
 		m_bCanMove = false;
 	}
@@ -103,4 +111,55 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 	//Notify these events to update the HUD
 	m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
 	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
+}
+
+void QBert::MeetCharacter(Character* pOther)
+{
+	if (typeid(*pOther) == typeid(Coily))
+	{
+		Die();
+	}
+	else
+	{
+		auto pSlickSam = static_cast<SlickSam*>(pOther);
+		EarnPoints(pSlickSam->GetPointsForKill());
+		pSlickSam->Die();
+		
+	}
+}
+
+void QBert::LandOnQube()
+{
+	m_pCurrentQube->QBertJump();
+	Character::LandOnQube();
+}
+
+void QBert::SetDirectionTextures(ConnectionDirection dir)
+{
+	if (m_FacingDirection == dir)
+	{
+		return;
+	}
+
+	m_FacingDirection = dir;
+
+	switch (dir)
+	{
+	case ConnectionDirection::downLeft:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Jump.png");
+		break;
+	case ConnectionDirection::downRight:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownRight_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownRight_Jump.png");
+		break;
+	case ConnectionDirection::upLeft:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpLeft_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpLeft_Jump.png");
+		break;
+	case ConnectionDirection::upRight:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpRight_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpRight_Jump.png");
+		break;
+	}
 }

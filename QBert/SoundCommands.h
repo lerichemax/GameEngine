@@ -15,7 +15,7 @@ namespace empire
 		PlaySoundCommand& operator=(PlaySoundCommand&& rhs) = delete;
 		~PlaySoundCommand() override = default;
 
-		bool Execute() override;
+		void Execute() override;
 	private:
 		ID m_SoundId;
 		float m_Volume;

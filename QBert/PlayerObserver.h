@@ -8,6 +8,7 @@ namespace empire {
 enum class PlayerEvent
 {
 	PlayerDied,
+	PlayerJumpOut,
 	IncreasePoints,
 	JumpOnQube,
 	JumpOnDisk,

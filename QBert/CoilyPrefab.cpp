@@ -11,8 +11,7 @@ CoilyPrefab::CoilyPrefab(Qube* pQube, Pyramid* pPyramid)
 {
 	auto pText = empire::ResourceManager::GetInstance().GetTexture("Coily_Egg_Big.png");
 	AddComponent(new empire::RendererComponent(pText));
-	auto pEnemyScript = new Coily(pPyramid);
+	auto pEnemyScript = new Coily(pPyramid, pQube);
 	AddComponent(pEnemyScript);
-	pEnemyScript->SetCurrentQube(pQube);
 	GetTransform()->Scale(1.5f);
 }

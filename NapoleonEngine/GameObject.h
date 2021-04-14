@@ -42,10 +42,7 @@ namespace empire
 		bool IsActive() const { return m_IsActive; }
 		void Destroy() { m_IsActive = false; }
 		void Render() const;
-		Scene* const GetParentScene() const
-		{
-			return m_pScene;
-		}
+		Scene* const GetParentScene() const { return m_pScene; }
 	
 	private:
 		

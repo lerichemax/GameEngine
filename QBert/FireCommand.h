@@ -11,5 +11,5 @@ public:
 	FireCommand& operator=(FireCommand&& rhs) = delete;
 	~FireCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 };

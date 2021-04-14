@@ -8,6 +8,7 @@ class ColoredDisk final : public empire::Component
 {
 public:
 	ColoredDisk(Qube* top);
+
 	void Update() override;
 
 	void ReceivePlayer(QBert* pQbert);
@@ -22,4 +23,6 @@ private:
 	bool m_bHasQbert;
 	bool m_bHasReachedTop;
 	float m_DropTimer;
+
+	void Initialize() override {}
 };

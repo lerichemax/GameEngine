@@ -27,13 +27,6 @@ void QBertScene::Initialize()
 {
 	Add(new FPSCounter{});
 	
-	auto gameController = new GameObject{};
-	gameController->GetTransform()->Translate(250.f, 400.f);
-	m_pPyramid = new Pyramid{ 7 };
-	gameController->AddComponent(m_pPyramid);
-
-	Add(gameController);
-	
 	auto const livesP1 = new UIObject{};
 	livesP1->GetComponent<TransformComponent>()->Translate(20.f, 40.f, 0.f);
 	livesP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
@@ -50,22 +43,23 @@ void QBertScene::Initialize()
 	
 	m_pQbert = new QBert();
 	qbert->AddComponent(m_pQbert);
-	qbert->GetTransform()->Scale(1.75f);
+	qbert->GetTransform()->Scale(1.5f);
 	
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pQbert->GetLives()));
-	
+
+	auto pyramid = new GameObject{};
+	pyramid->GetTransform()->Translate(250.f, 400.f);
+	m_pPyramid = new Pyramid{ 7, m_pQbert };
+	pyramid->AddComponent(m_pPyramid);
+
+	Add(pyramid);
 	Add(qbert);
 	
-	m_pPyramid->InitializeQubes(m_pQbert);
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 	
 	auto playerObserver = new PlayerObserver{ pointsP1, livesP1, m_pPyramid };
-	ObserverManager::GetInstance().AddObserver(playerObserver);
+	ObserverManager::GetInstance().AddObserver(20, playerObserver);
 	m_pQbert->GetSubject()->AddObserver(playerObserver);
-
-	/*auto pEnemy = new CoilyPrefab(m_pPyramid->GetQube(2), m_pPyramid);
-	Add(pEnemy);*/
-	
 	
 	InputManager::GetInstance().SetUseKeyboard(true);
 	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert, m_pPyramid));

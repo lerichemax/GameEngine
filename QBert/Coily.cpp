@@ -1,12 +1,14 @@
 #include "PCH.h"
 #include "Coily.h"
+#include "Qube.h"
 
 #include "GameObject.h"
-#include "RendererComponent.h"
+#include "QBert.h"
 #include "ResourceManager.h"
+#include "RendererComponent.h"
 
-Coily::Coily(Pyramid* pPyramid)
-	: Enemy(),
+Coily::Coily(Pyramid* pPyramid, Qube* pQube)
+	: Enemy(pQube, 500),
 	m_pPyramid(pPyramid),
 	m_bIsTransformed(false)
 {}
@@ -46,6 +48,21 @@ void Coily::Move(ConnectionDirection direction)
 	}
 }
 
+void Coily::MeetCharacter(Character* pOther)
+{
+	if (!m_bIsTransformed)
+	{
+		return;
+	}
+	else
+	{
+		if (pOther->GetType() == Type::player)
+		{
+			static_cast<QBert*>(pOther)->Die();
+		}
+	}
+}
+
 void Coily::SetIsIdle(bool isIdle)
 {
 	m_bIsIdle = isIdle;
@@ -53,6 +70,12 @@ void Coily::SetIsIdle(bool isIdle)
 	{
 		InitMovementQueue();
 	}
+}
+
+void Coily::Die()
+{
+	Enemy::Die();
+	m_pSubject->Notify(this, (int)EnemyEvents::CoilyDies);
 }
 
 void Coily::Transform()

@@ -11,5 +11,5 @@ public:
 	DuckCommand& operator=(DuckCommand&& rhs) = delete;
 	~DuckCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 };

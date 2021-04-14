@@ -11,5 +11,5 @@ public:
 	QuitCommand& operator=(QuitCommand&& rhs) = delete;
 	~QuitCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 };

@@ -2,18 +2,20 @@
 #include "Enemy.h"
 
 class Pyramid;
+class Qube;
 class Coily final : public Enemy
 {
 public:
-	Coily(Pyramid* pPyramid);
+	Coily(Pyramid* pPyramid, Qube* pQube);
 
 	void Update() override;
 	void Transform();
 
 	void Move(ConnectionDirection direction) override;
 	void SetIsIdle(bool isIdle);
-
-	//void Die() override;
+	void MeetCharacter(Character* pOther) override;
+	
+	void Die() override;
 protected:
 	ConnectionDirection ChooseDirection() override;
 

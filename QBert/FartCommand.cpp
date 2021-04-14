@@ -1,8 +1,7 @@
 #include "PCH.h"
 #include "FartCommand.h"
 
-bool FartCommand::Execute()
+void FartCommand::Execute()
 {
 	std::cout << "Fart\n";
-	return true;
 }

@@ -7,12 +7,12 @@ ObserverManager::~ObserverManager()
 {
 	for (auto pObs : m_pObservers)
 	{
-		delete pObs;
+		delete pObs.second;
 	}
 	m_pObservers.clear();
 }
 
-void ObserverManager::AddObserver(Observer* pObserver)
+void ObserverManager::AddObserver(unsigned int id, Observer* pObserver)
 {
-	m_pObservers.push_back(pObserver);
+	m_pObservers.insert(std::make_pair(id,pObserver));
 }

@@ -8,6 +8,7 @@
 #include "QubeObserver.h"
 #include "DiskPrefab.h"
 #include "ColoredDisk.h"
+#include "SlickSam.h"
 
 Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	:m_pDefaultText(pDefText),
@@ -17,6 +18,12 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	m_pConnections{nullptr},
 	m_CharacterPos()
 {
+}
+
+void Qube::Initialize()
+{
+	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
+	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
 }
 
 Qube::~Qube()
@@ -105,13 +112,14 @@ void Qube::UnFlip()
 {
 	m_bIsFlipped = false;
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
-	m_JumpCounter--;
+	m_JumpCounter=0;
 }
 
 void Qube::Reset()
 {
 	m_bIsFlipped = false;
 	m_JumpCounter = 0;
+	m_pCharacter = nullptr;
 	
 	if (m_pGameObject->HasChildren())
 	{
@@ -132,6 +140,10 @@ ColoredDisk* Qube::GetConnectedDisk() const
 void Qube::CharacterJumpIn(Character* pCharacter)
 {
 	m_pCharacter = pCharacter;
+	if (typeid(*pCharacter) == typeid(SlickSam) && (m_bIsFlipped || m_JumpCounter > 0))
+	{
+		UnFlip();
+	}
 }
 
 void Qube::CharacterJumpOut()

@@ -1,6 +1,5 @@
 #pragma once
 #include "Character.h"
-#include "Qube.h"
 
 class QBert final : public Character
 {
@@ -13,7 +12,7 @@ public:
 	QBert& operator=(QBert&& rhs) = delete;
 	~QBert();
 
-	void Update() override {}
+	void Update() override { Character::Update(); }
 
 	int GetPoints() const { return m_NbrPoints; }
 	int GetLives() const { return m_NbrLives; }
@@ -24,6 +23,11 @@ public:
 	void Move(ConnectionDirection direction) override;
 	void JumpOffDisk();
 	void Reset(bool fullReset, Qube* pTargetQube);
+
+protected:
+	void MeetCharacter(Character* pOther) override;
+	void LandOnQube() override;
+
 private:
 	int const MAX_LIVES{ 3 };
 	
@@ -32,4 +36,7 @@ private:
 	int m_NbrPoints;
 
 	bool m_bCanMove;
+
+	void Initialize() override;
+	void SetDirectionTextures(ConnectionDirection dir) override;
 };

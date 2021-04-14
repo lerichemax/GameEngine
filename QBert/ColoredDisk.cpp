@@ -1,5 +1,6 @@
 #include "PCH.h"
 #include "ColoredDisk.h"
+#include "Qube.h"
 
 #include "GameObject.h"
 #include "QBert.h"

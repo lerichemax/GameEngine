@@ -69,6 +69,18 @@
     <ClCompile Include="Coily.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="SlickSam.cpp">
+      <Filter>GameScripts\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="SlickSamPrefab.cpp">
+      <Filter>GamePrefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Jumper.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -134,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="Coily.h">
       <Filter>GameScripts\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSam.h">
+      <Filter>GameScripts\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSamPrefab.h">
+      <Filter>GamePrefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Jumper.h">
+      <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

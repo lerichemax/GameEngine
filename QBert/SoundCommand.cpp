@@ -10,8 +10,7 @@ PlaySoundCommand::PlaySoundCommand(ID id, float volume, KeyActionState state)
 	m_Volume(volume)
 {}
 
-bool PlaySoundCommand::Execute()
+void PlaySoundCommand::Execute()
 {
 	ServiceLocator::GetService().Play(m_SoundId, m_Volume);
-	return true;
 }

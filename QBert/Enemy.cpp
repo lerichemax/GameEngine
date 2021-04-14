@@ -1,17 +1,21 @@
 #include "PCH.h"
 #include "Enemy.h"
+#include "Qube.h"
+
 #include "GameObject.h"
 #include "Timer.h"
+#include "QBert.h"
 
-Enemy::Enemy()
-	:Character()
+Enemy::Enemy(Qube* pQube, int pointsForKill)
+	:Character(pQube, Type::enemy),
+	POINTS_FOR_KILL(pointsForKill)
 {}
 
 void Enemy::Update()
 {
 	if (m_MoveTimer < MOVE_MAX_TIME)
 	{
-		m_MoveTimer += Timer::GetInstance().GetDeltaTime();
+		m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
 		return;
 	}
 	
@@ -23,6 +27,19 @@ void Enemy::Move(ConnectionDirection direction)
 {
 	if (m_pCurrentQube->HasConnection(direction))
 	{
+		auto pNextQube = m_pCurrentQube->GetConnection(direction);
+		if (pNextQube->HasCharacter())
+		{
+			if (pNextQube->GetCharacter()->GetType() == Type::enemy)
+			{
+				return;
+			}
+			else
+			{
+				MeetCharacter(pNextQube->GetCharacter());
+			}
+		}
+		
 		m_pCurrentQube->CharacterJumpOut();
 		SetCurrentQube(m_pCurrentQube->GetConnection(direction));
 		m_pCurrentQube->CharacterJumpIn(this);

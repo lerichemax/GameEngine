@@ -9,6 +9,7 @@
 #include "QBert.h"
 #include "QBertScene.h"
 #include "Pyramid.h"
+#include "Qube.h"
 
 using namespace empire;
 
@@ -27,7 +28,16 @@ void PlayerObserver::Notify(Component* object, int event)
 		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P"+ 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
+		m_pPyramid->Reset();
+		static_cast<QBert*>(object)->GetCurrentQube()->CharacterJumpIn(static_cast<QBert*>(object));
+		std::cout << "YOU DIED !\n";
+		break;
+	case PlayerEvent::PlayerJumpOut:
+		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P" +
+			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
+			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		object->GetGameObject()->GetComponent<QBert>()->SetCurrentQube(m_pPyramid->GetTop());
+		m_pPyramid->Reset();
 		std::cout << "YOU DIED !\n";
 		break;
 	case PlayerEvent::IncreasePoints:
@@ -50,7 +60,10 @@ void PlayerObserver::Notify(Component* object, int event)
 	case PlayerEvent::JumpOffDisk:
 		for (auto pCoily : m_pPyramid->GetCoilies())
 		{
-			pCoily->SetIsIdle(false);
+			if (pCoily != nullptr)
+			{
+				pCoily->SetIsIdle(false);
+			}
 		}
 		break;
 	}

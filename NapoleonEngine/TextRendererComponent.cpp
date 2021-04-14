@@ -22,9 +22,8 @@ TextRendererComponent::~TextRendererComponent()
 	m_pTexture = nullptr;
 }
 
-void TextRendererComponent::Init(GameObject* pParent)
+void TextRendererComponent::Initialize()
 {
-	Component::Init(pParent);
 	Update();
 }
 

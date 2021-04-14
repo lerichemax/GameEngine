@@ -18,6 +18,7 @@ namespace empire
 		RendererComponent& operator=(RendererComponent&& rhs) = delete;
 		virtual ~RendererComponent() = default;
 
+		
 		void Update() override{};
 		void Render(TransformComponent const& transform = TransformComponent{}) const;
 		void RenderNoScaling(TransformComponent const& transform) const;
@@ -26,7 +27,10 @@ namespace empire
 
 		float GetTextureWidth() const { return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x; }
 		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y; }
+	
 	protected:
 		Texture2D* m_pTexture{};
+
+		void Initialize() override {}		
 	};
 }

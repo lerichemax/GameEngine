@@ -1,10 +1,10 @@
 #include "PCH.h"
 #include "GameObject.h"
 
-#include <algorithm>
-
 #include "RendererComponent.h"
 #include "TextRendererComponent.h"
+
+#include <algorithm>
 using namespace empire;
 
 GameObject::GameObject()
@@ -43,6 +43,21 @@ void GameObject::Update()
 	}
 }
 
+void GameObject::Refresh()
+{
+	for (auto& pChild : m_pChildren)
+	{
+		pChild->Refresh();
+		if (!pChild->IsActive())
+		{
+			delete pChild;
+			pChild = nullptr;
+		}
+	}
+
+	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), nullptr), m_pChildren.end());
+}
+
 void GameObject::AddChild(GameObject* pChild)
 {
 	//pChild->m_pParent = this;
@@ -59,9 +74,8 @@ void GameObject::AddComponent(Component* pComp)
 	}
 
 	m_pComponents.emplace_back(pComp);
-	pComp->Init(this);
+	pComp->RootInitialize(this);
 }
-
 
 void GameObject::Render() const
 {
@@ -79,17 +93,4 @@ void GameObject::Render() const
 	{
 		child->Render();
 	}
-}
-
-void GameObject::Refresh()
-{
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [](GameObject* pChild)
-		{
-			pChild->Refresh();
-		});
-	
-	m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(), [](GameObject* pChild)
-		{
-			return !pChild->IsActive();
-		}), m_pChildren.end());
 }

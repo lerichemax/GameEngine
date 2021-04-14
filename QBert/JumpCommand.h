@@ -11,5 +11,5 @@ public:
 	JumpCommand& operator=(JumpCommand&& rhs) = delete;
 	~JumpCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 };

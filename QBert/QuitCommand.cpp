@@ -1,8 +1,8 @@
 #include "PCH.h"
 #include "QuitCommand.h"
 
-bool QuitCommand::Execute()
+void QuitCommand::Execute()
 {
 	std::cout << "Quitting";
-	return false;
+
 }

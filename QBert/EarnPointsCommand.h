@@ -10,7 +10,7 @@ class EarnPointsCommand final : public empire::Command
 public:
 	EarnPointsCommand(KeyActionState state, empire::GameObject* const pPlayer);
 
-	bool Execute() override;
+	void Execute() override;
 
 private:
 	empire::GameObject* const m_pPlayerCharacter;

@@ -10,8 +10,12 @@ MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, Pyramid* pContr
 	m_pGameController(pController)
 {}
 
-bool MoveCommand::Execute()
+void MoveCommand::Execute()
 {
+	if (m_pQbert->GetState() == State::jumping)
+	{
+		return;
+	}
+	
 	m_pQbert->Move(m_MoveDirection);
-	return true;
 }

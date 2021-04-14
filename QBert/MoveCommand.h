@@ -14,7 +14,7 @@ public:
 	MoveCommand& operator=(MoveCommand&& rhs) = delete;
 	~MoveCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 
 private:
 	ConnectionDirection m_MoveDirection;

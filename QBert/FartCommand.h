@@ -11,5 +11,5 @@ public:
 	FartCommand& operator=(FartCommand&& rhs) = delete;
 	~FartCommand() override = default;
 
-	bool Execute() override;
+	void Execute() override;
 };

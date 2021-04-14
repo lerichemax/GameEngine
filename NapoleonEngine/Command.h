@@ -24,7 +24,7 @@ namespace empire
 		Command& operator=(Command&& rhs) = delete;
 		virtual ~Command() = default;
 
-		virtual bool Execute() = 0;
+		virtual void Execute() = 0;
 		KeyActionState GetKeyActionState() const { return m_KeyAction; }
 		LastKeyPosition GetLastKeyPosition() const { return m_LastKeyPosition; }
 		void SetLastKeyPosition(LastKeyPosition lks) { m_LastKeyPosition = lks; }

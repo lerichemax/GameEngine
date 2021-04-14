@@ -1,8 +1,7 @@
 #include "PCH.h"
 #include "JumpCommand.h"
 
-bool JumpCommand::Execute()
+void JumpCommand::Execute()
 {
 	std::cout << "Jump\n";
-	return true;
 }

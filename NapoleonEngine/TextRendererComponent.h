@@ -17,7 +17,7 @@ namespace empire
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
 		~TextRendererComponent();
 
-		void Init(GameObject* pParent) override;
+		
 		void Update() override;
 
 		void SetText(const std::string& text);
@@ -25,8 +25,11 @@ namespace empire
 	protected:
 		std::string m_Text;
 		bool m_NeedsUpdate;
+	
 	private:
 		Font* const m_pFont;
 		SDL_Color m_TextColor;
+
+		void Initialize() override;
 	};
 }

@@ -56,13 +56,15 @@ void Scene::Render() const
 
 void Scene::Refresh()
 {
-	std::for_each(m_pObjects.begin(), m_pObjects.end(), [](GameObject* pObj)
+	for (auto pGo : m_pObjects)
+	{
+		pGo->Refresh();
+		if (!pGo->IsActive())
 		{
-			pObj->Refresh();
-		});
+			delete pGo;
+			pGo = nullptr;
+		}
+	}
 	
-	m_pObjects.erase(std::remove_if(m_pObjects.begin(), m_pObjects.end(), [](GameObject* pOb)
-		{
-			return !pOb->IsActive();
-		}),m_pObjects.end());
+	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), nullptr),m_pObjects.end());
 }

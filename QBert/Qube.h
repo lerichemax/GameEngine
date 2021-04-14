@@ -33,6 +33,7 @@ public:
 	Qube& operator=(Qube&& rhs) = delete;
 	~Qube();
 
+	void Initialize() override;
 	void Update() override;
 	
 	glm::vec3 GetCharacterPos() const { return m_CharacterPos; }
@@ -52,7 +53,6 @@ public:
 	void SetIsLastRow(bool lastRow) { m_bIsLastRow = lastRow; };
 	void SetIsSideColumn(bool sideCol) { m_bIsSideColumn = sideCol; }
 	void SetTexture(Texture2D* pText);
-	void SetQbertPos(glm::vec3 const& pos) { m_CharacterPos = pos; };
 	
 	void AddConnection(ConnectionDirection dir, Qube* const pConnection);
 	void AddConnectionToDisk(Qube* top);

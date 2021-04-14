@@ -11,8 +11,7 @@ PlayerDieCommand::PlayerDieCommand(KeyActionState state, GameObject* pPlayer)
 {
 }
 
-bool PlayerDieCommand::Execute()
+void PlayerDieCommand::Execute()
 {
 	m_pPlayerCharacter->GetComponent<QBert>()->Die();
-	return true;
 }

@@ -7,6 +7,7 @@
 #include "Subject.h"
 #include "ObserverManager.h"
 #include "Timer.h"
+#include "ObserverManager.h"
 
 #include "QubeObserver.h"
 #include "QubePrefab.h"
@@ -14,12 +15,17 @@
 #include "Qube.h"
 #include "CoilyPrefab.h"
 #include "Coily.h"
+#include "SlickSamPrefab.h"
+#include "EnemyObserver.h"
+#include "SlickSam.h"
 
 #include <list>
 
-Pyramid::Pyramid(unsigned int maxWidth)
+Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
 	:MAX_WIDTH(maxWidth)
 {
+	ObserverManager::GetInstance().AddObserver(10, new QubeObserver{ this, pQbert });
+	ObserverManager::GetInstance().AddObserver(30, new EnemyObserver{ this });//hardcoded id, change later	
 }
 
 Pyramid::~Pyramid()
@@ -29,13 +35,20 @@ Pyramid::~Pyramid()
 
 void Pyramid::Update()
 {
+	//DiskSpawnerTimer();
+	//CoilySpawnerTimer();
+	//SlickSamSpawnerTimer();
+}
+
+void Pyramid::DiskSpawnerTimer()
+{
 	//Spawn Disks
 	if (m_NbrDisksSpawned < MAX_NBR_DISKS)
 	{
 		if (m_DiskSpawnTimer < DISK_SPAWNING_INTERVAL)
 		{
 			m_DiskSpawnTimer += Timer::GetInstance().GetDeltaTime();
-		
+
 		}
 		else
 		{
@@ -43,11 +56,14 @@ void Pyramid::Update()
 			m_DiskSpawnTimer = 0;
 			m_NbrDisksSpawned++;
 		}
-		
-	}
 
+	}
+}
+
+void Pyramid::CoilySpawnerTimer()
+{
 	//Spawn Coilies
-	if (m_pCoilies.size() < MAX_COLLY)
+	if (m_NbrCoily < MAX_COILY)
 	{
 		if (m_CoilySpawnTimer < COILY_SPAWN_INTERVAL)
 		{
@@ -57,19 +73,52 @@ void Pyramid::Update()
 
 		int random{ rand() % 2 + 1 };
 		auto coily = new CoilyPrefab(m_pQubes[random], this);
-		m_pCoilies.push_back(coily->GetComponent<Coily>());
+		AddCoilyToArray(coily->GetComponent<Coily>());
+		coily->GetComponent<Coily>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
 		m_CoilySpawnTimer = 0;
+		m_NbrCoily++;
 		m_pGameObject->AddChild(coily);
 	}
 }
 
-void Pyramid::InitializeQubes(QBert* pQbert)
+void Pyramid::AddCoilyToArray(Coily* pCoily)
+{
+	for (int i = 0; i < MAX_COILY; i++)
+	{
+		if (m_pCoilies[i] == nullptr)
+		{
+			m_pCoilies[i] = pCoily;
+		}
+	}
+}
+
+void Pyramid::SlickSamSpawnerTimer()
+{
+	//Spawn Slick and Sam
+	if (m_NbrSlickSam < MAX_SLICKSAM)
+	{
+		if (m_SlickSamSpawnTimer < SLICKSAM_SPAWN_INTERVAL)
+		{
+			m_SlickSamSpawnTimer += Timer::GetInstance().GetDeltaTime();
+		}
+		else
+		{
+			int random{ rand() % 2 + 1 };
+			auto slickSamP = new SlickSamPrefab(m_pQubes[random]);
+			m_pGameObject->AddChild(slickSamP);
+			slickSamP->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
+			m_SlickSamSpawnTimer = 0;
+			m_NbrSlickSam++;
+		}
+	}
+}
+
+void Pyramid::Initialize()
 {
 	glm::vec2 startPos{m_pGameObject->GetTransform()->GetPosition()};
 	glm::vec2 lastPos{startPos};
 
-	auto observer = new QubeObserver{ this, pQbert };
-	ObserverManager::GetInstance().AddObserver(observer);
+	auto observer = ObserverManager::GetInstance().GetObserver(10);
 	
 	//spawn qubes
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
@@ -77,7 +126,7 @@ void Pyramid::InitializeQubes(QBert* pQbert)
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			auto pQube = new QubePrefab{};
+			auto pQube = new QubePrefab{ lastPos };
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			m_pQubes.back()->GetSubject()->AddObserver(observer);
 			
@@ -89,13 +138,6 @@ void Pyramid::InitializeQubes(QBert* pQbert)
 			{
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
-			
-			pQube->GetTransform()->Translate(lastPos);
-
-			auto pos = pQube->GetTransform()->GetPosition();
-			pos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
-			pos.y -= pQube->GetComponent<RendererComponent>()->GetTextureHeight() / 4;
-			pQube->GetComponent<Qube>()->SetQbertPos(pos);
 			
 			lastPos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth();
 			m_pGameObject->AddChild(pQube);
@@ -193,6 +235,11 @@ bool Pyramid::IsTop(Qube* pQube) const
 
 void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
 {
+	for (int i = 0; i < size; i++)
+	{
+		directions[i] = ConnectionDirection::null;
+	}
+	
 	int currentIdx = GetIndex(pStartingQube);
 	int targetIdx = GetQBertIndex();
 
@@ -261,9 +308,9 @@ void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 	delete[] visited;
 	delete[] predecessors;
 
-	int pathSize = path.size();
+	size_t pathSize = path.size();
 	
-	for (int i{1}; i <= size;i++)
+	for (size_t i{1}; i <= size;i++)
 	{
 		if (i < pathSize)
 		{
@@ -303,4 +350,17 @@ int Pyramid::GetIndex(Qube* pQube) const
 	}
 	std::cout << "Pyramid::GetQBertIndex -> Qube index not found\n";
 	return -1;
+}
+
+void Pyramid::CoilyDied(Coily* pCoily)
+{
+	for (int i{}; i< MAX_COILY;i++)
+	{
+		if (m_pCoilies[i] == pCoily)
+		{
+			m_pCoilies[i] = nullptr;
+			break;
+		}
+	}
+	m_NbrCoily--;
 }

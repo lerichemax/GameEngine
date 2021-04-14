@@ -159,9 +159,11 @@
     <ClCompile Include="DuckCommand.cpp" />
     <ClCompile Include="EarnPointsCommand.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyObserver.cpp" />
     <ClCompile Include="FartCommand.cpp" />
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="JumpCommand.cpp" />
+    <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
@@ -174,6 +176,8 @@
     <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="QubePrefab.cpp" />
     <ClCompile Include="QuitCommand.cpp" />
+    <ClCompile Include="SlickSam.cpp" />
+    <ClCompile Include="SlickSamPrefab.cpp" />
     <ClCompile Include="SoundCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +189,10 @@
     <ClInclude Include="DuckCommand.h" />
     <ClInclude Include="EarnPointsCommand.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyObserver.h" />
     <ClInclude Include="FartCommand.h" />
     <ClInclude Include="FireCommand.h" />
+    <ClInclude Include="Jumper.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PlayerDieCommand.h" />
@@ -198,6 +204,8 @@
     <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="QubePrefab.h" />
     <ClInclude Include="QuitCommand.h" />
+    <ClInclude Include="SlickSam.h" />
+    <ClInclude Include="SlickSamPrefab.h" />
     <ClInclude Include="SoundCommands.h" />
   </ItemGroup>
   <ItemGroup>
