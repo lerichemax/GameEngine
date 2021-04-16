@@ -12,7 +12,6 @@ namespace empire
 	class TransformComponent;
 	class GameObject
 	{
-		friend void Scene::Add(GameObject* object);
 		friend class Scene;
 	public:
 		GameObject();
@@ -56,6 +55,7 @@ namespace empire
 		Scene* m_pScene;
 
 		void Refresh();
+		void Initialize();
 	};
 
 	template <class T>

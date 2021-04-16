@@ -7,6 +7,7 @@
 #include "SlickSam.h"
 
 #include "GameObject.h"
+#include "Jumper.h"
 #include "Subject.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
@@ -41,6 +42,7 @@ QBert::~QBert()
 void QBert::Die()
 {
 	m_NbrLives--;
+	m_bCanMove = false;
 	if (m_NbrLives <= 0)
 	{
 		m_pSubject->Notify(this, (int)PlayerEvent::GameOver);
@@ -66,7 +68,8 @@ void QBert::Move(ConnectionDirection direction)
 	
 	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	{
-		Die();
+		JumpToDeath(direction);
+		m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
 		return;
 	}
 

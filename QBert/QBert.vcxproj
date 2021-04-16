@@ -159,6 +159,7 @@
     <ClCompile Include="DuckCommand.cpp" />
     <ClCompile Include="EarnPointsCommand.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyObserver.cpp" />
     <ClCompile Include="FartCommand.cpp" />
     <ClCompile Include="FireCommand.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="DuckCommand.h" />
     <ClInclude Include="EarnPointsCommand.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyObserver.h" />
     <ClInclude Include="FartCommand.h" />
     <ClInclude Include="FireCommand.h" />

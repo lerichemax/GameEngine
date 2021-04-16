@@ -7,10 +7,16 @@
 #include "backends/imgui_impl_opengl2.h"
 
 #include <SDL.h>
+
+#include "RendererComponent.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-void empire::Renderer::Init(SDL_Window * window)
+using namespace empire;
+
+SDL_Renderer* Renderer::m_Renderer{};
+
+void Renderer::Init(SDL_Window * window)
 {
 	m_ShowDemo = true;
 	m_pWindow = window;
@@ -35,7 +41,7 @@ void empire::Renderer::Render()
 	//ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
-	//
+	
 	//ImGui::Begin("Viewport");
 	//
 	//ImGui::End();
@@ -84,7 +90,7 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-int empire::Renderer::GetOpenGLDriverIndex()
+int Renderer::GetOpenGLDriverIndex()
 {
 	int oglIdx = -1;
 	int nRD = SDL_GetNumRenderDrivers();
@@ -101,3 +107,4 @@ int empire::Renderer::GetOpenGLDriverIndex()
 	}
 	return oglIdx;
 }
+

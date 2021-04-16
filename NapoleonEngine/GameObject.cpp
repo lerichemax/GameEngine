@@ -77,20 +77,33 @@ void GameObject::AddComponent(Component* pComp)
 	pComp->RootInitialize(this);
 }
 
+void GameObject::Initialize()
+{
+	for (auto pComp : m_pComponents)
+	{
+		pComp->Initialize();
+	}
+
+	for (auto pChild : m_pChildren)
+	{
+		pChild->Initialize();
+	}
+}
+
 void GameObject::Render() const
 {
-	if (HasComponent<RendererComponent>())
-	{
-		GetComponent<RendererComponent>()->Render(*GetComponent<TransformComponent>());
-	}
+	//if (HasComponent<RendererComponent>())
+	//{
+	//	GetComponent<RendererComponent>()->Render(*GetComponent<TransformComponent>());
+	//}
 
-	if (HasComponent<TextRendererComponent>())
-	{
-		GetComponent<TextRendererComponent>()->RenderNoScaling(*GetComponent<TransformComponent>());
-	}
+	//if (HasComponent<TextRendererComponent>())
+	//{
+	//	GetComponent<TextRendererComponent>()->RenderNoScaling(*GetComponent<TransformComponent>());
+	//}
 
-	for (auto child : m_pChildren)
-	{
-		child->Render();
-	}
+	//for (auto child : m_pChildren)
+	//{
+	//	child->Render();
+	//}
 }

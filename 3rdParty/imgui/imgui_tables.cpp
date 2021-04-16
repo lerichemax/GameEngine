@@ -717,7 +717,7 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
             column->InitStretchWeightOrWidth = -1.0f;
         }
 
-        // Update Enabled state, mark settings/sortspecs dirty
+        // UpdateJump Enabled state, mark settings/sortspecs dirty
         if (!(table->Flags & ImGuiTableFlags_Hideable) || (column->Flags & ImGuiTableColumnFlags_NoHide))
             column->IsEnabledNextFrame = true;
         if (column->IsEnabled != column->IsEnabledNextFrame)
@@ -992,7 +992,7 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
         if (column->IsSkipItems)
             IM_ASSERT(!is_visible);
 
-        // Update status flags
+        // UpdateJump status flags
         column->Flags |= ImGuiTableColumnFlags_IsEnabled;
         if (is_visible)
             column->Flags |= ImGuiTableColumnFlags_IsVisible;
@@ -1241,7 +1241,7 @@ void    ImGui::EndTable()
         TableMergeDrawChannels(table);
     table->DrawSplitter.Merge(inner_window->DrawList);
 
-    // Update ColumnsAutoFitWidth to get us ahead for host using our size to auto-resize without waiting for next BeginTable()
+    // UpdateJump ColumnsAutoFitWidth to get us ahead for host using our size to auto-resize without waiting for next BeginTable()
     const float width_spacings = (table->OuterPaddingX * 2.0f) + (table->CellSpacingX1 + table->CellSpacingX2) * (table->ColumnsEnabledCount - 1);
     table->ColumnsAutoFitWidth = width_spacings + (table->CellPaddingX * 2.0f) * table->ColumnsEnabledCount;
     for (int column_n = 0; column_n < table->ColumnsCount; column_n++)
@@ -1254,7 +1254,7 @@ void    ImGui::EndTable()
                 table->ColumnsAutoFitWidth += TableGetColumnWidthAuto(table, column);
         }
 
-    // Update scroll
+    // UpdateJump scroll
     if ((table->Flags & ImGuiTableFlags_ScrollX) == 0 && inner_window != outer_window)
     {
         inner_window->Scroll.x = 0.0f;
@@ -1771,7 +1771,7 @@ void ImGui::TableEndRow(ImGuiTable* table)
             column->ClipRect.Min.y = table->Bg2ClipRectForDrawCmd.Min.y;
         }
 
-        // Update cliprect ahead of TableBeginCell() so clipper can access to new ClipRect->Min.y
+        // UpdateJump cliprect ahead of TableBeginCell() so clipper can access to new ClipRect->Min.y
         SetWindowClipRectBeforeSetChannel(window, table->Columns[0].ClipRect);
         table->DrawSplitter.SetCurrentChannel(window->DrawList, table->Columns[0].DrawChannelCurrent);
     }

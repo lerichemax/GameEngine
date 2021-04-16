@@ -8,7 +8,7 @@
 using namespace empire;
 
 TextRendererComponent::TextRendererComponent(std::string const& text, Font* const pFont)
-	:RendererComponent{},
+	:RendererComponent{Layer::ui},
 	m_Text{text},
 	m_pFont{pFont},
 	m_NeedsUpdate{true},
@@ -45,6 +45,16 @@ void TextRendererComponent::Update()
 		
 		delete m_pTexture;
 		m_pTexture = new Texture2D{ texture };
+	}
+}
+
+
+void TextRendererComponent::Render(TransformComponent const& transform) const
+{
+	if (m_pTexture != nullptr)
+	{
+		const auto pos = transform.GetPosition();
+		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 	}
 }
 

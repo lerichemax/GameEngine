@@ -134,6 +134,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="SceneRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -228,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRenderer.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

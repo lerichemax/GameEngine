@@ -19,7 +19,7 @@ namespace empire
 
 		
 		void Update() override;
-
+		void Render(TransformComponent const& transform) const override;
 		void SetText(const std::string& text);
 		void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
 	protected:

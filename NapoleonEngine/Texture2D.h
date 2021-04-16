@@ -19,6 +19,7 @@ namespace empire
 		SDL_Texture* GetSDLTexture() const;
 		float GetWidth() const { return m_Width; }
 		float GetHeight() const { return m_Height; }
+
 	private:
 		SDL_Texture* m_pTexture;
 		float m_Width;

@@ -21,8 +21,11 @@
 
 #include <list>
 
+#include "EnemyManager.h"
+
 Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
-	:MAX_WIDTH(maxWidth)
+	:MAX_WIDTH(maxWidth),
+	m_pEnemyManager(new EnemyManager{this})
 {
 	ObserverManager::GetInstance().AddObserver(10, new QubeObserver{ this, pQbert });
 	ObserverManager::GetInstance().AddObserver(30, new EnemyObserver{ this });//hardcoded id, change later	
@@ -35,9 +38,8 @@ Pyramid::~Pyramid()
 
 void Pyramid::Update()
 {
-	//DiskSpawnerTimer();
-	//CoilySpawnerTimer();
-	//SlickSamSpawnerTimer();
+	DiskSpawnerTimer();
+	//m_pEnemyManager->UpdateJump();
 }
 
 void Pyramid::DiskSpawnerTimer()
@@ -57,59 +59,6 @@ void Pyramid::DiskSpawnerTimer()
 			m_NbrDisksSpawned++;
 		}
 
-	}
-}
-
-void Pyramid::CoilySpawnerTimer()
-{
-	//Spawn Coilies
-	if (m_NbrCoily < MAX_COILY)
-	{
-		if (m_CoilySpawnTimer < COILY_SPAWN_INTERVAL)
-		{
-			m_CoilySpawnTimer += Timer::GetInstance().GetDeltaTime();
-			return;
-		}
-
-		int random{ rand() % 2 + 1 };
-		auto coily = new CoilyPrefab(m_pQubes[random], this);
-		AddCoilyToArray(coily->GetComponent<Coily>());
-		coily->GetComponent<Coily>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
-		m_CoilySpawnTimer = 0;
-		m_NbrCoily++;
-		m_pGameObject->AddChild(coily);
-	}
-}
-
-void Pyramid::AddCoilyToArray(Coily* pCoily)
-{
-	for (int i = 0; i < MAX_COILY; i++)
-	{
-		if (m_pCoilies[i] == nullptr)
-		{
-			m_pCoilies[i] = pCoily;
-		}
-	}
-}
-
-void Pyramid::SlickSamSpawnerTimer()
-{
-	//Spawn Slick and Sam
-	if (m_NbrSlickSam < MAX_SLICKSAM)
-	{
-		if (m_SlickSamSpawnTimer < SLICKSAM_SPAWN_INTERVAL)
-		{
-			m_SlickSamSpawnTimer += Timer::GetInstance().GetDeltaTime();
-		}
-		else
-		{
-			int random{ rand() % 2 + 1 };
-			auto slickSamP = new SlickSamPrefab(m_pQubes[random]);
-			m_pGameObject->AddChild(slickSamP);
-			slickSamP->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
-			m_SlickSamSpawnTimer = 0;
-			m_NbrSlickSam++;
-		}
 	}
 }
 
@@ -350,17 +299,4 @@ int Pyramid::GetIndex(Qube* pQube) const
 	}
 	std::cout << "Pyramid::GetQBertIndex -> Qube index not found\n";
 	return -1;
-}
-
-void Pyramid::CoilyDied(Coily* pCoily)
-{
-	for (int i{}; i< MAX_COILY;i++)
-	{
-		if (m_pCoilies[i] == pCoily)
-		{
-			m_pCoilies[i] = nullptr;
-			break;
-		}
-	}
-	m_NbrCoily--;
 }

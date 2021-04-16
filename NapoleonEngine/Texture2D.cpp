@@ -1,5 +1,7 @@
 #include "PCH.h"
 #include "Texture2D.h"
+#include "Renderer.h"
+
 #include <SDL.h>
 
 empire::Texture2D::~Texture2D()

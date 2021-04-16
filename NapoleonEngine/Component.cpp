@@ -11,5 +11,5 @@ Component::Component()
 void Component::RootInitialize(GameObject* pParent)
 {
 	m_pGameObject = pParent;
-	Initialize();
+	//Initialize();
 }

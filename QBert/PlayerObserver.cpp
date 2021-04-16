@@ -1,8 +1,8 @@
 #include "PCH.h"
 #include "PlayerObserver.h"
 
-
 #include "Coily.h"
+#include "EnemyManager.h"
 #include "TextRendererComponent.h"
 #include "UIObject.h"
 
@@ -25,13 +25,19 @@ void PlayerObserver::Notify(Component* object, int event)
 	switch ((PlayerEvent)event)
 	{
 	case PlayerEvent::PlayerDied:
-		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P"+ 
-			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
-			std::to_string(static_cast<QBert*>(object)->GetLives()));
-		m_pPyramid->Reset();
-		static_cast<QBert*>(object)->GetCurrentQube()->CharacterJumpIn(static_cast<QBert*>(object));
-		std::cout << "YOU DIED !\n";
-		break;
+		{
+		auto pQ = static_cast<QBert*>(object);
+			m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P" +
+				std::to_string(pQ->GetPlayerNumber()) + " Lives: " +
+				std::to_string(pQ->GetLives()));
+			m_pPyramid->GetEnemyManager()->Reset();
+			
+			pQ->SetCurrentQube(pQ->GetCurrentQube());
+			pQ->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+			pQ->SetCanMove();
+			std::cout << "YOU DIED !\n";
+			break;
+		}
 	case PlayerEvent::PlayerJumpOut:
 		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P" +
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
@@ -52,19 +58,10 @@ void PlayerObserver::Notify(Component* object, int event)
 		static_cast<QBertScene*>(object->GetGameObject()->GetParentScene())->ResetGame();
 		break;
 	case PlayerEvent::JumpOnDisk:
-		for (auto pCoily : m_pPyramid->GetCoilies())
-		{
-			pCoily->SetIsIdle(true);
-		}
+		m_pPyramid->GetEnemyManager()->SetCoiliesIdle(true);
 		break;
 	case PlayerEvent::JumpOffDisk:
-		for (auto pCoily : m_pPyramid->GetCoilies())
-		{
-			if (pCoily != nullptr)
-			{
-				pCoily->SetIsIdle(false);
-			}
-		}
+		m_pPyramid->GetEnemyManager()->SetCoiliesIdle(false);
 		break;
 	}
 }

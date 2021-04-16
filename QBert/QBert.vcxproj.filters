@@ -81,6 +81,9 @@
     <ClCompile Include="Jumper.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -157,6 +160,9 @@
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="Jumper.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>

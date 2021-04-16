@@ -23,7 +23,7 @@ public:
 	void Move(ConnectionDirection direction) override;
 	void JumpOffDisk();
 	void Reset(bool fullReset, Qube* pTargetQube);
-
+	void SetCanMove() { m_bCanMove = true; }
 protected:
 	void MeetCharacter(Character* pOther) override;
 	void LandOnQube() override;

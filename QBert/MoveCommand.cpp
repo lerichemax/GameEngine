@@ -12,7 +12,7 @@ MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, Pyramid* pContr
 
 void MoveCommand::Execute()
 {
-	if (m_pQbert->GetState() == State::jumping)
+	if (m_pQbert->GetState() != State::onQube)
 	{
 		return;
 	}

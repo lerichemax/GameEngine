@@ -18,7 +18,7 @@ namespace empire
 
 		virtual void Initialize() = 0;
 	private:
-		void RootInitialize(GameObject* pParent);
+		void RootInitialize(GameObject* pParent);// Initial initialize
 		
 	};
 }

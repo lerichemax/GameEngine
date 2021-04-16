@@ -39,7 +39,7 @@ void QBertScene::Initialize()
 	Add(pointsP1);
 	
 	auto qbert = new GameObject();
-	qbert->AddComponent(new RendererComponent("QBert.png"));
+	qbert->AddComponent(new RendererComponent("QBert.png", Layer::foreground));
 	
 	m_pQbert = new QBert();
 	qbert->AddComponent(m_pQbert);

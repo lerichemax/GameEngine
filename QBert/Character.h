@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Subject.h"
 
-enum class Type //enum to avoid using type id
+enum class Type //enum to avoid using typeid
 {
 	player,
 	enemy
@@ -11,7 +11,8 @@ enum class Type //enum to avoid using type id
 enum class State
 {
 	onQube,
-	jumping
+	jumping,
+	falling
 };
 
 namespace empire
@@ -24,7 +25,6 @@ class Qube;
 enum class ConnectionDirection;
 class Character : public empire::Component
 {
-
 public:
 	Character(Qube* pStart, Type type);
 	virtual ~Character();
@@ -37,10 +37,11 @@ public:
 	Qube* const GetCurrentQube() const { return m_pCurrentQube; }
 	Type GetType() const { return m_Type; }
 	State GetState() const { return m_State; }
-	
+
 	void SetCurrentQube(Qube* pTargetQube);
 	void JumpToQube(Qube* pTargetQube);
 	void Jump() { m_State = State::jumping; }
+	void JumpToDeath(ConnectionDirection dir);
 
 protected:
 	Qube* m_pCurrentQube;
@@ -60,5 +61,4 @@ protected:
 	
 	virtual void LandOnQube();
 	void MoveToCurrentQube();
-	
 };

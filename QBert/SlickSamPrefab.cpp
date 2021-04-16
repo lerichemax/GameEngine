@@ -7,7 +7,7 @@
 
 SlickSamPrefab::SlickSamPrefab(Qube* pStart)
 {
-	AddComponent(new empire::RendererComponent());
+	AddComponent(new empire::RendererComponent(empire::Layer::middleground));
 	auto pSlickSam = new SlickSam{pStart};
 	AddComponent(pSlickSam);
 	GetTransform()->Scale(1.5f);

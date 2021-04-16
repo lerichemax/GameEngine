@@ -314,7 +314,7 @@ static void ImGui_ImplSDL2_UpdateGamepads()
         return;
     }
 
-    // Update gamepad inputs
+    // UpdateJump gamepad inputs
     #define MAP_BUTTON(NAV_NO, BUTTON_NO)       { io.NavInputs[NAV_NO] = (SDL_GameControllerGetButton(game_controller, BUTTON_NO) != 0) ? 1.0f : 0.0f; }
     #define MAP_ANALOG(NAV_NO, AXIS_NO, V0, V1) { float vn = (float)(SDL_GameControllerGetAxis(game_controller, AXIS_NO) - V0) / (float)(V1 - V0); if (vn > 1.0f) vn = 1.0f; if (vn > 0.0f && io.NavInputs[NAV_NO] < vn) io.NavInputs[NAV_NO] = vn; }
     const int thumb_dead_zone = 8000;           // SDL_gamecontroller.h suggests using this value.
@@ -365,6 +365,6 @@ void ImGui_ImplSDL2_NewFrame(SDL_Window* window)
     ImGui_ImplSDL2_UpdateMousePosAndButtons();
     ImGui_ImplSDL2_UpdateMouseCursor();
 
-    // Update game controllers (if enabled and available)
+    // UpdateJump game controllers (if enabled and available)
     ImGui_ImplSDL2_UpdateGamepads();
 }

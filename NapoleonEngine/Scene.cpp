@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
+#include "SceneRenderer.h"
+
 #include <algorithm>
 
 using namespace empire;
@@ -9,7 +11,8 @@ using namespace empire;
 unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name)
-	: m_Name{name}
+	: m_Name{name},
+	m_pSceneRenderer(new SceneRenderer{})
 {
 }
 
@@ -35,6 +38,7 @@ void Scene::Add(GameObject* object)
 	{
 		pChild->m_pScene = this;
 	}
+	object->Initialize();
 }
 
 void Scene::Update()
@@ -48,10 +52,11 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	for (const auto& object : m_pObjects)
-	{
-		object->Render();
-	}
+	m_pSceneRenderer->Render();
+	//for (const auto& object : m_pObjects)
+	//{
+	//	object->Render();
+	//}
 }
 
 void Scene::Refresh()

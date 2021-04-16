@@ -32,12 +32,22 @@ void Character::Update()
 {
 	if (m_State == State::jumping)
 	{
-		m_pJumper->Update(m_pGameObject->GetTransform());
+		m_pJumper->UpdateJump(m_pGameObject->GetTransform());
 		if (!m_pJumper->IsJumping())
 		{
 			m_State = State::onQube;
 			MoveToCurrentQube();
 			LandOnQube();
+		}
+	}
+	else if(m_State == State::falling)
+	{
+		m_pJumper->UpdateFall(m_pGameObject->GetTransform());
+		if (m_pJumper->IsDead())
+		{
+			m_pJumper->SetIsNotDead();
+			m_State = State::onQube;
+			Die();
 		}
 	}
 }
@@ -80,4 +90,19 @@ void Character::JumpToQube(Qube* pTargetQube)
 void Character::LandOnQube()
 {
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+}
+
+void Character::JumpToDeath(ConnectionDirection dir)
+{
+	float dist{};
+	if (dir == ConnectionDirection::downLeft || dir == ConnectionDirection::upLeft)
+	{
+		dist = -25.f;
+	}
+	else if(dir == ConnectionDirection::downRight || dir == ConnectionDirection::upRight)
+	{
+		dist = 25.f;
+	}
+	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetPosition(), dist);
+	m_State = State::falling;
 }
