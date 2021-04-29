@@ -71,13 +71,13 @@ void QBertScene::Initialize()
 void QBertScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
-	m_pQbert->Reset(false, m_pPyramid->GetTop());
 	m_pPyramid->Reset();
+	m_pQbert->Reset(false, m_pPyramid->GetTop());
 }
 
 void QBertScene::ResetGame()
 {
 	m_Level = Level::Level1;
-	m_pQbert->Reset(true, m_pPyramid->GetTop());
 	m_pPyramid->Reset();
+	m_pQbert->Reset(true, m_pPyramid->GetTop());
 }

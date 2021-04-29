@@ -14,13 +14,15 @@ void SceneRenderer::Render()
 		}
 	}
 }
+
 void SceneRenderer::AddToGroup(RendererComponent* pRenderer, Layer layer)
 {
 	m_pLayersGroup[(int)layer].emplace_back(pRenderer);
+	pRenderer->m_pSceneRenderer = this;
 }
 
 void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 {
 	auto& currentGroup = m_pLayersGroup[(int)layer];
-	currentGroup.erase(std::find(currentGroup.begin(), currentGroup.end(), pRenderer), currentGroup.end());
+	currentGroup.erase(std::find(currentGroup.begin(), currentGroup.end(), pRenderer));
 }

@@ -28,7 +28,6 @@ void QubeObserver::Notify(empire::Component* object, int event)
 			switch (qbertScene->GetLevel())
 			{
 			case Level::Level1:
-				std::cout << "Qube flipped !\n";
 				qube->Flip();
 				if (m_pPyramid->AreAllQubesFlipped())
 				{
@@ -46,7 +45,6 @@ void QubeObserver::Notify(empire::Component* object, int event)
 				else if (qube->m_JumpCounter == 1)
 				{
 					qube->Flip();
-					std::cout << "Qube flipped !\n";
 					if (m_pPyramid->AreAllQubesFlipped())
 					{
 						std::cout << "YOU FINISHED LEVEL 2!\n";
@@ -59,7 +57,6 @@ void QubeObserver::Notify(empire::Component* object, int event)
 				if (qube->m_bIsFlipped)
 				{
 					qube->UnFlip();
-					std::cout << "Qube unflipped !\n";
 					return;
 				}
 				else

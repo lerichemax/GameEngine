@@ -14,18 +14,19 @@ public:
 
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
 protected:
+	friend class EnemyManager;
+	
 	unsigned int const POINTS_FOR_KILL;
 	
 	virtual ConnectionDirection ChooseDirection();
 
-	virtual void MeetCharacter(Character* pOther) override {}
-	void LandOnQube() override{}
-	void SetDirectionTextures(ConnectionDirection dir) override {}
+	virtual void Initialize() override;
+	virtual void MeetCharacter(Character* ) override {}
+	//void LandOnQube() override{}
+	void SetDirectionTextures(ConnectionDirection) override {}
 
 private:
 	float const MOVE_MAX_TIME{ 1.f };
 	
-	
 	float m_MoveTimer;
-
 };

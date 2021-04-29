@@ -25,6 +25,12 @@ RendererComponent::RendererComponent(Texture2D* pText, Layer layer)
 {
 }
 
+RendererComponent::~RendererComponent()
+{
+	m_pSceneRenderer->RemoveFromGroup(this, m_Layer);
+	m_pSceneRenderer = nullptr;
+}
+
 void RendererComponent::Render(TransformComponent const& transform) const
 {
 	if (m_pTexture != nullptr)
@@ -46,12 +52,12 @@ void RendererComponent::SetTexture(Texture2D* pText)
 
 void RendererComponent::Initialize()
 {
-	m_pGameObject->GetParentScene()->GetSceneRenderer()->AddToGroup(this, m_Layer);
+	m_pGameObject->GetParentScene()->AddToGroup(this, m_Layer);
 }
 
 void RendererComponent::ChangeLayer(Layer newLayer)
 {
-	m_pGameObject->GetParentScene()->GetSceneRenderer()->RemoveFromGroup(this, m_Layer);
-	m_pGameObject->GetParentScene()->GetSceneRenderer()->AddToGroup(this, newLayer);
+	m_pGameObject->GetParentScene()->RemoveFromGroup(this, m_Layer);
+	m_pGameObject->GetParentScene()->AddToGroup(this, newLayer);
 	m_Layer = newLayer;
 }

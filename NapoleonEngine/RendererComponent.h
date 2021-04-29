@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 #include "TransformComponent.h"
+#include "SceneRenderer.h"
 
 namespace empire
 {
@@ -14,6 +15,7 @@ namespace empire
 		foreground,
 		ui
 	};
+	
 	class RendererComponent : public Component
 	{
 	public:
@@ -24,7 +26,7 @@ namespace empire
 		RendererComponent(RendererComponent&& other) = delete;
 		RendererComponent& operator=(RendererComponent const& rhs) = delete;
 		RendererComponent& operator=(RendererComponent&& rhs) = delete;
-		virtual ~RendererComponent() = default;
+		virtual ~RendererComponent();
 
 		
 		void Update() override{};
@@ -36,9 +38,13 @@ namespace empire
 		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y; }
 
 		void ChangeLayer(Layer newLayer);
+	
 	protected:
+		friend void SceneRenderer::AddToGroup(RendererComponent* pRenderer, Layer layer);
+		
 		Texture2D* m_pTexture{};
 		Layer m_Layer;
+		SceneRenderer* m_pSceneRenderer;
 		
 		void Initialize() override;
 	};

@@ -35,6 +35,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			pQ->SetCurrentQube(pQ->GetCurrentQube());
 			pQ->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 			pQ->SetCanMove();
+			
 			std::cout << "YOU DIED !\n";
 			break;
 		}

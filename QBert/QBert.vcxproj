@@ -84,11 +84,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,13 +100,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,11 +120,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,13 +136,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,19 +160,13 @@
     <ClCompile Include="CoilyPrefab.cpp" />
     <ClCompile Include="ColoredDisk.cpp" />
     <ClCompile Include="DiskPrefab.cpp" />
-    <ClCompile Include="DuckCommand.cpp" />
-    <ClCompile Include="EarnPointsCommand.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyObserver.cpp" />
-    <ClCompile Include="FartCommand.cpp" />
-    <ClCompile Include="FireCommand.cpp" />
-    <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
-    <ClCompile Include="PlayerDieCommand.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="QBert.cpp" />
@@ -176,10 +174,8 @@
     <ClCompile Include="Qube.cpp" />
     <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="QubePrefab.cpp" />
-    <ClCompile Include="QuitCommand.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SlickSamPrefab.cpp" />
-    <ClCompile Include="SoundCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -187,17 +183,12 @@
     <ClInclude Include="CoilyPrefab.h" />
     <ClInclude Include="ColoredDisk.h" />
     <ClInclude Include="DiskPrefab.h" />
-    <ClInclude Include="DuckCommand.h" />
-    <ClInclude Include="EarnPointsCommand.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyObserver.h" />
-    <ClInclude Include="FartCommand.h" />
-    <ClInclude Include="FireCommand.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MoveCommand.h" />
-    <ClInclude Include="PlayerDieCommand.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="QBert.h" />
@@ -205,10 +196,8 @@
     <ClInclude Include="Qube.h" />
     <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="QubePrefab.h" />
-    <ClInclude Include="QuitCommand.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SlickSamPrefab.h" />
-    <ClInclude Include="SoundCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

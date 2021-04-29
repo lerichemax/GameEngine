@@ -31,13 +31,14 @@ public:
 	
 	bool AreAllQubesFlipped() const;
 	void Reset();
+	void PartialReset();
 	void DiskUsed() { m_NbrDisksSpawned--; }
-	void FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, const int size) const; //used by coily to move to qbert
+	bool FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, const int size) const; //used by coily to move to qbert
 	
 private:
 	unsigned int const MAX_WIDTH;
 	unsigned int const MAX_NBR_DISKS{ 4 };
-	float const DISK_SPAWNING_INTERVAL{ 20.f };
+	float const DISK_SPAWNING_INTERVAL{ 7.f };
 	
 	unsigned int m_NbrDisksSpawned;
 	

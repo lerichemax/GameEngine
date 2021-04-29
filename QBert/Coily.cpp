@@ -7,11 +7,20 @@
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 
+#include <thread>
+
 Coily::Coily(Pyramid* pPyramid, Qube* pQube)
 	: Enemy(pQube, 500),
 	m_pPyramid(pPyramid),
 	m_bIsTransformed(false)
 {}
+
+void Coily::Initialize()
+{
+	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
+	Enemy::Initialize();
+}
 
 void Coily::Update()
 {
@@ -33,13 +42,18 @@ void Coily::Move(ConnectionDirection direction)
 {
 	if (direction != ConnectionDirection::null)
 	{
+		if (m_bIsTransformed)
+		{
+			SetDirectionTextures(direction);
+		}
+		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 		Enemy::Move(direction);
 	}
 	else
 	{
 		if(m_pCurrentQube->IsSideColumn())
 		{
-			Enemy::Move(direction);
+			JumpToDeath(direction);
 		}
 		else
 		{
@@ -80,16 +94,15 @@ void Coily::Die()
 
 void Coily::Transform()
 {
-	m_pGameObject->GetComponent<RendererComponent>()->
-		SetTexture(empire::ResourceManager::GetInstance().GetTexture("Coily_FaceRight_Tall.png"));
+	//m_pGameObject->GetComponent<RendererComponent>()->
+		//SetTexture(empire::ResourceManager::GetInstance().GetTexture("Coily_FaceRight_Tall.png"));
 	m_bIsTransformed = true;
 	InitMovementQueue();
 }
 
 void Coily::InitMovementQueue()
 {
-	m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
-	m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+	FindQBert();
 }
 
 ConnectionDirection Coily::ChooseDirection()
@@ -101,12 +114,56 @@ ConnectionDirection Coily::ChooseDirection()
 	
 	if (m_CurrentlyInQueue == 0)
 	{
-		m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
-		m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+		FindQBert();
 	}
 	
 	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
 	m_CurrentlyInQueue--;
 	
 	return  dirToReturn;
+}
+
+void Coily::FindQBert()
+{
+	std::thread t1([this]
+		{
+			bool result{};
+
+			do
+			{
+				result = m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
+			} while (!result);
+			m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+		});
+	t1.detach();
+}
+
+void Coily::SetDirectionTextures(ConnectionDirection dir)
+{
+	if (m_FacingDirection == dir)
+	{
+		return;
+	}
+
+	m_FacingDirection = dir;
+
+	switch (dir)
+	{
+	case ConnectionDirection::downLeft:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownLeft.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
+		break;
+	case ConnectionDirection::downRight:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownRight.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownRight.png");
+		break;
+	case ConnectionDirection::upLeft:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpLeft.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
+		break;
+	case ConnectionDirection::upRight:
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpRight.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_UpRight.png");
+		break;
+	}
 }

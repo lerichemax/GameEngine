@@ -16,7 +16,6 @@ namespace empire
 		TextRendererComponent& operator=(TextRendererComponent const& rhs) = delete;
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
 		~TextRendererComponent();
-
 		
 		void Update() override;
 		void Render(TransformComponent const& transform) const override;

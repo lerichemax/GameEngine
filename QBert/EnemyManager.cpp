@@ -8,6 +8,16 @@
 #include "Timer.h"
 #include "ObserverManager.h"
 #include "Pyramid.h"
+#include "Qube.h"
+
+EnemyManager::EnemyManager(Pyramid* const pPyramid)
+	: m_pPyramid(pPyramid),
+	m_pCoilies{},
+	m_pSlickSams{}
+{
+	m_pCoilies.fill(nullptr);
+	m_pSlickSams.fill(nullptr);
+}
 
 void EnemyManager::Update()
 {
@@ -33,6 +43,7 @@ void EnemyManager::CoilySpawnerTimer()
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
 		m_pPyramid->GetGameObject()->AddChild(coily);
+		std::cout << "Coily spawned\n";
 	}
 }
 
@@ -43,6 +54,7 @@ void EnemyManager::AddCoilyToArray(Coily* pCoily)
 		if (m_pCoilies[i] == nullptr)
 		{
 			m_pCoilies[i] = pCoily;
+			return;
 		}
 	}
 }
@@ -65,6 +77,7 @@ void EnemyManager::SlickSamSpawnerTimer()
 			slickSamP->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
+			std::cout << "Slick Sam spawned\n";
 		}
 	}
 }
@@ -76,6 +89,7 @@ void EnemyManager::AddSlickSamToArray(SlickSam* pSlickSam)
 		if (m_pSlickSams[i] == nullptr)
 		{
 			m_pSlickSams[i] = pSlickSam;
+			return;
 		}
 	}
 }
@@ -112,9 +126,10 @@ void EnemyManager::Reset()
 	{
 		if (pCoily != nullptr)
 		{
-			delete pCoily;
+			pCoily->Die();
 			pCoily = nullptr;
 		}
+		
 	}
 	m_NbrCoily = 0;
 
@@ -122,7 +137,7 @@ void EnemyManager::Reset()
 	{
 		if (pSlickSam != nullptr)
 		{
-			delete pSlickSam;
+			pSlickSam->Die();
 			pSlickSam = nullptr;
 		}
 	}

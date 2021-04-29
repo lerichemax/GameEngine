@@ -60,9 +60,9 @@ void GameObject::Refresh()
 
 void GameObject::AddChild(GameObject* pChild)
 {
-	//pChild->m_pParent = this;
 	m_pChildren.push_back(pChild);
 	pChild->m_pScene = m_pScene;
+	pChild->Initialize();
 }
 
 void GameObject::AddComponent(Component* pComp)

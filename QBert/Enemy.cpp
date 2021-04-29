@@ -11,9 +11,16 @@ Enemy::Enemy(Qube* pQube, int pointsForKill)
 	POINTS_FOR_KILL(pointsForKill)
 {}
 
+void Enemy::Initialize()
+{
+	MoveToCurrentQube();
+}
+
 void Enemy::Update()
 {
-	if (m_MoveTimer < MOVE_MAX_TIME)
+	if (m_State == State::onQube)
+	{
+		if (m_MoveTimer < MOVE_MAX_TIME)
 	{
 		m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
 		return;
@@ -21,6 +28,9 @@ void Enemy::Update()
 	
 	Move(ChooseDirection());
 	m_MoveTimer = 0;
+	}
+	
+	Character::Update();
 }
 
 void Enemy::Move(ConnectionDirection direction)
@@ -34,24 +44,23 @@ void Enemy::Move(ConnectionDirection direction)
 			{
 				return;
 			}
-			else
-			{
-				MeetCharacter(pNextQube->GetCharacter());
-			}
 		}
 		
 		m_pCurrentQube->CharacterJumpOut();
-		SetCurrentQube(m_pCurrentQube->GetConnection(direction));
-		m_pCurrentQube->CharacterJumpIn(this);
+		JumpToQube(pNextQube);
 	}
 	else
 	{
-		Die();
+		JumpToDeath(direction);
 	}
 }
 
 void Enemy::Die()
 {
+	if (m_pCurrentQube)
+	{
+		m_pCurrentQube->CharacterJumpOut();
+	}
 	m_pGameObject->Destroy();
 }
 

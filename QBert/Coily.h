@@ -9,8 +9,10 @@ public:
 	Coily(Pyramid* pPyramid, Qube* pQube);
 
 	void Update() override;
-	void Transform();
 
+	bool IsTransformed() const { return m_bIsTransformed; }
+	
+	void Transform();
 	void Move(ConnectionDirection direction) override;
 	void SetIsIdle(bool isIdle);
 	void MeetCharacter(Character* pOther) override;
@@ -29,4 +31,8 @@ private:
 	Pyramid* m_pPyramid;
 
 	void InitMovementQueue();
+	void SetDirectionTextures(ConnectionDirection dir);
+
+	void Initialize() override;
+	void FindQBert();
 };

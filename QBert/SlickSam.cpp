@@ -29,14 +29,16 @@ void SlickSam::SetTexture()
 {
 	if (m_NbrInstances == 1)
 	{
-		m_pGameObject->GetComponent<empire::RendererComponent>()->SetTexture(
-			empire::ResourceManager::GetInstance().GetTexture("Slick.png"));
+		m_pIdleText = empire::ResourceManager::GetInstance().GetTexture("Slick.png");
+		m_pJumpText = m_pIdleText;
 	}
 	else if (m_NbrInstances == 2)
 	{
-		m_pGameObject->GetComponent<empire::RendererComponent>()->SetTexture(
-			empire::ResourceManager::GetInstance().GetTexture("Sam.png"));
+		m_pIdleText = empire::ResourceManager::GetInstance().GetTexture("Sam.png");
+		m_pJumpText = m_pIdleText;
 	}
+	
+	m_pGameObject->GetComponent<empire::RendererComponent>()->SetTexture(m_pIdleText);
 }
 
 void SlickSam::Die()

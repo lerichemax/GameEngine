@@ -53,10 +53,7 @@ void Scene::Update()
 void Scene::Render() const
 {
 	m_pSceneRenderer->Render();
-	//for (const auto& object : m_pObjects)
-	//{
-	//	object->Render();
-	//}
+
 }
 
 void Scene::Refresh()
@@ -70,6 +67,16 @@ void Scene::Refresh()
 			pGo = nullptr;
 		}
 	}
-	
+
 	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), nullptr),m_pObjects.end());
+}
+
+void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer)
+{
+	m_pSceneRenderer->AddToGroup(pRenderer, layer);
+}
+
+void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
+{
+	m_pSceneRenderer->RemoveFromGroup(pRenderer, layer);
 }

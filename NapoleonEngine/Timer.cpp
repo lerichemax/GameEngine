@@ -18,6 +18,10 @@ void Timer::Update()
 {
 	const auto currentTime = high_resolution_clock::now();
 	m_DeltaTime =  duration<float>(currentTime - m_LastTime).count();
+	if (m_DeltaTime > 0.1f)
+	{
+		m_DeltaTime = 0.02f; //prevents deltatime to rise too high when debugging
+	}
 	m_LastTime = currentTime;
 	m_Lag += m_DeltaTime;
 }

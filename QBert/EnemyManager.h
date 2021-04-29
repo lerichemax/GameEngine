@@ -8,7 +8,7 @@ class SlickSam;
 class EnemyManager final
 {
 public:
-	EnemyManager(Pyramid* const pPyramid) : m_pPyramid(pPyramid){}
+	EnemyManager(Pyramid* const pPyramid);
 
 	void Update();
 	
@@ -31,8 +31,8 @@ private:
 
 	Pyramid* const m_pPyramid;
 	
-	std::array<Coily*, MAX_COILY> m_pCoilies{};
-	std::array<SlickSam*, MAX_SLICKSAM> m_pSlickSams{};
+	std::array<Coily*, MAX_COILY> m_pCoilies;
+	std::array<SlickSam*, MAX_SLICKSAM> m_pSlickSams;
 	
 	void CoilySpawnerTimer();
 	void SlickSamSpawnerTimer();

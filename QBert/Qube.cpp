@@ -128,7 +128,7 @@ void Qube::Reset()
 			pChild->Destroy();
 		}
 	}
-
+	
 	GetGameObject()->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
 }
 

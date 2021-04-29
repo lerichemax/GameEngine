@@ -3,7 +3,9 @@
 
 namespace empire
 {
+	enum class Layer;
 	class SceneRenderer;
+	class RendererComponent;
 	class GameObject;
 	class Scene
 	{
@@ -23,7 +25,8 @@ namespace empire
 		void Render() const;
 
 		bool IsActive() const { return m_bIsActive; }
-		SceneRenderer* GetSceneRenderer() const { return m_pSceneRenderer; }
+		void AddToGroup(RendererComponent* pRenderer, Layer layer);
+		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
 	private: 
 		std::string m_Name;
 		std::vector<GameObject*> m_pObjects{};

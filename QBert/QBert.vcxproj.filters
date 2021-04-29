@@ -6,38 +6,14 @@
     <ClCompile Include="DiskPrefab.cpp">
       <Filter>GamePrefabs</Filter>
     </ClCompile>
-    <ClCompile Include="DuckCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="EarnPointsCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="FartCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="FireCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDieCommand.cpp">
-      <Filter>Commands\Demo</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="QBertScene.cpp">
       <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="QuitCommand.cpp">
-      <Filter>Commands\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundCommand.cpp">
-      <Filter>Commands\Demo</Filter>
     </ClCompile>
     <ClCompile Include="QubePrefab.cpp">
       <Filter>GamePrefabs</Filter>
@@ -90,35 +66,14 @@
     <ClInclude Include="DiskPrefab.h">
       <Filter>GamePrefabs</Filter>
     </ClInclude>
-    <ClInclude Include="DuckCommand.h">
-      <Filter>Commands\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="EarnPointsCommand.h">
-      <Filter>Commands\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="FartCommand.h">
-      <Filter>Commands\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="FireCommand.h">
-      <Filter>Commands\Demo</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDieCommand.h">
-      <Filter>Commands\Demo</Filter>
     </ClInclude>
     <ClInclude Include="PlayerObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="QBertScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="QuitCommand.h">
-      <Filter>Commands\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundCommands.h">
-      <Filter>Commands\Demo</Filter>
     </ClInclude>
     <ClInclude Include="QubePrefab.h">
       <Filter>GamePrefabs</Filter>
@@ -181,9 +136,6 @@
     </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{b951194b-7545-4512-81cc-fb1b0d4f0a95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands\Demo">
-      <UniqueIdentifier>{1dfc1490-abfa-439d-9c78-9ad3d456a1f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameScripts">
       <UniqueIdentifier>{7e07bb5e-141e-4c21-9ce5-8eaa303c8c65}</UniqueIdentifier>

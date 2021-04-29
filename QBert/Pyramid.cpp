@@ -38,8 +38,8 @@ Pyramid::~Pyramid()
 
 void Pyramid::Update()
 {
-	DiskSpawnerTimer();
-	//m_pEnemyManager->UpdateJump();
+	//DiskSpawnerTimer();
+	//m_pEnemyManager->Update();
 }
 
 void Pyramid::DiskSpawnerTimer()
@@ -152,9 +152,20 @@ void Pyramid::Reset()
 {
 	m_DiskSpawnTimer = 0;
 	m_NbrDisksSpawned = 0;
+	
 	for (auto pQube : m_pQubes)
 	{
 		pQube->Reset();
+	}
+
+	m_pEnemyManager->Reset();
+}
+
+void Pyramid::PartialReset()
+{
+	for (auto pQube : m_pQubes)
+	{
+		pQube->CharacterJumpOut();
 	}
 }
 
@@ -182,7 +193,7 @@ bool Pyramid::IsTop(Qube* pQube) const
 	return pQube == m_pQubes.front();
 }
 
-void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
+bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -195,7 +206,7 @@ void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 	if (targetIdx == -1)
 	{
 		std::fill_n(directions, size, ConnectionDirection::null);
-		return;
+		return false;
 	}
 	
 	bool* visited = new bool[m_pQubes.size()];
@@ -270,6 +281,7 @@ void Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 			directions[i - 1] = ConnectionDirection::null;
 		}
 	}
+	return true;
 }
 
 int Pyramid::GetQBertIndex() const

@@ -69,10 +69,17 @@ void Character::MoveToCurrentQube()
 	{
 		return;
 	}
-	
-	m_pCurrentQube->CharacterJumpIn(this);
-	//m_State = State::jumping;
-	m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+
+	if (m_pCurrentQube->HasCharacter() && m_pCurrentQube->GetCharacter() != this)
+	{
+		MeetCharacter(m_pCurrentQube->GetCharacter());
+	}
+
+	if (m_pGameObject->IsActive())
+	{
+		m_pCurrentQube->CharacterJumpIn(this);
+		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+	}
 }
 
 void Character::JumpToQube(Qube* pTargetQube)
@@ -103,6 +110,13 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	{
 		dist = 25.f;
 	}
+	
+	if (!m_pCurrentQube->IsLastRow())
+	{
+		m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
+	}
+	
+	m_pCurrentQube->CharacterJumpOut();
 	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetPosition(), dist);
 	m_State = State::falling;
 }

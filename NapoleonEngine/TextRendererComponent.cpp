@@ -25,6 +25,7 @@ TextRendererComponent::~TextRendererComponent()
 void TextRendererComponent::Initialize()
 {
 	Update();
+	RendererComponent::Initialize();
 }
 
 void TextRendererComponent::Update()

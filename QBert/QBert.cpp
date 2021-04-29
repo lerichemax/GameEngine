@@ -69,7 +69,6 @@ void QBert::Move(ConnectionDirection direction)
 	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	{
 		JumpToDeath(direction);
-		m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
 		return;
 	}
 
@@ -78,16 +77,13 @@ void QBert::Move(ConnectionDirection direction)
 	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
-		if (m_pCurrentQube->GetConnection(direction)->HasCharacter())
-		{
-			MeetCharacter(m_pCurrentQube->GetConnection(direction)->GetCharacter());
-		}
 		m_pCurrentQube->CharacterJumpOut();
 		JumpToQube(m_pCurrentQube->GetConnection(direction));
 	}
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
 		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
+		m_pCurrentQube->CharacterJumpOut();
 		m_pCurrentQube = nullptr;
 		m_bCanMove = false;
 	}
@@ -95,6 +91,7 @@ void QBert::Move(ConnectionDirection direction)
 
 void QBert::JumpOffDisk()
 {
+	m_State = State::onQube;
 	m_pSubject->Notify(this, (int)PlayerEvent::JumpOffDisk);
 	m_bCanMove = true;
 }
@@ -118,16 +115,15 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 
 void QBert::MeetCharacter(Character* pOther)
 {
-	if (typeid(*pOther) == typeid(Coily))
+	if (typeid(*pOther) == typeid(Coily) && static_cast<Coily*>(pOther)->IsTransformed())
 	{
 		Die();
 	}
-	else
+	else if (typeid(*pOther) == typeid(SlickSam))
 	{
 		auto pSlickSam = static_cast<SlickSam*>(pOther);
 		EarnPoints(pSlickSam->GetPointsForKill());
 		pSlickSam->Die();
-		
 	}
 }
 

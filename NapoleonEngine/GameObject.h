@@ -34,7 +34,6 @@ namespace empire
 
 		void AddChild(GameObject* pChild);
 		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
-		//GameObject* GetParent() const { return m_pParent; }
 		
 		bool HasChildren() const { return m_pChildren.size() > 0; }
 		
