@@ -9,7 +9,6 @@ EnemyObserver::EnemyObserver(Pyramid* const pPyramid)
 	:Observer(),
 	m_pPyramid(pPyramid)
 {
-	
 }
 
 void EnemyObserver::Notify(empire::Component* object, int event)

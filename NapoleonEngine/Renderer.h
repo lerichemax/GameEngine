@@ -8,6 +8,7 @@ namespace empire
 
 	class RendererComponent;
 	class Texture2D;
+	class TransformComponent;
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:
@@ -18,7 +19,7 @@ namespace empire
 		
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
-
+		void RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const;
 
 		
 		static SDL_Renderer* GetSDLRenderer() { return m_Renderer; }

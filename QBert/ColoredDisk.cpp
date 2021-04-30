@@ -9,7 +9,6 @@
 ColoredDisk::ColoredDisk(Qube* top)
 	:PYRAMID_TOP(top)
 {
-	
 }
 
 void ColoredDisk::Update()

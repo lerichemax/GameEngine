@@ -1,19 +1,16 @@
 #include "PCH.h"
 #include "PlayerObserver.h"
 
-#include "Coily.h"
 #include "EnemyManager.h"
-#include "TextRendererComponent.h"
-#include "UIObject.h"
-
 #include "QBert.h"
 #include "QBertScene.h"
 #include "Pyramid.h"
-#include "Qube.h"
+
+#include "TextRendererComponent.h"
 
 using namespace empire;
 
-PlayerObserver::PlayerObserver(empire::UIObject* const pPoints, empire::UIObject* const pLives, Pyramid* const pPyramid)
+PlayerObserver::PlayerObserver(TextRendererComponent* const pPoints, TextRendererComponent* const pLives, Pyramid* const pPyramid)
 	:m_pPointsCounter(pPoints),
 	m_LivesCounter(pLives),
 	m_pPyramid(pPyramid)
@@ -27,7 +24,7 @@ void PlayerObserver::Notify(Component* object, int event)
 	case PlayerEvent::PlayerDied:
 		{
 		auto pQ = static_cast<QBert*>(object);
-			m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P" +
+			m_LivesCounter->SetText("P" +
 				std::to_string(pQ->GetPlayerNumber()) + " Lives: " +
 				std::to_string(pQ->GetLives()));
 			m_pPyramid->GetEnemyManager()->Reset();
@@ -40,7 +37,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			break;
 		}
 	case PlayerEvent::PlayerJumpOut:
-		m_LivesCounter->GetComponent<TextRendererComponent>()->SetText("P" +
+		m_LivesCounter->SetText("P" +
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Lives: " +
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		object->GetGameObject()->GetComponent<QBert>()->SetCurrentQube(m_pPyramid->GetTop());
@@ -49,7 +46,7 @@ void PlayerObserver::Notify(Component* object, int event)
 		break;
 	case PlayerEvent::IncreasePoints:
 		{
-		m_pPointsCounter->GetComponent<TextRendererComponent>()->SetText("P" + 
+		m_pPointsCounter->SetText("P" + 
 			std::to_string(static_cast<QBert*>(object)->GetPlayerNumber()) + " Points: " +
 			std::to_string(static_cast<QBert*>(object)->GetPoints()));
 		}

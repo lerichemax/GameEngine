@@ -6,6 +6,8 @@ class QBert final : public Character
 public:
 	QBert();
 	//QBert(Qube* pCurrentCube);
+	QBert* Clone() override {return nullptr;}//unclonable
+	
 	QBert(QBert const& other) = delete;
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;

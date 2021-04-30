@@ -18,6 +18,19 @@ Character::Character(Qube* pStart, Type type)
 {
 }
 
+Character::Character(Character const& other)
+	:m_pCurrentQube(other.m_pCurrentQube),
+	m_pSubject(new Subject(*other.m_pSubject)),
+	m_Type(other.m_Type),
+	m_State(other.m_State),
+	m_pJumper(other.m_pJumper),
+	m_pIdleText(other.m_pIdleText),
+	m_pJumpText(other.m_pJumpText),
+	m_FacingDirection(other.m_FacingDirection)
+{
+	
+}
+
 void Character::Initialize()
 {
 	MoveToCurrentQube();

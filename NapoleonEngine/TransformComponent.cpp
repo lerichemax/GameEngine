@@ -42,6 +42,13 @@ void TransformComponent::Scale(float x, float y, float z)
 	m_Scale.z = z;
 }
 
+void TransformComponent::Scale(glm::vec3 const& scale)
+{
+	m_Scale.x = scale.x;
+	m_Scale.y = scale.y;
+	m_Scale.z = scale.z;
+}
+
 void TransformComponent::Scale(float uniformScale)
 {
 	m_Scale.x = uniformScale;
@@ -56,4 +63,9 @@ TransformComponent& TransformComponent::operator=(TransformComponent const& rhs)
 	m_Position.z = rhs.m_Position.z;
 
 	return *this;
+}
+
+void TransformComponent::Rotate(float rot)
+{
+	m_Rotation = rot;
 }

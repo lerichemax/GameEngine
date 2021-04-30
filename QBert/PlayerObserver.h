@@ -2,7 +2,8 @@
 #include "Observer.h"
 
 namespace empire {
-	class UIObject;
+	class TextRendererComponent;
+	
 }
 
 enum class PlayerEvent
@@ -20,12 +21,12 @@ class Pyramid;
 class PlayerObserver final : public empire::Observer
 {
 public:
-	PlayerObserver(empire::UIObject* const pPoints, empire::UIObject* const pLives, Pyramid* const pPyramid); //temp default
+	PlayerObserver(empire::TextRendererComponent* const pPoints, empire::TextRendererComponent* const pLives, Pyramid* const pPyramid); 
 	~PlayerObserver() = default;
 	void Notify(empire::Component* object, int event) override;
 
 private:
-	empire::UIObject* const m_pPointsCounter;
-	empire::UIObject* const m_LivesCounter;
+	empire::TextRendererComponent* const m_pPointsCounter;
+	empire::TextRendererComponent* const m_LivesCounter;
 	Pyramid* const m_pPyramid;
 };

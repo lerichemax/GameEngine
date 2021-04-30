@@ -9,11 +9,21 @@
 
 #include <thread>
 
-Coily::Coily(Pyramid* pPyramid, Qube* pQube)
-	: Enemy(pQube, 500),
+Coily::Coily(Pyramid* pPyramid)
+	: Enemy(500),
 	m_pPyramid(pPyramid),
 	m_bIsTransformed(false)
 {}
+
+Coily::Coily(Coily const& other)
+	:Enemy(other),
+	m_pPyramid(other.m_pPyramid),
+	m_bIsTransformed(other.IsTransformed()),
+	m_bIsIdle(other.m_bIsIdle),
+	m_CurrentlyInQueue(0)
+{
+}
+
 
 void Coily::Initialize()
 {

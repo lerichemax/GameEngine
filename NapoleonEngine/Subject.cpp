@@ -4,6 +4,16 @@
 
 using namespace empire;
 
+Subject::Subject(Subject const& other)
+	:m_pObservers{},
+	m_NbrObservers(other.m_NbrObservers)
+{
+	for (unsigned int i{}; i < MAX_OBSERVERS; ++i)
+	{
+		m_pObservers[i] = other.m_pObservers[i];
+	}
+}
+
 void Subject::AddObserver(Observer* pObserver)
 {
 	if (m_NbrObservers < MAX_OBSERVERS)

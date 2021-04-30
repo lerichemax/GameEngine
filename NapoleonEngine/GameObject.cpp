@@ -15,6 +15,18 @@ GameObject::GameObject()
 	AddComponent(m_pTransform);
 }
 
+GameObject::GameObject(const GameObject& other)
+	:m_pTransform(nullptr),
+	m_IsActive(true),
+	m_pScene(nullptr)
+{
+	for (Component* pComp : other.m_pComponents)
+	{
+		AddComponent(pComp->Clone());
+	}
+	m_pTransform = GetComponent<TransformComponent>();
+}
+
 GameObject::~GameObject()
 {
 	for (auto pChild : m_pChildren)

@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="DiskPrefab.cpp">
-      <Filter>GamePrefabs</Filter>
-    </ClCompile>
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -14,9 +11,6 @@
     </ClCompile>
     <ClCompile Include="QBertScene.cpp">
       <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="QubePrefab.cpp">
-      <Filter>GamePrefabs</Filter>
     </ClCompile>
     <ClCompile Include="QubeObserver.cpp">
       <Filter>Observers</Filter>
@@ -39,17 +33,11 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="CoilyPrefab.cpp">
-      <Filter>GamePrefabs</Filter>
-    </ClCompile>
     <ClCompile Include="Coily.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
     <ClCompile Include="SlickSam.cpp">
       <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="SlickSamPrefab.cpp">
-      <Filter>GamePrefabs</Filter>
     </ClCompile>
     <ClCompile Include="EnemyObserver.cpp">
       <Filter>Observers</Filter>
@@ -60,12 +48,12 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="WrongWay.cpp">
+      <Filter>GameScripts\Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="DiskPrefab.h">
-      <Filter>GamePrefabs</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -74,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="QBertScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="QubePrefab.h">
-      <Filter>GamePrefabs</Filter>
     </ClInclude>
     <ClInclude Include="QubeObserver.h">
       <Filter>Observers</Filter>
@@ -99,17 +84,11 @@
     <ClInclude Include="Enemy.h">
       <Filter>GameScripts\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="CoilyPrefab.h">
-      <Filter>GamePrefabs</Filter>
-    </ClInclude>
     <ClInclude Include="Coily.h">
       <Filter>GameScripts\Characters</Filter>
     </ClInclude>
     <ClInclude Include="SlickSam.h">
       <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="SlickSamPrefab.h">
-      <Filter>GamePrefabs</Filter>
     </ClInclude>
     <ClInclude Include="EnemyObserver.h">
       <Filter>Observers</Filter>
@@ -120,6 +99,9 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
+    <ClInclude Include="WrongWay.h">
+      <Filter>GameScripts\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -127,9 +109,6 @@
   <ItemGroup>
     <Filter Include="Scenes">
       <UniqueIdentifier>{9a549e60-3b03-4304-a10a-d5afc2e70f76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GamePrefabs">
-      <UniqueIdentifier>{18244bd8-5ee0-45d2-a090-0ea045f976e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Observers">
       <UniqueIdentifier>{701180cf-1e32-4f4e-8fb2-3dd275053292}</UniqueIdentifier>

@@ -11,7 +11,11 @@
 #include "Renderer.h"
 #include "ServiceLocator.h"
 #include "Timer.h"
+#include "PrefabsManager.h"
 
+#include "TextRendererComponent.h"
+#include "TransformComponent.h"
+#include "FPSCounter.h"
 using namespace std;
 
 void empire::NapoleonEngine::Initialize()
@@ -43,6 +47,17 @@ void empire::NapoleonEngine::Initialize()
 	Renderer::GetInstance().Init(m_Window);
 	
 	std::srand(unsigned int(time(nullptr)));
+
+	auto fpsCounter = new GameObject{};
+	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
+	fpsCounter->AddComponent(new FPSCounter{});
+	fpsCounter->GetTransform()->Translate(20.f, 20.f);
+	PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
+
+	auto uiObject = new GameObject;
+	uiObject->AddComponent(new TextRendererComponent{"text", font});
+	PrefabsManager::GetInstance().AddPrefab("UIObject", uiObject);
 }
 
 void empire::NapoleonEngine::Cleanup()

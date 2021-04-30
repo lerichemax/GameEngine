@@ -16,6 +16,16 @@ TextRendererComponent::TextRendererComponent(std::string const& text, Font* cons
 {
 }
 
+TextRendererComponent::TextRendererComponent(TextRendererComponent const& other)
+	:RendererComponent(other.m_Layer),
+	m_Text(other.m_Text),
+	m_pFont(other.m_pFont),
+	m_NeedsUpdate(other.m_NeedsUpdate),
+	m_TextColor(other.m_TextColor)
+{
+	
+}
+
 TextRendererComponent::~TextRendererComponent()
 {
 	delete m_pTexture;

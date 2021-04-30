@@ -10,13 +10,13 @@ namespace empire
 {
 	
 	class TransformComponent;
-	class GameObject
+	class GameObject final
 	{
 		friend class Scene;
 	public:
 		GameObject();
 		virtual ~GameObject();
-		GameObject(const GameObject& other) = delete;
+
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
@@ -43,6 +43,7 @@ namespace empire
 		Scene* const GetParentScene() const { return m_pScene; }
 	
 	private:
+		friend class PrefabsManager;
 		
 		bool m_IsActive;
 
@@ -55,6 +56,8 @@ namespace empire
 
 		void Refresh();
 		void Initialize();
+
+		GameObject(const GameObject& other);
 	};
 
 	template <class T>

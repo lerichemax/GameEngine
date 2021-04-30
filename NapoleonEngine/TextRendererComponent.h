@@ -11,7 +11,9 @@ namespace empire
 	{
 	public:
 		TextRendererComponent(std::string const& text, Font* const pFont);
-		TextRendererComponent(TextRendererComponent const& other) = delete;
+
+		TextRendererComponent* Clone() override { return new TextRendererComponent(*this); }
+		
 		TextRendererComponent(TextRendererComponent&& other) = delete;
 		TextRendererComponent& operator=(TextRendererComponent const& rhs) = delete;
 		TextRendererComponent& operator=(TextRendererComponent&& rhs) = delete;
@@ -30,5 +32,7 @@ namespace empire
 		SDL_Color m_TextColor;
 
 		void Initialize() override;
+
+		TextRendererComponent(TextRendererComponent const& other);
 	};
 }

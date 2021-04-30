@@ -8,20 +8,20 @@
 #include "ObserverManager.h"
 #include "Timer.h"
 #include "ObserverManager.h"
+#include "PrefabsManager.h"
+#include "ResourceManager.h"
 
 #include "QubeObserver.h"
-#include "QubePrefab.h"
 #include "QBert.h"
 #include "Qube.h"
-#include "CoilyPrefab.h"
 #include "Coily.h"
-#include "SlickSamPrefab.h"
 #include "EnemyObserver.h"
 #include "SlickSam.h"
+#include "EnemyManager.h"
 
 #include <list>
 
-#include "EnemyManager.h"
+
 
 Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
 	:MAX_WIDTH(maxWidth),
@@ -30,6 +30,7 @@ Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
 	ObserverManager::GetInstance().AddObserver(10, new QubeObserver{ this, pQbert });
 	ObserverManager::GetInstance().AddObserver(30, new EnemyObserver{ this });//hardcoded id, change later	
 }
+
 
 Pyramid::~Pyramid()
 {
@@ -54,7 +55,7 @@ void Pyramid::DiskSpawnerTimer()
 		}
 		else
 		{
-			m_pQubes[FindOutsideQubeIndex()]->AddConnectionToDisk(m_pQubes.front());
+			m_pQubes[FindOutsideQubeIndex()]->AddConnectionToDisk();
 			m_DiskSpawnTimer = 0;
 			m_NbrDisksSpawned++;
 		}
@@ -75,7 +76,8 @@ void Pyramid::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			auto pQube = new QubePrefab{ lastPos };
+			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
+
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			m_pQubes.back()->GetSubject()->AddObserver(observer);
 			
@@ -97,6 +99,8 @@ void Pyramid::Initialize()
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 
 	CreateConnections();
+	CreateEscheresqueLeftConnections();
+	CreateEscheresqueRightConnections();
 }
 
 void Pyramid::CreateConnections()
@@ -132,6 +136,58 @@ void Pyramid::CreateConnections()
 		{
 			m_pQubes[i]->AddConnection(ConnectionDirection::downRight, m_pQubes[rightChild]);
 			m_pQubes[rightChild]->AddConnection(ConnectionDirection::upLeft, m_pQubes[i]);
+		}
+	}
+}
+
+void Pyramid::CreateEscheresqueRightConnections()
+{
+	unsigned int idx = m_pQubes.size() - MAX_WIDTH;
+	int nextlineStartIdx{};
+
+	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	{
+		for (unsigned int j = 0; j < i; j++)
+		{
+			if (j == 0)
+			{
+				nextlineStartIdx = idx - (i - 1);
+			}
+			if (j != i - 1)
+			{
+				m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downLeft, m_pQubes[idx - (i - 1)]);
+				m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downRight, m_pQubes[idx + 1]);
+				if (j != 0)
+				{
+					m_pQubes[idx - (i - 1)]->AddEscheresqueRightConnection(ConnectionDirection::upRight, m_pQubes[idx]);
+					m_pQubes[idx + 1]->AddEscheresqueRightConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
+				}
+			}
+			idx++;
+		}
+		idx = nextlineStartIdx;
+	}
+}
+
+void Pyramid::CreateEscheresqueLeftConnections()
+{
+	unsigned int idx = m_pQubes.size() - 1;
+	
+	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	{
+		for (unsigned int j = 0; j < i; j++)
+		{
+			if (j != i - 1)
+			{
+				m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downLeft, m_pQubes[idx - 1]);
+				m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downRight, m_pQubes[idx - i]);
+				if (j!=0)
+				{
+					m_pQubes[idx - 1]->AddEscheresqueLeftConnection(ConnectionDirection::upRight, m_pQubes[idx]);
+					m_pQubes[idx - i]->AddEscheresqueLeftConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
+				}
+			}
+			idx--;
 		}
 	}
 }

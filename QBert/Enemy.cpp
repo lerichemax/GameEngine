@@ -6,8 +6,8 @@
 #include "Timer.h"
 #include "QBert.h"
 
-Enemy::Enemy(Qube* pQube, int pointsForKill)
-	:Character(pQube, Type::enemy),
+Enemy::Enemy(int pointsForKill)
+	:Character(nullptr, Type::enemy),
 	POINTS_FOR_KILL(pointsForKill)
 {}
 

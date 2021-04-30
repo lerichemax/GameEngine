@@ -5,14 +5,17 @@
 class Enemy : public Character
 {
 public:
-	Enemy(Qube* pQube, int pointsForKill);
+	Enemy(int pointsForKill);
 	virtual ~Enemy() override  = default;
+
+	virtual Enemy* Clone() override { return new Enemy(*this); }
 	
 	virtual void Update() override;
 	virtual void Move(ConnectionDirection direction) override;
 	virtual void Die() override;
 
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
+	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
 protected:
 	friend class EnemyManager;
 	
@@ -25,8 +28,17 @@ protected:
 	//void LandOnQube() override{}
 	void SetDirectionTextures(ConnectionDirection) override {}
 
+	Enemy(Enemy const& other)
+		:Character(other),
+		POINTS_FOR_KILL(other.POINTS_FOR_KILL),
+		m_MoveTimer()
+	{}
+
 private:
 	float const MOVE_MAX_TIME{ 1.f };
 	
 	float m_MoveTimer;
+
+	
+	
 };

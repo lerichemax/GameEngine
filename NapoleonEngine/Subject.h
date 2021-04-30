@@ -10,7 +10,7 @@ namespace empire
 	{
 	public:
 		Subject() = default;
-		Subject(Subject const& other) = delete;
+		Subject(Subject const& other);
 		Subject(Subject&& other) = delete;
 		Subject& operator=(Subject const& rhs) = delete;
 		Subject& operator=(Subject&& rhs) = delete;

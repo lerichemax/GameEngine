@@ -27,7 +27,8 @@ class Qube final : public Component
 	friend void QubeObserver::Notify(empire::Component* object, int event);
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
-	Qube(Qube const& other) = delete;
+	Qube* Clone() override { return new Qube{*this}; }
+
 	Qube(Qube&& other) = delete;
 	Qube& operator=(Qube const& rhs) = delete;
 	Qube& operator=(Qube&& rhs) = delete;
@@ -44,6 +45,7 @@ public:
 	Character* GetCharacter() const { return m_pCharacter; }
 	
 	bool HasConnection(ConnectionDirection dir) const;
+	bool HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
 	bool IsFlipped() const { return m_bIsFlipped; }
 	bool HasConnectionToDisk() const { return m_pDiskConnection != nullptr; }
 	bool HasCharacter() const{ return m_pCharacter != nullptr;}
@@ -55,7 +57,10 @@ public:
 	void SetTexture(Texture2D* pText);
 	
 	void AddConnection(ConnectionDirection dir, Qube* const pConnection);
-	void AddConnectionToDisk(Qube* top);
+	void AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection);
+	void AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection);
+	
+	void AddConnectionToDisk();
 	void QBertJump();
 	void Reset();
 	void CharacterJumpIn(Character* pCharacter);
@@ -64,6 +69,9 @@ private:
 	unsigned int static const MAX_NBR_CONNECTION = 4;
 	
 	Qube* m_pConnections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
+	Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
+	Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
+	
 	ColoredDisk* m_pDiskConnection;
 	
 	Texture2D* m_pDefaultText;
@@ -85,4 +93,6 @@ private:
 	void Flip();
 	void IntermediateFlip();
 	void UnFlip();
+
+	Qube(Qube const& other);
 };

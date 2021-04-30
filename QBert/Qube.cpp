@@ -6,8 +6,8 @@
 #include "Subject.h"
 
 #include "QubeObserver.h"
-#include "DiskPrefab.h"
 #include "ColoredDisk.h"
+#include "PrefabsManager.h"
 #include "SlickSam.h"
 
 Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
@@ -16,8 +16,26 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	m_pFlippedTexture(pFlippedText),
 	m_pSubject(new Subject{}),
 	m_pConnections{nullptr},
-	m_CharacterPos()
+	m_CharacterPos(),
+	m_pCharacter(nullptr)
 {
+}
+
+Qube::Qube(Qube const& other)
+	:m_pDefaultText(other.m_pDefaultText),
+	m_pIntermediateTexture(other.m_pIntermediateTexture),
+	m_pFlippedTexture(other.m_pFlippedTexture),
+	m_pSubject(new Subject{}),
+	m_pConnections{  },
+	m_CharacterPos(),
+	m_pCharacter(other.m_pCharacter)
+{
+	for (unsigned int i{}; i <MAX_NBR_CONNECTION;++i)
+	{
+		m_pConnections[i] = other.m_pConnections[i];
+		m_pEscheresqueLeftConnections[i] = other.m_pEscheresqueLeftConnections[i];
+		m_pEscheresqueRightConnections[i] = other.m_pEscheresqueRightConnections[i];
+	}
 }
 
 void Qube::Initialize()
@@ -51,12 +69,32 @@ void Qube::SetTexture(Texture2D* pText)
 
 void Qube::AddConnection(ConnectionDirection dir, Qube* const pConnection)
 {
-	m_pConnections[(int)dir] = pConnection;
+	if (dir != ConnectionDirection::null)
+	{
+		m_pConnections[(int)dir] = pConnection;
+	}
 }
 
-void Qube::AddConnectionToDisk(Qube* top)
+void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection)
 {
-	auto pDisk = new DiskPrefab{top};
+	if (dir != ConnectionDirection::null)
+	{
+		m_pEscheresqueRightConnections[(int)dir] = pConnection;
+	}
+	
+}
+
+void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection)
+{
+	if (dir != ConnectionDirection::null)
+	{
+		m_pEscheresqueLeftConnections[(int)dir] = pConnection;
+	}
+}
+
+void Qube::AddConnectionToDisk()
+{
+	auto pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
 	
 	auto parentPos = m_pGameObject->GetTransform()->GetPosition();
 	if (!HasConnection(ConnectionDirection::upLeft))
@@ -80,6 +118,18 @@ void Qube::AddConnectionToDisk(Qube* top)
 bool Qube::HasConnection(ConnectionDirection dir) const
 {
 	return m_pConnections[(int)dir] != nullptr;
+}
+
+bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
+{
+	if (escheresqueRight)
+	{
+		return m_pEscheresqueRightConnections[(int)dir] != nullptr;
+	}
+	else
+	{
+		return m_pEscheresqueLeftConnections[(int)dir] != nullptr;
+	}
 }
 
 void Qube::QBertJump()

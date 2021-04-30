@@ -8,7 +8,7 @@ class ColoredDisk final : public empire::Component
 {
 public:
 	ColoredDisk(Qube* top);
-
+	ColoredDisk* Clone() override { return new ColoredDisk(*this); }
 	void Update() override;
 
 	void ReceivePlayer(QBert* pQbert);

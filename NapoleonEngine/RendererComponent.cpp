@@ -25,6 +25,12 @@ RendererComponent::RendererComponent(Texture2D* pText, Layer layer)
 {
 }
 
+RendererComponent::RendererComponent(RendererComponent const& other)
+	:m_pTexture(other.m_pTexture), //shallow copy okay since the resource is managed by ResourceManager
+	m_Layer(other.m_Layer)
+{
+}
+
 RendererComponent::~RendererComponent()
 {
 	m_pSceneRenderer->RemoveFromGroup(this, m_Layer);
@@ -36,7 +42,7 @@ void RendererComponent::Render(TransformComponent const& transform) const
 	if (m_pTexture != nullptr)
 	{
 		const auto pos = transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y, GetTextureWidth(), GetTextureHeight());
+		Renderer::GetInstance().RenderTexture(*m_pTexture, transform);
 	}
 }
 

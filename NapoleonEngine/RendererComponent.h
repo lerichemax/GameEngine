@@ -22,7 +22,9 @@ namespace empire
 		RendererComponent(Layer layer = Layer::background);
 		RendererComponent(std::string const& filename, Layer layer = Layer::background);
 		RendererComponent(Texture2D* pText, Layer layer = Layer::background);
-		RendererComponent(RendererComponent const& other) = delete;
+
+		RendererComponent* Clone() override { return new RendererComponent(*this); }
+
 		RendererComponent(RendererComponent&& other) = delete;
 		RendererComponent& operator=(RendererComponent const& rhs) = delete;
 		RendererComponent& operator=(RendererComponent&& rhs) = delete;
@@ -47,5 +49,8 @@ namespace empire
 		SceneRenderer* m_pSceneRenderer;
 		
 		void Initialize() override;
+
+	private:
+		RendererComponent(RendererComponent const& other);
 	};
 }

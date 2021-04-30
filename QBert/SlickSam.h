@@ -5,7 +5,8 @@ class Qube;
 class SlickSam final : public Enemy
 {
 public:
-	SlickSam(Qube* pQube);
+	SlickSam();
+	SlickSam* Clone() override { return new SlickSam(*this); }
 	~SlickSam() override;
 	
 	void Die() override;
@@ -17,4 +18,6 @@ private:
 
 	void Initialize() override;
 	void SetTexture();
+
+	SlickSam(SlickSam const& other);
 };

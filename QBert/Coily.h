@@ -6,8 +6,8 @@ class Qube;
 class Coily final : public Enemy
 {
 public:
-	Coily(Pyramid* pPyramid, Qube* pQube);
-
+	Coily(Pyramid* pPyramid);
+	Coily* Clone() override { return new Coily(*this); }
 	void Update() override;
 
 	bool IsTransformed() const { return m_bIsTransformed; }
@@ -16,7 +16,7 @@ public:
 	void Move(ConnectionDirection direction) override;
 	void SetIsIdle(bool isIdle);
 	void MeetCharacter(Character* pOther) override;
-	
+	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	void Die() override;
 protected:
 	ConnectionDirection ChooseDirection() override;
@@ -35,4 +35,6 @@ private:
 
 	void Initialize() override;
 	void FindQBert();
+
+	Coily(Coily const& other);
 };

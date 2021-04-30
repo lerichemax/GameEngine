@@ -8,8 +8,14 @@
 
 int SlickSam::m_NbrInstances{};
 
-SlickSam::SlickSam(Qube* pQube)
-	:Enemy(pQube, 300)
+SlickSam::SlickSam()
+	:Enemy(300)
+{
+	m_NbrInstances++;
+}
+
+SlickSam::SlickSam(SlickSam const& other)
+	:Enemy(other)
 {
 	m_NbrInstances++;
 }

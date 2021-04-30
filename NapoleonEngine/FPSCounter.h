@@ -1,14 +1,22 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 
 namespace empire
 {
-	class FPSCounter final : public GameObject
+	class TextRendererComponent;
+	class FPSCounter final : public Component
 	{
 	public:
-		FPSCounter();
+		FPSCounter() = default;
 		~FPSCounter() = default;
 
+		FPSCounter* Clone() override { return new FPSCounter(*this); }
+		
+		void Initialize() override;
 		void Update() override;
+	private:
+		TextRendererComponent* m_pTextComp;
+
+		
 	};
 }

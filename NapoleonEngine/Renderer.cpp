@@ -77,7 +77,6 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-
 }
 
 void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
@@ -89,6 +88,21 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
+
+void empire::Renderer::RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const
+{
+	glPushMatrix();
+	{
+		glTranslatef(pTransform.GetPosition().x , pTransform.GetPosition().y , 0);
+		glRotatef(pTransform.GetRotation(), 0, 0, 1);
+		glScalef(pTransform.GetScale().x, pTransform.GetScale().y, 0);
+		glTranslatef(-pTransform.GetPosition().x , -pTransform.GetPosition().y , 0);
+		
+		RenderTexture(texture, pTransform.GetPosition().x, pTransform.GetPosition().y);
+	}
+	glPopMatrix();
+}
+
 
 int Renderer::GetOpenGLDriverIndex()
 {
@@ -107,4 +121,3 @@ int Renderer::GetOpenGLDriverIndex()
 	}
 	return oglIdx;
 }
-

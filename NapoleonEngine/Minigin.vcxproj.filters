@@ -45,9 +45,6 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="UIObject.h">
-      <Filter>SceneObjects</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -137,6 +134,9 @@
     <ClInclude Include="SceneRenderer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="PrefabsManager.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -150,9 +150,6 @@
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="UIObject.cpp">
-      <Filter>SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Managers</Filter>
@@ -234,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="SceneRenderer.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabsManager.cpp">
+      <Filter>Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

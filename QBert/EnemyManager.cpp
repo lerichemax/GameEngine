@@ -1,14 +1,12 @@
 #include "PCH.h"
 #include "EnemyManager.h"
-#include "CoilyPrefab.h"
-#include "SlickSamPrefab.h"
 #include "Coily.h"
 #include "SlickSam.h"
+#include "Pyramid.h"
 
 #include "Timer.h"
 #include "ObserverManager.h"
-#include "Pyramid.h"
-#include "Qube.h"
+#include "PrefabsManager.h"
 
 EnemyManager::EnemyManager(Pyramid* const pPyramid)
 	: m_pPyramid(pPyramid),
@@ -37,12 +35,14 @@ void EnemyManager::CoilySpawnerTimer()
 		}
 
 		int random{ rand() % 2 + 1 };
-		auto coily = new CoilyPrefab(m_pPyramid->GetQubes()[random], m_pPyramid);
-		AddCoilyToArray(coily->GetComponent<Coily>());
-		coily->GetComponent<Coily>()->GetSubject()->AddObserver(empire::ObserverManager::GetInstance().GetObserver(30));
+		GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
+		pCoily->GetComponent<Coily>()->SetQube(m_pPyramid->GetQubes()[random]);
+
+		AddCoilyToArray(pCoily->GetComponent<Coily>());
+		pCoily->GetComponent<Coily>()->GetSubject()->AddObserver(empire::ObserverManager::GetInstance().GetObserver(30));
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
-		m_pPyramid->GetGameObject()->AddChild(coily);
+		m_pPyramid->GetGameObject()->AddChild(pCoily);
 		std::cout << "Coily spawned\n";
 	}
 }
@@ -71,10 +71,12 @@ void EnemyManager::SlickSamSpawnerTimer()
 		else
 		{
 			int random{ rand() % 2 + 1 };
-			auto slickSamP = new SlickSamPrefab(m_pPyramid->GetQubes()[random]);
-			AddSlickSamToArray(slickSamP->GetComponent<SlickSam>());
-			m_pPyramid->GetGameObject()->AddChild(slickSamP);
-			slickSamP->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
+			GameObject* pSlickSam = PrefabsManager::GetInstance().Instantiate("SlickSam");
+			pSlickSam->GetComponent<SlickSam>()->SetQube(m_pPyramid->GetQubes()[random]);
+			
+			AddSlickSamToArray(pSlickSam->GetComponent<SlickSam>());
+			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
+			pSlickSam->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
 			std::cout << "Slick Sam spawned\n";

@@ -27,6 +27,12 @@ class Character : public empire::Component
 {
 public:
 	Character(Qube* pStart, Type type);
+	Character(Character&& other) = delete;
+	Character& operator=(Character const& rhs) = delete;
+	Character& operator=(Character&& rhs) = delete;
+
+	virtual Character* Clone() override = 0;
+	
 	virtual ~Character();
 	
 	virtual void Update(); 
@@ -61,4 +67,7 @@ protected:
 	
 	virtual void LandOnQube();
 	void MoveToCurrentQube();
+
+	Character(Character const& other);
+	
 };
