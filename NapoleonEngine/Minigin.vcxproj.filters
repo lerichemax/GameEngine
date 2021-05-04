@@ -119,9 +119,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>SceneObjects</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>Prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="PCH.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -136,6 +133,10 @@
     </ClInclude>
     <ClInclude Include="PrefabsManager.h">
       <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger.h" />
+    <ClInclude Include="FPSCounter.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,9 +221,6 @@
       <Filter>SceneObjects</Filter>
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp" />
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>Prefabs</Filter>
-    </ClCompile>
     <ClCompile Include="ObserverManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -234,6 +232,10 @@
     </ClCompile>
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

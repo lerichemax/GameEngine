@@ -33,7 +33,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			pQ->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 			pQ->SetCanMove();
 			
-			std::cout << "YOU DIED !\n";
+			Debugger::GetInstance().Log("YOU DIED !");
 			break;
 		}
 	case PlayerEvent::PlayerJumpOut:
@@ -42,7 +42,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		object->GetGameObject()->GetComponent<QBert>()->SetCurrentQube(m_pPyramid->GetTop());
 		m_pPyramid->Reset();
-		std::cout << "YOU DIED !\n";
+		Debugger::GetInstance().Log("YOU DIED !");
 		break;
 	case PlayerEvent::IncreasePoints:
 		{
@@ -52,7 +52,7 @@ void PlayerObserver::Notify(Component* object, int event)
 		}
 		break;
 	case PlayerEvent::GameOver:
-		std::cout << "GAME OVER\n";
+		Debugger::GetInstance().Log("GAME OVER");
 		static_cast<QBertScene*>(object->GetGameObject()->GetParentScene())->ResetGame();
 		break;
 	case PlayerEvent::JumpOnDisk:

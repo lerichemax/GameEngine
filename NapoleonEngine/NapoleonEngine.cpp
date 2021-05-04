@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include "NapoleonEngine.h"
 
-#include <SDL.h>
 #include <SDL_mixer.h>
 #include <functional>
 
@@ -16,6 +15,7 @@
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
 #include "FPSCounter.h"
+
 using namespace std;
 
 void empire::NapoleonEngine::Initialize()
@@ -40,7 +40,9 @@ void empire::NapoleonEngine::Initialize()
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
-		std::cerr << "Core::Initialize( ), error when calling Mix_OpenAudio: " << Mix_GetError() << std::endl;
+		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
+		errorMsg += Mix_GetError ();
+		Debugger::GetInstance().LogError(errorMsg);
 		return;
 	}
 	
@@ -79,16 +81,15 @@ void empire::NapoleonEngine::Run()
 {
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
-	
+
 	Initialize();
 
 	LoadGame();
-
+	
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-
 		bool doContinue = true;
 	
 		while (doContinue)

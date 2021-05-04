@@ -36,7 +36,6 @@ void QBert::Initialize()
 QBert::~QBert()
 {
 	m_PlayerNbr--;
-	delete m_pSubject;
 }
 
 void QBert::Die()

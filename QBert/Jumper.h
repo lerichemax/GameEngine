@@ -11,8 +11,8 @@ public:
 
 	void SetIsNotDead() { m_bIsDead = false; };
 	
-	void Jump(glm::vec3 const& startPos, glm::vec3 const& targetPos);
-	void JumpToDeath(glm::vec3 const& startPos, float xDist);
+	void Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos);
+	void JumpToDeath(glm::vec2 const& startPos, float xDist);
 	bool IsJumping() const { return m_bIsJumping; }
 	bool IsDead() const { return m_bIsDead; }
 
@@ -26,8 +26,8 @@ private:
 	bool m_bIsJumping{false};
 	bool m_bIsDead{ false };
 
-	float m_FallTime;
+	float m_FallTime{};
 	
-	glm::vec3 m_TargetPos;
-	glm::vec3 m_Halfway;
+	glm::vec2 m_TargetPos{};
+	glm::vec2 m_Halfway{};
 };

@@ -38,7 +38,4 @@ private:
 	float const MOVE_MAX_TIME{ 1.f };
 	
 	float m_MoveTimer;
-
-	
-	
 };

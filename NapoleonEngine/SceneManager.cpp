@@ -34,7 +34,7 @@ void SceneManager::LoadScene(std::string const& name)
 	auto scene = m_pScenesMap.at(name);
 	if (scene == nullptr)
 	{
-		std::cout << "Wrong scene name!\n";
+		Debugger::GetInstance().Log("Wrong scene name!");
 		return;
 	}
 	if (!scene->IsActive())

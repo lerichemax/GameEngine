@@ -21,7 +21,7 @@ void LoggingSoundSystem::Play(unsigned int id, float volume)
 		m_pRealSoundSystem->Play(id, volume);
 	}
 
-	std::cout << "Playing " << id << " at volume " << volume << std::endl;
+	Debugger::GetInstance().Log("Playing " + std::to_string(id) + " at volume " + std::to_string(volume));
 }
 
 void LoggingSoundSystem::Update()

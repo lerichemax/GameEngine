@@ -37,8 +37,9 @@ public:
 	void Initialize() override;
 	void Update() override;
 	
-	glm::vec3 GetCharacterPos() const { return m_CharacterPos; }
+	glm::vec2 GetCharacterPos() const { return m_CharacterPos; }
 	Qube* GetConnection(ConnectionDirection dir) const { return m_pConnections[(int)dir]; }
+	Qube* GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
 	Subject* const GetSubject() const { return m_pSubject; }
 	unsigned int GetJumpCounter() const { return m_JumpCounter; }
 	ColoredDisk* GetConnectedDisk() const;
@@ -80,7 +81,9 @@ private:
 
 	Character* m_pCharacter;
 	
-	glm::vec3 m_CharacterPos;
+	glm::vec2 m_CharacterPos;
+	glm::vec2 m_EscheresqueLeftPos;
+	glm::vec2 m_EscheresqueRightPos;
 	
 	bool m_bIsFlipped;
 	bool m_bIsLastRow{ false };

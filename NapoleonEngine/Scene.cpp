@@ -28,6 +28,7 @@ void Scene::CleanUpScene()
 		delete pObject;
 	}
 	m_pObjects.clear();
+	delete m_pSceneRenderer;
 }
 
 void Scene::Add(GameObject* object)

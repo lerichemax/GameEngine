@@ -112,7 +112,7 @@ void Qube::AddConnectionToDisk()
 	m_pGameObject->AddChild(pDisk);
 	
 	m_pDiskConnection = pDisk->GetComponent<ColoredDisk>();
-	std::cout << "Disk spawned\n";
+	Debugger::GetInstance().Log("Disk spawned");
 }
 
 bool Qube::HasConnection(ConnectionDirection dir) const
@@ -129,6 +129,18 @@ bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRig
 	else
 	{
 		return m_pEscheresqueLeftConnections[(int)dir] != nullptr;
+	}
+}
+
+Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
+{
+	if (escheresqueRight)
+	{
+		return m_pEscheresqueRightConnections[(int)dir];
+	}
+	else
+	{
+		return m_pEscheresqueLeftConnections[(int)dir];
 	}
 }
 

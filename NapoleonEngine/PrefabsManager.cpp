@@ -16,7 +16,7 @@ void PrefabsManager::AddPrefab(std::string const& key, GameObject* pPrefab)
 {
 	if (m_pPrefabs.find(key) != m_pPrefabs.end())
 	{
-		std::cout << "Prefab already created\n";
+		Debugger::GetInstance().Log("Prefab already created");
 		return;
 	}
 	
@@ -27,7 +27,7 @@ GameObject* PrefabsManager::Instantiate(std::string const& key) const
 {
 	if (m_pPrefabs.find(key) == m_pPrefabs.end())
 	{
-		std::cout << "Prefab " << key <<" not found\n";
+		Debugger::GetInstance().Log("Prefab " + key + " not found");
 		return nullptr;
 	}
 	auto prefab = m_pPrefabs.at(key);
@@ -40,7 +40,7 @@ GameObject* PrefabsManager::Instantiate(std::string const& key, TransformCompone
 {
 	if (m_pPrefabs.find(key) == m_pPrefabs.end())
 	{
-		std::cout << "Prefab not found\n";
+		Debugger::GetInstance().Log("Prefab not found");
 		return nullptr;
 	}
 	auto prefab = m_pPrefabs.at(key);
@@ -55,7 +55,7 @@ GameObject* PrefabsManager::Instantiate(std::string const& key, glm::vec2 const&
 {
 	if (m_pPrefabs.find(key) == m_pPrefabs.end())
 	{
-		std::cout << "Prefab not found\n";
+		Debugger::GetInstance().Log("Prefab not found");
 		return nullptr;
 	}
 	auto prefab = m_pPrefabs.at(key);
@@ -63,11 +63,3 @@ GameObject* PrefabsManager::Instantiate(std::string const& key, glm::vec2 const&
 	toReturn->GetTransform()->Translate(pos);
 	return toReturn;
 }
-//GameObject* PrefabsManager::Instantiate(std::string const& key, glm::vec3 const& pos, glm::vec3 const& scale) const
-//{
-//	
-//}
-//GameObject* PrefabsManager::Instantiate(std::string const& key, glm::vec3 const& pos, glm::vec3 const& scale, float rot) const
-//{
-//
-//}

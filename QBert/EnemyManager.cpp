@@ -43,7 +43,7 @@ void EnemyManager::CoilySpawnerTimer()
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
 		m_pPyramid->GetGameObject()->AddChild(pCoily);
-		std::cout << "Coily spawned\n";
+		Debugger::GetInstance().Log("Coily spawned");
 	}
 }
 
@@ -79,7 +79,7 @@ void EnemyManager::SlickSamSpawnerTimer()
 			pSlickSam->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
-			std::cout << "Slick Sam spawned\n";
+			Debugger::GetInstance().Log("Slick Sam spawned");
 		}
 	}
 }
@@ -129,7 +129,6 @@ void EnemyManager::Reset()
 		if (pCoily != nullptr)
 		{
 			pCoily->Die();
-			pCoily = nullptr;
 		}
 		
 	}
@@ -140,7 +139,6 @@ void EnemyManager::Reset()
 		if (pSlickSam != nullptr)
 		{
 			pSlickSam->Die();
-			pSlickSam = nullptr;
 		}
 	}
 	m_NbrSlickSam = 0;

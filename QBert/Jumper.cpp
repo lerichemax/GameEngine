@@ -6,7 +6,7 @@
 void Jumper::UpdateJump(empire::TransformComponent* transform)
 {
 	auto pos = transform->GetPosition();
-	glm::vec3 dir{};
+	glm::vec2 dir{};
 	
 	if (!m_bJumpDown)
 	{
@@ -34,7 +34,7 @@ void Jumper::UpdateJump(empire::TransformComponent* transform)
 void Jumper::UpdateFall(empire::TransformComponent* transform)
 {
 	auto pos = transform->GetPosition();
-	glm::vec3 dir{};
+	glm::vec2 dir{};
 
 	if (!m_bJumpDown)
 	{
@@ -62,7 +62,7 @@ void Jumper::UpdateFall(empire::TransformComponent* transform)
 }
 
 
-void Jumper::Jump(glm::vec3 const& startPos, glm::vec3 const& targetPos)
+void Jumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 {
 	m_bIsJumping = true;
 	m_bJumpDown = false;
@@ -80,7 +80,7 @@ void Jumper::Jump(glm::vec3 const& startPos, glm::vec3 const& targetPos)
 	}
 }
 
-void Jumper::JumpToDeath(glm::vec3 const& startPos, float xDist)
+void Jumper::JumpToDeath(glm::vec2 const& startPos, float xDist)
 {
 	m_bIsJumping = true;
 	m_bJumpDown = false;

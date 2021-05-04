@@ -12,7 +12,7 @@ namespace empire
 	{
 	public:
 		TransformComponent();
-		TransformComponent(float x, float y, float z = 0.0f);
+		TransformComponent(float x, float y);
 		TransformComponent* Clone() override { return new TransformComponent(*this); };
 		TransformComponent(TransformComponent const& other) = default;
 		TransformComponent(TransformComponent&& other) = default;
@@ -22,23 +22,24 @@ namespace empire
 		
 		void Update() override {}
 		
-		const glm::vec3& GetPosition() const { return m_Position; }
-		const glm::vec3& GetScale() const { return m_Scale; }
+		const glm::vec2& GetPosition() const { return m_Position; }
+		const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }
+		const glm::vec2& GetScale() const { return m_Scale; }
 		float GetRotation() const { return m_Rotation; }
 		
-		void Translate(float x, float y, float z = 0.f);
-		void Translate(glm::vec3 const& pos);
+		void Translate(float x, float y);
 		void Translate(glm::vec2 const& pos);
-		void Scale(float x, float y, float z = 1);
-		void Scale(glm::vec3 const& scale);
+		void Scale(float x, float y);
+		void Scale(glm::vec2 const& scale);
 		void Scale(float uniformScale);
 		void Rotate(float rot);
 	
 	private:
-		glm::vec3 m_Position;
-		glm::vec3 m_Scale;
+		glm::vec2 m_Position;
+		glm::vec2 m_WorldPosition;
+		glm::vec2 m_Scale;
 		float m_Rotation;
 		
-		void Initialize() override {}
+		void Initialize() override;
 	};
 }

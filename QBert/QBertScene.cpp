@@ -48,7 +48,6 @@ void QBertScene::Initialize()
 	
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pQbert->GetLives()));
 
-
 	//Qube prefab
 	auto qubePf = new GameObject{};
 	auto text = ResourceManager::GetInstance().GetTexture("Qube.png");

@@ -10,6 +10,7 @@ using namespace empire;
 GameObject::GameObject()
 	:m_pTransform(new TransformComponent(0.f, 0.f)),
 	m_IsActive(true),
+	m_IsInitialized(false),
 	m_pScene(nullptr)
 {
 	AddComponent(m_pTransform);
@@ -18,6 +19,7 @@ GameObject::GameObject()
 GameObject::GameObject(const GameObject& other)
 	:m_pTransform(nullptr),
 	m_IsActive(true),
+	m_IsInitialized(other.m_IsInitialized),
 	m_pScene(nullptr)
 {
 	for (Component* pComp : other.m_pComponents)
@@ -73,6 +75,7 @@ void GameObject::Refresh()
 void GameObject::AddChild(GameObject* pChild)
 {
 	m_pChildren.push_back(pChild);
+	pChild->m_pParent = this;
 	pChild->m_pScene = m_pScene;
 	pChild->Initialize();
 }
@@ -81,7 +84,7 @@ void GameObject::AddComponent(Component* pComp)
 {
 	if (typeid(*pComp) == typeid(TransformComponent) && HasComponent<TransformComponent>())
 	{
-		std::cout << "Game object already contains a Transform component\n";
+		Debugger::GetInstance().Log("Game object already contains a Transform component");
 		return;
 	}
 
@@ -91,31 +94,17 @@ void GameObject::AddComponent(Component* pComp)
 
 void GameObject::Initialize()
 {
-	for (auto pComp : m_pComponents)
+	if (!m_IsInitialized)
 	{
-		pComp->Initialize();
+		for (auto pComp : m_pComponents)
+		{
+			pComp->Initialize();
+		}
+
+		for (auto pChild : m_pChildren)
+		{
+			pChild->Initialize();
+		}
+		m_IsInitialized = true;
 	}
-
-	for (auto pChild : m_pChildren)
-	{
-		pChild->Initialize();
-	}
-}
-
-void GameObject::Render() const
-{
-	//if (HasComponent<RendererComponent>())
-	//{
-	//	GetComponent<RendererComponent>()->Render(*GetComponent<TransformComponent>());
-	//}
-
-	//if (HasComponent<TextRendererComponent>())
-	//{
-	//	GetComponent<TextRendererComponent>()->RenderNoScaling(*GetComponent<TransformComponent>());
-	//}
-
-	//for (auto child : m_pChildren)
-	//{
-	//	child->Render();
-	//}
 }

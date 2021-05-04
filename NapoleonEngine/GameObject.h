@@ -39,18 +39,19 @@ namespace empire
 		
 		bool IsActive() const { return m_IsActive; }
 		void Destroy() { m_IsActive = false; }
-		void Render() const;
+		GameObject* GetParent() const{ return m_pParent; }
 		Scene* const GetParentScene() const { return m_pScene; }
 	
 	private:
 		friend class PrefabsManager;
 		
 		bool m_IsActive;
-
+		bool m_IsInitialized;
+		
 		std::vector<Component*> m_pComponents;
 		TransformComponent* m_pTransform;
 		std::vector<GameObject*> m_pChildren;
-		//GameObject* m_pParent;
+		GameObject* m_pParent;
 		
 		Scene* m_pScene;
 

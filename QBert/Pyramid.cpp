@@ -35,12 +35,13 @@ Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
 Pyramid::~Pyramid()
 {
 	m_pQubes.clear();
+	delete m_pEnemyManager;
 }
 
 void Pyramid::Update()
 {
-	//DiskSpawnerTimer();
-	//m_pEnemyManager->Update();
+	DiskSpawnerTimer();
+	m_pEnemyManager->Update();
 }
 
 void Pyramid::DiskSpawnerTimer()
@@ -142,7 +143,7 @@ void Pyramid::CreateConnections()
 
 void Pyramid::CreateEscheresqueRightConnections()
 {
-	unsigned int idx = m_pQubes.size() - MAX_WIDTH;
+	unsigned int idx = (unsigned int)m_pQubes.size() - MAX_WIDTH;
 	int nextlineStartIdx{};
 
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
@@ -171,7 +172,7 @@ void Pyramid::CreateEscheresqueRightConnections()
 
 void Pyramid::CreateEscheresqueLeftConnections()
 {
-	unsigned int idx = m_pQubes.size() - 1;
+	unsigned int idx = (unsigned int)m_pQubes.size() - 1;
 	
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
 	{
@@ -352,7 +353,7 @@ int Pyramid::GetQBertIndex() const
 			}
 		}
 	}
-	std::cout << "Pyramid::GetQBertIndex -> QBert Qube index not found\n";
+	Debugger::GetInstance().Log("Pyramid::GetQBertIndex -> QBert Qube index not found");
 	return -1;
 }
 
@@ -365,6 +366,6 @@ int Pyramid::GetIndex(Qube* pQube) const
 			return i;
 		}
 	}
-	std::cout << "Pyramid::GetQBertIndex -> Qube index not found\n";
+	Debugger::GetInstance().Log("Pyramid::GetQBertIndex -> Qube index not found");
 	return -1;
 }

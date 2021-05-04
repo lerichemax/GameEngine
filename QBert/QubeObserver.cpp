@@ -31,7 +31,7 @@ void QubeObserver::Notify(empire::Component* object, int event)
 				qube->Flip();
 				if (m_pPyramid->AreAllQubesFlipped())
 				{
-					std::cout << "YOU FINISHED LEVEL 1!\n";
+					Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 					qbertScene->ResetScene(Level::Level2);
 				}
@@ -47,7 +47,7 @@ void QubeObserver::Notify(empire::Component* object, int event)
 					qube->Flip();
 					if (m_pPyramid->AreAllQubesFlipped())
 					{
-						std::cout << "YOU FINISHED LEVEL 2!\n";
+						Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
 						std::this_thread::sleep_for(std::chrono::milliseconds(1));
 						qbertScene->ResetScene(Level::Level3);
 					}
@@ -62,10 +62,10 @@ void QubeObserver::Notify(empire::Component* object, int event)
 				else
 				{
 					qube->Flip();
-					std::cout << "Qube flipped !\n";
+					Debugger::GetInstance().Log("Qube flipped !");
 					if (m_pPyramid->AreAllQubesFlipped())
 					{
-						std::cout << "YOU FINISHED LEVEL 3!\n";
+						Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
 						std::this_thread::sleep_for(std::chrono::milliseconds(1));
 						qbertScene->ResetScene(Level::Level1);
 						//empire::SceneManager::GetInstance().ReloadCurrentScene();

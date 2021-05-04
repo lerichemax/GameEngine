@@ -33,8 +33,11 @@ RendererComponent::RendererComponent(RendererComponent const& other)
 
 RendererComponent::~RendererComponent()
 {
-	m_pSceneRenderer->RemoveFromGroup(this, m_Layer);
-	m_pSceneRenderer = nullptr;
+	if (m_pSceneRenderer != nullptr)
+	{
+		m_pSceneRenderer->RemoveFromGroup(this, m_Layer);
+		m_pSceneRenderer = nullptr;
+	}
 }
 
 void RendererComponent::Render(TransformComponent const& transform) const
