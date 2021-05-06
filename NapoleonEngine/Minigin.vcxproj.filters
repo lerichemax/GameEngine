@@ -138,6 +138,7 @@
     <ClInclude Include="FPSCounter.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="DebugShapes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -237,5 +238,6 @@
     <ClCompile Include="FPSCounter.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="DebugShapes.cpp" />
   </ItemGroup>
 </Project>

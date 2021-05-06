@@ -95,7 +95,6 @@ void QBertScene::Initialize()
 		pointsP1->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(), m_pPyramid };
 	ObserverManager::GetInstance().AddObserver(20, playerObserver);
 	m_pQbert->GetSubject()->AddObserver(playerObserver);
-
 	
 	InputManager::GetInstance().SetUseKeyboard(true);
 	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert, m_pPyramid));

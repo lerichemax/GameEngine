@@ -73,6 +73,7 @@ namespace empire
 				return static_cast<T*>(pObjectComp);
 			}
 		}
+		Debugger::GetInstance().LogError("Component not found");
 		return nullptr;
 	}
 

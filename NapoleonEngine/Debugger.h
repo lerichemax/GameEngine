@@ -1,22 +1,32 @@
 #pragma once
+#include "Renderer.h"
 #include "Singleton.h"
-#include <string>
+#include "DebugShapes.h"
 #include <glm/glm.hpp>
+
 
 namespace empire
 {
 	class Debugger final : public Singleton<Debugger>
 	{
 	public:
-
+		~Debugger();
 		void Log(std::string const& message) const;
 		void LogError(std::string const& message) const;
-		void DrawDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint) const;
-		void DrawDebugPoint(glm::vec2 const& pos, float thickness) const;
-		void DrawDebugCircle(glm::vec2 const& center, float radius) const;
+		
+		void AddDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint, Color const& color);
+		void AddDebugPoint(glm::vec2 const& pos, unsigned int thickness, Color const& color);
+		void AddDebugCircle(glm::vec2 const& center, unsigned int radius, Color const& color);
 	private:
 		friend class Singleton<Debugger>;
-		Debugger() : Singleton(){}
+		friend void Renderer::Render();
+		
+		Debugger();
+
+		std::vector<Shape*> m_DebugShapes{};
+
+		void Render(SDL_Renderer* pRenderer);
+		
 	};
 }
 

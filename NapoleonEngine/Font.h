@@ -18,6 +18,7 @@ namespace empire
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
+	
 	private:
 		_TTF_Font* m_Font;
 		unsigned int m_Size;

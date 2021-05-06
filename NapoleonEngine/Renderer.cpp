@@ -14,14 +14,14 @@
 
 using namespace empire;
 
-SDL_Renderer* Renderer::m_Renderer{};
+SDL_Renderer* Renderer::m_pRenderer{};
 
 void Renderer::Init(SDL_Window * window)
 {
 	m_ShowDemo = true;
 	m_pWindow = window;
-	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (m_Renderer == nullptr) 
+	m_pRenderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (m_pRenderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -34,14 +34,16 @@ void Renderer::Init(SDL_Window * window)
 
 void empire::Renderer::Render()
 {
-	SDL_RenderClear(m_Renderer);
-
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
+	SDL_RenderClear(m_pRenderer);
+	
 	//ImGui_ImplOpenGL2_NewFrame();
 	//ImGui_ImplSDL2_NewFrame(m_pWindow);
 	//ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
-	
+
+	Debugger::GetInstance().Render(m_pRenderer);
 	//ImGui::Begin("Viewport");
 	//
 	//ImGui::End();
@@ -54,7 +56,7 @@ void empire::Renderer::Render()
 	//ImGui::Render();
 	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void empire::Renderer::Destroy()
@@ -63,10 +65,10 @@ void empire::Renderer::Destroy()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 	
-	if (m_Renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 

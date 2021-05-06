@@ -51,7 +51,7 @@ void empire::NapoleonEngine::Initialize()
 	std::srand(unsigned int(time(nullptr)));
 
 	auto fpsCounter = new GameObject{};
-	auto const font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	auto const font = ResourceManager::GetInstance().LoadFont("Fonts/Lingua.otf", 15);
 	fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
 	fpsCounter->AddComponent(new FPSCounter{});
 	fpsCounter->GetTransform()->Translate(20.f, 20.f);
@@ -80,7 +80,7 @@ void empire::NapoleonEngine::Cleanup()
 void empire::NapoleonEngine::Run()
 {
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().Init("Data/");
 
 	Initialize();
 

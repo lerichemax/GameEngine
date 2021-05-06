@@ -22,11 +22,11 @@ namespace empire
 		void RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const;
 
 		
-		static SDL_Renderer* GetSDLRenderer() { return m_Renderer; }
+		static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
 	
 	private:
 		
-		static SDL_Renderer* m_Renderer;
+		static SDL_Renderer* m_pRenderer;
 		SDL_Window* m_pWindow{};
 		
 		bool m_ShowDemo{};

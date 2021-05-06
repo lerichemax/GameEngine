@@ -1,8 +1,23 @@
 #include "PCH.h"
 #include "Debugger.h"
 #include <iostream>
+#include "Renderer.h"
+#include "DebugShapes.h"
 
 using namespace empire;
+
+Debugger::~Debugger()
+{
+	for (auto pShape : m_DebugShapes)
+	{
+		delete pShape;
+	}
+	m_DebugShapes.clear();
+}
+
+Debugger::Debugger()
+	: Singleton()
+{ }
 
 void Debugger::Log(std::string const& message) const
 {
@@ -14,38 +29,36 @@ void Debugger::LogError(std::string const& message) const
 	std::cerr << message << std::endl;
 }
 
-void Debugger::DrawDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint) const
+void Debugger::AddDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
 {
-	glLineWidth(1.f);
-	glBegin(GL_LINES);
-	{
-		glVertex2f(startPoint.x, startPoint.y);
-		glVertex2f(endPoint.x, endPoint.y);
-	}
-	glEnd();
+	m_DebugShapes.push_back(new Line(startPos, endPos, col));
 }
 
-void Debugger::DrawDebugPoint(glm::vec2 const& pos, float thickness) const
+void Debugger::AddDebugPoint(glm::vec2 const& pos, unsigned int thickness , Color const& color)
 {
-	glPointSize(thickness);
-	glBegin(GL_POINTS);
+	if (thickness == 1 )
 	{
-		glVertex2f(pos.x, pos.y);
+		m_DebugShapes.push_back(new Point(pos, color));
 	}
-	glEnd();
-}
+	else
+	{
+		m_DebugShapes.push_back(new Rectangle(pos, thickness, thickness, color));
+	}
 
-void Debugger::DrawDebugCircle(glm::vec2 const& center, float radius) const
-{
-	float angle{ float(M_PI / radius) };
 	
-	glLineWidth(1.f);
-	glBegin(GL_LINE_LOOP);
+}
+
+void Debugger::AddDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
+{
+	m_DebugShapes.push_back(new Circle(center, radius, col));
+}
+
+void Debugger::Render(SDL_Renderer* pRenderer)
+{
+	for (auto shape : m_DebugShapes)
 	{
-		for (float i = 0.0; i < float(2 * M_PI); i += angle)
-		{
-			glVertex2f(center.x + radius * float(cos(i)), center.y + radius * float(sin(i)));
-		}
+		shape->Draw(pRenderer);
 	}
-	glEnd();
+	
+	//m_DebugShapes.clear();
 }

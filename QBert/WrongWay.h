@@ -9,8 +9,11 @@ public:
 	WrongWay* Clone() override { return new WrongWay(*this); }
 	~WrongWay() = default;
 
+	void Initialize() override;
 	void Move(ConnectionDirection direction) override;
+	void Update() override;
 private:
 
 	bool m_bEscheresqueRight;
+
 };

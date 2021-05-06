@@ -172,6 +172,7 @@
     <ClCompile Include="Qube.cpp" />
     <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="SlickSam.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +192,7 @@
     <ClInclude Include="Qube.h" />
     <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="SlickSam.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="WrongWay.h" />
   </ItemGroup>
   <ItemGroup>

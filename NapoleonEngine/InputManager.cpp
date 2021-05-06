@@ -76,7 +76,6 @@ bool InputManager::ProcessControllerInput()
 			case KeyActionState::held:
 				if (IsPressed(static_cast<ControllerButton>(cmdPair.first)))
 				{
-					
 					cmdPair.second->SetLastKeyPosition(LastKeyPosition::down);
 					cmdPair.second->Execute();
 				}
