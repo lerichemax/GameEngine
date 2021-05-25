@@ -138,7 +138,16 @@
     <ClInclude Include="FPSCounter.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="DebugShapes.h" />
+    <ClInclude Include="Shapes.h" />
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -238,6 +247,15 @@
     <ClCompile Include="FPSCounter.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="DebugShapes.cpp" />
+    <ClCompile Include="Shapes.cpp" />
+    <ClCompile Include="ColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

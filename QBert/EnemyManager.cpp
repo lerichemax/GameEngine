@@ -41,7 +41,7 @@ void EnemyManager::CoilySpawnerTimer()
 		pCoily->GetComponent<Coily>()->SetQube(m_pPyramid->GetQubes()[random]);
 
 		AddCoilyToArray(pCoily->GetComponent<Coily>());
-		pCoily->GetComponent<Coily>()->GetSubject()->AddObserver(empire::ObserverManager::GetInstance().GetObserver(30));
+		pCoily->GetComponent<Coily>()->GetSubject()->AddObserver(empire::ObserverManager::GetInstance().GetObserver<EnemyObserver>());
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
 		m_pPyramid->GetGameObject()->AddChild(pCoily);
@@ -78,7 +78,7 @@ void EnemyManager::SlickSamSpawnerTimer()
 			
 			AddSlickSamToArray(pSlickSam->GetComponent<SlickSam>());
 			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
-			pSlickSam->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
+			pSlickSam->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver<EnemyObserver>());
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
 			Debugger::GetInstance().Log("Slick Sam spawned");
@@ -101,7 +101,7 @@ void EnemyManager::WrongWaySpawnerTimer()
 
 			AddWrongWayToArray(pWrongWay->GetComponent<WrongWay>());
 			m_pPyramid->GetGameObject()->AddChild(pWrongWay);
-			pWrongWay->GetComponent<WrongWay>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
+			pWrongWay->GetComponent<WrongWay>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver<EnemyObserver>());
 			m_WrongWaySpawnTimer = 0;
 			m_NbrWrongWay++;
 			Debugger::GetInstance().Log("Wrongway spawned");

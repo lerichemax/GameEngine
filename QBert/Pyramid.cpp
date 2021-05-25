@@ -27,8 +27,8 @@ Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
 	:MAX_WIDTH(maxWidth),
 	m_pEnemyManager(new EnemyManager{this})
 {
-	ObserverManager::GetInstance().AddObserver(10, new QubeObserver{ this, pQbert });
-	ObserverManager::GetInstance().AddObserver(30, new EnemyObserver{ this });//hardcoded id, change later	
+	ObserverManager::GetInstance().AddObserver(new QubeObserver{ this, pQbert });
+	ObserverManager::GetInstance().AddObserver(new EnemyObserver{ this });//hardcoded id, change later	
 }
 
 
@@ -69,7 +69,7 @@ void Pyramid::Initialize()
 	glm::vec2 startPos{m_pGameObject->GetTransform()->GetPosition()};
 	glm::vec2 lastPos{startPos};
 
-	auto observer = ObserverManager::GetInstance().GetObserver(10);
+	auto observer = ObserverManager::GetInstance().GetObserver<QubeObserver>();
 	
 	//spawn qubes
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)

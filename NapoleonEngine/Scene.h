@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneManager.h"
+#include "ColliderComponent.h"
 
 namespace empire
 {
@@ -27,10 +28,14 @@ namespace empire
 		bool IsActive() const { return m_bIsActive; }
 		void AddToGroup(RendererComponent* pRenderer, Layer layer);
 		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
-	private: 
+	
+	private:
+		friend void ColliderComponent::Initialize();
+		
 		std::string m_Name;
 		std::vector<GameObject*> m_pObjects{};
-
+		std::vector<ColliderComponent*> m_pColliders;
+		
 		SceneRenderer* m_pSceneRenderer;
 		static unsigned int m_IdCounter;
 		

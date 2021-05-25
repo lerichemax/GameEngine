@@ -3,6 +3,8 @@
 
 namespace empire
 {
+	
+
 	struct Color final
 	{
 		unsigned char R, G, B;
@@ -21,8 +23,10 @@ namespace empire
 
 		virtual void Draw(SDL_Renderer* pRenderer) const  = 0;
 
-		Shape(Color const& col)
+		Shape(Color const& col = Color{1,1,1})
 			: color{ col } {}
+
+		
 		virtual ~Shape() = default;
 	};
 
@@ -34,7 +38,7 @@ namespace empire
 		Point(glm::vec2 const& pos, Color const& col);
 
 	};
-
+	struct Circle;
 	struct Rectangle final :public Shape
 	{
 		glm::vec2 pos;
@@ -44,6 +48,10 @@ namespace empire
 		void Draw(SDL_Renderer* pRenderer) const override;
 
 		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col);
+		Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+		
+		bool IsOverlapping(Rectangle const& rec2);
+		bool IsOverlapping(Circle const& circle);
 	};
 
 	struct Line final : public Shape
@@ -65,4 +73,5 @@ namespace empire
 
 		Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
 	};
+	
 }

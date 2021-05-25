@@ -14,12 +14,30 @@ namespace empire
 		ObserverManager& operator=(ObserverManager&& rhs) = delete;
 		~ObserverManager();
 		
-		void AddObserver(unsigned int id, Observer* pObserver);
-		Observer* GetObserver(unsigned int id) { return m_pObservers.at(id); }
+		void AddObserver(Observer* pObserver);
+		
+		template <typename T>
+		Observer* GetObserver() const;
 	private:
 		friend class Singleton<ObserverManager>;
 		ObserverManager() = default;
 
-		std::map<unsigned int, Observer*> m_pObservers;
+		std::vector<Observer*> m_pObservers;
 	};
+
+	template <class T>
+	Observer* ObserverManager::GetObserver() const
+	{
+		type_info const& type = typeid(T);
+		for (Observer* pObs : m_pObservers)
+		{
+			if (typeid(*pObs) == type)
+			{
+				return pObs;
+				//return static_cast<T*>(pObs);
+			}
+		}
+		Debugger::GetInstance().Log("Observer not found");
+		return nullptr;
+	}
 }

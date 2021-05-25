@@ -114,7 +114,7 @@ void QBertScene::Initialize()
 	
 	auto playerObserver = new PlayerObserver{
 		pointsP1->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(), m_pPyramid };
-	ObserverManager::GetInstance().AddObserver(20, playerObserver);
+	ObserverManager::GetInstance().AddObserver(playerObserver);
 	m_pQbert->GetSubject()->AddObserver(playerObserver);
 	
 	InputManager::GetInstance().SetUseKeyboard(true);

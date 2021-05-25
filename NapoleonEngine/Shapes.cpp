@@ -1,5 +1,5 @@
 #include "PCH.h"
-#include "DebugShapes.h"
+#include "Shapes.h"
 
 using namespace empire;
 
@@ -23,6 +23,14 @@ Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int heig
 {
 }
 
+Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+	:Shape(),
+	pos{x,y},
+	width(width),
+	height(height)
+{
+}
+
 void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
 	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
@@ -30,6 +38,25 @@ void Rectangle::Draw(SDL_Renderer* pRenderer) const
 	SDL_RenderFillRect(pRenderer, &rect);
 }
 
+bool Rectangle::IsOverlapping(Rectangle const& rec2)
+{
+	if ((pos.x + width) < rec2.pos.x || (rec2.pos.x + rec2.width) < pos.x)
+	{
+		return false;
+	}
+
+	if (pos.y > (rec2.pos.y + rec2.height) || rec2.pos.y > (pos.y + height))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Rectangle::IsOverlapping(Circle const& circle)
+{
+	
+}
 
 Line::Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
 	:Shape(col),
