@@ -13,7 +13,17 @@ Enemy::Enemy(int pointsForKill)
 
 void Enemy::Initialize()
 {
-	MoveToCurrentQube();
+	Character::Initialize();
+}
+
+void Enemy::MoveToCurrentQube()
+{
+	Character::MoveToCurrentQube();
+}
+
+void Enemy::JumpToQube(Qube* pTargetQube)
+{
+	Character::JumpToQube(pTargetQube);
 }
 
 void Enemy::Update()
@@ -21,13 +31,13 @@ void Enemy::Update()
 	if (m_State == State::onQube)
 	{
 		if (m_MoveTimer < MOVE_MAX_TIME)
-	{
-		m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
-		return;
-	}
+		{
+			m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
+			return;
+		}
 	
-	Move(ChooseDirection());
-	m_MoveTimer = 0;
+		Move(ChooseDirection());
+		m_MoveTimer = 0;
 	}
 	
 	Character::Update();

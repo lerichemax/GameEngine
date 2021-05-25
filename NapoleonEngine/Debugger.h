@@ -10,23 +10,24 @@ namespace empire
 	class Debugger final : public Singleton<Debugger>
 	{
 	public:
-		~Debugger();
 		void Log(std::string const& message) const;
 		void LogError(std::string const& message) const;
 		
-		void AddDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint, Color const& color);
-		void AddDebugPoint(glm::vec2 const& pos, unsigned int thickness, Color const& color);
-		void AddDebugCircle(glm::vec2 const& center, unsigned int radius, Color const& color);
+		void DrawDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint, Color const& color);
+		void DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness, Color const& color);
+		void DrawDebugCircle(glm::vec2 const& center, unsigned int radius, Color const& color);
 	private:
 		friend class Singleton<Debugger>;
 		friend void Renderer::Render();
 		
 		Debugger();
 
-		std::vector<Shape*> m_DebugShapes{};
+		std::vector<Line> m_DebugLines{};
+		std::vector<Rectangle> m_DebugRectangles;
+		std::vector<Circle> m_DebugCircles;
+		std::vector<Point> m_DebugPoints;
 
 		void Render(SDL_Renderer* pRenderer);
-		
 	};
 }
 

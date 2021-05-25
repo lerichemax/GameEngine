@@ -7,7 +7,6 @@
 #include "SlickSam.h"
 
 #include "GameObject.h"
-#include "Jumper.h"
 #include "Subject.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
@@ -93,6 +92,12 @@ void QBert::JumpOffDisk()
 	m_State = State::onQube;
 	m_pSubject->Notify(this, (int)PlayerEvent::JumpOffDisk);
 	m_bCanMove = true;
+}
+
+void  QBert::Update()
+{
+	empire::Debugger::GetInstance().DrawDebugPoint(m_pGameObject->GetTransform()->GetPosition(), 2, empire::Color(255, 0, 0));
+	Character::Update();
 }
 
 void QBert::Reset(bool fullReset, Qube* pTargetQube)

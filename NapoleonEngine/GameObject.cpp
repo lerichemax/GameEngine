@@ -59,6 +59,11 @@ void GameObject::Update()
 
 void GameObject::Refresh()
 {
+	if (m_pChildren.empty())
+	{
+		return;
+	}
+	
 	for (auto& pChild : m_pChildren)
 	{
 		pChild->Refresh();

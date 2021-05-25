@@ -25,16 +25,16 @@ protected:
 
 	virtual void Initialize() override;
 	virtual void MeetCharacter(Character* ) override {}
-	//void LandOnQube() override{}
 	void SetDirectionTextures(ConnectionDirection) override {}
-
+	virtual void MoveToCurrentQube() override;
+	virtual void JumpToQube(Qube* pTargetQube) override;
+	
 	Enemy(Enemy const& other)
 		:Character(other),
 		POINTS_FOR_KILL(other.POINTS_FOR_KILL),
 		m_MoveTimer()
 	{}
 
-private:
 	float const MOVE_MAX_TIME{ 1.f };
 	
 	float m_MoveTimer;

@@ -64,13 +64,20 @@ namespace empire
 	template <class T>
 	T* GameObject::GetComponent() const
 	{
-		auto const& type = typeid(T);
-
+		type_info const& type = typeid(T);
 		for (Component* pObjectComp : m_pComponents)
 		{
 			if (typeid(*pObjectComp) == type)
 			{
 				return static_cast<T*>(pObjectComp);
+			}
+			else
+			{
+				T* cast = dynamic_cast<T*>(pObjectComp);
+				if (cast != nullptr)
+				{
+					return cast;
+				}
 			}
 		}
 		Debugger::GetInstance().LogError("Component not found");

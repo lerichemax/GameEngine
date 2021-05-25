@@ -12,6 +12,13 @@ public:
 	void Initialize() override;
 	void Move(ConnectionDirection direction) override;
 	void Update() override;
+	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
+	bool IsEscheresqueRight() const { return m_bEscheresqueRight; }
+	void MoveToCurrentQube() override;
+	void JumpToQube(Qube* pNextQube) override;
+protected:
+	ConnectionDirection ChooseDirection() override;
+
 private:
 
 	bool m_bEscheresqueRight;

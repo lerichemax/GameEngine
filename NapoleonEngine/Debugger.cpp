@@ -1,19 +1,9 @@
 #include "PCH.h"
 #include "Debugger.h"
 #include <iostream>
-#include "Renderer.h"
 #include "DebugShapes.h"
 
 using namespace empire;
-
-Debugger::~Debugger()
-{
-	for (auto pShape : m_DebugShapes)
-	{
-		delete pShape;
-	}
-	m_DebugShapes.clear();
-}
 
 Debugger::Debugger()
 	: Singleton()
@@ -29,36 +19,52 @@ void Debugger::LogError(std::string const& message) const
 	std::cerr << message << std::endl;
 }
 
-void Debugger::AddDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
+void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
 {
-	m_DebugShapes.push_back(new Line(startPos, endPos, col));
+	m_DebugLines.push_back(Line(startPos, endPos, col));
 }
 
-void Debugger::AddDebugPoint(glm::vec2 const& pos, unsigned int thickness , Color const& color)
+void Debugger::DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness , Color const& color)
 {
 	if (thickness == 1 )
 	{
-		m_DebugShapes.push_back(new Point(pos, color));
+		m_DebugPoints.push_back(Point(pos, color));
 	}
 	else
 	{
-		m_DebugShapes.push_back(new Rectangle(pos, thickness, thickness, color));
+		m_DebugRectangles.push_back(Rectangle(pos, thickness, thickness, color));
 	}
-
-	
 }
 
-void Debugger::AddDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
+void Debugger::DrawDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
 {
-	m_DebugShapes.push_back(new Circle(center, radius, col));
+	m_DebugCircles.push_back(Circle(center, radius, col));
 }
 
 void Debugger::Render(SDL_Renderer* pRenderer)
 {
-	for (auto shape : m_DebugShapes)
+	for (Line const& line : m_DebugLines)
 	{
-		shape->Draw(pRenderer);
+		line.Draw(pRenderer);
 	}
-	
-	//m_DebugShapes.clear();
+
+	for (Rectangle const& rect : m_DebugRectangles)
+	{
+		rect.Draw(pRenderer);
+	}
+
+	for (Circle const& circle : m_DebugCircles)
+	{
+		circle.Draw(pRenderer);
+	}
+
+	for (Point const& point : m_DebugPoints)
+	{
+		point.Draw(pRenderer);
+	}
+
+	m_DebugLines.clear();
+	m_DebugRectangles.clear();
+	m_DebugCircles.clear();
+	m_DebugPoints.clear();
 }

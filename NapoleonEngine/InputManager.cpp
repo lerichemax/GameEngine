@@ -66,7 +66,8 @@ bool InputManager::ProcessKeyboardInput()
 
 bool InputManager::ProcessControllerInput()
 {
-	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
+	
+	//ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
 	XInputGetState(0, &m_CurrentControllerState);
 
 	std::for_each(m_CommandMap.begin(), m_CommandMap.end(), [this](std::pair<const int, Command*>& cmdPair)

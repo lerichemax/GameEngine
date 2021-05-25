@@ -38,6 +38,9 @@ public:
 	void Update() override;
 	
 	glm::vec2 GetCharacterPos() const { return m_CharacterPos; }
+	glm::vec2 GetEscheresqueRight() const { return m_EscheresqueRightPos; }
+	glm::vec2 GetEscheresqueLeft() const { return m_EscheresqueLeftPos; }
+	
 	Qube* GetConnection(ConnectionDirection dir) const { return m_pConnections[(int)dir]; }
 	Qube* GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
 	Subject* const GetSubject() const { return m_pSubject; }
@@ -66,6 +69,7 @@ public:
 	void Reset();
 	void CharacterJumpIn(Character* pCharacter);
 	void CharacterJumpOut();
+
 private:
 	unsigned int static const MAX_NBR_CONNECTION = 4;
 	

@@ -5,7 +5,6 @@ class QBert final : public Character
 {
 public:
 	QBert();
-	//QBert(Qube* pCurrentCube);
 	QBert* Clone() override {return nullptr;}//unclonable
 	
 	QBert(QBert const& other) = delete;
@@ -14,7 +13,7 @@ public:
 	QBert& operator=(QBert&& rhs) = delete;
 	~QBert();
 
-	void Update() override { Character::Update(); }
+	void Update() override;
 
 	int GetPoints() const { return m_NbrPoints; }
 	int GetLives() const { return m_NbrLives; }

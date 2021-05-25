@@ -54,6 +54,9 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="WrongWayJumper.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="WrongWayJumper.h">
+      <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

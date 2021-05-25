@@ -3,6 +3,7 @@
 #include "Coily.h"
 #include "SlickSam.h"
 #include "Pyramid.h"
+#include "WrongWay.h"
 
 #include "Timer.h"
 #include "ObserverManager.h"
@@ -19,8 +20,9 @@ EnemyManager::EnemyManager(Pyramid* const pPyramid)
 
 void EnemyManager::Update()
 {
-	CoilySpawnerTimer();
-	SlickSamSpawnerTimer();
+	//CoilySpawnerTimer();
+	//SlickSamSpawnerTimer();
+	WrongWaySpawnerTimer();
 }
 
 void EnemyManager::CoilySpawnerTimer()
@@ -84,6 +86,29 @@ void EnemyManager::SlickSamSpawnerTimer()
 	}
 }
 
+void EnemyManager::WrongWaySpawnerTimer()
+{
+	if (m_NbrWrongWay < MAX_WRONGWAY)
+	{
+		if (m_WrongWaySpawnTimer < WRONGWAY_SPAWN_INTERVAL)
+		{
+			m_WrongWaySpawnTimer += empire::Timer::GetInstance().GetDeltaTime();
+		}
+		else
+		{
+			GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
+			pWrongWay->GetComponent<WrongWay>()->SetQube(m_pPyramid->GetEscheresqueRightTop());
+
+			AddWrongWayToArray(pWrongWay->GetComponent<WrongWay>());
+			m_pPyramid->GetGameObject()->AddChild(pWrongWay);
+			pWrongWay->GetComponent<WrongWay>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver(30));
+			m_WrongWaySpawnTimer = 0;
+			m_NbrWrongWay++;
+			Debugger::GetInstance().Log("Wrongway spawned");
+		}
+	}
+}
+
 void EnemyManager::AddSlickSamToArray(SlickSam* pSlickSam)
 {
 	for (unsigned int i = 0; i < MAX_SLICKSAM; i++)
@@ -91,6 +116,18 @@ void EnemyManager::AddSlickSamToArray(SlickSam* pSlickSam)
 		if (m_pSlickSams[i] == nullptr)
 		{
 			m_pSlickSams[i] = pSlickSam;
+			return;
+		}
+	}
+}
+
+void EnemyManager::AddWrongWayToArray(WrongWay* pWrongWay)
+{
+	for (unsigned int i = 0; i < MAX_WRONGWAY; i++)
+	{
+		if (m_pWrongWays[i] == nullptr)
+		{
+			m_pWrongWays[i] = pWrongWay;
 			return;
 		}
 	}
@@ -120,6 +157,19 @@ void EnemyManager::SlickSamDied(SlickSam* pSlickSam)
 		}
 	}
 	m_NbrSlickSam--;
+}
+
+void EnemyManager::WrongWayDied(WrongWay* pWrongWay)
+{
+	for (int i{}; i < MAX_WRONGWAY; i++)
+	{
+		if (m_pWrongWays[i] == pWrongWay)
+		{
+			m_pWrongWays[i] = nullptr;
+			break;
+		}
+	}
+	m_NbrWrongWay--;
 }
 
 void EnemyManager::Reset()

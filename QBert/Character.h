@@ -45,7 +45,7 @@ public:
 	State GetState() const { return m_State; }
 
 	void SetCurrentQube(Qube* pTargetQube);
-	void JumpToQube(Qube* pTargetQube);
+	virtual void JumpToQube(Qube* pTargetQube);//temp
 	void Jump() { m_State = State::jumping; }
 	void JumpToDeath(ConnectionDirection dir);
 
@@ -66,7 +66,7 @@ protected:
 	virtual void SetDirectionTextures(ConnectionDirection dir) = 0;
 	
 	virtual void LandOnQube();
-	void MoveToCurrentQube();
+	virtual void MoveToCurrentQube();
 
 	Character(Character const& other);
 	

@@ -8,7 +8,9 @@
 #include "QBert.h"
 #include "MoveCommand.h"
 #include "PlayerObserver.h"
-
+#include "WrongWay.h"
+#include "Jumper.h"
+#include "WrongWayJumper.h"
 
 #include "ResourceManager.h"
 #include "InputManager.h"
@@ -17,6 +19,7 @@
 #include "Subject.h"
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
+
 
 using namespace empire;
 
@@ -44,6 +47,7 @@ void QBertScene::Initialize()
 	
 	m_pQbert = new QBert();
 	qbert->AddComponent(m_pQbert);
+	qbert->AddComponent(new Jumper{});
 	qbert->GetTransform()->Scale(1.5f);
 	
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pQbert->GetLives()));
@@ -68,11 +72,27 @@ void QBertScene::Initialize()
 	
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 
+	//Ugg/Wrong way
+	auto wrongWayPrefab = new GameObject{};
+	wrongWayPrefab->AddComponent(new WrongWay{ true });
+	wrongWayPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
+	wrongWayPrefab->AddComponent(new WrongWayJumper{});
+	wrongWayPrefab->GetTransform()->Scale(2.f, 2.f);
+	PrefabsManager::GetInstance().AddPrefab("WrongWay", wrongWayPrefab);
+
+	auto uggPrefab = new GameObject{};
+	uggPrefab->AddComponent(new WrongWay{ false });
+	uggPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
+	uggPrefab->AddComponent(new WrongWayJumper{});
+	uggPrefab->GetTransform()->Scale(2.f, 2.f);
+	PrefabsManager::GetInstance().AddPrefab("Ugg", uggPrefab);
+	
 	//Coily prefab
 	auto coilyPrefab = new GameObject{};
 	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
 	coilyPrefab->AddComponent(new Coily{m_pPyramid});
+	coilyPrefab->AddComponent(new Jumper{});
 	coilyPrefab->GetTransform()->Scale(1.5f);
 	PrefabsManager::GetInstance().AddPrefab("Coily", coilyPrefab);
 
@@ -80,6 +100,7 @@ void QBertScene::Initialize()
 	auto slickSamPf = new GameObject();
 	slickSamPf->AddComponent(new empire::RendererComponent(empire::Layer::middleground));
 	slickSamPf->AddComponent(new SlickSam{});
+	slickSamPf->AddComponent(new Jumper{});
 	slickSamPf->GetTransform()->Scale(1.5f);
 	PrefabsManager::GetInstance().AddPrefab("SlickSam", slickSamPf);
 

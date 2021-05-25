@@ -16,7 +16,6 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	m_pFlippedTexture(pFlippedText),
 	m_pSubject(new Subject{}),
 	m_pConnections{nullptr},
-	m_CharacterPos(),
 	m_pCharacter(nullptr)
 {
 }
@@ -27,7 +26,6 @@ Qube::Qube(Qube const& other)
 	m_pFlippedTexture(other.m_pFlippedTexture),
 	m_pSubject(new Subject{}),
 	m_pConnections{  },
-	m_CharacterPos(),
 	m_pCharacter(other.m_pCharacter)
 {
 	for (unsigned int i{}; i <MAX_NBR_CONNECTION;++i)
@@ -42,6 +40,12 @@ void Qube::Initialize()
 {
 	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
 	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
+
+	m_EscheresqueRightPos.x = m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
+	m_EscheresqueRightPos.y = m_pGameObject->GetTransform()->GetPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+
+	m_EscheresqueLeftPos.x = m_pGameObject->GetTransform()->GetPosition().x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
+	m_EscheresqueLeftPos.y = m_pGameObject->GetTransform()->GetPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
 Qube::~Qube()
@@ -59,6 +63,7 @@ void Qube::Update()
 		m_pDiskConnection = nullptr;
 		m_pSubject->Notify(this, (int)QubeEvents::DiskUsed);
 	}
+	Debugger::GetInstance().DrawDebugPoint(m_EscheresqueLeftPos, 2, Color(0, 0, 255));
 }
 
 void Qube::SetTexture(Texture2D* pText)
@@ -80,8 +85,7 @@ void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pC
 	if (dir != ConnectionDirection::null)
 	{
 		m_pEscheresqueRightConnections[(int)dir] = pConnection;
-	}
-	
+	}	
 }
 
 void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection)

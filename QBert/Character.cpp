@@ -11,7 +11,7 @@ Character::Character(Qube* pStart, Type type)
 	m_pSubject(new empire::Subject{}),
 	m_Type(type),
 	m_State(State::onQube),
-	m_pJumper(new Jumper{}),
+	m_pJumper(),
 	m_pIdleText(nullptr),
 	m_pJumpText(nullptr),
 	m_FacingDirection(ConnectionDirection::downLeft)
@@ -23,22 +23,22 @@ Character::Character(Character const& other)
 	m_pSubject(new Subject(*other.m_pSubject)),
 	m_Type(other.m_Type),
 	m_State(other.m_State),
-	m_pJumper(new Jumper{*other.m_pJumper}),
+	m_pJumper(),
 	m_pIdleText(other.m_pIdleText),
 	m_pJumpText(other.m_pJumpText),
 	m_FacingDirection(other.m_FacingDirection)
 {
-	
+
 }
 
 void Character::Initialize()
 {
+	m_pJumper = m_pGameObject->GetComponent<Jumper>();
 	MoveToCurrentQube();
 }
 
 Character::~Character()
 {
-	delete m_pJumper;
 	delete m_pSubject;
 }
 

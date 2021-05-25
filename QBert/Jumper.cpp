@@ -1,7 +1,15 @@
 #include "PCH.h"
 #include "Jumper.h"
+#include "WrongWay.h"
 
+#include "GameObject.h"
 #include "Timer.h"
+
+Jumper::Jumper()
+	:JUMP_MAX_HEIGHT{ 17.f }
+{
+	
+}
 
 void Jumper::UpdateJump(empire::TransformComponent* transform)
 {
@@ -61,7 +69,6 @@ void Jumper::UpdateFall(empire::TransformComponent* transform)
 	}
 }
 
-
 void Jumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 {
 	m_bIsJumping = true;
@@ -69,14 +76,28 @@ void Jumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 
 	m_TargetPos = targetPos;
 	m_Halfway = startPos;
-	m_Halfway.x += (targetPos.x - startPos.x) * 0.25f;
-	if (targetPos.y < startPos.y)
+	
+	if (m_pGameObject->HasComponent<WrongWay>() )
 	{
-		m_Halfway.y -= JUMP_MAX_HEIGHT *2;
+		glm::vec2 jumpDir = targetPos - startPos;
+		float jumpDist = glm::length(jumpDir);
+		auto dirNorm = glm::normalize(jumpDir);
+		
+		m_Halfway += (dirNorm * (jumpDist/2));
+		
+		m_Halfway.x  += 50;
 	}
 	else
 	{
-		m_Halfway.y -= JUMP_MAX_HEIGHT;
+		m_Halfway.x += (targetPos.x - startPos.x) * 0.25f;
+		if (targetPos.y < startPos.y)
+		{
+			m_Halfway.y -= JUMP_MAX_HEIGHT * 2;
+		}
+		else
+		{
+			m_Halfway.y -= JUMP_MAX_HEIGHT;
+		}
 	}
 }
 
