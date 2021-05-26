@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "Debugger.h"
 #include <iostream>
-#include "DebugShapes.h"
+#include "Shapes.h"
 
 using namespace empire;
 
@@ -39,6 +39,11 @@ void Debugger::DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness , Col
 void Debugger::DrawDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
 {
 	m_DebugCircles.push_back(Circle(center, radius, col));
+}
+
+void Debugger::DrawDebugRectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& color)
+{
+	m_DebugRectangles.push_back(Rectangle{ pos, width, height, color });
 }
 
 void Debugger::Render(SDL_Renderer* pRenderer)

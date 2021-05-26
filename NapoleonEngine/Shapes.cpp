@@ -23,6 +23,16 @@ Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int heig
 {
 }
 
+Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height)
+	:Shape(),
+	pos{pos},
+	width{width},
+	height{height}
+{
+	
+}
+
+
 Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 	:Shape(),
 	pos{x,y},
@@ -53,9 +63,9 @@ bool Rectangle::IsOverlapping(Rectangle const& rec2)
 	return true;
 }
 
-bool Rectangle::IsOverlapping(Circle const& circle)
+bool Rectangle::IsOverlapping(Circle const& )
 {
-	
+	return false;
 }
 
 Line::Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)

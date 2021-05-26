@@ -13,8 +13,6 @@ public:
 	QBert& operator=(QBert&& rhs) = delete;
 	~QBert();
 
-	void Update() override;
-
 	int GetPoints() const { return m_NbrPoints; }
 	int GetLives() const { return m_NbrLives; }
 	int GetPlayerNumber() const { return m_PlayerNbr; }

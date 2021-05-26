@@ -19,7 +19,7 @@
 #include "Subject.h"
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
-
+#include "BoxCollider.h"
 
 using namespace empire;
 
@@ -41,13 +41,15 @@ void QBertScene::Initialize()
 	pointsP1->GetComponent<TextRendererComponent>()->SetText("P1 Points: 0 ");
 	pointsP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
 	Add(pointsP1);
-	
+
+	//Qbert 
 	auto qbert = new GameObject();
 	qbert->AddComponent(new RendererComponent("QBert.png", Layer::foreground));
 	
 	m_pQbert = new QBert();
 	qbert->AddComponent(m_pQbert);
 	qbert->AddComponent(new Jumper{});
+	qbert->AddComponent(new BoxCollider{ 24,24 });
 	qbert->GetTransform()->Scale(1.5f);
 	
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pQbert->GetLives()));
@@ -77,6 +79,7 @@ void QBertScene::Initialize()
 	wrongWayPrefab->AddComponent(new WrongWay{ true });
 	wrongWayPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
 	wrongWayPrefab->AddComponent(new WrongWayJumper{});
+	wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
 	wrongWayPrefab->GetTransform()->Scale(2.f, 2.f);
 	PrefabsManager::GetInstance().AddPrefab("WrongWay", wrongWayPrefab);
 

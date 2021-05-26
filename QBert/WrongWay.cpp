@@ -7,6 +7,7 @@
 #include "RendererComponent.h"
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "BoxCollider.h"
 
 WrongWay::WrongWay(bool escheresqueRight)
 	:Enemy(0),
@@ -59,6 +60,12 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 		m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRight() : m_pCurrentQube->GetEscheresqueLeft());
 }
 
+void WrongWay::Die()
+{
+	m_pGameObject->Destroy();
+	m_pSubject->Notify(this, (int)EnemyEvents::WrongWayDies);
+}
+
 void WrongWay::MoveToCurrentQube()
 {
 	m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
@@ -66,6 +73,7 @@ void WrongWay::MoveToCurrentQube()
 
 void WrongWay::Update()
 {
+	
 	if (m_State == State::onQube)
 	{
 		if (m_MoveTimer < MOVE_MAX_TIME)

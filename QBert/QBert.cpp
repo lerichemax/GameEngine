@@ -5,11 +5,13 @@
 #include "ColoredDisk.h"
 #include "Coily.h"
 #include "SlickSam.h"
+#include "WrongWay.h"
 
 #include "GameObject.h"
 #include "Subject.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
+#include "BoxCollider.h"
 
 using namespace empire;
 
@@ -26,6 +28,16 @@ QBert::QBert()
 
 void QBert::Initialize()
 {
+	m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
+	m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
+		{
+			if (pOther->HasComponent<WrongWay>())
+			{
+				Debugger::GetInstance().Log("Overlap with WrongWay"); // temp
+				MeetCharacter(pOther->GetComponent<WrongWay>());
+			}
+		});
+	
 	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Qube.png");
 	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Jump.png");
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
@@ -94,12 +106,6 @@ void QBert::JumpOffDisk()
 	m_bCanMove = true;
 }
 
-void  QBert::Update()
-{
-	empire::Debugger::GetInstance().DrawDebugPoint(m_pGameObject->GetTransform()->GetPosition(), 2, empire::Color(255, 0, 0));
-	Character::Update();
-}
-
 void QBert::Reset(bool fullReset, Qube* pTargetQube)
 {
 	SetCurrentQube(pTargetQube);
@@ -117,9 +123,9 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
 }
 
-void QBert::MeetCharacter(Character* pOther)
+void QBert::MeetCharacter(Character* pOther) 
 {
-	if (typeid(*pOther) == typeid(Coily) && static_cast<Coily*>(pOther)->IsTransformed())
+	if (typeid(*pOther) == typeid(Coily) && static_cast<Coily*>(pOther)->IsTransformed() || typeid(*pOther) == typeid(WrongWay))
 	{
 		Die();
 	}

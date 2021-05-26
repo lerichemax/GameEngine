@@ -16,6 +16,7 @@ EnemyManager::EnemyManager(Pyramid* const pPyramid)
 {
 	m_pCoilies.fill(nullptr);
 	m_pSlickSams.fill(nullptr);
+	m_pWrongWays.fill(nullptr);
 }
 
 void EnemyManager::Update()
@@ -192,6 +193,15 @@ void EnemyManager::Reset()
 		}
 	}
 	m_NbrSlickSam = 0;
+
+	for (auto pWrongWay : m_pWrongWays)
+	{
+		if (pWrongWay != nullptr)
+		{
+			pWrongWay->Die();
+		}
+	}
+	m_NbrWrongWay = 0;
 }
 
 void EnemyManager::SetCoiliesIdle(bool isIdle)

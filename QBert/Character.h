@@ -62,7 +62,7 @@ protected:
 	ConnectionDirection m_FacingDirection;
 	
 	virtual void Initialize() override;
-	virtual void MeetCharacter(Character* pOther) = 0;
+	virtual void MeetCharacter(Character* pOther) = 0; // Find itself on the same cube as another character
 	virtual void SetDirectionTextures(ConnectionDirection dir) = 0;
 	
 	virtual void LandOnQube();

@@ -15,12 +15,15 @@ namespace empire
 			Circle
 		};
 		Type m_Type;
+	
 	public:
 		ColliderComponent(Type type);
+		virtual ~ColliderComponent();
 		virtual ColliderComponent* Clone() override = 0;
+		
 
 		void Initialize() override;
-		void Update() override{};
+		virtual void Update() override{};
 		
 		typedef std::function<void(GameObject* pObject, GameObject* pOtherObject)> CollisionFunction;
 
@@ -40,22 +43,13 @@ namespace empire
 		virtual void CheckOverlap(ColliderComponent* pOther) = 0;
 
 		std::vector<ColliderComponent*> m_pOverlappingColliders;
-		
-	private:
-		enum class TriggerAction
-		{
-			Enter,
-			Stay,
-			Leave
-		};
 
-		
 		CollisionFunction m_OnTriggerEnter;
 		CollisionFunction m_OnTriggerStay;
 		CollisionFunction m_OnTriggerExit;
-		
 		CollisionFunction m_OnCollision;
 
 		bool m_bIsTrigger;
+		bool m_bIsInitialized;
 	};
 }

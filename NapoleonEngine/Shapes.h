@@ -48,6 +48,7 @@ namespace empire
 		void Draw(SDL_Renderer* pRenderer) const override;
 
 		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col);
+		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height);
 		Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 		
 		bool IsOverlapping(Rectangle const& rec2);

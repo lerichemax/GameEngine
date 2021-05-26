@@ -63,7 +63,6 @@ void Qube::Update()
 		m_pDiskConnection = nullptr;
 		m_pSubject->Notify(this, (int)QubeEvents::DiskUsed);
 	}
-	Debugger::GetInstance().DrawDebugPoint(m_EscheresqueRightPos, 2, Color(255, 0, 255));
 }
 
 void Qube::SetTexture(Texture2D* pText)

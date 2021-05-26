@@ -48,6 +48,8 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+	CheckCollidersCollision();
+	
 	Refresh();
 }
 
@@ -80,4 +82,29 @@ void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer)
 void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 {
 	m_pSceneRenderer->RemoveFromGroup(pRenderer, layer);
+}
+
+void Scene::CheckCollidersCollision()
+{
+	for(auto pColl : m_pColliders)
+	{
+		for(auto pOtherColl : m_pColliders)
+		{
+			if (pColl == pOtherColl)
+			{
+				continue;
+			}
+			pColl->CheckOverlap(pOtherColl);
+		}
+	}
+}
+
+void Scene::AddCollider(ColliderComponent* pCollider)
+{
+	m_pColliders.emplace_back(pCollider);
+}
+
+void Scene::RemoveCollider(ColliderComponent* pCollider)
+{
+	m_pColliders.erase(std::remove(m_pColliders.begin(), m_pColliders.end(), pCollider));
 }

@@ -31,6 +31,10 @@ namespace empire
 	
 	private:
 		friend void ColliderComponent::Initialize();
+		friend ColliderComponent::~ColliderComponent();
+
+		void AddCollider(ColliderComponent* pCollider);
+		void RemoveCollider(ColliderComponent* pCollider);
 		
 		std::string m_Name;
 		std::vector<GameObject*> m_pObjects{};
@@ -43,6 +47,6 @@ namespace empire
 		
 		void Refresh();
 		void CleanUpScene();
+		void CheckCollidersCollision();
 	};
-
 }
