@@ -6,25 +6,30 @@ class Qube;
 class Coily final : public Enemy
 {
 public:
-	Coily(Pyramid* pPyramid);
+	Coily();
 	Coily* Clone() override { return new Coily(*this); }
 	void Update() override;
 
-	bool IsTransformed() const { return m_bIsTransformed; }
+	
+	void Move(ConnectionDirection direction) override;
+	void MeetCharacter(Character* pOther) override;
+	void Die() override;
 	
 	void Transform();
-	void Move(ConnectionDirection direction) override;
+	
 	void SetIsIdle(bool isIdle);
-	void MeetCharacter(Character* pOther) override;
 	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
-	void Die() override;
+	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
+	
+	bool IsTransformed() const { return m_bIsTransformed; }
+
 protected:
 	ConnectionDirection ChooseDirection() override;
 
 private:
 	int static const MOVEMENT_QUEUE_SIZE{ 2 };
-	bool m_bIsTransformed{ false };
-	bool m_bIsIdle{ false };
+	bool m_bIsTransformed;
+	bool m_bIsIdle;
 
 	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
 	int m_CurrentlyInQueue;

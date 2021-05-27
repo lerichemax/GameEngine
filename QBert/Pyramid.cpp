@@ -14,34 +14,42 @@
 #include "QubeObserver.h"
 #include "QBert.h"
 #include "Qube.h"
-#include "Coily.h"
-#include "EnemyObserver.h"
-#include "SlickSam.h"
 #include "EnemyManager.h"
 
 #include <list>
 
 
 
-Pyramid::Pyramid(unsigned int maxWidth, QBert* pQbert)
+Pyramid::Pyramid(unsigned int maxWidth)
 	:MAX_WIDTH(maxWidth),
-	m_pEnemyManager(new EnemyManager{this})
+	m_NbrDisksSpawned(),
+	m_DiskSpawnTimer(),
+	m_pQubes()
 {
-	ObserverManager::GetInstance().AddObserver(new QubeObserver{ this, pQbert });
-	ObserverManager::GetInstance().AddObserver(new EnemyObserver{ this });//hardcoded id, change later	
+
+}
+
+Pyramid::Pyramid(Pyramid const& other)
+	:MAX_WIDTH(other.MAX_WIDTH),
+	m_NbrDisksSpawned(other.m_NbrDisksSpawned),
+	m_DiskSpawnTimer(other.m_DiskSpawnTimer),
+	m_pQubes()
+{
+	for (size_t i{}; i < other.m_pQubes.size(); ++i)
+	{
+		m_pQubes.push_back(new Qube{ *other.m_pQubes[i] });
+	}
 }
 
 
 Pyramid::~Pyramid()
 {
 	m_pQubes.clear();
-	delete m_pEnemyManager;
 }
 
 void Pyramid::Update()
 {
 	DiskSpawnerTimer();
-	m_pEnemyManager->Update();
 }
 
 void Pyramid::DiskSpawnerTimer()
@@ -214,8 +222,6 @@ void Pyramid::Reset()
 	{
 		pQube->Reset();
 	}
-
-	m_pEnemyManager->Reset();
 }
 
 void Pyramid::PartialReset()

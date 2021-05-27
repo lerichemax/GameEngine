@@ -7,18 +7,20 @@ class Qube;
 class ColoredDisk final : public empire::Component
 {
 public:
-	ColoredDisk(Qube* top);
+	ColoredDisk();
 	ColoredDisk* Clone() override { return new ColoredDisk(*this); }
 	void Update() override;
 
 	void ReceivePlayer(QBert* pQbert);
 	bool HasQBert() const { return m_bHasQbert; }
+
+	void SetPyramidTop(Qube* pTop) { m_pPyramidTop = pTop; }
 private:
 	float const OFFSET{-45}; 
 	float const DROP_MAX_TIME{ 0.75f };
 	float const MOVE_SPEED{ 75.f };
-	Qube* const PYRAMID_TOP;
 	
+	Qube* m_pPyramidTop;
 	QBert* m_pQbert;
 	bool m_bHasQbert;
 	bool m_bHasReachedTop;

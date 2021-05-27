@@ -19,8 +19,7 @@ namespace empire
 		GameObject* Instantiate(std::string const& key) const;
 		GameObject* Instantiate(std::string const& key, TransformComponent const& transform) const;
 		GameObject* Instantiate(std::string const& key, glm::vec2 const& pos) const;
-		//GameObject* Instantiate(std::string const& key, glm::vec3 const& pos, glm::vec3 const& scale) const;
-		//GameObject* Instantiate(std::string const& key, glm::vec3 const& pos, glm::vec3 const& scale, float rot) const;
+
 	private:
 		friend class Singleton<PrefabsManager>;
 		

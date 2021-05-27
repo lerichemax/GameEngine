@@ -60,6 +60,9 @@
     <ClCompile Include="MainMenuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="CoopScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -118,6 +121,9 @@
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CoopScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

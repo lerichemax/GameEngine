@@ -9,10 +9,15 @@
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
 
-EnemyManager::EnemyManager(Pyramid* const pPyramid)
-	: m_pPyramid(pPyramid),
+EnemyManager::EnemyManager()
+	: m_pPyramid(nullptr),
 	m_pCoilies{},
 	m_pSlickSams{}
+{
+	
+}
+
+void EnemyManager::Initialize()
 {
 	m_pCoilies.fill(nullptr);
 	m_pSlickSams.fill(nullptr);
@@ -21,6 +26,10 @@ EnemyManager::EnemyManager(Pyramid* const pPyramid)
 
 void EnemyManager::Update()
 {
+	if (m_pPyramid == nullptr)
+	{
+		Debugger::GetInstance().LogError("Variable m_pPyramid is undefined In EnemyManager");
+	}
 	CoilySpawnerTimer();
 	SlickSamSpawnerTimer();
 	WrongWaySpawnerTimer();
@@ -39,6 +48,7 @@ void EnemyManager::CoilySpawnerTimer()
 
 		int random{ rand() % 2 + 1 };
 		GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
+		pCoily->GetComponent<Coily>()->SetPyramid(m_pPyramid);
 		pCoily->GetComponent<Coily>()->SetQube(m_pPyramid->GetQubes()[random]);
 
 		AddCoilyToArray(pCoily->GetComponent<Coily>());

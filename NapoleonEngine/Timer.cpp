@@ -10,6 +10,7 @@ Timer::Timer()
 	:Singleton<Timer>(),
 	m_DeltaTime(0.f),
 	m_Lag(0.f),
+	m_TimeScale(1.f),
 	m_LastTime(high_resolution_clock::now())
 {
 }
@@ -24,6 +25,7 @@ void Timer::Update()
 	}
 	m_LastTime = currentTime;
 	m_Lag += m_DeltaTime;
+	m_DeltaTime *= m_TimeScale;
 }
 
 void Timer::Sleep()

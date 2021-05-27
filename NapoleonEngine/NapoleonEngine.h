@@ -9,6 +9,7 @@ namespace empire
 	public:
 		void Initialize();
 		virtual void LoadGame() const = 0;
+		virtual void CreatePrefabs() const = 0;
 		virtual void Cleanup();
 		void Run();
 		

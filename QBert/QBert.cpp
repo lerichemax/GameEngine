@@ -15,15 +15,20 @@
 
 using namespace empire;
 
-int QBert::m_PlayerNbr = 0;
-
 QBert::QBert()
 	:Character(nullptr, Type::player),
 	m_NbrLives{ 3 },
 	m_NbrPoints{},
 	m_bCanMove(true)
 {
-	m_PlayerNbr++;
+}
+
+QBert::QBert(QBert const& other)
+	:Character(other),
+	m_NbrLives{other.m_NbrLives},
+	m_NbrPoints(other.m_NbrPoints),
+	m_bCanMove(other.m_bCanMove)
+{
 }
 
 void QBert::Initialize()
@@ -38,15 +43,10 @@ void QBert::Initialize()
 			}
 		});
 	
-	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Qube.png");
-	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Jump.png");
+	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
+	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 	Character::Initialize();
-}
-
-QBert::~QBert()
-{
-	m_PlayerNbr--;
 }
 
 void QBert::Die()
@@ -155,20 +155,20 @@ void QBert::SetDirectionTextures(ConnectionDirection dir)
 	switch (dir)
 	{
 	case ConnectionDirection::downLeft:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Qube.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownLeft_Jump.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
 		break;
 	case ConnectionDirection::downRight:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownRight_Qube.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_DownRight_Jump.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownRight_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownRight_Jump.png");
 		break;
 	case ConnectionDirection::upLeft:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpLeft_Qube.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpLeft_Jump.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpLeft_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpLeft_Jump.png");
 		break;
 	case ConnectionDirection::upRight:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpRight_Qube.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert_UpRight_Jump.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpRight_Qube.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpRight_Jump.png");
 		break;
 	}
 }

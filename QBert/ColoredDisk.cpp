@@ -6,8 +6,12 @@
 #include "QBert.h"
 #include "Timer.h"
 
-ColoredDisk::ColoredDisk(Qube* top)
-	:PYRAMID_TOP(top)
+ColoredDisk::ColoredDisk()
+	:m_pPyramidTop(nullptr),
+	m_pQbert(nullptr),
+	m_bHasQbert(false),
+	m_bHasReachedTop(false),
+	m_DropTimer(0.f)
 {
 }
 
@@ -17,7 +21,11 @@ void ColoredDisk::Update()
 	{
 		if (!m_bHasReachedTop)
 		{
-			auto finalPos = PYRAMID_TOP->GetGameObject()->GetTransform()->GetPosition();
+			if (m_pPyramidTop == nullptr)
+			{
+				Debugger::GetInstance().LogError("Variable m_pPyramid top of ColoredDisk is undefined");
+			}
+			auto finalPos = m_pPyramidTop->GetGameObject()->GetTransform()->GetPosition();
 			finalPos.y += OFFSET;
 			
 			auto parentTrans = m_pGameObject->GetTransform();
@@ -43,7 +51,7 @@ void ColoredDisk::Update()
 			}
 			else
 			{
-				m_pQbert->SetCurrentQube(PYRAMID_TOP);
+				m_pQbert->SetCurrentQube(m_pPyramidTop);
 				m_pQbert->JumpOffDisk();
 				m_pQbert = nullptr;
 				m_pGameObject->Destroy();

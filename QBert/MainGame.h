@@ -7,4 +7,5 @@ public:
 	MainGame() : NapoleonEngine() {}
 
 	void LoadGame() const override;
+	void CreatePrefabs() const override;
 };

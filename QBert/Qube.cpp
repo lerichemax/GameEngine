@@ -98,6 +98,7 @@ void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pCo
 void Qube::AddConnectionToDisk()
 {
 	auto pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
+	pDisk->GetComponent<ColoredDisk>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
 	
 	auto parentPos = m_pGameObject->GetTransform()->GetPosition();
 	if (!HasConnection(ConnectionDirection::upLeft))

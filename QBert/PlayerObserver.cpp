@@ -5,15 +5,18 @@
 #include "QBert.h"
 #include "QBertScene.h"
 #include "Pyramid.h"
+#include "EnemyManager.h"
 
 #include "TextRendererComponent.h"
 
 using namespace empire;
 
-PlayerObserver::PlayerObserver(TextRendererComponent* const pPoints, TextRendererComponent* const pLives, Pyramid* const pPyramid)
+PlayerObserver::PlayerObserver(TextRendererComponent* const pPoints, TextRendererComponent* const pLives, 
+	Pyramid* const pPyramid, EnemyManager* const pManager)
 	:m_pPointsCounter(pPoints),
 	m_LivesCounter(pLives),
-	m_pPyramid(pPyramid)
+	m_pPyramid(pPyramid),
+	m_pEnemyManager(pManager)
 {
 }
 
@@ -27,7 +30,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			m_LivesCounter->SetText("P" +
 				std::to_string(pQ->GetPlayerNumber()) + " Lives: " +
 				std::to_string(pQ->GetLives()));
-			m_pPyramid->GetEnemyManager()->Reset();
+			m_pEnemyManager->Reset();
 			
 			pQ->SetCurrentQube(pQ->GetCurrentQube());
 			pQ->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
@@ -42,6 +45,7 @@ void PlayerObserver::Notify(Component* object, int event)
 			std::to_string(static_cast<QBert*>(object)->GetLives()));
 		object->GetGameObject()->GetComponent<QBert>()->SetCurrentQube(m_pPyramid->GetTop());
 		m_pPyramid->Reset();
+		m_pEnemyManager->Reset();
 		Debugger::GetInstance().Log("YOU DIED !");
 		break;
 	case PlayerEvent::IncreasePoints:
@@ -56,10 +60,10 @@ void PlayerObserver::Notify(Component* object, int event)
 		static_cast<QBertScene*>(object->GetGameObject()->GetParentScene())->ResetGame();
 		break;
 	case PlayerEvent::JumpOnDisk:
-		m_pPyramid->GetEnemyManager()->SetCoiliesIdle(true);
+		m_pEnemyManager->SetCoiliesIdle(true);
 		break;
 	case PlayerEvent::JumpOffDisk:
-		m_pPyramid->GetEnemyManager()->SetCoiliesIdle(false);
+		m_pEnemyManager->SetCoiliesIdle(false);
 		break;
 	}
 }

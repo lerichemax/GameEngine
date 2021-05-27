@@ -1,4 +1,5 @@
 #pragma once
+#include "Component.h"
 #include <array>
 
 class Pyramid;
@@ -6,19 +7,22 @@ class Qube;
 class Coily;
 class SlickSam;
 class WrongWay;
-
-class EnemyManager final
+class EnemyManager final : public empire::Component
 {
 public:
-	EnemyManager(Pyramid* const pPyramid);
-
-	void Update();
+	EnemyManager();
+	EnemyManager* Clone() override { return nullptr; }//TEMP
+	
+	void Initialize() override;
+	void Update() override;
 	
 	void SetCoiliesIdle(bool isIdle);
 	void CoilyDied(Coily* pCoily);
 	void SlickSamDied(SlickSam* pSlickSam);
 	void WrongWayDied(WrongWay* pWrongWay);
 	void Reset();
+
+	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	
 private:
 	unsigned int static const MAX_COILY{ 1 };
@@ -37,7 +41,7 @@ private:
 	float m_SlickSamSpawnTimer{};
 	float m_WrongWaySpawnTimer{};
 	
-	Pyramid* const m_pPyramid;
+	Pyramid* m_pPyramid;
 	
 	std::array<Coily*, MAX_COILY> m_pCoilies;
 	std::array<SlickSam*, MAX_SLICKSAM> m_pSlickSams;

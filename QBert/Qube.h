@@ -28,7 +28,8 @@ class Qube final : public Component
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
 	Qube* Clone() override { return new Qube{*this}; }
-
+	Qube(Qube const& other);
+	
 	Qube(Qube&& other) = delete;
 	Qube& operator=(Qube const& rhs) = delete;
 	Qube& operator=(Qube&& rhs) = delete;
@@ -100,6 +101,4 @@ private:
 	void Flip();
 	void IntermediateFlip();
 	void UnFlip();
-
-	Qube(Qube const& other);
 };

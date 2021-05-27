@@ -5,13 +5,12 @@ class QBert final : public Character
 {
 public:
 	QBert();
-	QBert* Clone() override {return nullptr;}//unclonable
+	QBert* Clone() override { return new QBert(*this); }
 	
-	QBert(QBert const& other) = delete;
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;
 	QBert& operator=(QBert&& rhs) = delete;
-	~QBert();
+	~QBert() = default;
 
 	int GetPoints() const { return m_NbrPoints; }
 	int GetLives() const { return m_NbrLives; }
@@ -23,6 +22,7 @@ public:
 	void JumpOffDisk();
 	void Reset(bool fullReset, Qube* pTargetQube);
 	void SetCanMove() { m_bCanMove = true; }
+	void SetPlayerNbr(int nbr) { m_PlayerNbr = nbr; }
 protected:
 	void MeetCharacter(Character* pOther) override;
 	void LandOnQube() override;
@@ -30,7 +30,7 @@ protected:
 private:
 	int const MAX_LIVES{ 3 };
 	
-	static int m_PlayerNbr;
+	int m_PlayerNbr;
 	int m_NbrLives;
 	int m_NbrPoints;
 
@@ -38,4 +38,6 @@ private:
 
 	void Initialize() override;
 	void SetDirectionTextures(ConnectionDirection dir) override;
+
+	QBert(QBert const& other);
 };

@@ -125,9 +125,6 @@
     <ClInclude Include="ObserverManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="SceneRenderer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -150,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="ButtonComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +237,6 @@
     <ClCompile Include="ObserverManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="SceneRenderer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -262,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="ButtonComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

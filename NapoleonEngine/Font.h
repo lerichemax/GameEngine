@@ -18,9 +18,13 @@ namespace empire
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
-	
+
+		std::string GetFilePath() const { return m_FilePath; }
+		unsigned int GetSize() const { return m_Size; }
 	private:
 		_TTF_Font* m_Font;
 		unsigned int m_Size;
+
+		std::string m_FilePath;
 	};
 }

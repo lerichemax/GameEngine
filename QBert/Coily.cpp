@@ -9,10 +9,12 @@
 
 #include <thread>
 
-Coily::Coily(Pyramid* pPyramid)
+Coily::Coily()
 	: Enemy(500),
-	m_pPyramid(pPyramid),
-	m_bIsTransformed(false)
+	m_pPyramid(nullptr),
+	m_bIsTransformed(false),
+	m_bIsIdle(false),
+	m_MovementQueue{}
 {}
 
 Coily::Coily(Coily const& other)
@@ -135,6 +137,10 @@ ConnectionDirection Coily::ChooseDirection()
 
 void Coily::FindQBert()
 {
+	if (m_pPyramid == nullptr)
+	{
+		Debugger::GetInstance().LogError("Variable m_pPyramid of Coily is undefined");
+	}
 	std::thread t1([this]
 		{
 			bool result{};

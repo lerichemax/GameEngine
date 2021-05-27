@@ -158,6 +158,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="ColoredDisk.cpp" />
+    <ClCompile Include="CoopScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyObserver.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Coily.h" />
     <ClInclude Include="ColoredDisk.h" />
+    <ClInclude Include="CoopScene.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyObserver.h" />

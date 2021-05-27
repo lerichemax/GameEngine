@@ -15,9 +15,9 @@ class Pyramid final : public Component
 {
 
 public:
-	Pyramid(unsigned int maxWidth, QBert* pQbert);
+	Pyramid(unsigned int maxWidth);
 	
-	Pyramid* Clone() override { return nullptr; } //unclonable
+	Pyramid* Clone() override { return new Pyramid(*this); } 
 	
 	Pyramid(Pyramid&& other) = delete;
 	Pyramid& operator=(Pyramid const& rhs) = delete;
@@ -30,7 +30,7 @@ public:
 	Qube* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
 	Qube* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	Qube* GetQube(int index) const { return m_pQubes[index]; }
-	EnemyManager* GetEnemyManager() const { return m_pEnemyManager; }
+
 	std::vector<Qube*> const& GetQubes() const { return m_pQubes; }
 	
 	bool AreAllQubesFlipped() const;
@@ -49,8 +49,6 @@ private:
 	float m_DiskSpawnTimer;
 	
 	std::vector<Qube*> m_pQubes;
-
-	EnemyManager* m_pEnemyManager;
 	
 	void Initialize() override;
 	
@@ -67,4 +65,5 @@ private:
 	
 	void DiskSpawnerTimer();
 
+	Pyramid(Pyramid const& other);
 };

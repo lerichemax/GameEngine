@@ -69,6 +69,22 @@ Texture2D* const ResourceManager::GetTexture(const std::string& file)
 	return m_pTextures.at(file);
 }
 
+Font* const empire::ResourceManager::GetFont(const std::string& file, unsigned int size)
+{
+	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](Font* pFont)
+		{
+			return pFont->GetFilePath() == file && pFont->GetSize() == size;
+		});
+	if (fontIt != m_pFonts.end())
+	{
+		return *fontIt;
+	}
+	else
+	{
+		return LoadFont(file, size);
+	}
+}
+
 Font* const empire::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	m_pFonts.push_back(new Font{ m_DataPath + file, size });

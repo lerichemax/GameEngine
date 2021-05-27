@@ -51,15 +51,11 @@ void empire::NapoleonEngine::Initialize()
 	std::srand(unsigned int(time(nullptr)));
 
 	auto fpsCounter = new GameObject{};
-	auto const font = ResourceManager::GetInstance().LoadFont("Fonts/Lingua.otf", 15);
+	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 	fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
 	fpsCounter->AddComponent(new FPSCounter{});
 	fpsCounter->GetTransform()->Translate(20.f, 20.f);
 	PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
-
-	auto uiObject = new GameObject;
-	uiObject->AddComponent(new TextRendererComponent{"text", font});
-	PrefabsManager::GetInstance().AddPrefab("UIObject", uiObject);
 }
 
 void empire::NapoleonEngine::Cleanup()
@@ -84,6 +80,7 @@ void empire::NapoleonEngine::Run()
 
 	Initialize();
 
+	CreatePrefabs();
 	LoadGame();
 	
 	{

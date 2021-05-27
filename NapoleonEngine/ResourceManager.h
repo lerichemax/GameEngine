@@ -13,7 +13,7 @@ namespace empire
 		void Init(const std::string& data);
 		
 		Texture2D* const GetTexture(const std::string& file);
-		Font* const LoadFont(const std::string& file, unsigned int size);
+		Font* const GetFont(const std::string& file, unsigned int size);
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
@@ -23,5 +23,6 @@ namespace empire
 		std::vector<Font*> m_pFonts;
 
 		Texture2D* const LoadTexture(const std::string& file);
+		Font* const LoadFont(const std::string& file, unsigned int size);
 	};
 }

@@ -11,6 +11,7 @@
 #include "WrongWay.h"
 #include "Jumper.h"
 #include "WrongWayJumper.h"
+#include "EnemyManager.h"
 
 #include "ResourceManager.h"
 #include "InputManager.h"
@@ -25,98 +26,50 @@ using namespace empire;
 
 QBertScene::QBertScene(Level startLevel)
 	: Scene("QBertScene"),
-	m_Level(startLevel)
+	m_Level(startLevel),
+	m_pQbert(nullptr),
+	m_pPyramid(nullptr),
+	m_pManager(nullptr)
 {
 }
 
 void QBertScene::Initialize()
 {
 	AddObject(PrefabsManager::GetInstance().Instantiate("FPSCounter"));
+
+	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	auto const& pPrefabManager = PrefabsManager::GetInstance();
 	
-	auto const livesP1 = PrefabsManager::GetInstance().Instantiate("UIObject", glm::vec3{ 20.f, 40.f, 0.f });
-	livesP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
+	auto const livesP1 = pPrefabManager.Instantiate("LivesUI");
 	AddObject(livesP1);
 
-	auto const pointsP1 = PrefabsManager::GetInstance().Instantiate("UIObject", glm::vec3{ 20.f, 60.f, 0.f });
-	pointsP1->GetComponent<TextRendererComponent>()->SetText("P1 Points: 0 ");
-	pointsP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
+	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
 	AddObject(pointsP1);
 
-	//Qbert 
-	auto qbert = new GameObject();
-	qbert->AddComponent(new RendererComponent("QBert.png", Layer::foreground));
-	
-	m_pQbert = new QBert();
-	qbert->AddComponent(m_pQbert);
-	qbert->AddComponent(new Jumper{});
-	qbert->AddComponent(new BoxCollider{ 24,24 });
-	qbert->GetTransform()->Scale(1.5f);
+	auto qbertObj = pPrefabManager.Instantiate("QBert");
+	m_pQbert = qbertObj->GetComponent<QBert>();
+	m_pQbert->SetPlayerNbr(1);
+	AddObject(qbertObj);
 	
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pQbert->GetLives()));
 
-	//Qube prefab
-	auto qubePf = new GameObject{};
-	auto text = ResourceManager::GetInstance().GetTexture("Qube.png");
-	auto interText = ResourceManager::GetInstance().GetTexture("Qube_Intermediate.png");
-	auto flippedText = ResourceManager::GetInstance().GetTexture("Qube_Flipped.png");
-	qubePf->GetTransform()->Scale(1.75f);
-	qubePf->AddComponent(new RendererComponent(text));
-	qubePf->AddComponent(new Qube{ text, interText, flippedText });
-	PrefabsManager::GetInstance().AddPrefab("Qube", qubePf);
-	
-	auto pyramid = new GameObject{};
-	pyramid->GetTransform()->Translate(250.f, 400.f);
-	m_pPyramid = new Pyramid{ 7, m_pQbert };
-	pyramid->AddComponent(m_pPyramid);
-
+	auto pyramid = pPrefabManager.Instantiate("Pyramid");
+	m_pPyramid = pyramid->GetComponent<Pyramid>();
+	ObserverManager::GetInstance().AddObserver(new QubeObserver{ m_pPyramid, m_pQbert });
 	AddObject(pyramid);
-	AddObject(qbert);
 	
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 
-	//Ugg/Wrong way
-	auto wrongWayPrefab = new GameObject{};
-	wrongWayPrefab->AddComponent(new WrongWay{ true });
-	wrongWayPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
-	wrongWayPrefab->AddComponent(new WrongWayJumper{});
-	wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
-	wrongWayPrefab->GetTransform()->Scale(2.f, 2.f);
-	PrefabsManager::GetInstance().AddPrefab("WrongWay", wrongWayPrefab);
+	auto enemyManagerObj = new GameObject{};
+	m_pManager = new EnemyManager{};
+	m_pManager->SetPyramid(m_pPyramid);
+	enemyManagerObj->AddComponent(m_pManager);
+	AddObject(enemyManagerObj);
 
-	auto uggPrefab = new GameObject{};
-	uggPrefab->AddComponent(new WrongWay{ false });
-	uggPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
-	uggPrefab->AddComponent(new WrongWayJumper{});
-	uggPrefab->GetTransform()->Scale(2.f, 2.f);
-	PrefabsManager::GetInstance().AddPrefab("Ugg", uggPrefab);
-	
-	//Coily prefab
-	auto coilyPrefab = new GameObject{};
-	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
-	coilyPrefab->AddComponent(new Coily{m_pPyramid});
-	coilyPrefab->AddComponent(new Jumper{});
-	coilyPrefab->GetTransform()->Scale(1.5f);
-	PrefabsManager::GetInstance().AddPrefab("Coily", coilyPrefab);
-
-	//SlickSam
-	auto slickSamPf = new GameObject();
-	slickSamPf->AddComponent(new empire::RendererComponent(empire::Layer::middleground));
-	slickSamPf->AddComponent(new SlickSam{});
-	slickSamPf->AddComponent(new Jumper{});
-	slickSamPf->GetTransform()->Scale(1.5f);
-	PrefabsManager::GetInstance().AddPrefab("SlickSam", slickSamPf);
-
-	//ColoredDisk
-	auto diskPf = new GameObject{};
-	auto const diskText = empire::ResourceManager::GetInstance().GetTexture("Disk.png");
-	diskPf->AddComponent(new ColoredDisk{m_pPyramid->GetTop()});
-	diskPf->AddComponent(new empire::RendererComponent{ diskText, empire::Layer::middleground });
-	diskPf->GetTransform()->Scale(2);
-	PrefabsManager::GetInstance().AddPrefab("Disk", diskPf);
+	ObserverManager::GetInstance().AddObserver(new EnemyObserver{ m_pManager });
 	
 	auto playerObserver = new PlayerObserver{
-		pointsP1->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(), m_pPyramid };
+		pointsP1->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(), m_pPyramid, m_pManager };
 	ObserverManager::GetInstance().AddObserver(playerObserver);
 	m_pQbert->GetSubject()->AddObserver(playerObserver);
 	
@@ -130,6 +83,7 @@ void QBertScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
 	m_pPyramid->Reset();
+	m_pManager->Reset();
 	m_pQbert->Reset(false, m_pPyramid->GetTop());
 }
 
@@ -137,5 +91,6 @@ void QBertScene::ResetGame()
 {
 	m_Level = Level::Level1;
 	m_pPyramid->Reset();
+	m_pManager->Reset();
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
 }

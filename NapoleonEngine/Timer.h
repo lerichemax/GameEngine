@@ -12,7 +12,8 @@ namespace empire
 		
 		float GetDeltaTime() const { return m_DeltaTime; }
 		void Update();
-	
+
+		void SetTimeScale(float scale) { m_TimeScale = scale; }
 	private:
 		friend class Singleton<Timer>;
 		friend void NapoleonEngine::Run();
@@ -25,7 +26,8 @@ namespace empire
 
 		float m_Lag;
 		float m_DeltaTime;
-
+		float m_TimeScale;
+		
 		void Sleep();
 		
 	};

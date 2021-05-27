@@ -10,6 +10,7 @@ enum class Level
 
 class QBert;
 class Pyramid;
+class EnemyManager;
 class QBertScene final : public empire::Scene
 {
 public:
@@ -20,8 +21,10 @@ public:
 	Level GetLevel()const { return m_Level; }
 	void ResetScene(Level newLevel);
 	void ResetGame();
+
 private:
 	Level m_Level;
-	QBert* m_pQbert{nullptr};
-	Pyramid* m_pPyramid{nullptr};
+	QBert* m_pQbert;
+	Pyramid* m_pPyramid;
+	EnemyManager* m_pManager;
 };
