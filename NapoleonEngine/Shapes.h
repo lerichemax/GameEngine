@@ -7,12 +7,21 @@ namespace empire
 
 	struct Color final
 	{
-		unsigned char R, G, B;
+		unsigned char R, G, B, A;
 
 		Color(unsigned char r, unsigned char g, unsigned char b)
 			:R{ r },
 			G{ g },
-			B{ b }
+			B{ b },
+			A{255}
+		{
+		}
+
+		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+			:R{ r },
+			G{ g },
+			B{ b },
+			A{ a }
 		{
 		}
 	};
@@ -36,7 +45,6 @@ namespace empire
 		void Draw(SDL_Renderer* pRenderer) const override;
 
 		Point(glm::vec2 const& pos, Color const& col);
-
 	};
 	struct Circle;
 	struct Rectangle final :public Shape
@@ -46,7 +54,8 @@ namespace empire
 		unsigned int height;
 
 		void Draw(SDL_Renderer* pRenderer) const override;
-
+		void Fill(SDL_Renderer* pRenderer)const;
+		
 		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col);
 		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height);
 		Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height);

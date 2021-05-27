@@ -21,7 +21,7 @@ namespace empire
 		TransformComponent& operator=(TransformComponent&& rhs) = default;
 		~TransformComponent() = default;
 		
-		void Update() override {}
+		void Update() override;
 		
 		const glm::vec2& GetPosition() const { return m_Position; }
 		const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }
@@ -37,6 +37,8 @@ namespace empire
 		void Scale(float uniformScale);
 		void Rotate(float rot);
 
+		void SetWorldPosition(glm::vec2 const& worldPos);
+
 		glm::mat3x3 GetWorldMatrix() const { return m_World; }
 		glm::mat3x3 GetWorldToLocalMatrix() const {return glm::inverse(m_World); }
 	
@@ -51,6 +53,5 @@ namespace empire
 		float m_WorldRotation;
 		
 		void Initialize() override;
-		void UpdateTransform();
 	};
 }

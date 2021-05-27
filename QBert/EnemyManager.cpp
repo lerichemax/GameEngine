@@ -21,8 +21,8 @@ EnemyManager::EnemyManager(Pyramid* const pPyramid)
 
 void EnemyManager::Update()
 {
-	//CoilySpawnerTimer();
-	//SlickSamSpawnerTimer();
+	CoilySpawnerTimer();
+	SlickSamSpawnerTimer();
 	WrongWaySpawnerTimer();
 }
 

@@ -229,6 +229,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
@@ -308,6 +309,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Component.cpp" />

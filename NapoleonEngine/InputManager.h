@@ -36,18 +36,23 @@ namespace empire
 		bool IsPressed(ControllerButton button) const;
 		
 		void AddCommand(SDL_Keycode code, Command* pCommand);
-		void SetUseKeyboard(bool bUseKb) { m_bUseKeyboard = bUseKb; }
-	
+
+		glm::vec2 GetMousePosition() const { return m_MousePosition; }
+		bool IsMousePressed() const { return m_bIsMouseClicked; }
 	private:
 		friend class Singleton<InputManager>;
-		InputManager() :m_CommandMap(){}
+		InputManager();
+		
 		XINPUT_STATE m_CurrentControllerState{};
 		
 		std::map<int, Command*> m_CommandMap;
-
-		bool m_bUseKeyboard{false};
 		
-		bool ProcessControllerInput();
+		glm::vec2 m_MousePosition;
+		
+		bool m_bIsMouseClicked; //left button
+
+		void ProcessControllerInput();
 		bool ProcessKeyboardInput();
+		
 	};
 }

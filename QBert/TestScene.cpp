@@ -12,5 +12,5 @@ void TestScene::Initialize()
 
 	go->GetTransform()->Translate(350, 350);
 	go->GetTransform()->Scale(2.f, 2.f);
-	Add(go);
+	AddObject(go);
 }

@@ -45,6 +45,13 @@ void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
 	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
 	SDL_Rect rect{ (int)pos.x, (int)pos.y, (int)width, (int)height };
+	SDL_RenderDrawRect(pRenderer, &rect);
+}
+
+void Rectangle::Fill(SDL_Renderer* pRenderer) const
+{
+	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
+	SDL_Rect rect{ (int)pos.x, (int)pos.y, (int)width, (int)height };
 	SDL_RenderFillRect(pRenderer, &rect);
 }
 

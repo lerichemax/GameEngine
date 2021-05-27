@@ -6,6 +6,12 @@
 
 using namespace empire;
 
+InputManager::InputManager()
+	:m_CommandMap(),
+	m_MousePosition(0,0),
+	m_bIsMouseClicked(false)
+{}
+
 InputManager::~InputManager()
 {
 	for (auto pair : m_CommandMap)
@@ -16,12 +22,9 @@ InputManager::~InputManager()
 
 bool InputManager::ProcessInput()
 {
-	if (m_bUseKeyboard)
-	{
-		return ProcessKeyboardInput();
-	}
-	
-	return ProcessControllerInput();
+	m_bIsMouseClicked = false;
+	ProcessControllerInput();
+	return ProcessKeyboardInput();
 }
 
 bool InputManager::IsPressed(ControllerButton button) const
@@ -60,14 +63,23 @@ bool InputManager::ProcessKeyboardInput()
 				break;
 			}
 		}
+		switch (e.type) // Handle mouse events
+		{
+		case SDL_MOUSEMOTION:
+			m_MousePosition = glm::vec2(e.motion.x, e.motion.y);
+			break;
+		case SDL_MOUSEBUTTONUP:
+			m_bIsMouseClicked = true;
+			break;
+		}
 	}
 	return true;
 }
 
-bool InputManager::ProcessControllerInput()
+void InputManager::ProcessControllerInput()
 {
 	
-	//ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
+	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
 	XInputGetState(0, &m_CurrentControllerState);
 
 	std::for_each(m_CommandMap.begin(), m_CommandMap.end(), [this](std::pair<const int, Command*>& cmdPair)
@@ -108,7 +120,6 @@ bool InputManager::ProcessControllerInput()
 				break;
 			}
 		});
-	return true;
 }
 
 void InputManager::AddCommand(SDL_Keycode keyCode, Command* pCommand)

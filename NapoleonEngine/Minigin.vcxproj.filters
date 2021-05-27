@@ -148,6 +148,9 @@
     <ClInclude Include="CircleCollider.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -255,6 +258,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

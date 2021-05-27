@@ -8,7 +8,7 @@ empire::SceneManager::~SceneManager()
 {
 	for (auto pScene : m_pScenesMap)
 	{
-		delete pScene.second;
+		SafeDelete(pScene.second);
 	}
 }
 
@@ -93,7 +93,7 @@ void SceneManager::SetSceneActive(std::string const& name)
 	{
 		scene->m_bIsActive = false;
 	}
-
+	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
 	m_pScenesMap.at(name)->m_bIsActive = true;
 	m_pScenesMap.at(name)->Initialize();
 }

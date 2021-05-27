@@ -28,6 +28,11 @@ namespace empire
 
 		template<class T>
 		T* GetComponent() const;
+
+		template <class T>
+		T* GetComponentInChildren() const;
+
+		
 		TransformComponent* GetTransform() const { return m_pTransform; }
 
 		void AddComponent(Component* pComp);
@@ -37,16 +42,16 @@ namespace empire
 		
 		bool HasChildren() const { return m_pChildren.size() > 0; }
 		
-		bool IsActive() const { return m_IsActive; }
-		void Destroy() { m_IsActive = false; }
+		bool IsActive() const { return m_bIsActive; }
+		void Destroy() { m_bIsActive = false; }
 		GameObject* GetParent() const{ return m_pParent; }
 		Scene* const GetParentScene() const { return m_pScene; }
-	
+		bool IsInitialized() { return m_bIsInitialized; }
 	private:
 		friend class PrefabsManager;
 		
-		bool m_IsActive;
-		bool m_IsInitialized;
+		bool m_bIsActive;
+		bool m_bIsInitialized;
 		
 		std::vector<Component*> m_pComponents;
 		TransformComponent* m_pTransform;
@@ -80,7 +85,22 @@ namespace empire
 				}
 			}
 		}
-		Debugger::GetInstance().LogError("Component not found");
+		return nullptr;
+	}
+
+
+	template <class T>
+	T* GameObject::GetComponentInChildren() const
+	{
+		T* pComp{};
+		for (auto pChild : m_pChildren)
+		{
+			pComp = pChild->GetComponent<T>();
+			if (pComp != nullptr)
+			{
+				return pComp;
+			}
+		}
 		return nullptr;
 	}
 

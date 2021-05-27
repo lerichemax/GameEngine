@@ -50,6 +50,5 @@ namespace empire
 		CollisionFunction m_OnCollision;
 
 		bool m_bIsTrigger;
-		bool m_bIsInitialized;
 	};
 }

@@ -9,14 +9,13 @@ empire::ColliderComponent::ColliderComponent(Type type)
 	m_OnTriggerEnter(nullptr),
 	m_OnTriggerStay(nullptr),
 	m_OnTriggerExit(nullptr),
-	m_OnCollision(nullptr),
-	m_bIsInitialized(false)
+	m_OnCollision(nullptr)
 {
 }
 
 empire::ColliderComponent::~ColliderComponent()
 {
-	if (m_bIsInitialized)
+	if (m_pGameObject->IsInitialized())
 	{
 		m_pGameObject->GetParentScene()->RemoveCollider(this);
 	}	
@@ -25,5 +24,5 @@ empire::ColliderComponent::~ColliderComponent()
 void empire::ColliderComponent::Initialize()
 {
 	m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
-	m_bIsInitialized = true;
+
 }

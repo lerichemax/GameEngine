@@ -164,6 +164,7 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="Pyramid.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="EnemyObserver.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="Pyramid.h" />

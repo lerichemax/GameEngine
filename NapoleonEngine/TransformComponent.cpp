@@ -25,10 +25,10 @@ TransformComponent::TransformComponent(float x, float y)
 
 void TransformComponent::Initialize()
 {
-	UpdateTransform();
+	Update();
 }
 
-void TransformComponent::UpdateTransform()
+void TransformComponent::Update()
 {
 	auto pParent = m_pGameObject->GetParent();
 	if (pParent != nullptr)
@@ -69,35 +69,46 @@ void TransformComponent::Translate(const float x, const float y)
 {
 	m_Position.x = x;
 	m_Position.y = y;
-	UpdateTransform();
 }
 
 void TransformComponent::Translate(glm::vec2 const& pos)
 {
-	m_Position.x = pos.x;
-	m_Position.y = pos.y;
-	UpdateTransform();
+	m_Position = pos;
+}
+
+void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
+{
+	auto parentObj = m_pGameObject->GetParent();
+	if (parentObj == nullptr)
+	{
+		Translate(worldPos);
+	}
+	else
+	{
+		auto parentWorld = parentObj->GetTransform()->GetWorldPosition();
+
+		auto pos = worldPos - parentWorld;
+
+		Translate(pos);
+	}
 }
 
 void TransformComponent::Scale(float x, float y)
 {
 	m_Scale.x = x;
 	m_Scale.y = y;
-	UpdateTransform();
 }
 
 void TransformComponent::Scale(glm::vec2 const& scale)
 {
 	m_Scale.x = scale.x;
 	m_Scale.y = scale.y;
-	UpdateTransform();
 }
 
 void TransformComponent::Scale(float uniformScale)
 {
 	m_Scale.x = uniformScale;
 	m_Scale.y = uniformScale;
-	UpdateTransform();
 }
 
 TransformComponent& TransformComponent::operator=(TransformComponent const& rhs)
@@ -124,5 +135,4 @@ TransformComponent& TransformComponent::operator=(TransformComponent const& rhs)
 void TransformComponent::Rotate(float rot)
 {
 	m_Rotation = rot;
-	UpdateTransform();
 }

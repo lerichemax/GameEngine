@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
 #include "SceneRenderer.h"
 
 #include <algorithm>
@@ -25,13 +24,13 @@ void Scene::CleanUpScene()
 {
 	for (auto pObject : m_pObjects)
 	{
-		delete pObject;
+		SafeDelete(pObject);
 	}
 	m_pObjects.clear();
-	delete m_pSceneRenderer;
+	SafeDelete(m_pSceneRenderer);
 }
 
-void Scene::Add(GameObject* object)
+void Scene::AddObject(GameObject* object)
 {
 	m_pObjects.emplace_back(std::move(object));
 	object->m_pScene = this;

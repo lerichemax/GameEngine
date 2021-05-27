@@ -9,8 +9,8 @@ using namespace empire;
 
 GameObject::GameObject()
 	:m_pTransform(new TransformComponent(0.f, 0.f)),
-	m_IsActive(true),
-	m_IsInitialized(false),
+	m_bIsActive(true),
+	m_bIsInitialized(false),
 	m_pScene(nullptr)
 {
 	AddComponent(m_pTransform);
@@ -18,8 +18,8 @@ GameObject::GameObject()
 
 GameObject::GameObject(const GameObject& other)
 	:m_pTransform(nullptr),
-	m_IsActive(true),
-	m_IsInitialized(other.m_IsInitialized),
+	m_bIsActive(true),
+	m_bIsInitialized(other.m_bIsInitialized),
 	m_pScene(nullptr)
 {
 	for (Component* pComp : other.m_pComponents)
@@ -81,8 +81,12 @@ void GameObject::AddChild(GameObject* pChild)
 {
 	m_pChildren.push_back(pChild);
 	pChild->m_pParent = this;
-	pChild->m_pScene = m_pScene;
-	pChild->Initialize();
+	
+	if (m_bIsInitialized)
+	{
+		pChild->m_pScene = m_pScene;
+		pChild->Initialize();
+	}
 }
 
 void GameObject::AddComponent(Component* pComp)
@@ -99,8 +103,9 @@ void GameObject::AddComponent(Component* pComp)
 
 void GameObject::Initialize()
 {
-	if (!m_IsInitialized)
+	if (!m_bIsInitialized)
 	{
+		m_bIsInitialized = true;
 		for (auto pComp : m_pComponents)
 		{
 			pComp->Initialize();
@@ -110,6 +115,6 @@ void GameObject::Initialize()
 		{
 			pChild->Initialize();
 		}
-		m_IsInitialized = true;
+		
 	}
 }

@@ -21,7 +21,7 @@ namespace empire
 
 		virtual void Initialize() = 0;
 		
-		void Add(GameObject* object);
+		void AddObject(GameObject* object);
 		void Update();
 		void Render() const;
 

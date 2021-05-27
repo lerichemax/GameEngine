@@ -31,16 +31,16 @@ QBertScene::QBertScene(Level startLevel)
 
 void QBertScene::Initialize()
 {
-	Add(PrefabsManager::GetInstance().Instantiate("FPSCounter"));
+	AddObject(PrefabsManager::GetInstance().Instantiate("FPSCounter"));
 	
 	auto const livesP1 = PrefabsManager::GetInstance().Instantiate("UIObject", glm::vec3{ 20.f, 40.f, 0.f });
 	livesP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
-	Add(livesP1);
+	AddObject(livesP1);
 
 	auto const pointsP1 = PrefabsManager::GetInstance().Instantiate("UIObject", glm::vec3{ 20.f, 60.f, 0.f });
 	pointsP1->GetComponent<TextRendererComponent>()->SetText("P1 Points: 0 ");
 	pointsP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
-	Add(pointsP1);
+	AddObject(pointsP1);
 
 	//Qbert 
 	auto qbert = new GameObject();
@@ -69,8 +69,8 @@ void QBertScene::Initialize()
 	m_pPyramid = new Pyramid{ 7, m_pQbert };
 	pyramid->AddComponent(m_pPyramid);
 
-	Add(pyramid);
-	Add(qbert);
+	AddObject(pyramid);
+	AddObject(qbert);
 	
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 
@@ -120,7 +120,6 @@ void QBertScene::Initialize()
 	ObserverManager::GetInstance().AddObserver(playerObserver);
 	m_pQbert->GetSubject()->AddObserver(playerObserver);
 	
-	InputManager::GetInstance().SetUseKeyboard(true);
 	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert, m_pPyramid));
 	InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert, m_pPyramid));
 	InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert, m_pPyramid));

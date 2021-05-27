@@ -16,9 +16,14 @@ using namespace empire;
 
 SDL_Renderer* Renderer::m_pRenderer{};
 
+Renderer::Renderer()
+	: Singleton<Renderer>(),
+	m_BackgroundColor(0, 0, 0, 0)
+{
+	
+}
 void Renderer::Init(SDL_Window * window)
 {
-	m_ShowDemo = true;
 	m_pWindow = window;
 	m_pRenderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr) 
@@ -34,7 +39,7 @@ void Renderer::Init(SDL_Window * window)
 
 void empire::Renderer::Render()
 {
-	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
 	
 	//ImGui_ImplOpenGL2_NewFrame();
