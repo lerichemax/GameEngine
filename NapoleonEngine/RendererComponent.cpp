@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "SceneRenderer.h"
-
+#include "Scene.h"
 
 using namespace empire;
 RendererComponent::RendererComponent(Layer layer)

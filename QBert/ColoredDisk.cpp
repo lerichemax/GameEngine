@@ -1,9 +1,10 @@
 #include "PCH.h"
 #include "ColoredDisk.h"
 #include "Qube.h"
+#include "QBert.h"
 
 #include "GameObject.h"
-#include "QBert.h"
+#include "TransformComponent.h"
 #include "Timer.h"
 
 ColoredDisk::ColoredDisk()

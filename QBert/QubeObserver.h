@@ -13,10 +13,9 @@ class QBert;
 class QubeObserver final : public empire::Observer
 {
 public:
-	QubeObserver(Pyramid* const pController, QBert* const pQBert);
+	QubeObserver(Pyramid* const pController);
 	~QubeObserver() = default;
-	void Notify(empire::Component * object, int event) override;
+	void Notify(empire::GameObject* object, int event) override;
 private:
 	Pyramid * const m_pPyramid;
-	QBert* const m_pQBert;
 };

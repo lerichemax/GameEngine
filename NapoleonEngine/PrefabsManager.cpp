@@ -1,6 +1,7 @@
 #include "PCH.h"
 #include "PrefabsManager.h"
 
+#include "TransformComponent.h"
 using namespace empire;
 
 PrefabsManager::~PrefabsManager()

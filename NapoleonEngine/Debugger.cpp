@@ -16,7 +16,7 @@ void Debugger::Log(std::string const& message) const
 
 void Debugger::LogError(std::string const& message) const
 {
-	std::cerr << message << std::endl;
+	MessageBox(NULL, message.c_str(), "Error!", MB_OK);
 }
 
 void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)

@@ -94,6 +94,18 @@ void SceneManager::SetSceneActive(std::string const& name)
 		scene->m_bIsActive = false;
 	}
 	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
-	m_pScenesMap.at(name)->m_bIsActive = true;
-	m_pScenesMap.at(name)->Initialize();
+
+	if (m_pScenesMap.find(name) == m_pScenesMap.end())
+	{
+		Debugger::GetInstance().LogError("No existing scene with the name " + name);
+	}
+	auto newScene = m_pScenesMap.at(name);
+	newScene->m_bIsActive = true;
+	
+	if (!newScene->m_bIsInitialized)
+	{
+		m_pScenesMap.at(name)->Initialize();
+		newScene->m_bIsInitialized = true;
+	}
+	
 }

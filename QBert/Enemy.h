@@ -1,6 +1,5 @@
 #pragma once
 #include "Character.h"
-#include "EnemyObserver.h"
 
 class Enemy : public Character
 {
@@ -20,8 +19,6 @@ protected:
 	friend class EnemyManager;
 	
 	unsigned int const POINTS_FOR_KILL;
-	
-	virtual ConnectionDirection ChooseDirection();
 
 	virtual void Initialize() override;
 	virtual void MeetCharacter(Character* ) override {}
@@ -31,11 +28,6 @@ protected:
 	
 	Enemy(Enemy const& other)
 		:Character(other),
-		POINTS_FOR_KILL(other.POINTS_FOR_KILL),
-		m_MoveTimer()
+		POINTS_FOR_KILL(other.POINTS_FOR_KILL)
 	{}
-
-	float const MOVE_MAX_TIME{ 1.f };
-	
-	float m_MoveTimer;
 };

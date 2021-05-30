@@ -1,38 +1,39 @@
 #include "PCH.h"
 #include "QBert.h"
-#include "PlayerObserver.h"
 #include "Qube.h"
 #include "ColoredDisk.h"
 #include "Coily.h"
 #include "SlickSam.h"
 #include "WrongWay.h"
+#include "CharacterPoint.h"
+#include "CharacterLives.h"
 
 #include "GameObject.h"
-#include "Subject.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 #include "BoxCollider.h"
+#include "CharacterLives.h"
+#include "GameManager.h"
 
 using namespace empire;
 
 QBert::QBert()
 	:Character(nullptr, Type::player),
-	m_NbrLives{ 3 },
-	m_NbrPoints{},
 	m_bCanMove(true)
 {
 }
 
 QBert::QBert(QBert const& other)
 	:Character(other),
-	m_NbrLives{other.m_NbrLives},
-	m_NbrPoints(other.m_NbrPoints),
 	m_bCanMove(other.m_bCanMove)
 {
 }
 
 void QBert::Initialize()
 {
+	m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
+	m_pLives = m_pGameObject->GetComponent<CharacterLives>();
+	
 	m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
 	m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
 		{
@@ -51,22 +52,22 @@ void QBert::Initialize()
 
 void QBert::Die()
 {
-	m_NbrLives--;
+	m_pLives->Die();
 	m_bCanMove = false;
-	if (m_NbrLives <= 0)
+	if (m_pLives->IsGameOver())
 	{
-		m_pSubject->Notify(this, (int)PlayerEvent::GameOver);
+		m_pGameObject->Notify((int)GameEvent::GameOver);
 	}
 	else
 	{
-		m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
+		m_pGameObject->Notify((int)GameEvent::PlayerDied);
 	}
 }
 
 void QBert::EarnPoints(int points)
 {
-	m_NbrPoints += points;
-	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
+	m_pPoints->AddPoints(points);
+	m_pGameObject->Notify((int)GameEvent::IncreasePoints);
 }
 
 void QBert::Move(ConnectionDirection direction)
@@ -102,7 +103,7 @@ void QBert::Move(ConnectionDirection direction)
 void QBert::JumpOffDisk()
 {
 	m_State = State::onQube;
-	m_pSubject->Notify(this, (int)PlayerEvent::JumpOffDisk);
+	m_pGameObject->Notify((int)GameEvent::JumpOffDisk);
 	m_bCanMove = true;
 }
 
@@ -115,12 +116,12 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 		return;
 	}
 
-	m_NbrLives = MAX_LIVES;
-	m_NbrPoints = 0;
-
+	m_pLives->Reset();
+	m_pPoints->Reset();
+	
 	//Notify these events to update the HUD
-	m_pSubject->Notify(this, (int)PlayerEvent::PlayerDied);
-	m_pSubject->Notify(this, (int)PlayerEvent::IncreasePoints);
+	m_pGameObject->Notify((int)GameEvent::PlayerDied);
+	m_pGameObject->Notify((int)GameEvent::IncreasePoints);
 }
 
 void QBert::MeetCharacter(Character* pOther) 
@@ -139,7 +140,7 @@ void QBert::MeetCharacter(Character* pOther)
 
 void QBert::LandOnQube()
 {
-	m_pCurrentQube->QBertJump();
+	m_pCurrentQube->QBertJump(this);
 	Character::LandOnQube();
 }
 

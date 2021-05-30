@@ -1,17 +1,19 @@
 #include "PCH.h"
 #include "GameObject.h"
-
 #include "RendererComponent.h"
-#include "TextRendererComponent.h"
+#include "Subject.h"
 
 #include <algorithm>
+
 using namespace empire;
 
 GameObject::GameObject()
 	:m_pTransform(new TransformComponent(0.f, 0.f)),
 	m_bIsActive(true),
+	m_bIsDestroyed(false),
 	m_bIsInitialized(false),
-	m_pScene(nullptr)
+	m_pScene(nullptr),
+	m_pSubject(new Subject{})
 {
 	AddComponent(m_pTransform);
 }
@@ -20,7 +22,8 @@ GameObject::GameObject(const GameObject& other)
 	:m_pTransform(nullptr),
 	m_bIsActive(true),
 	m_bIsInitialized(other.m_bIsInitialized),
-	m_pScene(nullptr)
+	m_pScene(nullptr),
+	m_pSubject(new Subject{*other.m_pSubject})
 {
 	for (Component* pComp : other.m_pComponents)
 	{
@@ -42,13 +45,18 @@ GameObject::~GameObject()
 		delete comp;
 	}
 	m_pComponents.clear();
+
+	SafeDelete(m_pSubject);
 }
 
 void GameObject::Update()
 {
 	for (auto& c : m_pComponents)
 	{
-		c->Update();
+		if (c->IsEnable())
+		{
+			c->Update();
+		}
 	}
 
 	for (auto pChild : m_pChildren)
@@ -67,10 +75,9 @@ void GameObject::Refresh()
 	for (auto& pChild : m_pChildren)
 	{
 		pChild->Refresh();
-		if (!pChild->IsActive())
+		if (pChild->m_bIsDestroyed)
 		{
-			delete pChild;
-			pChild = nullptr;
+			SafeDelete(pChild);
 		}
 	}
 
@@ -117,4 +124,19 @@ void GameObject::Initialize()
 		}
 		
 	}
+}
+
+void GameObject::AddObserver(Observer* pObserver)
+{
+	m_pSubject->AddObserver(pObserver);
+}
+
+void GameObject::RemoveObserver(Observer* pObserver)
+{
+	m_pSubject->RemoveObserver(pObserver);
+}
+
+void GameObject::Notify(int event)
+{
+	m_pSubject->Notify(this, event);
 }

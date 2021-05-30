@@ -24,7 +24,7 @@ class Character;
 class ColoredDisk;
 class Qube final : public Component
 {
-	friend void QubeObserver::Notify(empire::Component* object, int event);
+	friend void QubeObserver::Notify(empire::GameObject* object, int event);
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
 	Qube* Clone() override { return new Qube{*this}; }
@@ -33,18 +33,17 @@ public:
 	Qube(Qube&& other) = delete;
 	Qube& operator=(Qube const& rhs) = delete;
 	Qube& operator=(Qube&& rhs) = delete;
-	~Qube();
+	~Qube() = default;
 
 	void Initialize() override;
 	void Update() override;
 	
 	glm::vec2 GetCharacterPos() const { return m_CharacterPos; }
-	glm::vec2 GetEscheresqueRight() const { return m_EscheresqueRightPos; }
-	glm::vec2 GetEscheresqueLeft() const { return m_EscheresqueLeftPos; }
+	glm::vec2 GetEscheresqueRightPos() const { return m_EscheresqueRightPos; }
+	glm::vec2 GetEscheresqueLeftPos() const { return m_EscheresqueLeftPos; }
 	
 	Qube* GetConnection(ConnectionDirection dir) const { return m_pConnections[(int)dir]; }
 	Qube* GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
-	Subject* const GetSubject() const { return m_pSubject; }
 	unsigned int GetJumpCounter() const { return m_JumpCounter; }
 	ColoredDisk* GetConnectedDisk() const;
 	Character* GetCharacter() const { return m_pCharacter; }
@@ -66,7 +65,7 @@ public:
 	void AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection);
 	
 	void AddConnectionToDisk();
-	void QBertJump();
+	void QBertJump(QBert* pQube);
 	void Reset();
 	void CharacterJumpIn(Character* pCharacter);
 	void CharacterJumpOut();
@@ -95,8 +94,6 @@ private:
 	bool m_bIsSideColumn{ false };
 	
 	unsigned int m_JumpCounter;
-	
-	Subject* const m_pSubject;
 
 	void Flip();
 	void IntermediateFlip();

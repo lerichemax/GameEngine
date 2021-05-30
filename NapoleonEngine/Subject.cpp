@@ -39,11 +39,14 @@ void Subject::RemoveObserver(Observer* pObserver)
 	ShiftArray(toRemoveIndex + 1);
 }
 
-void Subject::Notify(Component* object, int event)
+void Subject::Notify(GameObject* object, int event)
 {
 	for (unsigned int i = 0; i < m_NbrObservers; i++)
 	{
-		m_pObservers[i]->Notify(object, event);
+		if (m_pObservers[i] != nullptr)
+		{
+			m_pObservers[i]->Notify(object, event);
+		}
 	}
 }
 

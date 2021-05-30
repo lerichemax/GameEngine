@@ -50,12 +50,11 @@ void MainMenuScene::Initialize()
 
 	btn->SetOnClickFunction([](GameObject* )
 		{
-			SceneManager::GetInstance().SetSceneActive("QBertScene");
+			SceneManager::GetInstance().SetSceneActive("SoloScene");
 		});
 
 	soloBtn->GetTransform()->Translate(400, 200);
 	AddObject(soloBtn);
-
 
 	auto coopBtn = new GameObject();
 	btn = new ButtonComponent(80, 50);
@@ -107,10 +106,10 @@ void MainMenuScene::Initialize()
 			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 255, 255);
 		});
 
-	//btn->SetOnClickFunction([](GameObject*)
-	//	{
-	//		
-	//	});
+	btn->SetOnClickFunction([](GameObject*)
+		{
+			SceneManager::GetInstance().SetSceneActive("VersusScene");
+		});
 
 	vsBtn->GetTransform()->Translate(400, 300);
 	AddObject(vsBtn);

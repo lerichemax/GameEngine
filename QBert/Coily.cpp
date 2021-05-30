@@ -7,25 +7,19 @@
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 
-#include <thread>
+#include "GameManager.h"
+#include "VersusGameManager.h"
 
 Coily::Coily()
 	: Enemy(500),
-	m_pPyramid(nullptr),
-	m_bIsTransformed(false),
-	m_bIsIdle(false),
-	m_MovementQueue{}
+	m_bIsTransformed(false)
 {}
 
 Coily::Coily(Coily const& other)
 	:Enemy(other),
-	m_pPyramid(other.m_pPyramid),
-	m_bIsTransformed(other.IsTransformed()),
-	m_bIsIdle(other.m_bIsIdle),
-	m_CurrentlyInQueue(0)
+	m_bIsTransformed(other.IsTransformed())
 {
 }
-
 
 void Coily::Initialize()
 {
@@ -34,44 +28,20 @@ void Coily::Initialize()
 	Enemy::Initialize();
 }
 
-void Coily::Update()
-{
-	if (!m_bIsTransformed)
-	{
-		Enemy::Update();
-		if (m_pCurrentQube->IsLastRow())
-		{
-			Transform();
-		}
-	}
-	else if (!m_bIsIdle)
-	{
-		Enemy::Update();
-	}
-}
-
 void Coily::Move(ConnectionDirection direction)
 {
-	if (direction != ConnectionDirection::null)
+	if (!m_pCurrentQube->HasConnection(direction))
 	{
-		if (m_bIsTransformed)
-		{
-			SetDirectionTextures(direction);
-		}
-		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
-		Enemy::Move(direction);
+		JumpToDeath(direction);
+		return;
 	}
-	else
+	
+	if (m_bIsTransformed)
 	{
-		if(m_pCurrentQube->IsSideColumn())
-		{
-			JumpToDeath(direction);
-		}
-		else
-		{
-			SetIsIdle(true);
-		}
+		SetDirectionTextures(direction);
 	}
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
+	Enemy::Move(direction);
 }
 
 void Coily::MeetCharacter(Character* pOther)
@@ -89,69 +59,17 @@ void Coily::MeetCharacter(Character* pOther)
 	}
 }
 
-void Coily::SetIsIdle(bool isIdle)
-{
-	m_bIsIdle = isIdle;
-	if (!isIdle)
-	{
-		InitMovementQueue();
-	}
-}
-
 void Coily::Die()
 {
 	Enemy::Die();
-	m_pSubject->Notify(this, (int)EnemyEvents::CoilyDies);
+	m_pGameObject->Notify((int)GameEvent::CoilyDies);
 }
 
 void Coily::Transform()
 {
-	//m_pGameObject->GetComponent<RendererComponent>()->
-		//SetTexture(empire::ResourceManager::GetInstance().GetTexture("Coily_FaceRight_Tall.png"));
 	m_bIsTransformed = true;
-	InitMovementQueue();
-}
-
-void Coily::InitMovementQueue()
-{
-	FindQBert();
-}
-
-ConnectionDirection Coily::ChooseDirection()
-{
-	if (!m_bIsTransformed)
-	{
-		return Enemy::ChooseDirection();
-	}
-	
-	if (m_CurrentlyInQueue == 0)
-	{
-		FindQBert();
-	}
-	
-	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
-	m_CurrentlyInQueue--;
-	
-	return  dirToReturn;
-}
-
-void Coily::FindQBert()
-{
-	if (m_pPyramid == nullptr)
-	{
-		Debugger::GetInstance().LogError("Variable m_pPyramid of Coily is undefined");
-	}
-	std::thread t1([this]
-		{
-			bool result{};
-
-			do
-			{
-				result = m_pPyramid->FindNextQubeToQbert(m_pCurrentQube, m_MovementQueue, MOVEMENT_QUEUE_SIZE);
-			} while (!result);
-			m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
-		});
-	t1.detach();
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture("Textures/Enemies/Coily/Coily_Small_DownLeft.png");
+	m_pGameObject->Notify((int)VersusGameEvent::CoilyTransform);
 }
 
 void Coily::SetDirectionTextures(ConnectionDirection dir)

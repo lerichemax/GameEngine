@@ -1,21 +1,22 @@
 #include "PCH.h"
 #include "MoveCommand.h"
 
+
+#include "GameObject.h"
 #include "QBert.h"
 
-MoveCommand::MoveCommand(ConnectionDirection dir, QBert* pQbert, Pyramid* pController, KeyActionState state)
+MoveCommand::MoveCommand(ConnectionDirection dir, Character* pChar, KeyActionState state)
 	: Command(state),
 	m_MoveDirection{ dir },
-	m_pQbert(pQbert),
-	m_pGameController(pController)
+	m_pCharacter(pChar)
 {}
 
 void MoveCommand::Execute()
 {
-	if (m_pQbert->GetState() != State::onQube)
+	if (!m_pCharacter->GetGameObject()->IsActive() || m_pCharacter->GetState() != State::onQube)
 	{
 		return;
 	}
 	
-	m_pQbert->Move(m_MoveDirection);
+	m_pCharacter->Move(m_MoveDirection);
 }

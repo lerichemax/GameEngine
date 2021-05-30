@@ -13,6 +13,7 @@ public:
 
 protected:
 	void MeetCharacter(Character* pOther) override;
+
 private:
 	int static m_NbrInstances;
 

@@ -33,13 +33,12 @@ public:
 
 	virtual Character* Clone() override = 0;
 	
-	virtual ~Character();
+	virtual ~Character() = default;
 	
 	virtual void Update(); 
 	virtual void Move(ConnectionDirection direction) = 0;
 	virtual void Die() = 0;
 	
-	empire::Subject* const GetSubject() const { return m_pSubject; }
 	Qube* const GetCurrentQube() const { return m_pCurrentQube; }
 	Type GetType() const { return m_Type; }
 	State GetState() const { return m_State; }
@@ -52,10 +51,9 @@ public:
 protected:
 	Qube* m_pCurrentQube;
 	Jumper* m_pJumper;
-
+	
 	empire::Texture2D* m_pJumpText;
 	empire::Texture2D* m_pIdleText;
-	empire::Subject* const m_pSubject;
 	
 	Type m_Type;
 	State m_State;

@@ -18,15 +18,12 @@
 
 #include <list>
 
-
-
 Pyramid::Pyramid(unsigned int maxWidth)
 	:MAX_WIDTH(maxWidth),
 	m_NbrDisksSpawned(),
 	m_DiskSpawnTimer(),
 	m_pQubes()
 {
-
 }
 
 Pyramid::Pyramid(Pyramid const& other)
@@ -40,7 +37,6 @@ Pyramid::Pyramid(Pyramid const& other)
 		m_pQubes.push_back(new Qube{ *other.m_pQubes[i] });
 	}
 }
-
 
 Pyramid::~Pyramid()
 {
@@ -68,7 +64,6 @@ void Pyramid::DiskSpawnerTimer()
 			m_DiskSpawnTimer = 0;
 			m_NbrDisksSpawned++;
 		}
-
 	}
 }
 
@@ -88,7 +83,7 @@ void Pyramid::Initialize()
 			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
 
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
-			m_pQubes.back()->GetSubject()->AddObserver(observer);
+			pQube->AddObserver(observer);
 			
 			if (i == MAX_WIDTH)
 			{

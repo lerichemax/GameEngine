@@ -10,7 +10,10 @@ void SceneRenderer::Render()
 	{
 		for (auto rendComp : group)
 		{
-			rendComp->Render(*rendComp->GetGameObject()->GetTransform());
+			if (rendComp->GetGameObject()->IsActive() && rendComp->IsEnable())
+			{
+				rendComp->Render(*rendComp->GetGameObject()->GetTransform());
+			}
 		}
 	}
 }

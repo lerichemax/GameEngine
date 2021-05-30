@@ -3,7 +3,6 @@
 #include "Qube.h"
 
 #include "GameObject.h"
-#include "Timer.h"
 #include "QBert.h"
 
 Enemy::Enemy(int pointsForKill)
@@ -28,17 +27,6 @@ void Enemy::JumpToQube(Qube* pTargetQube)
 
 void Enemy::Update()
 {
-	if (m_State == State::onQube)
-	{
-		if (m_MoveTimer < MOVE_MAX_TIME)
-		{
-			m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
-			return;
-		}
-	
-		Move(ChooseDirection());
-		m_MoveTimer = 0;
-	}
 	
 	Character::Update();
 }
@@ -72,25 +60,4 @@ void Enemy::Die()
 		m_pCurrentQube->CharacterJumpOut();
 	}
 	m_pGameObject->Destroy();
-}
-
-ConnectionDirection Enemy::ChooseDirection()
-{
-	int random = rand() % 2 + 1; //down left or down right
-
-	auto dir = (ConnectionDirection)random ;
-
-	if (!m_pCurrentQube->HasConnection(dir))
-	{
-		if (dir == ConnectionDirection::downLeft)
-		{
-			dir = ConnectionDirection::downRight;
-		}
-		else if (dir == ConnectionDirection::downRight)
-		{
-			dir = ConnectionDirection::downLeft;
-		}
-	}
-	
-	return dir;
 }

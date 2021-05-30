@@ -8,8 +8,10 @@ class Coily final : public Enemy
 public:
 	Coily();
 	Coily* Clone() override { return new Coily(*this); }
-	void Update() override;
-
+	Coily(Coily&& other) = delete;
+	Coily& operator=(Coily const& rhs) = delete;
+	Coily& operator=(Coily&& rhs) = delete;
+	~Coily() = default;
 	
 	void Move(ConnectionDirection direction) override;
 	void MeetCharacter(Character* pOther) override;
@@ -17,29 +19,18 @@ public:
 	
 	void Transform();
 	
-	void SetIsIdle(bool isIdle);
 	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
-	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	
 	bool IsTransformed() const { return m_bIsTransformed; }
+	void SetIsTransformed(bool isTransformed) { m_bIsTransformed = isTransformed; }
 
 protected:
-	ConnectionDirection ChooseDirection() override;
+	void SetDirectionTextures(ConnectionDirection dir) override;
 
 private:
-	int static const MOVEMENT_QUEUE_SIZE{ 2 };
 	bool m_bIsTransformed;
-	bool m_bIsIdle;
-
-	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
-	int m_CurrentlyInQueue;
-	Pyramid* m_pPyramid;
-
-	void InitMovementQueue();
-	void SetDirectionTextures(ConnectionDirection dir);
 
 	void Initialize() override;
-	void FindQBert();
 
 	Coily(Coily const& other);
 };

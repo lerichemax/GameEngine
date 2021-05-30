@@ -7,11 +7,13 @@
 
 using namespace empire;
 
-unsigned int Scene::m_IdCounter = 0;
-
 Scene::Scene(const std::string& name)
 	: m_Name{name},
-	m_pSceneRenderer(new SceneRenderer{})
+	m_pSceneRenderer(new SceneRenderer{}),
+	m_pObjects(),
+	m_pColliders(),
+	m_bIsActive(false),
+	m_bIsInitialized(false)
 {
 }
 
@@ -45,7 +47,10 @@ void Scene::Update()
 {
 	for(auto& object : m_pObjects)
 	{
-		object->Update();
+		if (object->IsActive())
+		{
+			object->Update();
+		}
 	}
 	CheckCollidersCollision();
 	
@@ -55,7 +60,6 @@ void Scene::Update()
 void Scene::Render() const
 {
 	m_pSceneRenderer->Render();
-
 }
 
 void Scene::Refresh()
@@ -63,10 +67,9 @@ void Scene::Refresh()
 	for (auto pGo : m_pObjects)
 	{
 		pGo->Refresh();
-		if (!pGo->IsActive())
+		if (pGo->m_bIsDestroyed)
 		{
-			delete pGo;
-			pGo = nullptr;
+			SafeDelete(pGo);
 		}
 	}
 

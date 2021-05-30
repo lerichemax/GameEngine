@@ -4,12 +4,12 @@
 namespace empire
 {
 	
-	class Component;
+	class GameObject;
 	class Observer
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void Notify(Component* object, int event) = 0;
+		virtual void Notify(GameObject* object, int event) = 0;
 	};
 }
 

@@ -18,7 +18,7 @@ namespace empire
 
 		void AddObserver(Observer* pObserver);
 		void RemoveObserver(Observer* pObserver);
-		void Notify(Component* object, int event);
+		void Notify(GameObject* object, int event);
 	
 	private:
 		Observer* m_pObservers[MAX_OBSERVERS];

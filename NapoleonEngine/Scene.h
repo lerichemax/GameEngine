@@ -32,7 +32,8 @@ namespace empire
 	private:
 		friend void ColliderComponent::Initialize();
 		friend ColliderComponent::~ColliderComponent();
-
+		friend class SceneManager;
+		
 		void AddCollider(ColliderComponent* pCollider);
 		void RemoveCollider(ColliderComponent* pCollider);
 		
@@ -41,9 +42,9 @@ namespace empire
 		std::vector<ColliderComponent*> m_pColliders;
 		
 		SceneRenderer* m_pSceneRenderer;
-		static unsigned int m_IdCounter;
 		
-		bool m_bIsActive{};
+		bool m_bIsActive;
+		bool m_bIsInitialized;
 		
 		void Refresh();
 		void CleanUpScene();

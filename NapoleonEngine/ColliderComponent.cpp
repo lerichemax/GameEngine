@@ -2,6 +2,7 @@
 #include "ColliderComponent.h"
 
 #include "GameObject.h"
+#include "Scene.h"
 
 empire::ColliderComponent::ColliderComponent(Type type)
 	:m_bIsTrigger(false),
@@ -24,5 +25,4 @@ empire::ColliderComponent::~ColliderComponent()
 void empire::ColliderComponent::Initialize()
 {
 	m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
-
 }

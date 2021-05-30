@@ -3,13 +3,13 @@
 
 #include <vector>
 
-#include "TransformComponent.h"
-#include "Scene.h"
 
 namespace empire
 {
-	
+	class Subject;
+	class Observer;
 	class TransformComponent;
+	class Scene;
 	class GameObject final
 	{
 		friend class Scene;
@@ -32,6 +32,8 @@ namespace empire
 		template <class T>
 		T* GetComponentInChildren() const;
 
+		template <class T>
+		void RemoveComponent();
 		
 		TransformComponent* GetTransform() const { return m_pTransform; }
 
@@ -40,17 +42,26 @@ namespace empire
 		void AddChild(GameObject* pChild);
 		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
 		
-		bool HasChildren() const { return m_pChildren.size() > 0; }
 		
-		bool IsActive() const { return m_bIsActive; }
-		void Destroy() { m_bIsActive = false; }
+		void SetActive(bool active) { m_bIsActive = active; }
+		void Destroy() { m_bIsDestroyed = true; }
+		
 		GameObject* GetParent() const{ return m_pParent; }
 		Scene* const GetParentScene() const { return m_pScene; }
+		
 		bool IsInitialized() { return m_bIsInitialized; }
+		bool IsActive() const { return m_bIsActive; }
+		bool HasChildren() const { return m_pChildren.size() > 0; }
+		
+		void AddObserver(Observer* pObserver);
+		void RemoveObserver(Observer* pObserver);
+		void Notify(int event);
 	private:
 		friend class PrefabsManager;
+		friend class Scene;
 		
 		bool m_bIsActive;
+		bool m_bIsDestroyed;
 		bool m_bIsInitialized;
 		
 		std::vector<Component*> m_pComponents;
@@ -59,7 +70,8 @@ namespace empire
 		GameObject* m_pParent;
 		
 		Scene* m_pScene;
-
+		Subject* m_pSubject;
+		
 		void Refresh();
 		void Initialize();
 
@@ -87,7 +99,6 @@ namespace empire
 		}
 		return nullptr;
 	}
-
 
 	template <class T>
 	T* GameObject::GetComponentInChildren() const
@@ -117,5 +128,14 @@ namespace empire
 			}
 		}
 		return false;
+	}
+
+	template <class T>
+	void GameObject::RemoveComponent()
+	{
+		T* pComp = GetComponent<T>();
+
+		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComp), m_pComponents.end());
+		delete pComp;
 	}
 }

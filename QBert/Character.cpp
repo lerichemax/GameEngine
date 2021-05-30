@@ -2,13 +2,13 @@
 #include "Character.h"
 #include "Jumper.h"
 #include "Qube.h"
+#include "CharacterLives.h"
 
 #include "GameObject.h"
 #include "RendererComponent.h"
 
 Character::Character(Qube* pStart, Type type)
 	: m_pCurrentQube(pStart),
-	m_pSubject(new empire::Subject{}),
 	m_Type(type),
 	m_State(State::onQube),
 	m_pJumper(),
@@ -20,7 +20,6 @@ Character::Character(Qube* pStart, Type type)
 
 Character::Character(Character const& other)
 	:m_pCurrentQube(other.m_pCurrentQube),
-	m_pSubject(new Subject(*other.m_pSubject)),
 	m_Type(other.m_Type),
 	m_State(other.m_State),
 	m_pJumper(),
@@ -35,11 +34,6 @@ void Character::Initialize()
 {
 	m_pJumper = m_pGameObject->GetComponent<Jumper>();
 	MoveToCurrentQube();
-}
-
-Character::~Character()
-{
-	delete m_pSubject;
 }
 
 void Character::Update()

@@ -1,5 +1,7 @@
 #include "PCH.h"
 #include "SlickSam.h"
+
+#include "GameManager.h"
 #include "QBert.h"
 
 #include "GameObject.h"
@@ -50,7 +52,7 @@ void SlickSam::SetTexture()
 void SlickSam::Die()
 {
 	Enemy::Die();
-	m_pSubject->Notify(this, (int)EnemyEvents::SlickSamDies);
+	m_pGameObject->Notify((int)GameEvent::SlickSamDies);
 }
 
 void SlickSam::MeetCharacter(Character* pOther)

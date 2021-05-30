@@ -33,8 +33,8 @@ namespace empire
 		
 		void Update() override{};
 		virtual void Render(TransformComponent const& transform ) const;
-		void SetTexture(std::string const& filename);
-		void SetTexture(Texture2D* pText);
+		virtual void SetTexture(std::string const& filename);
+		virtual void SetTexture(Texture2D* pText);
 
 		float GetTextureWidth() const { return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x; }
 		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y; }

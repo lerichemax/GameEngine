@@ -9,34 +9,32 @@
 #include "Qube.h"
 #include "QBert.h"
 
-QubeObserver::QubeObserver(Pyramid* const pPyramid, QBert* const pQBert)
+QubeObserver::QubeObserver(Pyramid* const pPyramid)
 	: Observer(),
-	m_pPyramid(pPyramid),
-	m_pQBert(pQBert)
+	m_pPyramid(pPyramid)
 {
 }
 
-void QubeObserver::Notify(empire::Component* object, int event)
+void QubeObserver::Notify(empire::GameObject* object, int event)
 {
 	switch ((QubeEvents)event)
 	{
 	case QubeEvents::PlayerJump:
 		{
-			auto qube = static_cast<Qube*>(object);
-			auto qbertScene = static_cast<QBertScene*>(object->GetGameObject()->GetParentScene());
-			qube->CharacterJumpIn(m_pQBert);
+		auto qube = object->GetComponent<Qube>();
+			auto qbertScene = static_cast<QBertScene*>(object->GetParentScene());
 			switch (qbertScene->GetLevel())
 			{
-			case Level::Level1:
+			case QBertScene::Level::Level1:
 				qube->Flip();
 				if (m_pPyramid->AreAllQubesFlipped())
 				{
 					Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
-					qbertScene->ResetScene(Level::Level2);
+					qbertScene->ResetScene(QBertScene::Level::Level2);
 				}
 				break;
-			case Level::Level2:
+			case QBertScene::Level::Level2:
 				if (qube->m_JumpCounter == 0)
 				{
 					qube->IntermediateFlip();
@@ -49,11 +47,11 @@ void QubeObserver::Notify(empire::Component* object, int event)
 					{
 						Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
 						std::this_thread::sleep_for(std::chrono::milliseconds(1));
-						qbertScene->ResetScene(Level::Level3);
+						qbertScene->ResetScene(QBertScene::Level::Level3);
 					}
 				}
 				break;
-			case Level::Level3:
+			case QBertScene::Level::Level3:
 				if (qube->m_bIsFlipped)
 				{
 					qube->UnFlip();
@@ -67,7 +65,7 @@ void QubeObserver::Notify(empire::Component* object, int event)
 					{
 						Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
 						std::this_thread::sleep_for(std::chrono::milliseconds(1));
-						qbertScene->ResetScene(Level::Level1);
+						qbertScene->ResetScene(QBertScene::Level::Level1);
 						//empire::SceneManager::GetInstance().ReloadCurrentScene();
 					}
 				}
@@ -76,7 +74,7 @@ void QubeObserver::Notify(empire::Component* object, int event)
 		}
 		break;
 	case QubeEvents::QubeFlipped:
-		m_pQBert->EarnPoints(25);
+		static_cast<QBert*>(object->GetComponent<Qube>()->GetCharacter())->EarnPoints(25);
 		break;
 	case QubeEvents::DiskUsed:
 		m_pPyramid->DiskUsed();

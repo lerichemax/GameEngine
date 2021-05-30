@@ -1,28 +1,28 @@
 #pragma once
 #include "Scene.h"
 
-enum class Level
-{
-	Level1,
-	Level2,
-	Level3
-};
-
 class QBert;
 class Pyramid;
 class EnemyManager;
-class QBertScene final : public empire::Scene
+class QBertScene : public empire::Scene
 {
 public:
-	QBertScene(Level startLevel = Level::Level1);
+	enum class Level
+	{
+		Level1,
+		Level2,
+		Level3
+	};
+	
+	QBertScene(std::string const& name, Level startLevel = Level::Level1);
 	~QBertScene() = default;
 
-	void Initialize() override;
+	virtual void Initialize() override = 0;
 	Level GetLevel()const { return m_Level; }
-	void ResetScene(Level newLevel);
-	void ResetGame();
+	virtual void ResetScene(Level newLevel) = 0;
+	virtual void ResetGame() = 0;
 
-private:
+protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	Pyramid* m_pPyramid;

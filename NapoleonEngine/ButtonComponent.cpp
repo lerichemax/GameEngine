@@ -3,6 +3,7 @@
 
 #include "InputManager.h"
 #include "GameObject.h"
+#include "TransformComponent.h"
 
 empire::ButtonComponent::ButtonComponent(float width, float height)
 	:Component(),

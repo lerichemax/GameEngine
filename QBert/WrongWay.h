@@ -11,8 +11,7 @@ public:
 
 	void Initialize() override;
 	void Move(ConnectionDirection direction) override;
-	void Update() override;
-	void MoveToCurrentQube() override;
+	void MoveToCurrentQube() override{};
 	void JumpToQube(Qube* pNextQube) override;
 	virtual void Die() override;
 	
@@ -21,9 +20,6 @@ public:
 	
 	bool IsEscheresqueRight() const { return m_bEscheresqueRight; }
 
-
-protected:
-	ConnectionDirection ChooseDirection() override;
 
 private:
 

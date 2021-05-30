@@ -4,10 +4,13 @@
 #include "SlickSam.h"
 #include "Pyramid.h"
 #include "WrongWay.h"
+#include "GameManager.h"
+#include "CoilyCharacterController.h"
 
 #include "Timer.h"
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
+
 
 EnemyManager::EnemyManager()
 	: m_pPyramid(nullptr),
@@ -48,11 +51,11 @@ void EnemyManager::CoilySpawnerTimer()
 
 		int random{ rand() % 2 + 1 };
 		GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
-		pCoily->GetComponent<Coily>()->SetPyramid(m_pPyramid);
+		pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 		pCoily->GetComponent<Coily>()->SetQube(m_pPyramid->GetQubes()[random]);
 
 		AddCoilyToArray(pCoily->GetComponent<Coily>());
-		pCoily->GetComponent<Coily>()->GetSubject()->AddObserver(empire::ObserverManager::GetInstance().GetObserver<EnemyObserver>());
+		pCoily->AddObserver(empire::ObserverManager::GetInstance().GetObserver<GameManager>());
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
 		m_pPyramid->GetGameObject()->AddChild(pCoily);
@@ -89,7 +92,7 @@ void EnemyManager::SlickSamSpawnerTimer()
 			
 			AddSlickSamToArray(pSlickSam->GetComponent<SlickSam>());
 			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
-			pSlickSam->GetComponent<SlickSam>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver<EnemyObserver>());
+			pSlickSam->AddObserver(ObserverManager::GetInstance().GetObserver<GameManager>());
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
 			Debugger::GetInstance().Log("Slick Sam spawned");
@@ -112,7 +115,7 @@ void EnemyManager::WrongWaySpawnerTimer()
 
 			AddWrongWayToArray(pWrongWay->GetComponent<WrongWay>());
 			m_pPyramid->GetGameObject()->AddChild(pWrongWay);
-			pWrongWay->GetComponent<WrongWay>()->GetSubject()->AddObserver(ObserverManager::GetInstance().GetObserver<EnemyObserver>());
+			pWrongWay->AddObserver(ObserverManager::GetInstance().GetObserver<GameManager>());
 			m_WrongWaySpawnTimer = 0;
 			m_NbrWrongWay++;
 			Debugger::GetInstance().Log("Wrongway spawned");
@@ -191,7 +194,6 @@ void EnemyManager::Reset()
 		{
 			pCoily->Die();
 		}
-		
 	}
 	m_NbrCoily = 0;
 
@@ -220,7 +222,7 @@ void EnemyManager::SetCoiliesIdle(bool isIdle)
 	{
 		if (pCoily != nullptr)
 		{
-			pCoily->SetIsIdle(isIdle);
+			pCoily->GetGameObject()->GetComponent<CoilyCharacterController>()->SetIdle(isIdle);
 		}
 	}
 }

@@ -34,5 +34,8 @@ namespace empire
 		void Initialize() override;
 
 		TextRendererComponent(TextRendererComponent const& other);
+		
+		void SetTexture(std::string const& ) override {};
+		void SetTexture(Texture2D* ) override{}
 	};
 }

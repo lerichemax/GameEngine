@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "BoxCollider.h"
 
-
+#include "TransformComponent.h"
 #include "GameObject.h"
 #include "Shapes.h"
 

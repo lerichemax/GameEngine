@@ -5,28 +5,33 @@
 #include "Coily.h"
 #include "CoopScene.h"
 #include "Jumper.h"
-#include "QBertScene.h"
 #include "ColoredDisk.h"
 #include "MainMenuScene.h"
 #include "QBert.h"
 #include "Qube.h"
+#include "VersusScene.h"
 
 #include "RendererComponent.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
 #include "SlickSam.h"
+#include "SoloScene.h"
 #include "TextRendererComponent.h"
 #include "WrongWay.h"
 #include "WrongWayJumper.h"
-
+#include "EnemyCharacterController.h"
+#include "CoilyCharacterController.h"
+#include "CharacterLives.h"
+#include "CharacterPoint.h"
 
 using namespace empire;
 
 void MainGame::LoadGame() const
 {
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
-	SceneManager::GetInstance().AddScene(new QBertScene{});
+	SceneManager::GetInstance().AddScene(new SoloScene{});
 	SceneManager::GetInstance().AddScene(new CoopScene{});
+	SceneManager::GetInstance().AddScene(new VersusScene{});
 	SceneManager::GetInstance().SetSceneActive("MainMenuScene");
 }
 
@@ -53,6 +58,8 @@ void MainGame::CreatePrefabs() const
 	auto qbert = new GameObject();
 	qbert->AddComponent(new RendererComponent( Layer::foreground));
 	qbert->AddComponent(new QBert());
+	qbert->AddComponent(new CharacterLives{3});
+	qbert->AddComponent(new CharacterPoint{});
 	qbert->AddComponent(new Jumper{});
 	qbert->AddComponent(new BoxCollider{ 24,24 });
 	qbert->GetTransform()->Scale(1.5f);
@@ -79,6 +86,7 @@ void MainGame::CreatePrefabs() const
 	wrongWayPrefab->AddComponent(new WrongWay{ true });
 	wrongWayPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
 	wrongWayPrefab->AddComponent(new WrongWayJumper{});
+	wrongWayPrefab->AddComponent(new EnemyCharacterController{});
 	wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
 	wrongWayPrefab->GetTransform()->Scale(2.f, 2.f);
 	pPrefabManager.AddPrefab("WrongWay", wrongWayPrefab);
@@ -88,6 +96,7 @@ void MainGame::CreatePrefabs() const
 	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
 	coilyPrefab->AddComponent(new Coily{});
+	coilyPrefab->AddComponent(new CoilyCharacterController{});
 	coilyPrefab->AddComponent(new Jumper{});
 	coilyPrefab->GetTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("Coily", coilyPrefab);
@@ -96,6 +105,7 @@ void MainGame::CreatePrefabs() const
 	auto slickSamPf = new GameObject();
 	slickSamPf->AddComponent(new empire::RendererComponent(empire::Layer::middleground));
 	slickSamPf->AddComponent(new SlickSam{});
+	slickSamPf->AddComponent(new EnemyCharacterController{});
 	slickSamPf->AddComponent(new Jumper{});
 	slickSamPf->GetTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("SlickSam", slickSamPf);

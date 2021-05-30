@@ -3,7 +3,7 @@
 
 #include "RendererComponent.h"
 #include "GameObject.h"
-#include "Subject.h"
+#include "QBert.h"
 
 #include "QubeObserver.h"
 #include "ColoredDisk.h"
@@ -14,7 +14,6 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	:m_pDefaultText(pDefText),
 	m_pIntermediateTexture(pInterText),
 	m_pFlippedTexture(pFlippedText),
-	m_pSubject(new Subject{}),
 	m_pConnections{nullptr},
 	m_pCharacter(nullptr)
 {
@@ -24,7 +23,6 @@ Qube::Qube(Qube const& other)
 	:m_pDefaultText(other.m_pDefaultText),
 	m_pIntermediateTexture(other.m_pIntermediateTexture),
 	m_pFlippedTexture(other.m_pFlippedTexture),
-	m_pSubject(new Subject{}),
 	m_pConnections{  },
 	m_pCharacter(other.m_pCharacter)
 {
@@ -48,20 +46,12 @@ void Qube::Initialize()
 	m_EscheresqueLeftPos.y = m_pGameObject->GetTransform()->GetPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
-Qube::~Qube()
-{
-	if (m_pSubject != nullptr)
-	{
-		delete m_pSubject;
-	}
-}
-
 void Qube::Update()
 {
 	if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
 	{
 		m_pDiskConnection = nullptr;
-		m_pSubject->Notify(this, (int)QubeEvents::DiskUsed);
+		m_pGameObject->Notify((int)QubeEvents::DiskUsed);
 	}
 }
 
@@ -148,16 +138,17 @@ Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRi
 	}
 }
 
-void Qube::QBertJump()
+void Qube::QBertJump(QBert* pQbert)
 {
-	m_pSubject->Notify(this, (int)QubeEvents::PlayerJump);
+	CharacterJumpIn(pQbert);
+	m_pGameObject->Notify((int)QubeEvents::PlayerJump);
 }
 
 void Qube::Flip()
 {
 	if (!m_bIsFlipped)
 	{
-		m_pSubject->Notify(this, (int)QubeEvents::QubeFlipped);
+		m_pGameObject->Notify((int)QubeEvents::QubeFlipped);
 		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pFlippedTexture);
 		m_bIsFlipped = true;
 		m_JumpCounter++;
@@ -168,7 +159,7 @@ void Qube::IntermediateFlip()
 {
 	if (!m_bIsFlipped)
 	{
-		m_pSubject->Notify(this, (int)QubeEvents::QubeFlipped);
+		m_pGameObject->Notify((int)QubeEvents::QubeFlipped);
 		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
 		m_JumpCounter++;
 	}

@@ -1,6 +1,8 @@
 #pragma once
 #include "Character.h"
 
+class CharacterLives;
+class CharacterPoint;
 class QBert final : public Character
 {
 public:
@@ -12,8 +14,6 @@ public:
 	QBert& operator=(QBert&& rhs) = delete;
 	~QBert() = default;
 
-	int GetPoints() const { return m_NbrPoints; }
-	int GetLives() const { return m_NbrLives; }
 	int GetPlayerNumber() const { return m_PlayerNbr; }
 	
 	void Die() override;
@@ -23,16 +23,16 @@ public:
 	void Reset(bool fullReset, Qube* pTargetQube);
 	void SetCanMove() { m_bCanMove = true; }
 	void SetPlayerNbr(int nbr) { m_PlayerNbr = nbr; }
+	int GetPlayerNbr() const { return m_PlayerNbr; }
 protected:
 	void MeetCharacter(Character* pOther) override;
 	void LandOnQube() override;
 
 private:
-	int const MAX_LIVES{ 3 };
+	CharacterPoint* m_pPoints;
+	CharacterLives* m_pLives;
 	
 	int m_PlayerNbr;
-	int m_NbrLives;
-	int m_NbrPoints;
 
 	bool m_bCanMove;
 

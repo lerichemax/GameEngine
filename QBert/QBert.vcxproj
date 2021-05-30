@@ -156,48 +156,62 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterPoint.cpp" />
     <ClCompile Include="Coily.cpp" />
+    <ClCompile Include="CoilyCharacterController.cpp" />
     <ClCompile Include="ColoredDisk.cpp" />
     <ClCompile Include="CoopScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyCharacterController.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="EnemyObserver.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
-    <ClCompile Include="PlayerObserver.cpp" />
+    <ClCompile Include="PauseGameCommand.cpp" />
+    <ClCompile Include="CharacterLives.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertScene.cpp" />
     <ClCompile Include="Qube.cpp" />
     <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="SlickSam.cpp" />
+    <ClCompile Include="SoloScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="VersusGameManager.cpp" />
+    <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
     <ClCompile Include="WrongWayJumper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterPoint.h" />
     <ClInclude Include="Coily.h" />
+    <ClInclude Include="CoilyCharacterController.h" />
     <ClInclude Include="ColoredDisk.h" />
     <ClInclude Include="CoopScene.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyCharacterController.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="EnemyObserver.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MoveCommand.h" />
-    <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="PauseGameCommand.h" />
+    <ClInclude Include="CharacterLives.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="QBert.h" />
     <ClInclude Include="QBertScene.h" />
     <ClInclude Include="Qube.h" />
     <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="SlickSam.h" />
+    <ClInclude Include="SoloScene.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="VersusGameManager.h" />
+    <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />
     <ClInclude Include="WrongWayJumper.h" />
   </ItemGroup>
