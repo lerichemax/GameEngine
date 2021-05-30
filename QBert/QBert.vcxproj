@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterInputManager.cpp" />
     <ClCompile Include="CharacterPoint.cpp" />
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="CoilyCharacterController.cpp" />
@@ -187,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterInputManager.h" />
     <ClInclude Include="CharacterPoint.h" />
     <ClInclude Include="Coily.h" />
     <ClInclude Include="CoilyCharacterController.h" />

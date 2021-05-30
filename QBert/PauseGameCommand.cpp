@@ -3,8 +3,8 @@
 
 #include "Timer.h"
 
-PauseGameCommand::PauseGameCommand(KeyActionState keyState)
-	:Command(keyState),
+PauseGameCommand::PauseGameCommand()
+	:Command(),
 	m_bIsPaused(false)
 {
 	

@@ -23,11 +23,19 @@
 #include "CoilyCharacterController.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
+#include "InputManager.h"
+#include "PauseGameCommand.h"
 
 using namespace empire;
 
 void MainGame::LoadGame() const
 {
+	InputManager::GetInstance().AddInputAction(20, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
+		new PauseGameCommand() });
+
+	InputManager::GetInstance().AddInputAction(21, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+		new PauseGameCommand() });
+	
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
 	SceneManager::GetInstance().AddScene(new SoloScene{});
 	SceneManager::GetInstance().AddScene(new CoopScene{});

@@ -5,9 +5,8 @@
 #include "GameObject.h"
 #include "QBert.h"
 
-MoveCommand::MoveCommand(ConnectionDirection dir, Character* pChar, KeyActionState state)
-	: Command(state),
-	m_MoveDirection{ dir },
+MoveCommand::MoveCommand(ConnectionDirection dir, Character* pChar)
+	: m_MoveDirection{ dir },
 	m_pCharacter(pChar)
 {}
 

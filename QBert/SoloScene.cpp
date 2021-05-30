@@ -65,11 +65,28 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pPyramid, m_
 	ObserverManager::GetInstance().AddObserver(pGameManager);
 	qbertObj->AddObserver(pGameManager);
 
-	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_a, new MoveCommand(ConnectionDirection::upLeft, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_ESCAPE, new PauseGameCommand(KeyActionState::pressed));
+	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_w, empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+	InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_a , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
+
+	InputManager::GetInstance().AddInputAction(4,
+		new InputAction(ControllerButton::ButtonUp, empire::KeyActionState::pressed,
+			new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+	InputManager::GetInstance().AddInputAction(5,
+		new InputAction{ ControllerButton::ButtonRight , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(6,
+		new InputAction{ ControllerButton::ButtonDown , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(7,
+		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
+	
 }
 
 void SoloScene::ResetScene(Level newLevel)

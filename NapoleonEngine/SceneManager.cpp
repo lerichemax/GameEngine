@@ -12,6 +12,14 @@ empire::SceneManager::~SceneManager()
 	}
 }
 
+void empire::SceneManager::Initialize()
+{
+	for(auto pScene : m_pScenesMap)
+	{
+		pScene.second->Initialize();
+	}
+}
+
 void empire::SceneManager::Update()
 {
 	GetActiveScene()->Update();
@@ -102,10 +110,10 @@ void SceneManager::SetSceneActive(std::string const& name)
 	auto newScene = m_pScenesMap.at(name);
 	newScene->m_bIsActive = true;
 	
-	if (!newScene->m_bIsInitialized)
-	{
-		m_pScenesMap.at(name)->Initialize();
-		newScene->m_bIsInitialized = true;
-	}
+	//if (!newScene->m_bIsInitialized)
+	//{
+	//	m_pScenesMap.at(name)->Initialize();
+	//	newScene->m_bIsInitialized = true;
+	//}
 	
 }

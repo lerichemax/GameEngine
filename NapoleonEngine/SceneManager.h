@@ -10,8 +10,8 @@ namespace empire
 	public:
 		//Scene& CreateScene(const std::string& name);
 		~SceneManager();
-		void Update();
-		void Render();
+		
+		
 		Scene const* GetScene(std::string const& sceneName) const { return m_pScenesMap.at(sceneName); }
 		void AddScene(Scene* pScene);
 		void RenameScene(std::string const& oldName, std::string const& newName);
@@ -22,7 +22,14 @@ namespace empire
 	
 	private:
 		friend class Singleton<SceneManager>;
+		friend class NapoleonEngine;
+		friend class Renderer;
+		
 		SceneManager() = default;
 		std::map <std::string, Scene*> m_pScenesMap;
+
+		void Initialize();
+		void Update();
+		void Render();
 	};
 }

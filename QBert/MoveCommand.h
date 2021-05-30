@@ -7,7 +7,7 @@ class QBert;
 class MoveCommand final : public empire::Command
 {
 public:
-	MoveCommand(ConnectionDirection dir, Character* pChar, KeyActionState state = KeyActionState::pressed);
+	MoveCommand(ConnectionDirection dir, Character* pChar);
 	~MoveCommand() = default;
 
 	void Execute() override;

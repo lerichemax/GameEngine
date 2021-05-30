@@ -70,12 +70,12 @@ void VersusGameManager::Notify(empire::GameObject* object, int event)
 		break;
 	case VersusGameEvent::CoilyTransform:
 		object->GetComponent<CoilyCharacterController>()->SetEnable(false);
-		auto pCoily = object->GetComponent<Coily>();
+		//auto pCoily = object->GetComponent<Coily>();
 		
-		InputManager::GetInstance().AddCommand(SDLK_UP, new MoveCommand(ConnectionDirection::upRight, pCoily));
-		InputManager::GetInstance().AddCommand(SDLK_RIGHT, new MoveCommand(ConnectionDirection::downRight, pCoily));
-		InputManager::GetInstance().AddCommand(SDLK_DOWN, new MoveCommand(ConnectionDirection::downLeft, pCoily));
-		InputManager::GetInstance().AddCommand(SDLK_LEFT, new MoveCommand(ConnectionDirection::upLeft, pCoily));
+		//InputManager::GetInstance().AddCommand(SDLK_UP, new MoveCommand(ConnectionDirection::upRight, pCoily));
+		//InputManager::GetInstance().AddCommand(SDLK_RIGHT, new MoveCommand(ConnectionDirection::downRight, pCoily));
+		//InputManager::GetInstance().AddCommand(SDLK_DOWN, new MoveCommand(ConnectionDirection::downLeft, pCoily));
+		//InputManager::GetInstance().AddCommand(SDLK_LEFT, new MoveCommand(ConnectionDirection::upLeft, pCoily));
 		break;
 	}
 }

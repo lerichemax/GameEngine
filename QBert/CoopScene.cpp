@@ -97,18 +97,18 @@ void CoopScene::Initialize()
 	qbert2->AddObserver(pGameManager);
 	
 	//Player1 input
-	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert));
-	InputManager::GetInstance().AddCommand(SDLK_a, new MoveCommand(ConnectionDirection::upLeft, m_pQbert));
+	//InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert));
+	//InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert));
+	//InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert));
+	//InputManager::GetInstance().AddCommand(SDLK_a, new MoveCommand(ConnectionDirection::upLeft, m_pQbert));
 
-	//Player2 input
-	InputManager::GetInstance().AddCommand(SDLK_UP, new MoveCommand(ConnectionDirection::upRight, m_pQbertP2));
-	InputManager::GetInstance().AddCommand(SDLK_RIGHT, new MoveCommand(ConnectionDirection::downRight, m_pQbertP2));
-	InputManager::GetInstance().AddCommand(SDLK_DOWN, new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2));
-	InputManager::GetInstance().AddCommand(SDLK_LEFT, new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2));
+	////Player2 input
+	//InputManager::GetInstance().AddCommand(SDLK_UP, new MoveCommand(ConnectionDirection::upRight, m_pQbertP2));
+	//InputManager::GetInstance().AddCommand(SDLK_RIGHT, new MoveCommand(ConnectionDirection::downRight, m_pQbertP2));
+	//InputManager::GetInstance().AddCommand(SDLK_DOWN, new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2));
+	//InputManager::GetInstance().AddCommand(SDLK_LEFT, new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2));
 
-	InputManager::GetInstance().AddCommand(SDLK_ESCAPE, new PauseGameCommand(KeyActionState::pressed));
+	//InputManager::GetInstance().AddCommand(SDLK_ESCAPE, new PauseGameCommand(KeyActionState::pressed));
 }
 
 void CoopScene::ResetScene(Level newLevel)

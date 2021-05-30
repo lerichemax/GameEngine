@@ -12,8 +12,9 @@
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 #include "BoxCollider.h"
-#include "CharacterLives.h"
 #include "GameManager.h"
+#include "InputManager.h"
+#include "MoveCommand.h"
 #include "VersusGameManager.h"
 
 using namespace empire;
@@ -32,6 +33,8 @@ QBert::QBert(QBert const& other)
 
 void QBert::Initialize()
 {
+
+	
 	m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
 	m_pLives = m_pGameObject->GetComponent<CharacterLives>();
 	

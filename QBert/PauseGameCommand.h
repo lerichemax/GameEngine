@@ -4,7 +4,7 @@
 class PauseGameCommand final : public empire::Command
 {
 public:
-	PauseGameCommand(KeyActionState keyState);
+	PauseGameCommand();
 	void Execute() override;
 
 private:

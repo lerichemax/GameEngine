@@ -84,6 +84,9 @@
     <ClCompile Include="CharacterPoint.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterInputManager.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -166,6 +169,9 @@
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="CharacterPoint.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInputManager.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>

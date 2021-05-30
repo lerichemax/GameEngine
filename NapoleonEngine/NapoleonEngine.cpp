@@ -82,7 +82,7 @@ void empire::NapoleonEngine::Run()
 
 	CreatePrefabs();
 	LoadGame();
-	
+	SceneManager::GetInstance().Initialize();
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();

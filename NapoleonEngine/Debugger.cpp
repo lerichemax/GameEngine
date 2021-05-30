@@ -11,8 +11,16 @@ Debugger::Debugger()
 
 void Debugger::Log(std::string const& message) const
 {
+	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	std::cout << message << std::endl;
 }
+
+void Debugger::LogWarning(std::string const& message) const
+{
+	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+	std::cout << "WARNING : "<< message << std::endl;
+}
+
 
 void Debugger::LogError(std::string const& message) const
 {
