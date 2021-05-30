@@ -28,7 +28,8 @@ namespace empire
 		bool IsActive() const { return m_bIsActive; }
 		void AddToGroup(RendererComponent* pRenderer, Layer layer);
 		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
-	
+
+		std::string GetName()const { return m_Name; }
 	private:
 		friend void ColliderComponent::Initialize();
 		friend ColliderComponent::~ColliderComponent();

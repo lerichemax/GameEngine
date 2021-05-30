@@ -5,14 +5,18 @@
 #include <functional>
 namespace empire
 {
+	class Command;
 	class ButtonComponent final : public Component
 	{
 	public:
-		typedef std::function<void(GameObject* pBtnObject)> ButtonAction;
 		
 		ButtonComponent(float width, float height);
 		ButtonComponent* Clone() { return new ButtonComponent(*this); }
-
+		ButtonComponent(ButtonComponent&& other) = delete;
+		ButtonComponent& operator=(ButtonComponent const& rhs) = delete;
+		ButtonComponent& operator=(ButtonComponent&& rhs) = delete;
+		~ButtonComponent();
+		
 		void Update() override;
 
 		void SetWidth(float width) { m_Dimensions.x = width; }
@@ -21,16 +25,16 @@ namespace empire
 
 		void SetIsHighlighted(bool isSelected) { m_IsSelected = isSelected; }
 		
-		void SetOnClickFunction(ButtonAction func) { m_OnClick = func; }
-		void SetOnSelectFunction(ButtonAction func) { m_OnSelect = func; }
-		void SetOnDeselectFunction(ButtonAction func) { m_OnDeselect = func; }
+		void SetOnClickFunction(Command* func) { m_pOnClick = func; }
+		void SetOnSelectFunction(Command* func) { m_pOnSelect = func; }
+		void SetOnDeselectFunction(Command* func) { m_pOnDeselect = func; }
 		
 		void SetVisualize(bool visualize) { m_bVisualize = visualize; }
 	
 	private:
-		ButtonAction m_OnClick;
-		ButtonAction m_OnSelect;
-		ButtonAction m_OnDeselect;
+		Command* m_pOnClick;
+		Command* m_pOnSelect;
+		Command* m_pOnDeselect;
 		
 		glm::vec2 m_Dimensions;
 		
@@ -38,5 +42,6 @@ namespace empire
 		bool m_bVisualize;
 
 		void Initialize() override {};
+		ButtonComponent(ButtonComponent const& other);
 	};
 }

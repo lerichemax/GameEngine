@@ -10,6 +10,11 @@ PauseGameCommand::PauseGameCommand()
 	
 }
 
+PauseGameCommand::PauseGameCommand(PauseGameCommand const& other)
+	:m_bIsPaused(other.m_bIsPaused)
+{
+	
+}
 void PauseGameCommand::Execute()
 {
 	if (m_bIsPaused)

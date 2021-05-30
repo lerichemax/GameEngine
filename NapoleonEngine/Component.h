@@ -8,7 +8,7 @@ namespace empire
 		friend class GameObject;
 	public:
 		Component();
-		virtual Component* Clone() = 0; //virtual constructor
+		virtual Component* Clone() = 0;
 		
 		virtual ~Component() = default;
 		

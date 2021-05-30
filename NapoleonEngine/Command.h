@@ -6,6 +6,8 @@ namespace empire
 	{
 	public:
 		Command() = default;
+
+		virtual Command* Clone() = 0;
 		Command(Command const& other) = delete;
 		Command(Command&& other) = delete;
 		Command& operator=(Command const& rhs) = delete;

@@ -87,6 +87,12 @@
     <ClCompile Include="CharacterInputManager.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="SwitchTextColor.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchScene.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -173,6 +179,12 @@
     </ClInclude>
     <ClInclude Include="CharacterInputManager.h">
       <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchTextColor.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchScene.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

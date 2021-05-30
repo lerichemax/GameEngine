@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "ButtonComponent.h"
 
+
+#include "Command.h"
 #include "InputManager.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -9,9 +11,29 @@ empire::ButtonComponent::ButtonComponent(float width, float height)
 	:Component(),
 	m_Dimensions(width, height),
 	m_IsSelected(false),
-	m_bVisualize(false)
+	m_bVisualize(false),
+	m_pOnClick(nullptr),
+	m_pOnSelect(nullptr),
+	m_pOnDeselect(nullptr)
+{
+}
+
+empire::ButtonComponent::ButtonComponent(empire::ButtonComponent const& other)
+	:m_Dimensions(other.m_Dimensions),
+	m_IsSelected(other.m_IsSelected),
+	m_bVisualize(other.m_bVisualize),
+	m_pOnClick(other.m_pOnClick->Clone()),
+	m_pOnSelect(other.m_pOnSelect->Clone()),
+	m_pOnDeselect(other.m_pOnDeselect->Clone())
 {
 	
+}
+
+empire::ButtonComponent::~ButtonComponent()
+{
+	SafeDelete(m_pOnClick);
+	SafeDelete(m_pOnSelect);
+	SafeDelete(m_pOnDeselect);
 }
 
 void empire::ButtonComponent::Update()
@@ -27,24 +49,24 @@ void empire::ButtonComponent::Update()
 	if (mousePos.x >= pos.x && mousePos.x <= pos.x + m_Dimensions.x &&
 		mousePos.y >= pos.y && mousePos.y <= pos.y + m_Dimensions.y)
 	{
-		if (!m_IsSelected && m_OnSelect)
+		if (!m_IsSelected && m_pOnSelect)
 		{
-			m_OnSelect(m_pGameObject);
+			m_pOnSelect->Execute();
 		}
 
 		m_IsSelected = true;
 	}
 	else
 	{
-		if (m_IsSelected && m_OnDeselect)
+		if (m_IsSelected && m_pOnDeselect)
 		{
-			m_OnDeselect(m_pGameObject);
+			m_pOnDeselect->Execute();
 		}
 		m_IsSelected = false;
 	}
 
-	if (InputManager::GetInstance().IsMousePressed() && m_IsSelected && m_OnClick)
+	if (InputManager::GetInstance().IsMousePressed() && m_IsSelected && m_pOnClick)
 	{
-		m_OnClick(m_pGameObject);
+		m_pOnClick->Execute();
 	}
 }

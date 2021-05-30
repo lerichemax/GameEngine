@@ -7,6 +7,8 @@
 #include "ResourceManager.h"
 #include "TextRendererComponent.h"
 #include "SceneManager.h"
+#include "SwitchScene.h"
+#include "SwitchTextColor.h"
 
 using namespace empire;
 MainMenuScene::MainMenuScene()
@@ -37,21 +39,12 @@ void MainMenuScene::Initialize()
 	textObj->AddComponent(txt);
 	textObj->GetTransform()->Translate(7, 10);
 	soloBtn->AddChild(textObj);
-	
-	btn->SetOnSelectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 0, 0);
-		});
 
-	btn->SetOnDeselectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 255, 255);
-		});
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
 
-	btn->SetOnClickFunction([](GameObject* )
-		{
-			SceneManager::GetInstance().SetSceneActive("SoloScene");
-		});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+
+	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
 
 	soloBtn->GetTransform()->Translate(400, 200);
 	AddObject(soloBtn);
@@ -67,20 +60,11 @@ void MainMenuScene::Initialize()
 	textObj->GetTransform()->Translate(7, 10);
 	coopBtn->AddChild(textObj);
 
-	btn->SetOnSelectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 0, 0);
-		});
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
 
-	btn->SetOnDeselectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 255, 255);
-		});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
 
-	btn->SetOnClickFunction([](GameObject*)
-		{
-			SceneManager::GetInstance().SetSceneActive("CoopScene");
-		});
+	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
 
 	coopBtn->GetTransform()->Translate(400, 250);
 	AddObject(coopBtn);
@@ -96,20 +80,12 @@ void MainMenuScene::Initialize()
 	textObj->GetTransform()->Translate(7, 10);
 	vsBtn->AddChild(textObj);
 
-	btn->SetOnSelectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 0, 0);
-		});
+	
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
 
-	btn->SetOnDeselectFunction([](GameObject* pBtnObject)
-		{
-			pBtnObject->GetComponentInChildren<TextRendererComponent>()->SetTextColor(255, 255, 255);
-		});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
 
-	btn->SetOnClickFunction([](GameObject*)
-		{
-			SceneManager::GetInstance().SetSceneActive("VersusScene");
-		});
+	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
 
 	vsBtn->GetTransform()->Translate(400, 300);
 	AddObject(vsBtn);
