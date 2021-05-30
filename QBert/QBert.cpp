@@ -14,6 +14,7 @@
 #include "BoxCollider.h"
 #include "CharacterLives.h"
 #include "GameManager.h"
+#include "VersusGameManager.h"
 
 using namespace empire;
 
@@ -61,6 +62,7 @@ void QBert::Die()
 	else
 	{
 		m_pGameObject->Notify((int)GameEvent::PlayerDied);
+		m_pGameObject->Notify((int)VersusGameEvent::Player1Died);
 	}
 }
 
@@ -68,6 +70,7 @@ void QBert::EarnPoints(int points)
 {
 	m_pPoints->AddPoints(points);
 	m_pGameObject->Notify((int)GameEvent::IncreasePoints);
+	m_pGameObject->Notify((int)VersusGameEvent::IncreasePoints);
 }
 
 void QBert::Move(ConnectionDirection direction)

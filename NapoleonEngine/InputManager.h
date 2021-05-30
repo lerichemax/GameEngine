@@ -22,6 +22,11 @@ namespace empire
 		R1
 	};
 
+	struct InputAction
+	{
+		
+	};
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:

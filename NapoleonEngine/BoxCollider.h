@@ -10,7 +10,7 @@ namespace empire
 	public:
 		BoxCollider(unsigned int width, unsigned int height);
 		BoxCollider* Clone() override { return new BoxCollider(*this); }
-		BoxCollider(BoxCollider const& other);
+
 		BoxCollider(BoxCollider&& other) = delete;
 		BoxCollider& operator=(BoxCollider const& rhs) = delete;
 		BoxCollider& operator=(BoxCollider&& rhs) = delete;
@@ -27,6 +27,8 @@ namespace empire
 	private:
 		Rectangle* m_pRectangle;
 
+		BoxCollider(BoxCollider const& other);
+		
 		bool IsOverlapping(BoxCollider* pOther);
 		//void IsOverlapping(CircleCollider* pOther);
 	};

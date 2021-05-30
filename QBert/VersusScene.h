@@ -13,6 +13,8 @@ public:
 	VersusScene();
 
 	void Initialize() override;
+	void ResetGame() override;
+	void ResetScene(Level newLevel) override;
 
 private:
 	Coily* m_pCoilyPlayer;
@@ -20,6 +22,5 @@ private:
 	empire::TextRendererComponent* m_pTextP1;
 	empire::TextRendererComponent* m_pTextP2;
 	
-	void ResetGame() override;
-	void ResetScene(Level newLevel) override;
+
 };

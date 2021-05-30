@@ -205,6 +205,7 @@ bool Pyramid::AreAllQubesFlipped() const
 			return false;
 		}
 	}
+	m_pGameObject->Notify(11);
 	return true;
 }
 

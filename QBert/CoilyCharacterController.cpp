@@ -41,7 +41,7 @@ void CoilyCharacterController::Update()
 		EnemyCharacterController::Update();
 		if (m_pCoilyCharacter->GetCurrentQube()->IsLastRow() && m_pCoilyCharacter->GetState() == State::onQube)
 		{
-			m_pCoilyCharacter->Transform();
+			m_pCoilyCharacter->Transform(true);
 			FindQBert();
 		}
 	}

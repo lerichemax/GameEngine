@@ -1,5 +1,7 @@
 #include "PCH.h"
 #include "Coily.h"
+
+#include "CoilyCharacterController.h"
 #include "Qube.h"
 
 #include "GameObject.h"
@@ -61,15 +63,28 @@ void Coily::MeetCharacter(Character* pOther)
 
 void Coily::Die()
 {
-	Enemy::Die();
+	if (m_pGameObject->GetComponent<CoilyCharacterController>()->IsEnable())
+	{
+		Enemy::Die();
+	}
 	m_pGameObject->Notify((int)GameEvent::CoilyDies);
+	m_pGameObject->Notify((int)VersusGameEvent::Player2Died);
 }
 
-void Coily::Transform()
+void Coily::Transform(bool isTransformed)
 {
-	m_bIsTransformed = true;
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture("Textures/Enemies/Coily/Coily_Small_DownLeft.png");
-	m_pGameObject->Notify((int)VersusGameEvent::CoilyTransform);
+	m_bIsTransformed = isTransformed;
+	if (m_bIsTransformed)
+	{
+		m_pGameObject->Notify((int)VersusGameEvent::CoilyTransform);
+	}
+	else
+	{
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
+	}
+	
+	
 }
 
 void Coily::SetDirectionTextures(ConnectionDirection dir)

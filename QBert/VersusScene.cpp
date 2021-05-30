@@ -2,7 +2,7 @@
 #include "VersusScene.h"
 
 
-
+#include "CharacterLives.h"
 #include "CharacterPoint.h"
 #include "Coily.h"
 #include "CoilyCharacterController.h"
@@ -25,7 +25,6 @@ using namespace empire;
 VersusScene::VersusScene() : QBertScene("VersusScene")
 {
 }
-
 
 void VersusScene::Initialize()
 {
@@ -58,15 +57,11 @@ void VersusScene::Initialize()
 	m_pRoundText = roundTxt->GetComponent<TextRendererComponent>();
 	AddObject(roundTxt);
 	
-	auto pGameManager = new VersusGameManager{m_pRoundText, m_pTextP1, m_pTextP2, 3};
-	ObserverManager::GetInstance().AddObserver(pGameManager);
-	
 	auto qbertObj = pPrefabManager.Instantiate("QBert");
 	m_pQbert = qbertObj->GetComponent<QBert>();
 	m_pQbert->SetPlayerNbr(1);
-	qbertObj->AddObserver(pGameManager);
 	AddObject(qbertObj);
-
+	
 	auto pyramid = pPrefabManager.Instantiate("Pyramid");
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
 	ObserverManager::GetInstance().AddObserver(new QubeObserver{ m_pPyramid });
@@ -76,35 +71,52 @@ void VersusScene::Initialize()
 	auto coilyObj = pPrefabManager.Instantiate("Coily");
 	m_pCoilyPlayer = coilyObj->GetComponent<Coily>();
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+	coilyObj->AddComponent(new CharacterPoint{});
+	coilyObj->AddComponent(new CharacterLives{ 3 });
 	coilyObj->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
-	
-	coilyObj->AddObserver(pGameManager);
 	AddObject(coilyObj);
+
+	auto pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
+		qbertObj->GetComponent<CharacterPoint>(), coilyObj->GetComponent<CharacterPoint>(), m_pPyramid, 3 };
+	ObserverManager::GetInstance().AddObserver(pGameManager);
+	
+	qbertObj->AddObserver(pGameManager);
+	coilyObj->AddObserver(pGameManager);
+	pyramid->AddObserver(pGameManager);
 	
 	InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert));
 	InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert));
 	InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert));
 	InputManager::GetInstance().AddCommand(SDLK_a, new MoveCommand(ConnectionDirection::upLeft, m_pQbert));
-
 	InputManager::GetInstance().AddCommand(SDLK_ESCAPE, new PauseGameCommand(KeyActionState::pressed));
 }
 
 void VersusScene::ResetGame()
 {
-	ResetScene(Level::Level1);
+	m_pPyramid->Reset();
+	
+	m_pQbert->Reset(true, m_pPyramid->GetTop());
+	m_pQbert->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
+	m_pQbert->SetCanMove();
+	
+	m_pCoilyPlayer->Transform(false);
+	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+	m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
+	
 	m_pRoundText->SetText("Round 1");
 	m_pTextP1->SetText("P1: 0");
 	m_pTextP2->SetText("P2: 0");
 }
 
-void VersusScene::ResetScene(Level ) //ignore level, alway resets to level 1
+void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 {
 	m_pPyramid->Reset();
 	m_pQbert->Reset(false, m_pPyramid->GetTop());
-	m_pQbert->GetGameObject()->GetComponent<CharacterPoint>()->AddPoints(1); 
-	m_pCoilyPlayer->SetIsTransformed(false);
+	
+	m_pCoilyPlayer->Transform(false);
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-	
 }

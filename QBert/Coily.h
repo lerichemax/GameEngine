@@ -17,12 +17,11 @@ public:
 	void MeetCharacter(Character* pOther) override;
 	void Die() override;
 	
-	void Transform();
+	void Transform(bool isTransformed);
 	
 	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	
 	bool IsTransformed() const { return m_bIsTransformed; }
-	void SetIsTransformed(bool isTransformed) { m_bIsTransformed = isTransformed; }
 
 protected:
 	void SetDirectionTextures(ConnectionDirection dir) override;

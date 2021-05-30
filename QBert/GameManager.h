@@ -11,7 +11,7 @@ enum class GameEvent
 	GameOver,
 	CoilyDies,
 	SlickSamDies,
-	WrongWayDies
+	WrongWayDies,
 };
 
 namespace empire
