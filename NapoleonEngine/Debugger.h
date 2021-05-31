@@ -34,7 +34,7 @@ namespace empire
 		std::vector<Circle> m_DebugCircles;
 		std::vector<Point> m_DebugPoints;
 
-		void Render(SDL_Renderer* pRenderer);
+		void Render();
 	};
 }
 

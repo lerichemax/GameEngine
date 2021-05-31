@@ -1,11 +1,17 @@
 #pragma once
 #include "Command.h"
 
+namespace empire
+{
+	class GameObject;
+}
+
+class QBertScene;
 class PauseGameCommand final : public empire::Command
 {
 public:
-	PauseGameCommand();
-	PauseGameCommand* Clone() { return new PauseGameCommand(*this); }
+	PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu);
+	PauseGameCommand* Clone() override { return new PauseGameCommand(*this); }
 	PauseGameCommand(PauseGameCommand&& other) = delete;
 	PauseGameCommand& operator=(PauseGameCommand const& rhs) = delete;
 	PauseGameCommand& operator=(PauseGameCommand&& rhs) = delete;
@@ -14,7 +20,8 @@ public:
 	void Execute() override;
 
 private:
-	bool m_bIsPaused;
-
+	QBertScene* m_pScene;
+	empire::GameObject* m_pPauseMenu;
+	
 	PauseGameCommand(PauseGameCommand const& other);
 };

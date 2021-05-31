@@ -14,7 +14,6 @@ MoveCommand::MoveCommand(MoveCommand const& other)
 	:m_pCharacter(other.m_pCharacter),
 	m_MoveDirection(other.m_MoveDirection)
 {
-	
 }
 
 void MoveCommand::Execute()

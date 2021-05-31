@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 #include "ButtonComponent.h"
+#include "QuitGameCommand.h"
 #include "ResourceManager.h"
 #include "TextRendererComponent.h"
 #include "SceneManager.h"
@@ -18,9 +19,6 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	Renderer::GetInstance().SetBackgroundColor(0, 77, 153, 1);
-
-
 	
 	auto titleObject = new GameObject();
 	titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
@@ -80,7 +78,6 @@ void MainMenuScene::Initialize()
 	textObj->GetTransform()->Translate(7, 10);
 	vsBtn->AddChild(textObj);
 
-	
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
 
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
@@ -89,4 +86,29 @@ void MainMenuScene::Initialize()
 
 	vsBtn->GetTransform()->Translate(400, 300);
 	AddObject(vsBtn);
+
+	auto quitBtn = new GameObject();
+	btn = new ButtonComponent(80, 50);
+	btn->SetVisualize(true);
+	quitBtn->AddComponent(btn);
+
+	textObj = new GameObject();
+	txt = new TextRendererComponent{ "Quit", font };
+	textObj->AddComponent(txt);
+	textObj->GetTransform()->Translate(7, 10);
+	quitBtn->AddChild(textObj);
+
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+
+	btn->SetOnClickFunction(new QuitGameCommand{  });
+
+	quitBtn->GetTransform()->Translate(400, 350);
+	AddObject(quitBtn);
+}
+
+void MainMenuScene::CustomOnActivate()
+{
+	Renderer::GetInstance().SetBackgroundColor(0, 77, 153, 1);
 }

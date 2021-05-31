@@ -30,7 +30,7 @@ class GameManager final : public empire::Observer
 public:
 	GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points, 
 		empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, Pyramid* pPyramid, 
-		EnemyManager* pManager, unsigned int nbrPlayers = 1);
+		EnemyManager* pManager, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
 	~GameManager() = default;
 	void Notify(empire::GameObject* object, int event) override;
@@ -43,6 +43,7 @@ private:
 	
 	Pyramid* const m_pPyramid;
 	EnemyManager* const m_pEnemyManager;
+	GameObject* m_pGameOver;
 	
 	unsigned int m_NbrPlayers;
 	unsigned int m_NbrDeadPlayers;

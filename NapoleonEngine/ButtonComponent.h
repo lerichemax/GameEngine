@@ -25,9 +25,9 @@ namespace empire
 
 		void SetIsHighlighted(bool isSelected) { m_IsSelected = isSelected; }
 		
-		void SetOnClickFunction(Command* func) { m_pOnClick = func; }
-		void SetOnSelectFunction(Command* func) { m_pOnSelect = func; }
-		void SetOnDeselectFunction(Command* func) { m_pOnDeselect = func; }
+		void SetOnClickFunction(Command* func);
+		void SetOnSelectFunction(Command* func);
+		void SetOnDeselectFunction(Command* func);
 		
 		void SetVisualize(bool visualize) { m_bVisualize = visualize; }
 	

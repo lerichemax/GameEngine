@@ -21,10 +21,18 @@ public:
 	Level GetLevel()const { return m_Level; }
 	virtual void ResetScene(Level newLevel) = 0;
 	virtual void ResetGame() = 0;
-
+	void CustomOnActivate() override;
+	
+	bool IsPaused()const { return m_bIsPaused; }
+	void SetIsPaused(bool isPaused) { m_bIsPaused = isPaused; }
 protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	Pyramid* m_pPyramid;
 	EnemyManager* m_pManager;
+	GameObject* m_pPauseMenu;
+	GameObject* m_pGameOverMenu;
+
+private:
+	bool m_bIsPaused;
 };

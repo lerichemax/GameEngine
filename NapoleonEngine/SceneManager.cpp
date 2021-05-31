@@ -4,6 +4,13 @@
 
 using namespace empire;
 
+empire::SceneManager::SceneManager()
+	:m_pScenesMap(),
+	m_pEngine(nullptr),
+	m_pActiveScene(nullptr)
+{
+	
+}
 empire::SceneManager::~SceneManager()
 {
 	for (auto pScene : m_pScenesMap)
@@ -28,14 +35,11 @@ void empire::SceneManager::Update()
 
 void empire::SceneManager::Render()
 {
-	for (const auto& scene : m_pScenesMap)
+	if (m_pActiveScene == nullptr)
 	{
-		if (scene.second->IsActive())
-		{
-			scene.second->Render();
-			break;
-		}
+		Debugger::GetInstance().LogError("SceneManager::Render - > no scene active");
 	}
+	m_pActiveScene->Render();
 }
 
 void SceneManager::LoadScene(std::string const& name)
@@ -43,15 +47,16 @@ void SceneManager::LoadScene(std::string const& name)
 	auto scene = m_pScenesMap.at(name);
 	if (scene == nullptr)
 	{
-		Debugger::GetInstance().Log("Wrong scene name!");
+		Debugger::GetInstance().LogWarning("SceneManager::LoadScene - > Wrong scene name!");
 		return;
 	}
 	if (!scene->IsActive())
 	{
 		auto activeScene = GetActiveScene();
 		activeScene->m_bIsActive = false;
-		activeScene->CleanUpScene();
 		scene->m_bIsActive = true;
+		m_pActiveScene = scene;
+		m_pActiveScene->OnActivate();
 	}
 	else
 	{
@@ -67,14 +72,13 @@ void SceneManager::ReloadCurrentScene()
 
 Scene* SceneManager::GetActiveScene() const
 {
-	for (auto pScenePair : m_pScenesMap)
+	if (m_pActiveScene == nullptr)
 	{
-		if (pScenePair.second->IsActive())
-		{
-			return pScenePair.second;
-		}
+		Debugger::GetInstance().LogError("SceneManager::GetActiveScene - > no scene active");
+		return nullptr;
 	}
-	return nullptr;
+	return m_pActiveScene;
+	
 }
 
 void SceneManager::AddScene(Scene* pScene)
@@ -102,10 +106,9 @@ void SceneManager::RenameScene(std::string const& oldName, std::string const& ne
 
 void SceneManager::SetSceneActive(std::string const& name)
 {
-	auto scene = GetActiveScene();
-	if (scene != nullptr)
+	if (m_pActiveScene != nullptr)
 	{
-		scene->m_bIsActive = false;
+		m_pActiveScene->m_bIsActive = false;
 	}
 	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
 
@@ -115,11 +118,6 @@ void SceneManager::SetSceneActive(std::string const& name)
 	}
 	auto newScene = m_pScenesMap.at(name);
 	newScene->m_bIsActive = true;
-	
-	//if (!newScene->m_bIsInitialized)
-	//{
-	//	m_pScenesMap.at(name)->Initialize();
-	//	newScene->m_bIsInitialized = true;
-	//}
-	
+	m_pActiveScene = newScene;
+	m_pActiveScene->OnActivate();
 }

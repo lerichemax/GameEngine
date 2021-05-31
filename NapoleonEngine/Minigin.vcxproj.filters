@@ -31,6 +31,9 @@
     <Filter Include="Prefabs">
       <UniqueIdentifier>{d6f9c765-012c-4870-b324-7d94db18c2b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rapidjson">
+      <UniqueIdentifier>{ee39c17a-27bb-49ae-9df6-f53a37f6aeeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -151,27 +154,73 @@
     <ClInclude Include="Timer.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="cursorstreamwrapper.h" />
-    <ClInclude Include="document.h" />
-    <ClInclude Include="encodedstream.h" />
-    <ClInclude Include="allocators.h" />
-    <ClInclude Include="encodings.h" />
-    <ClInclude Include="filereadstream.h" />
-    <ClInclude Include="filewritestream.h" />
-    <ClInclude Include="fwd.h" />
-    <ClInclude Include="istreamwrapper.h" />
-    <ClInclude Include="memorybuffer.h" />
-    <ClInclude Include="memorystream.h" />
-    <ClInclude Include="ostreamwrapper.h" />
-    <ClInclude Include="pointer.h" />
-    <ClInclude Include="rapidjson.h" />
-    <ClInclude Include="reader.h" />
-    <ClInclude Include="prettywriter.h" />
-    <ClInclude Include="schema.h" />
-    <ClInclude Include="stream.h" />
-    <ClInclude Include="stringbuffer.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="writer.h" />
+    <ClInclude Include="allocators.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="cursorstreamwrapper.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="document.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="encodedstream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="encodings.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="filereadstream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="filewritestream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="fwd.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="istreamwrapper.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="memorybuffer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="memorystream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="ostreamwrapper.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="pointer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="prettywriter.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidjson.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="reader.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="schema.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="stream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="stringbuffer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="writer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReaderWriter.h" />
+    <ClInclude Include="ShapeRenderer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -284,5 +333,10 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="JsonReaderWriter.cpp" />
+    <ClCompile Include="ShapeRenderer.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp" />
   </ItemGroup>
 </Project>

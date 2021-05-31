@@ -2,6 +2,7 @@
 
 namespace empire
 {
+	class GameObject;
 	class Command
 	{
 	public:
@@ -15,7 +16,7 @@ namespace empire
 		virtual ~Command() = default;
 
 		virtual void Execute() = 0;
-
 	};
+
 }
 

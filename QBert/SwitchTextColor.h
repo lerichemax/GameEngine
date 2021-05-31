@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-#include "Qube.h"
+
 #include "Shapes.h"
 
 namespace empire
@@ -15,7 +15,7 @@ class SwitchTextColor final : public empire::Command
 {
 public:
 	SwitchTextColor(Color targetColor, TextRendererComponent* pText);
-	SwitchTextColor* Clone() { return new SwitchTextColor(*this); }
+	SwitchTextColor* Clone() override { return nullptr; } //unclonable
 	SwitchTextColor(SwitchTextColor&& other) = delete;
 	SwitchTextColor& operator=(SwitchTextColor const& rhs) = delete;
 	SwitchTextColor& operator=(SwitchTextColor&& rhs) = delete;

@@ -33,9 +33,9 @@ void EnemyManager::Update()
 	{
 		Debugger::GetInstance().LogError("Variable m_pPyramid is undefined In EnemyManager");
 	}
-	CoilySpawnerTimer();
-	SlickSamSpawnerTimer();
-	WrongWaySpawnerTimer();
+	//CoilySpawnerTimer();
+	//SlickSamSpawnerTimer();
+	//WrongWaySpawnerTimer();
 }
 
 void EnemyManager::CoilySpawnerTimer()
@@ -214,6 +214,13 @@ void EnemyManager::Reset()
 		}
 	}
 	m_NbrWrongWay = 0;
+}
+
+void EnemyManager::ResetTimers()
+{
+	m_CoilySpawnTimer = 0;
+	m_SlickSamSpawnTimer = 0;
+	m_WrongWaySpawnTimer = 0;
 }
 
 void EnemyManager::SetCoiliesIdle(bool isIdle)

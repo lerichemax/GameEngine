@@ -39,8 +39,8 @@ namespace empire
 		virtual void SetTexture(std::string const& filename);
 		virtual void SetTexture(Texture2D* pText);
 
-		float GetTextureWidth() const { return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x; }
-		float GetTextureHeight() const { return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y; }
+		float GetTextureWidth() const;
+		float GetTextureHeight() const;
 
 		void ChangeLayer(Layer newLayer);
 	
@@ -53,7 +53,7 @@ namespace empire
 		
 		void Initialize() override;
 
-	private:
 		RendererComponent(RendererComponent const& other);
+		
 	};
 }

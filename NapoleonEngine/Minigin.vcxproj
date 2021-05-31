@@ -244,6 +244,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="filewritestream.h" />
     <ClInclude Include="fwd.h" />
     <ClInclude Include="istreamwrapper.h" />
+    <ClInclude Include="JsonReaderWriter.h" />
     <ClInclude Include="memorybuffer.h" />
     <ClInclude Include="memorystream.h" />
     <ClInclude Include="ostreamwrapper.h" />
@@ -252,6 +253,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="rapidjson.h" />
     <ClInclude Include="reader.h" />
     <ClInclude Include="schema.h" />
+    <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
@@ -333,8 +335,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="JsonReaderWriter.cpp" />
+    <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />

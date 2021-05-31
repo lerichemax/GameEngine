@@ -1,0 +1,6 @@
+{
+    "width":7,
+    "initial texture":"Textures/Qube/Qube.png",
+    "intermediate texture":"Textures/Qube/Qube_Intermediate.png",
+    "flipped texture":"Textures/Qube/Qube_Flipped.png"
+}

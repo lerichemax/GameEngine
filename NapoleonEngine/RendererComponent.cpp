@@ -59,6 +59,26 @@ void RendererComponent::SetTexture(Texture2D* pText)
 	m_pTexture = pText;
 }
 
+float RendererComponent::GetTextureWidth() const
+{
+	if (m_pTexture == nullptr)
+	{
+		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureWidth - > texture is nullptr, returning 0");
+		return 0.f;
+	}
+	return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x;
+}
+
+float RendererComponent::GetTextureHeight() const
+{
+	if (m_pTexture == nullptr)
+	{
+		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureHeight - > texture is nullptr, returning 0");
+		return 0.f;
+	}
+	return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y;
+}
+
 void RendererComponent::Initialize()
 {
 	m_pGameObject->GetParentScene()->AddToGroup(this, m_Layer);
@@ -66,7 +86,11 @@ void RendererComponent::Initialize()
 
 void RendererComponent::ChangeLayer(Layer newLayer)
 {
-	m_pGameObject->GetParentScene()->RemoveFromGroup(this, m_Layer);
-	m_pGameObject->GetParentScene()->AddToGroup(this, newLayer);
+	if (m_pGameObject != nullptr)
+	{
+		m_pGameObject->GetParentScene()->RemoveFromGroup(this, m_Layer);
+		m_pGameObject->GetParentScene()->AddToGroup(this, newLayer);
+	}
+
 	m_Layer = newLayer;
 }

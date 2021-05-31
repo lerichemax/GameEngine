@@ -25,9 +25,10 @@ namespace empire
 		friend class Singleton<SceneManager>;
 		friend class NapoleonEngine;
 		friend class Renderer;
-		
-		SceneManager() = default;
+		SceneManager();
 
+
+		Scene* m_pActiveScene;
 		NapoleonEngine const*  m_pEngine;
 		std::map <std::string, Scene*> m_pScenesMap;
 		void Initialize(NapoleonEngine const* pEngine);

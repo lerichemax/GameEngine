@@ -14,6 +14,7 @@ namespace empire
 		void Update();
 
 		void SetTimeScale(float scale) { m_TimeScale = scale; }
+		int GetFPS()const { return m_FPS; }
 	private:
 		friend class Singleton<Timer>;
 		friend void NapoleonEngine::Run();
@@ -27,7 +28,7 @@ namespace empire
 		float m_Lag;
 		float m_DeltaTime;
 		float m_TimeScale;
-		
+		int m_FPS;
 		void Sleep();
 		
 	};

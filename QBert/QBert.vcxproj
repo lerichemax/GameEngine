@@ -155,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="QuitGameCommand.cpp" />
+    <ClCompile Include="ReloadSceneCommand.cpp" />
     <ClCompile Include="SwitchScene.cpp" />
     <ClCompile Include="SwitchTextColor.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -182,13 +184,14 @@
     <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
     <ClCompile Include="WrongWayJumper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QuitGameCommand.h" />
+    <ClInclude Include="ReloadSceneCommand.h" />
     <ClInclude Include="SwitchScene.h" />
     <ClInclude Include="SwitchTextColor.h" />
     <ClInclude Include="Character.h" />
@@ -215,7 +218,6 @@
     <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />

@@ -17,7 +17,7 @@ void PrefabsManager::AddPrefab(std::string const& key, GameObject* pPrefab)
 {
 	if (m_pPrefabs.find(key) != m_pPrefabs.end())
 	{
-		Debugger::GetInstance().Log("A prefab with this name already exists");
+		Debugger::GetInstance().LogWarning("A prefab with this name already exists");
 		return;
 	}
 	
@@ -28,7 +28,7 @@ GameObject* PrefabsManager::Instantiate(std::string const& key) const
 {
 	if (m_pPrefabs.find(key) == m_pPrefabs.end())
 	{
-		Debugger::GetInstance().Log("Prefab " + key + " not found");
+		Debugger::GetInstance().LogWarning("Prefab " + key + " not found");
 		return nullptr;
 	}
 	auto prefab = m_pPrefabs.at(key);
@@ -41,7 +41,7 @@ GameObject* PrefabsManager::Instantiate(std::string const& key, TransformCompone
 {
 	if (m_pPrefabs.find(key) == m_pPrefabs.end())
 	{
-		Debugger::GetInstance().Log("Prefab" + key + " not found");
+		Debugger::GetInstance().LogWarning("Prefab" + key + " not found");
 		return nullptr;
 	}
 	auto prefab = m_pPrefabs.at(key);

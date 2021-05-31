@@ -17,7 +17,7 @@
 #include "FPSCounter.h"
 
 using namespace std;
-
+bool NapoleonEngine::m_bQuit = false;
 void empire::NapoleonEngine::Initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
@@ -35,6 +35,7 @@ void empire::NapoleonEngine::Initialize()
 		m_WindowHeight,
 		SDL_WINDOW_OPENGL
 	);
+
 	if (m_Window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -58,6 +59,12 @@ void empire::NapoleonEngine::Initialize()
 	fpsCounter->GetTransform()->Translate(20.f, 20.f);
 	PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
 }
+
+void NapoleonEngine::Quit()
+{
+	m_bQuit = true;
+}
+
 
 void empire::NapoleonEngine::Cleanup()
 {
@@ -88,13 +95,12 @@ void empire::NapoleonEngine::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		bool doContinue = true;
 	
-		while (doContinue)
+		while (!m_bQuit)
 		{
 			Timer::GetInstance().Update();
 			
-			doContinue = input.ProcessInput();
+			m_bQuit = !input.ProcessInput();
 			
 			sceneManager.Update();	
 			ServiceLocator::GetService().Update();

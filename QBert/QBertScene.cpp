@@ -13,3 +13,8 @@ QBertScene::QBertScene(std::string const& name, Level startLevel)
 	m_pManager(nullptr)
 {
 }
+
+void QBertScene::CustomOnActivate()
+{
+	ResetGame();
+}

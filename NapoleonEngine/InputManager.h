@@ -94,12 +94,10 @@ namespace empire
 		
 		glm::vec2 GetMousePosition() const { return m_MousePosition; }
 		bool IsMousePressed() const { return m_bIsMouseClicked; }
-	
 	private:
 		friend class Singleton<InputManager>;
 		InputManager();
 
-		
 		
 		XINPUT_STATE m_CurrentControllerState{};
 

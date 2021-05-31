@@ -9,7 +9,9 @@ using namespace empire;
 InputManager::InputManager()
 	:m_pActions(),
 	m_MousePosition(0,0),
-	m_bIsMouseClicked(false)
+	m_bIsMouseClicked(false),
+	m_pKeyboardState(),
+	m_CurrentControllerState()
 {}
 
 InputManager::~InputManager()
@@ -31,6 +33,7 @@ bool InputManager::ProcessInput()
 	m_bIsMouseClicked = false;
 	ProcessControllerInput();
 	return ProcessKeyboardInput();
+
 }
 
 bool InputManager::IsPressed(ControllerButton button) const

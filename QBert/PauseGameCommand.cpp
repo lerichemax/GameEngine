@@ -1,29 +1,35 @@
 #include "PCH.h"
 #include  "PauseGameCommand.h"
 
+#include "GameObject.h"
+#include "InputManager.h"
+#include "QBertScene.h"
 #include "Timer.h"
 
-PauseGameCommand::PauseGameCommand()
+PauseGameCommand::PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu)
 	:Command(),
-	m_bIsPaused(false)
+	m_pScene(pScene),
+	m_pPauseMenu(pPauseMenu)
 {
 	
 }
 
 PauseGameCommand::PauseGameCommand(PauseGameCommand const& other)
-	:m_bIsPaused(other.m_bIsPaused)
+	:m_pPauseMenu(other.m_pPauseMenu)
 {
 	
 }
 void PauseGameCommand::Execute()
 {
-	if (m_bIsPaused)
+	if (m_pScene->IsPaused())
 	{
 		empire::Timer::GetInstance().SetTimeScale(1);
+		m_pPauseMenu->SetActive(false);
 	}
 	else
 	{
 		empire::Timer::GetInstance().SetTimeScale(0);
+		m_pPauseMenu->SetActive(true);
 	}
-	m_bIsPaused = !m_bIsPaused;
+	m_pScene->SetIsPaused(!m_pScene->IsPaused());
 }

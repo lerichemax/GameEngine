@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "SwitchTextColor.h"
 
+
+#include "ButtonComponent.h"
 #include "TextRendererComponent.h"
 
 SwitchTextColor::SwitchTextColor(Color targetColor, TextRendererComponent* pText)

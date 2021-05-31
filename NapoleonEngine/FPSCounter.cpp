@@ -11,5 +11,5 @@ void empire::FPSCounter::Initialize()
 
 void empire::FPSCounter::Update()
 {
-	m_pTextComp->SetText("FPS " + std::to_string(int(1 / Timer::GetInstance().GetDeltaTime())));
+	m_pTextComp->SetText("FPS " + std::to_string(Timer::GetInstance().GetFPS()));
 }

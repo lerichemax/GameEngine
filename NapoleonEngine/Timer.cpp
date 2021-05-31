@@ -26,6 +26,16 @@ void Timer::Update()
 	m_LastTime = currentTime;
 	m_Lag += m_DeltaTime;
 	m_DeltaTime *= m_TimeScale;
+	
+	if (m_TimeScale > 0.f)
+	{
+		m_FPS = int(1 / m_DeltaTime);
+	}
+	else
+	{
+		m_FPS = 0;
+	}
+	
 }
 
 void Timer::Sleep()

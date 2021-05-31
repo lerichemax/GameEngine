@@ -87,14 +87,14 @@ void CoopScene::Initialize()
 	//auto p2Observer = new PlayerObserver{ pointsP2->GetComponent<TextRendererComponent>(),
 	//livesP2->GetComponent<TextRendererComponent>(), m_pPyramid, m_pManager };
 
-	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
-	pointsP2->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(),
-		livesP2->GetComponent<TextRendererComponent>(), m_pPyramid, m_pManager,2 };
+	//auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
+	//pointsP2->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(),
+	//	livesP2->GetComponent<TextRendererComponent>(), m_pPyramid, m_pManager,2 };
 
-	ObserverManager::GetInstance().AddObserver(pGameManager);
-	
-	qbert1->AddObserver(pGameManager);
-	qbert2->AddObserver(pGameManager);
+	//ObserverManager::GetInstance().AddObserver(pGameManager);
+	//
+	//qbert1->AddObserver(pGameManager);
+	//qbert2->AddObserver(pGameManager);
 	
 	//Player1 input
 	//InputManager::GetInstance().AddCommand(SDLK_w, new MoveCommand(ConnectionDirection::upRight, m_pQbert));

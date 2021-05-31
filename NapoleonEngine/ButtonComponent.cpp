@@ -22,12 +22,10 @@ empire::ButtonComponent::ButtonComponent(empire::ButtonComponent const& other)
 	:m_Dimensions(other.m_Dimensions),
 	m_IsSelected(other.m_IsSelected),
 	m_bVisualize(other.m_bVisualize),
-	m_pOnClick(other.m_pOnClick->Clone()),
-	m_pOnSelect(other.m_pOnSelect->Clone()),
-	m_pOnDeselect(other.m_pOnDeselect->Clone())
-{
-	
-}
+	m_pOnClick(other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr),
+	m_pOnSelect(other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr),
+	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr)
+{}
 
 empire::ButtonComponent::~ButtonComponent()
 {
@@ -41,7 +39,7 @@ void empire::ButtonComponent::Update()
 	if (m_bVisualize)
 	{
 		Debugger::GetInstance().DrawDebugRectangle(m_pGameObject->GetTransform()->GetPosition(), 
-			(unsigned int)m_Dimensions.x, (unsigned int)m_Dimensions.y, Color{1,1,1,1});
+			(unsigned int)m_Dimensions.x, (unsigned int)m_Dimensions.y, Color{1,0,0,1});
 	}
 	glm::vec2 mousePos = InputManager::GetInstance().GetMousePosition();
 	glm::vec2 pos = m_pGameObject->GetTransform()->GetPosition();
@@ -69,4 +67,20 @@ void empire::ButtonComponent::Update()
 	{
 		m_pOnClick->Execute();
 	}
+
+}
+
+
+void ButtonComponent::SetOnClickFunction(Command* func)
+{
+	m_pOnClick = func;
+}
+
+void ButtonComponent::SetOnSelectFunction(Command* func)
+{
+	m_pOnSelect = func;
+}
+void ButtonComponent::SetOnDeselectFunction(Command* func)
+{
+	m_pOnDeselect = func;
 }

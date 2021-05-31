@@ -2,6 +2,7 @@
 #include "MainGame.h"
 
 #include "BoxCollider.h"
+#include "ButtonComponent.h"
 #include "Coily.h"
 #include "CoopScene.h"
 #include "Jumper.h"
@@ -24,18 +25,17 @@
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
 #include "InputManager.h"
+#include "JsonReaderWriter.h"
 #include "PauseGameCommand.h"
+#include "ShapeRenderer.h"
+#include "Shapes.h"
+#include "SwitchScene.h"
+#include "SwitchTextColor.h"
 
 using namespace empire;
 
 void MainGame::LoadGame() const
-{
-	InputManager::GetInstance().AddInputAction(20, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
-		new PauseGameCommand() });
-
-	InputManager::GetInstance().AddInputAction(21, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
-		new PauseGameCommand() });
-	
+{	
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
 	SceneManager::GetInstance().AddScene(new SoloScene{});
 	SceneManager::GetInstance().AddScene(new CoopScene{});
@@ -73,20 +73,23 @@ void MainGame::CreatePrefabs() const
 	qbert->GetTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("QBert", qbert);
 
+	JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
+	
 	//Qube prefab
 	auto qubePf = new GameObject{};
-	auto text = ResourceManager::GetInstance().GetTexture("Qube.png");
-	auto interText = ResourceManager::GetInstance().GetTexture("Qube_Intermediate.png");
-	auto flippedText = ResourceManager::GetInstance().GetTexture("Qube_Flipped.png");
+	auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
+	auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
+	auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
 	qubePf->GetTransform()->Scale(1.75f);
 	qubePf->AddComponent(new RendererComponent(text));
 	qubePf->AddComponent(new Qube{ text, interText, flippedText });
 	pPrefabManager.AddPrefab("Qube", qubePf);
 
 	//Pyramid
+	int levelWidth = json->ReadInt("width");
 	auto pyramid = new GameObject{};
 	pyramid->GetTransform()->Translate(250.f, 400.f);
-	pyramid->AddComponent(new Pyramid{ 7});
+	pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
 	pPrefabManager.AddPrefab("Pyramid", pyramid);
 
 	//Ugg + WrongWay
@@ -125,4 +128,34 @@ void MainGame::CreatePrefabs() const
 	diskPf->AddComponent(new empire::RendererComponent{ diskText, empire::Layer::middleground });
 	diskPf->GetTransform()->Scale(2);
 	pPrefabManager.AddPrefab("Disk", diskPf);
+
+	//Pause Menu
+	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
+	auto menuObj = new GameObject{};
+	menuObj->AddComponent(new ShapeRenderer{ +
+		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 127}, true} });
+
+	auto textObject = new GameObject{}; 
+	auto textComp = new TextRendererComponent{ "Pause", biggerFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	textObject->AddComponent(textComp);
+	menuObj->AddChild(textObject);
+	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	pPrefabManager.AddPrefab("PauseMenu", menuObj);
+	//Game over menu (opaque)
+	
+	menuObj = new GameObject{};
+	menuObj->AddComponent(new ShapeRenderer{ +
+		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 255}, true} });
+
+	 textObject = new GameObject{};
+	textComp = new TextRendererComponent{ "Game Over", biggerFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	textObject->AddComponent(textComp);
+	menuObj->AddChild(textObject);
+	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+
+	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
+	
+	delete json;
 }

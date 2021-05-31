@@ -30,7 +30,7 @@ void Renderer::Init(SDL_Window * window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
-
+	SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
@@ -48,7 +48,7 @@ void empire::Renderer::Render()
 
 	SceneManager::GetInstance().Render();
 
-	Debugger::GetInstance().Render(m_pRenderer);
+	Debugger::GetInstance().Render();
 	//ImGui::Begin("Viewport");
 	//
 	//ImGui::End();
@@ -110,6 +110,10 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, TransformComponen
 	glPopMatrix();
 }
 
+void Renderer::RenderShape(Shape const& pShape) const
+{
+	pShape.Draw(m_pRenderer);
+}
 
 int Renderer::GetOpenGLDriverIndex()
 {

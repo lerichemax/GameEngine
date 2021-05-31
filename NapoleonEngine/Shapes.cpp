@@ -15,42 +15,57 @@ void Point::Draw(SDL_Renderer* pRenderer) const
 	SDL_RenderDrawPoint(pRenderer, (int)pos.x, (int)pos.y);
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col)
+
+
+Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled)
 	:Shape(col),
 	pos{ pos },
 	width{ width },
-	height{ height }
+	height{ height },
+	isFilled(filled)
 {
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height)
+Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled)
 	:Shape(),
 	pos{pos},
 	width{width},
-	height{height}
+	height{height},
+	isFilled(filled)
 {
 	
 }
 
 
-Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled)
 	:Shape(),
 	pos{x,y},
 	width(width),
-	height(height)
+	height(height),
+	isFilled(filled)
 {
 }
 
+
+
+
 void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
-	SDL_Rect rect{ (int)pos.x, (int)pos.y, (int)width, (int)height };
-	SDL_RenderDrawRect(pRenderer, &rect);
+	if (!isFilled)
+	{
+		SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
+		SDL_Rect rect{ (int)pos.x, (int)pos.y, (int)width, (int)height };
+		SDL_RenderDrawRect(pRenderer, &rect);
+	}
+	else
+	{
+		Fill(pRenderer);
+	}
 }
 
 void Rectangle::Fill(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
+	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, color.A);
 	SDL_Rect rect{ (int)pos.x, (int)pos.y, (int)width, (int)height };
 	SDL_RenderFillRect(pRenderer, &rect);
 }
@@ -82,6 +97,9 @@ Line::Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
 {
 }
 
+
+
+
 void Line::Draw(SDL_Renderer* pRenderer) const
 {
 	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
@@ -93,6 +111,9 @@ Circle::Circle(glm::vec2 const& center, unsigned int radius, Color const& col)
 	center(center),
 	radius(radius)
 {}
+
+
+
 
 
 void Circle::Draw(SDL_Renderer* pRenderer) const

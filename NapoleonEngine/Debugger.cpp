@@ -6,8 +6,11 @@
 using namespace empire;
 
 Debugger::Debugger()
-	: Singleton()
-{ }
+	: Singleton(),
+	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE))
+{
+	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
 
 void Debugger::Log(std::string const& message) const
 {
@@ -24,7 +27,7 @@ void Debugger::LogWarning(std::string const& message) const
 
 void Debugger::LogError(std::string const& message) const
 {
-	MessageBox(NULL, message.c_str(), "Error!", MB_OK);
+	MessageBox(0, message.c_str(), "Error!", 0);
 }
 
 void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
@@ -54,26 +57,26 @@ void Debugger::DrawDebugRectangle(glm::vec2 const& pos, unsigned int width, unsi
 	m_DebugRectangles.push_back(Rectangle{ pos, width, height, color });
 }
 
-void Debugger::Render(SDL_Renderer* pRenderer)
+void Debugger::Render()
 {
 	for (Line const& line : m_DebugLines)
 	{
-		line.Draw(pRenderer);
+		Renderer::GetInstance().RenderShape(line);
 	}
 
 	for (Rectangle const& rect : m_DebugRectangles)
 	{
-		rect.Draw(pRenderer);
+		Renderer::GetInstance().RenderShape(rect);
 	}
 
 	for (Circle const& circle : m_DebugCircles)
 	{
-		circle.Draw(pRenderer);
+		Renderer::GetInstance().RenderShape(circle);
 	}
 
 	for (Point const& point : m_DebugPoints)
 	{
-		point.Draw(pRenderer);
+		Renderer::GetInstance().RenderShape(point);
 	}
 
 	m_DebugLines.clear();

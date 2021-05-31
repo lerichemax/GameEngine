@@ -21,7 +21,8 @@ public:
 	void SlickSamDied(SlickSam* pSlickSam);
 	void WrongWayDied(WrongWay* pWrongWay);
 	void Reset();
-
+	void ResetTimers();
+	
 	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	
 private:

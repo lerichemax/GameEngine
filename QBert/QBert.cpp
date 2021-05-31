@@ -116,7 +116,7 @@ void QBert::JumpOffDisk()
 void QBert::Reset(bool fullReset, Qube* pTargetQube)
 {
 	SetCurrentQube(pTargetQube);
-
+	m_pGameObject->SetActive(true);
 	if (!fullReset)
 	{
 		return;

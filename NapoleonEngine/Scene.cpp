@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+#include "Timer.h"
+
 using namespace empire;
 
 Scene::Scene(const std::string& name)
@@ -42,6 +44,13 @@ void Scene::AddObject(GameObject* object)
 	}
 	object->Initialize();
 }
+
+void Scene::OnActivate()
+{
+	Timer::GetInstance().SetTimeScale(1);
+	CustomOnActivate();
+}
+
 
 void Scene::Update()
 {

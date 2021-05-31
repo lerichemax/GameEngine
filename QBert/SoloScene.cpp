@@ -14,8 +14,16 @@
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
-#include "BoxCollider.h"
+#include "ButtonComponent.h"
 #include "CharacterLives.h"
+
+#include "JsonReaderWriter.h"
+#include "QuitGameCommand.h"
+#include "ReloadSceneCommand.h"
+#include "SwitchScene.h"
+#include "SwitchTextColor.h"
+#include "Timer.h"
+#include "../3rdParty/imgui/imgui.h"
 
 SoloScene::SoloScene()
 	:QBertScene("SoloScene")
@@ -34,7 +42,55 @@ void SoloScene::Initialize()
 	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
 	AddObject(pointsP1);
 
+	//Pause Menu
+	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
+	m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
+	AddObject(m_pPauseMenu);
 
+	auto btnObj = new GameObject{};
+	auto textComp = new TextRendererComponent{ "Resume", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	auto btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new PauseGameCommand{ this, m_pPauseMenu });
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	m_pPauseMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
+
+	//Back to main btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("BackToMainBtn", false);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	m_pPauseMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+
+	//Quit Btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new QuitGameCommand{});
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("QuitBtn", false);
+	m_pPauseMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	m_pPauseMenu->SetActive(false);
+	
 	auto qbertObj = pPrefabManager.Instantiate("QBert");
 	m_pQbert = qbertObj->GetComponent<QBert>();
 	m_pQbert->SetPlayerNbr(1);
@@ -42,7 +98,7 @@ void SoloScene::Initialize()
 
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
 		std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
-
+	
 	auto pyramid = pPrefabManager.Instantiate("Pyramid");
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
 	ObserverManager::GetInstance().AddObserver(new QubeObserver{ m_pPyramid});
@@ -56,11 +112,57 @@ void SoloScene::Initialize()
 	
 	AddObject(enemyManagerObj);
 
-	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
-nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pPyramid, m_pManager };
+	//game over menu
+	m_pGameOverMenu = pPrefabManager.Instantiate("GameOverMenu");
+	AddObject(m_pGameOverMenu);
+	
+	//Replay
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Replay", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new ReloadSceneCommand{ this });
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	m_pGameOverMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
 
-	//auto playerObserver = new PlayerObserver{
-	//	pointsP1->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(), m_pPyramid, m_pManager };
+	//Back to main btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("BackToMainBtn", false);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	m_pGameOverMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+	
+	//Quit Btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 150, 50 };
+	btn->SetVisualize(true);
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
+	btn->SetOnClickFunction(new QuitGameCommand{});
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("QuitBtn", false);
+	m_pGameOverMenu->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	m_pGameOverMenu->SetActive(false);
+
+	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
+nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pPyramid, m_pManager, m_pGameOverMenu };
 
 	ObserverManager::GetInstance().AddObserver(pGameManager);
 	qbertObj->AddObserver(pGameManager);
@@ -86,7 +188,13 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pPyramid, m_
 	InputManager::GetInstance().AddInputAction(7,
 		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
-	
+
+
+	InputManager::GetInstance().AddInputAction(20, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu) });
+
+	InputManager::GetInstance().AddInputAction(21, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu) });
 }
 
 void SoloScene::ResetScene(Level newLevel)
@@ -95,6 +203,7 @@ void SoloScene::ResetScene(Level newLevel)
 	m_pPyramid->Reset();
 	m_pManager->Reset();
 	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	SetIsPaused(false);
 }
 
 void SoloScene::ResetGame()
@@ -102,5 +211,9 @@ void SoloScene::ResetGame()
 	m_Level = Level::Level1;
 	m_pPyramid->Reset();
 	m_pManager->Reset();
+	m_pManager->ResetTimers();
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
+	m_pPauseMenu->SetActive(false);
+	m_pGameOverMenu->SetActive(false);
+	SetIsPaused(false);
 }

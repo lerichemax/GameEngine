@@ -13,11 +13,13 @@ namespace empire
 		virtual void Cleanup();
 		void Run();
 		
-		int GetWindowWidth() { return m_WindowWidth; }
-		int GetWindowHeight() { return m_WindowHeight; }
+		unsigned int GetWindowWidth() const { return m_WindowWidth; }
+		unsigned int GetWindowHeight() const { return m_WindowHeight; }
+		static void Quit();
 	private:
 		SDL_Window* m_Window{};
-		int m_WindowWidth;
-		int m_WindowHeight;
+		unsigned int m_WindowWidth;
+		unsigned int m_WindowHeight;
+		static bool m_bQuit;
 	};
 }

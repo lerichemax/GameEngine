@@ -11,10 +11,11 @@
 
 #include "TextRendererComponent.h"
 #include "RendererComponent.h"
+#include "Timer.h"
 
 GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points,
-	empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, Pyramid* pPyramid, EnemyManager* pManager,
-	unsigned int nbrPlayers)
+                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, Pyramid* pPyramid, EnemyManager* pManager,
+                         GameObject* pGameOver, unsigned int nbrPlayers)
 	:m_pP1PointsCounter(pP1Points),
 	m_P1LivesCounter(pP1Lives),
 	m_pP2PointsCounter(pP2Points),
@@ -22,7 +23,8 @@ GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextR
 	m_pPyramid(pPyramid),
 	m_pEnemyManager(pManager),
 	m_NbrPlayers(nbrPlayers),
-	m_NbrDeadPlayers()
+	m_NbrDeadPlayers(),
+	m_pGameOver(pGameOver)
 {
 }
 
@@ -56,7 +58,10 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
 			empire::Debugger::GetInstance().Log("GAME OVER");
-			static_cast<QBertScene*>(object->GetParentScene())->ResetGame();
+			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
+			Timer::GetInstance().SetTimeScale(0);
+			m_pGameOver->SetActive(true);
+			//static_cast<QBertScene*>(object->GetParentScene())->ResetGame();
 		}
 		break;
 	}

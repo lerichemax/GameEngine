@@ -21,6 +21,7 @@ namespace empire
 
 		virtual void Initialize() = 0;
 		
+		
 		void AddObject(GameObject* object);
 		void Update();
 		void Render() const;
@@ -30,6 +31,8 @@ namespace empire
 		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
 
 		std::string GetName()const { return m_Name; }
+	protected:
+		virtual void CustomOnActivate(){};
 	private:
 		friend void ColliderComponent::Initialize();
 		friend ColliderComponent::~ColliderComponent();
@@ -46,7 +49,8 @@ namespace empire
 		
 		bool m_bIsActive;
 		bool m_bIsInitialized;
-		
+
+		void OnActivate();
 		void Refresh();
 		void CleanUpScene();
 		void CheckCollidersCollision();

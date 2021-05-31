@@ -23,11 +23,18 @@ GameObject::GameObject(const GameObject& other)
 	m_bIsActive(true),
 	m_bIsInitialized(other.m_bIsInitialized),
 	m_pScene(nullptr),
-	m_pSubject(new Subject{*other.m_pSubject})
+	m_pSubject(new Subject{*other.m_pSubject}),
+	m_bIsDestroyed(false),
+	m_pParent(other.m_pParent),
+	m_Tag(other.m_Tag)
 {
 	for (Component* pComp : other.m_pComponents)
 	{
 		AddComponent(pComp->Clone());
+	}
+	for (GameObject* pChild : other.m_pChildren)
+	{
+		m_pChildren.push_back(new GameObject(*pChild));
 	}
 	m_pTransform = GetComponent<TransformComponent>();
 }
@@ -139,4 +146,36 @@ void GameObject::RemoveObserver(Observer* pObserver)
 void GameObject::Notify(int event)
 {
 	m_pSubject->Notify(this, event);
+}
+void GameObject::SetActive(bool active)
+{
+	m_bIsActive = active;
+	for (GameObject* pChild : m_pChildren)
+	{
+		pChild->SetActive(active);
+	}
+}
+
+void GameObject::SetTag(std::string const& tag, bool applyToChildren)
+{
+	m_Tag = tag;
+	if (applyToChildren)
+	{
+		for (GameObject* pChild : m_pChildren)
+		{
+			pChild->SetTag(tag, applyToChildren);
+		}
+	}
+}
+
+GameObject* GameObject::FindTagInChildren(std::string const& tag)
+{
+	for (GameObject* pChild : m_pChildren)
+	{
+		if (pChild->GetTag() == tag)
+		{
+			return pChild;
+		}
+	}
+	return nullptr;
 }

@@ -45,9 +45,6 @@
     <ClCompile Include="WrongWay.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="WrongWayJumper.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
@@ -91,6 +88,12 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="SwitchScene.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QuitGameCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
   </ItemGroup>
@@ -138,9 +141,6 @@
     <ClInclude Include="WrongWay.h">
       <Filter>GameScripts\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="WrongWayJumper.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
@@ -184,6 +184,12 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="SwitchScene.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QuitGameCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
