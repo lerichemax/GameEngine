@@ -228,13 +228,30 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
+    <ClInclude Include="allocators.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="cursorstreamwrapper.h" />
     <ClInclude Include="Debugger.h" />
+    <ClInclude Include="document.h" />
+    <ClInclude Include="encodedstream.h" />
+    <ClInclude Include="encodings.h" />
+    <ClInclude Include="filereadstream.h" />
+    <ClInclude Include="filewritestream.h" />
+    <ClInclude Include="fwd.h" />
+    <ClInclude Include="istreamwrapper.h" />
+    <ClInclude Include="memorybuffer.h" />
+    <ClInclude Include="memorystream.h" />
+    <ClInclude Include="ostreamwrapper.h" />
+    <ClInclude Include="pointer.h" />
+    <ClInclude Include="prettywriter.h" />
+    <ClInclude Include="rapidjson.h" />
+    <ClInclude Include="reader.h" />
+    <ClInclude Include="schema.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
@@ -259,11 +276,15 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="SoundInterface.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="stream.h" />
+    <ClInclude Include="stringbuffer.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="TextRendererComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp">

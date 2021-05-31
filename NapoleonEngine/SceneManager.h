@@ -5,6 +5,7 @@
 namespace empire
 {
 	class Scene;
+	class NapoleonEngine;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
@@ -19,16 +20,17 @@ namespace empire
 		void LoadScene(std::string const& name);
 		void ReloadCurrentScene();
 		Scene* GetActiveScene() const;
-	
+		NapoleonEngine const*  GetEngine()const { return m_pEngine; }
 	private:
 		friend class Singleton<SceneManager>;
 		friend class NapoleonEngine;
 		friend class Renderer;
 		
 		SceneManager() = default;
-		std::map <std::string, Scene*> m_pScenesMap;
 
-		void Initialize();
+		NapoleonEngine const*  m_pEngine;
+		std::map <std::string, Scene*> m_pScenesMap;
+		void Initialize(NapoleonEngine const* pEngine);
 		void Update();
 		void Render();
 	};

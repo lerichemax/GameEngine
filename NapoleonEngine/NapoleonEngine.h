@@ -13,8 +13,11 @@ namespace empire
 		virtual void Cleanup();
 		void Run();
 		
+		int GetWindowWidth() { return m_WindowWidth; }
+		int GetWindowHeight() { return m_WindowHeight; }
 	private:
-		//static const int m_MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
 		SDL_Window* m_Window{};
+		int m_WindowWidth;
+		int m_WindowHeight;
 	};
 }

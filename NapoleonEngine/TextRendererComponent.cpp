@@ -8,7 +8,7 @@
 using namespace empire;
 
 TextRendererComponent::TextRendererComponent(std::string const& text, Font* const pFont)
-	:RendererComponent{Layer::ui},
+	:RendererComponent{Layer::uiGame},
 	m_Text{text},
 	m_pFont{pFont},
 	m_NeedsUpdate{true},

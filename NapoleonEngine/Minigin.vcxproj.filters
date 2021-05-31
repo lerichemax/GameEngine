@@ -151,6 +151,27 @@
     <ClInclude Include="Timer.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="cursorstreamwrapper.h" />
+    <ClInclude Include="document.h" />
+    <ClInclude Include="encodedstream.h" />
+    <ClInclude Include="allocators.h" />
+    <ClInclude Include="encodings.h" />
+    <ClInclude Include="filereadstream.h" />
+    <ClInclude Include="filewritestream.h" />
+    <ClInclude Include="fwd.h" />
+    <ClInclude Include="istreamwrapper.h" />
+    <ClInclude Include="memorybuffer.h" />
+    <ClInclude Include="memorystream.h" />
+    <ClInclude Include="ostreamwrapper.h" />
+    <ClInclude Include="pointer.h" />
+    <ClInclude Include="rapidjson.h" />
+    <ClInclude Include="reader.h" />
+    <ClInclude Include="prettywriter.h" />
+    <ClInclude Include="schema.h" />
+    <ClInclude Include="stream.h" />
+    <ClInclude Include="stringbuffer.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">

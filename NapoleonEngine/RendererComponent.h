@@ -13,7 +13,10 @@ namespace empire
 		background,
 		middleground,
 		foreground,
-		ui
+		uiGame,
+		uiMenuBg,
+		uiMenuMg,
+		uiMenuFg
 	};
 	
 	class RendererComponent : public Component

@@ -42,7 +42,6 @@ namespace empire
 		void AddChild(GameObject* pChild);
 		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
 		
-		
 		void SetActive(bool active) { m_bIsActive = active; }
 		void Destroy() { m_bIsDestroyed = true; }
 		
@@ -52,10 +51,13 @@ namespace empire
 		bool IsInitialized() { return m_bIsInitialized; }
 		bool IsActive() const { return m_bIsActive; }
 		bool HasChildren() const { return m_pChildren.size() > 0; }
+		std::string GetTag()const { return m_Tag; };
 		
 		void AddObserver(Observer* pObserver);
 		void RemoveObserver(Observer* pObserver);
 		void Notify(int event);
+		void SetTag(std::string const& tag) { m_Tag = tag; }
+	
 	private:
 		friend class PrefabsManager;
 		friend class Scene;
@@ -71,6 +73,8 @@ namespace empire
 		
 		Scene* m_pScene;
 		Subject* m_pSubject;
+
+		std::string m_Tag;
 		
 		void Refresh();
 		void Initialize();

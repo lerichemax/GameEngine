@@ -25,19 +25,20 @@ void empire::NapoleonEngine::Initialize()
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	m_WindowWidth = 900;
+	m_WindowHeight = 600;
 	m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		900,
-		600,
+		m_WindowWidth,
+		m_WindowHeight,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
@@ -77,12 +78,12 @@ void empire::NapoleonEngine::Run()
 {
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("Data/");
-
+	
 	Initialize();
 
 	CreatePrefabs();
 	LoadGame();
-	SceneManager::GetInstance().Initialize();
+	SceneManager::GetInstance().Initialize(this);
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();

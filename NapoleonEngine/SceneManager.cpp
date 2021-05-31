@@ -12,8 +12,9 @@ empire::SceneManager::~SceneManager()
 	}
 }
 
-void empire::SceneManager::Initialize()
+void empire::SceneManager::Initialize(NapoleonEngine const* pEngine)
 {
+	m_pEngine = pEngine;
 	for(auto pScene : m_pScenesMap)
 	{
 		pScene.second->Initialize();
@@ -78,6 +79,11 @@ Scene* SceneManager::GetActiveScene() const
 
 void SceneManager::AddScene(Scene* pScene)
 {
+	if(m_pScenesMap.find(pScene->m_Name) != m_pScenesMap.end())
+	{
+		Debugger::GetInstance().LogError("SceneManager::AddScene - > The scene " + pScene->m_Name + " can't be added twice");
+		
+	}
 	m_pScenesMap.insert(std::make_pair(pScene->m_Name, pScene));
 }
 

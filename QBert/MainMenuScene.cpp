@@ -23,7 +23,7 @@ void MainMenuScene::Initialize()
 
 	
 	auto titleObject = new GameObject();
-	titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::ui });
+	titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
 	AddObject(titleObject);
 	titleObject->GetTransform()->Translate(300, 50);
 	titleObject->GetTransform()->Scale(0.8f, 0.8f);
