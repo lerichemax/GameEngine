@@ -34,7 +34,7 @@ Pyramid::Pyramid(Pyramid const& other)
 {
 	for (size_t i{}; i < other.m_pQubes.size(); ++i)
 	{
-		m_pQubes.push_back(new Qube{ *other.m_pQubes[i] });
+		m_pQubes.push_back(other.m_pQubes[i]->Clone());
 	}
 }
 
@@ -50,6 +50,7 @@ void Pyramid::Update()
 
 void Pyramid::DiskSpawnerTimer()
 {
+	Debugger::GetInstance().Log(std::to_string(m_NbrDisksSpawned));
 	//Spawn Disks
 	if (m_NbrDisksSpawned < MAX_NBR_DISKS)
 	{
@@ -72,7 +73,8 @@ void Pyramid::Initialize()
 	glm::vec2 startPos{m_pGameObject->GetTransform()->GetPosition()};
 	glm::vec2 lastPos{startPos};
 
-	auto observer = ObserverManager::GetInstance().GetObserver<QubeObserver>();
+	auto observer = new QubeObserver{ this };
+	ObserverManager::GetInstance().AddObserver(observer);
 	
 	//spawn qubes
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
@@ -82,6 +84,7 @@ void Pyramid::Initialize()
 		{
 			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
 
+			
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			pQube->AddObserver(observer);
 			

@@ -15,7 +15,18 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	m_pIntermediateTexture(pInterText),
 	m_pFlippedTexture(pFlippedText),
 	m_pConnections{nullptr},
-	m_pCharacter(nullptr)
+	m_pCharacter(nullptr),
+	m_bIsFlipped(false),
+	m_JumpCounter(),
+	m_pDiskConnection(nullptr),
+	m_EscheresqueRightPos(),
+	m_EscheresqueLeftPos(),
+	m_CharacterPos(),
+	m_bIsLastRow(false),
+	m_bIsSideColumn(false),
+	m_pEscheresqueRightConnections{},
+	m_pEscheresqueLeftConnections{}
+
 {
 }
 
@@ -24,7 +35,16 @@ Qube::Qube(Qube const& other)
 	m_pIntermediateTexture(other.m_pIntermediateTexture),
 	m_pFlippedTexture(other.m_pFlippedTexture),
 	m_pConnections{  },
-	m_pCharacter(other.m_pCharacter)
+	m_pCharacter(other.m_pCharacter),
+	m_bIsFlipped(other.m_bIsFlipped),
+	m_JumpCounter(other.m_JumpCounter),
+	m_pDiskConnection(other.m_pDiskConnection),
+	m_EscheresqueRightPos(other.m_EscheresqueRightPos),
+	m_EscheresqueLeftPos(other.m_EscheresqueLeftPos),
+	m_CharacterPos(other.m_CharacterPos),
+	m_bIsLastRow(other.m_bIsLastRow),
+	m_bIsSideColumn(other.m_bIsSideColumn)
+
 {
 	for (unsigned int i{}; i <MAX_NBR_CONNECTION;++i)
 	{
@@ -185,6 +205,7 @@ void Qube::Reset()
 			pChild->Destroy();
 		}
 	}
+	m_pDiskConnection = nullptr;
 	
 	GetGameObject()->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
 }

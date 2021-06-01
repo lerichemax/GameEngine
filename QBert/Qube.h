@@ -28,7 +28,7 @@ class Qube final : public Component
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
 	Qube* Clone() override { return new Qube{*this}; }
-	Qube(Qube const& other);
+	
 	
 	Qube(Qube&& other) = delete;
 	Qube& operator=(Qube const& rhs) = delete;
@@ -90,12 +90,14 @@ private:
 	glm::vec2 m_EscheresqueRightPos;
 	
 	bool m_bIsFlipped;
-	bool m_bIsLastRow{ false };
-	bool m_bIsSideColumn{ false };
+	bool m_bIsLastRow;
+	bool m_bIsSideColumn;
 	
 	unsigned int m_JumpCounter;
 
 	void Flip();
 	void IntermediateFlip();
 	void UnFlip();
+
+	Qube(Qube const& other);
 };

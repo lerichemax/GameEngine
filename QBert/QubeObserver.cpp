@@ -65,7 +65,7 @@ void QubeObserver::Notify(empire::GameObject* object, int event)
 					{
 						Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
 						std::this_thread::sleep_for(std::chrono::milliseconds(1));
-						qbertScene->ResetScene(QBertScene::Level::Level1);
+						qbertScene->EndGame(true);
 					}
 				}
 				break;

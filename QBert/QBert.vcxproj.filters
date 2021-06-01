@@ -215,9 +215,6 @@
     <Filter Include="GameScripts\Characters">
       <UniqueIdentifier>{3cf96f01-a495-4865-aab3-854843a64230}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{5329969e-c0e9-4c4e-8d0d-b739ef9ede42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScripts\AIControllers">
       <UniqueIdentifier>{cc14cbc8-d8c9-46ed-b121-99cb91d9b2f5}</UniqueIdentifier>
     </Filter>

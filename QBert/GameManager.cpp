@@ -20,7 +20,6 @@ GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextR
 	m_P1LivesCounter(pP1Lives),
 	m_pP2PointsCounter(pP2Points),
 	m_P2LivesCounter(pP2Lives),
-	m_pPyramid(pPyramid),
 	m_pEnemyManager(pManager),
 	m_NbrPlayers(nbrPlayers),
 	m_NbrDeadPlayers(),

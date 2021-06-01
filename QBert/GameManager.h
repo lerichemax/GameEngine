@@ -41,7 +41,6 @@ private:
 	empire::TextRendererComponent* const m_pP2PointsCounter;
 	empire::TextRendererComponent* const m_P2LivesCounter;
 	
-	Pyramid* const m_pPyramid;
 	EnemyManager* const m_pEnemyManager;
 	GameObject* m_pGameOver;
 	
