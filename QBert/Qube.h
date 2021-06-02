@@ -22,6 +22,7 @@ namespace empire
 
 class Character;
 class ColoredDisk;
+class QBertScene;
 class Qube final : public Component
 {
 	friend void QubeObserver::Notify(empire::GameObject* object, int event);
@@ -59,6 +60,7 @@ public:
 	void SetIsLastRow(bool lastRow) { m_bIsLastRow = lastRow; };
 	void SetIsSideColumn(bool sideCol) { m_bIsSideColumn = sideCol; }
 	void SetTexture(Texture2D* pText);
+	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	
 	void AddConnection(ConnectionDirection dir, Qube* const pConnection);
 	void AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection);
@@ -71,7 +73,11 @@ public:
 	void CharacterJumpOut();
 
 private:
-	unsigned int static const MAX_NBR_CONNECTION = 4;
+	int static const MAX_NBR_CONNECTION = 4;
+	int const POINTS_FOR_FLIP = 25;
+	
+	QBertScene* m_pScene;
+	Pyramid* m_pPyramid;
 	
 	Qube* m_pConnections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
 	Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];

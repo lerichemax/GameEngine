@@ -27,7 +27,7 @@ public:
 	
 private:
 	unsigned int static const MAX_COILY{ 1 };
-	float const COILY_SPAWN_INTERVAL{ 15.f };
+	float const COILY_SPAWN_INTERVAL{ 5.f };
 	unsigned int static const MAX_SLICKSAM{ 2 };
 	float const SLICKSAM_SPAWN_INTERVAL{ 10.f };
 

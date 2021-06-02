@@ -14,7 +14,7 @@
 #include "Timer.h"
 
 GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points,
-                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, Pyramid* pPyramid, EnemyManager* pManager,
+                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, EnemyManager* pManager,
                          GameObject* pGameOver, unsigned int nbrPlayers)
 	:m_pP1PointsCounter(pP1Points),
 	m_P1LivesCounter(pP1Lives),

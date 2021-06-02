@@ -162,7 +162,7 @@ void SoloScene::Initialize()
 	m_pGameOverMenu->SetActive(false);
 
 	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
-nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pPyramid, m_pManager, m_pGameOverMenu };
+nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pManager, m_pGameOverMenu };
 
 	ObserverManager::GetInstance().AddObserver(pGameManager);
 	qbertObj->AddObserver(pGameManager);

@@ -49,15 +49,29 @@ void CoilyCharacterController::Update()
 	{
 		if (m_pEnemyCharacter->GetState() == State::onQube)
 		{
+			
 			if (m_MoveTimer < MOVE_MAX_TIME)
 			{
 				m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
 				return;
 			}
 
-			m_pEnemyCharacter->Move(ChooseDirection());
-			m_MoveTimer = 0;
+			if (m_CurrentlyInQueue != 0)
+			{
+				m_pEnemyCharacter->Move(ChooseDirection());
+				m_MoveTimer = 0;
+			}
 		}
+	}
+}
+
+void CoilyCharacterController::SetIdle(bool isIdle)
+{
+	m_bIsIdle = isIdle;
+	m_MoveTimer = 0;
+	if (!isIdle)
+	{
+		FindQBert();
 	}
 }
 
@@ -87,13 +101,14 @@ ConnectionDirection CoilyCharacterController::ChooseDirection()
 		return EnemyCharacterController::ChooseDirection();
 	}
 
-	if (m_CurrentlyInQueue == 0)
-	{
-		FindQBert();
-	}
-
+	//if (m_CurrentlyInQueue == 0)
+	//{
+	//	FindQBert();
+	//}
+	
 	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
 	m_CurrentlyInQueue--;
+	
 
 	return  dirToReturn;
 }
@@ -108,11 +123,14 @@ void CoilyCharacterController::FindQBert()
 		{
 			bool result{};
 
-			do
+			result = m_pPyramid->FindNextQubeToQbert(m_pCoilyCharacter->GetCurrentQube(), m_MovementQueue, MOVEMENT_QUEUE_SIZE);
+
+			if (result)
 			{
-				result = m_pPyramid->FindNextQubeToQbert(m_pCoilyCharacter->GetCurrentQube(), m_MovementQueue, MOVEMENT_QUEUE_SIZE);
-			} while (!result);
-			m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+				m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
+				m_bIsIdle = false;
+			}
+
 		});
 	t1.detach();
 }

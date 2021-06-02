@@ -33,8 +33,6 @@ QBert::QBert(QBert const& other)
 
 void QBert::Initialize()
 {
-
-	
 	m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
 	m_pLives = m_pGameObject->GetComponent<CharacterLives>();
 	
@@ -148,6 +146,7 @@ void QBert::LandOnQube()
 {
 	m_pCurrentQube->QBertJump(this);
 	Character::LandOnQube();
+
 }
 
 void QBert::SetDirectionTextures(ConnectionDirection dir)

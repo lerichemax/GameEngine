@@ -16,14 +16,17 @@ public:
 	void Initialize() override;
 	void Update() override;
 
-	void SetIdle(bool isIdle) { m_bIsIdle = isIdle; }
+	void SetIdle(bool isIdle);
 	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
+	void FindQBert();
 protected:
 	ConnectionDirection ChooseDirection() override;
 
 private:
-	int static const MOVEMENT_QUEUE_SIZE{ 2 };
+	int static const MOVEMENT_QUEUE_SIZE{ 3 };
+	
 	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
+	
 	int m_CurrentlyInQueue;
 	
 	Coily* m_pCoilyCharacter;
@@ -31,7 +34,6 @@ private:
 	
 	bool m_bIsIdle;
 
-	void FindQBert();
 	void Move(ConnectionDirection dir);
 
 	CoilyCharacterController(CoilyCharacterController const& other);

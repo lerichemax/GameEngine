@@ -33,7 +33,7 @@ void EnemyManager::Update()
 	{
 		Debugger::GetInstance().LogError("Variable m_pPyramid is undefined In EnemyManager");
 	}
-	//CoilySpawnerTimer();
+	CoilySpawnerTimer();
 	//SlickSamSpawnerTimer();
 	//WrongWaySpawnerTimer();
 }

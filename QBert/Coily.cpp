@@ -14,17 +14,24 @@
 
 Coily::Coily()
 	: Enemy(500),
-	m_bIsTransformed(false)
+	m_bIsTransformed(false),
+	m_pController(nullptr)
 {}
 
 Coily::Coily(Coily const& other)
-	:Enemy(other),
-	m_bIsTransformed(other.IsTransformed())
+	: Enemy(other),
+	m_bIsTransformed(other.IsTransformed()),
+	m_pController(nullptr)
 {
 }
 
 void Coily::Initialize()
 {
+	if (m_pGameObject->HasComponent<CoilyCharacterController>())
+	{
+		m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
+	}
+	
 	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
 	Enemy::Initialize();
@@ -32,11 +39,11 @@ void Coily::Initialize()
 
 void Coily::Move(ConnectionDirection direction)
 {
-	if (!m_pCurrentQube->HasConnection(direction))
-	{
-		JumpToDeath(direction);
-		return;
-	}
+	//if (!m_pCurrentQube->HasConnection(direction))
+	//{
+	//	JumpToDeath(direction);
+	//	return;
+	//}
 	
 	if (m_bIsTransformed)
 	{
@@ -115,4 +122,13 @@ void Coily::SetDirectionTextures(ConnectionDirection dir)
 		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_UpRight.png");
 		break;
 	}
+}
+
+void Coily::MoveToCurrentQube()
+{
+	if (m_pController != nullptr)
+	{
+		m_pController->FindQBert();
+	}
+	Enemy::MoveToCurrentQube();
 }

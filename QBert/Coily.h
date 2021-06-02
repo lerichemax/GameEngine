@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
+class CoilyCharacterController;
 class Pyramid;
 class Qube;
 class Coily final : public Enemy
@@ -25,10 +26,13 @@ public:
 
 protected:
 	void SetDirectionTextures(ConnectionDirection dir) override;
+	void MoveToCurrentQube() override;
 
 private:
 	bool m_bIsTransformed;
-
+	CoilyCharacterController* m_pController;
+	
+	
 	void Initialize() override;
 
 	Coily(Coily const& other);

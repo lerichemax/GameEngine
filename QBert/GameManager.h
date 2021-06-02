@@ -29,7 +29,7 @@ class GameManager final : public empire::Observer
 {
 public:
 	GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points, 
-		empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, Pyramid* pPyramid, 
+		empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, 
 		EnemyManager* pManager, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
 	~GameManager() = default;

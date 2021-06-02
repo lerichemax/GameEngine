@@ -1,14 +1,21 @@
 #include "PCH.h"
 #include "Qube.h"
 
-#include "RendererComponent.h"
-#include "GameObject.h"
-#include "QBert.h"
+#include <chrono>
+#include <thread>
 
+
+
+#include "QBertScene.h"
+#include "QBert.h"
 #include "QubeObserver.h"
 #include "ColoredDisk.h"
-#include "PrefabsManager.h"
 #include "SlickSam.h"
+
+#include "RendererComponent.h"
+#include "GameObject.h"
+#include "PrefabsManager.h"
+
 
 Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 	:m_pDefaultText(pDefText),
@@ -56,6 +63,8 @@ Qube::Qube(Qube const& other)
 
 void Qube::Initialize()
 {
+	m_pScene = static_cast<QBertScene*>(m_pGameObject->GetParentScene());
+	
 	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
 	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
 
@@ -71,7 +80,7 @@ void Qube::Update()
 	if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
 	{
 		m_pDiskConnection = nullptr;
-		m_pGameObject->Notify((int)QubeEvents::DiskUsed);
+		m_pPyramid->DiskUsed();
 	}
 }
 
@@ -160,15 +169,57 @@ Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRi
 
 void Qube::QBertJump(QBert* pQbert)
 {
-	CharacterJumpIn(pQbert);
-	m_pGameObject->Notify((int)QubeEvents::PlayerJump);
+	if (!m_bIsFlipped)
+	{
+		pQbert->EarnPoints(POINTS_FOR_FLIP);
+	}
+	
+	switch (m_pScene->GetLevel())
+	{
+	case QBertScene::Level::Level1:
+		Flip();
+		if (m_pPyramid->AreAllQubesFlipped())
+		{
+			Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
+			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			m_pScene->ResetScene(QBertScene::Level::Level2);
+		}
+		break;
+	case QBertScene::Level::Level2:
+		if (m_JumpCounter == 0)
+		{
+			IntermediateFlip();
+			return;
+		}
+		else if (m_JumpCounter == 1)
+		{
+			Flip();
+			if (m_pPyramid->AreAllQubesFlipped())
+			{
+				Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
+				//std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				m_pScene->ResetScene(QBertScene::Level::Level3);
+			}
+		}
+		break;
+	case QBertScene::Level::Level3:
+		Flip();
+		Debugger::GetInstance().Log("Qube flipped !");
+		if (m_pPyramid->AreAllQubesFlipped())
+		{
+			Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			m_pScene->EndGame(true);
+		}
+		break;
+	}
+	
 }
 
 void Qube::Flip()
 {
 	if (!m_bIsFlipped)
 	{
-		m_pGameObject->Notify((int)QubeEvents::QubeFlipped);
 		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pFlippedTexture);
 		m_bIsFlipped = true;
 		m_JumpCounter++;
@@ -179,7 +230,6 @@ void Qube::IntermediateFlip()
 {
 	if (!m_bIsFlipped)
 	{
-		m_pGameObject->Notify((int)QubeEvents::QubeFlipped);
 		m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
 		m_JumpCounter++;
 	}

@@ -4,12 +4,9 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "RendererComponent.h"
-#include "Subject.h"
 #include "ObserverManager.h"
 #include "Timer.h"
-#include "ObserverManager.h"
 #include "PrefabsManager.h"
-#include "ResourceManager.h"
 
 #include "QubeObserver.h"
 #include "QBert.h"
@@ -50,7 +47,6 @@ void Pyramid::Update()
 
 void Pyramid::DiskSpawnerTimer()
 {
-	Debugger::GetInstance().Log(std::to_string(m_NbrDisksSpawned));
 	//Spawn Disks
 	if (m_NbrDisksSpawned < MAX_NBR_DISKS)
 	{
@@ -83,9 +79,9 @@ void Pyramid::Initialize()
 		for (unsigned int j = 0; j < i; j++)
 		{
 			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
-
 			
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
+			m_pQubes.back()->SetPyramid(this);
 			pQube->AddObserver(observer);
 			
 			if (i == MAX_WIDTH)
@@ -257,17 +253,12 @@ bool Pyramid::IsTop(Qube* pQube) const
 
 bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
 {
-	for (int i = 0; i < size; i++)
-	{
-		directions[i] = ConnectionDirection::null;
-	}
 	
 	int currentIdx = GetIndex(pStartingQube);
 	int targetIdx = GetQBertIndex();
 
 	if (targetIdx == -1)
 	{
-		std::fill_n(directions, size, ConnectionDirection::null);
 		return false;
 	}
 	
