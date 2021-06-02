@@ -48,6 +48,7 @@ void Scene::AddObject(GameObject* object)
 void Scene::OnActivate()
 {
 	Timer::GetInstance().SetTimeScale(1);
+	m_bIsActive = true;
 	CustomOnActivate();
 }
 
@@ -99,8 +100,16 @@ void Scene::CheckCollidersCollision()
 {
 	for(auto pColl : m_pColliders)
 	{
+		if (!pColl->GetGameObject()->IsActive())
+		{
+			continue;
+		}
 		for(auto pOtherColl : m_pColliders)
 		{
+			if (!pOtherColl->GetGameObject()->IsActive())
+			{
+				continue;
+			}
 			if (pColl == pOtherColl)
 			{
 				continue;

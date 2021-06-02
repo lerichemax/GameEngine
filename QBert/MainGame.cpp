@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "MainGame.h"
 
-#include "BoxCollider.h"
-#include "ButtonComponent.h"
 #include "Coily.h"
 #include "CoopScene.h"
 #include "Jumper.h"
@@ -11,26 +9,26 @@
 #include "QBert.h"
 #include "Qube.h"
 #include "VersusScene.h"
-
-#include "RendererComponent.h"
-#include "PrefabsManager.h"
-#include "ResourceManager.h"
+#include "Pyramid.h"
 #include "SlickSam.h"
 #include "SoloScene.h"
-#include "TextRendererComponent.h"
 #include "WrongWay.h"
 #include "WrongWayJumper.h"
 #include "EnemyCharacterController.h"
 #include "CoilyCharacterController.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
+
+#include "RendererComponent.h"
+#include "PrefabsManager.h"
+#include "ResourceManager.h"
+#include "TextRendererComponent.h"
 #include "InputManager.h"
 #include "JsonReaderWriter.h"
-#include "PauseGameCommand.h"
 #include "ShapeRenderer.h"
 #include "Shapes.h"
-#include "SwitchScene.h"
-#include "SwitchTextColor.h"
+#include "BoxCollider.h"
+#include "ButtonComponent.h"
 
 using namespace empire;
 

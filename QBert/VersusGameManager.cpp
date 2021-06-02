@@ -1,17 +1,13 @@
 #include "PCH.h"
 #include "VersusGameManager.h"
 
-
 #include "CharacterPoint.h"
 #include "GameObject.h"
-#include "InputManager.h"
-#include "MoveCommand.h"
-#include "Qube.h"
 #include "Coily.h"
 #include "CoilyCharacterController.h"
 #include "QBert.h"
 #include "VersusScene.h"
-
+#include "Pyramid.h"
 #include "TextRendererComponent.h"
 
 VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, empire::TextRendererComponent* pText1,

@@ -5,6 +5,10 @@ class MainMenuScene final : public empire::Scene
 {
 public:
 	MainMenuScene();
-	void Initialize() override;
+
 	void CustomOnActivate() override;
+
+private:
+	void Initialize() override;
+	void DeclareInput() override{}
 };

@@ -43,7 +43,7 @@ namespace empire
 		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
 		
 		void SetActive(bool active);
-		void Destroy() { m_bIsDestroyed = true; }
+		void Destroy();
 		
 		GameObject* GetParent() const{ return m_pParent; }
 		Scene* const GetParentScene() const { return m_pScene; }

@@ -8,7 +8,6 @@
 #include "Timer.h"
 #include "PrefabsManager.h"
 
-#include "QubeObserver.h"
 #include "QBert.h"
 #include "Qube.h"
 #include "EnemyManager.h"
@@ -68,9 +67,6 @@ void Pyramid::Initialize()
 {
 	glm::vec2 startPos{m_pGameObject->GetTransform()->GetPosition()};
 	glm::vec2 lastPos{startPos};
-
-	auto observer = new QubeObserver{ this };
-	ObserverManager::GetInstance().AddObserver(observer);
 	
 	//spawn qubes
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
@@ -82,7 +78,6 @@ void Pyramid::Initialize()
 			
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			m_pQubes.back()->SetPyramid(this);
-			pQube->AddObserver(observer);
 			
 			if (i == MAX_WIDTH)
 			{
@@ -254,7 +249,7 @@ bool Pyramid::IsTop(Qube* pQube) const
 bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
 {
 	
-	int currentIdx = GetIndex(pStartingQube);
+	int currentIdx = GetQubeIndex(pStartingQube);
 	int targetIdx = GetQBertIndex();
 
 	if (targetIdx == -1)
@@ -286,7 +281,7 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 		{
 			if (pQube->HasConnection((ConnectionDirection)i))
 			{
-				int nextIdx = GetIndex(pQube->GetConnection((ConnectionDirection)i));
+				int nextIdx = GetQubeIndex(pQube->GetConnection((ConnectionDirection)i));
 				if (!visited[nextIdx])
 				{
 					visited[nextIdx] = true;
@@ -339,21 +334,10 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 
 int Pyramid::GetQBertIndex() const
 {
-	for (int i{}; i < (int)m_pQubes.size(); i++)
-	{
-		if (m_pQubes[i]->HasCharacter()) //&& operator doesn't work here...
-		{
-			if (typeid(*m_pQubes[i]->GetCharacter()) == typeid(QBert))
-			{
-				return i;
-			}
-		}
-	}
-	Debugger::GetInstance().Log("Pyramid::GetQBertIndex -> QBert Qube index not found");
-	return -1;
+	return GetQubeIndex(m_pQBert->GetCurrentQube());
 }
 
-int Pyramid::GetIndex(Qube* pQube) const
+int Pyramid::GetQubeIndex(Qube* pQube) const
 {
 	for (int i{}; i < (int)m_pQubes.size(); i++)
 	{
@@ -362,6 +346,6 @@ int Pyramid::GetIndex(Qube* pQube) const
 			return i;
 		}
 	}
-	Debugger::GetInstance().Log("Pyramid::GetQBertIndex -> Qube index not found");
+
 	return -1;
 }

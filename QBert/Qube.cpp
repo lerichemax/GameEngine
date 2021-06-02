@@ -1,16 +1,11 @@
 #include "PCH.h"
 #include "Qube.h"
 
-#include <chrono>
-#include <thread>
-
-
-
 #include "QBertScene.h"
 #include "QBert.h"
-#include "QubeObserver.h"
 #include "ColoredDisk.h"
 #include "SlickSam.h"
+#include "Pyramid.h"
 
 #include "RendererComponent.h"
 #include "GameObject.h"
@@ -181,7 +176,6 @@ void Qube::QBertJump(QBert* pQbert)
 		if (m_pPyramid->AreAllQubesFlipped())
 		{
 			Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			m_pScene->ResetScene(QBertScene::Level::Level2);
 		}
 		break;
@@ -197,7 +191,6 @@ void Qube::QBertJump(QBert* pQbert)
 			if (m_pPyramid->AreAllQubesFlipped())
 			{
 				Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
-				//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				m_pScene->ResetScene(QBertScene::Level::Level3);
 			}
 		}
@@ -208,7 +201,6 @@ void Qube::QBertJump(QBert* pQbert)
 		if (m_pPyramid->AreAllQubesFlipped())
 		{
 			Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			m_pScene->EndGame(true);
 		}
 		break;

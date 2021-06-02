@@ -7,7 +7,8 @@ using namespace empire;
 empire::SceneManager::SceneManager()
 	:m_pScenesMap(),
 	m_pEngine(nullptr),
-	m_pActiveScene(nullptr)
+	m_pActiveScene(nullptr),
+	m_pNextActiveScene(nullptr)
 {
 	
 }
@@ -25,12 +26,19 @@ void empire::SceneManager::Initialize(NapoleonEngine const* pEngine)
 	for(auto pScene : m_pScenesMap)
 	{
 		pScene.second->Initialize();
+		pScene.second->DeclareInput();
 	}
 }
 
 void empire::SceneManager::Update()
 {
-	GetActiveScene()->Update();
+	if (m_pNextActiveScene != nullptr)
+	{
+		m_pActiveScene = m_pNextActiveScene;
+		m_pActiveScene->OnActivate();
+		m_pNextActiveScene = nullptr;
+	}
+	m_pActiveScene->Update();
 }
 
 void empire::SceneManager::Render()
@@ -118,6 +126,5 @@ void SceneManager::SetSceneActive(std::string const& name)
 	}
 	auto newScene = m_pScenesMap.at(name);
 	newScene->m_bIsActive = true;
-	m_pActiveScene = newScene;
-	m_pActiveScene->OnActivate();
+	m_pNextActiveScene = newScene;
 }

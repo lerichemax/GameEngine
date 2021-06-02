@@ -7,7 +7,6 @@ public:
 	WrongWay(bool escheresqueRight);
 
 	WrongWay* Clone() override { return new WrongWay(*this); }
-	~WrongWay() = default;
 
 	void Initialize() override;
 	void Move(ConnectionDirection direction) override;
@@ -22,7 +21,6 @@ public:
 
 
 private:
-
 	bool m_bEscheresqueRight;
 
 };

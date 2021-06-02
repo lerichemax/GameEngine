@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "VersusScene.h"
 
-
+#include "Pyramid.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
 #include "Coily.h"
@@ -10,12 +10,10 @@
 #include "InputManager.h"
 #include "MoveCommand.h"
 #include "ObserverManager.h"
-#include "PauseGameCommand.h"
 #include "QBert.h"
-#include "QubeObserver.h"
 #include "VersusGameManager.h"
-#include "TextRendererComponent.h"
 
+#include "TextRendererComponent.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
 
@@ -64,7 +62,6 @@ void VersusScene::Initialize()
 	
 	auto pyramid = pPrefabManager.Instantiate("Pyramid");
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
-	ObserverManager::GetInstance().AddObserver(new QubeObserver{ m_pPyramid });
 	AddObject(pyramid);
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 
@@ -84,11 +81,7 @@ void VersusScene::Initialize()
 	coilyObj->AddObserver(pGameManager);
 	pyramid->AddObserver(pGameManager);
 	
-	//InputManager::GetInstance().AddInputAction(1, new InputAction{ new MoveCommand(ConnectionDirection::upRight, m_pQbert));
-	//InputManager::GetInstance().AddCommand(SDLK_d, new MoveCommand(ConnectionDirection::downRight, m_pQbert));
-	//InputManager::GetInstance().AddCommand(SDLK_s, new MoveCommand(ConnectionDirection::downLeft, m_pQbert));
-	//InputManager::GetInstance().AddCommand(SDLK_a, new MoveCommand(ConnectionDirection::upLeft, m_pQbert));
-	//InputManager::GetInstance().AddCommand(SDLK_ESCAPE, new PauseGameCommand(KeyActionState::pressed));
+
 }
 
 void VersusScene::ResetGame()
@@ -119,4 +112,53 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+}
+
+void VersusScene::DeclareInput()
+{
+	//Player1
+	InputManager::GetInstance().AddInputAction(24, new InputAction(SDLK_w, empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+	InputManager::GetInstance().AddInputAction(25, new InputAction{ SDLK_d , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(26, new InputAction{ SDLK_s , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(27, new InputAction{ SDLK_a , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
+
+	InputManager::GetInstance().AddInputAction(28,
+		new InputAction(ControllerButton::ButtonUp, empire::KeyActionState::pressed,
+			new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
+	InputManager::GetInstance().AddInputAction(29,
+		new InputAction{ ControllerButton::ButtonRight , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
+	InputManager::GetInstance().AddInputAction(30,
+		new InputAction{ ControllerButton::ButtonDown , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
+	InputManager::GetInstance().AddInputAction(31,
+		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
+
+	//Player2
+	InputManager::GetInstance().AddInputAction(32, new InputAction(SDLK_UP, empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer)));
+	InputManager::GetInstance().AddInputAction(33, new InputAction{ SDLK_RIGHT , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer) });
+	InputManager::GetInstance().AddInputAction(34, new InputAction{ SDLK_DOWN , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer) });
+	InputManager::GetInstance().AddInputAction(35, new InputAction{ SDLK_LEFT , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer) });
+
+	InputManager::GetInstance().AddInputAction(36,
+		new InputAction(ControllerButton::ButtonUp, empire::KeyActionState::pressed,
+			new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer), PlayerNbr::Two));
+	InputManager::GetInstance().AddInputAction(37,
+		new InputAction{ ControllerButton::ButtonRight , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer), PlayerNbr::Two });
+	InputManager::GetInstance().AddInputAction(38,
+		new InputAction{ ControllerButton::ButtonDown , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer), PlayerNbr::Two });
+	InputManager::GetInstance().AddInputAction(39,
+		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer), PlayerNbr::Two });
 }

@@ -9,10 +9,12 @@ using namespace empire;
 InputManager::InputManager()
 	:m_pActions(),
 	m_MousePosition(0,0),
-	m_bIsMouseClicked(false),
+	m_bIsMouseLBtnClicked(false),
 	m_pKeyboardState(),
 	m_CurrentControllerState()
-{}
+{
+	RefreshControllerConnections();
+}
 
 InputManager::~InputManager()
 {
@@ -30,19 +32,34 @@ InputAction::~InputAction()
 
 bool InputManager::ProcessInput()
 {
-	m_bIsMouseClicked = false;
+	RefreshControllerConnections();
+	
+	m_bIsMouseLBtnClicked = false;
+	m_bIsMouseRBtnClicked = false;
+	ResetTriggeredState();
 	ProcessControllerInput();
-	return ProcessKeyboardInput();
-
+	return ProcessSDLEvents();
 }
 
-bool InputManager::IsPressed(ControllerButton button) const
+void InputManager::ResetTriggeredState()
+{
+	for (auto pActionPair : m_pActions)
+	{
+		if ((pActionPair.second->state == KeyActionState::released && pActionPair.second->isTriggered) ||
+			pActionPair.second->state == KeyActionState::pressed && pActionPair.second->isTriggered)
+		{
+			pActionPair.second->isTriggered = false;
+		}
+	}
+}
+
+bool InputManager::IsPressed(ControllerButton button, PlayerNbr nbr) const
 {
 	if (button == ControllerButton::None)
 	{
 		return false;
 	}
-	return m_CurrentControllerState.Gamepad.wButtons & (WORD)button;
+	return m_CurrentControllerState[(int)nbr].Gamepad.wButtons & (WORD)button;
 }
 
 bool InputManager::IsPressed(SDL_KeyCode keyCode) const
@@ -50,7 +67,17 @@ bool InputManager::IsPressed(SDL_KeyCode keyCode) const
 	return m_pKeyboardState[keyCode];
 }
 
-bool InputManager::ProcessKeyboardInput()
+bool InputManager::IsActionTriggered(int id) const
+{
+	if (m_pActions.find(id) == m_pActions.end())
+	{
+		return false;
+	}
+
+	return m_pActions.at(id)->isTriggered;
+}
+
+bool InputManager::ProcessSDLEvents()
 {
 	SDL_Event e;	
 	while (SDL_PollEvent(&e))
@@ -59,31 +86,26 @@ bool InputManager::ProcessKeyboardInput()
 		{
 			return false;
 		}
+		
 		auto actionIt = std::find_if(m_pActions.begin(), m_pActions.end(), 
 			[&e](std::pair<int, InputAction*> pair)
 			{
 				return pair.second->keyBoardBtn == e.key.keysym.sym;
 			});
-		if (actionIt != m_pActions.end() && (*actionIt).second->isActive)
+
+		for (auto actionPair : m_pActions)
 		{
-			switch (e.type)
+			auto pAction = actionPair.second;
+			if (pAction->keyBoardBtn == e.key.keysym.sym)
 			{
-			case SDL_KEYDOWN:
-				if ((*actionIt).second->state == KeyActionState::held ||
-					(*actionIt).second->state == KeyActionState::pressed && (*actionIt).second->GetLastKeyPosition() == LastKeyPosition::up)
-				{
-					(*actionIt).second->pCommand->Execute();
-				}
-				(*actionIt).second->SetLastKeyPosition(LastKeyPosition::down);
-				break;
-			case SDL_KEYUP:
-				if ((*actionIt).second->state == KeyActionState::released)
-				{
-					(*actionIt).second->pCommand->Execute();
-				}
-				(*actionIt).second->SetLastKeyPosition(LastKeyPosition::up);
-				break;
+				ProcessKeyboardInput(e.key, pAction);
+				
 			}
+			else if (pAction->mouseBtn != MouseButton::none)
+			{
+				ProcessMouseInput(e, pAction);
+			}
+
 		}
 		switch (e.type) // Handle mouse events
 		{
@@ -91,62 +113,230 @@ bool InputManager::ProcessKeyboardInput()
 			m_MousePosition = glm::vec2(e.motion.x, e.motion.y);
 			break;
 		case SDL_MOUSEBUTTONUP:
-			m_bIsMouseClicked = true;
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				m_bIsMouseLBtnClicked = true;
+			}
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				m_bIsMouseRBtnClicked = true;
+			}
 			break;
 		}
+		
+		//if (actionIt != m_pActions.end())
+		//{
+		//	switch (e.type)
+		//	{
+		//	case SDL_KEYDOWN:
+
+		//		if ((*actionIt).second->state == KeyActionState::held ||
+		//			(*actionIt).second->state == KeyActionState::pressed && (*actionIt).second->lastKeyPos == LastKeyPosition::up)
+		//		{
+		//			
+		//			if ((*actionIt).second->pCommand != nullptr)
+		//			{
+		//				(*actionIt).second->pCommand->Execute();
+		//			}
+		//			(*actionIt).second->isTriggered = true;
+		//		}
+		//		else if((*actionIt).second->state == KeyActionState::released ||
+		//			(*actionIt).second->state == KeyActionState::pressed && (*actionIt).second->lastKeyPos == LastKeyPosition::down)
+		//		{
+  // 					(*actionIt).second->isTriggered = false;
+		//		}
+		//		(*actionIt).second->lastKeyPos = LastKeyPosition::down;
+		//		break;
+		//	case SDL_KEYUP:
+		//		if ((*actionIt).second->state == KeyActionState::released)
+		//		{
+		//			if ((*actionIt).second->pCommand != nullptr)
+		//			{
+		//				(*actionIt).second->pCommand->Execute();
+		//			}
+		//			(*actionIt).second->isTriggered = true;
+		//		}
+		//		else
+		//		{
+		//			(*actionIt).second->isTriggered = false;	
+		//		}
+		//		(*actionIt).second->lastKeyPos = LastKeyPosition::up;
+		//		break;
+		//	}
+		//}
+		//
+		//switch (e.type) // Handle mouse events
+		//{
+		//case SDL_MOUSEMOTION:
+		//	m_MousePosition = glm::vec2(e.motion.x, e.motion.y);
+		//	break;
+		//case SDL_MOUSEBUTTONUP:
+		//	if (e.button.button == SDL_BUTTON_LEFT)
+		//	{
+		//		m_bIsMouseLBtnClicked = true;
+
+		//	}
+		//	
+		//	break;
+		//case SDL_MOUSEBUTTONDOWN:
+		//	break;
+		//}
 	}
 	SDL_PumpEvents();
 	m_pKeyboardState = SDL_GetKeyboardState(NULL);
-	
+
 	return true;
+}
+
+void InputManager::ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction* pCurrentAction)
+{
+	switch (e.type)
+	{
+	case SDL_KEYDOWN:
+		ProcessButtonDown(pCurrentAction);
+		break;
+	case SDL_KEYUP:
+		ProcessButtonUp(pCurrentAction);
+		break;
+	}
+}
+
+void InputManager::ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAction)
+{
+	if (pCurrentAction->mouseBtn == MouseButton::none)
+	{
+		return;
+	}
+	switch (e.type) // Handle mouse events
+	{
+	case SDL_MOUSEBUTTONUP:
+		ProcessButtonUp(pCurrentAction);
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		ProcessButtonDown(pCurrentAction);
+		break;
+	}
+}
+
+void InputManager::ProcessButtonDown(InputAction* pCurrentAction)
+{
+	if (pCurrentAction->state == KeyActionState::held ||
+		pCurrentAction->state == KeyActionState::pressed && pCurrentAction->lastKeyPos == LastKeyPosition::up)
+	{
+
+		if (pCurrentAction->pCommand != nullptr)
+		{
+			pCurrentAction->pCommand->Execute();
+		}
+		pCurrentAction->isTriggered = true;
+	}
+	else if (pCurrentAction->state == KeyActionState::released ||
+		pCurrentAction->state == KeyActionState::pressed && pCurrentAction->lastKeyPos == LastKeyPosition::down)
+	{
+		pCurrentAction->isTriggered = false;
+	}
+	pCurrentAction->lastKeyPos = LastKeyPosition::down;
+}
+
+void InputManager::ProcessButtonUp(InputAction* pCurrentAction)
+{
+	if (pCurrentAction->state == KeyActionState::released)
+	{
+		if (pCurrentAction->pCommand != nullptr)
+		{
+			pCurrentAction->pCommand->Execute();
+		}
+		pCurrentAction->isTriggered = true;
+	}
+	else
+	{
+		pCurrentAction->isTriggered = false;
+	}
+	pCurrentAction->lastKeyPos = LastKeyPosition::up;
+}
+
+/// <summary>
+/// Copyright : DAE Overlord Engine
+/// </summary>
+void InputManager::RefreshControllerConnections()
+{
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+	{
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
+		const DWORD dwResult = XInputGetState(i, &state);
+		m_ConnectedControllers[i] = (dwResult == ERROR_SUCCESS);
+	}
 }
 
 void InputManager::ProcessControllerInput()
 {
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+	{
+		if (!m_ConnectedControllers[i])
+		{
+			continue;
+		}
+		ZeroMemory(&m_CurrentControllerState[i], sizeof(XINPUT_STATE));
+		XInputGetState(0, &m_CurrentControllerState[i]);
+	}
 	
-	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentControllerState);
+	
 
 	std::for_each(m_pActions.begin(), m_pActions.end(), [this](std::pair<const int, InputAction*>& actionPair)
 		{
-			if (actionPair.second->gamepadBtn == ControllerButton::None || !actionPair.second->isActive)
+			auto pAction = actionPair.second;
+			if (pAction->gamepadBtn == ControllerButton::None)
 			{
 				return;
 			}
-		
-			switch (actionPair.second->state)
+			
+			switch (pAction->state)
 			{
 			case KeyActionState::held:
-				if (IsPressed(static_cast<ControllerButton>(actionPair.second->gamepadBtn)))
+				if (IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
-					actionPair.second->SetLastKeyPosition(LastKeyPosition::down);
-					actionPair.second->pCommand->Execute();
+					pAction->lastKeyPos = LastKeyPosition::down;
+					if (pAction->pCommand != nullptr)
+					{
+						pAction->pCommand->Execute();
+					}
+					pAction->isTriggered = true;
 				}
-				actionPair.second->SetLastKeyPosition(LastKeyPosition::up);
+				else
+				{
+					pAction->isTriggered = false;
+				}
+				pAction->lastKeyPos  = LastKeyPosition::up;
 				break;
 			case KeyActionState::pressed:
-				if (IsPressed(static_cast<ControllerButton>(actionPair.second->gamepadBtn)))
+				if (IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
-					if (actionPair.second->GetLastKeyPosition() == LastKeyPosition::up)
+					if (pAction->lastKeyPos == LastKeyPosition::up)
 					{
-						actionPair.second->pCommand->Execute();
+						if (pAction->pCommand != nullptr)
+						{
+							pAction->pCommand->Execute();
+						}
+						pAction->isTriggered = true;
 					}
-					actionPair.second->SetLastKeyPosition(LastKeyPosition::down);
+					
+					pAction->lastKeyPos = LastKeyPosition::down;
 					break;
 				}
-				actionPair.second->SetLastKeyPosition(LastKeyPosition::up);
+				pAction->lastKeyPos = LastKeyPosition::up;
 				break;
 			case KeyActionState::released:
-				if (!IsPressed(static_cast<ControllerButton>(actionPair.second->gamepadBtn)))
+				if (!IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
-					if (actionPair.second->GetLastKeyPosition() == LastKeyPosition::down)
+					if (pAction->lastKeyPos == LastKeyPosition::down)
 					{
-						actionPair.second->pCommand->Execute();
+						pAction->isTriggered = true;
 					}
-					actionPair.second->SetLastKeyPosition(LastKeyPosition::up);
+					pAction->lastKeyPos = LastKeyPosition::up;
 					break;
 				}
-				actionPair.second->SetLastKeyPosition(LastKeyPosition::down);
+				pAction->lastKeyPos = LastKeyPosition::down;
 				break;
 			}
 		});

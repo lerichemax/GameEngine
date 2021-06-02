@@ -33,7 +33,7 @@ void EnemyManager::Update()
 	{
 		Debugger::GetInstance().LogError("Variable m_pPyramid is undefined In EnemyManager");
 	}
-	CoilySpawnerTimer();
+	//CoilySpawnerTimer();
 	//SlickSamSpawnerTimer();
 	//WrongWaySpawnerTimer();
 }
@@ -59,7 +59,6 @@ void EnemyManager::CoilySpawnerTimer()
 		m_CoilySpawnTimer = 0;
 		m_NbrCoily++;
 		m_pPyramid->GetGameObject()->AddChild(pCoily);
-		Debugger::GetInstance().Log("Coily spawned");
 	}
 }
 
@@ -95,7 +94,6 @@ void EnemyManager::SlickSamSpawnerTimer()
 			pSlickSam->AddObserver(ObserverManager::GetInstance().GetObserver<GameManager>());
 			m_SlickSamSpawnTimer = 0;
 			m_NbrSlickSam++;
-			Debugger::GetInstance().Log("Slick Sam spawned");
 		}
 	}
 }
@@ -110,15 +108,25 @@ void EnemyManager::WrongWaySpawnerTimer()
 		}
 		else
 		{
+			int random{ rand() % 2 };
+			
 			GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
-			pWrongWay->GetComponent<WrongWay>()->SetQube(m_pPyramid->GetEscheresqueRightTop());
-
+			if (random == 0)
+			{
+				pWrongWay->GetComponent<WrongWay>()->SetQube(m_pPyramid->GetEscheresqueRightTop());
+				pWrongWay->GetComponent<WrongWay>()->SetEscheresqueRight(true);
+			}
+			else
+			{
+				pWrongWay->GetComponent<WrongWay>()->SetQube(m_pPyramid->GetEscheresqueLeftTop());
+				pWrongWay->GetComponent<WrongWay>()->SetEscheresqueRight(false);
+			}
+			
 			AddWrongWayToArray(pWrongWay->GetComponent<WrongWay>());
 			m_pPyramid->GetGameObject()->AddChild(pWrongWay);
 			pWrongWay->AddObserver(ObserverManager::GetInstance().GetObserver<GameManager>());
 			m_WrongWaySpawnTimer = 0;
 			m_NbrWrongWay++;
-			Debugger::GetInstance().Log("Wrongway spawned");
 		}
 	}
 }

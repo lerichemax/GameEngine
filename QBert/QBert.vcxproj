@@ -155,12 +155,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChracterController.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ReloadSceneCommand.cpp" />
     <ClCompile Include="SwitchScene.cpp" />
     <ClCompile Include="SwitchTextColor.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterInputManager.cpp" />
     <ClCompile Include="CharacterPoint.cpp" />
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="CoilyCharacterController.cpp" />
@@ -181,7 +181,6 @@
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertScene.cpp" />
     <ClCompile Include="Qube.cpp" />
-    <ClCompile Include="QubeObserver.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
@@ -190,12 +189,12 @@
     <ClCompile Include="WrongWayJumper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterController.h" />
     <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ReloadSceneCommand.h" />
     <ClInclude Include="SwitchScene.h" />
     <ClInclude Include="SwitchTextColor.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterInputManager.h" />
     <ClInclude Include="CharacterPoint.h" />
     <ClInclude Include="Coily.h" />
     <ClInclude Include="CoilyCharacterController.h" />
@@ -215,7 +214,6 @@
     <ClInclude Include="QBert.h" />
     <ClInclude Include="QBertScene.h" />
     <ClInclude Include="Qube.h" />
-    <ClInclude Include="QubeObserver.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
     <ClInclude Include="VersusGameManager.h" />

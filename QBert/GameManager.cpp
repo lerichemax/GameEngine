@@ -51,6 +51,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 	case GameEvent::GameOver:
 	{
 		auto pPlayer = object->GetComponent<QBert>();
+
 		UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
 		object->SetActive(false);
 		m_NbrDeadPlayers++;
@@ -60,7 +61,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
 			Timer::GetInstance().SetTimeScale(0);
 			m_pGameOver->SetActive(true);
-			//static_cast<QBertScene*>(object->GetParentScene())->ResetGame();
+			m_NbrDeadPlayers = 0;
 		}
 		break;
 	}

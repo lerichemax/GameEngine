@@ -9,9 +9,6 @@
     <ClCompile Include="QBertScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="QubeObserver.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
     <ClCompile Include="ColoredDisk.cpp">
       <Filter>GameScripts\Environment</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
     <ClCompile Include="CharacterPoint.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterInputManager.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="SwitchTextColor.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -96,6 +90,9 @@
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="ChracterController.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -104,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="QBertScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="QubeObserver.h">
-      <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="ColoredDisk.h">
       <Filter>GameScripts\Environment</Filter>
@@ -177,9 +171,6 @@
     <ClInclude Include="CharacterPoint.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterInputManager.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
     <ClInclude Include="SwitchTextColor.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -191,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,14 +6,19 @@
 #include "Qube.h"
 #include "RendererComponent.h"
 #include "ResourceManager.h"
-#include "Timer.h"
+
 #include "GameManager.h"
+
+
 
 WrongWay::WrongWay(bool escheresqueRight)
 	:Enemy(0),
 	m_bEscheresqueRight(escheresqueRight)
 {
+
 }
+
+
 
 void WrongWay::Initialize()
 {

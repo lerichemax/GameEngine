@@ -15,6 +15,7 @@
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
+#include "CharacterController.h"
 #include "CharacterLives.h"
 
 #include "JsonReaderWriter.h"
@@ -94,6 +95,7 @@ void SoloScene::Initialize()
 	auto qbertObj = pPrefabManager.Instantiate("QBert");
 	m_pQbert = qbertObj->GetComponent<QBert>();
 	m_pQbert->SetPlayerNbr(1);
+	qbertObj->AddComponent(new CharacterController{});
 	AddObject(qbertObj);
 
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
@@ -101,14 +103,14 @@ void SoloScene::Initialize()
 	
 	auto pyramid = pPrefabManager.Instantiate("Pyramid");
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
-	ObserverManager::GetInstance().AddObserver(new QubeObserver{ m_pPyramid});
+	m_pPyramid->SetQBert(m_pQbert);
 	AddObject(pyramid);
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 	
 	auto enemyManagerObj = new GameObject{};
-	m_pManager = new EnemyManager{};
-	m_pManager->SetPyramid(m_pPyramid);
-	enemyManagerObj->AddComponent(m_pManager);	
+	m_pEnemyManager = new EnemyManager{};
+	m_pEnemyManager->SetPyramid(m_pPyramid);
+	enemyManagerObj->AddComponent(m_pEnemyManager);	
 	
 	AddObject(enemyManagerObj);
 
@@ -162,11 +164,34 @@ void SoloScene::Initialize()
 	m_pGameOverMenu->SetActive(false);
 
 	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
-nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pManager, m_pGameOverMenu };
+nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pEnemyManager, m_pGameOverMenu };
 
 	ObserverManager::GetInstance().AddObserver(pGameManager);
 	qbertObj->AddObserver(pGameManager);
+}
 
+void SoloScene::ResetScene(Level newLevel)
+{
+	m_Level = newLevel;
+	m_pPyramid->Reset();
+	m_pEnemyManager->Reset();
+	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	SetIsPaused(false);
+}
+
+void SoloScene::ResetGame()
+{
+	m_Level = Level::Level1;
+	m_pPyramid->Reset();
+	m_pEnemyManager->Reset();
+	m_pEnemyManager->ResetTimers();
+	m_pQbert->Reset(true, m_pPyramid->GetTop());
+	m_pPauseMenu->SetActive(false);
+	m_pGameOverMenu->SetActive(false);
+}
+
+void SoloScene::DeclareInput()
+{
 	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_w, empire::KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
 	InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , empire::KeyActionState::pressed,
@@ -178,42 +203,14 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pManager, m_
 
 	InputManager::GetInstance().AddInputAction(4,
 		new InputAction(ControllerButton::ButtonUp, empire::KeyActionState::pressed,
-			new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+			new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
 	InputManager::GetInstance().AddInputAction(5,
 		new InputAction{ ControllerButton::ButtonRight , empire::KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
 	InputManager::GetInstance().AddInputAction(6,
 		new InputAction{ ControllerButton::ButtonDown , empire::KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
 	InputManager::GetInstance().AddInputAction(7,
 		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
-
-
-	InputManager::GetInstance().AddInputAction(20, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu) });
-
-	InputManager::GetInstance().AddInputAction(21, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu) });
-}
-
-void SoloScene::ResetScene(Level newLevel)
-{
-	m_Level = newLevel;
-	m_pPyramid->Reset();
-	m_pManager->Reset();
-	m_pQbert->Reset(false, m_pPyramid->GetTop());
-	SetIsPaused(false);
-}
-
-void SoloScene::ResetGame()
-{
-	m_Level = Level::Level1;
-	m_pPyramid->Reset();
-	m_pManager->Reset();
-	m_pManager->ResetTimers();
-	m_pQbert->Reset(true, m_pPyramid->GetTop());
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
-	SetIsPaused(false);
+		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 }

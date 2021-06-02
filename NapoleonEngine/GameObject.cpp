@@ -179,3 +179,9 @@ GameObject* GameObject::FindTagInChildren(std::string const& tag)
 	}
 	return nullptr;
 }
+
+void GameObject::Destroy()
+{
+	m_bIsDestroyed = true;
+	m_bIsActive = false;
+}

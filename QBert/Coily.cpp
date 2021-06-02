@@ -39,11 +39,11 @@ void Coily::Initialize()
 
 void Coily::Move(ConnectionDirection direction)
 {
-	//if (!m_pCurrentQube->HasConnection(direction))
-	//{
-	//	JumpToDeath(direction);
-	//	return;
-	//}
+	if (!m_pGameObject->HasComponent<CoilyCharacterController>() && !m_pCurrentQube->HasConnection(direction))
+	{
+		JumpToDeath(direction);
+		return;
+	}
 	
 	if (m_bIsTransformed)
 	{
@@ -90,8 +90,6 @@ void Coily::Transform(bool isTransformed)
 		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
 	}
-	
-	
 }
 
 void Coily::SetDirectionTextures(ConnectionDirection dir)
@@ -126,7 +124,7 @@ void Coily::SetDirectionTextures(ConnectionDirection dir)
 
 void Coily::MoveToCurrentQube()
 {
-	if (m_pController != nullptr)
+	if (m_pController != nullptr && m_bIsTransformed)
 	{
 		m_pController->FindQBert();
 	}

@@ -30,16 +30,15 @@ public:
 	Qube* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
 	Qube* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	Qube* GetQube(int index) const { return m_pQubes[index]; }
-
+	int GetQubeIndex(Qube* pQube) const;
+	
 	std::vector<Qube*> const& GetQubes() const { return m_pQubes; }
 	
 	bool AreAllQubesFlipped() const;
 	void Reset();
 	void PartialReset();
-	void DiskUsed()
-	{
-		m_NbrDisksSpawned--;
-	}
+	void DiskUsed(){ m_NbrDisksSpawned--; }
+	void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
 	bool FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, const int size) const; //used by coily to move to qbert
 	
 private:
@@ -52,6 +51,7 @@ private:
 	float m_DiskSpawnTimer;
 	
 	std::vector<Qube*> m_pQubes;
+	QBert* m_pQBert;
 	
 	void Initialize() override;
 	
@@ -64,7 +64,6 @@ private:
 	
 	unsigned int FindOutsideQubeIndex() const;
 	int GetQBertIndex() const;
-	int GetIndex(Qube* pQube) const;
 	
 	void DiskSpawnerTimer();
 

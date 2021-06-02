@@ -13,8 +13,6 @@
 #include "RendererComponent.h"
 #include "BoxCollider.h"
 #include "GameManager.h"
-#include "InputManager.h"
-#include "MoveCommand.h"
 #include "VersusGameManager.h"
 
 using namespace empire;
@@ -119,7 +117,8 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 	{
 		return;
 	}
-
+	m_State = State::onQube;
+	
 	m_pLives->Reset();
 	m_pPoints->Reset();
 	

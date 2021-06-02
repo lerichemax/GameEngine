@@ -17,7 +17,7 @@ public:
 	QBertScene(std::string const& name, Level startLevel = Level::Level1);
 	~QBertScene() = default;
 
-	virtual void Initialize() override = 0;
+	
 	Level GetLevel()const { return m_Level; }
 	virtual void ResetScene(Level newLevel) = 0;
 	virtual void ResetGame() = 0;
@@ -26,14 +26,18 @@ public:
 	bool IsPaused()const { return m_bIsPaused; }
 	void SetIsPaused(bool isPaused) { m_bIsPaused = isPaused; }
 	void EndGame(bool isWin);
+
 protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	Pyramid* m_pPyramid;
-	EnemyManager* m_pManager;
+	EnemyManager* m_pEnemyManager;
 	GameObject* m_pPauseMenu;
 	GameObject* m_pGameOverMenu;
 
 private:
 	bool m_bIsPaused;
+
+	virtual void Initialize() override = 0;
+	virtual void DeclareInput() override;
 };

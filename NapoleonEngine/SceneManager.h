@@ -12,7 +12,6 @@ namespace empire
 		//Scene& CreateScene(const std::string& name);
 		~SceneManager();
 		
-		
 		Scene const* GetScene(std::string const& sceneName) const { return m_pScenesMap.at(sceneName); }
 		void AddScene(Scene* pScene);
 		void RenameScene(std::string const& oldName, std::string const& newName);
@@ -27,6 +26,7 @@ namespace empire
 		friend class Renderer;
 		SceneManager();
 
+		Scene* m_pNextActiveScene;
 
 		Scene* m_pActiveScene;
 		NapoleonEngine const*  m_pEngine;

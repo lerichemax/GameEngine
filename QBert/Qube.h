@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "QubeObserver.h"
-#include "Texture2D.h"
+
 #include "glm/glm.hpp"
 
 using namespace empire;
@@ -23,9 +22,10 @@ namespace empire
 class Character;
 class ColoredDisk;
 class QBertScene;
+class Pyramid;
+class QBert;
 class Qube final : public Component
 {
-	friend void QubeObserver::Notify(empire::GameObject* object, int event);
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
 	Qube* Clone() override { return new Qube{*this}; }

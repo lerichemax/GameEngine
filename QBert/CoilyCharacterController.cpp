@@ -3,9 +3,10 @@
 
 #include <thread>
 
-
+#include "Pyramid.h"
 #include "Coily.h"
 #include "Qube.h"
+
 #include "Timer.h"
 
 CoilyCharacterController::CoilyCharacterController() : EnemyCharacterController()
@@ -101,10 +102,6 @@ ConnectionDirection CoilyCharacterController::ChooseDirection()
 		return EnemyCharacterController::ChooseDirection();
 	}
 
-	//if (m_CurrentlyInQueue == 0)
-	//{
-	//	FindQBert();
-	//}
 	
 	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
 	m_CurrentlyInQueue--;
@@ -130,7 +127,6 @@ void CoilyCharacterController::FindQBert()
 				m_CurrentlyInQueue = MOVEMENT_QUEUE_SIZE;
 				m_bIsIdle = false;
 			}
-
 		});
 	t1.detach();
 }

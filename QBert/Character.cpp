@@ -33,6 +33,7 @@ Character::Character(Character const& other)
 void Character::Initialize()
 {
 	m_pJumper = m_pGameObject->GetComponent<Jumper>();
+	m_State = State::onQube;
 	MoveToCurrentQube();
 }
 
@@ -85,6 +86,7 @@ void Character::MoveToCurrentQube()
 
 	if (m_pGameObject->IsActive())
 	{
+		m_State = State::onQube;
 		m_pCurrentQube->CharacterJumpIn(this);
 		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
 	}

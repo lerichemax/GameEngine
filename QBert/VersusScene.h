@@ -12,7 +12,7 @@ class VersusScene final : public QBertScene
 public:
 	VersusScene();
 
-	void Initialize() override;
+
 	void ResetGame() override;
 	void ResetScene(Level newLevel) override;
 
@@ -21,6 +21,7 @@ private:
 	empire::TextRendererComponent* m_pRoundText;
 	empire::TextRendererComponent* m_pTextP1;
 	empire::TextRendererComponent* m_pTextP2;
-	
 
+	void Initialize() override;
+	void DeclareInput() override;
 };

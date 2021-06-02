@@ -12,6 +12,7 @@ namespace empire
 	class Debugger final : public Singleton<Debugger>
 	{
 	public:
+		~Debugger();
 		void Log(std::string const& message) const;
 		void LogWarning(std::string const& message) const;
 		void LogError(std::string const& message) const;

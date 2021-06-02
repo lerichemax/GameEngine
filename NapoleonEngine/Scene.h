@@ -18,9 +18,6 @@ namespace empire
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
-
-		virtual void Initialize() = 0;
-		
 		
 		void AddObject(GameObject* object);
 		void Update();
@@ -32,7 +29,8 @@ namespace empire
 
 		std::string GetName()const { return m_Name; }
 	protected:
-		virtual void CustomOnActivate(){};
+		virtual void CustomOnActivate(){}
+	
 	private:
 		friend void ColliderComponent::Initialize();
 		friend ColliderComponent::~ColliderComponent();
@@ -50,9 +48,12 @@ namespace empire
 		bool m_bIsActive;
 		bool m_bIsInitialized;
 
+		virtual void Initialize() = 0;
+		virtual void DeclareInput() = 0;
 		void OnActivate();
 		void Refresh();
 		void CleanUpScene();
 		void CheckCollidersCollision();
+		
 	};
 }

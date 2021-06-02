@@ -41,7 +41,8 @@ namespace empire
 		friend class Scene;
 		
 		virtual void CheckOverlap(ColliderComponent* pOther) = 0;
-
+		void CallOverlapFunctions(bool isOverlapping, ColliderComponent* other);
+		
 		std::vector<ColliderComponent*> m_pOverlappingColliders;
 
 		CollisionFunction m_OnTriggerEnter;

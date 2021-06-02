@@ -27,12 +27,12 @@ public:
 	
 private:
 	unsigned int static const MAX_COILY{ 1 };
-	float const COILY_SPAWN_INTERVAL{ 5.f };
+	float const COILY_SPAWN_INTERVAL{ 4.f };
 	unsigned int static const MAX_SLICKSAM{ 2 };
 	float const SLICKSAM_SPAWN_INTERVAL{ 10.f };
 
 	unsigned int static const MAX_WRONGWAY{ 2 };
-	float const WRONGWAY_SPAWN_INTERVAL{ 10.f };
+	float const WRONGWAY_SPAWN_INTERVAL{ 7.f };
 	
 	unsigned int m_NbrSlickSam{};
 	unsigned int m_NbrCoily{};
