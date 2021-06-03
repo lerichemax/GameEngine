@@ -155,9 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ChracterController.cpp" />
+    <ClCompile Include="CoilyManager.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ReloadSceneCommand.cpp" />
+    <ClCompile Include="SlickSamManager.cpp" />
     <ClCompile Include="SwitchScene.cpp" />
     <ClCompile Include="SwitchTextColor.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -168,7 +170,6 @@
     <ClCompile Include="CoopScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyCharacterController.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -187,11 +188,14 @@
     <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
     <ClCompile Include="WrongWayJumper.cpp" />
+    <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="CoilyManager.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ReloadSceneCommand.h" />
+    <ClInclude Include="SlickSamManager.h" />
     <ClInclude Include="SwitchScene.h" />
     <ClInclude Include="SwitchTextColor.h" />
     <ClInclude Include="Character.h" />
@@ -202,7 +206,6 @@
     <ClInclude Include="CoopScene.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyCharacterController.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="MainGame.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />
     <ClInclude Include="WrongWayJumper.h" />
+    <ClInclude Include="WrongWayManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

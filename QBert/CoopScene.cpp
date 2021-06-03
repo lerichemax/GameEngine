@@ -13,6 +13,9 @@
 #include "ResourceManager.h"
 #include "TextRendererComponent.h"
 #include "EnemyManager.h"
+#include "CoilyManager.h"
+#include "SlickSamManager.h"
+#include "WrongWayManager.h"
 #include "GameManager.h"
 #include "ObserverManager.h"
 #include "PauseGameCommand.h"
@@ -127,11 +130,16 @@ void CoopScene::Initialize()
 	AddObject(pyramid);
 
 	auto enemyManagerObj = new GameObject{};
-	m_pEnemyManager = new EnemyManager{};
-	m_pEnemyManager->SetPyramid(m_pPyramid);
-	enemyManagerObj->AddComponent(m_pEnemyManager);
+	auto pWWm = new WrongWayManager{ 2, 7 };
+	auto pSSm = new SlickSamManager{ 2, 7 };
+	pWWm->SetPyramid(m_pPyramid);
+	pSSm->SetPyramid(m_pPyramid);
+	enemyManagerObj->AddComponent(pWWm);
+	enemyManagerObj->AddComponent(pSSm);
+	m_pEnemyManagers.push_back(pWWm);
+	m_pEnemyManagers.push_back(pSSm);
 	AddObject(enemyManagerObj);
-
+	
 	m_pQbert->SetCurrentQube(m_pPyramid->GetEscheresqueLeftTop());
 	m_pQbertP2->SetCurrentQube(m_pPyramid->GetEscheresqueRightTop());
 
@@ -186,9 +194,12 @@ void CoopScene::Initialize()
 	
 	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
 	pointsP2->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(),
-		livesP2->GetComponent<TextRendererComponent>(), m_pEnemyManager, m_pGameOverMenu };
+		livesP2->GetComponent<TextRendererComponent>(), nullptr, pWWm, pSSm, m_pGameOverMenu };
 	pGameManager->SetNbrPlayers(2);
 	ObserverManager::GetInstance().AddObserver(pGameManager);
+	pWWm->SetGameManager(pGameManager);
+	pSSm->SetGameManager(pGameManager);
+	
 	qbert1->AddObserver(pGameManager);
 	qbert2->AddObserver(pGameManager);
 }
@@ -197,7 +208,10 @@ void CoopScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
 	m_pPyramid->Reset();
-	m_pEnemyManager->Reset();
+	for (EnemyManager* pManager : m_pEnemyManagers)
+	{
+		pManager->Reset();
+	}
 	m_pQbert->Reset(false, m_pPyramid->GetEscheresqueLeftTop());
 	m_pQbert->GetGameObject()->SetActive(true);
 	m_pQbertP2->Reset(false, m_pPyramid->GetEscheresqueRightTop());
@@ -208,7 +222,13 @@ void CoopScene::ResetGame()
 {
 	m_Level = Level::Level1;
 	m_pPyramid->Reset();
-	m_pEnemyManager->Reset();
+
+	for (EnemyManager* pManager : m_pEnemyManagers)
+	{
+		pManager->Reset();
+		pManager->ResetTimer();
+	}
+	
 	m_pQbert->GetGameObject()->SetActive(true);
 	m_pQbertP2->GetGameObject()->SetActive(true);
 	m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
@@ -266,6 +286,13 @@ void CoopScene::DeclareInput()
 		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2), PlayerNbr::Two });
 
-	InputManager::GetInstance().AddInputAction(102, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(102, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu) });
+
+	InputManager::GetInstance().AddInputAction(103, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
+	
+	InputManager::GetInstance().AddInputAction(104, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
 	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
+
 }

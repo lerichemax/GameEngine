@@ -4,10 +4,12 @@
 #include "Pyramid.h"
 #include "QBert.h"
 #include "MoveCommand.h"
-#include "EnemyManager.h"
+
 #include "PauseGameCommand.h"
 #include "GameManager.h"
-
+#include "SlickSamManager.h"
+#include "WrongWayManager.h"
+#include "CoilyManager.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "RendererComponent.h"
@@ -15,7 +17,6 @@
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
-#include "CharacterController.h"
 #include "CharacterLives.h"
 
 #include "JsonReaderWriter.h"
@@ -95,7 +96,6 @@ void SoloScene::Initialize()
 	auto qbertObj = pPrefabManager.Instantiate("QBert");
 	m_pQbert = qbertObj->GetComponent<QBert>();
 	m_pQbert->SetPlayerNbr(1);
-	qbertObj->AddComponent(new CharacterController{});
 	AddObject(qbertObj);
 
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
@@ -108,9 +108,18 @@ void SoloScene::Initialize()
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 	
 	auto enemyManagerObj = new GameObject{};
-	m_pEnemyManager = new EnemyManager{};
-	m_pEnemyManager->SetPyramid(m_pPyramid);
-	enemyManagerObj->AddComponent(m_pEnemyManager);	
+	auto pWWm = new WrongWayManager{2, 7};
+	auto pSSm = new SlickSamManager{ 2, 7 };
+	auto pCm = new CoilyManager{ 1, 10 };
+	pWWm->SetPyramid(m_pPyramid);
+	pSSm->SetPyramid(m_pPyramid);
+	pCm->SetPyramid(m_pPyramid);
+	enemyManagerObj->AddComponent(pWWm);
+	enemyManagerObj->AddComponent(pSSm);
+	enemyManagerObj->AddComponent(pCm);
+	m_pEnemyManagers.push_back(pWWm);
+	m_pEnemyManagers.push_back(pSSm);
+	m_pEnemyManagers.push_back(pCm);
 	
 	AddObject(enemyManagerObj);
 
@@ -164,17 +173,25 @@ void SoloScene::Initialize()
 	m_pGameOverMenu->SetActive(false);
 
 	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
-nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, m_pEnemyManager, m_pGameOverMenu };
+nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSSm, m_pGameOverMenu };
 
 	ObserverManager::GetInstance().AddObserver(pGameManager);
 	qbertObj->AddObserver(pGameManager);
+	pWWm->SetGameManager(pGameManager);
+	pSSm->SetGameManager(pGameManager);
+	pCm->SetGameManager(pGameManager);
 }
 
 void SoloScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
 	m_pPyramid->Reset();
-	m_pEnemyManager->Reset();
+
+	for (EnemyManager* pManager : m_pEnemyManagers)
+	{
+		pManager->Reset();
+	}
+
 	m_pQbert->Reset(false, m_pPyramid->GetTop());
 	SetIsPaused(false);
 }
@@ -183,8 +200,13 @@ void SoloScene::ResetGame()
 {
 	m_Level = Level::Level1;
 	m_pPyramid->Reset();
-	m_pEnemyManager->Reset();
-	m_pEnemyManager->ResetTimers();
+	
+	for (EnemyManager* pManager : m_pEnemyManagers)
+	{
+		pManager->Reset();
+		pManager->ResetTimer();
+	}
+	
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
 	m_pPauseMenu->SetActive(false);
 	m_pGameOverMenu->SetActive(false);
@@ -213,4 +235,10 @@ void SoloScene::DeclareInput()
 	InputManager::GetInstance().AddInputAction(7,
 		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
+	
+	InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu) });
+
+	InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+		new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 }

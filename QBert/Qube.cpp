@@ -60,14 +60,14 @@ void Qube::Initialize()
 {
 	m_pScene = static_cast<QBertScene*>(m_pGameObject->GetParentScene());
 	
-	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
-	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
+	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
+	m_CharacterPos.y = m_pGameObject->GetTransform()->GetWorldPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
 
-	m_EscheresqueRightPos.x = m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
-	m_EscheresqueRightPos.y = m_pGameObject->GetTransform()->GetPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	m_EscheresqueRightPos.x = m_pGameObject->GetTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
+	m_EscheresqueRightPos.y = m_pGameObject->GetTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 
-	m_EscheresqueLeftPos.x = m_pGameObject->GetTransform()->GetPosition().x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
-	m_EscheresqueLeftPos.y = m_pGameObject->GetTransform()->GetPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	m_EscheresqueLeftPos.x = m_pGameObject->GetTransform()->GetWorldPosition().x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
+	m_EscheresqueLeftPos.y = m_pGameObject->GetTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
 void Qube::Update()
@@ -113,21 +113,22 @@ void Qube::AddConnectionToDisk()
 {
 	auto pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
 	pDisk->GetComponent<ColoredDisk>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
-	
-	auto parentPos = m_pGameObject->GetTransform()->GetPosition();
+
+	m_pGameObject->AddChild(pDisk);
+	auto parentPos = m_pGameObject->GetTransform()->GetWorldPosition();
 	if (!HasConnection(ConnectionDirection::upLeft))
 	{
-		pDisk->GetTransform()->Translate(parentPos.x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth()/2,
+		pDisk->GetTransform()->SetWorldPosition(parentPos.x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth()/2,
 			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);
 	}
 	else
 	{
-		pDisk->GetTransform()->Translate(
+		pDisk->GetTransform()->SetWorldPosition(
 			parentPos.x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth(),
 			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);
 	}
 	
-	m_pGameObject->AddChild(pDisk);
+	
 	
 	m_pDiskConnection = pDisk->GetComponent<ColoredDisk>();
 	Debugger::GetInstance().Log("Disk spawned");

@@ -3,7 +3,7 @@
 
 namespace empire
 {
-	class ServiceLocator final
+	class SoundServiceLocator final
 	{
 	public:
 		static SoundInterface& GetService() { return *m_pSoundSystem; }

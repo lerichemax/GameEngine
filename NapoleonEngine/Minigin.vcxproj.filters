@@ -19,9 +19,6 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{0fe6aa5f-1a96-4194-a580-c9fc24be3fd8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SceneObjects">
-      <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="State">
       <UniqueIdentifier>{95b56b6a-7f95-4312-be6d-7421267bb049}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="rapidjson">
       <UniqueIdentifier>{ee39c17a-27bb-49ae-9df6-f53a37f6aeeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +102,10 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Subject.h" />
     <ClInclude Include="FrameBuffer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="SoundServiceLocator.h" />
     <ClInclude Include="SoundInterface.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -120,7 +119,7 @@
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>SceneObjects</Filter>
+      <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="PCH.h">
       <Filter>Base</Filter>
@@ -221,6 +220,9 @@
     <ClInclude Include="ShapeRenderer.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -287,7 +289,6 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -301,9 +302,9 @@
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>SceneObjects</Filter>
+      <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="ObserverManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -338,5 +339,8 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Subject.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

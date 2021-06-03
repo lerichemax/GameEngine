@@ -9,9 +9,11 @@
 #include "VersusScene.h"
 #include "Pyramid.h"
 #include "TextRendererComponent.h"
+#include "Timer.h"
 
 VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, empire::TextRendererComponent* pText1,
-	empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, unsigned int nbrRounds)
+                                     empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid,
+                                     GameObject* pGameOver, unsigned int nbrRounds)
 	:m_pRoundText(pRoundText),
 	m_pTextP1(pText1),
 	m_pTextP2(pText2),
@@ -19,7 +21,8 @@ VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, 
 	m_CurrentRound(1),
 	m_pP1(pP1),
 	m_pP2(pP2),
-	m_pPyramid(pPyramid)
+	m_pPyramid(pPyramid),
+	m_pGameOver(pGameOver)
 {
 	
 }
@@ -30,19 +33,19 @@ void VersusGameManager::Notify(empire::GameObject* object, int event)
 	{
 	case VersusGameEvent::Player1Died:
 		{
-		UpdateRound(object);
-		UpdateCharacterPoint(m_pP2);
-		m_pTextP2->SetText("P2: " + std::to_string(m_pP2->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
-		auto pPlayer = object->GetComponent<QBert>();
+			UpdateRound();
+			UpdateCharacterPoint(m_pP2);
+			m_pTextP2->SetText("P2: " + std::to_string(m_pP2->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
+			auto pPlayer = object->GetComponent<QBert>();
 
-		pPlayer->SetCurrentQube(m_pPyramid->GetTop());
-		pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
-		pPlayer->SetCanMove();
+			pPlayer->SetCurrentQube(m_pPyramid->GetTop());
+			pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
+			pPlayer->SetCanMove();
 		}
 		break;
 	case VersusGameEvent::Player2Died:
 		{
-			UpdateRound(object);
+			UpdateRound();
 			UpdateCharacterPoint(m_pP1);
 			m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
 
@@ -52,42 +55,52 @@ void VersusGameManager::Notify(empire::GameObject* object, int event)
 		}
 		break;
 	case VersusGameEvent::PyramidCompleted:
-		UpdateRound(object);
+		UpdateRound();
 		UpdateCharacterPoint(m_pP1);
 		m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
 		
 		break;
 	case VersusGameEvent::GameOver:
 		m_CurrentRound = 1;
-		static_cast<VersusScene*>(object->GetParentScene())->ResetGame();
+		m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 2 wins");
+		Timer::GetInstance().SetTimeScale(0);
+		m_pGameOver->SetActive(true);
+		
 		break;
 	case VersusGameEvent::IncreasePoints: //cancels out the increase point following a cube flip
 		object->GetComponent<CharacterPoint>()->AddPoints(-25);
 		break;
 	case VersusGameEvent::CoilyTransform:
 		object->GetComponent<CoilyCharacterController>()->SetEnable(false);
-		//auto pCoily = object->GetComponent<Coily>();
-		
-		//InputManager::GetInstance().AddCommand(SDLK_UP, new MoveCommand(ConnectionDirection::upRight, pCoily));
-		//InputManager::GetInstance().AddCommand(SDLK_RIGHT, new MoveCommand(ConnectionDirection::downRight, pCoily));
-		//InputManager::GetInstance().AddCommand(SDLK_DOWN, new MoveCommand(ConnectionDirection::downLeft, pCoily));
-		//InputManager::GetInstance().AddCommand(SDLK_LEFT, new MoveCommand(ConnectionDirection::upLeft, pCoily));
 		break;
 	}
 }
 
-void VersusGameManager::UpdateRound(empire::GameObject* pObject)
+void VersusGameManager::UpdateRound()
 {
 	m_CurrentRound++;
 	m_pRoundText->SetText("Round " + std::to_string(m_CurrentRound));
-	if (m_CurrentRound > 3)
-	{
-		static_cast<VersusScene*>(pObject->GetParentScene())->ResetGame();
-	}
 }
 
 void VersusGameManager::UpdateCharacterPoint(CharacterPoint* pCharacterPoints)
 {
 	pCharacterPoints->AddPoints(1);
+	CheckVictory();
+}
 
+void VersusGameManager::CheckVictory()
+{
+	if (m_pP1->GetPoints() == 3)
+	{
+		m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 1 wins");
+		Timer::GetInstance().SetTimeScale(0);
+		m_pGameOver->SetActive(true);
+	}
+
+	if (m_pP2->GetPoints() == 3)
+	{
+		m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 2 wins");
+		Timer::GetInstance().SetTimeScale(0);
+		m_pGameOver->SetActive(true);
+	}
 }

@@ -1,5 +1,7 @@
 #include "PCH.h"
 #include "WrongWay.h"
+
+#include "BoxCollider.h"
 #include "Jumper.h"
 
 #include "GameObject.h"
@@ -38,11 +40,11 @@ void WrongWay::Initialize()
 
 	if (m_bEscheresqueRight)
 	{
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueRightPos());
+		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueRightPos());
 	}
 	else
 	{
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueLeftPos());
+		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueLeftPos());
 	}
 	
 }
@@ -70,7 +72,7 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 
 	m_pCurrentQube = pNextQube;
 	m_State = State::jumping;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetPosition(), 
+	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), 
 		m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }
 

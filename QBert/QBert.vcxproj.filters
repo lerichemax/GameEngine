@@ -36,9 +36,6 @@
     <ClCompile Include="Jumper.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="WrongWay.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
@@ -90,8 +87,17 @@
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ChracterController.cpp">
-      <Filter>GameScripts</Filter>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="SlickSamManager.cpp">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="WrongWayManager.cpp">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyManager.cpp">
+      <Filter>GameScripts\EnemyManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +133,6 @@
       <Filter>GameScripts\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Jumper.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="WrongWay.h">
@@ -183,8 +186,17 @@
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterController.h">
-      <Filter>GameScripts</Filter>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSamManager.h">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="WrongWayManager.h">
+      <Filter>GameScripts\EnemyManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyManager.h">
+      <Filter>GameScripts\EnemyManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +223,9 @@
     </Filter>
     <Filter Include="GameScripts\AIControllers">
       <UniqueIdentifier>{cc14cbc8-d8c9-46ed-b121-99cb91d9b2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\EnemyManagers">
+      <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

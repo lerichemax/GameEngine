@@ -20,7 +20,7 @@ public:
 	
 	void Transform(bool isTransformed);
 	
-	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
+	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	
 	bool IsTransformed() const { return m_bIsTransformed; }
 

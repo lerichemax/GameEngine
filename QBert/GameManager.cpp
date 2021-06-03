@@ -2,7 +2,6 @@
 #include "GameManager.h"
 #include "EnemyManager.h"
 #include "QBert.h"
-#include "QBertScene.h"
 #include "Coily.h"
 #include "SlickSam.h"
 #include "WrongWay.h"
@@ -13,14 +12,23 @@
 #include "RendererComponent.h"
 #include "Timer.h"
 
+#include <algorithm>
+
+
+#include "CoilyManager.h"
+#include "WrongWayManager.h"
+#include "SlickSamManager.h"
+
 GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points,
-                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, EnemyManager* pManager,
-                         GameObject* pGameOver, unsigned int nbrPlayers)
+                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives,
+                         CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers)
 	:m_pP1PointsCounter(pP1Points),
 	m_P1LivesCounter(pP1Lives),
 	m_pP2PointsCounter(pP2Points),
 	m_P2LivesCounter(pP2Lives),
-	m_pEnemyManager(pManager),
+	m_pCManager(pCm),
+	m_pWWManager(pWWm),
+	m_pSSManager(pSSm),
 	m_NbrPlayers(nbrPlayers),
 	m_NbrDeadPlayers(),
 	m_pGameOver(pGameOver)
@@ -34,12 +42,17 @@ void GameManager::Notify(empire::GameObject* object, int event)
 	case GameEvent::PlayerDied:
 	{
 		auto pPlayer = object->GetComponent<QBert>();
+			
 		UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
-		
+
+		m_pCManager->Reset();
+		m_pWWManager->Reset();
+		m_pSSManager->Reset();
+			
 		pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
 		pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
 		pPlayer->SetCanMove();
-		m_pEnemyManager->Reset();
+		
 		break;
 	}
 	case GameEvent::IncreasePoints:
@@ -66,19 +79,20 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		break;
 	}
 	case GameEvent::JumpOnDisk:
-		m_pEnemyManager->SetCoiliesIdle(true);
+		m_pCManager->SetIdle(true);
+		
 		break;
 	case GameEvent::JumpOffDisk:
-		m_pEnemyManager->SetCoiliesIdle(false);
+		m_pCManager->SetIdle(false);
 		break;
 	case GameEvent::CoilyDies:
-		m_pEnemyManager->CoilyDied(object->GetComponent<Coily>());
+		m_pCManager->EnemyDied(object->GetComponent<Coily>());
 		break;
 	case GameEvent::SlickSamDies:
-		m_pEnemyManager->SlickSamDied(object->GetComponent<SlickSam>());
+		m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
 		break;
 	case GameEvent::WrongWayDies:
-		m_pEnemyManager->WrongWayDied(object->GetComponent<WrongWay>());
+		m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
 		break;
 	}
 }

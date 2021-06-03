@@ -16,28 +16,10 @@ namespace empire
 		
 		void AddObserver(Observer* pObserver);
 		
-		template <typename T>
-		Observer* GetObserver() const;
 	private:
 		friend class Singleton<ObserverManager>;
 		ObserverManager() = default;
 
 		std::vector<Observer*> m_pObservers;
 	};
-
-	template <class T>
-	Observer* ObserverManager::GetObserver() const
-	{
-		type_info const& type = typeid(T);
-		for (Observer* pObs : m_pObservers)
-		{
-			if (typeid(*pObs) == type)
-			{
-				return pObs;
-				//return static_cast<T*>(pObs);
-			}
-		}
-		Debugger::GetInstance().Log("Observer not found");
-		return nullptr;
-	}
 }

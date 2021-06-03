@@ -25,7 +25,7 @@ GameObject::GameObject(const GameObject& other)
 	m_pScene(nullptr),
 	m_pSubject(new Subject{*other.m_pSubject}),
 	m_bIsDestroyed(false),
-	m_pParent(other.m_pParent),
+	m_pParent(nullptr),
 	m_Tag(other.m_Tag)
 {
 	for (Component* pComp : other.m_pComponents)
@@ -34,7 +34,9 @@ GameObject::GameObject(const GameObject& other)
 	}
 	for (GameObject* pChild : other.m_pChildren)
 	{
-		m_pChildren.push_back(new GameObject(*pChild));
+		auto newChild = new GameObject(*pChild);
+		m_pChildren.push_back(newChild);
+		newChild->m_pParent = this;
 	}
 	m_pTransform = GetComponent<TransformComponent>();
 }

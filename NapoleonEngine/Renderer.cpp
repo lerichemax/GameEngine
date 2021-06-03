@@ -100,12 +100,12 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, TransformComponen
 {
 	glPushMatrix();
 	{
-		glTranslatef(pTransform.GetPosition().x , pTransform.GetPosition().y , 0);
+		glTranslatef(pTransform.GetWorldPosition().x , pTransform.GetWorldPosition().y , 0);
 		glRotatef(pTransform.GetRotation(), 0, 0, 1);
 		glScalef(pTransform.GetScale().x, pTransform.GetScale().y, 0);
-		glTranslatef(-pTransform.GetPosition().x , -pTransform.GetPosition().y , 0);
+		glTranslatef(-pTransform.GetWorldPosition().x , -pTransform.GetWorldPosition().y , 0);
 		
-		RenderTexture(texture, pTransform.GetPosition().x, pTransform.GetPosition().y);
+		RenderTexture(texture, pTransform.GetWorldPosition().x, pTransform.GetWorldPosition().y);
 	}
 	glPopMatrix();
 }

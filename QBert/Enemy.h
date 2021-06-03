@@ -14,12 +14,13 @@ public:
 	virtual void Die() override;
 
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
-	void SetQube(Qube* pQube) { m_pCurrentQube = pQube; }
+	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 protected:
-	friend class EnemyManager;
+	friend class EnemyManager_bu;
 	
 	unsigned int const POINTS_FOR_KILL;
 
+	
 	virtual void Initialize() override;
 	virtual void MeetCharacter(Character* ) override {}
 	void SetDirectionTextures(ConnectionDirection) override {}

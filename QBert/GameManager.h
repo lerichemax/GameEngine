@@ -21,7 +21,9 @@ namespace empire
 
 
 class Pyramid;
-class EnemyManager;
+class CoilyManager;
+class SlickSamManager;
+class WrongWayManager;
 class QBert;
 class CharacterPoint;
 class CharacterLives;
@@ -30,7 +32,7 @@ class GameManager final : public empire::Observer
 public:
 	GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points, 
 		empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, 
-		EnemyManager* pManager, GameObject* pGameOver, unsigned int nbrPlayers = 1);
+		CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
 	~GameManager() = default;
 	void Notify(empire::GameObject* object, int event) override;
@@ -40,8 +42,11 @@ private:
 	empire::TextRendererComponent* const m_P1LivesCounter;
 	empire::TextRendererComponent* const m_pP2PointsCounter;
 	empire::TextRendererComponent* const m_P2LivesCounter;
+
+	CoilyManager* m_pCManager;
+	SlickSamManager* m_pSSManager;
+	WrongWayManager* m_pWWManager;
 	
-	EnemyManager* const m_pEnemyManager;
 	GameObject* m_pGameOver;
 	
 	unsigned int m_NbrPlayers;

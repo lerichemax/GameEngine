@@ -1,59 +1,47 @@
 #pragma once
 #include "Component.h"
-#include <array>
+
 
 class Pyramid;
 class Qube;
-class Coily;
-class SlickSam;
-class WrongWay;
-class EnemyManager final : public empire::Component
+class Enemy;
+class GameManager;
+class EnemyManager : public empire::Component
 {
 public:
-	EnemyManager();
-	EnemyManager* Clone() override { return nullptr; }//TEMP
-	
+	EnemyManager(unsigned int maxNbr, float spawnInterval);
+	virtual EnemyManager* Clone() override = 0;
+
+	EnemyManager(EnemyManager&& other) = delete;
+	EnemyManager& operator=(EnemyManager const& rhs) = delete;
+	EnemyManager& operator=(EnemyManager&& rhs) = delete;
+	virtual ~EnemyManager();
+
 	void Initialize() override;
 	void Update() override;
-	
-	void SetCoiliesIdle(bool isIdle);
-	void CoilyDied(Coily* pCoily);
-	void SlickSamDied(SlickSam* pSlickSam);
-	void WrongWayDied(WrongWay* pWrongWay);
-	void Reset();
-	void ResetTimers();
-	
-	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
-	
-private:
-	unsigned int static const MAX_COILY{ 1 };
-	float const COILY_SPAWN_INTERVAL{ 4.f };
-	unsigned int static const MAX_SLICKSAM{ 2 };
-	float const SLICKSAM_SPAWN_INTERVAL{ 10.f };
 
-	unsigned int static const MAX_WRONGWAY{ 2 };
-	float const WRONGWAY_SPAWN_INTERVAL{ 7.f };
-	
-	unsigned int m_NbrSlickSam{};
-	unsigned int m_NbrCoily{};
-	unsigned int m_NbrWrongWay{};
-	
-	float m_CoilySpawnTimer{};
-	float m_SlickSamSpawnTimer{};
-	float m_WrongWaySpawnTimer{};
-	
+	void EnemyDied(Enemy* pEnemy);
+	void Reset();
+	void ResetTimer();
+
+	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
+	void SetGameManager(GameManager* pManager) { m_pObserver = pManager; }
+protected:
+	unsigned int const MAX_ENEMY_OF_TYPE{ 2 };
+	float const SPAWN_INTERVAL;
+
+	unsigned int m_NbrEnemies;
+
+	float m_EnemySpawnTimer;
+
 	Pyramid* m_pPyramid;
+	GameManager* m_pObserver;
 	
-	std::array<Coily*, MAX_COILY> m_pCoilies;
-	std::array<SlickSam*, MAX_SLICKSAM> m_pSlickSams;
-	std::array<WrongWay*, MAX_WRONGWAY> m_pWrongWays;
+	std::vector<Enemy*> m_pEnemies;
 	
-	void CoilySpawnerTimer();
-	void SlickSamSpawnerTimer();
-	void WrongWaySpawnerTimer();
-	
-	void AddCoilyToArray(Coily* pCoily);
-	void AddSlickSamToArray(SlickSam* pSlickSam);
-	void AddWrongWayToArray(WrongWay* pWrongWay);
-	
+	virtual void SpawnerTimer() = 0;
+	void AddToArray(Enemy* pEnemy);
+
+
+	EnemyManager(EnemyManager const& other);
 };

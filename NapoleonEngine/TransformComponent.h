@@ -38,7 +38,8 @@ namespace empire
 		void Rotate(float rot);
 
 		void SetWorldPosition(glm::vec2 const& worldPos);
-
+		void SetWorldPosition(float x, float y);
+		
 		glm::mat3x3 GetWorldMatrix() const { return m_World; }
 		glm::mat3x3 GetWorldToLocalMatrix() const {return glm::inverse(m_World); }
 	

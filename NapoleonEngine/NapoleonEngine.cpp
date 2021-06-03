@@ -8,7 +8,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "ServiceLocator.h"
+#include "SoundServiceLocator.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
 
@@ -68,7 +68,7 @@ void NapoleonEngine::Quit()
 
 void empire::NapoleonEngine::Cleanup()
 {
-	auto pService = &ServiceLocator::GetService();
+	auto pService = &SoundServiceLocator::GetService();
 	if (typeid(*pService) != typeid(NullSoundInterface))
 	{
 		delete pService;
@@ -103,7 +103,7 @@ void empire::NapoleonEngine::Run()
 			m_bQuit = !input.ProcessInput();
 			
 			sceneManager.Update();	
-			ServiceLocator::GetService().Update();
+			SoundServiceLocator::GetService().Update();
 			
 			renderer.Render();
 

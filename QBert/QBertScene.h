@@ -31,13 +31,14 @@ protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	Pyramid* m_pPyramid;
-	EnemyManager* m_pEnemyManager;
 	GameObject* m_pPauseMenu;
 	GameObject* m_pGameOverMenu;
-
+	std::vector<EnemyManager*> m_pEnemyManagers;
+	
+	virtual void DeclareInput() override{};
 private:
 	bool m_bIsPaused;
 
 	virtual void Initialize() override = 0;
-	virtual void DeclareInput() override;
+
 };

@@ -29,6 +29,7 @@
 #include "Shapes.h"
 #include "BoxCollider.h"
 #include "ButtonComponent.h"
+#include "SoundServiceLocator.h"
 
 using namespace empire;
 
@@ -68,6 +69,11 @@ void MainGame::CreatePrefabs() const
 	qbert->AddComponent(new CharacterPoint{});
 	qbert->AddComponent(new Jumper{});
 	qbert->AddComponent(new BoxCollider{ 24,24 });
+	auto hurtTextObj = new GameObject;
+	hurtTextObj->AddComponent(new RendererComponent("Textures/QBert/HurtText.png", Layer::foreground));
+	qbert->AddChild(hurtTextObj);
+	hurtTextObj->GetTransform()->Translate(10, -20);
+	hurtTextObj->GetComponent<RendererComponent>()->SetEnable(false);
 	qbert->GetTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("QBert", qbert);
 
@@ -154,6 +160,6 @@ void MainGame::CreatePrefabs() const
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
 	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
-	
+	//SoundServiceLocator::GetService().
 	delete json;
 }

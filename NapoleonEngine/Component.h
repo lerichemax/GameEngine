@@ -16,7 +16,10 @@ namespace empire
 
 		GameObject* const GetGameObject() const { return m_pGameObject; }
 
-		void SetEnable(bool isEnabled) { m_bIsEnabled = isEnabled; }
+		void SetEnable(bool isEnabled)
+		{
+			m_bIsEnabled = isEnabled;
+		}
 		bool IsEnable()const { return m_bIsEnabled; }
 	protected:
 		GameObject* m_pGameObject;

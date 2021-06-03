@@ -6,7 +6,7 @@
 
 using namespace empire;
 
-class EnemyManager;
+class EnemyManager_bu;
 class Qube;
 enum class ConnectionDirection;
 class QBert;
@@ -40,7 +40,8 @@ public:
 	void DiskUsed(){ m_NbrDisksSpawned--; }
 	void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
 	bool FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, const int size) const; //used by coily to move to qbert
-	
+	QBert* GetQBert()const { return m_pQBert; }
+
 private:
 	unsigned int const MAX_WIDTH;
 	unsigned int const MAX_NBR_DISKS{ 4 };

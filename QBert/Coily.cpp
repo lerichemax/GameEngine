@@ -10,6 +10,7 @@
 #include "RendererComponent.h"
 
 #include "GameManager.h"
+#include "Pyramid.h"
 #include "VersusGameManager.h"
 
 Coily::Coily()
@@ -41,6 +42,7 @@ void Coily::Move(ConnectionDirection direction)
 {
 	if (!m_pGameObject->HasComponent<CoilyCharacterController>() && !m_pCurrentQube->HasConnection(direction))
 	{
+		m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetQBert()->EarnPoints(POINTS_FOR_KILL);
 		JumpToDeath(direction);
 		return;
 	}

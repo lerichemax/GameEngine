@@ -2,7 +2,6 @@
 #include "Character.h"
 #include "Jumper.h"
 #include "Qube.h"
-#include "CharacterLives.h"
 
 #include "GameObject.h"
 #include "RendererComponent.h"
@@ -88,7 +87,7 @@ void Character::MoveToCurrentQube()
 	{
 		m_State = State::onQube;
 		m_pCurrentQube->CharacterJumpIn(this);
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetCharacterPos());
 	}
 }
 
@@ -101,7 +100,7 @@ void Character::JumpToQube(Qube* pTargetQube)
 
 	m_pCurrentQube = pTargetQube;
 	m_State = State::jumping;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
+	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
 void Character::LandOnQube()
@@ -127,6 +126,6 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	}
 	
 	m_pCurrentQube->CharacterJumpOut();
-	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetPosition(), dist);
+	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
 	m_State = State::falling;
 }

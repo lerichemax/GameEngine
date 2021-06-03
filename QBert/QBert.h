@@ -15,7 +15,6 @@ public:
 	~QBert() = default;
 
 	int GetPlayerNumber() const { return m_PlayerNbr; }
-	
 	void Die() override;
 	void EarnPoints(int points);
 	void Move(ConnectionDirection direction) override;
@@ -31,12 +30,15 @@ protected:
 private:
 	CharacterPoint* m_pPoints;
 	CharacterLives* m_pLives;
+	RendererComponent* m_pHurtTex;
 	
 	int m_PlayerNbr;
 
 	bool m_bCanMove;
-
+	bool m_bWillSleep;
+	
 	void Initialize() override;
+	void Update() override;
 	void SetDirectionTextures(ConnectionDirection dir) override;
 
 	QBert(QBert const& other);

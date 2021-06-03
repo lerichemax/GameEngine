@@ -25,13 +25,13 @@ empire::BoxCollider::~BoxCollider()
 
 void empire::BoxCollider::Initialize()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
+	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
 	ColliderComponent::Initialize();
 }
 
 void empire::BoxCollider::Update()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
+	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
 }
 
 void empire::BoxCollider::CheckOverlap(ColliderComponent* pOther)

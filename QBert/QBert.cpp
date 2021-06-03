@@ -1,5 +1,10 @@
 #include "PCH.h"
 #include "QBert.h"
+
+#include <chrono>
+#include <thread>
+
+
 #include "Qube.h"
 #include "ColoredDisk.h"
 #include "Coily.h"
@@ -19,13 +24,23 @@ using namespace empire;
 
 QBert::QBert()
 	:Character(nullptr, Type::player),
-	m_bCanMove(true)
+	m_bCanMove(true),
+	m_bWillSleep(false),
+	m_pPoints(nullptr),
+	m_pLives(nullptr),
+	m_PlayerNbr(),
+	m_pHurtTex{nullptr}
 {
 }
 
 QBert::QBert(QBert const& other)
 	:Character(other),
-	m_bCanMove(other.m_bCanMove)
+	m_bCanMove(other.m_bCanMove),
+	m_bWillSleep(other.m_bWillSleep),
+	m_pPoints(nullptr),
+	m_pLives(nullptr),
+	m_PlayerNbr(other.m_PlayerNbr),
+	m_pHurtTex()
 {
 }
 
@@ -39,7 +54,6 @@ void QBert::Initialize()
 		{
 			if (pOther->HasComponent<WrongWay>())
 			{
-				Debugger::GetInstance().Log("Overlap with WrongWay"); // temp
 				MeetCharacter(pOther->GetComponent<WrongWay>());
 			}
 		});
@@ -47,13 +61,36 @@ void QBert::Initialize()
 	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+	m_pHurtTex = m_pGameObject->GetComponentInChildren<RendererComponent>();
+	m_pHurtTex->SetEnable(false);
 	Character::Initialize();
 }
 
+void QBert::Update()
+{
+	if (m_bWillSleep)
+	{
+		if (m_pHurtTex != nullptr)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			m_pHurtTex->SetEnable(false);
+			m_bWillSleep = false;
+		}
+	}
+	Character::Update();
+}
 void QBert::Die()
 {
 	m_pLives->Die();
 	m_bCanMove = false;
+	
+	if (m_pHurtTex != nullptr)
+	{
+		m_pHurtTex->SetEnable(true);
+		m_bWillSleep = true;
+
+	}
+
 	if (m_pLives->IsGameOver())
 	{
 		m_pGameObject->Notify((int)GameEvent::GameOver);

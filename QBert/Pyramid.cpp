@@ -10,7 +10,6 @@
 
 #include "QBert.h"
 #include "Qube.h"
-#include "EnemyManager.h"
 
 #include <list>
 
@@ -65,7 +64,7 @@ void Pyramid::DiskSpawnerTimer()
 
 void Pyramid::Initialize()
 {
-	glm::vec2 startPos{m_pGameObject->GetTransform()->GetPosition()};
+	glm::vec2 startPos{0,0};
 	glm::vec2 lastPos{startPos};
 	
 	//spawn qubes

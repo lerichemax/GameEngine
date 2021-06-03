@@ -128,5 +128,5 @@ void CoilyCharacterController::FindQBert()
 				m_bIsIdle = false;
 			}
 		});
-	t1.detach();
+	t1.join();
 }

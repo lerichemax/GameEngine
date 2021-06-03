@@ -24,7 +24,8 @@ class VersusGameManager final : public empire::Observer
 {
 public:
 	VersusGameManager(empire::TextRendererComponent* pRoundText, empire::TextRendererComponent* pText1,
-		empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, unsigned int nbrRounds);
+		empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, 
+		GameObject* pGameOver, unsigned int nbrRounds);
 	void Notify(empire::GameObject* object, int event) override;
 
 private:
@@ -35,10 +36,12 @@ private:
 	CharacterPoint* m_pP1;
 	CharacterPoint* m_pP2;
 	Pyramid* m_pPyramid;
+	GameObject* m_pGameOver;
 	
 	unsigned int m_NbrRounds;
 	unsigned int m_CurrentRound;
 
-	void UpdateRound(empire::GameObject* pObject);
+	void UpdateRound();
 	void UpdateCharacterPoint(CharacterPoint* pCharacterPoints);
+	void CheckVictory();
 };

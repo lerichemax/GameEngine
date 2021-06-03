@@ -76,6 +76,11 @@ void TransformComponent::Translate(glm::vec2 const& pos)
 	m_Position = pos;
 }
 
+void TransformComponent::SetWorldPosition(float x, float y)
+{
+	SetWorldPosition(glm::vec2{ x,y });
+}
+
 void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
 {
 	auto parentObj = m_pGameObject->GetParent();
