@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+#include "Scene.h"
+
 using namespace empire;
 
 GameObject::GameObject()
@@ -156,6 +158,11 @@ void GameObject::SetActive(bool active)
 	{
 		pChild->SetActive(active);
 	}
+}
+
+bool GameObject::IsActive() const
+{
+	return m_bIsActive && m_pScene->IsActive();
 }
 
 void GameObject::SetTag(std::string const& tag, bool applyToChildren)

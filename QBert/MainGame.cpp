@@ -47,6 +47,14 @@ void MainGame::CreatePrefabs() const
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
 	auto& pPrefabManager = PrefabsManager::GetInstance();
+
+	auto ss = new SoundSystem{false};
+	auto jumpSoundid = ss->AddEffect("Data/Sounds/jump.mp3");
+	auto swearSoundId = ss->AddEffect("Data/Sounds/swear.mp3");
+	auto snakeFallId = ss->AddEffect("Data/Sounds/snake-fall.mp3");
+	auto fallsoundId = ss->AddEffect("Data/Sounds/fall.mp3");
+
+	SoundServiceLocator::Register(ss);
 	
 	auto const livesObj = new GameObject{};
 	livesObj->GetTransform()->Translate(20.f, 40.f);
@@ -64,7 +72,7 @@ void MainGame::CreatePrefabs() const
 	//QBert
 	auto qbert = new GameObject();
 	qbert->AddComponent(new RendererComponent( Layer::foreground));
-	qbert->AddComponent(new QBert());
+	qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
 	qbert->AddComponent(new CharacterLives{3});
 	qbert->AddComponent(new CharacterPoint{});
 	qbert->AddComponent(new Jumper{});
@@ -110,7 +118,7 @@ void MainGame::CreatePrefabs() const
 	auto coilyPrefab = new GameObject{};
 	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
-	coilyPrefab->AddComponent(new Coily{});
+	coilyPrefab->AddComponent(new Coily{fallsoundId});
 	coilyPrefab->AddComponent(new CoilyCharacterController{});
 	coilyPrefab->AddComponent(new Jumper{});
 	coilyPrefab->GetTransform()->Scale(1.5f);
@@ -160,6 +168,7 @@ void MainGame::CreatePrefabs() const
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
 	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
-	//SoundServiceLocator::GetService().
+
+	
 	delete json;
 }

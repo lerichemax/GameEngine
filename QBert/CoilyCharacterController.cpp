@@ -86,6 +86,7 @@ void CoilyCharacterController::Move(ConnectionDirection dir)
 	{
 		if (m_pCoilyCharacter->GetCurrentQube()->IsSideColumn())
 		{
+			m_pCoilyCharacter->FallSound();
 			m_pCoilyCharacter->JumpToDeath(dir);
 		}
 		else

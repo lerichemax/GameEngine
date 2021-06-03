@@ -105,7 +105,6 @@
     <ClInclude Include="FrameBuffer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="SoundServiceLocator.h" />
     <ClInclude Include="SoundInterface.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -223,6 +222,9 @@
     <ClInclude Include="Subject.h">
       <Filter>Observers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundServiceLocator.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -304,7 +306,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="ObserverManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -341,6 +342,9 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Subject.cpp">
       <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundServiceLocator.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

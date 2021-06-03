@@ -7,7 +7,7 @@ class Qube;
 class Coily final : public Enemy
 {
 public:
-	Coily();
+	Coily(unsigned int fallSoundId);
 	Coily* Clone() override { return new Coily(*this); }
 	Coily(Coily&& other) = delete;
 	Coily& operator=(Coily const& rhs) = delete;
@@ -23,7 +23,7 @@ public:
 	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	
 	bool IsTransformed() const { return m_bIsTransformed; }
-
+	void FallSound() const;
 protected:
 	void SetDirectionTextures(ConnectionDirection dir) override;
 	void MoveToCurrentQube() override;
@@ -32,6 +32,7 @@ private:
 	bool m_bIsTransformed;
 	CoilyCharacterController* m_pController;
 	
+	unsigned int m_FallSoundId;
 	
 	void Initialize() override;
 

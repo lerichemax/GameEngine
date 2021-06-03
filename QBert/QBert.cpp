@@ -18,18 +18,22 @@
 #include "RendererComponent.h"
 #include "BoxCollider.h"
 #include "GameManager.h"
+#include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
 using namespace empire;
 
-QBert::QBert()
+QBert::QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId)
 	:Character(nullptr, Type::player),
 	m_bCanMove(true),
 	m_bWillSleep(false),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_PlayerNbr(),
-	m_pHurtTex{nullptr}
+	m_pHurtTex{nullptr},
+	m_JumpSoundID(jumpId),
+	m_FallSoundID(fallId),
+	m_SwearSoundID(swearId)
 {
 }
 
@@ -40,7 +44,10 @@ QBert::QBert(QBert const& other)
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_PlayerNbr(other.m_PlayerNbr),
-	m_pHurtTex()
+	m_pHurtTex(nullptr), // not copied, initialized in QBert::Initialize
+	m_JumpSoundID(other.m_JumpSoundID),
+	m_FallSoundID(other.m_FallSoundID),
+	m_SwearSoundID(other.m_SwearSoundID)
 {
 }
 
@@ -83,6 +90,7 @@ void QBert::Die()
 {
 	m_pLives->Die();
 	m_bCanMove = false;
+
 	
 	if (m_pHurtTex != nullptr)
 	{
@@ -102,6 +110,11 @@ void QBert::Die()
 	}
 }
 
+void QBert::Swear()const
+{
+	SoundServiceLocator::GetService().Play(m_SwearSoundID, 50);
+}
+
 void QBert::EarnPoints(int points)
 {
 	m_pPoints->AddPoints(points);
@@ -119,6 +132,7 @@ void QBert::Move(ConnectionDirection direction)
 	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	{
 		JumpToDeath(direction);
+		SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
 		return;
 	}
 
@@ -127,16 +141,19 @@ void QBert::Move(ConnectionDirection direction)
 	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
+		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
 		m_pCurrentQube->CharacterJumpOut();
 		JumpToQube(m_pCurrentQube->GetConnection(direction));
 	}
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
+		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
 		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
 		m_pCurrentQube->CharacterJumpOut();
 		m_pCurrentQube = nullptr;
 		m_bCanMove = false;
 	}
+	
 }
 
 void QBert::JumpOffDisk()
@@ -168,6 +185,7 @@ void QBert::MeetCharacter(Character* pOther)
 {
 	if (typeid(*pOther) == typeid(Coily) && static_cast<Coily*>(pOther)->IsTransformed() || typeid(*pOther) == typeid(WrongWay))
 	{
+		Swear();
 		Die();
 	}
 	else if (typeid(*pOther) == typeid(SlickSam))

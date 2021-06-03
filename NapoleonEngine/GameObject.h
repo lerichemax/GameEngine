@@ -49,7 +49,7 @@ namespace empire
 		Scene* const GetParentScene() const { return m_pScene; }
 		
 		bool IsInitialized() { return m_bIsInitialized; }
-		bool IsActive() const { return m_bIsActive; }
+		bool IsActive() const;
 		bool HasChildren() const { return m_pChildren.size() > 0; }
 		std::string GetTag()const { return m_Tag; };
 		

@@ -11,18 +11,21 @@
 
 #include "GameManager.h"
 #include "Pyramid.h"
+#include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
-Coily::Coily()
+Coily::Coily(unsigned int fallSoundId)
 	: Enemy(500),
 	m_bIsTransformed(false),
-	m_pController(nullptr)
+	m_pController(nullptr),
+	m_FallSoundId(fallSoundId)
 {}
 
 Coily::Coily(Coily const& other)
 	: Enemy(other),
 	m_bIsTransformed(other.IsTransformed()),
-	m_pController(nullptr)
+	m_pController(nullptr),
+	m_FallSoundId(other.m_FallSoundId)
 {
 }
 
@@ -43,6 +46,7 @@ void Coily::Move(ConnectionDirection direction)
 	if (!m_pGameObject->HasComponent<CoilyCharacterController>() && !m_pCurrentQube->HasConnection(direction))
 	{
 		m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetQBert()->EarnPoints(POINTS_FOR_KILL);
+		FallSound();
 		JumpToDeath(direction);
 		return;
 	}
@@ -55,6 +59,12 @@ void Coily::Move(ConnectionDirection direction)
 	Enemy::Move(direction);
 }
 
+void Coily::FallSound() const
+{
+	SoundServiceLocator::GetService().Play(m_FallSoundId, 50);
+}
+
+
 void Coily::MeetCharacter(Character* pOther)
 {
 	if (!m_bIsTransformed)
@@ -65,7 +75,9 @@ void Coily::MeetCharacter(Character* pOther)
 	{
 		if (pOther->GetType() == Type::player)
 		{
-			static_cast<QBert*>(pOther)->Die();
+			auto qbert = static_cast<QBert*>(pOther);
+			qbert->Swear();
+			qbert->Die();
 		}
 	}
 }
