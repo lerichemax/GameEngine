@@ -45,7 +45,6 @@ void Coily::Move(ConnectionDirection direction)
 {
 	if (!m_pGameObject->HasComponent<CoilyCharacterController>() && !m_pCurrentQube->HasConnection(direction))
 	{
-		m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetQBert()->EarnPoints(POINTS_FOR_KILL);
 		FallSound();
 		JumpToDeath(direction);
 		return;

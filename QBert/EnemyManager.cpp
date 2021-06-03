@@ -45,24 +45,30 @@ void EnemyManager::Update()
 
 void EnemyManager::AddToArray(Enemy* pEnemy)
 {
-	for (size_t i = 0; i < MAX_ENEMY_OF_TYPE; i++)
+	if (!m_pEnemies.empty())
 	{
-		if (m_pEnemies[i] == nullptr)
+		for (size_t i = 0; i < MAX_ENEMY_OF_TYPE; i++)
 		{
-			m_pEnemies[i] = pEnemy;
-			return;
+			if (m_pEnemies[i] == nullptr)
+			{
+				m_pEnemies[i] = pEnemy;
+				return;
+			}
 		}
 	}
 }
 
 void EnemyManager::EnemyDied(Enemy* pEnemy)
 {
-	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
+	if (!m_pEnemies.empty())
 	{
-		if (m_pEnemies[i] == pEnemy)
+		for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
 		{
-			m_pEnemies[i] = nullptr;
-			break;
+			if (m_pEnemies[i] == pEnemy)
+			{
+				m_pEnemies[i] = nullptr;
+				break;
+			}
 		}
 	}
 	m_NbrEnemies--;
@@ -70,13 +76,17 @@ void EnemyManager::EnemyDied(Enemy* pEnemy)
 
 void EnemyManager::Reset()
 {
-	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
+	if (!m_pEnemies.empty())
 	{
-		if (m_pEnemies[i] != nullptr)
+		for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
 		{
-			m_pEnemies[i]->Die();
+			if (m_pEnemies[i] != nullptr)
+			{
+				m_pEnemies[i]->Die();
+			}
 		}
 	}
+	
 	m_NbrEnemies = 0;
 }
 

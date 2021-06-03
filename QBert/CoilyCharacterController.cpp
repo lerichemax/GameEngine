@@ -6,8 +6,10 @@
 #include "Pyramid.h"
 #include "Coily.h"
 #include "Qube.h"
+#include "QBert.h"
 
 #include "Timer.h"
+#include "GameObject.h"
 
 CoilyCharacterController::CoilyCharacterController() : EnemyCharacterController()
 {
@@ -59,7 +61,7 @@ void CoilyCharacterController::Update()
 
 			if (m_CurrentlyInQueue != 0)
 			{
-				m_pEnemyCharacter->Move(ChooseDirection());
+				Move(ChooseDirection());
 				m_MoveTimer = 0;
 			}
 		}
@@ -86,6 +88,7 @@ void CoilyCharacterController::Move(ConnectionDirection dir)
 	{
 		if (m_pCoilyCharacter->GetCurrentQube()->IsSideColumn())
 		{
+			m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetQBert()->EarnPoints(m_pCoilyCharacter->GetPointsForKill());
 			m_pCoilyCharacter->FallSound();
 			m_pCoilyCharacter->JumpToDeath(dir);
 		}
