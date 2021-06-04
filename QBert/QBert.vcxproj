@@ -90,6 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,6 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)NapoleonEngine;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,8 +157,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="CoilyManager.cpp" />
+    <ClCompile Include="CoilyOnQubeState.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyOnQubeState.cpp" />
+    <ClCompile Include="FallingState.cpp" />
+    <ClCompile Include="JumpingState.cpp" />
+    <ClCompile Include="OnQubeState.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ReloadSceneCommand.cpp" />
     <ClCompile Include="SlickSamManager.cpp" />
@@ -191,8 +199,14 @@
     <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CoilyManager.h" />
+    <ClInclude Include="CoilyOnQubeState.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyOnQubeState.h" />
+    <ClInclude Include="FallingState.h" />
+    <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="OnQubeState.h" />
     <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ReloadSceneCommand.h" />
     <ClInclude Include="SlickSamManager.h" />

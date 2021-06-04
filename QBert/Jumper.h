@@ -6,7 +6,7 @@ class Jumper : public empire::Component
 {
 public:
 	Jumper();
-	Jumper* Clone() override { return new Jumper(*this); }
+	Jumper* Clone() const override { return new Jumper(*this); }
 	
 	void UpdateJump(empire::TransformComponent* transform);
 	virtual void UpdateFall(empire::TransformComponent* transform);

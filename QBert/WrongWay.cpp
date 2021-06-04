@@ -2,25 +2,24 @@
 #include "WrongWay.h"
 
 #include "BoxCollider.h"
+#include "EnemyOnQubeState.h"
+
 #include "Jumper.h"
+#include "GameManager.h"
+#include "JumpingState.h"
+#include "Qube.h"
+#include "EnemyCharacterController.h"
 
 #include "GameObject.h"
-#include "Qube.h"
 #include "RendererComponent.h"
 #include "ResourceManager.h"
 
-#include "GameManager.h"
-
-
-
 WrongWay::WrongWay(bool escheresqueRight)
-	:Enemy(0),
+	:Enemy(0, CharacterType::wrongWay),
 	m_bEscheresqueRight(escheresqueRight)
 {
 
 }
-
-
 
 void WrongWay::Initialize()
 {
@@ -46,7 +45,7 @@ void WrongWay::Initialize()
 	{
 		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueLeftPos());
 	}
-	
+	SwitchState(new EnemyOnQubeState(this, m_pJumper, m_pGameObject->GetComponent<EnemyCharacterController>()));
 }
 
 void WrongWay::Move(ConnectionDirection direction)
@@ -71,8 +70,7 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 	}
 
 	m_pCurrentQube = pNextQube;
-	m_State = State::jumping;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), 
+	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(),
 		m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }
 

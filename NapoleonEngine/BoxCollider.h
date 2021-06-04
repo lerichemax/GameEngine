@@ -9,7 +9,7 @@ namespace empire
 	{
 	public:
 		BoxCollider(unsigned int width, unsigned int height);
-		BoxCollider* Clone() override { return new BoxCollider(*this); }
+		BoxCollider* Clone() const override { return new BoxCollider(*this); }
 
 		BoxCollider(BoxCollider&& other) = delete;
 		BoxCollider& operator=(BoxCollider const& rhs) = delete;

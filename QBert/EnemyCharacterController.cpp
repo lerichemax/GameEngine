@@ -27,21 +27,6 @@ void EnemyCharacterController::Initialize()
 	m_pEnemyCharacter = m_pGameObject->GetComponent<Enemy>();
 }
 
-void EnemyCharacterController::Update()
-{
-	if (m_pEnemyCharacter->GetState() == State::onQube)
-	{
-		if (m_MoveTimer < MOVE_MAX_TIME)
-		{
-			m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
-			return;
-		}
-
-		m_pEnemyCharacter->Move(ChooseDirection());
-		m_MoveTimer = 0;
-	}
-}
-
 ConnectionDirection EnemyCharacterController::ChooseDirection()
 {
 	int random = rand() % 2 + 1; //down left or down right

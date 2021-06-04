@@ -14,7 +14,7 @@ namespace empire
 	public:
 		TransformComponent();
 		TransformComponent(float x, float y);
-		TransformComponent* Clone() override { return new TransformComponent(*this); };
+		TransformComponent* Clone() const override { return new TransformComponent(*this); };
 		TransformComponent(TransformComponent const& other) = default;
 		TransformComponent(TransformComponent&& other) = default;
 		TransformComponent& operator=(TransformComponent const& rhs);

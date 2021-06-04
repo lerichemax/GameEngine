@@ -11,7 +11,7 @@
 int SlickSam::m_NbrInstances{};
 
 SlickSam::SlickSam()
-	:Enemy(300)
+	:Enemy(300, CharacterType::slickSam)
 {
 	m_NbrInstances++;
 }
@@ -57,7 +57,7 @@ void SlickSam::Die()
 
 void SlickSam::MeetCharacter(Character* pOther)
 {
-	if (pOther->GetType() == Type::player)
+	if (pOther->GetType() == CharacterType::player)
 	{
 		static_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
 		Die();

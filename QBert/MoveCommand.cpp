@@ -2,6 +2,8 @@
 #include "MoveCommand.h"
 
 
+
+#include "CharacterState.h"
 #include "GameObject.h"
 #include "QBert.h"
 
@@ -18,7 +20,7 @@ MoveCommand::MoveCommand(MoveCommand const& other)
 
 void MoveCommand::Execute()
 {
-	if (!m_pCharacter->GetGameObject()->IsActive() || m_pCharacter->GetState() != State::onQube)
+	if (!m_pCharacter->GetGameObject()->IsActive() || m_pCharacter->GetState()->GetType() != CharacterStateType::onQube)
 	{
 		return;
 	}

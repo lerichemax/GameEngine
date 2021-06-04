@@ -1,63 +1,57 @@
 #include "PCH.h"
 #include "Character.h"
+
+#include "CharacterState.h"
+#include "CoilyCharacterController.h"
 #include "Jumper.h"
 #include "Qube.h"
+#include "OnQubeState.h"
+#include "JumpingState.h"
+#include "FallingState.h"
+#include "CoilyOnQubeState.h"
+#include "EnemyOnQubeState.h"
 
 #include "GameObject.h"
 #include "RendererComponent.h"
 
-Character::Character(Qube* pStart, Type type)
+Character::Character(Qube* pStart, CharacterType type)
 	: m_pCurrentQube(pStart),
 	m_Type(type),
-	m_State(State::onQube),
-	m_pJumper(),
+	m_pJumper(nullptr),
 	m_pIdleText(nullptr),
 	m_pJumpText(nullptr),
-	m_FacingDirection(ConnectionDirection::downLeft)
+	m_FacingDirection(ConnectionDirection::downLeft),
+	m_pState(nullptr)
 {
 }
 
 Character::Character(Character const& other)
 	:m_pCurrentQube(other.m_pCurrentQube),
 	m_Type(other.m_Type),
-	m_State(other.m_State),
-	m_pJumper(),
+	m_pJumper(nullptr),
+	m_pState(nullptr),
 	m_pIdleText(other.m_pIdleText),
 	m_pJumpText(other.m_pJumpText),
 	m_FacingDirection(other.m_FacingDirection)
 {
+}
 
+Character::~Character()
+{
+	SafeDelete(m_pState);
 }
 
 void Character::Initialize()
 {
 	m_pJumper = m_pGameObject->GetComponent<Jumper>();
-	m_State = State::onQube;
+	SwitchState(CharacterStateType::onQube);
 	MoveToCurrentQube();
 }
 
 void Character::Update()
 {
-	if (m_State == State::jumping)
-	{
-		m_pJumper->UpdateJump(m_pGameObject->GetTransform());
-		if (!m_pJumper->IsJumping())
-		{
-			m_State = State::onQube;
-			MoveToCurrentQube();
-			LandOnQube();
-		}
-	}
-	else if(m_State == State::falling)
-	{
-		m_pJumper->UpdateFall(m_pGameObject->GetTransform());
-		if (m_pJumper->IsDead())
-		{
-			m_pJumper->SetIsNotDead();
-			m_State = State::onQube;
-			Die();
-		}
-	}
+	auto newState = m_pState->Update(m_pGameObject);
+	SwitchState(newState);
 }
 
 void Character::SetCurrentQube(Qube* pTargetQube)
@@ -85,7 +79,6 @@ void Character::MoveToCurrentQube()
 
 	if (m_pGameObject->IsActive())
 	{
-		m_State = State::onQube;
 		m_pCurrentQube->CharacterJumpIn(this);
 		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetCharacterPos());
 	}
@@ -99,13 +92,17 @@ void Character::JumpToQube(Qube* pTargetQube)
 	}
 
 	m_pCurrentQube = pTargetQube;
-	m_State = State::jumping;
 	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
-void Character::LandOnQube()
+void Character::SwitchToIdleTex()
 {
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+}
+
+void Character::SwitchToJumpTex()
+{
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 }
 
 void Character::JumpToDeath(ConnectionDirection dir)
@@ -127,5 +124,60 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	
 	m_pCurrentQube->CharacterJumpOut();
 	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
-	m_State = State::falling;
+}
+
+void Character::SwitchState(CharacterState* pState)
+{
+	if (pState != nullptr)
+	{
+		if (m_pState != nullptr)
+		{
+			m_pState->Exit();
+			SafeDelete(m_pState);
+		}
+		m_pState = pState;
+		m_pState->Enter();
+	}
+}
+
+void Character::SwitchState(CharacterStateType type)
+{
+	if (m_pState != nullptr && m_pState->GetType() == type)
+	{
+		return;
+	}
+	switch (type)
+	{
+	case CharacterStateType::onQube:
+		switch (m_Type)
+		{
+		case CharacterType::player:
+			SwitchState(new OnQubeState(this, m_pJumper));
+			break;
+		case CharacterType::coily:
+			if (m_pGameObject->HasComponent<CoilyCharacterController>())
+			{
+
+				SwitchState(new CoilyOnQubeState(this, m_pJumper, 
+					m_pGameObject->GetComponent<CoilyCharacterController>()));
+			}
+			else
+			{
+				SwitchState(new OnQubeState(this, m_pJumper));
+			}
+			break;
+		default:
+			SwitchState(new EnemyOnQubeState(this, m_pJumper,
+				m_pGameObject->GetComponent<EnemyCharacterController>()));
+			break;
+		}
+		
+		break;
+	case CharacterStateType::jumping:
+		SwitchState(new JumpingState(this, m_pJumper));
+		break;
+	case CharacterStateType::falling:
+		SwitchState(new FallingState(this, m_pJumper));
+		break;
+	}
 }

@@ -26,7 +26,7 @@ namespace empire
 		RendererComponent(std::string const& filename, Layer layer = Layer::background);
 		RendererComponent(Texture2D* pText, Layer layer = Layer::background);
 
-		RendererComponent* Clone() override { return new RendererComponent(*this); }
+		RendererComponent* Clone() const override { return new RendererComponent(*this); }
 
 		RendererComponent(RendererComponent&& other) = delete;
 		RendererComponent& operator=(RendererComponent const& rhs) = delete;

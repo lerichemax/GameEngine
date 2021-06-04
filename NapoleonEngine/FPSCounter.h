@@ -10,7 +10,7 @@ namespace empire
 		FPSCounter() = default;
 		~FPSCounter() = default;
 
-		FPSCounter* Clone() override { return new FPSCounter(*this); }
+		FPSCounter* Clone() const override { return new FPSCounter(*this); }
 		
 		void Initialize() override;
 		void Update() override;

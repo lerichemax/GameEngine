@@ -6,7 +6,7 @@
 #include "Coily.h"
 #include "CoilyCharacterController.h"
 #include "QBert.h"
-#include "VersusScene.h"
+
 #include "Pyramid.h"
 #include "TextRendererComponent.h"
 #include "Timer.h"

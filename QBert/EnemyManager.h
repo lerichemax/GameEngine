@@ -10,7 +10,7 @@ class EnemyManager : public empire::Component
 {
 public:
 	EnemyManager(unsigned int maxNbr, float spawnInterval);
-	virtual EnemyManager* Clone() override = 0;
+	virtual EnemyManager* Clone() const override = 0;
 
 	EnemyManager(EnemyManager&& other) = delete;
 	EnemyManager& operator=(EnemyManager const& rhs) = delete;

@@ -5,7 +5,7 @@ class SlickSamManager final : public EnemyManager
 {
 public:
 	SlickSamManager(int maxNbr, float spawnInterval);
-	SlickSamManager* Clone() override { return new SlickSamManager(*this); }
+	SlickSamManager* Clone() const override { return new SlickSamManager(*this); }
 	
 	SlickSamManager(SlickSamManager&& other) = delete;
 	SlickSamManager& operator=(SlickSamManager const& rhs) = delete;

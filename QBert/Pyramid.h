@@ -17,7 +17,7 @@ class Pyramid final : public Component
 public:
 	Pyramid(unsigned int maxWidth);
 	
-	Pyramid* Clone() override { return new Pyramid(*this); } 
+	Pyramid* Clone() const override { return new Pyramid(*this); } 
 	
 	Pyramid(Pyramid&& other) = delete;
 	Pyramid& operator=(Pyramid const& rhs) = delete;
@@ -31,7 +31,7 @@ public:
 	Qube* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	Qube* GetQube(int index) const { return m_pQubes[index]; }
 	int GetQubeIndex(Qube* pQube) const;
-	
+	int GetNbrDisks()const { return m_NbrDisksSpawned; }
 	std::vector<Qube*> const& GetQubes() const { return m_pQubes; }
 	
 	bool AreAllQubesFlipped() const;

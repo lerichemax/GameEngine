@@ -5,7 +5,7 @@ class CharacterPoint final : public empire::Component
 {
 public:
 	CharacterPoint();
-	CharacterPoint* Clone() { return new CharacterPoint(*this); }
+	CharacterPoint* Clone() const override { return new CharacterPoint(*this); }
 	void Initialize() override{};
 	void Update() override{};
 	

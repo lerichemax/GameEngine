@@ -99,6 +99,24 @@
     <ClCompile Include="CoilyManager.cpp">
       <Filter>GameScripts\EnemyManagers</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
+    <ClCompile Include="OnQubeState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FallingState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyOnQubeState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyOnQubeState.cpp">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -198,6 +216,24 @@
     <ClInclude Include="CoilyManager.h">
       <Filter>GameScripts\EnemyManagers</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
+    <ClInclude Include="OnQubeState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpingState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyOnQubeState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyOnQubeState.h">
+      <Filter>GameScripts\Characters\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -226,6 +262,9 @@
     </Filter>
     <Filter Include="GameScripts\EnemyManagers">
       <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Characters\States">
+      <UniqueIdentifier>{3c0620e3-e2f0-45bb-bc9a-fa52b160d00e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

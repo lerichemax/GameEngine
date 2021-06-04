@@ -7,16 +7,18 @@ class EnemyCharacterController : public empire::Component
 {
 public:
 	EnemyCharacterController();
-	EnemyCharacterController* Clone() override { return new EnemyCharacterController{ *this }; }
+	EnemyCharacterController* Clone() const override { return new EnemyCharacterController{ *this }; }
 	EnemyCharacterController(EnemyCharacterController&& other) = delete;
 	EnemyCharacterController& operator=(EnemyCharacterController const& rhs) = delete;
 	EnemyCharacterController& operator=(EnemyCharacterController&& rhs) = delete;
 	virtual ~EnemyCharacterController() = default;
 
 	void Initialize() override;
-	void Update() override;
+
 
 protected:
+	friend class EnemyOnQubeState;
+	
 	float const MOVE_MAX_TIME{ 0.5f };
 	float m_MoveTimer;
 
@@ -25,4 +27,7 @@ protected:
 	virtual ConnectionDirection ChooseDirection();
 
 	EnemyCharacterController(EnemyCharacterController const& other);
+
+private:
+	void Update() override {};
 };

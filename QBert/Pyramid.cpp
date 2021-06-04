@@ -13,6 +13,8 @@
 
 #include <list>
 
+#include "ColoredDisk.h"
+
 Pyramid::Pyramid(unsigned int maxWidth)
 	:MAX_WIDTH(maxWidth),
 	m_NbrDisksSpawned(),
@@ -198,7 +200,11 @@ bool Pyramid::AreAllQubesFlipped() const
 			return false;
 		}
 	}
-	m_pGameObject->Notify(11);
+	m_pGameObject->Notify(8);
+	if (m_pQBert != nullptr)
+	{
+		m_pQBert->EarnPoints(m_NbrDisksSpawned * ColoredDisk::GetPoints());
+	}
 	return true;
 }
 

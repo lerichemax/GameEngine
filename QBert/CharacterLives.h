@@ -5,7 +5,7 @@ class CharacterLives final : public empire::Component
 {
 public:
 	CharacterLives(int maxLives);
-	CharacterLives* Clone() { return new CharacterLives(*this); }
+	CharacterLives* Clone() const override { return new CharacterLives(*this); }
 	
 	void Initialize() override{};
 	void Update() override{};

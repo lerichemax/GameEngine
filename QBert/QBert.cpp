@@ -4,7 +4,6 @@
 #include <chrono>
 #include <thread>
 
-
 #include "Qube.h"
 #include "ColoredDisk.h"
 #include "Coily.h"
@@ -12,19 +11,22 @@
 #include "WrongWay.h"
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
+#include "JumpingState.h"
+#include "FallingState.h"
 
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 #include "BoxCollider.h"
 #include "GameManager.h"
+#include "OnQubeState.h"
 #include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
 using namespace empire;
 
 QBert::QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId)
-	:Character(nullptr, Type::player),
+	:Character(nullptr, CharacterType::player),
 	m_bCanMove(true),
 	m_bWillSleep(false),
 	m_pPoints(nullptr),
@@ -67,7 +69,6 @@ void QBert::Initialize()
 	
 	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 	m_pHurtTex = m_pGameObject->GetComponentInChildren<RendererComponent>();
 	m_pHurtTex->SetEnable(false);
 	Character::Initialize();
@@ -90,7 +91,6 @@ void QBert::Die()
 {
 	m_pLives->Die();
 	m_bCanMove = false;
-
 	
 	if (m_pHurtTex != nullptr)
 	{
@@ -132,18 +132,19 @@ void QBert::Move(ConnectionDirection direction)
 	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	{
 		JumpToDeath(direction);
+		SwitchState(new FallingState(this, m_pJumper));
 		SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
 		return;
 	}
 
 	SetDirectionTextures(direction);
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
 		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
 		m_pCurrentQube->CharacterJumpOut();
 		JumpToQube(m_pCurrentQube->GetConnection(direction));
+		SwitchState(new JumpingState(this, m_pJumper));
 	}
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
@@ -153,12 +154,11 @@ void QBert::Move(ConnectionDirection direction)
 		m_pCurrentQube = nullptr;
 		m_bCanMove = false;
 	}
-	
 }
 
 void QBert::JumpOffDisk()
 {
-	m_State = State::onQube;
+	SwitchState(new OnQubeState(this, m_pJumper));
 	m_pGameObject->Notify((int)GameEvent::JumpOffDisk);
 	m_bCanMove = true;
 }
@@ -171,7 +171,7 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 	{
 		return;
 	}
-	m_State = State::onQube;
+	SwitchState(new OnQubeState(this, m_pJumper));
 	
 	m_pLives->Reset();
 	m_pPoints->Reset();
@@ -199,8 +199,6 @@ void QBert::MeetCharacter(Character* pOther)
 void QBert::LandOnQube()
 {
 	m_pCurrentQube->QBertJump(this);
-	Character::LandOnQube();
-
 }
 
 void QBert::SetDirectionTextures(ConnectionDirection dir)

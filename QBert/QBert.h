@@ -7,7 +7,7 @@ class QBert final : public Character
 {
 public:
 	QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId);
-	QBert* Clone() override { return new QBert(*this); }
+	QBert* Clone() const override { return new QBert(*this); }
 	
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;

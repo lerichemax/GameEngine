@@ -5,13 +5,13 @@ enum class GameEvent
 {
 	PlayerDied,
 	IncreasePoints,
-	JumpOnQube,
 	JumpOnDisk,
 	JumpOffDisk,
 	GameOver,
 	CoilyDies,
 	SlickSamDies,
 	WrongWayDies,
+	PyramidCompleted
 };
 
 namespace empire

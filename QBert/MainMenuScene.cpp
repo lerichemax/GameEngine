@@ -7,7 +7,6 @@
 #include "QuitGameCommand.h"
 #include "ResourceManager.h"
 #include "TextRendererComponent.h"
-#include "SceneManager.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
 
@@ -27,15 +26,14 @@ void MainMenuScene::Initialize()
 	titleObject->GetTransform()->Scale(0.8f, 0.8f);
 
 	auto soloBtn = new GameObject();
-	auto btn = new ButtonComponent(70, 50);
-	btn->SetVisualize(true);
+	auto btn = new ButtonComponent(70, 30);
 	soloBtn->AddComponent(btn);
 
 	auto textObj = new GameObject();
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 	auto txt = new TextRendererComponent{ "Solo", font };
 	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 10);
+	textObj->GetTransform()->Translate(7, 3);
 	soloBtn->AddChild(textObj);
 
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
@@ -48,14 +46,13 @@ void MainMenuScene::Initialize()
 	AddObject(soloBtn);
 
 	auto coopBtn = new GameObject();
-	btn = new ButtonComponent(80, 50);
-	btn->SetVisualize(true);
+	btn = new ButtonComponent(80, 30);
 	coopBtn->AddComponent(btn);
 
 	textObj = new GameObject();
 	txt = new TextRendererComponent{ "Co-op", font };
 	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 10);
+	textObj->GetTransform()->Translate(7, 3);
 	coopBtn->AddChild(textObj);
 
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
@@ -68,14 +65,13 @@ void MainMenuScene::Initialize()
 	AddObject(coopBtn);
 
 	auto vsBtn = new GameObject();
-	btn = new ButtonComponent(80, 50);
-	btn->SetVisualize(true);
+	btn = new ButtonComponent(92, 30);
 	vsBtn->AddComponent(btn);
 
 	textObj = new GameObject();
 	txt = new TextRendererComponent{ "Versus", font };
 	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 10);
+	textObj->GetTransform()->Translate(7, 3);
 	vsBtn->AddChild(textObj);
 
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
@@ -88,14 +84,13 @@ void MainMenuScene::Initialize()
 	AddObject(vsBtn);
 
 	auto quitBtn = new GameObject();
-	btn = new ButtonComponent(80, 50);
-	btn->SetVisualize(true);
+	btn = new ButtonComponent(70, 30);
 	quitBtn->AddComponent(btn);
 
 	textObj = new GameObject();
 	txt = new TextRendererComponent{ "Quit", font };
 	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 10);
+	textObj->GetTransform()->Translate(7, 3);
 	quitBtn->AddChild(textObj);
 
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });

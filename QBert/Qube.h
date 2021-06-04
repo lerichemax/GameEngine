@@ -28,7 +28,7 @@ class Qube final : public Component
 {
 public:
 	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
-	Qube* Clone() override { return new Qube{*this}; }
+	Qube* Clone() const override { return new Qube{*this}; }
 	
 	
 	Qube(Qube&& other) = delete;
@@ -74,7 +74,7 @@ public:
 
 private:
 	int static const MAX_NBR_CONNECTION = 4;
-	int const POINTS_FOR_FLIP = 25;
+	static int const POINTS_FOR_FLIP = 25;
 	
 	QBertScene* m_pScene;
 	Pyramid* m_pPyramid;

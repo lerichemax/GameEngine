@@ -9,10 +9,10 @@ enum class VersusGameEvent
 {
 	Player1Died = 9,
 	Player2Died = 10,
-	PyramidCompleted = 11,
-	CoilyTransform = 12,
-	GameOver = 5,
-	IncreasePoints = 13
+	PyramidCompleted = 8,
+	CoilyTransform = 11,
+	GameOver = 4,
+	IncreasePoints = 12
 };
 
 class QBert;

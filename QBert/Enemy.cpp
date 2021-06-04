@@ -5,31 +5,10 @@
 #include "GameObject.h"
 #include "QBert.h"
 
-Enemy::Enemy(int pointsForKill)
-	:Character(nullptr, Type::enemy),
+Enemy::Enemy(int pointsForKill, CharacterType type)
+	:Character(nullptr, type),
 	POINTS_FOR_KILL(pointsForKill)
 {}
-
-void Enemy::Initialize()
-{
-	Character::Initialize();
-}
-
-void Enemy::MoveToCurrentQube()
-{
-	Character::MoveToCurrentQube();
-}
-
-void Enemy::JumpToQube(Qube* pTargetQube)
-{
-	Character::JumpToQube(pTargetQube);
-}
-
-void Enemy::Update()
-{
-	
-	Character::Update();
-}
 
 void Enemy::Move(ConnectionDirection direction)
 {
@@ -38,7 +17,7 @@ void Enemy::Move(ConnectionDirection direction)
 		auto pNextQube = m_pCurrentQube->GetConnection(direction);
 		if (pNextQube->HasCharacter())
 		{
-			if (pNextQube->GetCharacter()->GetType() == Type::enemy)
+			if (pNextQube->GetCharacter()->GetType() != CharacterType::player)
 			{
 				return;
 			}

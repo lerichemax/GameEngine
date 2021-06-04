@@ -4,28 +4,31 @@
 class Enemy : public Character
 {
 public:
-	Enemy(int pointsForKill);
+	Enemy(int pointsForKill, CharacterType type);
 	virtual ~Enemy() override  = default;
 
-	virtual Enemy* Clone() override { return new Enemy(*this); }
+	virtual Enemy* Clone() const override { return new Enemy(*this); }
 	
-	virtual void Update() override;
 	virtual void Move(ConnectionDirection direction) override;
 	virtual void Die() override;
-
+	void Initialize() override
+	{
+		Character::Initialize();
+	}
+	void Update() override
+	{
+		Character::Update();
+	}
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
-	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 protected:
 	friend class EnemyManager_bu;
 	
 	unsigned int const POINTS_FOR_KILL;
 
 	
-	virtual void Initialize() override;
 	virtual void MeetCharacter(Character* ) override {}
 	void SetDirectionTextures(ConnectionDirection) override {}
-	virtual void MoveToCurrentQube() override;
-	virtual void JumpToQube(Qube* pTargetQube) override;
+
 	
 	Enemy(Enemy const& other)
 		:Character(other),

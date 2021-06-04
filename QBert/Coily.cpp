@@ -8,14 +8,15 @@
 #include "QBert.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
+#include "FallingState.h"
+#include "JumpingState.h"
 
 #include "GameManager.h"
-#include "Pyramid.h"
 #include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
 Coily::Coily(unsigned int fallSoundId)
-	: Enemy(500),
+	: Enemy(500, CharacterType::coily),
 	m_bIsTransformed(false),
 	m_pController(nullptr),
 	m_FallSoundId(fallSoundId)
@@ -43,10 +44,12 @@ void Coily::Initialize()
 
 void Coily::Move(ConnectionDirection direction)
 {
-	if (!m_pGameObject->HasComponent<CoilyCharacterController>() && !m_pCurrentQube->HasConnection(direction))
+	if (m_pController != nullptr && !m_pController->IsEnable() &&
+		!m_pCurrentQube->HasConnection(direction))
 	{
 		FallSound();
 		JumpToDeath(direction);
+		SwitchState(new FallingState(this, m_pJumper));
 		return;
 	}
 	
@@ -54,8 +57,12 @@ void Coily::Move(ConnectionDirection direction)
 	{
 		SetDirectionTextures(direction);
 	}
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
+
 	Enemy::Move(direction);
+	if (m_pController != nullptr && !m_pController->IsEnable())
+	{
+		SwitchState(new JumpingState(this, m_pJumper));
+	}
 }
 
 void Coily::FallSound() const
@@ -72,7 +79,7 @@ void Coily::MeetCharacter(Character* pOther)
 	}
 	else
 	{
-		if (pOther->GetType() == Type::player)
+		if (pOther->GetType() == CharacterType::player)
 		{
 			auto qbert = static_cast<QBert*>(pOther);
 			qbert->Swear();
@@ -83,7 +90,7 @@ void Coily::MeetCharacter(Character* pOther)
 
 void Coily::Die()
 {
-	if (m_pGameObject->GetComponent<CoilyCharacterController>()->IsEnable())
+	if (m_pController != nullptr && m_pController->IsEnable())
 	{
 		Enemy::Die();
 	}

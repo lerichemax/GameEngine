@@ -16,6 +16,8 @@
 
 
 #include "CoilyManager.h"
+#include "ColoredDisk.h"
+#include "Pyramid.h"
 #include "WrongWayManager.h"
 #include "SlickSamManager.h"
 
@@ -45,9 +47,9 @@ void GameManager::Notify(empire::GameObject* object, int event)
 			
 		UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
 
-		m_pCManager->Reset();
-		m_pWWManager->Reset();
-		m_pSSManager->Reset();
+		if (m_pCManager !=nullptr) m_pCManager->Reset();
+		if (m_pWWManager != nullptr) m_pWWManager->Reset();
+		if (m_pSSManager != nullptr) m_pSSManager->Reset();
 			
 		pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
 		pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
@@ -79,20 +81,24 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		break;
 	}
 	case GameEvent::JumpOnDisk:
-		m_pCManager->SetIdle(true);
+		if (m_pCManager != nullptr) m_pCManager->SetIdle(true);
 		
 		break;
 	case GameEvent::JumpOffDisk:
-		m_pCManager->SetIdle(false);
+		if (m_pCManager != nullptr) m_pCManager->SetIdle(false);
 		break;
 	case GameEvent::CoilyDies:
-		m_pCManager->EnemyDied(object->GetComponent<Coily>());
+		if (m_pCManager != nullptr) m_pCManager->EnemyDied(object->GetComponent<Coily>());
 		break;
 	case GameEvent::SlickSamDies:
-		m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
+		if (m_pSSManager != nullptr) m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
 		break;
 	case GameEvent::WrongWayDies:
-		m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
+		if (m_pWWManager != nullptr) m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
+		break;
+	case GameEvent::PyramidCompleted:
+		auto pPyramid = object->GetComponent<Pyramid>();
+		pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * ColoredDisk::GetPoints());
 		break;
 	}
 }

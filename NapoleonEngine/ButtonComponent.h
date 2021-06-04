@@ -11,7 +11,7 @@ namespace empire
 	public:
 		
 		ButtonComponent(float width, float height);
-		ButtonComponent* Clone() { return new ButtonComponent(*this); }
+		ButtonComponent* Clone() const override { return new ButtonComponent(*this); }
 		ButtonComponent(ButtonComponent&& other) = delete;
 		ButtonComponent& operator=(ButtonComponent const& rhs) = delete;
 		ButtonComponent& operator=(ButtonComponent&& rhs) = delete;

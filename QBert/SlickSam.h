@@ -6,7 +6,7 @@ class SlickSam final : public Enemy
 {
 public:
 	SlickSam();
-	SlickSam* Clone() override { return new SlickSam(*this); }
+	SlickSam* Clone() const override { return new SlickSam(*this); }
 	~SlickSam() override;
 	
 	void Die() override;

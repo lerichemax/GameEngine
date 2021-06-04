@@ -8,7 +8,7 @@ class Coily final : public Enemy
 {
 public:
 	Coily(unsigned int fallSoundId);
-	Coily* Clone() override { return new Coily(*this); }
+	Coily* Clone() const override { return new Coily(*this); }
 	Coily(Coily&& other) = delete;
 	Coily& operator=(Coily const& rhs) = delete;
 	Coily& operator=(Coily&& rhs) = delete;
@@ -19,8 +19,6 @@ public:
 	void Die() override;
 	
 	void Transform(bool isTransformed);
-	
-	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	
 	bool IsTransformed() const { return m_bIsTransformed; }
 	void FallSound() const;

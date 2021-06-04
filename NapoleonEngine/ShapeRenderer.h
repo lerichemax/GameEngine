@@ -8,7 +8,7 @@ namespace empire
 	{
 	public:
 		ShapeRenderer(Shape* pShape);
-		ShapeRenderer* Clone() { return new ShapeRenderer(*this); }
+		ShapeRenderer* Clone() const override { return new ShapeRenderer(*this); }
 
 		ShapeRenderer(ShapeRenderer&& other) = delete;
 		ShapeRenderer& operator=(ShapeRenderer const& rhs) = delete;

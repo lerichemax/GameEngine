@@ -19,7 +19,7 @@ namespace empire
 	public:
 		ColliderComponent(Type type);
 		virtual ~ColliderComponent();
-		virtual ColliderComponent* Clone() override = 0;
+		virtual ColliderComponent* Clone() const override = 0;
 		
 
 		void Initialize() override;

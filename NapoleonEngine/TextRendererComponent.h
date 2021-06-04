@@ -12,7 +12,7 @@ namespace empire
 	public:
 		TextRendererComponent(std::string const& text, Font* const pFont);
 
-		TextRendererComponent* Clone() override { return new TextRendererComponent(*this); }
+		TextRendererComponent* Clone() const override { return new TextRendererComponent(*this); }
 		
 		TextRendererComponent(TextRendererComponent&& other) = delete;
 		TextRendererComponent& operator=(TextRendererComponent const& rhs) = delete;

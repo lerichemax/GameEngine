@@ -37,37 +37,6 @@ void CoilyCharacterController::Initialize()
 	m_pCoilyCharacter = static_cast<Coily*>(m_pEnemyCharacter);
 }
 
-void CoilyCharacterController::Update()
-{
-	if (!m_pCoilyCharacter->IsTransformed())
-	{
-		EnemyCharacterController::Update();
-		if (m_pCoilyCharacter->GetCurrentQube()->IsLastRow() && m_pCoilyCharacter->GetState() == State::onQube)
-		{
-			m_pCoilyCharacter->Transform(true);
-			FindQBert();
-		}
-	}
-	else if (!m_bIsIdle)
-	{
-		if (m_pEnemyCharacter->GetState() == State::onQube)
-		{
-			
-			if (m_MoveTimer < MOVE_MAX_TIME)
-			{
-				m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
-				return;
-			}
-
-			if (m_CurrentlyInQueue != 0)
-			{
-				Move(ChooseDirection());
-				m_MoveTimer = 0;
-			}
-		}
-	}
-}
-
 void CoilyCharacterController::SetIdle(bool isIdle)
 {
 	m_bIsIdle = isIdle;

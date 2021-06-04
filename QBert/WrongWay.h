@@ -6,7 +6,7 @@ class WrongWay final : public Enemy
 public:
 	WrongWay(bool escheresqueRight);
 
-	WrongWay* Clone() override { return new WrongWay(*this); }
+	WrongWay* Clone() const override { return new WrongWay(*this); }
 
 	void Initialize() override;
 	void Move(ConnectionDirection direction) override;

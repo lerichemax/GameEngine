@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include "VersusScene.h"
 
-
 #include "ButtonComponent.h"
 #include "Pyramid.h"
 #include "CharacterLives.h"
@@ -38,68 +37,44 @@ void VersusScene::Initialize()
 	AddObject(pPrefabManager.Instantiate("FPSCounter"));
 
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
-	
-	auto const pointsP1 = new GameObject{};
-	pointsP1->GetTransform()->Translate(20.f, 60.f);
-	pointsP1->AddComponent(new TextRendererComponent{ "P1: 0 ", font });
-	pointsP1->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
+
+	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
 	m_pTextP1 = pointsP1->GetComponent<TextRendererComponent>();
+	m_pTextP1->SetText("P1: 0");
 	AddObject(pointsP1);
-	
-	auto const pointsP2 = new GameObject{};
-	pointsP2->GetTransform()->Translate(20.f, 80.f);
-	pointsP2->AddComponent(new TextRendererComponent{ "P2: 0 ", font });
-	pointsP2->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 255);
+
+	auto const pointsP2 = pPrefabManager.Instantiate("PointsUI");
 	m_pTextP2 = pointsP2->GetComponent<TextRendererComponent>();
+	m_pTextP2->SetText("P2: 0 ");
+	m_pTextP2->SetTextColor(255, 0, 255);
+	pointsP2->GetTransform()->Translate(20.f, 80.f);
 	AddObject(pointsP2);
 
 	//Pause Menu
-	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
 	m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
 	AddObject(m_pPauseMenu);
 
-	auto btnObj = new GameObject{};
-	auto textComp = new TextRendererComponent{ "Resume", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	auto btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new PauseGameCommand{ this, m_pPauseMenu });
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	m_pPauseMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
+	auto pBtnObject = m_pPauseMenu->FindTagInChildren("ResumeBtn");
+	auto pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	auto pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new PauseGameCommand{ this, m_pPauseMenu });
 
-	//Back to main btn
-	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	btnObj->SetTag("BackToMainBtn", false);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-	m_pPauseMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
+	pBtnObject = m_pPauseMenu->FindTagInChildren("BackToMainBtn");
+	pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
-	//Quit Btn
-	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new QuitGameCommand{});
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	btnObj->SetTag("QuitBtn", false);
-	m_pPauseMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	pBtnObject = m_pPauseMenu->FindTagInChildren("QuitBtn");
+	pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new QuitGameCommand{  });
+
 	m_pPauseMenu->SetActive(false);
 
 	auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
@@ -124,59 +99,39 @@ void VersusScene::Initialize()
 
 	auto coilyObj = pPrefabManager.Instantiate("Coily");
 	m_pCoilyPlayer = coilyObj->GetComponent<Coily>();
-	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+	
 	coilyObj->AddComponent(new CharacterPoint{});
 	coilyObj->AddComponent(new CharacterLives{ 3 });
 	coilyObj->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 	AddObject(coilyObj);
+	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 
 	//game over menu
 	m_pGameOverMenu = pPrefabManager.Instantiate("GameOverMenu");
 	AddObject(m_pGameOverMenu);
 
 	//Replay
-	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Replay", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new ReloadSceneCommand{ this });
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	m_pGameOverMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
-
-	//Back to main btn
-	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	btnObj->SetTag("BackToMainBtn", false);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-	m_pGameOverMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
-
-	//Quit Btn
-	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	btn = new ButtonComponent{ 150, 50 };
-	btn->SetVisualize(true);
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, textComp });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, textComp });
-	btn->SetOnClickFunction(new QuitGameCommand{});
-	btnObj->AddComponent(textComp);
-	btnObj->AddComponent(btn);
-	btnObj->SetTag("QuitBtn", false);
-	m_pGameOverMenu->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
+	pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
+	//Back to main
+	pBtnObject = m_pGameOverMenu->FindTagInChildren("BackToMainBtn");
+	pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	//quit
+	pBtnObject = m_pGameOverMenu->FindTagInChildren("QuitBtn");
+	pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new QuitGameCommand{  });
 	m_pGameOverMenu->SetActive(false);
 
 	auto pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,

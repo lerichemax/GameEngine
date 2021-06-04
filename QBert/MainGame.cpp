@@ -118,7 +118,7 @@ void MainGame::CreatePrefabs() const
 	auto coilyPrefab = new GameObject{};
 	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
-	coilyPrefab->AddComponent(new Coily{fallsoundId});
+	coilyPrefab->AddComponent(new Coily{snakeFallId});
 	coilyPrefab->AddComponent(new CoilyCharacterController{});
 	coilyPrefab->AddComponent(new Jumper{});
 	coilyPrefab->GetTransform()->Scale(1.5f);
@@ -143,6 +143,7 @@ void MainGame::CreatePrefabs() const
 
 	//Pause Menu
 	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
+	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
 	auto menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
 		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 127}, true} });
@@ -153,9 +154,43 @@ void MainGame::CreatePrefabs() const
 	textObject->AddComponent(textComp);
 	menuObj->AddChild(textObject);
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
-	pPrefabManager.AddPrefab("PauseMenu", menuObj);
-	//Game over menu (opaque)
+
+	auto btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Resume", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	auto btn = new ButtonComponent{ 110, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->SetTag("ResumeBtn",false);
+
+	//Back to main btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 260, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->SetTag("BackToMainBtn", false);
 	
+	//Quit Btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 65, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->SetTag("QuitBtn", false);
+	
+	pPrefabManager.AddPrefab("PauseMenu", menuObj);
+	
+	
+	//Game over menu (opaque)
 	menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
 		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 255}, true} });
@@ -167,8 +202,39 @@ void MainGame::CreatePrefabs() const
 	menuObj->AddChild(textObject);
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Replay", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 100, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->SetTag("ReplayBtn", false);
+
+	//Back to main btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 260, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("BackToMainBtn", false);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+	
+	//Quit Btn
+	btnObj = new GameObject{};
+	textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	textComp->ChangeLayer(Layer::uiMenuFg);
+	btn = new ButtonComponent{ 65, 30 };
+	btnObj->AddComponent(textComp);
+	btnObj->AddComponent(btn);
+	btnObj->SetTag("QuitBtn", false);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	
 	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
 
-	
 	delete json;
 }
