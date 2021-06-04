@@ -9,6 +9,7 @@
 #include "TextRendererComponent.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
+#include "CameraComponent.h"
 
 using namespace empire;
 MainMenuScene::MainMenuScene()
@@ -101,6 +102,13 @@ void MainMenuScene::Initialize()
 
 	quitBtn->GetTransform()->Translate(400, 350);
 	AddObject(quitBtn);
+	
+	auto camObj = new GameObject{};
+	auto camComp = new CameraComponent{};
+	camObj->AddComponent(camComp);
+	camObj->GetTransform()->Translate(450, 300);
+	SetCameraActive(camComp);
+	AddObject(camObj);
 }
 
 void MainMenuScene::CustomOnActivate()

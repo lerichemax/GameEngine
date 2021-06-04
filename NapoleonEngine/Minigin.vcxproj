@@ -231,6 +231,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="allocators.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="ButtonComponent.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
@@ -243,6 +244,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="filereadstream.h" />
     <ClInclude Include="filewritestream.h" />
     <ClInclude Include="fwd.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="istreamwrapper.h" />
     <ClInclude Include="JsonReaderWriter.h" />
     <ClInclude Include="memorybuffer.h" />
@@ -333,6 +335,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Command.cpp" />

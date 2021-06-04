@@ -45,24 +45,7 @@ void TransformComponent::Update()
 		m_WorldScale = m_Scale;
 	}
 
-	auto identityMatrix = glm::mat3(1.0f);
-	
-	glm::mat3x3 trans{};
-	glm::mat3x3 rot{};
-	glm::mat3x3 scale{};
-
-	trans = glm::translate(identityMatrix, m_WorldPosition);
-	
-#ifdef GLM_FORCE_RADIANS
-	rot = glm::rotate(identityMatrix, glm::radians(m_WorldRotation));
-#else
-	rot = glm::rotate(identityMatrix, m_WorldRotation);
-#endif
-
-	scale = glm::scale(identityMatrix, m_WorldScale);
-
-	m_World = trans * rot * scale;
-	
+	m_World = BuildTransformMatrix(m_WorldPosition, m_WorldRotation, m_WorldScale);
 }
 
 void TransformComponent::Translate(const float x, const float y)

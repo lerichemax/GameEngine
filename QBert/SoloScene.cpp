@@ -12,12 +12,11 @@
 #include "CoilyManager.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
-#include "RendererComponent.h"
+#include "CameraComponent.h"
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
-#include "ButtonsAcessor.h"
 #include "CharacterLives.h"
 
 #include "JsonReaderWriter.h"
@@ -138,6 +137,13 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSS
 	pWWm->SetGameManager(pGameManager);
 	pSSm->SetGameManager(pGameManager);
 	pCm->SetGameManager(pGameManager);
+
+	auto camObj = new GameObject{};
+	auto camComp = new CameraComponent{};
+	camObj->AddComponent(camComp);
+	camObj->GetTransform()->Translate(450, 300);
+	SetCameraActive(camComp);
+	AddObject(camObj);
 }
 
 void SoloScene::ResetScene(Level newLevel)

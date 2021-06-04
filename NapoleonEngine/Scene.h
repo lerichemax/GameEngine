@@ -8,6 +8,7 @@ namespace empire
 	class SceneRenderer;
 	class RendererComponent;
 	class GameObject;
+	class CameraComponent;
 	class Scene
 	{
 		friend class SceneManager;
@@ -26,8 +27,9 @@ namespace empire
 		bool IsActive() const { return m_bIsActive; }
 		void AddToGroup(RendererComponent* pRenderer, Layer layer);
 		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
-
+		void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
 		std::string GetName()const { return m_Name; }
+	
 	protected:
 		virtual void CustomOnActivate(){}
 	
@@ -44,12 +46,14 @@ namespace empire
 		std::vector<ColliderComponent*> m_pColliders;
 		
 		SceneRenderer* m_pSceneRenderer;
+		CameraComponent* m_pActiveCamera;
 		
 		bool m_bIsActive;
 		bool m_bIsInitialized;
 
 		virtual void Initialize() = 0;
 		virtual void DeclareInput() = 0;
+		
 		void OnActivate();
 		void Refresh();
 		void CleanUpScene();

@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+
+#include "CameraComponent.h"
 #include "Timer.h"
 
 using namespace empire;
@@ -52,7 +54,6 @@ void Scene::OnActivate()
 	CustomOnActivate();
 }
 
-
 void Scene::Update()
 {
 	for(auto& object : m_pObjects)
@@ -69,7 +70,16 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	m_pSceneRenderer->Render();
+	if (m_pActiveCamera == nullptr)
+	{
+		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
+	}
+	glPushMatrix();
+	{
+		m_pActiveCamera->Transform();
+		m_pSceneRenderer->Render();
+	}
+	glPopMatrix();
 }
 
 void Scene::Refresh()

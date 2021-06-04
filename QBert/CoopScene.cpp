@@ -4,14 +4,12 @@
 
 
 #include "ButtonComponent.h"
-#include "ButtonsAcessor.h"
 #include "CharacterLives.h"
 #include "InputManager.h"
 #include "MoveCommand.h"
 #include "Pyramid.h"
 #include "PrefabsManager.h"
 #include "QBert.h"
-#include "ResourceManager.h"
 #include "TextRendererComponent.h"
 #include "EnemyManager.h"
 #include "CoilyManager.h"
@@ -24,6 +22,7 @@
 #include "ReloadSceneCommand.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
+#include "CameraComponent.h"
 
 using namespace empire;
 CoopScene::CoopScene() : QBertScene("CoopScene")
@@ -152,6 +151,13 @@ void CoopScene::Initialize()
 	
 	qbert1->AddObserver(pGameManager);
 	qbert2->AddObserver(pGameManager);
+
+	auto camObj = new GameObject{};
+	auto camComp = new CameraComponent{};
+	camObj->AddComponent(camComp);
+	camObj->GetTransform()->Translate(450, 300);
+	SetCameraActive(camComp);
+	AddObject(camObj);
 }
 
 void CoopScene::ResetScene(Level newLevel)

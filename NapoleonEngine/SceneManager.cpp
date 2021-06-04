@@ -47,6 +47,7 @@ void empire::SceneManager::Render()
 	{
 		Debugger::GetInstance().LogError("SceneManager::Render - > no scene active");
 	}
+	
 	m_pActiveScene->Render();
 }
 

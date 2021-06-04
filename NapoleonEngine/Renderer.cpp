@@ -41,25 +41,10 @@ void empire::Renderer::Render()
 {
 	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
-	
-	//ImGui_ImplOpenGL2_NewFrame();
-	//ImGui_ImplSDL2_NewFrame(m_pWindow);
-	//ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
 
 	Debugger::GetInstance().Render();
-	//ImGui::Begin("Viewport");
-	//
-	//ImGui::End();
-	//
-	//ImGui::Begin("Test");
-	//ImGui::Button("Single Player");
-	//ImGui::Button("Co-op");
-	//ImGui::Button("Versus");
-	//ImGui::End();
-	//ImGui::Render();
-	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_RenderPresent(m_pRenderer);
 }

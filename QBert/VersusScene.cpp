@@ -14,6 +14,7 @@
 #include "PauseGameCommand.h"
 #include "QBert.h"
 #include "VersusGameManager.h"
+#include "CameraComponent.h"
 
 #include "TextRendererComponent.h"
 #include "PrefabsManager.h"
@@ -35,8 +36,6 @@ void VersusScene::Initialize()
 	auto const& pPrefabManager = PrefabsManager::GetInstance();
 	
 	AddObject(pPrefabManager.Instantiate("FPSCounter"));
-
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
 	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
 	m_pTextP1 = pointsP1->GetComponent<TextRendererComponent>();
@@ -143,8 +142,12 @@ void VersusScene::Initialize()
 	coilyObj->AddObserver(pGameManager);
 	pyramid->AddObserver(pGameManager);
 
-	
-
+	auto camObj = new GameObject{};
+	auto camComp = new CameraComponent{};
+	camObj->AddComponent(camComp);
+	camObj->GetTransform()->Translate(450, 300);
+	SetCameraActive(camComp);
+	AddObject(camObj);
 }
 
 void VersusScene::ResetGame()

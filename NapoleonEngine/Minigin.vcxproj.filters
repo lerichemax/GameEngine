@@ -225,6 +225,12 @@
     <ClInclude Include="SoundServiceLocator.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -345,6 +351,9 @@
     </ClCompile>
     <ClCompile Include="SoundServiceLocator.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
