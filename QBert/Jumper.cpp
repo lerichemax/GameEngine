@@ -6,7 +6,13 @@
 #include "Timer.h"
 
 Jumper::Jumper()
-	:JUMP_MAX_HEIGHT{ 17.f }
+	:JUMP_MAX_HEIGHT{ 17.f },
+	m_bJumpDown(false),
+	m_bIsJumping(false),
+	m_bIsDead(false),
+	m_FallTime(0.f),
+	m_TargetPos(),
+	m_Halfway()
 {
 	
 }

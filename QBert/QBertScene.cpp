@@ -15,7 +15,10 @@ QBertScene::QBertScene(std::string const& name, Level startLevel)
 	m_Level(startLevel),
 	m_pQbert(nullptr),
 	m_pPyramid(nullptr),
-	m_pEnemyManagers()
+	m_pPauseMenu(nullptr),
+	m_pGameOverMenu(nullptr),
+	m_pEnemyManagers(),
+	m_bIsPaused(false)
 {
 }
 

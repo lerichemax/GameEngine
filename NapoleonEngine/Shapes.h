@@ -30,7 +30,7 @@ namespace empire
 
 		virtual void Draw(SDL_Renderer* pRenderer) const  = 0;
 
-		Shape(Color const& col = Color{1,1,1})
+		explicit Shape(Color const& col = Color{1,1,1})
 			: color{ col } {}
 
 		virtual Shape* Clone() const = 0;
@@ -43,7 +43,7 @@ namespace empire
 	{
 		glm::vec2 pos;
 
-		Point(glm::vec2 const& pos, Color const& col);
+		explicit Point(glm::vec2 const& pos, Color const& col);
 		Point* Clone() const override { return new Point(*this); }
 
 		~Point() = default;
@@ -59,9 +59,9 @@ namespace empire
 		unsigned int height;
 		bool isFilled;
 		
-		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled = false);
-		Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled = false);
-		Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled = false);
+		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled = false);
+		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled = false);
+		explicit Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled = false);
 
 		Rectangle* Clone() const override { return new Rectangle(*this); }
 
@@ -79,7 +79,7 @@ namespace empire
 		glm::vec2 startPos;
 		glm::vec2 endPos;
 
-		Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col);
+		explicit Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col);
 		
 		Line* Clone() const override { return new Line(*this); }
 
@@ -94,7 +94,7 @@ namespace empire
 		glm::vec2 center;
 		unsigned int radius;
 
-		Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
+		explicit Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
 		Circle* Clone() const override { return new Circle(*this); }
 
 		

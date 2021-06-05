@@ -4,7 +4,7 @@
 class Enemy : public Character
 {
 public:
-	Enemy(int pointsForKill, CharacterType type);
+	explicit Enemy(int pointsForKill, CharacterType type);
 	 ~Enemy() override  = default;
 
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }

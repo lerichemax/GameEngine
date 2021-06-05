@@ -10,7 +10,7 @@ namespace empire
 	class TextRendererComponent final : public RendererComponent
 	{
 	public:
-		TextRendererComponent(std::string const& text, Font* const pFont);
+		explicit TextRendererComponent(std::string const& text, Font* const pFont);
 
 		TextRendererComponent* Clone() const override { return new TextRendererComponent(*this); }
 		

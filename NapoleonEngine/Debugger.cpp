@@ -7,7 +7,11 @@ using namespace empire;
 
 Debugger::Debugger()
 	: Singleton(),
-	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE))
+	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE)),
+	m_DebugLines(),
+	m_DebugRectangles(),
+	m_DebugCircles(),
+	m_DebugPoints()
 {
 	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }

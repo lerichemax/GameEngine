@@ -4,7 +4,7 @@
 class CoilyManager final : public EnemyManager
 {
 public:
-	CoilyManager(int maxNbr, float spawnInterval);
+	explicit CoilyManager(int maxNbr, float spawnInterval);
 	CoilyManager* Clone() const override { return new CoilyManager(*this); }
 
 	CoilyManager(CoilyManager&& other) = delete;

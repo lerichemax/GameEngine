@@ -27,7 +27,7 @@ class QBert;
 class Qube final : public Component
 {
 public:
-	Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
+	explicit Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
 	Qube* Clone() const override { return new Qube{*this}; }
 	
 	
@@ -73,8 +73,8 @@ public:
 	void CharacterJumpOut();
 
 private:
-	int static const MAX_NBR_CONNECTION = 4;
-	static int const POINTS_FOR_FLIP = 25;
+	int static const MAX_NBR_CONNECTION{ 4 };
+	static int const POINTS_FOR_FLIP{ 25 };
 	
 	QBertScene* m_pScene;
 	Pyramid* m_pPyramid;

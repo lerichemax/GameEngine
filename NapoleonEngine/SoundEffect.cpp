@@ -6,7 +6,10 @@ using namespace empire;
 ID SoundEffect::m_AutoIncrementId{};
 
 SoundEffect::SoundEffect(std::string const& path)
-	:m_pMixChunk{ Mix_LoadWAV(path.c_str()) }
+	:m_Id(),
+	m_pMixChunk{ Mix_LoadWAV(path.c_str()) },
+	m_Volume(),
+	m_SavedVolume()
 {
 	if (m_pMixChunk == nullptr)
 	{

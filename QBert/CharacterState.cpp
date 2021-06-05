@@ -2,8 +2,8 @@
 #include "CharacterState.h"
 
 CharacterState::CharacterState(Character* pChar, Jumper* pJumper, CharacterStateType type)
-	:m_pCharacter(pChar),
-	m_pJumperComp(pJumper),
+	:m_pJumperComp(pJumper),
+	m_pCharacter(pChar),
 	m_Type(type)
 {
 }

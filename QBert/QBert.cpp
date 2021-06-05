@@ -27,29 +27,29 @@ using namespace empire;
 
 QBert::QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId)
 	:Character(nullptr, CharacterType::player),
-	m_bCanMove(true),
-	m_bWillSleep(false),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
-	m_PlayerNbr(),
-	m_pHurtTex{nullptr},
+	m_pHurtTex{ nullptr },
 	m_JumpSoundID(jumpId),
 	m_FallSoundID(fallId),
-	m_SwearSoundID(swearId)
+	m_SwearSoundID(swearId),
+	m_PlayerNbr(),
+	m_bCanMove(true),
+	m_bWillSleep(false)	
 {
 }
 
 QBert::QBert(QBert const& other)
 	:Character(other),
-	m_bCanMove(other.m_bCanMove),
-	m_bWillSleep(other.m_bWillSleep),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
-	m_PlayerNbr(other.m_PlayerNbr),
-	m_pHurtTex(nullptr), // not copied, initialized in QBert::Initialize
+	m_pHurtTex(nullptr),
 	m_JumpSoundID(other.m_JumpSoundID),
 	m_FallSoundID(other.m_FallSoundID),
-	m_SwearSoundID(other.m_SwearSoundID)
+	m_SwearSoundID(other.m_SwearSoundID),
+	m_PlayerNbr(other.m_PlayerNbr),
+	m_bCanMove(other.m_bCanMove),
+	m_bWillSleep(other.m_bWillSleep)
 {
 }
 

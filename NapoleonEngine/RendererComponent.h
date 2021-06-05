@@ -22,7 +22,7 @@ namespace empire
 	class RendererComponent : public Component
 	{
 	public:
-		RendererComponent(Layer layer = Layer::background);
+		explicit RendererComponent(Layer layer = Layer::background);
 		RendererComponent(std::string const& filename, Layer layer = Layer::background);
 		RendererComponent(Texture2D* pText, Layer layer = Layer::background);
 

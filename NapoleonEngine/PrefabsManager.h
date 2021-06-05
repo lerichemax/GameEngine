@@ -2,7 +2,8 @@
 #include "Singleton.h"
 #include "GameObject.h"
 
-#include <map>
+#include <memory>
+
 namespace empire
 {
 	class PrefabsManager final : public Singleton<PrefabsManager>
@@ -22,9 +23,10 @@ namespace empire
 
 	private:
 		friend class Singleton<PrefabsManager>;
-		
-		PrefabsManager() : m_pPrefabs(){}
 
-		std::map<std::string, GameObject*> m_pPrefabs;
+		class PrefabsManagerImpl;
+		std::unique_ptr<PrefabsManagerImpl> m_pImpl;
+		
+		PrefabsManager();
 	};
 }

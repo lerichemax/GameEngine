@@ -9,6 +9,12 @@ class ColoredDisk final : public empire::Component
 public:
 	ColoredDisk();
 	ColoredDisk* Clone() const override { return new ColoredDisk(*this); }
+
+	ColoredDisk(ColoredDisk&& other) = delete;
+	ColoredDisk& operator=(ColoredDisk const& other) = delete;
+	ColoredDisk& operator=(ColoredDisk&& other) = delete;
+	~ColoredDisk() = default;
+	
 	void Update() override;
 
 	void ReceivePlayer(QBert* pQbert);
@@ -29,4 +35,6 @@ private:
 	float m_DropTimer;
 
 	void Initialize() override {}
+
+	ColoredDisk(ColoredDisk const& other);
 };

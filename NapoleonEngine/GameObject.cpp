@@ -10,24 +10,30 @@
 using namespace empire;
 
 GameObject::GameObject()
-	:m_pTransform(new TransformComponent(0.f, 0.f)),
-	m_bIsActive(true),
+	:m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_bIsInitialized(false),
+	m_pComponents(),
+	m_pTransform(new TransformComponent(0.f, 0.f)),
+	m_pChildren(),
+	m_pParent(nullptr),
 	m_pScene(nullptr),
-	m_pSubject(new Subject{})
+	m_pSubject(new Subject{}),
+	m_Tag()
 {
 	AddComponent(m_pTransform);
 }
 
 GameObject::GameObject(const GameObject& other)
-	:m_pTransform(nullptr),
-	m_bIsActive(true),
+	:m_bIsActive(true),
+	m_bIsDestroyed(false),
 	m_bIsInitialized(other.m_bIsInitialized),
+	m_pComponents(),
+	m_pTransform(nullptr),
+	m_pChildren(),
+	m_pParent(nullptr),
 	m_pScene(nullptr),
 	m_pSubject(new Subject{*other.m_pSubject}),
-	m_bIsDestroyed(false),
-	m_pParent(nullptr),
 	m_Tag(other.m_Tag)
 {
 	for (Component* pComp : other.m_pComponents)

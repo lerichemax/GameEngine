@@ -27,13 +27,13 @@ protected:
 	const float FALL_SPEED{ 500.f };
 	const float FALL_TIME{ 1.f };
 	
-	bool m_bJumpDown{false};
-	bool m_bIsJumping{false};
-	bool m_bIsDead{ false };
+	bool m_bJumpDown;
+	bool m_bIsJumping;
+	bool m_bIsDead;
 
-	float m_FallTime{};
+	float m_FallTime;
 	
-	glm::vec2 m_TargetPos{};
-	glm::vec2 m_Halfway{};
+	glm::vec2 m_TargetPos;
+	glm::vec2 m_Halfway;
 
 };

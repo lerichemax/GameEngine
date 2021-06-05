@@ -23,7 +23,7 @@ class CharacterState : public empire::State
 {
 public:
 
-	CharacterState(Character* pChar, Jumper* pJumper, CharacterStateType type);
+	explicit CharacterState(Character* pChar, Jumper* pJumper, CharacterStateType type);
 	virtual ~CharacterState() = default;
 	
 	

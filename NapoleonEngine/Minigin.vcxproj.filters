@@ -102,9 +102,6 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="FrameBuffer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="SoundInterface.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -297,9 +294,6 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="FrameBuffer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="SoundEffect.cpp">
       <Filter>Sound</Filter>
     </ClCompile>

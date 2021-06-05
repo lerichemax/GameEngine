@@ -19,7 +19,6 @@ namespace empire
 		unsigned int static const MAX_NBR_LAYERS{ 8 };
 
 		std::array<std::vector<RendererComponent*>, MAX_NBR_LAYERS> m_pLayersGroup;
-		
 	};
 }
 

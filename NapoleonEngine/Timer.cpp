@@ -8,10 +8,12 @@ using namespace std::chrono;
 
 Timer::Timer()
 	:Singleton<Timer>(),
-	m_DeltaTime(0.f),
+	m_LastTime(high_resolution_clock::now()),
 	m_Lag(0.f),
+	m_DeltaTime(0.f),
 	m_TimeScale(1.f),
-	m_LastTime(high_resolution_clock::now())
+	m_FPS(0)
+	
 {
 }
 

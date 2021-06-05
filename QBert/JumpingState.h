@@ -4,7 +4,7 @@
 class JumpingState final : public CharacterState
 {
 public:
-	JumpingState(Character* pChar, Jumper* pJumper);
+	explicit JumpingState(Character* pChar, Jumper* pJumper);
 	~JumpingState() = default;
 
 	void Enter() override;

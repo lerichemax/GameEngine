@@ -17,12 +17,12 @@ VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, 
 	:m_pRoundText(pRoundText),
 	m_pTextP1(pText1),
 	m_pTextP2(pText2),
-	m_NbrRounds(nbrRounds),
-	m_CurrentRound(1),
 	m_pP1(pP1),
 	m_pP2(pP2),
 	m_pPyramid(pPyramid),
-	m_pGameOver(pGameOver)
+	m_pGameOver(pGameOver),
+	m_NbrRounds(nbrRounds),
+	m_CurrentRound(1)
 {
 	
 }

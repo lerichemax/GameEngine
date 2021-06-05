@@ -17,7 +17,7 @@ namespace empire
 		Type m_Type;
 	
 	public:
-		ColliderComponent(Type type);
+		explicit ColliderComponent(Type type);
 		virtual ~ColliderComponent();
 		
 		typedef std::function<void(GameObject* pObject, GameObject* pOtherObject)> CollisionFunction;

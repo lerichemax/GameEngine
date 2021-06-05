@@ -25,7 +25,9 @@
 #include "CameraComponent.h"
 
 using namespace empire;
-CoopScene::CoopScene() : QBertScene("CoopScene")
+CoopScene::CoopScene()
+	: QBertScene("CoopScene"),
+	m_pQbertP2(nullptr)
 {
 	
 }

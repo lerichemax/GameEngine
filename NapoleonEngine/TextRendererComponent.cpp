@@ -10,8 +10,8 @@ using namespace empire;
 TextRendererComponent::TextRendererComponent(std::string const& text, Font* const pFont)
 	:RendererComponent{Layer::uiGame},
 	m_Text{text},
+	m_NeedsUpdate{ true },
 	m_pFont{pFont},
-	m_NeedsUpdate{true},
 	m_TextColor{255,255,255}
 {
 }
@@ -19,8 +19,8 @@ TextRendererComponent::TextRendererComponent(std::string const& text, Font* cons
 TextRendererComponent::TextRendererComponent(TextRendererComponent const& other)
 	:RendererComponent(other),
 	m_Text(other.m_Text),
-	m_pFont(other.m_pFont),
 	m_NeedsUpdate(other.m_NeedsUpdate),
+	m_pFont(other.m_pFont),
 	m_TextColor(other.m_TextColor)
 {
 	

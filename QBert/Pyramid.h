@@ -15,7 +15,7 @@ class Pyramid final : public Component
 {
 
 public:
-	Pyramid(unsigned int maxWidth);
+	explicit Pyramid(unsigned int maxWidth);
 	
 	Pyramid* Clone() const override { return new Pyramid(*this); } 
 	

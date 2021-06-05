@@ -6,7 +6,7 @@ class EnemyCharacterController;
 class EnemyOnQubeState : public OnQubeState
 {
 public:
-	EnemyOnQubeState(Character* pChar, Jumper* pJumper, EnemyCharacterController* m_pCharCont);
+	explicit EnemyOnQubeState(Character* pChar, Jumper* pJumper, EnemyCharacterController* m_pCharCont);
 	CharacterState* Update(empire::GameObject* pObject) override;
 
 private:

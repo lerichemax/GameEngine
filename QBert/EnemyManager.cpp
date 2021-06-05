@@ -6,9 +6,10 @@
 EnemyManager::EnemyManager(unsigned int maxNbr, float spawnInterval)
 	:MAX_ENEMY_OF_TYPE{ maxNbr },
 	SPAWN_INTERVAL(spawnInterval),
-	m_pPyramid(nullptr),
 	m_NbrEnemies(),
 	m_EnemySpawnTimer(),
+	m_pPyramid(nullptr),
+	m_pObserver(nullptr),
 	m_pEnemies()
 {
 }
@@ -19,6 +20,7 @@ EnemyManager::EnemyManager(EnemyManager const& other)
 	m_NbrEnemies(other.m_NbrEnemies),
 	m_EnemySpawnTimer(other.m_EnemySpawnTimer),
 	m_pPyramid(other.m_pPyramid),
+	m_pObserver(other.m_pObserver),
 	m_pEnemies()
 {
 	for (size_t i = 0; i < MAX_ENEMY_OF_TYPE; i++)
@@ -27,10 +29,6 @@ EnemyManager::EnemyManager(EnemyManager const& other)
 	}
 }
 
-EnemyManager::~EnemyManager()
-{
-
-}
 
 void EnemyManager::Initialize()
 {

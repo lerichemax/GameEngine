@@ -5,12 +5,13 @@
 #include "Scene.h"
 
 empire::ColliderComponent::ColliderComponent(Type type)
-	:m_bIsTrigger(false),
-	m_Type(type),
+	:m_Type(type),
+	m_pOverlappingColliders(),
 	m_OnTriggerEnter(nullptr),
 	m_OnTriggerStay(nullptr),
 	m_OnTriggerExit(nullptr),
-	m_OnCollision(nullptr)
+	m_OnCollision(nullptr),
+	m_bIsTrigger(false)
 {
 }
 

@@ -5,12 +5,10 @@ class Qube;
 class SlickSam final : public Enemy
 {
 public:
-	SlickSam();
+	explicit SlickSam();
 	SlickSam* Clone() const override { return new SlickSam(*this); }
 	~SlickSam() override;
 	
-	
-
 protected:
 	void MeetCharacter(Character* pOther) override;
 	void DoDie() override;

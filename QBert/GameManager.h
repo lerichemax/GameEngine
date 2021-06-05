@@ -37,6 +37,7 @@ public:
 	~GameManager() = default;
 	void Notify(empire::GameObject* object, int event) override;
 	void SetNbrPlayers(unsigned int nbr) { m_NbrPlayers = nbr; }
+
 private:
 	empire::TextRendererComponent* const m_pP1PointsCounter;
 	empire::TextRendererComponent* const m_P1LivesCounter;

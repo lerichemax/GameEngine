@@ -7,7 +7,7 @@ namespace empire
 	class JsonReaderWriter
 	{
 	public:
-		JsonReaderWriter(std::string const& filename);
+		explicit JsonReaderWriter(std::string const& filename);
 
 		int ReadInt(std::string const& attribute);
 		std::string ReadString(std::string const& attribute);

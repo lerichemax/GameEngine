@@ -11,6 +11,10 @@
 #include <vector>
 #include <map>
 
+
+#include "NapoleonEngine.h"
+#include "SceneManager.h"
+
 using namespace empire;
 
 class ResourceManager::ResourceManagerImpl final

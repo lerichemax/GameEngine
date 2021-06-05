@@ -7,7 +7,7 @@ namespace empire
 	class ShapeRenderer final : public RendererComponent
 	{
 	public:
-		ShapeRenderer(Shape* pShape);
+		explicit ShapeRenderer(Shape* pShape);
 		ShapeRenderer* Clone() const override { return new ShapeRenderer(*this); }
 
 		ShapeRenderer(ShapeRenderer&& other) = delete;

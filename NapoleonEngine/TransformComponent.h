@@ -19,7 +19,6 @@ namespace empire
 		TransformComponent& operator=(TransformComponent const& rhs);
 		TransformComponent& operator=(TransformComponent&& rhs) = delete;
 		~TransformComponent() = default;
-		
 
 		const glm::vec2& GetPosition() const { return m_Position; }
 		const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }

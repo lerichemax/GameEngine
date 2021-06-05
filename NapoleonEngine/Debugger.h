@@ -30,7 +30,7 @@ namespace empire
 
 		HANDLE m_ConsoleHandle;
 		
-		std::vector<Line> m_DebugLines{};
+		std::vector<Line> m_DebugLines;
 		std::vector<Rectangle> m_DebugRectangles;
 		std::vector<Circle> m_DebugCircles;
 		std::vector<Point> m_DebugPoints;

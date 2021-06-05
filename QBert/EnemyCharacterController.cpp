@@ -10,6 +10,7 @@
 
 EnemyCharacterController::EnemyCharacterController()
 	:Component(),
+	m_MoveTimer(0.f),
 	m_pEnemyCharacter(nullptr)
 {
 	

@@ -9,13 +9,13 @@ class GameManager;
 class EnemyManager : public empire::Component
 {
 public:
-	EnemyManager(unsigned int maxNbr, float spawnInterval);
+	explicit EnemyManager(unsigned int maxNbr, float spawnInterval);
 	virtual EnemyManager* Clone() const override = 0;
 
 	EnemyManager(EnemyManager&& other) = delete;
 	EnemyManager& operator=(EnemyManager const& rhs) = delete;
 	EnemyManager& operator=(EnemyManager&& rhs) = delete;
-	virtual ~EnemyManager();
+	virtual ~EnemyManager() = default;
 
 	void Initialize() override;
 	void Update() override;
@@ -27,7 +27,7 @@ public:
 	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	void SetGameManager(GameManager* pManager) { m_pObserver = pManager; }
 protected:
-	unsigned int const MAX_ENEMY_OF_TYPE{ 2 };
+	unsigned int const MAX_ENEMY_OF_TYPE;
 	float const SPAWN_INTERVAL;
 
 	unsigned int m_NbrEnemies;

@@ -41,7 +41,7 @@ namespace empire
 		void RemoveCollider(ColliderComponent* pCollider);
 		
 		std::string m_Name;
-		std::vector<GameObject*> m_pObjects{};
+		std::vector<GameObject*> m_pObjects;
 		std::vector<ColliderComponent*> m_pColliders;
 		
 		SceneRenderer* m_pSceneRenderer;

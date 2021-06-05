@@ -9,7 +9,7 @@ namespace empire
 	{
 		friend class SoundSystem;
 	public:
-		SoundEffect(std::string const& path);
+		explicit SoundEffect(std::string const& path);
 		SoundEffect(SoundEffect const& other) = delete;
 		SoundEffect(SoundEffect&& other) = delete;
 		SoundEffect& operator=(SoundEffect const& rhs) = delete;

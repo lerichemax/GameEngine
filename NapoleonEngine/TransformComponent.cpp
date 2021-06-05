@@ -7,9 +7,12 @@ using namespace empire;
 
 TransformComponent::TransformComponent()
 	:m_Position(),
-	m_WorldPosition(),
 	m_Scale(1, 1),
-	m_Rotation()
+	m_Rotation(),
+	m_World(),
+	m_WorldPosition(),
+	m_WorldScale(),
+	m_WorldRotation()
 {
 	
 }
@@ -17,9 +20,13 @@ TransformComponent::TransformComponent()
 
 TransformComponent::TransformComponent(float x, float y)
 	:m_Position{x,y},
-	m_WorldPosition(),
 	m_Scale(1, 1),
-	m_Rotation()
+	m_Rotation(),
+	m_World(),
+	m_WorldPosition(),
+	m_WorldScale(),
+	m_WorldRotation()
+	
 {
 }
 

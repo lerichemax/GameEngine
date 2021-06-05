@@ -7,6 +7,10 @@ namespace empire
 	{
 	public:
 		State() = default;
+		State(State const& other) = delete;
+		State(State&& other) = delete;
+		State& operator=(State const& rhs) = delete;
+		State& operator=(State&& rhs) = delete;
 		virtual ~State() = default;
 		
 		virtual State* Update(GameObject* pObject) = 0;

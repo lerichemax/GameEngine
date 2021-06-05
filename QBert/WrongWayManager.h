@@ -4,7 +4,7 @@
 class WrongWayManager final : public EnemyManager
 {
 public:
-	WrongWayManager(int maxNbr, float spawnInterval);
+	explicit WrongWayManager(int maxNbr, float spawnInterval);
 	WrongWayManager* Clone() const override { return new WrongWayManager(*this); }
 
 	WrongWayManager(WrongWayManager&& other) = delete;

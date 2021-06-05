@@ -4,7 +4,7 @@
 class OnQubeState : public CharacterState
 {
 public:
-	OnQubeState(Character* pChar, Jumper* pJumper);
+	explicit OnQubeState(Character* pChar, Jumper* pJumper);
 	~OnQubeState() = default;
 
 	void Enter() override;

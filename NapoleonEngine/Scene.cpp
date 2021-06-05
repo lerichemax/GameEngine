@@ -13,9 +13,10 @@ using namespace empire;
 
 Scene::Scene(const std::string& name)
 	: m_Name{name},
-	m_pSceneRenderer(new SceneRenderer{}),
 	m_pObjects(),
 	m_pColliders(),
+	m_pSceneRenderer(new SceneRenderer{}),
+	m_pActiveCamera(nullptr),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {

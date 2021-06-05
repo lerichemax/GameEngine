@@ -2,9 +2,7 @@
 #include <SDL_ttf.h>
 #include "Font.h"
 
-TTF_Font* empire::Font::GetFont() const {
-	return m_Font;
-}
+
 
 empire::Font::Font(const std::string& fullPath, unsigned int size)
 	: m_Font(nullptr),
@@ -21,4 +19,8 @@ empire::Font::Font(const std::string& fullPath, unsigned int size)
 empire::Font::~Font()
 {
 	TTF_CloseFont(m_Font);
+}
+
+TTF_Font* empire::Font::GetFont() const {
+	return m_Font;
 }

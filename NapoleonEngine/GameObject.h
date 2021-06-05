@@ -57,7 +57,6 @@ namespace empire
 		void SetTag(std::string const& tag, bool applyToChildren);
 		GameObject* FindTagInChildren(std::string const& tag);
 
-	
 	private:
 		friend class PrefabsManager;
 		friend class Scene;

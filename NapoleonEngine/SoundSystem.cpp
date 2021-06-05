@@ -8,9 +8,9 @@
 using namespace empire;
 
 SoundSystem::SoundSystem(bool isMuted)
-	:m_pSounds(),
+	:m_Pending{},
 	m_NbrPending(),
-	m_Pending{}
+	m_pSounds()
 {
 	m_bIsMuted = isMuted;
 }

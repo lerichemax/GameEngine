@@ -9,9 +9,8 @@ namespace empire
 	class Font
 	{
 	public:
-		_TTF_Font* GetFont() const;
+		
 		explicit Font(const std::string& fullPath, unsigned int size);
-		explicit Font();
 		~Font();
 
 		Font(const Font &) = delete;
@@ -19,6 +18,7 @@ namespace empire
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
 
+		_TTF_Font* GetFont() const;
 		std::string GetFilePath() const { return m_FilePath; }
 		unsigned int GetSize() const { return m_Size; }
 	private:

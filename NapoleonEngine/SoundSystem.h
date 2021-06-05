@@ -18,7 +18,7 @@ namespace empire
 	class SoundSystem : public SoundInterface
 	{
 	public:
-		SoundSystem(bool isMuted = false);
+		explicit SoundSystem(bool isMuted = false);
 		SoundSystem(SoundSystem const& other) = delete;
 		SoundSystem(SoundSystem&& other) = delete;
 		SoundSystem& operator=(SoundSystem const& rhs) = delete;

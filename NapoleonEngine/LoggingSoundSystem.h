@@ -6,7 +6,7 @@ namespace empire
 	class LoggingSoundSystem final : public SoundInterface
 	{
 	public:
-		LoggingSoundSystem(SoundInterface* pRealSS, bool isMuted = false);
+		explicit LoggingSoundSystem(SoundInterface* pRealSS, bool isMuted = false);
 		LoggingSoundSystem(LoggingSoundSystem const& other) = delete;
 		LoggingSoundSystem(LoggingSoundSystem&& other) = delete;
 		LoggingSoundSystem& operator=(LoggingSoundSystem const& rhs) = delete;

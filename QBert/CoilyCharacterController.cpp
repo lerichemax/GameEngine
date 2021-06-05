@@ -11,19 +11,24 @@
 #include "Timer.h"
 #include "GameObject.h"
 
-CoilyCharacterController::CoilyCharacterController() : EnemyCharacterController()
+CoilyCharacterController::CoilyCharacterController()
+	: EnemyCharacterController(),
+	m_MovementQueue{},
+	m_CurrentlyInQueue(0),
+	m_pCoilyCharacter(nullptr),
+	m_pPyramid(nullptr),
+	m_bIsIdle(false)
 {
 	
 }
 
 CoilyCharacterController::CoilyCharacterController(CoilyCharacterController const& other)
 	:EnemyCharacterController(other),
-	m_pPyramid(other.m_pPyramid),
 	m_MovementQueue{},
+	m_CurrentlyInQueue(other.m_CurrentlyInQueue),
 	m_pCoilyCharacter(other.m_pCoilyCharacter),
-	m_bIsIdle(other.m_bIsIdle),
-	m_CurrentlyInQueue(other.m_CurrentlyInQueue)
-	
+	m_pPyramid(other.m_pPyramid),
+	m_bIsIdle(other.m_bIsIdle)
 {
 	for (unsigned int i{}; i< MOVEMENT_QUEUE_SIZE; i++)
 	{

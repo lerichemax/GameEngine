@@ -27,7 +27,12 @@
 
 using namespace empire;
 
-VersusScene::VersusScene() : QBertScene("VersusScene")
+VersusScene::VersusScene() 
+	:QBertScene("VersusScene"),
+	m_pCoilyPlayer(nullptr),
+	m_pRoundText(nullptr),
+	m_pTextP1(nullptr),
+	m_pTextP2(nullptr)
 {
 }
 

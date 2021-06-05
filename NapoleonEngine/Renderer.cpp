@@ -18,6 +18,7 @@ SDL_Renderer* Renderer::m_pRenderer{};
 
 Renderer::Renderer()
 	: Singleton<Renderer>(),
+	m_pWindow(nullptr),
 	m_BackgroundColor(0, 0, 0, 0)
 {
 	

@@ -6,7 +6,7 @@ class CharacterPoint;
 class QBert final : public Character
 {
 public:
-	QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId);
+	explicit QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId);
 	
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;

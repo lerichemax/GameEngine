@@ -23,7 +23,7 @@ enum class CharacterStateType;
 class Character : public empire::Component
 {
 public:
-	Character(Qube* pStart, CharacterType type);
+	explicit Character(Qube* pStart, CharacterType type);
 	Character(Character&& other) = delete;
 	Character& operator=(Character const& rhs) = delete;
 	Character& operator=(Character&& rhs) = delete;

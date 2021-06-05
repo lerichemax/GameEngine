@@ -4,7 +4,7 @@
 class WrongWay final : public Enemy
 {
 public:
-	WrongWay(bool escheresqueRight);
+	explicit WrongWay(bool escheresqueRight);
 
 	WrongWay* Clone() const override { return new WrongWay(*this); }
 

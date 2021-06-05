@@ -19,7 +19,8 @@ Pyramid::Pyramid(unsigned int maxWidth)
 	:MAX_WIDTH(maxWidth),
 	m_NbrDisksSpawned(),
 	m_DiskSpawnTimer(),
-	m_pQubes()
+	m_pQubes(),
+	m_pQBert(nullptr)
 {
 }
 
@@ -27,7 +28,8 @@ Pyramid::Pyramid(Pyramid const& other)
 	:MAX_WIDTH(other.MAX_WIDTH),
 	m_NbrDisksSpawned(other.m_NbrDisksSpawned),
 	m_DiskSpawnTimer(other.m_DiskSpawnTimer),
-	m_pQubes()
+	m_pQubes(),
+	m_pQBert(other.m_pQBert)
 {
 	for (size_t i{}; i < other.m_pQubes.size(); ++i)
 	{

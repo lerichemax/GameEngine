@@ -16,6 +16,16 @@ ColoredDisk::ColoredDisk()
 {
 }
 
+ColoredDisk::ColoredDisk(ColoredDisk const& other)
+	:m_pPyramidTop(other.m_pPyramidTop),
+	m_pQbert(other.m_pQbert),
+	m_bHasQbert(other.m_bHasQbert),
+	m_bHasReachedTop(other.m_bHasReachedTop),
+	m_DropTimer(other.m_DropTimer)
+{
+	
+}
+
 void ColoredDisk::Update()
 {
 	if (m_bHasQbert)

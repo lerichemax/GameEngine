@@ -15,7 +15,9 @@ SDL_Texture* empire::Texture2D::GetSDLTexture() const
 }
 
 empire::Texture2D::Texture2D(SDL_Texture* texture)
-	:m_pTexture(texture)
+	:m_pTexture(texture),
+	m_Width(),
+	m_Height()
 {
 	int width{};
 	int height{};

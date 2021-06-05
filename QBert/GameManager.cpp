@@ -23,17 +23,18 @@
 
 GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points,
                          empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives,
-                         CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers)
+                         CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, 
+						unsigned int nbrPlayers)
 	:m_pP1PointsCounter(pP1Points),
 	m_P1LivesCounter(pP1Lives),
 	m_pP2PointsCounter(pP2Points),
 	m_P2LivesCounter(pP2Lives),
 	m_pCManager(pCm),
-	m_pWWManager(pWWm),
 	m_pSSManager(pSSm),
+	m_pWWManager(pWWm),
+	m_pGameOver(pGameOver),
 	m_NbrPlayers(nbrPlayers),
-	m_NbrDeadPlayers(),
-	m_pGameOver(pGameOver)
+	m_NbrDeadPlayers()
 {
 }
 

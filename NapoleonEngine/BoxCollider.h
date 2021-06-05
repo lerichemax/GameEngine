@@ -8,7 +8,7 @@ namespace empire
 	class BoxCollider final : public ColliderComponent
 	{
 	public:
-		BoxCollider(unsigned int width, unsigned int height);
+		explicit BoxCollider(unsigned int width, unsigned int height);
 
 		BoxCollider(BoxCollider&& other) = delete;
 		BoxCollider& operator=(BoxCollider const& rhs) = delete;

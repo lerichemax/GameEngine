@@ -8,7 +8,6 @@ namespace empire
 	{
 	public:
 		FPSCounter() = default;
-		~FPSCounter() = default;
 
 	protected:
 		FPSCounter* Clone() const override { return new FPSCounter(*this); }

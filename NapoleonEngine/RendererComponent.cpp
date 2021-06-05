@@ -8,26 +8,30 @@
 using namespace empire;
 RendererComponent::RendererComponent(Layer layer)
 	:m_pTexture(nullptr),
-	m_Layer(layer)
+	m_Layer(layer),
+	m_pSceneRenderer(nullptr)
 {
 	
 }
 
 RendererComponent::RendererComponent(std::string const& filename, Layer layer)
 	:m_pTexture(ResourceManager::GetInstance().GetTexture(filename)),
-	m_Layer(layer)
+	m_Layer(layer),
+	m_pSceneRenderer(nullptr)
 {
 }
 
 RendererComponent::RendererComponent(Texture2D* pText, Layer layer)
 	:m_pTexture(pText),
-	m_Layer(layer)
+	m_Layer(layer),
+	m_pSceneRenderer(nullptr)
 {
 }
 
 RendererComponent::RendererComponent(RendererComponent const& other)
 	:m_pTexture(other.m_pTexture), //shallow copy okay since the resource is managed by ResourceManager
-	m_Layer(other.m_Layer)
+	m_Layer(other.m_Layer),
+	m_pSceneRenderer(other.m_pSceneRenderer)
 {
 }
 

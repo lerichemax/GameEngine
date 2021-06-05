@@ -18,8 +18,11 @@ namespace empire
 		
 	private:
 		friend class Singleton<ObserverManager>;
-		ObserverManager() = default;
+		ObserverManager();
 
-		std::vector<Observer*> m_pObservers;
+		class ObserverManagerImpl;
+		std::unique_ptr<ObserverManagerImpl> m_pImpl;
+		
+
 	};
 }

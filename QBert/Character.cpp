@@ -16,12 +16,13 @@
 
 Character::Character(Qube* pStart, CharacterType type)
 	: m_pCurrentQube(pStart),
-	m_Type(type),
 	m_pJumper(nullptr),
-	m_pIdleText(nullptr),
+	m_pState(nullptr),
 	m_pJumpText(nullptr),
-	m_FacingDirection(ConnectionDirection::downLeft),
-	m_pState(nullptr)
+	m_pIdleText(nullptr),
+	m_Type(type),
+	m_FacingDirection(ConnectionDirection::downLeft)
+	
 {
 }
 

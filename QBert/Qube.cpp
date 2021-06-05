@@ -13,40 +13,44 @@
 
 
 Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
-	:m_pDefaultText(pDefText),
+	:m_pScene(nullptr),
+	m_pPyramid(nullptr),
+	m_pConnections{ nullptr },
+	m_pEscheresqueRightConnections{nullptr},
+	m_pEscheresqueLeftConnections{nullptr},
+	m_pDiskConnection(nullptr),
+	m_pDefaultText(pDefText),
 	m_pIntermediateTexture(pInterText),
 	m_pFlippedTexture(pFlippedText),
-	m_pConnections{nullptr},
 	m_pCharacter(nullptr),
-	m_bIsFlipped(false),
-	m_JumpCounter(),
-	m_pDiskConnection(nullptr),
-	m_EscheresqueRightPos(),
-	m_EscheresqueLeftPos(),
 	m_CharacterPos(),
+	m_EscheresqueLeftPos(),
+	m_EscheresqueRightPos(),
+	m_bIsFlipped(false),
 	m_bIsLastRow(false),
 	m_bIsSideColumn(false),
-	m_pEscheresqueRightConnections{},
-	m_pEscheresqueLeftConnections{}
-
+	m_JumpCounter()
 {
 }
 
 Qube::Qube(Qube const& other)
-	:m_pDefaultText(other.m_pDefaultText),
+	:m_pScene(other.m_pScene),
+	m_pPyramid(other.m_pPyramid),
+	m_pConnections{nullptr},
+	m_pEscheresqueLeftConnections{nullptr},
+	m_pEscheresqueRightConnections{nullptr},
+	m_pDiskConnection(other.m_pDiskConnection),
+	m_pDefaultText(other.m_pDefaultText),
 	m_pIntermediateTexture(other.m_pIntermediateTexture),
 	m_pFlippedTexture(other.m_pFlippedTexture),
-	m_pConnections{  },
 	m_pCharacter(other.m_pCharacter),
-	m_bIsFlipped(other.m_bIsFlipped),
-	m_JumpCounter(other.m_JumpCounter),
-	m_pDiskConnection(other.m_pDiskConnection),
-	m_EscheresqueRightPos(other.m_EscheresqueRightPos),
-	m_EscheresqueLeftPos(other.m_EscheresqueLeftPos),
 	m_CharacterPos(other.m_CharacterPos),
+	m_EscheresqueLeftPos(other.m_EscheresqueLeftPos),
+	m_EscheresqueRightPos(other.m_EscheresqueRightPos),
+	m_bIsFlipped(other.m_bIsFlipped),
 	m_bIsLastRow(other.m_bIsLastRow),
-	m_bIsSideColumn(other.m_bIsSideColumn)
-
+	m_bIsSideColumn(other.m_bIsSideColumn),
+	m_JumpCounter(other.m_JumpCounter)
 {
 	for (unsigned int i{}; i <MAX_NBR_CONNECTION;++i)
 	{
