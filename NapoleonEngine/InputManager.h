@@ -1,9 +1,10 @@
 #pragma once
-#include <XInput.h>
+
 #include "Singleton.h"
 
 #include "SDL.h"
-#include <map>
+#include <XInput.h>
+#include <memory>
 
 namespace empire
 {
@@ -125,34 +126,16 @@ namespace empire
 		void AddInputAction(int id, InputAction* pAction);
 		InputAction* GetAction(int id);
 		
-		glm::vec2 GetMousePosition() const { return m_MousePosition; }
-		bool IsMousePressed() const { return m_bIsMouseLBtnClicked; }
+		glm::vec2 GetMousePosition() const;
+		bool IsLMBPressed() const;
+		bool IsRMBPressed() const;
 	
 	private:
 		friend class Singleton<InputManager>;
+		
+		class InputManagerImpl;
+		std::unique_ptr<InputManagerImpl> m_pImpl;
+		
 		InputManager();
-
-		XINPUT_STATE m_CurrentControllerState[XUSER_MAX_COUNT];
-		bool m_ConnectedControllers[XUSER_MAX_COUNT];
-		
-		Uint8 const*  m_pKeyboardState;
-		
-		std::map<int, InputAction*> m_pActions;
-		
-		glm::vec2 m_MousePosition;
-		
-		bool m_bIsMouseLBtnClicked;
-		bool m_bIsMouseRBtnClicked;
-		
-		void ProcessControllerInput();
-		bool ProcessSDLEvents();
-		void ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction* pCurrentAction);
-		void ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAction);
-		void RefreshControllerConnections();
-		void ResetTriggeredState();
-
-		void ProcessButtonDown(InputAction* pCurrentAction);
-		void ProcessButtonUp(InputAction* pCurrentAction);
-		
 	};
 }

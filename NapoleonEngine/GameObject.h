@@ -15,13 +15,11 @@ namespace empire
 		friend class Scene;
 	public:
 		GameObject();
-		virtual ~GameObject();
+		~GameObject();
 
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
-
-		virtual void Update();
 
 		template <class T>
 		bool HasComponent() const;
@@ -58,6 +56,7 @@ namespace empire
 		void Notify(int event);
 		void SetTag(std::string const& tag, bool applyToChildren);
 		GameObject* FindTagInChildren(std::string const& tag);
+
 	
 	private:
 		friend class PrefabsManager;
@@ -79,7 +78,8 @@ namespace empire
 		
 		void Refresh();
 		void Initialize();
-
+		void Update();
+		
 		GameObject(const GameObject& other);
 	};
 

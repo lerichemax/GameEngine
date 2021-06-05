@@ -63,7 +63,7 @@ void empire::ButtonComponent::Update()
 		m_IsSelected = false;
 	}
 
-	if (InputManager::GetInstance().IsMousePressed() && m_IsSelected && m_pOnClick)
+	if (InputManager::GetInstance().IsLMBPressed() && m_IsSelected && m_pOnClick)
 	{
 		m_pOnClick->Execute();
 	}

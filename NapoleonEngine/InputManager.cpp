@@ -3,12 +3,64 @@
 #include "Command.h"
 
 #include <algorithm>
+#include <map>
 
 using namespace empire;
 
-InputManager::InputManager()
+InputAction::~InputAction()
+{
+	SafeDelete(pCommand);
+}
+
+class InputManager::InputManagerImpl final
+{
+public:
+	InputManagerImpl();
+	InputManagerImpl(InputManager const& other) = delete;
+	InputManagerImpl(InputManagerImpl&& other) = delete;
+	InputManagerImpl& operator=(InputManagerImpl const& rhs) = delete;
+	InputManagerImpl& operator=(InputManagerImpl&& rhs) = delete;
+	~InputManagerImpl();
+	
+	bool ProcessInput();
+	bool IsPressed(ControllerButton button, PlayerNbr nbr) const;
+	bool IsPressed(SDL_KeyCode keyCode) const;
+	bool IsActionTriggered(int id) const;
+	void AddInputAction(int id, InputAction* pAction);
+	InputAction* GetAction(int id);
+
+	glm::vec2 GetMousePosition() const { return m_MousePosition; }
+	bool IsLMBPressed() const { return m_bIsMouseLBtnClicked; }
+	bool IsRMBPressed() const { return m_bIsMouseRBtnClicked; }
+
+private:
+	XINPUT_STATE m_CurrentControllerState[XUSER_MAX_COUNT];
+	bool m_ConnectedControllers[XUSER_MAX_COUNT];
+
+	Uint8 const* m_pKeyboardState;
+
+	std::map<int, InputAction*> m_pActions;
+
+	glm::vec2 m_MousePosition;
+
+	bool m_bIsMouseLBtnClicked;
+	bool m_bIsMouseRBtnClicked;
+
+	void RefreshControllerConnections();
+	void ResetTriggeredState();
+	
+	void ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction* pCurrentAction);
+	void ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAction);
+	void ProcessButtonDown(InputAction* pCurrentAction);
+	void ProcessButtonUp(InputAction* pCurrentAction);
+	void ProcessControllerInput();
+	bool ProcessSDLEvents();
+};
+
+
+InputManager::InputManagerImpl::InputManagerImpl()
 	:m_pActions(),
-	m_MousePosition(0,0),
+	m_MousePosition(0, 0),
 	m_bIsMouseLBtnClicked(false),
 	m_pKeyboardState(),
 	m_CurrentControllerState()
@@ -16,21 +68,27 @@ InputManager::InputManager()
 	RefreshControllerConnections();
 }
 
-InputManager::~InputManager()
+InputManager::InputManagerImpl::~InputManagerImpl()
 {
-	for(auto pair :m_pActions)
+	for (auto pair : m_pActions)
 	{
 		SafeDelete(pair.second);
 	}
 	m_pActions.clear();
 }
 
-InputAction::~InputAction()
+InputManager::InputManager()
+	:Singleton<InputManager>(),
+	m_pImpl(new InputManagerImpl())
 {
-	SafeDelete(pCommand);
 }
 
-bool InputManager::ProcessInput()
+InputManager::~InputManager()
+{
+	//SafeDelete(m_pImpl);
+}
+
+bool InputManager::InputManagerImpl::ProcessInput()
 {
 	RefreshControllerConnections();
 	
@@ -41,7 +99,7 @@ bool InputManager::ProcessInput()
 	return ProcessSDLEvents();
 }
 
-void InputManager::ResetTriggeredState()
+void InputManager::InputManagerImpl::ResetTriggeredState()
 {
 	for (auto pActionPair : m_pActions)
 	{
@@ -53,7 +111,7 @@ void InputManager::ResetTriggeredState()
 	}
 }
 
-bool InputManager::IsPressed(ControllerButton button, PlayerNbr nbr) const
+bool InputManager::InputManagerImpl::IsPressed(ControllerButton button, PlayerNbr nbr) const
 {
 	if (button == ControllerButton::None)
 	{
@@ -62,12 +120,12 @@ bool InputManager::IsPressed(ControllerButton button, PlayerNbr nbr) const
 	return m_CurrentControllerState[(int)nbr].Gamepad.wButtons & (WORD)button;
 }
 
-bool InputManager::IsPressed(SDL_KeyCode keyCode) const
+bool InputManager::InputManagerImpl::IsPressed(SDL_KeyCode keyCode) const
 {
 	return m_pKeyboardState[keyCode];
 }
 
-bool InputManager::IsActionTriggered(int id) const
+bool InputManager::InputManagerImpl::IsActionTriggered(int id) const
 {
 	if (m_pActions.find(id) == m_pActions.end())
 	{
@@ -77,7 +135,7 @@ bool InputManager::IsActionTriggered(int id) const
 	return m_pActions.at(id)->isTriggered;
 }
 
-bool InputManager::ProcessSDLEvents()
+bool InputManager::InputManagerImpl::ProcessSDLEvents()
 {
 	SDL_Event e;	
 	while (SDL_PollEvent(&e))
@@ -130,7 +188,7 @@ bool InputManager::ProcessSDLEvents()
 	return true;
 }
 
-void InputManager::ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction* pCurrentAction)
+void InputManager::InputManagerImpl::ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction* pCurrentAction)
 {
 	switch (e.type)
 	{
@@ -143,7 +201,7 @@ void InputManager::ProcessKeyboardInput(SDL_KeyboardEvent const& e, InputAction*
 	}
 }
 
-void InputManager::ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAction)
+void InputManager::InputManagerImpl::ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAction)
 {
 	if (pCurrentAction->mouseBtn == MouseButton::none)
 	{
@@ -160,7 +218,7 @@ void InputManager::ProcessMouseInput(SDL_Event const& e, InputAction* pCurrentAc
 	}
 }
 
-void InputManager::ProcessButtonDown(InputAction* pCurrentAction)
+void InputManager::InputManagerImpl::ProcessButtonDown(InputAction* pCurrentAction)
 {
 	if (pCurrentAction->state == KeyActionState::held ||
 		pCurrentAction->state == KeyActionState::pressed && pCurrentAction->lastKeyPos == LastKeyPosition::up)
@@ -180,7 +238,7 @@ void InputManager::ProcessButtonDown(InputAction* pCurrentAction)
 	pCurrentAction->lastKeyPos = LastKeyPosition::down;
 }
 
-void InputManager::ProcessButtonUp(InputAction* pCurrentAction)
+void InputManager::InputManagerImpl::ProcessButtonUp(InputAction* pCurrentAction)
 {
 	if (pCurrentAction->state == KeyActionState::released)
 	{
@@ -200,7 +258,7 @@ void InputManager::ProcessButtonUp(InputAction* pCurrentAction)
 /// <summary>
 /// Copyright : DAE Overlord Engine
 /// </summary>
-void InputManager::RefreshControllerConnections()
+void InputManager::InputManagerImpl::RefreshControllerConnections()
 {
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
 	{
@@ -211,7 +269,7 @@ void InputManager::RefreshControllerConnections()
 	}
 }
 
-void InputManager::ProcessControllerInput()
+void InputManager::InputManagerImpl::ProcessControllerInput()
 {
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
 	{
@@ -284,12 +342,7 @@ void InputManager::ProcessControllerInput()
 		});
 }
 
-//void InputManager::AddCommand(SDL_Keycode keyCode, Command* pCommand)
-//{
-//	m_CommandMap.insert(std::make_pair(keyCode, pCommand));
-//}
-
-void InputManager::AddInputAction(int id, InputAction* pAction)
+void InputManager::InputManagerImpl::AddInputAction(int id, InputAction* pAction)
 {
 	if (m_pActions.find(id) != m_pActions.end())
 	{
@@ -299,7 +352,7 @@ void InputManager::AddInputAction(int id, InputAction* pAction)
 	m_pActions.insert(std::make_pair(id, pAction));
 }
 
-InputAction* InputManager::GetAction(int id)
+InputAction* InputManager::InputManagerImpl::GetAction(int id)
 {
 	if (m_pActions.find(id) == m_pActions.end())
 	{
@@ -308,4 +361,49 @@ InputAction* InputManager::GetAction(int id)
 	}
 	
 	return m_pActions.at(id);
+}
+
+bool InputManager::ProcessInput()
+{
+	return m_pImpl->ProcessInput();
+}
+
+bool InputManager::IsPressed(ControllerButton button, PlayerNbr nbr) const
+{
+	return m_pImpl->IsPressed(button, nbr);
+}
+
+bool InputManager::IsPressed(SDL_KeyCode keyCode) const
+{
+	return m_pImpl->IsPressed(keyCode);
+}
+
+bool InputManager::IsActionTriggered(int id) const
+{
+	return m_pImpl->IsActionTriggered(id);
+}
+
+void InputManager::AddInputAction(int id, InputAction* pAction)
+{
+	m_pImpl->AddInputAction(id, pAction);
+}
+
+InputAction* InputManager::GetAction(int id)
+{
+	return m_pImpl->GetAction(id);
+}
+
+glm::vec2 InputManager::GetMousePosition() const
+{
+	return m_pImpl->GetMousePosition();
+}
+
+bool InputManager::IsLMBPressed() const
+{
+	return m_pImpl->IsLMBPressed();
+}
+
+bool InputManager::IsRMBPressed() const
+{
+	return m_pImpl->IsRMBPressed();
 }
