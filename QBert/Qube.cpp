@@ -136,6 +136,10 @@ void Qube::AddConnectionToDisk()
 
 bool Qube::HasConnection(ConnectionDirection dir) const
 {
+	if (dir == ConnectionDirection::null)
+	{
+		return false;
+	}
 	return m_pConnections[(int)dir] != nullptr;
 }
 

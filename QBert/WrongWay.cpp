@@ -25,13 +25,13 @@ void WrongWay::Initialize()
 {
 	if (m_bEscheresqueRight)
 	{
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay.png");
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay_Left.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay_Left.png");
 	}
 	else
 	{
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWayLeft.png");
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWayLeft.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/Ugg_Left.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/Ugg_Left.png");
 	}
 
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
@@ -78,4 +78,43 @@ void WrongWay::Die()
 {
 	m_pGameObject->Destroy();
 	m_pGameObject->Notify((int)GameEvent::WrongWayDies);
+}
+
+void WrongWay::SetDirectionTextures(ConnectionDirection dir)
+{
+	if (m_FacingDirection == dir)
+	{
+		return;
+	}
+
+	m_FacingDirection = dir;
+
+	switch (dir)
+	{
+	case ConnectionDirection::downLeft:
+		if (m_bEscheresqueRight)
+		{
+			m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay_Left.png");
+			m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/WrongWay_Left.png");
+		}
+		else
+		{
+			m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/Ugg_Left.png");
+			m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Ugg_Left.png");
+		}
+
+		break;
+	case ConnectionDirection::downRight:
+		if (m_bEscheresqueRight)
+		{
+			m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/WrongWay_Right.png");
+			m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/WrongWay_Right.png");
+		}
+		else
+		{
+			m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/Ugg_Right.png");
+			m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Ugg_Right.png");
+		}
+		break;
+	}
 }

@@ -34,10 +34,13 @@ void SlickSamManager::SpawnerTimer()
 		{
 			int random{ rand() % 2 + 1 };
 			GameObject* pSlickSam = PrefabsManager::GetInstance().Instantiate("SlickSam");
-			pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
 
-			AddToArray(pSlickSam->GetComponent<SlickSam>());
 			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
+			
+			pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
+			
+			AddToArray(pSlickSam->GetComponent<SlickSam>());
+			
 			if (m_pObserver != nullptr)
 			{
 				pSlickSam->AddObserver(m_pObserver);

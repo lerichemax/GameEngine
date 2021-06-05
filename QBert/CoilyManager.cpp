@@ -35,6 +35,7 @@ void CoilyManager::SpawnerTimer()
 
 		int random{ rand() % 2 + 1 };
 		GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
+		m_pPyramid->GetGameObject()->AddChild(pCoily);
 		pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 		pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
 
@@ -45,7 +46,7 @@ void CoilyManager::SpawnerTimer()
 		}
 		m_EnemySpawnTimer = 0;
 		m_NbrEnemies++;
-		m_pPyramid->GetGameObject()->AddChild(pCoily);
+		
 	}
 }
 

@@ -19,6 +19,8 @@ public:
 	
 	bool IsEscheresqueRight() const { return m_bEscheresqueRight; }
 
+protected:
+	void SetDirectionTextures(ConnectionDirection dir) override;
 
 private:
 	bool m_bEscheresqueRight;

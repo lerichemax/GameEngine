@@ -63,7 +63,15 @@ Texture2D* const ResourceManager::GetTexture(const std::string& file)
 {
 	if (m_pTextures.find(file) == m_pTextures.end())
 	{
-		return LoadTexture(file);
+		try
+		{
+			return LoadTexture(file);
+			
+		}
+		catch(std::runtime_error const& error)
+		{
+			Debugger::GetInstance().LogError(error.what());
+		}
 	}
 	
 	return m_pTextures.at(file);

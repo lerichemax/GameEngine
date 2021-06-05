@@ -13,10 +13,12 @@ public:
 
 protected:
 	void MeetCharacter(Character* pOther) override;
-
+	void SetDirectionTextures(ConnectionDirection dir) override;
 private:
 	int static m_NbrInstances;
 
+	bool m_bIsSam;
+	
 	void Initialize() override;
 	void SetTexture();
 

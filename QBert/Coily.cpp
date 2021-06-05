@@ -93,8 +93,9 @@ void Coily::Die()
 	if (m_pController != nullptr && m_pController->IsEnable())
 	{
 		Enemy::Die();
+		m_pGameObject->Notify((int)GameEvent::CoilyDies);
 	}
-	m_pGameObject->Notify((int)GameEvent::CoilyDies);
+	
 	m_pGameObject->Notify((int)VersusGameEvent::Player2Died);
 }
 

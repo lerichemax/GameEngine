@@ -30,7 +30,6 @@ CharacterState* CoilyOnQubeState::Update(empire::GameObject* pObject)
 		{
 			m_pCharController->m_pCoilyCharacter->Transform(true);
 			m_pCharController->FindQBert();
-
 		}
 		else
 		{
@@ -52,8 +51,7 @@ CharacterState* CoilyOnQubeState::Update(empire::GameObject* pObject)
 			auto qube = m_pCharacter->GetCurrentQube();
 			
 			m_pCharController->Move(direction);
-			m_pCharController->m_MoveTimer = 0;
-			
+			m_pCharController->m_MoveTimer = 0;		
 
 			if (!qube->HasConnection(direction))
 			{
