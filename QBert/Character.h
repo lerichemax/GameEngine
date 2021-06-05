@@ -67,6 +67,7 @@ protected:
 	void SwitchToJumpTex();
 	virtual void MoveToCurrentQube();
 	virtual void LandOnQube() {};
+	virtual void SetLayerToBackGround();
 	
 	void SwitchState(CharacterState* pState);
 	void SwitchState(CharacterStateType type);

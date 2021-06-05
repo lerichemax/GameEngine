@@ -21,7 +21,7 @@ public:
 
 protected:
 	void SetDirectionTextures(ConnectionDirection dir) override;
-
+	void SetLayerToBackGround() override{};
 private:
 	bool m_bEscheresqueRight;
 

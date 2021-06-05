@@ -23,7 +23,7 @@ protected:
 
 private:
 	friend class CoilyOnQubeState;
-	int static const MOVEMENT_QUEUE_SIZE{ 3 };
+	unsigned int static const MOVEMENT_QUEUE_SIZE{ 3 };
 	
 	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
 	

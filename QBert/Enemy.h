@@ -11,14 +11,7 @@ public:
 	
 	virtual void Move(ConnectionDirection direction) override;
 	virtual void Die() override;
-	void Initialize() override
-	{
-		Character::Initialize();
-	}
-	void Update() override
-	{
-		Character::Update();
-	}
+
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
 protected:
 	friend class EnemyManager_bu;

@@ -4,6 +4,8 @@
 #include "GameManager.h"
 #include "SlickSam.h"
 #include "Pyramid.h"
+#include "Qube.h"
+#include "TransformComponent.h"
 
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
@@ -38,7 +40,7 @@ void SlickSamManager::SpawnerTimer()
 			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
 			
 			pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-			
+			pSlickSam->GetTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
 			AddToArray(pSlickSam->GetComponent<SlickSam>());
 			
 			if (m_pObserver != nullptr)

@@ -117,13 +117,18 @@ void Character::JumpToDeath(ConnectionDirection dir)
 		dist = 25.f;
 	}
 	
+	SetLayerToBackGround();
+	
+	m_pCurrentQube->CharacterJumpOut();
+	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
+}
+
+void Character::SetLayerToBackGround()
+{
 	if (!m_pCurrentQube->IsLastRow())
 	{
 		m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
 	}
-	
-	m_pCurrentQube->CharacterJumpOut();
-	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
 }
 
 void Character::SwitchState(CharacterState* pState)

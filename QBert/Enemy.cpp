@@ -12,6 +12,8 @@ Enemy::Enemy(int pointsForKill, CharacterType type)
 
 void Enemy::Move(ConnectionDirection direction)
 {
+	SetDirectionTextures(direction);
+	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
 		auto pNextQube = m_pCurrentQube->GetConnection(direction);

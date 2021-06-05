@@ -52,11 +52,6 @@ void Coily::Move(ConnectionDirection direction)
 		SwitchState(new FallingState(this, m_pJumper));
 		return;
 	}
-	
-	if (m_bIsTransformed)
-	{
-		SetDirectionTextures(direction);
-	}
 
 	Enemy::Move(direction);
 	if (m_pController != nullptr && !m_pController->IsEnable())
@@ -115,7 +110,7 @@ void Coily::Transform(bool isTransformed)
 
 void Coily::SetDirectionTextures(ConnectionDirection dir)
 {
-	if (m_FacingDirection == dir)
+	if (!m_bIsTransformed || m_FacingDirection == dir)
 	{
 		return;
 	}

@@ -92,8 +92,8 @@ void SoloScene::Initialize()
 	pWWm->SetPyramid(m_pPyramid);
 	pSSm->SetPyramid(m_pPyramid);
 	pCm->SetPyramid(m_pPyramid);
-	//enemyManagerObj->AddComponent(pWWm);
-	//enemyManagerObj->AddComponent(pSSm);
+	enemyManagerObj->AddComponent(pWWm);
+	enemyManagerObj->AddComponent(pSSm);
 	enemyManagerObj->AddComponent(pCm);
 	m_pEnemyManagers.push_back(pWWm);
 	m_pEnemyManagers.push_back(pSSm);

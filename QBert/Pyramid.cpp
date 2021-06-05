@@ -104,8 +104,8 @@ void Pyramid::Initialize()
 
 void Pyramid::CreateConnections()
 {
-	int leftChild{};
-	int rightChild{};
+	unsigned int leftChild{};
+	unsigned int rightChild{};
 	int offset{ 1 };
 	int endOfLine{ 1 };
 	int counter{ 0 };
@@ -251,7 +251,7 @@ bool Pyramid::IsTop(Qube* pQube) const
 	return pQube == m_pQubes.front();
 }
 
-bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, int const size) const
+bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const
 {
 	
 	int currentIdx = GetQubeIndex(pStartingQube);

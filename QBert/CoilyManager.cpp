@@ -8,7 +8,9 @@
 
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
+#include "Qube.h"
 #include "Timer.h"
+#include "TransformComponent.h"
 
 
 CoilyManager::CoilyManager(int maxNbr, float spawnInterval)
@@ -38,7 +40,8 @@ void CoilyManager::SpawnerTimer()
 		m_pPyramid->GetGameObject()->AddChild(pCoily);
 		pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 		pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-
+		pCoily->GetTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
+		
 		AddToArray(pCoily->GetComponent<Coily>());
 		if (m_pObserver != nullptr)
 		{
