@@ -135,7 +135,7 @@ void MainGame::CreatePrefabs() const
 
 	//ColoredDisk
 	auto diskPf = new GameObject{};
-	auto const diskText = empire::ResourceManager::GetInstance().GetTexture("Disk.png");
+	auto const diskText = empire::ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
 	diskPf->AddComponent(new ColoredDisk{ });
 	diskPf->AddComponent(new empire::RendererComponent{ diskText, empire::Layer::middleground });
 	diskPf->GetTransform()->Scale(2);

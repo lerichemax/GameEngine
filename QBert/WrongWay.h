@@ -9,10 +9,10 @@ public:
 	WrongWay* Clone() const override { return new WrongWay(*this); }
 
 	void Initialize() override;
-	void Move(ConnectionDirection direction) override;
+	void DoMove(ConnectionDirection direction) override;
 	void MoveToCurrentQube() override{};
 	void JumpToQube(Qube* pNextQube) override;
-	virtual void Die() override;
+	virtual void DoDie() override;
 	
 	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
 	void SetEscheresqueRight(bool isRight) { m_bEscheresqueRight = isRight; }

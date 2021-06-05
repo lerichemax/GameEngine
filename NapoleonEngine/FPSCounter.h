@@ -10,13 +10,11 @@ namespace empire
 		FPSCounter() = default;
 		~FPSCounter() = default;
 
+	protected:
 		FPSCounter* Clone() const override { return new FPSCounter(*this); }
-		
 		void Initialize() override;
 		void Update() override;
 	private:
 		TextRendererComponent* m_pTextComp;
-
-		
 	};
 }

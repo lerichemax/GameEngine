@@ -54,9 +54,9 @@ void SlickSam::SetTexture()
 	m_pGameObject->GetComponent<empire::RendererComponent>()->SetTexture(m_pIdleText);
 }
 
-void SlickSam::Die()
+void SlickSam::DoDie()
 {
-	Enemy::Die();
+	Enemy::DoDie();
 	m_pGameObject->Notify((int)GameEvent::SlickSamDies);
 }
 
@@ -65,7 +65,7 @@ void SlickSam::MeetCharacter(Character* pOther)
 	if (pOther->GetType() == CharacterType::player)
 	{
 		static_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
-		Die();
+		DoDie();
 	}
 }
 

@@ -123,64 +123,6 @@ bool InputManager::ProcessSDLEvents()
 			}
 			break;
 		}
-		
-		//if (actionIt != m_pActions.end())
-		//{
-		//	switch (e.type)
-		//	{
-		//	case SDL_KEYDOWN:
-
-		//		if ((*actionIt).second->state == KeyActionState::held ||
-		//			(*actionIt).second->state == KeyActionState::pressed && (*actionIt).second->lastKeyPos == LastKeyPosition::up)
-		//		{
-		//			
-		//			if ((*actionIt).second->pCommand != nullptr)
-		//			{
-		//				(*actionIt).second->pCommand->Execute();
-		//			}
-		//			(*actionIt).second->isTriggered = true;
-		//		}
-		//		else if((*actionIt).second->state == KeyActionState::released ||
-		//			(*actionIt).second->state == KeyActionState::pressed && (*actionIt).second->lastKeyPos == LastKeyPosition::down)
-		//		{
-  // 					(*actionIt).second->isTriggered = false;
-		//		}
-		//		(*actionIt).second->lastKeyPos = LastKeyPosition::down;
-		//		break;
-		//	case SDL_KEYUP:
-		//		if ((*actionIt).second->state == KeyActionState::released)
-		//		{
-		//			if ((*actionIt).second->pCommand != nullptr)
-		//			{
-		//				(*actionIt).second->pCommand->Execute();
-		//			}
-		//			(*actionIt).second->isTriggered = true;
-		//		}
-		//		else
-		//		{
-		//			(*actionIt).second->isTriggered = false;	
-		//		}
-		//		(*actionIt).second->lastKeyPos = LastKeyPosition::up;
-		//		break;
-		//	}
-		//}
-		//
-		//switch (e.type) // Handle mouse events
-		//{
-		//case SDL_MOUSEMOTION:
-		//	m_MousePosition = glm::vec2(e.motion.x, e.motion.y);
-		//	break;
-		//case SDL_MOUSEBUTTONUP:
-		//	if (e.button.button == SDL_BUTTON_LEFT)
-		//	{
-		//		m_bIsMouseLBtnClicked = true;
-
-		//	}
-		//	
-		//	break;
-		//case SDL_MOUSEBUTTONDOWN:
-		//	break;
-		//}
 	}
 	SDL_PumpEvents();
 	m_pKeyboardState = SDL_GetKeyboardState(NULL);

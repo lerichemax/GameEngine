@@ -20,12 +20,15 @@ namespace empire
 		~TextRendererComponent();
 		
 		void Update() override;
-		void Render(TransformComponent const& transform) const override;
+		
 		void SetText(const std::string& text);
 		void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
+	
 	protected:
 		std::string m_Text;
 		bool m_NeedsUpdate;
+
+		void Render(TransformComponent const& transform) const override;
 	
 	private:
 		Font* const m_pFont;

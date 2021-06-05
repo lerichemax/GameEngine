@@ -26,16 +26,13 @@ namespace empire
 		RendererComponent(std::string const& filename, Layer layer = Layer::background);
 		RendererComponent(Texture2D* pText, Layer layer = Layer::background);
 
-		RendererComponent* Clone() const override { return new RendererComponent(*this); }
-
 		RendererComponent(RendererComponent&& other) = delete;
 		RendererComponent& operator=(RendererComponent const& rhs) = delete;
 		RendererComponent& operator=(RendererComponent&& rhs) = delete;
 		virtual ~RendererComponent();
 
-		
 		void Update() override{};
-		virtual void Render(TransformComponent const& transform ) const;
+		
 		virtual void SetTexture(std::string const& filename);
 		virtual void SetTexture(Texture2D* pText);
 
@@ -45,14 +42,17 @@ namespace empire
 		void ChangeLayer(Layer newLayer);
 	
 	protected:
-		friend void SceneRenderer::AddToGroup(RendererComponent* pRenderer, Layer layer);
+		friend class SceneRenderer;
 		
 		Texture2D* m_pTexture{};
 		Layer m_Layer;
 		SceneRenderer* m_pSceneRenderer;
 		
 		void Initialize() override;
-
+		virtual void Render(TransformComponent const& transform) const;
+		
+		RendererComponent* Clone() const override { return new RendererComponent(*this); }
+		
 		RendererComponent(RendererComponent const& other);
 		
 	};

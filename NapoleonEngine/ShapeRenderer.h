@@ -15,6 +15,7 @@ namespace empire
 		ShapeRenderer& operator=(ShapeRenderer&& rhs) = delete;
 		~ShapeRenderer();
 
+	protected:
 		void Render(TransformComponent const& transform) const override;
 	
 	private:

@@ -48,7 +48,7 @@ void WrongWay::Initialize()
 	SwitchState(new EnemyOnQubeState(this, m_pJumper, m_pGameObject->GetComponent<EnemyCharacterController>()));
 }
 
-void WrongWay::Move(ConnectionDirection direction)
+void WrongWay::DoMove(ConnectionDirection direction)
 {
 	if (m_pCurrentQube->HasEscheresqueConnection(direction, m_bEscheresqueRight))
 	{
@@ -74,7 +74,7 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 		m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }
 
-void WrongWay::Die()
+void WrongWay::DoDie()
 {
 	m_pGameObject->Destroy();
 	m_pGameObject->Notify((int)GameEvent::WrongWayDies);

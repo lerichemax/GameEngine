@@ -9,19 +9,19 @@ namespace empire
 	{
 	public:
 		BoxCollider(unsigned int width, unsigned int height);
-		BoxCollider* Clone() const override { return new BoxCollider(*this); }
 
 		BoxCollider(BoxCollider&& other) = delete;
 		BoxCollider& operator=(BoxCollider const& rhs) = delete;
 		BoxCollider& operator=(BoxCollider&& rhs) = delete;
 		~BoxCollider();
 		
-		void Initialize() override;
-		void Update() override;
-		
 		Rectangle const& GetRectangle() const { return *m_pRectangle; }
 	
 	protected:
+		void Initialize() override;
+		void Update() override;
+		BoxCollider* Clone() const override { return new BoxCollider(*this); }
+		
 		void CheckOverlap(ColliderComponent* pOther) override;
 
 	private:

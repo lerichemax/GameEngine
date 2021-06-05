@@ -87,7 +87,7 @@ void QBert::Update()
 	}
 	Character::Update();
 }
-void QBert::Die()
+void QBert::DoDie()
 {
 	m_pLives->Die();
 	m_bCanMove = false;
@@ -122,7 +122,7 @@ void QBert::EarnPoints(int points)
 	m_pGameObject->Notify((int)VersusGameEvent::IncreasePoints);
 }
 
-void QBert::Move(ConnectionDirection direction)
+void QBert::DoMove(ConnectionDirection direction)
 {
 	if (!m_bCanMove)
 	{
@@ -183,12 +183,13 @@ void QBert::Reset(bool fullReset, Qube* pTargetQube)
 
 void QBert::MeetCharacter(Character* pOther) 
 {
-	if (typeid(*pOther) == typeid(Coily) && static_cast<Coily*>(pOther)->IsTransformed() || typeid(*pOther) == typeid(WrongWay))
+	if (pOther->GetType() == CharacterType::coily && static_cast<Coily*>(pOther)->IsTransformed() || 
+		pOther->GetType() == CharacterType::wrongWay)
 	{
 		Swear();
-		Die();
+		DoDie();
 	}
-	else if (typeid(*pOther) == typeid(SlickSam))
+	else if (pOther->GetType() == CharacterType::slickSam)
 	{
 		auto pSlickSam = static_cast<SlickSam*>(pOther);
 		EarnPoints(pSlickSam->GetPointsForKill());

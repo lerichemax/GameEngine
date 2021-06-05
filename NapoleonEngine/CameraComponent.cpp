@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "CameraComponent.h"
 
-
-
 #include "GameObject.h"
 #include "NapoleonEngine.h"
 #include "SceneManager.h"
@@ -39,17 +37,12 @@ void CameraComponent::Transform()
 
 glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
 {
-	glm::vec3 pos3{ pos.x, pos.y, 1 };
-	
-	glm::vec3 toReturn =  GetCameraMatrix() * pos3;
-	return glm::vec2{ toReturn.x, toReturn.y };
+	return TransformPoint(pos, GetCameraMatrix());
 }
 
 glm::mat3x3 CameraComponent::GetCameraMatrix()
 {
 	auto trans = m_pGameObject->GetTransform();
-	auto pos = trans->GetWorldPosition();
-	glm::vec2 camPos{ pos.x - m_Width / 2 , pos.y - m_Height / 2 };
 
 	return BuildTransformMatrix(trans->GetWorldPosition(), trans->GetWorldRotation(), 
 		trans->GetWorldScale());

@@ -14,15 +14,13 @@ namespace empire
 	public:
 		TransformComponent();
 		TransformComponent(float x, float y);
-		TransformComponent* Clone() const override { return new TransformComponent(*this); };
-		TransformComponent(TransformComponent const& other) = default;
-		TransformComponent(TransformComponent&& other) = default;
+		
+		TransformComponent(TransformComponent&& other) = delete;
 		TransformComponent& operator=(TransformComponent const& rhs);
-		TransformComponent& operator=(TransformComponent&& rhs) = default;
+		TransformComponent& operator=(TransformComponent&& rhs) = delete;
 		~TransformComponent() = default;
 		
-		void Update() override;
-		
+
 		const glm::vec2& GetPosition() const { return m_Position; }
 		const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }
 		const glm::vec2& GetScale() const { return m_Scale; }
@@ -54,5 +52,8 @@ namespace empire
 		float m_WorldRotation;
 		
 		void Initialize() override;
+		void Update() override;
+		TransformComponent* Clone() const override { return new TransformComponent(*this); };
+		TransformComponent(TransformComponent const& other) = default;
 	};
 }

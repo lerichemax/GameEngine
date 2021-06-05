@@ -123,6 +123,16 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
 }
 
+void Character::Move(ConnectionDirection direction)
+{
+	DoMove(direction);
+}
+
+void Character::Die()
+{
+	DoDie();
+}
+
 void Character::SetLayerToBackGround()
 {
 	if (!m_pCurrentQube->IsLastRow())

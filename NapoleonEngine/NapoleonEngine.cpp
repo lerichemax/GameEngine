@@ -84,7 +84,15 @@ void empire::NapoleonEngine::Cleanup()
 void empire::NapoleonEngine::Run()
 {
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("Data/");
+	try
+	{
+		ResourceManager::GetInstance().Init("Data/");
+	}
+	catch (std::runtime_error const& error)
+	{
+		Debugger::GetInstance().LogError(error.what());
+	}
+	
 	
 	Initialize();
 

@@ -19,11 +19,6 @@ namespace empire
 	public:
 		ColliderComponent(Type type);
 		virtual ~ColliderComponent();
-		virtual ColliderComponent* Clone() const override = 0;
-		
-
-		void Initialize() override;
-		virtual void Update() override{};
 		
 		typedef std::function<void(GameObject* pObject, GameObject* pOtherObject)> CollisionFunction;
 
@@ -39,6 +34,10 @@ namespace empire
 	
 	protected:
 		friend class Scene;
+
+		void Initialize() override;
+		void Update() override {};
+		ColliderComponent* Clone() const override = 0;
 		
 		virtual void CheckOverlap(ColliderComponent* pOther) = 0;
 		void CallOverlapFunctions(bool isOverlapping, ColliderComponent* other);

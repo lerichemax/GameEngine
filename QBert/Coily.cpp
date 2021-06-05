@@ -42,7 +42,7 @@ void Coily::Initialize()
 	Enemy::Initialize();
 }
 
-void Coily::Move(ConnectionDirection direction)
+void Coily::DoMove(ConnectionDirection direction)
 {
 	if (m_pController != nullptr && !m_pController->IsEnable() &&
 		!m_pCurrentQube->HasConnection(direction))
@@ -53,7 +53,7 @@ void Coily::Move(ConnectionDirection direction)
 		return;
 	}
 
-	Enemy::Move(direction);
+	Enemy::DoMove(direction);
 	if (m_pController != nullptr && !m_pController->IsEnable())
 	{
 		SwitchState(new JumpingState(this, m_pJumper));
@@ -83,11 +83,11 @@ void Coily::MeetCharacter(Character* pOther)
 	}
 }
 
-void Coily::Die()
+void Coily::DoDie()
 {
 	if (m_pController != nullptr && m_pController->IsEnable())
 	{
-		Enemy::Die();
+		Enemy::DoDie();
 		m_pGameObject->Notify((int)GameEvent::CoilyDies);
 	}
 	

@@ -10,7 +10,12 @@ Enemy::Enemy(int pointsForKill, CharacterType type)
 	POINTS_FOR_KILL(pointsForKill)
 {}
 
-void Enemy::Move(ConnectionDirection direction)
+Enemy::Enemy(Enemy const& other)
+	:Character(other),
+	POINTS_FOR_KILL(other.POINTS_FOR_KILL)
+{}
+
+void Enemy::DoMove(ConnectionDirection direction)
 {
 	SetDirectionTextures(direction);
 	
@@ -34,7 +39,7 @@ void Enemy::Move(ConnectionDirection direction)
 	}
 }
 
-void Enemy::Die()
+void Enemy::DoDie()
 {
 	if (m_pCurrentQube)
 	{

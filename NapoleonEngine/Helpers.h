@@ -32,3 +32,15 @@ inline void SafeDelete(T& pToDelete)
 		pToDelete = nullptr;
 	}
 }
+
+inline glm::vec2 TransformPoint(glm::vec2 const& point, glm::mat3x3 const& mat)
+{
+	glm::vec3 toTransform{ point.x, point.y, 1 };
+	return mat * toTransform;
+}
+
+inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
+{
+	glm::vec3 toTransform{ vec.x, vec.y, 0 };
+	return mat * toTransform;
+}

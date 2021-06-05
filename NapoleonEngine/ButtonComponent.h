@@ -1,8 +1,6 @@
 #pragma once
 #include "Component.h"
 
-#include <glm/glm.hpp>
-#include <functional>
 namespace empire
 {
 	class Command;
@@ -11,14 +9,12 @@ namespace empire
 	public:
 		
 		ButtonComponent(float width, float height);
-		ButtonComponent* Clone() const override { return new ButtonComponent(*this); }
+		
 		ButtonComponent(ButtonComponent&& other) = delete;
 		ButtonComponent& operator=(ButtonComponent const& rhs) = delete;
 		ButtonComponent& operator=(ButtonComponent&& rhs) = delete;
 		~ButtonComponent();
 		
-		void Update() override;
-
 		void SetWidth(float width) { m_Dimensions.x = width; }
 		void SetHeight(float height) { m_Dimensions.y = height; }
 		void SetDimensions(glm::vec2 const& dim) { m_Dimensions = dim; }
@@ -30,6 +26,11 @@ namespace empire
 		void SetOnDeselectFunction(Command* func);
 		
 		void SetVisualize(bool visualize) { m_bVisualize = visualize; }
+
+	protected:
+		void Initialize() override {};
+		void Update() override;
+		ButtonComponent* Clone() const override { return new ButtonComponent(*this); }
 	
 	private:
 		Command* m_pOnClick;
@@ -41,7 +42,7 @@ namespace empire
 		bool m_IsSelected;
 		bool m_bVisualize;
 
-		void Initialize() override {};
+		
 		ButtonComponent(ButtonComponent const& other);
 	};
 }

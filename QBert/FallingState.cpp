@@ -22,7 +22,7 @@ CharacterState* FallingState::Update(GameObject* pObject)
 	{
 		m_pJumperComp->SetIsNotDead();
 		
-		m_pCharacter->Die();
+		m_pCharacter->DoDie();
 		
 		switch (m_pCharacter->m_Type)
 		{
