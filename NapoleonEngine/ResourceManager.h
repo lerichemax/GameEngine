@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
-#include <vector>
-#include <map>
+#include <memory>
+
 namespace empire
 {
 	class Texture2D;
@@ -9,20 +9,23 @@ namespace empire
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
 	public:
+		ResourceManager(ResourceManager const& other) = delete;
+		ResourceManager(ResourceManager&& other) = delete;
+		ResourceManager& operator=(ResourceManager const& rhs) = delete;
+		ResourceManager& operator=(ResourceManager&& rhs) = delete;
 		~ResourceManager();
+		
 		void Init(const std::string& data);
 		
 		Texture2D* const GetTexture(const std::string& file);
 		Font* const GetFont(const std::string& file, unsigned int size);
+	
 	private:
 		friend class Singleton<ResourceManager>;
-		ResourceManager() = default;
-		std::string m_DataPath;
 
-		std::map<std::string, Texture2D*> m_pTextures;
-		std::vector<Font*> m_pFonts;
+		class ResourceManagerImpl;
+		std::unique_ptr<ResourceManagerImpl> m_pImpl;
+		ResourceManager();
 
-		Texture2D* const LoadTexture(const std::string& file);
-		Font* const LoadFont(const std::string& file, unsigned int size);
 	};
 }

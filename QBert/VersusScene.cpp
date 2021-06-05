@@ -167,9 +167,6 @@ void VersusScene::ResetGame()
 	m_pRoundText->SetText("Round 1");
 	m_pTextP1->SetText("P1: 0");
 	m_pTextP2->SetText("P2: 0");
-
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
 }
 
 void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1

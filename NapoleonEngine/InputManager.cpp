@@ -85,7 +85,6 @@ InputManager::InputManager()
 
 InputManager::~InputManager()
 {
-	//SafeDelete(m_pImpl);
 }
 
 bool InputManager::InputManagerImpl::ProcessInput()

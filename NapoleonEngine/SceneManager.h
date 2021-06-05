@@ -1,7 +1,8 @@
 #pragma once
 #include "Singleton.h"
-#include <map>
+
 #include <string>
+#include <memory>
 namespace empire
 {
 	class Scene;
@@ -9,28 +10,31 @@ namespace empire
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		//Scene& CreateScene(const std::string& name);
 		~SceneManager();
+		SceneManager(SceneManager const& other) = delete;
+		SceneManager(SceneManager&& other) = delete;
+		SceneManager& operator=(SceneManager const& rhs) = delete;
+		SceneManager& operator=(SceneManager&& rhs) = delete;
 		
-		Scene const* GetScene(std::string const& sceneName) const { return m_pScenesMap.at(sceneName); }
+		Scene const* GetScene(std::string const& sceneName) const;
 		void AddScene(Scene* pScene);
 		void RenameScene(std::string const& oldName, std::string const& newName);
 		void SetSceneActive(std::string const& name);
 		void LoadScene(std::string const& name);
 		void ReloadCurrentScene();
 		Scene* GetActiveScene() const;
-		NapoleonEngine const*  GetEngine()const { return m_pEngine; }
+		NapoleonEngine const* GetEngine()const;
+	
 	private:
 		friend class Singleton<SceneManager>;
 		friend class NapoleonEngine;
 		friend class Renderer;
+
+		class SceneManagerImpl;
+		std::unique_ptr<SceneManagerImpl> m_pImpl;
+		
 		SceneManager();
 
-		Scene* m_pNextActiveScene;
-
-		Scene* m_pActiveScene;
-		NapoleonEngine const*  m_pEngine;
-		std::map <std::string, Scene*> m_pScenesMap;
 		void Initialize(NapoleonEngine const* pEngine);
 		void Update();
 		void Render();

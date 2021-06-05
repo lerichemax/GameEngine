@@ -36,6 +36,7 @@ Character::Character(Character const& other)
 {
 }
 
+
 Character::~Character()
 {
 	SafeDelete(m_pState);

@@ -29,7 +29,7 @@ EnemyManager::EnemyManager(EnemyManager const& other)
 
 EnemyManager::~EnemyManager()
 {
-	Reset();
+
 }
 
 void EnemyManager::Initialize()

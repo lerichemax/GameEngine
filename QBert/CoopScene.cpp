@@ -189,9 +189,6 @@ void CoopScene::ResetGame()
 	m_pQbertP2->GetGameObject()->SetActive(true);
 	m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
 	m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
-	
 }
 
 void CoopScene::DeclareInput()

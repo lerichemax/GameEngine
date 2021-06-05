@@ -21,9 +21,8 @@ namespace empire
 		Scene& operator=(Scene&& other) = delete;
 		
 		void AddObject(GameObject* object);
-		void Update();
+		
 		void Render() const;
-
 		bool IsActive() const { return m_bIsActive; }
 		void AddToGroup(RendererComponent* pRenderer, Layer layer);
 		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
@@ -52,6 +51,7 @@ namespace empire
 		bool m_bIsInitialized;
 
 		virtual void Initialize() = 0;
+		void Update();
 		virtual void DeclareInput() = 0;
 		
 		void OnActivate();

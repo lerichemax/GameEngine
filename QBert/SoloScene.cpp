@@ -172,8 +172,6 @@ void SoloScene::ResetGame()
 	}
 	
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
 }
 
 void SoloScene::DeclareInput()

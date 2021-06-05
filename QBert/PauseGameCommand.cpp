@@ -21,6 +21,11 @@ PauseGameCommand::PauseGameCommand(PauseGameCommand const& other)
 }
 void PauseGameCommand::Execute()
 {
+	if (!m_pScene->IsActive())
+	{
+		return;
+	}
+	
 	if (m_pScene->IsPaused())
 	{
 		empire::Timer::GetInstance().SetTimeScale(1);
