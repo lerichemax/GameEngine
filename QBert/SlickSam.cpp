@@ -57,14 +57,14 @@ void SlickSam::SetTexture()
 void SlickSam::DoDie()
 {
 	Enemy::DoDie();
-	m_pGameObject->Notify((int)GameEvent::SlickSamDies);
+	m_pGameObject->Notify(static_cast<int>(GameEvent::SlickSamDies));
 }
 
 void SlickSam::MeetCharacter(Character* pOther)
 {
 	if (pOther->GetType() == CharacterType::player)
 	{
-		static_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
+		dynamic_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
 		DoDie();
 	}
 }

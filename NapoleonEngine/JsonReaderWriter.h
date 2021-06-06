@@ -10,8 +10,8 @@ namespace empire
 		explicit JsonReaderWriter(std::string const& filename);
 
 		int ReadInt(std::string const& attribute);
-		std::string ReadString(std::string const& attribute);
-		rapidjson::Value const& ReadValue(std::string const& attribute);
+		std::string ReadString(std::string const& attribute) const;
+		rapidjson::Value const& ReadValue(std::string const& attribute) const;
 	
 	private:
 		rapidjson::Document m_JsonDoc;

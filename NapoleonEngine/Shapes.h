@@ -68,10 +68,6 @@ namespace empire
 		
 		void Draw(SDL_Renderer* pRenderer) const override;
 		void Fill(SDL_Renderer* pRenderer)const;
-		
-		bool IsOverlapping(Rectangle const& rec2);
-		bool IsOverlapping(Circle const& circle);
-
 	};
 
 	struct Line final : public Shape
@@ -95,6 +91,7 @@ namespace empire
 		unsigned int radius;
 
 		explicit Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
+		explicit Circle(glm::vec2 const& center, unsigned int radius);
 		Circle* Clone() const override { return new Circle(*this); }
 
 		
@@ -102,5 +99,10 @@ namespace empire
 
 
 	};
-	
+
+	bool IsPointInRec(glm::vec2 const& p, empire::Rectangle const& rec);
+	bool AreOverlapping(Rectangle const& rec1, Rectangle const& rec2);
+	bool AreOverlapping(Rectangle const& rec1, Circle const& c2);
+	bool AreOverlapping(Circle const& c1, Circle const& c2);
+	unsigned int DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec2 const& b);
 }

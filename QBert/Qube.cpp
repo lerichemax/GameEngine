@@ -62,7 +62,7 @@ Qube::Qube(Qube const& other)
 
 void Qube::Initialize()
 {
-	m_pScene = static_cast<QBertScene*>(m_pGameObject->GetParentScene());
+	m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
 	
 	m_CharacterPos.x =  m_pGameObject->GetTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
 	m_CharacterPos.y = m_pGameObject->GetTransform()->GetWorldPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
@@ -93,7 +93,7 @@ void Qube::AddConnection(ConnectionDirection dir, Qube* const pConnection)
 {
 	if (dir != ConnectionDirection::null)
 	{
-		m_pConnections[(int)dir] = pConnection;
+		m_pConnections[static_cast<int>(dir)] = pConnection;
 	}
 }
 
@@ -101,7 +101,7 @@ void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pC
 {
 	if (dir != ConnectionDirection::null)
 	{
-		m_pEscheresqueRightConnections[(int)dir] = pConnection;
+		m_pEscheresqueRightConnections[static_cast<int>(dir)] = pConnection;
 	}	
 }
 
@@ -109,17 +109,17 @@ void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pCo
 {
 	if (dir != ConnectionDirection::null)
 	{
-		m_pEscheresqueLeftConnections[(int)dir] = pConnection;
+		m_pEscheresqueLeftConnections[static_cast<int>(dir)] = pConnection;
 	}
 }
 
 void Qube::AddConnectionToDisk()
 {
-	auto pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
+	auto const pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
 	pDisk->GetComponent<ColoredDisk>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
 
 	m_pGameObject->AddChild(pDisk);
-	auto parentPos = m_pGameObject->GetTransform()->GetWorldPosition();
+	auto const parentPos = m_pGameObject->GetTransform()->GetWorldPosition();
 	if (!HasConnection(ConnectionDirection::upLeft))
 	{
 		pDisk->GetTransform()->SetWorldPosition(parentPos.x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth()/2,
@@ -132,8 +132,6 @@ void Qube::AddConnectionToDisk()
 			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);
 	}
 	
-	
-	
 	m_pDiskConnection = pDisk->GetComponent<ColoredDisk>();
 	Debugger::GetInstance().Log("Disk spawned");
 }
@@ -144,18 +142,18 @@ bool Qube::HasConnection(ConnectionDirection dir) const
 	{
 		return false;
 	}
-	return m_pConnections[(int)dir] != nullptr;
+	return m_pConnections[static_cast<int>(dir)] != nullptr;
 }
 
 bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
 	if (escheresqueRight)
 	{
-		return m_pEscheresqueRightConnections[(int)dir] != nullptr;
+		return m_pEscheresqueRightConnections[static_cast<int>(dir)] != nullptr;
 	}
 	else
 	{
-		return m_pEscheresqueLeftConnections[(int)dir] != nullptr;
+		return m_pEscheresqueLeftConnections[static_cast<int>(dir)] != nullptr;
 	}
 }
 
@@ -163,11 +161,11 @@ Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRi
 {
 	if (escheresqueRight)
 	{
-		return m_pEscheresqueRightConnections[(int)dir];
+		return m_pEscheresqueRightConnections[static_cast<int>(dir)];
 	}
 	else
 	{
-		return m_pEscheresqueLeftConnections[(int)dir];
+		return m_pEscheresqueLeftConnections[static_cast<int>(dir)];
 	}
 }
 
@@ -205,8 +203,15 @@ void Qube::QBertJump(QBert* pQbert)
 		}
 		break;
 	case QBertScene::Level::Level3:
-		Flip();
-		Debugger::GetInstance().Log("Qube flipped !");
+		if (m_bIsFlipped)
+		{
+			UnFlip();
+		}
+		else
+		{
+			Flip();
+		}
+		
 		if (m_pPyramid->AreAllQubesFlipped())
 		{
 			Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");

@@ -1,6 +1,7 @@
 #pragma once
 #include "EnemyManager.h"
 
+class Coily;
 class CoilyManager final : public EnemyManager
 {
 public:
@@ -15,8 +16,9 @@ public:
 	void SetIdle(bool isIdle);
 
 protected:
-	void SpawnerTimer() override;
+	void Spawn() override;
 
 private:
 	CoilyManager(CoilyManager const& other);
+
 };

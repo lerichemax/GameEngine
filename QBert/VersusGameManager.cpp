@@ -29,7 +29,7 @@ VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, 
 
 void VersusGameManager::Notify(empire::GameObject* object, int event)
 {
-	switch (VersusGameEvent(event))
+	switch (static_cast<VersusGameEvent>(event))
 	{
 	case VersusGameEvent::Player1Died:
 		{
@@ -88,7 +88,7 @@ void VersusGameManager::UpdateCharacterPoint(CharacterPoint* pCharacterPoints)
 	CheckVictory();
 }
 
-void VersusGameManager::CheckVictory()
+void VersusGameManager::CheckVictory() const
 {
 	if (m_pP1->GetPoints() == 3)
 	{

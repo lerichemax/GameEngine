@@ -100,9 +100,9 @@ void CoopScene::Initialize()
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
 	AddObject(pyramid);
 
-	auto enemyManagerObj = new GameObject{};
-	auto pWWm = new WrongWayManager{ 2, 7 };
-	auto pSSm = new SlickSamManager{ 2, 7 };
+	auto* enemyManagerObj = new GameObject{};
+	auto* pWWm = new WrongWayManager{ 2, 7 };
+	auto* pSSm = new SlickSamManager{ 2, 7 };
 	pWWm->SetPyramid(m_pPyramid);
 	pSSm->SetPyramid(m_pPyramid);
 	enemyManagerObj->AddComponent(pWWm);
@@ -122,7 +122,6 @@ void CoopScene::Initialize()
 	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
 	pBtn = pBtnObject->GetComponent<ButtonComponent>();
 	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
 	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
 	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
 	pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
@@ -154,8 +153,8 @@ void CoopScene::Initialize()
 	qbert1->AddObserver(pGameManager);
 	qbert2->AddObserver(pGameManager);
 
-	auto camObj = new GameObject{};
-	auto camComp = new CameraComponent{};
+	auto const camObj = new GameObject{};
+	auto const camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
 	camObj->GetTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
@@ -191,6 +190,9 @@ void CoopScene::ResetGame()
 	m_pQbertP2->GetGameObject()->SetActive(true);
 	m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
 	m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
+	SetIsPaused(false);
+	m_pPauseMenu->SetActive(false);
+	m_pGameOverMenu->SetActive(false);
 }
 
 void CoopScene::DeclareInput()

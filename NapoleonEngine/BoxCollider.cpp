@@ -1,40 +1,42 @@
 #include "PCH.h"
 #include "BoxCollider.h"
-
+#include "CircleCollider.h"
 #include "TransformComponent.h"
 #include "GameObject.h"
 #include "Shapes.h"
 
-empire::BoxCollider::BoxCollider(unsigned int width, unsigned int height)
+using namespace empire;
+
+BoxCollider::BoxCollider(unsigned int width, unsigned int height)
 	:ColliderComponent(Type::Box),
 	m_pRectangle(new Rectangle{ 0,0,width, height })
 {
 }
 
-empire::BoxCollider::BoxCollider(BoxCollider const& other)
+BoxCollider::BoxCollider(BoxCollider const& other)
 	:ColliderComponent(other),
 	m_pRectangle(new Rectangle(other.m_pRectangle->pos, other.m_pRectangle->width, other.m_pRectangle->height))
 {
 	
 }
 
-empire::BoxCollider::~BoxCollider()
+BoxCollider::~BoxCollider()
 {
 	SafeDelete(m_pRectangle);
 }
 
-void empire::BoxCollider::Initialize()
+void BoxCollider::Initialize()
 {
 	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
 	ColliderComponent::Initialize();
 }
 
-void empire::BoxCollider::Update()
+void BoxCollider::Update()
 {
 	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
 }
 
-void empire::BoxCollider::CheckOverlap(ColliderComponent* pOther)
+void BoxCollider::CheckOverlap(ColliderComponent* pOther)
 {
 	bool isOverlapping = false;
 	switch (pOther->GetType())
@@ -43,14 +45,19 @@ void empire::BoxCollider::CheckOverlap(ColliderComponent* pOther)
 		isOverlapping = IsOverlapping(static_cast<BoxCollider*>(pOther));
 		break;
 	case Type::Circle:
-		//isOverlapping = IsOverlapping(static_cast<CircleCollider*>(pOther));
+		isOverlapping = IsOverlapping(static_cast<CircleCollider*>(pOther));
 		break;
 	}
 
 	CallOverlapFunctions(isOverlapping, pOther);
 }
 
-bool empire::BoxCollider::IsOverlapping(BoxCollider* pOther)
+bool BoxCollider::IsOverlapping(BoxCollider* pOther) const
 {
-	return m_pRectangle->IsOverlapping(pOther->GetRectangle());
+	return AreOverlapping(*m_pRectangle, pOther->GetRectangle());
+}
+
+bool BoxCollider::IsOverlapping(CircleCollider* pOther) const
+{
+	return AreOverlapping(*m_pRectangle, pOther->GetCircle());
 }

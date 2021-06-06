@@ -38,7 +38,7 @@ namespace empire
 		void AddComponent(Component* pComp);
 
 		void AddChild(GameObject* pChild);
-		std::vector<GameObject*> const& GetChildren() { return m_pChildren; }
+		std::vector<GameObject*> const& GetChildren() const { return m_pChildren; }
 		
 		void SetActive(bool active);
 		void Destroy();
@@ -46,13 +46,13 @@ namespace empire
 		GameObject* GetParent() const{ return m_pParent; }
 		Scene* const GetParentScene() const { return m_pScene; }
 		
-		bool IsInitialized() { return m_bIsInitialized; }
+		bool IsInitialized() const { return m_bIsInitialized; }
 		bool IsActive() const;
 		bool HasChildren() const { return m_pChildren.size() > 0; }
 		std::string GetTag()const { return m_Tag; };
 		
-		void AddObserver(Observer* pObserver);
-		void RemoveObserver(Observer* pObserver);
+		void AddObserver(Observer* pObserver) const;
+		void RemoveObserver(Observer* pObserver) const;
 		void Notify(int event);
 		void SetTag(std::string const& tag, bool applyToChildren);
 		GameObject* FindTagInChildren(std::string const& tag);

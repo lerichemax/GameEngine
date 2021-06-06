@@ -25,7 +25,7 @@ public:
 	
 	bool IsPaused()const { return m_bIsPaused; }
 	void SetIsPaused(bool isPaused) { m_bIsPaused = isPaused; }
-	void EndGame(bool isWin);
+	void EndGame(bool isWin) const;
 
 protected:
 	Level m_Level;

@@ -13,7 +13,7 @@ public:
 	~SlickSamManager() = default;
 
 protected:
-	void SpawnerTimer() override;
+	void Spawn() override;
 
 private:
 	SlickSamManager(SlickSamManager const& other);

@@ -83,7 +83,7 @@ void VersusScene::Initialize()
 
 	auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
 	
-	auto const roundTxt = new GameObject{};
+	auto* const roundTxt = new GameObject{};
 	roundTxt->GetTransform()->Translate(400.f, 60.f);
 	roundTxt->AddComponent(new TextRendererComponent{ "Round 1", fontBig });
 	roundTxt->GetComponent<TextRendererComponent>()->SetTextColor(255, 255, 255);
@@ -117,7 +117,6 @@ void VersusScene::Initialize()
 	//Replay
 	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
 	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
 	pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
 	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
 	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
@@ -138,7 +137,7 @@ void VersusScene::Initialize()
 	pBtn->SetOnClickFunction(new QuitGameCommand{  });
 	m_pGameOverMenu->SetActive(false);
 
-	auto pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
+	auto const pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
 		qbertObj->GetComponent<CharacterPoint>(), coilyObj->GetComponent<CharacterPoint>(), m_pPyramid,
 		m_pGameOverMenu, 3 };
 	ObserverManager::GetInstance().AddObserver(pGameManager);
@@ -147,8 +146,8 @@ void VersusScene::Initialize()
 	coilyObj->AddObserver(pGameManager);
 	pyramid->AddObserver(pGameManager);
 
-	auto camObj = new GameObject{};
-	auto camComp = new CameraComponent{};
+	auto* camObj = new GameObject{};
+	auto* const camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
 	camObj->GetTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
@@ -172,6 +171,9 @@ void VersusScene::ResetGame()
 	m_pRoundText->SetText("Round 1");
 	m_pTextP1->SetText("P1: 0");
 	m_pTextP2->SetText("P2: 0");
+	SetIsPaused(false);
+	m_pPauseMenu->SetActive(false);
+	m_pGameOverMenu->SetActive(false);
 }
 
 void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1

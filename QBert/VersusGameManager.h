@@ -43,5 +43,5 @@ private:
 
 	void UpdateRound();
 	void UpdateCharacterPoint(CharacterPoint* pCharacterPoints);
-	void CheckVictory();
+	void CheckVictory() const;
 };

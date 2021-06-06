@@ -24,13 +24,10 @@ QBertScene::QBertScene(std::string const& name, Level startLevel)
 
 void QBertScene::CustomOnActivate()
 {
-	m_bIsPaused = false;
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
 	ResetGame();
 }
 
-void QBertScene::EndGame(bool isWin)
+void QBertScene::EndGame(bool isWin) const
 {
 	if (isWin)
 	{

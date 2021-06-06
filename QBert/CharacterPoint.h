@@ -10,7 +10,7 @@ public:
 	void Update() override{};
 	
 	void AddPoints(int nbrPoint) { m_NbrPoints += nbrPoint; }
-	int GetPoints() { return m_NbrPoints; }
+	int GetPoints() const { return m_NbrPoints; }
 	void Reset() { m_NbrPoints = 0; }
 private:
 

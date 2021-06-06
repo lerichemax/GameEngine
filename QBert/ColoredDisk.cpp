@@ -36,13 +36,13 @@ void ColoredDisk::Update()
 			{
 				Debugger::GetInstance().LogError("Variable m_pPyramid top of ColoredDisk is undefined");
 			}
-			auto finalPos = m_pPyramidTop->GetGameObject()->GetTransform()->GetWorldPosition();
+			glm::vec2 finalPos = m_pPyramidTop->GetGameObject()->GetTransform()->GetWorldPosition();
 			finalPos.y += OFFSET;
 			
-			auto parentTrans = m_pGameObject->GetTransform();
-			auto qBertTrans = m_pQbert->GetGameObject()->GetTransform();
-			auto distance = finalPos - parentTrans->GetWorldPosition();
-			auto direction = glm::normalize(distance);
+			TransformComponent* parentTrans{ m_pGameObject->GetTransform() };
+			TransformComponent* qBertTrans{ m_pQbert->GetGameObject()->GetTransform() };
+			glm::vec2 distance{ finalPos - parentTrans->GetWorldPosition() };
+			glm::vec2 direction{ glm::normalize(distance) };
 
 			direction *= (MOVE_SPEED * Timer::GetInstance().GetDeltaTime());
 			parentTrans->SetWorldPosition(parentTrans->GetWorldPosition() + direction);

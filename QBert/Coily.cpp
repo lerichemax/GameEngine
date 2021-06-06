@@ -76,7 +76,7 @@ void Coily::MeetCharacter(Character* pOther)
 	{
 		if (pOther->GetType() == CharacterType::player)
 		{
-			auto qbert = static_cast<QBert*>(pOther);
+			auto qbert = dynamic_cast<QBert*>(pOther);
 			qbert->Swear();
 			qbert->Die();
 		}
@@ -88,10 +88,10 @@ void Coily::DoDie()
 	if (m_pController != nullptr && m_pController->IsEnable())
 	{
 		Enemy::DoDie();
-		m_pGameObject->Notify((int)GameEvent::CoilyDies);
+		m_pGameObject->Notify(static_cast<int>(GameEvent::CoilyDies));
 	}
 	
-	m_pGameObject->Notify((int)VersusGameEvent::Player2Died);
+	m_pGameObject->Notify(static_cast<int>(VersusGameEvent::Player2Died));
 }
 
 void Coily::Transform(bool isTransformed)
@@ -99,7 +99,7 @@ void Coily::Transform(bool isTransformed)
 	m_bIsTransformed = isTransformed;
 	if (m_bIsTransformed)
 	{
-		m_pGameObject->Notify((int)VersusGameEvent::CoilyTransform);
+		m_pGameObject->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
 	}
 	else
 	{

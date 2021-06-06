@@ -13,7 +13,7 @@ public:
 	~WrongWayManager() = default;
 
 protected:
-	void SpawnerTimer() override;
+	void Spawn() override;
 
 private:
 	WrongWayManager(WrongWayManager const& other);

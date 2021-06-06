@@ -19,7 +19,7 @@ Jumper::Jumper()
 
 void Jumper::UpdateJump(empire::TransformComponent* transform)
 {
-	auto pos = transform->GetWorldPosition();
+	auto const pos = transform->GetWorldPosition();
 	glm::vec2 dir{};
 	
 	if (!m_bJumpDown)
@@ -85,9 +85,9 @@ void Jumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 	
 	if (m_pGameObject->HasComponent<WrongWay>() )
 	{
-		glm::vec2 jumpDir = targetPos - startPos;
-		float jumpDist = glm::length(jumpDir);
-		auto dirNorm = glm::normalize(jumpDir);
+		glm::vec2 const jumpDir = targetPos - startPos;
+		float const jumpDist = glm::length(jumpDir);
+		auto const dirNorm = glm::normalize(jumpDir);
 		
 		m_Halfway += (dirNorm * (jumpDist/2));
 		

@@ -143,12 +143,12 @@ void GameObject::Initialize()
 	}
 }
 
-void GameObject::AddObserver(Observer* pObserver)
+void GameObject::AddObserver(Observer* pObserver) const
 {
 	m_pSubject->AddObserver(pObserver);
 }
 
-void GameObject::RemoveObserver(Observer* pObserver)
+void GameObject::RemoveObserver(Observer* pObserver) const
 {
 	m_pSubject->RemoveObserver(pObserver);
 }

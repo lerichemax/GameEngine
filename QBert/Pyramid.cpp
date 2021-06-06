@@ -112,7 +112,7 @@ void Pyramid::CreateConnections()
 	int endOfLine{ 1 };
 	int counter{ 0 };
 	
-	for (int i = 0; i < (int)m_pQubes.size(); i++)
+	for (int i = 0; i < static_cast<int>(m_pQubes.size()); i++)
 	{
 		rightChild = i * 2 + offset;
 		leftChild = i * 2 + offset+1;
@@ -143,7 +143,7 @@ void Pyramid::CreateConnections()
 
 void Pyramid::CreateEscheresqueRightConnections()
 {
-	unsigned int idx = (unsigned int)m_pQubes.size() - MAX_WIDTH;
+	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - MAX_WIDTH;
 	int nextlineStartIdx{};
 
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
@@ -172,7 +172,7 @@ void Pyramid::CreateEscheresqueRightConnections()
 
 void Pyramid::CreateEscheresqueLeftConnections()
 {
-	unsigned int idx = (unsigned int)m_pQubes.size() - 1;
+	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - 1;
 	
 	for (unsigned int i = MAX_WIDTH; i != 0; i--)
 	{
@@ -256,15 +256,15 @@ bool Pyramid::IsTop(Qube* pQube) const
 bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const
 {
 	
-	int currentIdx = GetQubeIndex(pStartingQube);
-	int targetIdx = GetQBertIndex();
+	int const currentIdx = GetQubeIndex(pStartingQube);
+	int const targetIdx = GetQBertIndex();
 
 	if (targetIdx == -1)
 	{
 		return false;
 	}
 	
-	bool* visited = new bool[m_pQubes.size()];
+	auto* visited = new bool[m_pQubes.size()];
 	
 	//at each index, stores the previous qube and the connection to it
 	std::pair<int,int>* predecessors = new std::pair<int, int>[m_pQubes.size()]; //first qube idx, second connection idx
@@ -279,16 +279,16 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 	visited[currentIdx] = true;
 	while (!queue.empty())
 	{
-		int q = queue.front();
+		int const q = queue.front();
 		queue.pop_front();
-		auto pQube = GetQube(q);
+		auto const pQube = GetQube(q);
 		bool doBreak{ false };
 		
 		for (int i{}; i < 4; i++)
 		{
-			if (pQube->HasConnection((ConnectionDirection)i))
+			if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
 			{
-				int nextIdx = GetQubeIndex(pQube->GetConnection((ConnectionDirection)i));
+				int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
 				if (!visited[nextIdx])
 				{
 					visited[nextIdx] = true;
@@ -323,13 +323,13 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 	delete[] visited;
 	delete[] predecessors;
 
-	size_t pathSize = path.size();
+	size_t const pathSize = path.size();
 	
 	for (size_t i{1}; i <= size;i++)
 	{
 		if (i < pathSize)
 		{
-			directions[i - 1] = (ConnectionDirection)path[pathSize - i].second;
+			directions[i - 1] = static_cast<ConnectionDirection>(path[pathSize - i].second);
 		}
 		else
 		{
@@ -346,7 +346,7 @@ int Pyramid::GetQBertIndex() const
 
 int Pyramid::GetQubeIndex(Qube* pQube) const
 {
-	for (int i{}; i < (int)m_pQubes.size(); i++)
+	for (int i{}; i < static_cast<int>(m_pQubes.size()); i++)
 	{
 		if (m_pQubes[i] == pQube)
 		{

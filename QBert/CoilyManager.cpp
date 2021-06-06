@@ -24,32 +24,20 @@ CoilyManager::CoilyManager(CoilyManager const& other)
 {
 
 }
-void CoilyManager::SpawnerTimer()
-{
-	//Spawn Coilies
-	if (m_NbrEnemies < MAX_ENEMY_OF_TYPE)
-	{
-		if (m_EnemySpawnTimer < SPAWN_INTERVAL)
-		{
-			m_EnemySpawnTimer += empire::Timer::GetInstance().GetDeltaTime();
-			return;
-		}
 
-		int random{ rand() % 2 + 1 };
-		GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
-		m_pPyramid->GetGameObject()->AddChild(pCoily);
-		pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
-		pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-		pCoily->GetTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
-		
-		AddToArray(pCoily->GetComponent<Coily>());
-		if (m_pObserver != nullptr)
-		{
-			pCoily->AddObserver(m_pObserver);
-		}
-		m_EnemySpawnTimer = 0;
-		m_NbrEnemies++;
-		
+void CoilyManager::Spawn()
+{
+	int const random{ rand() % 2 + 1 };
+	GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
+	m_pPyramid->GetGameObject()->AddChild(pCoily);
+	pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
+	pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
+	pCoily->GetTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
+
+	AddToArray(pCoily->GetComponent<Coily>());
+	if (m_pObserver != nullptr)
+	{
+		pCoily->AddObserver(m_pObserver);
 	}
 }
 

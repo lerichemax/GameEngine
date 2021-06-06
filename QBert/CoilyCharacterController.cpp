@@ -39,7 +39,7 @@ CoilyCharacterController::CoilyCharacterController(CoilyCharacterController cons
 void CoilyCharacterController::Initialize()
 {
 	EnemyCharacterController::Initialize();
-	m_pCoilyCharacter = static_cast<Coily*>(m_pEnemyCharacter);
+	m_pCoilyCharacter = dynamic_cast<Coily*>(m_pEnemyCharacter);
 }
 
 void CoilyCharacterController::SetIdle(bool isIdle)
@@ -81,7 +81,7 @@ ConnectionDirection CoilyCharacterController::ChooseDirection()
 	}
 
 	
-	auto dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
+	auto const dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
 	m_CurrentlyInQueue--;
 	
 

@@ -26,6 +26,7 @@ public:
 
 	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	void SetGameManager(GameManager* pManager) { m_pObserver = pManager; }
+
 protected:
 	unsigned int const MAX_ENEMY_OF_TYPE;
 	float const SPAWN_INTERVAL;
@@ -36,12 +37,15 @@ protected:
 
 	Pyramid* m_pPyramid;
 	GameManager* m_pObserver;
-	
+
 	std::vector<Enemy*> m_pEnemies;
 	
-	virtual void SpawnerTimer() = 0;
+	virtual void Spawn() = 0;
+
 	void AddToArray(Enemy* pEnemy);
-
-
+	
 	EnemyManager(EnemyManager const& other);
+
+private:
+	void SpawnerTimer();
 };

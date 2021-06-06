@@ -150,20 +150,20 @@ bool InputManager::InputManagerImpl::ProcessSDLEvents()
 				return pair.second->keyBoardBtn == e.key.keysym.sym;
 			});
 
-		for (auto actionPair : m_pActions)
-		{
-			auto pAction = actionPair.second;
-			if (pAction->keyBoardBtn == e.key.keysym.sym)
+		std::for_each(m_pActions.begin(), m_pActions.end(), [&e, this](std::pair<int, InputAction*> pair)
 			{
-				ProcessKeyboardInput(e.key, pAction);
-				
-			}
-			else if (pAction->mouseBtn != MouseButton::none)
-			{
-				ProcessMouseInput(e, pAction);
-			}
+				auto pAction = pair.second;
+				if (pAction->keyBoardBtn == e.key.keysym.sym)
+				{
+					ProcessKeyboardInput(e.key, pAction);
 
-		}
+				}
+				else if (pAction->mouseBtn != MouseButton::none)
+				{
+					ProcessMouseInput(e, pAction);
+				}
+			});
+
 		switch (e.type) // Handle mouse events
 		{
 		case SDL_MOUSEMOTION:

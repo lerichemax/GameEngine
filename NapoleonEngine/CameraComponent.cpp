@@ -27,10 +27,10 @@ void CameraComponent::Initialize()
 	m_Height = pSceneMan.GetEngine()->GetWindowHeight();
 }
 
-void CameraComponent::Transform()
+void CameraComponent::Transform() const
 {
-	glm::vec2 pos = m_pGameObject->GetTransform()->GetPosition();
-	glm::vec2 upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
+	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
+	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
 }
@@ -40,9 +40,9 @@ glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
 	return TransformPoint(pos, GetCameraMatrix());
 }
 
-glm::mat3x3 CameraComponent::GetCameraMatrix()
+glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
-	auto trans = m_pGameObject->GetTransform();
+	auto const trans = m_pGameObject->GetTransform();
 
 	return BuildTransformMatrix(trans->GetWorldPosition(), trans->GetWorldRotation(), 
 		trans->GetWorldScale());

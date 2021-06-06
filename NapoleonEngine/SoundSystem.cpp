@@ -60,7 +60,7 @@ ID SoundSystem::AddEffect(SoundEffect* pEffect)
 
 ID SoundSystem::AddEffect(std::string const& path)
 {
-	auto pEffect = new SoundEffect{ path };
+	auto* pEffect = new SoundEffect{ path };
 	m_pSounds.insert(std::make_pair(pEffect->m_Id, pEffect));
 	return pEffect->m_Id;
 }

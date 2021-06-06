@@ -25,7 +25,7 @@ public:
 private:
 	float const OFFSET{-45}; 
 	float const DROP_MAX_TIME{ 0.75f };
-	float const MOVE_SPEED{ 75.f };
+	float const MOVE_SPEED{ 100.f };
 	static int const POINTS{ 50 };
 	
 	Qube* m_pPyramidTop;

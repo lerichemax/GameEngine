@@ -26,13 +26,13 @@ CharacterState* EnemyOnQubeState::Update(empire::GameObject* )
 	}
 
 	m_pCharController->m_MoveTimer = 0;
-	auto direction = m_pCharController->ChooseDirection();
-	auto qube = m_pCharacter->GetCurrentQube();
+	auto const direction = m_pCharController->ChooseDirection();
+	auto* qube = m_pCharacter->GetCurrentQube();
 	m_pCharController->m_pEnemyCharacter->Move(direction);
 
 	if ((m_pCharacter->GetType() != CharacterType::wrongWay && !qube->HasConnection(direction)) ||
 		(m_pCharacter->GetType() == CharacterType::wrongWay && 
-		!qube->HasEscheresqueConnection(direction, static_cast<WrongWay*>(m_pCharacter)->IsEscheresqueRight())))
+		!qube->HasEscheresqueConnection(direction, dynamic_cast<WrongWay*>(m_pCharacter)->IsEscheresqueRight())))
 	{
 		return new FallingState(m_pCharacter, m_pJumperComp);
 	}

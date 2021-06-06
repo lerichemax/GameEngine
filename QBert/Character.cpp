@@ -97,12 +97,12 @@ void Character::JumpToQube(Qube* pTargetQube)
 	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
-void Character::SwitchToIdleTex()
+void Character::SwitchToIdleTex() const
 {
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 }
 
-void Character::SwitchToJumpTex()
+void Character::SwitchToJumpTex() const
 {
 	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 }

@@ -40,7 +40,7 @@ GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextR
 
 void GameManager::Notify(empire::GameObject* object, int event)
 {
-	switch ((GameEvent)event)
+	switch (static_cast<GameEvent>(event))
 	{
 	case GameEvent::PlayerDied:
 	{
@@ -60,7 +60,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 	}
 	case GameEvent::IncreasePoints:
 	{
-		auto pPlayer = object->GetComponent<QBert>();
+		auto const pPlayer = object->GetComponent<QBert>();
 		UpdatePointsText(object->GetComponent<CharacterPoint>(), pPlayer->GetPlayerNbr());
 	}
 	break;
@@ -98,7 +98,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		if (m_pWWManager != nullptr) m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
 		break;
 	case GameEvent::PyramidCompleted:
-		auto pPyramid = object->GetComponent<Pyramid>();
+		auto const pPyramid = object->GetComponent<Pyramid>();
 		pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * ColoredDisk::GetPoints());
 		break;
 	}

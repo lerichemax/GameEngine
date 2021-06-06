@@ -22,6 +22,6 @@ empire::Texture2D::Texture2D(SDL_Texture* texture)
 	int width{};
 	int height{};
 	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
-	m_Width = (float)width;
-	m_Height = (float)height;
+	m_Width = static_cast<float>(width);
+	m_Height = static_cast<float>(height);
 }

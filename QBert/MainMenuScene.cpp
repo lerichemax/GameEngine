@@ -20,17 +20,17 @@ MainMenuScene::MainMenuScene()
 void MainMenuScene::Initialize()
 {
 	
-	auto titleObject = new GameObject();
+	auto* titleObject = new GameObject();
 	titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
 	AddObject(titleObject);
 	titleObject->GetTransform()->Translate(300, 50);
 	titleObject->GetTransform()->Scale(0.8f, 0.8f);
 
-	auto soloBtn = new GameObject();
-	auto btn = new ButtonComponent(70, 30);
+	auto* soloBtn = new GameObject();
+	auto* btn = new ButtonComponent(70, 30);
 	soloBtn->AddComponent(btn);
 
-	auto textObj = new GameObject();
+	auto* textObj = new GameObject();
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 	auto txt = new TextRendererComponent{ "Solo", font };
 	textObj->AddComponent(txt);
@@ -46,7 +46,7 @@ void MainMenuScene::Initialize()
 	soloBtn->GetTransform()->Translate(400, 200);
 	AddObject(soloBtn);
 
-	auto coopBtn = new GameObject();
+	auto* coopBtn = new GameObject();
 	btn = new ButtonComponent(80, 30);
 	coopBtn->AddComponent(btn);
 
@@ -65,7 +65,7 @@ void MainMenuScene::Initialize()
 	coopBtn->GetTransform()->Translate(400, 250);
 	AddObject(coopBtn);
 
-	auto vsBtn = new GameObject();
+	auto* vsBtn = new GameObject();
 	btn = new ButtonComponent(92, 30);
 	vsBtn->AddComponent(btn);
 
@@ -84,7 +84,7 @@ void MainMenuScene::Initialize()
 	vsBtn->GetTransform()->Translate(400, 300);
 	AddObject(vsBtn);
 
-	auto quitBtn = new GameObject();
+	auto* quitBtn = new GameObject();
 	btn = new ButtonComponent(70, 30);
 	quitBtn->AddComponent(btn);
 
@@ -103,8 +103,8 @@ void MainMenuScene::Initialize()
 	quitBtn->GetTransform()->Translate(400, 350);
 	AddObject(quitBtn);
 	
-	auto camObj = new GameObject{};
-	auto camComp = new CameraComponent{};
+	auto* camObj = new GameObject{};
+	auto* camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
 	camObj->GetTransform()->Translate(450, 300);
 	SetCameraActive(camComp);

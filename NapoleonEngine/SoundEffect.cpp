@@ -31,7 +31,6 @@ bool SoundEffect::Play()
 {
 	if (m_pMixChunk != nullptr)
 	{
-
 		int channel{ Mix_PlayChannel(-1, m_pMixChunk, 0) };
 		return channel == -1 ? false : true;
 	}

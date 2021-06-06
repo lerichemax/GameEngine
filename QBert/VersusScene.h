@@ -23,5 +23,5 @@ private:
 	empire::TextRendererComponent* m_pTextP2;
 
 	void Initialize() override;
-	void DeclareInput() override;
+	void DeclareInput()override;
 };

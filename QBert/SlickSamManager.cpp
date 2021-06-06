@@ -23,32 +23,18 @@ SlickSamManager::SlickSamManager(SlickSamManager const& other)
 {
 	
 }
-void SlickSamManager::SpawnerTimer()
+void SlickSamManager::Spawn()
 {
-	//Spawn Slick and Sam
-	if (m_NbrEnemies < MAX_ENEMY_OF_TYPE)
-	{
-		if (m_EnemySpawnTimer < SPAWN_INTERVAL)
-		{
-			m_EnemySpawnTimer += empire::Timer::GetInstance().GetDeltaTime();
-		}
-		else
-		{
-			int random{ rand() % 2 + 1 };
-			GameObject* pSlickSam = PrefabsManager::GetInstance().Instantiate("SlickSam");
+	int const random{ rand() % 2 + 1 };
+	GameObject* pSlickSam = PrefabsManager::GetInstance().Instantiate("SlickSam");
 
-			m_pPyramid->GetGameObject()->AddChild(pSlickSam);
-			
-			pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-			pSlickSam->GetTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
-			AddToArray(pSlickSam->GetComponent<SlickSam>());
-			
-			if (m_pObserver != nullptr)
-			{
-				pSlickSam->AddObserver(m_pObserver);
-			}
-			m_EnemySpawnTimer = 0;
-			m_NbrEnemies++;
-		}
+	m_pPyramid->GetGameObject()->AddChild(pSlickSam);
+
+	pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
+	pSlickSam->GetTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
+	AddToArray(pSlickSam->GetComponent<SlickSam>());
+	if (m_pObserver != nullptr)
+	{
+		pSlickSam->AddObserver(m_pObserver);
 	}
 }

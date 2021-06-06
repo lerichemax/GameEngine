@@ -13,9 +13,9 @@ namespace empire
 		~CameraComponent() = default;
 
 
-		void Transform();
+		
 		glm::vec2 TransformIntoCameraSpace(glm::vec2 const pos);
-		glm::mat3x3 GetCameraMatrix();
+		glm::mat3x3 GetCameraMatrix() const;
 	
 	protected:
 		void Initialize() override;
@@ -24,9 +24,12 @@ namespace empire
 		CameraComponent* Clone() const override { return new CameraComponent(*this); }
 	
 	private:
+		friend class Scene;
+		
 		unsigned int m_Width;
 		unsigned int m_Height;
 
+		void Transform() const;
 		
 		CameraComponent(CameraComponent const& other);
 	};

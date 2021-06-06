@@ -79,16 +79,16 @@ void SoloScene::Initialize()
 	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
 		std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
 	
-	auto pyramid = pPrefabManager.Instantiate("Pyramid");
+	auto const pyramid = pPrefabManager.Instantiate("Pyramid");
 	m_pPyramid = pyramid->GetComponent<Pyramid>();
 	m_pPyramid->SetQBert(m_pQbert);
 	AddObject(pyramid);
 	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 	
-	auto enemyManagerObj = new GameObject{};
-	auto pWWm = new WrongWayManager{2, 7};
-	auto pSSm = new SlickSamManager{ 2, 7 };
-	auto pCm = new CoilyManager{ 1, 10 };
+	auto* enemyManagerObj = new GameObject{};
+	auto* pWWm = new WrongWayManager{2, 7};
+	auto* pSSm = new SlickSamManager{ 2, 7 };
+	auto* pCm = new CoilyManager{ 1, 10 };
 	pWWm->SetPyramid(m_pPyramid);
 	pSSm->SetPyramid(m_pPyramid);
 	pCm->SetPyramid(m_pPyramid);
@@ -129,7 +129,7 @@ void SoloScene::Initialize()
 
 	m_pGameOverMenu->SetActive(false);
 
-	auto pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
+	auto const pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
 nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSSm, m_pGameOverMenu };
 
 	ObserverManager::GetInstance().AddObserver(pGameManager);
@@ -138,8 +138,8 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSS
 	pSSm->SetGameManager(pGameManager);
 	pCm->SetGameManager(pGameManager);
 
-	auto camObj = new GameObject{};
-	auto camComp = new CameraComponent{};
+	auto* camObj = new GameObject{};
+	auto* camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
 	camObj->GetTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
@@ -172,9 +172,12 @@ void SoloScene::ResetGame()
 	}
 	
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
+	SetIsPaused(false);
+	m_pPauseMenu->SetActive(false);
+	m_pGameOverMenu->SetActive(false);
 }
 
-void SoloScene::DeclareInput()
+void SoloScene::DeclareInput() 
 {
 	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_w, empire::KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));

@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "Subject.h"
 
 enum class CharacterType //enum to avoid using typeid
 {
@@ -69,8 +68,8 @@ protected:
 	virtual void LandOnQube() {};
 	virtual void SetLayerToBackGround();
 	
-	void SwitchToIdleTex();
-	void SwitchToJumpTex();
+	void SwitchToIdleTex() const;
+	void SwitchToJumpTex() const;
 	void SwitchState(CharacterState* pState);
 	void SwitchState(CharacterStateType type);
 	

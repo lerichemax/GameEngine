@@ -17,7 +17,8 @@ EnemyCharacterController::EnemyCharacterController()
 }
 
 EnemyCharacterController::EnemyCharacterController(EnemyCharacterController const& other)
-	:m_pEnemyCharacter(other.m_pEnemyCharacter),
+	:Component(other),
+	m_pEnemyCharacter(other.m_pEnemyCharacter),
 	m_MoveTimer(other.m_MoveTimer)
 {
 	
@@ -32,7 +33,7 @@ ConnectionDirection EnemyCharacterController::ChooseDirection()
 {
 	int random = rand() % 2 + 1; //down left or down right
 
-	auto dir = (ConnectionDirection)random;
+	auto dir = static_cast<ConnectionDirection>(random);
 
 	if (!m_pEnemyCharacter->GetCurrentQube()->HasConnection(dir))
 	{

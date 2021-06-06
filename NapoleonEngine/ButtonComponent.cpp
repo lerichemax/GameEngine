@@ -39,10 +39,11 @@ void empire::ButtonComponent::Update()
 	if (m_bVisualize)
 	{
 		Debugger::GetInstance().DrawDebugRectangle(m_pGameObject->GetTransform()->GetPosition(), 
-			(unsigned int)m_Dimensions.x, (unsigned int)m_Dimensions.y, Color{255,0,0,1});
+			static_cast<unsigned int>(m_Dimensions.x), static_cast<unsigned int>(m_Dimensions.y),
+			Color{255,0,0,1});
 	}
-	glm::vec2 mousePos = InputManager::GetInstance().GetMousePosition();
-	glm::vec2 pos = m_pGameObject->GetTransform()->GetPosition();
+	glm::vec2 const mousePos = InputManager::GetInstance().GetMousePosition();
+	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
 	
 	if (mousePos.x >= pos.x && mousePos.x <= pos.x + m_Dimensions.x &&
 		mousePos.y >= pos.y && mousePos.y <= pos.y + m_Dimensions.y)

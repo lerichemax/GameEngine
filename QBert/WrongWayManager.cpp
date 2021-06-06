@@ -23,41 +23,29 @@ WrongWayManager::WrongWayManager(WrongWayManager const& other)
 {
 
 }
-void WrongWayManager::SpawnerTimer()
+void WrongWayManager::Spawn()
 {
-	if (m_NbrEnemies < MAX_ENEMY_OF_TYPE)
+	int const random{ rand() % 2 };
+
+	GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
+	auto pWWComp = pWrongWay->GetComponent<WrongWay>();
+	if (random == 0)
 	{
-		if (m_EnemySpawnTimer < SPAWN_INTERVAL)
-		{
-			m_EnemySpawnTimer += empire::Timer::GetInstance().GetDeltaTime();
-		}
-		else
-		{
-			int random{ rand() % 2 };
-
-			GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
-			auto pWWComp = pWrongWay->GetComponent<WrongWay>();
-			if (random == 0)
-			{
-				pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueRightTop());
-				pWWComp->SetEscheresqueRight(true);
-				pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueRightPos());
-			}
-			else
-			{
-				pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueLeftTop());
-				pWWComp->SetEscheresqueRight(false);
-				pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueLeftPos());
-			}
-
-			AddToArray(pWrongWay->GetComponent<WrongWay>());
-			m_pPyramid->GetGameObject()->AddChild(pWrongWay);
-			if (m_pObserver != nullptr)
-			{
-				pWrongWay->AddObserver(m_pObserver);
-			}
-			m_EnemySpawnTimer = 0;
-			m_NbrEnemies++;
-		}
+		pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueRightTop());
+		pWWComp->SetEscheresqueRight(true);
+		pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueRightPos());
+	}
+	else
+	{
+		pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueLeftTop());
+		pWWComp->SetEscheresqueRight(false);
+		pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueLeftPos());
+	}
+	AddToArray(pWWComp);
+	
+	m_pPyramid->GetGameObject()->AddChild(pWrongWay);
+	if (m_pObserver != nullptr)
+	{
+		pWrongWay->AddObserver(m_pObserver);
 	}
 }

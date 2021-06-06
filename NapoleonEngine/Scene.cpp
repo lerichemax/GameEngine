@@ -85,24 +85,24 @@ void Scene::Render() const
 
 void Scene::Refresh()
 {
-	for (auto pGo : m_pObjects)
-	{
-		pGo->Refresh();
-		if (pGo->m_bIsDestroyed)
+	std::for_each(m_pObjects.begin(), m_pObjects.end(), [](GameObject* pGo)
 		{
-			SafeDelete(pGo);
-		}
-	}
+			pGo->Refresh();
+			if (pGo->m_bIsDestroyed)
+			{
+				SafeDelete(pGo);
+			}
+		});
 
 	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), nullptr),m_pObjects.end());
 }
 
-void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer)
+void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer) const
 {
 	m_pSceneRenderer->AddToGroup(pRenderer, layer);
 }
 
-void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
+void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const
 {
 	m_pSceneRenderer->RemoveFromGroup(pRenderer, layer);
 }

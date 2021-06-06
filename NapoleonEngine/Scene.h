@@ -24,8 +24,8 @@ namespace empire
 		
 		void Render() const;
 		bool IsActive() const { return m_bIsActive; }
-		void AddToGroup(RendererComponent* pRenderer, Layer layer);
-		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer);
+		void AddToGroup(RendererComponent* pRenderer, Layer layer) const;
+		void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
 		void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
 		std::string GetName()const { return m_Name; }
 	

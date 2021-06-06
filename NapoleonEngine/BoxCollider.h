@@ -29,6 +29,7 @@ namespace empire
 
 		BoxCollider(BoxCollider const& other);
 		
-		bool IsOverlapping(BoxCollider* pOther);
+		bool IsOverlapping(BoxCollider* pOther) const;
+		bool IsOverlapping(CircleCollider* pOther) const;
 	};
 }

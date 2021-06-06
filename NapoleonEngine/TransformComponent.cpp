@@ -37,10 +37,10 @@ void TransformComponent::Initialize()
 
 void TransformComponent::Update()
 {
-	auto pParent = m_pGameObject->GetParent();
+	auto* pParent = m_pGameObject->GetParent();
 	if (pParent != nullptr)
 	{
-		auto parentWorld = pParent->GetTransform()->m_WorldPosition;
+		auto const parentWorld = pParent->GetTransform()->m_WorldPosition;
 		m_WorldPosition = parentWorld + m_Position;
 		m_WorldRotation = pParent->GetTransform()->m_WorldRotation + m_Rotation;
 		m_WorldScale = pParent->GetTransform()->m_WorldScale * m_Scale;
@@ -73,16 +73,16 @@ void TransformComponent::SetWorldPosition(float x, float y)
 
 void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
 {
-	auto parentObj = m_pGameObject->GetParent();
+	auto* const parentObj = m_pGameObject->GetParent();
 	if (parentObj == nullptr)
 	{
 		Translate(worldPos);
 	}
 	else
 	{
-		auto parentWorld = parentObj->GetTransform()->GetWorldPosition();
+		auto const parentWorld = parentObj->GetTransform()->GetWorldPosition();
 
-		auto pos = worldPos - parentWorld;
+		auto const pos = worldPos - parentWorld;
 
 		Translate(pos);
 	}

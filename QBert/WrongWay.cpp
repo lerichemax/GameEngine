@@ -21,6 +21,13 @@ WrongWay::WrongWay(bool escheresqueRight)
 
 }
 
+WrongWay::WrongWay(WrongWay const& other)
+	:Enemy(other),
+	m_bEscheresqueRight(other.m_bEscheresqueRight)
+{
+	
+}
+
 void WrongWay::Initialize()
 {
 	if (m_bEscheresqueRight)
@@ -52,7 +59,7 @@ void WrongWay::DoMove(ConnectionDirection direction)
 {
 	if (m_pCurrentQube->HasEscheresqueConnection(direction, m_bEscheresqueRight))
 	{
-		auto pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
+		auto *const pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
 
 		JumpToQube(pNextQube);
 	}
@@ -77,7 +84,7 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 void WrongWay::DoDie()
 {
 	m_pGameObject->Destroy();
-	m_pGameObject->Notify((int)GameEvent::WrongWayDies);
+	m_pGameObject->Notify(static_cast<int>(GameEvent::WrongWayDies));
 }
 
 void WrongWay::SetDirectionTextures(ConnectionDirection dir)

@@ -111,9 +111,6 @@
     <ClInclude Include="LoggingSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
@@ -227,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

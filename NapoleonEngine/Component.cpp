@@ -13,5 +13,4 @@ void Component::RootInitialize(GameObject* pParent)
 {
 	m_pGameObject = pParent;
 	m_bIsEnabled = true;
-	//Initialize();
 }

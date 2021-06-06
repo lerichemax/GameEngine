@@ -8,6 +8,7 @@ class Coily final : public Enemy
 {
 public:
 	explicit Coily(unsigned int fallSoundId);
+	Coily* Clone() const override { return new Coily(*this); }
 	
 	Coily(Coily&& other) = delete;
 	Coily& operator=(Coily const& rhs) = delete;
@@ -26,8 +27,6 @@ protected:
 	void DoDie() override;
 	void DoMove(ConnectionDirection direction) override;
 	void MeetCharacter(Character* pOther) override;
-
-	Coily* Clone() const override { return new Coily(*this); }
 
 private:
 	bool m_bIsTransformed;

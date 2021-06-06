@@ -33,7 +33,6 @@ CharacterState* JumpingState::Update(GameObject* pObject)
 		{
 		case CharacterType::player:
 			return new OnQubeState(m_pCharacter, m_pJumperComp);
-			break;
 		case CharacterType::coily:
 			if (pObject->HasComponent<CoilyCharacterController>())
 			{
@@ -44,11 +43,9 @@ CharacterState* JumpingState::Update(GameObject* pObject)
 			{
 				return new OnQubeState(m_pCharacter, m_pJumperComp);
 			}
-			break;
 		default:
 			return new EnemyOnQubeState(m_pCharacter, m_pJumperComp,
 				pObject->GetComponent<EnemyCharacterController>());
-			break;
 		}
 	}
 	return nullptr;

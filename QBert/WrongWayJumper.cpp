@@ -18,9 +18,9 @@ void WrongWayJumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 	m_TargetPos = targetPos;
 	m_Halfway = startPos;
 
-	glm::vec2 jumpDir = targetPos - startPos;
-	float jumpDist = glm::length(jumpDir);
-	auto dirNorm = glm::normalize(jumpDir);
+	glm::vec2 const jumpDir = targetPos - startPos;
+	float const jumpDist = glm::length(jumpDir);
+	auto const dirNorm = glm::normalize(jumpDir);
 
 	m_Halfway += (dirNorm * (jumpDist / 2));
 

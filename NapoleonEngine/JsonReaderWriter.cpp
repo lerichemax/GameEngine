@@ -48,13 +48,13 @@ int JsonReaderWriter::ReadInt(std::string const& attribute)
 	return ReadAttribute(attribute).GetInt();
 }
 
-std::string JsonReaderWriter::ReadString(std::string const& attribute)
+std::string JsonReaderWriter::ReadString(std::string const& attribute) const
 {
 	return ReadAttribute(attribute).GetString();
 
 }
 
-rapidjson::Value const& JsonReaderWriter::ReadValue(std::string const& attribute)
+rapidjson::Value const& JsonReaderWriter::ReadValue(std::string const& attribute) const
 {
 	return ReadAttribute(attribute);
 }
