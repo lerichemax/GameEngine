@@ -40,7 +40,7 @@ void SoundSystem::Update()
 
 			m_NbrPending = 0;
 		});
-	updateThread.detach();
+	updateThread.join();
 }
 
 void SoundSystem::Play(unsigned int id, float volume)

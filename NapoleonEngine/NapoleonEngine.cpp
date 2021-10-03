@@ -86,7 +86,7 @@ void empire::NapoleonEngine::Run()
 	// tell the resource manager where he can find the game data
 	try
 	{
-		ResourceManager::GetInstance().Init("Data/");
+		ResourceManager::GetInstance().Init("./Data/");
 	}
 	catch (std::runtime_error const& error)
 	{
@@ -116,8 +116,6 @@ void empire::NapoleonEngine::Run()
 			renderer.Render();
 
 			Timer::GetInstance().Sleep();
-			/*auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(m_MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);*/
 		}
 	}
 
