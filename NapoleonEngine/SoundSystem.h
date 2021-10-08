@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include <mutex>
 
 #include "SoundInterface.h"
 
@@ -38,5 +39,6 @@ namespace empire
 		unsigned int m_NbrPending;
 
 		std::map<ID, SoundEffect*> m_pSounds;
+		std::mutex m_Mutex;
 	};
 }

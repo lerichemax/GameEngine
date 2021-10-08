@@ -33,6 +33,7 @@ void SoundSystem::Update()
 	
 	std::thread updateThread([this]()
 		{
+			std::lock_guard<std::mutex> guard(m_Mutex);
 			for (unsigned int i{}; i < m_NbrPending; i++)
 			{
 				m_pSounds[m_Pending[i].id]->Play(m_Pending[i].volume);

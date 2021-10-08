@@ -83,7 +83,6 @@ void empire::NapoleonEngine::Cleanup()
 
 void empire::NapoleonEngine::Run()
 {
-	// tell the resource manager where he can find the game data
 	try
 	{
 		ResourceManager::GetInstance().Init("./Data/");
