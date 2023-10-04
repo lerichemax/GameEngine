@@ -79,6 +79,7 @@ namespace empire
 			gamepadBtn(ControllerButton::None),
 			mouseBtn(MouseButton::none),
 			state(state),
+			playerNbr{},
 			isTriggered(false),
 			pCommand(pCom),
 			lastKeyPos(LastKeyPosition::up)

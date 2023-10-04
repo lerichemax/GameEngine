@@ -18,8 +18,8 @@ namespace empire
 		static void Quit();
 	private:
 		SDL_Window* m_Window{};
-		unsigned int m_WindowWidth;
-		unsigned int m_WindowHeight;
+		unsigned int m_WindowWidth{};
+		unsigned int m_WindowHeight{};
 		static bool m_bQuit;
 	};
 }
