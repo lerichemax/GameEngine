@@ -14,12 +14,8 @@ enum class GameEvent
 	PyramidCompleted
 };
 
-namespace empire
-{
-	class TextRendererComponent;
-}
 
-
+class TextRendererComponent;
 class Pyramid;
 class CoilyManager;
 class SlickSamManager;
@@ -27,22 +23,22 @@ class WrongWayManager;
 class QBert;
 class CharacterPoint;
 class CharacterLives;
-class GameManager final : public empire::Observer
+class GameManager final : public Observer
 {
 public:
-	GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points, 
-		empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives, 
+	GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points, 
+		TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives, 
 		CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
 	~GameManager() = default;
-	void Notify(empire::GameObject* object, int event) override;
+	void Notify(GameObject* object, int event) override;
 	void SetNbrPlayers(unsigned int nbr) { m_NbrPlayers = nbr; }
 
 private:
-	empire::TextRendererComponent* const m_pP1PointsCounter;
-	empire::TextRendererComponent* const m_P1LivesCounter;
-	empire::TextRendererComponent* const m_pP2PointsCounter;
-	empire::TextRendererComponent* const m_P2LivesCounter;
+	TextRendererComponent* const m_pP1PointsCounter;
+	TextRendererComponent* const m_P1LivesCounter;
+	TextRendererComponent* const m_pP2PointsCounter;
+	TextRendererComponent* const m_P2LivesCounter;
 
 	CoilyManager* m_pCManager;
 	SlickSamManager* m_pSSManager;

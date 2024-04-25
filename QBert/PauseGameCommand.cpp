@@ -28,12 +28,12 @@ void PauseGameCommand::Execute()
 	
 	if (m_pScene->IsPaused())
 	{
-		empire::Timer::GetInstance().SetTimeScale(1);
+		Timer::GetInstance().SetTimeScale(1);
 		m_pPauseMenu->SetActive(false);
 	}
 	else
 	{
-		empire::Timer::GetInstance().SetTimeScale(0);
+		Timer::GetInstance().SetTimeScale(0);
 		m_pPauseMenu->SetActive(true);
 	}
 	m_pScene->SetIsPaused(!m_pScene->IsPaused());

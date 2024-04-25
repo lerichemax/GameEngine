@@ -3,15 +3,11 @@
 
 #include "Shapes.h"
 
-namespace empire
-{
-	class TextRendererComponent;
-	
-}
 
+class TextRendererComponent;
 class Pyramid;
 class QBert;
-class SwitchTextColor final : public empire::Command
+class SwitchTextColor final : public Command
 {
 public:
 	SwitchTextColor(Color targetColor, TextRendererComponent* pText);
@@ -25,7 +21,7 @@ public:
 
 private:
 	Color m_TargetColor;
-	empire::TextRendererComponent* m_pText;
+	TextRendererComponent* m_pText;
 
 	SwitchTextColor(SwitchTextColor const& other);
 };

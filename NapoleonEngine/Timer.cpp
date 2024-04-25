@@ -3,7 +3,6 @@
 
 #include <thread>
 
-using namespace empire;
 using namespace std::chrono;
 
 Timer::Timer()

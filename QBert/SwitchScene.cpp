@@ -17,5 +17,5 @@ SwitchScene::SwitchScene(SwitchScene const& other)
 
 void SwitchScene::Execute()
 {
-	empire::SceneManager::GetInstance().SetSceneActive(m_TargetSceneName);
+	SceneManager::GetInstance().SetSceneActive(m_TargetSceneName);
 }

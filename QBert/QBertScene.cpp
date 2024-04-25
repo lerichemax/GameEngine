@@ -7,9 +7,6 @@
 #include "TextRendererComponent.h"
 #include "Timer.h"
 
-
-using namespace empire;
-
 QBertScene::QBertScene(std::string const& name, Level startLevel)
 	: Scene(name),
 	m_Level(startLevel),

@@ -11,8 +11,8 @@
 #include "TextRendererComponent.h"
 #include "Timer.h"
 
-VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, empire::TextRendererComponent* pText1,
-                                     empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid,
+VersusGameManager::VersusGameManager(TextRendererComponent* pRoundText, TextRendererComponent* pText1,
+                                     TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid,
                                      GameObject* pGameOver, unsigned int nbrRounds)
 	:m_pRoundText(pRoundText),
 	m_pTextP1(pText1),
@@ -27,7 +27,7 @@ VersusGameManager::VersusGameManager(empire::TextRendererComponent* pRoundText, 
 	
 }
 
-void VersusGameManager::Notify(empire::GameObject* object, int event)
+void VersusGameManager::Notify(GameObject* object, int event)
 {
 	switch (static_cast<VersusGameEvent>(event))
 	{
@@ -39,7 +39,7 @@ void VersusGameManager::Notify(empire::GameObject* object, int event)
 			auto pPlayer = object->GetComponent<QBert>();
 
 			pPlayer->SetCurrentQube(m_pPyramid->GetTop());
-			pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
+			pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 			pPlayer->SetCanMove();
 		}
 		break;
@@ -51,7 +51,7 @@ void VersusGameManager::Notify(empire::GameObject* object, int event)
 
 			auto pPlayer = object->GetComponent<Coily>();
 			pPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-			pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
+			pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 		}
 		break;
 	case VersusGameEvent::PyramidCompleted:

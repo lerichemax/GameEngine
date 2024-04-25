@@ -17,7 +17,7 @@ Jumper::Jumper()
 	
 }
 
-void Jumper::UpdateJump(empire::TransformComponent* transform)
+void Jumper::UpdateJump(TransformComponent* transform)
 {
 	auto const pos = transform->GetWorldPosition();
 	glm::vec2 dir{};
@@ -33,7 +33,7 @@ void Jumper::UpdateJump(empire::TransformComponent* transform)
 	
 	dir = glm::normalize(dir);
 	
-	transform->SetWorldPosition(pos + dir * JUMP_SPEED * empire::Timer::GetInstance().GetDeltaTime());
+	transform->SetWorldPosition(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 
 	if (glm::length(transform->GetWorldPosition() - m_Halfway) <= 2.f)
 	{
@@ -45,7 +45,7 @@ void Jumper::UpdateJump(empire::TransformComponent* transform)
 	}
 }
 
-void Jumper::UpdateFall(empire::TransformComponent* transform)
+void Jumper::UpdateFall(TransformComponent* transform)
 {
 	auto pos = transform->GetWorldPosition();
 	glm::vec2 dir{};
@@ -56,8 +56,8 @@ void Jumper::UpdateFall(empire::TransformComponent* transform)
 	}
 	else
 	{
-		transform->SetWorldPosition(pos.x, pos.y += FALL_SPEED * empire::Timer::GetInstance().GetDeltaTime());
-		m_FallTime += empire::Timer::GetInstance().GetDeltaTime();
+		transform->SetWorldPosition(pos.x, pos.y += FALL_SPEED * Timer::GetInstance().GetDeltaTime());
+		m_FallTime += Timer::GetInstance().GetDeltaTime();
 		if (m_FallTime >= FALL_TIME)
 		{
 			m_bIsDead = true;
@@ -67,7 +67,7 @@ void Jumper::UpdateFall(empire::TransformComponent* transform)
 
 	dir = glm::normalize(dir);
 
-	transform->SetWorldPosition(pos + dir * JUMP_SPEED * empire::Timer::GetInstance().GetDeltaTime());
+	transform->SetWorldPosition(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 
 	if (glm::length(transform->GetWorldPosition() - m_Halfway) <= 2.f)
 	{

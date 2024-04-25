@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 
-class MainMenuScene final : public empire::Scene
+class MainMenuScene final : public Scene
 {
 public:
 	MainMenuScene();

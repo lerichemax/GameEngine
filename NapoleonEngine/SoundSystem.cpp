@@ -5,8 +5,6 @@
 #include <algorithm>
 #include <thread>
 
-using namespace empire;
-
 SoundSystem::SoundSystem(bool isMuted)
 	:m_Pending{},
 	m_NbrPending(),

@@ -18,17 +18,17 @@
 
 using namespace std;
 bool NapoleonEngine::m_bQuit = false;
-void empire::NapoleonEngine::Initialize()
+void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::string const& name)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	m_WindowWidth = 900;
-	m_WindowHeight = 600;
+	m_WindowWidth = width;
+	m_WindowHeight = height;
 	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		name.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		m_WindowWidth,
@@ -52,6 +52,15 @@ void empire::NapoleonEngine::Initialize()
 	
 	std::srand(unsigned int(time(nullptr)));
 
+	try
+	{
+		ResourceManager::GetInstance().Init("./Data/");
+	}
+	catch (std::runtime_error const& error)
+	{
+		Debugger::GetInstance().LogError(error.what());
+	}
+
 	auto fpsCounter = new GameObject{};
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 	fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
@@ -66,7 +75,7 @@ void NapoleonEngine::Quit()
 }
 
 
-void empire::NapoleonEngine::Cleanup()
+void NapoleonEngine::Cleanup()
 {
 	auto pService = &SoundServiceLocator::GetService();
 	if (typeid(*pService) != typeid(NullSoundInterface))
@@ -81,20 +90,8 @@ void empire::NapoleonEngine::Cleanup()
 	SDL_Quit();
 }
 
-void empire::NapoleonEngine::Run()
+void NapoleonEngine::Run()
 {
-	try
-	{
-		ResourceManager::GetInstance().Init("./Data/");
-	}
-	catch (std::runtime_error const& error)
-	{
-		Debugger::GetInstance().LogError(error.what());
-	}
-	
-	
-	Initialize();
-
 	CreatePrefabs();
 	LoadGame();
 	SceneManager::GetInstance().Initialize(this);

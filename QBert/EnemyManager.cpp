@@ -49,7 +49,7 @@ void EnemyManager::SpawnerTimer()
 	{
 		if (m_EnemySpawnTimer < SPAWN_INTERVAL)
 		{
-			m_EnemySpawnTimer += empire::Timer::GetInstance().GetDeltaTime();
+			m_EnemySpawnTimer += Timer::GetInstance().GetDeltaTime();
 		}
 		else
 		{

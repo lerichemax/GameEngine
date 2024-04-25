@@ -5,7 +5,6 @@
 #include "SceneRenderer.h"
 #include "Scene.h"
 
-using namespace empire;
 RendererComponent::RendererComponent(Layer layer)
 	:m_pTexture(nullptr),
 	m_Layer(layer),

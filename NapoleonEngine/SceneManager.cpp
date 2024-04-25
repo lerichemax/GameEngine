@@ -4,8 +4,6 @@
 
 #include <map>
 
-using namespace empire;
-
 class SceneManager::SceneManagerImpl final
 {
 public:

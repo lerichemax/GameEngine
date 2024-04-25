@@ -5,8 +5,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-using namespace empire;
-
 TextRendererComponent::TextRendererComponent(std::string const& text, Font* const pFont)
 	:RendererComponent{Layer::uiGame},
 	m_Text{text},

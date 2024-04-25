@@ -3,7 +3,6 @@
 
 #include "GameObject.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
-using namespace empire;
 
 TransformComponent::TransformComponent()
 	:m_Position(),

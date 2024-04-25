@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include "SoundEffect.h"
 
-using namespace empire;
 
 ID SoundEffect::m_AutoIncrementId{};
 

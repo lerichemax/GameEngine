@@ -2,10 +2,8 @@
 #include "State.h"
 
 
-namespace empire
-{
-	class GameObject;
-}
+
+class GameObject;
 class OnQubeState;
 class JumpingState;
 class FallingState;
@@ -19,7 +17,7 @@ enum class CharacterStateType // enum to avoid using typeid
 	falling
 };
 
-class CharacterState : public empire::State
+class CharacterState : public State
 {
 public:
 

@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "LoggingSoundSystem.h"
 
-using namespace empire;
-
 LoggingSoundSystem::~LoggingSoundSystem()
 {
 	delete m_pRealSoundSystem;

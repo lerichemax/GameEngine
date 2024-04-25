@@ -4,7 +4,7 @@
 
 class Pyramid;
 class QBert;
-class MoveCommand final : public empire::Command
+class MoveCommand final : public Command
 {
 public:
 	MoveCommand(ConnectionDirection dir, Character* pChar);

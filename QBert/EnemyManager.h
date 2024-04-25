@@ -6,7 +6,7 @@ class Pyramid;
 class Qube;
 class Enemy;
 class GameManager;
-class EnemyManager : public empire::Component
+class EnemyManager : public Component
 {
 public:
 	explicit EnemyManager(unsigned int maxNbr, float spawnInterval);

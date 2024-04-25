@@ -2,7 +2,7 @@
 #include "ShapeRenderer.h"
 
 
-ShapeRenderer::ShapeRenderer(Shape* pShape)
+ShapeRenderer::ShapeRenderer(geo::Shape* pShape)
 	:RendererComponent(Layer::uiMenuBg),
 	m_pShape(pShape)
 {

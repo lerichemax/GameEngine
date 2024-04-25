@@ -9,8 +9,6 @@
 #include "CameraComponent.h"
 #include "Timer.h"
 
-using namespace empire;
-
 Scene::Scene(const std::string& name)
 	: m_Name{name},
 	m_pObjects(),

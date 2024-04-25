@@ -21,8 +21,8 @@
 #include "WrongWayManager.h"
 #include "SlickSamManager.h"
 
-GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextRendererComponent* pP2Points,
-                         empire::TextRendererComponent* pP1Lives, empire::TextRendererComponent* pP2Lives,
+GameManager::GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points,
+                         TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives,
                          CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, 
 						unsigned int nbrPlayers)
 	:m_pP1PointsCounter(pP1Points),
@@ -38,7 +38,7 @@ GameManager::GameManager(empire::TextRendererComponent* pP1Points, empire::TextR
 {
 }
 
-void GameManager::Notify(empire::GameObject* object, int event)
+void GameManager::Notify(GameObject* object, int event)
 {
 	switch (static_cast<GameEvent>(event))
 	{
@@ -53,7 +53,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		if (m_pSSManager != nullptr) m_pSSManager->Reset();
 			
 		pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
-		pPlayer->GetGameObject()->GetComponent<empire::RendererComponent>()->ChangeLayer(empire::Layer::foreground);
+		pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 		pPlayer->SetCanMove();
 		
 		break;
@@ -73,7 +73,7 @@ void GameManager::Notify(empire::GameObject* object, int event)
 		m_NbrDeadPlayers++;
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
-			empire::Debugger::GetInstance().Log("GAME OVER");
+			Debugger::GetInstance().Log("GAME OVER");
 			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
 			Timer::GetInstance().SetTimeScale(0);
 			m_pGameOver->SetActive(true);

@@ -4,12 +4,12 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 
-void empire::FPSCounter::Initialize()
+void FPSCounter::Initialize()
 {
 	m_pTextComp = m_pGameObject->GetComponent<TextRendererComponent>();
 }
 
-void empire::FPSCounter::Update()
+void FPSCounter::Update()
 {
 	m_pTextComp->SetText("FPS " + std::to_string(Timer::GetInstance().GetFPS()));
 }

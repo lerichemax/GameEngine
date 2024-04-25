@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class CharacterPoint final : public empire::Component
+class CharacterPoint final : public Component
 {
 public:
 	CharacterPoint();

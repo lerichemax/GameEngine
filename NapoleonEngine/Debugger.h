@@ -6,36 +6,34 @@
 #include "Shapes.h"
 #include <glm/glm.hpp>
 
+using namespace geo;
+using namespace glm;
 
-namespace empire
+class Debugger final : public Singleton<Debugger>
 {
-	class Debugger final : public Singleton<Debugger>
-	{
-	public:
-		~Debugger();
-		void Log(std::string const& message) const;
-		void LogWarning(std::string const& message) const;
-		void LogError(std::string const& message) const;
+public:
+	~Debugger();
+	void Log(std::string const& message) const;
+	void LogWarning(std::string const& message) const;
+	void LogError(std::string const& message) const;
 		
-		void DrawDebugLine(glm::vec2 const& startPoint, glm::vec2 const& endPoint, Color const& color);
-		void DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness, Color const& color);
-		void DrawDebugCircle(glm::vec2 const& center, unsigned int radius, Color const& color);
-		void DrawDebugRectangle(glm::vec2 const& pos, unsigned int witdth, unsigned int height, Color const& color);
+	void DrawDebugLine(vec2 const& startPoint, vec2 const& endPoint, Color const& color);
+	void DrawDebugPoint(vec2 const& pos, unsigned int thickness, Color const& color);
+	void DrawDebugCircle(vec2 const& center, unsigned int radius, Color const& color);
+	void DrawDebugRectangle(vec2 const& pos, unsigned int witdth, unsigned int height, Color const& color);
 	
-	private:
-		friend class Singleton<Debugger>;
-		friend void Renderer::Render();
+private:
+	friend class Singleton<Debugger>;
+	friend void Renderer::Render();
 		
-		Debugger();
+	Debugger();
 
-		HANDLE m_ConsoleHandle;
+	HANDLE m_ConsoleHandle;
 		
-		std::vector<Line> m_DebugLines;
-		std::vector<Rectangle> m_DebugRectangles;
-		std::vector<Circle> m_DebugCircles;
-		std::vector<Point> m_DebugPoints;
+	std::vector<Line> m_DebugLines;
+	std::vector<geo::Rectangle> m_DebugRectangles;
+	std::vector<geo::Circle> m_DebugCircles;
+	std::vector<Point> m_DebugPoints;
 
-		void Render();
-	};
-}
-
+	void Render();
+};

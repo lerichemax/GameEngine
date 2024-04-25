@@ -5,8 +5,6 @@
 #include <algorithm>
 #include <map>
 
-using namespace empire;
-
 InputAction::~InputAction()
 {
 	SafeDelete(pCommand);

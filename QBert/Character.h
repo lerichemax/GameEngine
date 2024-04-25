@@ -9,17 +9,14 @@ enum class CharacterType //enum to avoid using typeid
 	wrongWay
 };
 
-namespace empire
-{
-	class Texture2D;
-}
+class Texture2D;
 
 class Jumper;
 class Qube;
 class CharacterState;
 enum class ConnectionDirection;
 enum class CharacterStateType;
-class Character : public empire::Component
+class Character : public Component
 {
 public:
 	explicit Character(Qube* pStart, CharacterType type);
@@ -52,8 +49,8 @@ protected:
 	
 	CharacterState* m_pState;
 	
-	empire::Texture2D* m_pJumpText;
-	empire::Texture2D* m_pIdleText;
+	Texture2D* m_pJumpText;
+	Texture2D* m_pIdleText;
 	
 	CharacterType m_Type;
 	ConnectionDirection m_FacingDirection;

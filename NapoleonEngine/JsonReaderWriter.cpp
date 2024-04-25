@@ -6,7 +6,6 @@
 #include "document.h"
 
 using namespace rapidjson;
-using namespace empire;
 
 JsonReaderWriter::JsonReaderWriter(std::string const& filename)
 	:m_JsonDoc(),

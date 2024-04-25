@@ -4,7 +4,6 @@
 #include "TransformComponent.h"
 
 #include <map>
-using namespace empire;
 
 class PrefabsManager::PrefabsManagerImpl
 {

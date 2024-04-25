@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "Component.h"
 
-using namespace empire;
-
 Component::Component()
 	:m_pGameObject{},
 	m_bIsEnabled(false)

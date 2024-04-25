@@ -2,30 +2,27 @@
 #include "Singleton.h"
 #include <memory>
 
-namespace empire
+class Texture2D;
+class Font;
+class ResourceManager final : public Singleton<ResourceManager>
 {
-	class Texture2D;
-	class Font;
-	class ResourceManager final : public Singleton<ResourceManager>
-	{
-	public:
-		ResourceManager(ResourceManager const& other) = delete;
-		ResourceManager(ResourceManager&& other) = delete;
-		ResourceManager& operator=(ResourceManager const& rhs) = delete;
-		ResourceManager& operator=(ResourceManager&& rhs) = delete;
-		~ResourceManager();
+public:
+	ResourceManager(ResourceManager const& other) = delete;
+	ResourceManager(ResourceManager&& other) = delete;
+	ResourceManager& operator=(ResourceManager const& rhs) = delete;
+	ResourceManager& operator=(ResourceManager&& rhs) = delete;
+	~ResourceManager();
 		
-		void Init(const std::string& data);
+	void Init(const std::string& data);
 		
-		Texture2D* const GetTexture(const std::string& file);
-		Font* const GetFont(const std::string& file, unsigned int size);
+	Texture2D* const GetTexture(const std::string& file);
+	Font* const GetFont(const std::string& file, unsigned int size);
 	
-	private:
-		friend class Singleton<ResourceManager>;
+private:
+	friend class Singleton<ResourceManager>;
 
-		class ResourceManagerImpl;
-		std::unique_ptr<ResourceManagerImpl> m_pImpl;
-		ResourceManager();
+	class ResourceManagerImpl;
+	std::unique_ptr<ResourceManagerImpl> m_pImpl;
+	ResourceManager();
 
-	};
-}
+};

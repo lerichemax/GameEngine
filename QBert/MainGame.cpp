@@ -31,7 +31,11 @@
 #include "ButtonComponent.h"
 #include "SoundServiceLocator.h"
 
-using namespace empire;
+MainGame::MainGame()
+	:NapoleonEngine()
+{
+	Initialize(900, 600, "QBert");
+}
 
 void MainGame::LoadGame() const
 {	
@@ -107,7 +111,7 @@ void MainGame::CreatePrefabs() const
 	//Ugg + WrongWay
 	auto wrongWayPrefab = new GameObject{};
 	wrongWayPrefab->AddComponent(new WrongWay{ true });
-	wrongWayPrefab->AddComponent(new empire::RendererComponent{ empire::Layer::middleground });
+	wrongWayPrefab->AddComponent(new RendererComponent{ Layer::middleground });
 	wrongWayPrefab->AddComponent(new WrongWayJumper{});
 	wrongWayPrefab->AddComponent(new EnemyCharacterController{});
 	wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
@@ -116,8 +120,8 @@ void MainGame::CreatePrefabs() const
 
 	//Coily prefab
 	auto coilyPrefab = new GameObject{};
-	auto pText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-	coilyPrefab->AddComponent(new empire::RendererComponent(pText, empire::Layer::middleground));
+	auto pText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	coilyPrefab->AddComponent(new RendererComponent(pText, Layer::middleground));
 	coilyPrefab->AddComponent(new Coily{snakeFallId});
 	coilyPrefab->AddComponent(new CoilyCharacterController{});
 	coilyPrefab->AddComponent(new Jumper{});
@@ -126,7 +130,7 @@ void MainGame::CreatePrefabs() const
 
 	//SlickSam
 	auto slickSamPf = new GameObject();
-	slickSamPf->AddComponent(new empire::RendererComponent(empire::Layer::middleground));
+	slickSamPf->AddComponent(new RendererComponent(Layer::middleground));
 	slickSamPf->AddComponent(new SlickSam{});
 	slickSamPf->AddComponent(new EnemyCharacterController{});
 	slickSamPf->AddComponent(new Jumper{});
@@ -135,9 +139,9 @@ void MainGame::CreatePrefabs() const
 
 	//ColoredDisk
 	auto diskPf = new GameObject{};
-	auto const diskText = empire::ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
+	auto const diskText = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
 	diskPf->AddComponent(new ColoredDisk{ });
-	diskPf->AddComponent(new empire::RendererComponent{ diskText, empire::Layer::middleground });
+	diskPf->AddComponent(new RendererComponent{ diskText, Layer::middleground });
 	diskPf->GetTransform()->Scale(2);
 	pPrefabManager.AddPrefab("Disk", diskPf);
 
@@ -146,7 +150,7 @@ void MainGame::CreatePrefabs() const
 	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
 	auto menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
-		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 127}, true} });
+		new geo::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 127}, true} });
 
 	auto textObject = new GameObject{}; 
 	auto textComp = new TextRendererComponent{ "Pause", biggerFont };
@@ -193,7 +197,7 @@ void MainGame::CreatePrefabs() const
 	//Game over menu (opaque)
 	menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
-		new empire::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 255}, true} });
+		new geo::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 255}, true} });
 
 	 textObject = new GameObject{};
 	textComp = new TextRendererComponent{ "Game Over", biggerFont };

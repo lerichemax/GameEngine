@@ -23,8 +23,6 @@
 #include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
-using namespace empire;
-
 QBert::QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId)
 	:Character(nullptr, CharacterType::player),
 	m_pPoints(nullptr),

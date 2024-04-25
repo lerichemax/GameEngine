@@ -2,8 +2,6 @@
 #include "Subject.h"
 #include "GameObject.h"
 
-using namespace empire;
-
 Subject::Subject(Subject const& other)
 	:m_pObservers{},
 	m_NbrObservers(other.m_NbrObservers)

@@ -3,7 +3,7 @@
 
 enum class ConnectionDirection;
 class Enemy;
-class EnemyCharacterController : public empire::Component
+class EnemyCharacterController : public Component
 {
 public:
 	EnemyCharacterController();

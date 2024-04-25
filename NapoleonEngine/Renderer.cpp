@@ -12,8 +12,6 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-using namespace empire;
-
 SDL_Renderer* Renderer::m_pRenderer{};
 
 Renderer::Renderer()
@@ -38,7 +36,7 @@ void Renderer::Init(SDL_Window * window)
 	ImGui_ImplOpenGL2_Init();
 }
 
-void empire::Renderer::Render()
+void Renderer::Render()
 {
 	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
@@ -50,7 +48,7 @@ void empire::Renderer::Render()
 	SDL_RenderPresent(m_pRenderer);
 }
 
-void empire::Renderer::Destroy()
+void Renderer::Destroy()
 {
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -63,7 +61,7 @@ void empire::Renderer::Destroy()
 	}
 }
 
-void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -72,7 +70,7 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -82,7 +80,7 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void empire::Renderer::RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const
+void Renderer::RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const
 {
 	glPushMatrix();
 	{
@@ -96,7 +94,7 @@ void empire::Renderer::RenderTexture(const Texture2D& texture, TransformComponen
 	glPopMatrix();
 }
 
-void Renderer::RenderShape(Shape const& pShape) const
+void Renderer::RenderShape(geo::Shape const& pShape) const
 {
 	pShape.Draw(m_pRenderer);
 }

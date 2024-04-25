@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class CharacterLives final : public empire::Component
+class CharacterLives final : public Component
 {
 public:
 	explicit CharacterLives(int maxLives);

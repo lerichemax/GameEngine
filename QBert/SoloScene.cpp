@@ -179,31 +179,31 @@ void SoloScene::ResetGame()
 
 void SoloScene::DeclareInput() 
 {
-	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_w, empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_z, KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_a , empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_q , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
 	InputManager::GetInstance().AddInputAction(4,
-		new InputAction(ControllerButton::ButtonUp, empire::KeyActionState::pressed,
+		new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 			new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
 	InputManager::GetInstance().AddInputAction(5,
-		new InputAction{ ControllerButton::ButtonRight , empire::KeyActionState::pressed,
+		new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
 	InputManager::GetInstance().AddInputAction(6,
-		new InputAction{ ControllerButton::ButtonDown , empire::KeyActionState::pressed,
+		new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
 	InputManager::GetInstance().AddInputAction(7,
-		new InputAction{ ControllerButton::ButtonLeft , empire::KeyActionState::pressed,
+		new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 	
-	InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
 		new PauseGameCommand(this, m_pPauseMenu) });
 
-	InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, empire::KeyActionState::pressed,
+	InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 		new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 }

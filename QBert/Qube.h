@@ -3,8 +3,6 @@
 
 #include "glm/glm.hpp"
 
-using namespace empire;
-
 enum class ConnectionDirection
 {
 	upRight,
@@ -14,11 +12,8 @@ enum class ConnectionDirection
 	null
 };
 
-namespace empire
-{
-	class Subject;
-}
 
+class Subject;
 class Character;
 class ColoredDisk;
 class QBertScene;

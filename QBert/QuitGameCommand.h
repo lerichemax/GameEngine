@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 
-class QuitGameCommand final : public empire::Command
+class QuitGameCommand final : public Command
 {
 public:
 	QuitGameCommand() = default;

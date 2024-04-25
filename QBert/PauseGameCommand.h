@@ -1,13 +1,10 @@
 #pragma once
 #include "Command.h"
 
-namespace empire
-{
-	class GameObject;
-}
 
+class GameObject;
 class QBertScene;
-class PauseGameCommand final : public empire::Command
+class PauseGameCommand final : public Command
 {
 public:
 	PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu);
@@ -21,7 +18,7 @@ public:
 
 private:
 	QBertScene* m_pScene;
-	empire::GameObject* m_pPauseMenu;
+	GameObject* m_pPauseMenu;
 	
 	PauseGameCommand(PauseGameCommand const& other);
 };

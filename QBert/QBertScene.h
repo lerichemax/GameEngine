@@ -4,7 +4,7 @@
 class QBert;
 class Pyramid;
 class EnemyManager;
-class QBertScene : public empire::Scene
+class QBertScene : public Scene
 {
 public:
 	enum class Level

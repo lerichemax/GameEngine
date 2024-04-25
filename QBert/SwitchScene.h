@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 
-class SwitchScene final : public empire::Command
+class SwitchScene final : public Command
 {
 public:
 	SwitchScene(std::string pTargetScene);

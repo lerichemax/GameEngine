@@ -7,8 +7,6 @@
 
 #include "Scene.h"
 
-using namespace empire;
-
 GameObject::GameObject()
 	:m_bIsActive(true),
 	m_bIsDestroyed(false),

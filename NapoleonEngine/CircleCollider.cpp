@@ -5,14 +5,14 @@
 
 CircleCollider::CircleCollider(glm::vec2 const& center, unsigned int radius)
 	:ColliderComponent(Type::Circle),
-	m_pCircle(new Circle(center, radius))
+	m_pCircle(new geo::Circle(center, radius))
 {
 	
 }
 
 CircleCollider::CircleCollider(CircleCollider const& other)
 	:ColliderComponent(other),
-	m_pCircle(new Circle(other.m_pCircle->center, other.m_pCircle->radius))
+	m_pCircle(new geo::Circle(other.m_pCircle->center, other.m_pCircle->radius))
 {
 }
 

@@ -4,8 +4,6 @@
 
 #include <algorithm>
 
-using namespace empire;
-
 void SceneRenderer::Render()
 {
 	std::for_each(m_pLayersGroup.begin(), m_pLayersGroup.end(),

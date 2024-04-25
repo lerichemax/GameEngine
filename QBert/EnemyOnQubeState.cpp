@@ -17,11 +17,11 @@ EnemyOnQubeState::EnemyOnQubeState(Character* pChar, Jumper* pJumper, EnemyChara
 	
 }
 
-CharacterState* EnemyOnQubeState::Update(empire::GameObject* )
+CharacterState* EnemyOnQubeState::Update(GameObject* )
 {
 	if (m_pCharController->m_MoveTimer < m_pCharController->MOVE_MAX_TIME)
 	{
-		m_pCharController->m_MoveTimer += empire::Timer::GetInstance().GetDeltaTime();
+		m_pCharController->m_MoveTimer += Timer::GetInstance().GetDeltaTime();
 		return nullptr;
 	}
 

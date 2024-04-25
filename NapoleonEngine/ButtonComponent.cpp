@@ -7,7 +7,7 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-empire::ButtonComponent::ButtonComponent(float width, float height)
+ButtonComponent::ButtonComponent(float width, float height)
 	:Component(),
 	m_Dimensions(width, height),
 	m_IsSelected(false),
@@ -18,7 +18,7 @@ empire::ButtonComponent::ButtonComponent(float width, float height)
 {
 }
 
-empire::ButtonComponent::ButtonComponent(empire::ButtonComponent const& other)
+ButtonComponent::ButtonComponent(ButtonComponent const& other)
 	:m_Dimensions(other.m_Dimensions),
 	m_IsSelected(other.m_IsSelected),
 	m_bVisualize(other.m_bVisualize),
@@ -27,14 +27,14 @@ empire::ButtonComponent::ButtonComponent(empire::ButtonComponent const& other)
 	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr)
 {}
 
-empire::ButtonComponent::~ButtonComponent()
+ButtonComponent::~ButtonComponent()
 {
 	SafeDelete(m_pOnClick);
 	SafeDelete(m_pOnSelect);
 	SafeDelete(m_pOnDeselect);
 }
 
-void empire::ButtonComponent::Update()
+void ButtonComponent::Update()
 {
 	if (m_bVisualize)
 	{

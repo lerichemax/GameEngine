@@ -4,7 +4,7 @@
 
 
 
-empire::Font::Font(const std::string& fullPath, unsigned int size)
+Font::Font(const std::string& fullPath, unsigned int size)
 	: m_Font(nullptr),
 	m_Size(size),
 	m_FilePath(fullPath)
@@ -16,11 +16,11 @@ empire::Font::Font(const std::string& fullPath, unsigned int size)
 	}
 }
 
-empire::Font::~Font()
+Font::~Font()
 {
 	TTF_CloseFont(m_Font);
 }
 
-TTF_Font* empire::Font::GetFont() const {
+TTF_Font* Font::GetFont() const {
 	return m_Font;
 }

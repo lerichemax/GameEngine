@@ -5,17 +5,15 @@
 #include "GameObject.h"
 #include "Shapes.h"
 
-using namespace empire;
-
 BoxCollider::BoxCollider(unsigned int width, unsigned int height)
 	:ColliderComponent(Type::Box),
-	m_pRectangle(new Rectangle{ 0,0,width, height })
+	m_pRectangle(new geo::Rectangle{ 0,0,width, height })
 {
 }
 
 BoxCollider::BoxCollider(BoxCollider const& other)
 	:ColliderComponent(other),
-	m_pRectangle(new Rectangle(other.m_pRectangle->pos, other.m_pRectangle->width, other.m_pRectangle->height))
+	m_pRectangle(new geo::Rectangle(other.m_pRectangle->pos, other.m_pRectangle->width, other.m_pRectangle->height))
 {
 	
 }
@@ -54,10 +52,10 @@ void BoxCollider::CheckOverlap(ColliderComponent* pOther)
 
 bool BoxCollider::IsOverlapping(BoxCollider* pOther) const
 {
-	return AreOverlapping(*m_pRectangle, pOther->GetRectangle());
+	return geo::AreOverlapping(*m_pRectangle, pOther->GetRectangle());
 }
 
 bool BoxCollider::IsOverlapping(CircleCollider* pOther) const
 {
-	return AreOverlapping(*m_pRectangle, pOther->GetCircle());
+	return geo::AreOverlapping(*m_pRectangle, pOther->GetCircle());
 }

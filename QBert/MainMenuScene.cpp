@@ -11,7 +11,6 @@
 #include "SwitchTextColor.h"
 #include "CameraComponent.h"
 
-using namespace empire;
 MainMenuScene::MainMenuScene()
 	:Scene("MainMenuScene")
 {

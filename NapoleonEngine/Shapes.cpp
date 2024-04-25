@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "Shapes.h"
 
-using namespace empire;
+using namespace geo;
 
 Point::Point(glm::vec2 const& pos, Color const& col)
 	:Shape(col),
@@ -46,9 +46,6 @@ Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigne
 {
 }
 
-
-
-
 void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
 	if (!isFilled)
@@ -75,7 +72,7 @@ void Rectangle::Fill(SDL_Renderer* pRenderer) const
 /// <summary>
 /// Copyright DAE prog 2 framework utils::IsOverlapping
 /// </summary>
-bool empire::AreOverlapping(empire::Rectangle const& rec1, empire::Rectangle const& rec2)
+bool geo::AreOverlapping(geo::Rectangle const& rec1, geo::Rectangle const& rec2)
 {
 	if ((rec1.pos.x + rec1.width) < rec2.pos.x || (rec2.pos.x + rec2.width) < rec1.pos.x)
 	{
@@ -93,31 +90,30 @@ bool empire::AreOverlapping(empire::Rectangle const& rec1, empire::Rectangle con
 /// <summary>
 /// Copyright DAE prog 2 framework utils::IsOverlapping
 /// </summary>
-bool empire::AreOverlapping(empire::Rectangle const& rec1, Circle const& c2)
+bool geo::AreOverlapping(geo::Rectangle const& rec1, Circle const& c2)
 {
-	if (IsPointInRec(c2.center, rec1))
+	if (geo::IsPointInRec(c2.center, rec1))
 	{
 		return true;
 	}
-	if (DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x, rec1.pos.y + rec1.height }) <= c2.radius)
+	if (geo::DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x, rec1.pos.y + rec1.height }) <= c2.radius)
 	{
 		return true;
 	}
-	if (DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y }) <= c2.radius)
+	if (geo::DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y }) <= c2.radius)
 	{
 		return true;
 	}
-	if (DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height }, 
+	if (geo::DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height }, 
 		glm::vec2{ rec1.pos.x, rec1.pos.y + rec1.height }) <= c2.radius)
 	{
 		return true;
 	}
-	if (DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height },
+	if (geo::DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height },
 		glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y }) <= c2.radius)
 	{
 		return true;
 	}
-	
 	
 	return false;
 }
@@ -125,7 +121,7 @@ bool empire::AreOverlapping(empire::Rectangle const& rec1, Circle const& c2)
 /// <summary>
 /// Copyright DAE prog 2 framework utils::DistPointLineSegment
 /// </summary>
-bool empire::AreOverlapping(Circle const& c1, Circle const& c2)
+bool geo::AreOverlapping(Circle const& c1, Circle const& c2)
 {
 	// squared distance between centers
 	float const xDistance{ c1.center.x - c2.center.x };
@@ -140,7 +136,7 @@ bool empire::AreOverlapping(Circle const& c1, Circle const& c2)
 /// <summary>
 /// Copyright DAE prog 2 framework utils::DistPointLineSegment
 /// </summary>
-unsigned int empire::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec2 const& b)
+unsigned int geo::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec2 const& b)
 {
 	//vectors
 	glm::vec2 ab{ b - a};
@@ -164,7 +160,7 @@ unsigned int empire::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::
 	return (p - intersection).length();
 }
 
-bool empire::IsPointInRec(glm::vec2 const& p, empire::Rectangle const& rec)
+bool geo::IsPointInRec(glm::vec2 const& p, geo::Rectangle const& rec)
 {
 	return (p.x >= rec.pos.x &&
 		p.x <= rec.pos.x + rec.width &&

@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "ObserverManager.h"
 
-using namespace empire;
-
 class ObserverManager::ObserverManagerImpl
 {
 public:

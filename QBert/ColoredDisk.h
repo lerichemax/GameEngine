@@ -4,7 +4,7 @@
 
 class QBert;
 class Qube;
-class ColoredDisk final : public empire::Component
+class ColoredDisk final : public Component
 {
 public:
 	ColoredDisk();

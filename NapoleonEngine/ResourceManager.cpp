@@ -15,8 +15,6 @@
 #include "NapoleonEngine.h"
 #include "SceneManager.h"
 
-using namespace empire;
-
 class ResourceManager::ResourceManagerImpl final
 {
 public:
@@ -118,7 +116,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	return m_pTextures.at(file);
 }
 
-Font* const empire::ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
 {
 	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](Font* pFont)
 		{
@@ -134,7 +132,7 @@ Font* const empire::ResourceManager::ResourceManagerImpl::GetFont(const std::str
 	}
 }
 
-Font* const empire::ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
 {
 	m_pFonts.push_back(new Font{ m_DataPath + file, size });
 	return m_pFonts.back();
@@ -161,7 +159,7 @@ Texture2D* const ResourceManager::GetTexture(const std::string& file)
 	return m_pImpl->GetTexture(file);
 }
 
-Font* const empire::ResourceManager::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::GetFont(const std::string& file, unsigned int size)
 {
 	return m_pImpl->GetFont(file, size);
 }

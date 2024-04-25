@@ -2,7 +2,7 @@
 #include "Command.h"
 
 class QBertScene;
-class ReloadSceneCommand final : public empire::Command
+class ReloadSceneCommand final : public Command
 {
 public:
 	ReloadSceneCommand(QBertScene* pScene);

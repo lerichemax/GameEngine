@@ -4,17 +4,17 @@
 
 #include <SDL.h>
 
-empire::Texture2D::~Texture2D()
+Texture2D::~Texture2D()
 {
 	SDL_DestroyTexture(m_pTexture);
 }
 
-SDL_Texture* empire::Texture2D::GetSDLTexture() const
+SDL_Texture* Texture2D::GetSDLTexture() const
 {
 	return m_pTexture;
 }
 
-empire::Texture2D::Texture2D(SDL_Texture* texture)
+Texture2D::Texture2D(SDL_Texture* texture)
 	:m_pTexture(texture),
 	m_Width(),
 	m_Height()

@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "SoundServiceLocator.h"
 
-using namespace empire;
-
 NullSoundInterface SoundServiceLocator::m_NullSoundSystem;
 SoundInterface* SoundServiceLocator::m_pSoundSystem = &m_NullSoundSystem;
 

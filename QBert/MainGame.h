@@ -1,10 +1,10 @@
 #pragma once
 #include "NapoleonEngine.h"
 
-class MainGame final : public empire::NapoleonEngine
+class MainGame final : public NapoleonEngine
 {
 public:
-	MainGame() : NapoleonEngine() {}
+	MainGame();
 
 	void LoadGame() const override;
 	void CreatePrefabs() const override;

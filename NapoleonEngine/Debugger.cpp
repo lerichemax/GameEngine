@@ -3,8 +3,6 @@
 #include <iostream>
 #include "Shapes.h"
 
-using namespace empire;
-
 Debugger::Debugger()
 	: Singleton(),
 	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE)),
@@ -52,7 +50,7 @@ void Debugger::DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness , Col
 	}
 	else
 	{
-		m_DebugRectangles.push_back(Rectangle(pos, thickness, thickness, color));
+		m_DebugRectangles.push_back(geo::Rectangle(pos, thickness, thickness, color));
 	}
 }
 
@@ -63,7 +61,7 @@ void Debugger::DrawDebugCircle(glm::vec2 const& center, unsigned int radius , Co
 
 void Debugger::DrawDebugRectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& color)
 {
-	m_DebugRectangles.push_back(Rectangle{ pos, width, height, color });
+	m_DebugRectangles.push_back(geo::Rectangle{ pos, width, height, color });
 }
 
 void Debugger::Render()
@@ -73,7 +71,7 @@ void Debugger::Render()
 		Renderer::GetInstance().RenderShape(line);
 	}
 
-	for (Rectangle const& rect : m_DebugRectangles)
+	for (geo::Rectangle const& rect : m_DebugRectangles)
 	{
 		Renderer::GetInstance().RenderShape(rect);
 	}

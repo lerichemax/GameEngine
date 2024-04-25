@@ -4,9 +4,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
     </Filter>
@@ -34,19 +31,25 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{39760d4c-7fc6-4d4d-8f2c-1aaaf06160b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Components">
+      <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="RendererComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextRendererComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Managers</Filter>
@@ -128,20 +131,20 @@
     </ClInclude>
     <ClInclude Include="Debugger.h" />
     <ClInclude Include="FPSCounter.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="ColliderComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="CircleCollider.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="ButtonComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Base</Filter>
@@ -211,7 +214,7 @@
     </ClInclude>
     <ClInclude Include="JsonReaderWriter.h" />
     <ClInclude Include="ShapeRenderer.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Observers</Filter>
@@ -220,7 +223,7 @@
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Base</Filter>
@@ -228,19 +231,31 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentArray.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="RendererComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextRendererComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Managers</Filter>
@@ -317,27 +332,27 @@
     </ClCompile>
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="FPSCounter.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="ColliderComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="ButtonComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="JsonReaderWriter.cpp" />
     <ClCompile Include="ShapeRenderer.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Subject.cpp">
@@ -347,7 +362,16 @@
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentArray.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

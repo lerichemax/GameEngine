@@ -11,6 +11,6 @@ public:
 
 	void Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos) override;
 
-	void UpdateFall(empire::TransformComponent* transform) override;
+	void UpdateFall(TransformComponent* transform) override;
 
 };

@@ -41,17 +41,17 @@ void SlickSam::SetTexture()
 	if (m_NbrInstances == 1)
 	{
 		m_bIsSam = false;
-		m_pIdleText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Left.png");
-		m_pJumpText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Up_Left.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Left.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Up_Left.png");
 	}
 	else if (m_NbrInstances == 2)
 	{
 		m_bIsSam = true;
-		m_pIdleText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Left.png");
-		m_pJumpText = empire::ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Up_Left.png");
+		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Left.png");
+		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Up_Left.png");
 	}
 	
-	m_pGameObject->GetComponent<empire::RendererComponent>()->SetTexture(m_pIdleText);
+	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 }
 
 void SlickSam::DoDie()

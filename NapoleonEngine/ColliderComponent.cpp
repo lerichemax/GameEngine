@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-empire::ColliderComponent::ColliderComponent(Type type)
+ColliderComponent::ColliderComponent(Type type)
 	:m_Type(type),
 	m_pOverlappingColliders(),
 	m_OnTriggerEnter(nullptr),
@@ -15,7 +15,7 @@ empire::ColliderComponent::ColliderComponent(Type type)
 {
 }
 
-empire::ColliderComponent::~ColliderComponent()
+ColliderComponent::~ColliderComponent()
 {
 	if (m_pGameObject->IsInitialized())
 	{
@@ -23,12 +23,12 @@ empire::ColliderComponent::~ColliderComponent()
 	}	
 }
 
-void empire::ColliderComponent::Initialize()
+void ColliderComponent::Initialize()
 {
 	m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
 }
 
-void empire::ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderComponent* pOther)
+void ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderComponent* pOther)
 {
 	if (isOverlapping)
 	{

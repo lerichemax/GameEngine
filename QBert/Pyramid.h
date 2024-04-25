@@ -4,8 +4,6 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-using namespace empire;
-
 class EnemyManager_bu;
 class Qube;
 enum class ConnectionDirection;

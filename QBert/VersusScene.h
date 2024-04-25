@@ -1,11 +1,7 @@
 #pragma once
 #include "QBertScene.h"
 
-namespace empire
-{
-	class TextRendererComponent;
-}
-
+class TextRendererComponent;
 class Coily;
 class VersusScene final : public QBertScene
 {
@@ -18,9 +14,9 @@ public:
 
 private:
 	Coily* m_pCoilyPlayer;
-	empire::TextRendererComponent* m_pRoundText;
-	empire::TextRendererComponent* m_pTextP1;
-	empire::TextRendererComponent* m_pTextP2;
+	TextRendererComponent* m_pRoundText;
+	TextRendererComponent* m_pTextP1;
+	TextRendererComponent* m_pTextP2;
 
 	void Initialize() override;
 	void DeclareInput()override;

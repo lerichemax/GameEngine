@@ -1,9 +1,8 @@
 #pragma once
 #include "Observer.h"
 
-namespace empire {
-	class TextRendererComponent;
-}
+
+class TextRendererComponent;
 
 enum class VersusGameEvent
 {
@@ -20,18 +19,18 @@ class Coily;
 class Character;
 class Pyramid;
 class CharacterPoint;
-class VersusGameManager final : public empire::Observer
+class VersusGameManager final : public Observer
 {
 public:
-	VersusGameManager(empire::TextRendererComponent* pRoundText, empire::TextRendererComponent* pText1,
-		empire::TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, 
+	VersusGameManager(TextRendererComponent* pRoundText, TextRendererComponent* pText1,
+		TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, 
 		GameObject* pGameOver, unsigned int nbrRounds);
-	void Notify(empire::GameObject* object, int event) override;
+	void Notify(GameObject* object, int event) override;
 
 private:
-	empire::TextRendererComponent* m_pRoundText;
-	empire::TextRendererComponent* m_pTextP1;
-	empire::TextRendererComponent* m_pTextP2;
+	TextRendererComponent* m_pRoundText;
+	TextRendererComponent* m_pTextP1;
+	TextRendererComponent* m_pTextP2;
 
 	CharacterPoint* m_pP1;
 	CharacterPoint* m_pP2;
