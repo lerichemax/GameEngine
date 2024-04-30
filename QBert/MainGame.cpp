@@ -6,6 +6,7 @@
 #include "Jumper.h"
 #include "ColoredDisk.h"
 #include "MainMenuScene.h"
+#include "TestScene.h"
 #include "QBert.h"
 #include "Qube.h"
 #include "VersusScene.h"
@@ -39,11 +40,12 @@ MainGame::MainGame()
 
 void MainGame::LoadGame() const
 {	
-	SceneManager::GetInstance().AddScene(new MainMenuScene{});
-	SceneManager::GetInstance().AddScene(new SoloScene{});
-	SceneManager::GetInstance().AddScene(new CoopScene{});
-	SceneManager::GetInstance().AddScene(new VersusScene{});
-	SceneManager::GetInstance().SetSceneActive("MainMenuScene");
+	SceneManager::GetInstance().AddScene(new TestScene{});
+	//SceneManager::GetInstance().AddScene(new MainMenuScene{});
+	//SceneManager::GetInstance().AddScene(new SoloScene{});
+	//SceneManager::GetInstance().AddScene(new CoopScene{});
+	//SceneManager::GetInstance().AddScene(new VersusScene{});
+	SceneManager::GetInstance().SetSceneActive("Test Scene");
 }
 
 void MainGame::CreatePrefabs() const

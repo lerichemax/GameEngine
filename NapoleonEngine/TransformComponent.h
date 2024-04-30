@@ -53,3 +53,15 @@ private:
 	TransformComponent* Clone() const override { return new TransformComponent(*this); };
 	TransformComponent(TransformComponent const& other) = default;
 };
+
+struct ECS_TransformComponent : public ECS_Component
+{
+	glm::vec2 m_Position;
+	glm::vec2 m_Scale;
+	float m_Rotation;
+
+	glm::mat3x3 m_World;
+	glm::vec2 m_WorldPosition;
+	glm::vec2 m_WorldScale;
+	float m_WorldRotation;
+};

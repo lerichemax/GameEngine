@@ -1,9 +1,6 @@
 #pragma once
 #include "QBertScene.h"
 
-class SlickSamManager;
-class CoilyManager;
-class WrongWayManager;
 class SoloScene final : public QBertScene
 {
 public:

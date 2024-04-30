@@ -1,4 +1,5 @@
 #pragma once
+#include "System.h"
 #include <array>
 
 enum class Layer;

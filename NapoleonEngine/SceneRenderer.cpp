@@ -1,22 +1,27 @@
 #include "PCH.h"
 #include "SceneRenderer.h"
 #include "RendererComponent.h"
+#include "Coordinator.h"
 
 #include <algorithm>
 
 void SceneRenderer::Render()
 {
-	std::for_each(m_pLayersGroup.begin(), m_pLayersGroup.end(),
-		[](std::vector<RendererComponent*> const& group)
-		{
-			std::for_each(group.begin(), group.end(), [](RendererComponent* pRendComp)
-				{
-					if (pRendComp->GetGameObject()->IsActive() && pRendComp->IsEnable())
-					{
-						pRendComp->Render(*pRendComp->GetGameObject()->GetTransform());
-					}
-				});
-		});
+	//std::for_each(m_pLayersGroup.begin(), m_pLayersGroup.end(),
+	//	[](std::vector<RendererComponent*> const& group)
+	//	{
+	//		std::for_each(group.begin(), group.end(), [](RendererComponent* pRendComp)
+	//			{
+	//				if (pRendComp->GetGameObject()->IsActive() && pRendComp->IsEnable())
+	//				{
+	//					pRendComp->Render(*pRendComp->GetGameObject()->GetTransform());
+	//				}
+	//			});
+	//	});
+
+	auto system = Coordinator::GetInstance().GetSystem<TextureRendererSystem>();
+
+	system->Render();
 }
 
 void SceneRenderer::AddToGroup(RendererComponent* pRenderer, Layer layer)

@@ -37,6 +37,9 @@
     <Filter Include="ECS\Components">
       <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS\Systems">
+      <UniqueIdentifier>{11a305e1-b1ce-43c3-acb1-2211f2d0c740}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -234,14 +237,23 @@
     <ClInclude Include="Entity.h">
       <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="ComponentArray.h">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinator.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,14 +376,23 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="ComponentArray.cpp">
       <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Coordinator.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

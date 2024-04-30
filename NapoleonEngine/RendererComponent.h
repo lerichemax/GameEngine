@@ -54,3 +54,16 @@ protected:
 	RendererComponent(RendererComponent const& other);
 		
 };
+
+struct ECS_RendererComponent : public ECS_Component
+{
+	Texture2D* m_pTexture{};
+	Layer m_Layer;
+};
+
+#include "System.h"
+class TextureRendererSystem : public System
+{
+public:
+	void Render();
+};

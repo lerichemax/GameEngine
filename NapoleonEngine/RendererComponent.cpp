@@ -97,3 +97,19 @@ void RendererComponent::ChangeLayer(Layer newLayer)
 
 	m_Layer = newLayer;
 }
+
+#include "Coordinator.h"
+void TextureRendererSystem::Render()
+{
+	for (Entity const& entity : m_Entities)
+	{
+		auto renderComp = Coordinator::GetInstance().GetComponent<ECS_RendererComponent>(entity);
+		auto transComp = Coordinator::GetInstance().GetComponent<ECS_TransformComponent>(entity);
+
+		if (renderComp.m_pTexture != nullptr)
+		{
+			const auto pos = transComp.m_Position;
+			Renderer::GetInstance().RenderTexture(*renderComp.m_pTexture, transComp);
+		}
+	}
+}

@@ -94,6 +94,20 @@ void Renderer::RenderTexture(const Texture2D& texture, TransformComponent const&
 	glPopMatrix();
 }
 
+void Renderer::RenderTexture(const Texture2D& texture, ECS_TransformComponent const& pTransform) const
+{
+	glPushMatrix();
+	{
+		glTranslatef(pTransform.m_Position.x, pTransform.m_Position.y, 0);
+		glRotatef(pTransform.m_Rotation, 0, 0, 1);
+		glScalef(pTransform.m_Scale.x, pTransform.m_Scale.y, 0);
+		glTranslatef(-pTransform.m_Position.x, -pTransform.m_Position.y, 0);
+
+		RenderTexture(texture, pTransform.m_Position.x, pTransform.m_Position.y);
+	}
+	glPopMatrix();
+}
+
 void Renderer::RenderShape(geo::Shape const& pShape) const
 {
 	pShape.Draw(m_pRenderer);
