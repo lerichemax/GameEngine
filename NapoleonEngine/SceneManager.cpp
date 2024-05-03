@@ -25,7 +25,6 @@ public:
 	void LoadScene(std::string const& name);
 	void ReloadCurrentScene();
 	Scene* GetActiveScene() const;
-	NapoleonEngine const* GetEngine()const { return m_pEngine; }
 
 private:
 	Scene* m_pNextActiveScene;
@@ -228,9 +227,4 @@ void SceneManager::RenameScene(std::string const& oldName, std::string const& ne
 void SceneManager::SetSceneActive(std::string const& name)
 {
 	m_pImpl->SetSceneActive(name);
-}
-
-NapoleonEngine const* SceneManager::GetEngine()const
-{
-	return m_pImpl->GetEngine();
 }

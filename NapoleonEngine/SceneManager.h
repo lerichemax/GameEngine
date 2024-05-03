@@ -22,7 +22,6 @@ public:
 	void LoadScene(std::string const& name);
 	void ReloadCurrentScene();
 	Scene* GetActiveScene() const;
-	NapoleonEngine const* GetEngine()const;
 	
 private:
 	friend class Singleton<SceneManager>;

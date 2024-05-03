@@ -2,22 +2,34 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "SceneRenderer.h"
+#include "RendererComponent.h"
+#include "TransformComponent.h"
 
 #include <algorithm>
-
 
 #include "CameraComponent.h"
 #include "Timer.h"
 
 Scene::Scene(const std::string& name)
-	: m_Name{name},
+	: m_pRegistry(std::make_shared<Coordinator>()), 
+	m_Name{name},
 	m_pObjects(),
 	m_pColliders(),
 	m_pSceneRenderer(new SceneRenderer{}),
+	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
+	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
 	m_pActiveCamera(nullptr),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
+	Signature signature;
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+
+	m_pRegistry->SetSystemSignature<ECS_TransformComponent>(signature);
+
+	signature.set(m_pRegistry->GetComponentType<ECS_RendererComponent>());
+
+	m_pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
 }
 
 Scene::~Scene()
@@ -46,6 +58,15 @@ void Scene::AddObject(GameObject* object)
 	object->Initialize();
 }
 
+GameObject* Scene::CreateGameObject()
+{
+
+	m_pObjects.push_back(new GameObject{m_pRegistry->CreateEntity(), m_pRegistry});
+	m_pRegistry->AddComponent<ECS_TransformComponent>(m_pObjects.back()->m_Entity, *m_pObjects.back()->m_pEcsTransform); //TEMP
+
+	return m_pObjects.back();
+}
+
 void Scene::OnActivate()
 {
 	Timer::GetInstance().SetTimeScale(1);
@@ -63,6 +84,7 @@ void Scene::Update()
 		}
 	}
 	CheckCollidersCollision();
+	m_pTransformSystem->Update(m_pRegistry->GetComponentManager());
 	
 	Refresh();
 }
@@ -77,6 +99,7 @@ void Scene::Render() const
 	{
 		m_pActiveCamera->Transform();
 		m_pSceneRenderer->Render();
+		m_pECS_SceneRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
 }

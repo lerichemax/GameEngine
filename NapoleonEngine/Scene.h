@@ -2,11 +2,16 @@
 #include "SceneManager.h"
 #include "ColliderComponent.h"
 
+#include <memory>
+
 enum class Layer;
 class SceneRenderer;
 class RendererComponent;
 class GameObject;
 class CameraComponent;
+class TransformSystem;
+class Coordinator;
+class LayeredRendererSystem;
 class Scene
 {
 	friend class SceneManager;
@@ -18,7 +23,8 @@ public:
 	Scene& operator=(const Scene& other) = delete;
 	Scene& operator=(Scene&& other) = delete;
 		
-	void AddObject(GameObject* object);
+	void AddObject(GameObject* object); //deprecated
+	GameObject* CreateGameObject();
 		
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
@@ -29,6 +35,8 @@ public:
 	
 protected:
 	virtual void CustomOnActivate(){}
+
+	std::shared_ptr<Coordinator> m_pRegistry;
 	
 private:
 	friend void ColliderComponent::Initialize();
@@ -42,15 +50,18 @@ private:
 	std::vector<GameObject*> m_pObjects;
 	std::vector<ColliderComponent*> m_pColliders;
 		
-	SceneRenderer* m_pSceneRenderer;
+	SceneRenderer* m_pSceneRenderer; //deprecated
+	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
+	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	CameraComponent* m_pActiveCamera;
+
 		
 	bool m_bIsActive;
 	bool m_bIsInitialized;
 
-	virtual void Initialize() = 0;
+	virtual void Initialize() {};
 	void Update();
-	virtual void DeclareInput() = 0;
+	virtual void DeclareInput() {};
 		
 	void OnActivate();
 	void Refresh();

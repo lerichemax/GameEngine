@@ -19,3 +19,9 @@ private:
 
 	std::array<std::vector<RendererComponent*>, MAX_NBR_LAYERS> m_pLayersGroup;
 };
+
+class LayeredRendererSystem : public System
+{
+public:
+	void Update(ComponentManager* const pComponentManager) override;
+};

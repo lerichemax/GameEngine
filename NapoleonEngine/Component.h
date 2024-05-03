@@ -38,5 +38,9 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 struct ECS_Component
 {
+	ECS_Component() = default;
+	ECS_Component(bool unique);
 
+	bool m_IsActive{true};
+	bool m_IsUnique{};
 };

@@ -18,14 +18,16 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	
-	auto* titleObject = new GameObject();
-	titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
-	AddObject(titleObject);
-	titleObject->GetTransform()->Translate(300, 50);
-	titleObject->GetTransform()->Scale(0.8f, 0.8f);
+	//ECS_RendererComponent rendererComp;
+	//rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
+	//rendererComp.m_Layer = Layer::uiGame;
 
-	auto* soloBtn = new GameObject();
+	//GameObject* titleObject = CreateGameObject();
+	//titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
+	//titleObject->GetECSTransform()->Translate(300, 50);
+	//titleObject->GetECSTransform()->Scale(0.8f);
+
+	GameObject* soloBtn = CreateGameObject();
 	auto* btn = new ButtonComponent(70, 30);
 	soloBtn->AddComponent(btn);
 

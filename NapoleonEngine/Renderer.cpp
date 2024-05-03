@@ -21,10 +21,11 @@ Renderer::Renderer()
 {
 	
 }
-void Renderer::Init(SDL_Window * window)
+void Renderer::Init(unsigned int width, unsigned int height, std::string const& name)
 {
-	m_pWindow = window;
-	m_pRenderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	CreateSDLWindow(width, height, name);
+
+	m_pRenderer = SDL_CreateRenderer(m_pWindow, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
@@ -32,7 +33,7 @@ void Renderer::Init(SDL_Window * window)
 	SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplSDL2_InitForOpenGL(m_pWindow, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 }
 
@@ -59,6 +60,10 @@ void Renderer::Destroy()
 		SDL_DestroyRenderer(m_pRenderer);
 		m_pRenderer = nullptr;
 	}
+
+	SDL_DestroyWindow(m_pWindow);
+	m_pWindow = nullptr;
+
 }
 
 void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
@@ -129,4 +134,23 @@ int Renderer::GetOpenGLDriverIndex()
 		}
 	}
 	return oglIdx;
+}
+
+void Renderer::CreateSDLWindow(unsigned int width, unsigned int height, std::string const& name)
+{
+	m_WindowWidth = width;
+	m_WindowHeight = height;
+	m_pWindow = SDL_CreateWindow(
+		name.c_str(),
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		m_WindowWidth,
+		m_WindowHeight,
+		SDL_WINDOW_OPENGL
+	);
+
+	if (m_pWindow == nullptr)
+	{
+		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+	}
 }

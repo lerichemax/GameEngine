@@ -130,3 +130,49 @@ void TransformComponent::Rotate(float rot)
 {
 	m_Rotation = rot;
 }
+
+void ECS_TransformComponent::Translate(vec2 const& translation)
+{
+	m_Position = translation;
+}
+
+void ECS_TransformComponent::Translate(float x, float y)
+{
+	m_Position.x = x;
+	m_Position.y = y;
+}
+
+void ECS_TransformComponent::Scale(vec2 const& scale)
+{
+	m_Scale = {scale.x, scale.y};
+}
+
+void ECS_TransformComponent::Scale(float scale)
+{
+	m_Scale = { scale, scale };
+}
+
+void ECS_TransformComponent::Rotate(float rotation)
+{
+	m_Rotation = rotation;
+}
+
+TransformSystem::TransformSystem()
+	:System()
+{
+
+}
+
+void TransformSystem::Update(ComponentManager* const pComponentManager)
+{
+	for (Entity const& entity : m_Entities)
+	{
+		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+
+		transComp->m_WorldPosition = transComp->m_Position;
+		transComp->m_WorldRotation = transComp->m_Rotation;
+		transComp->m_WorldScale = transComp->m_Scale;
+
+		transComp->m_World = BuildTransformMatrix(transComp->m_WorldPosition, transComp->m_WorldRotation, transComp->m_WorldScale);
+	}
+}

@@ -22,9 +22,8 @@ CameraComponent::CameraComponent(CameraComponent const& other)
 
 void CameraComponent::Initialize()
 {
-	auto& pSceneMan = SceneManager::GetInstance();
-	m_Width = pSceneMan.GetEngine()->GetWindowWidth();
-	m_Height = pSceneMan.GetEngine()->GetWindowHeight();
+	m_Width = Renderer::GetInstance().GetWindowWidth();
+	m_Height = Renderer::GetInstance().GetWindowHeight();
 }
 
 void CameraComponent::Transform() const

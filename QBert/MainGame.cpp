@@ -38,7 +38,7 @@ MainGame::MainGame()
 	Initialize(900, 600, "QBert");
 }
 
-void MainGame::LoadGame() const
+void MainGame::InitGame() const
 {	
 	SceneManager::GetInstance().AddScene(new TestScene{});
 	//SceneManager::GetInstance().AddScene(new MainMenuScene{});
@@ -152,7 +152,7 @@ void MainGame::CreatePrefabs() const
 	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
 	auto menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
-		new geo::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 127}, true} });
+		new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} });
 
 	auto textObject = new GameObject{}; 
 	auto textComp = new TextRendererComponent{ "Pause", biggerFont };
@@ -199,7 +199,7 @@ void MainGame::CreatePrefabs() const
 	//Game over menu (opaque)
 	menuObj = new GameObject{};
 	menuObj->AddComponent(new ShapeRenderer{ +
-		new geo::Rectangle{glm::vec2{0,0},GetWindowWidth(), GetWindowHeight(), Color{0,0,0, 255}, true} });
+		new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 
 	 textObject = new GameObject{};
 	textComp = new TextRendererComponent{ "Game Over", biggerFont };
@@ -243,4 +243,15 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
 
 	delete json;
+}
+
+void MainGame::CreateMainMenuScene()
+{
+	//Scene* mainMenuScene = new Scene{ "MainMenuScene" };
+
+	//auto* titleObject = new GameObject();
+	//titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
+	//Create(titleObject);
+	//titleObject->GetTransform()->Translate(300, 50);
+	//titleObject->GetTransform()->Scale(0.8f, 0.8f);
 }

@@ -7,23 +7,45 @@
 
 #include "Scene.h"
 
-GameObject::GameObject()
-	:m_bIsActive(true),
+GameObject::GameObject() //TEMP
+	:m_Entity(0),
+	m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_bIsInitialized(false),
 	m_pComponents(),
-	m_pTransform(new TransformComponent(0.f, 0.f)),
+	m_pTransform(nullptr),
+	m_pEcsTransform(new ECS_TransformComponent{}),
 	m_pChildren(),
 	m_pParent(nullptr),
 	m_pScene(nullptr),
 	m_pSubject(new Subject{}),
 	m_Tag()
 {
-	AddComponent(m_pTransform);
+
+	//AddComponent(m_pTransform);
+}
+
+GameObject::GameObject(Entity entity, std::weak_ptr<Coordinator> pRegistry)
+	:m_Entity(entity),
+	m_bIsActive(true),
+	m_bIsDestroyed(false),
+	m_bIsInitialized(false),
+	m_pComponents(),
+	m_pRegistry(pRegistry),
+	m_pTransform(new TransformComponent(0.f, 0.f)),
+	m_pEcsTransform(m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity)),
+	m_pChildren(),
+	m_pParent(nullptr),
+	m_pScene(nullptr),
+	m_pSubject(new Subject{}),
+	m_Tag()
+{
+
 }
 
 GameObject::GameObject(const GameObject& other)
-	:m_bIsActive(true),
+	:m_Entity(0),
+	m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_bIsInitialized(other.m_bIsInitialized),
 	m_pComponents(),
@@ -60,6 +82,7 @@ GameObject::~GameObject()
 		delete comp;
 	}
 	m_pComponents.clear();
+	m_pRegistry->DestroyEntity(m_Entity);
 
 	SafeDelete(m_pSubject);
 }
@@ -166,7 +189,7 @@ void GameObject::SetActive(bool active)
 
 bool GameObject::IsActive() const
 {
-	return m_bIsActive && m_pScene->IsActive();
+	return m_bIsActive;//&& m_pScene->IsActive();
 }
 
 void GameObject::SetTag(std::string const& tag, bool applyToChildren)

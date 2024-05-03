@@ -1,11 +1,14 @@
 #pragma once
+#include "Entity.h"
 #include "Component.h"
+#include "Coordinator.h"
 
 #include <vector>
 
 class Subject;
 class Observer;
 class TransformComponent;
+struct ECS_TransformComponent;
 class Scene;
 class GameObject final
 {
@@ -30,9 +33,11 @@ public:
 	template <class T>
 	void RemoveComponent();
 		
-	TransformComponent* GetTransform() const { return m_pTransform; }
+	TransformComponent* GetTransform() const { return m_pTransform; } //deprecated
+	std::shared_ptr<ECS_TransformComponent> GetECSTransform() const { return m_pEcsTransform; }
 
-	void AddComponent(Component* pComp);
+	void AddComponent(Component* pComp); //deprecated
+	template <typename T> void AddComponent(T const& Component, bool n /*temp*/);
 
 	void AddChild(GameObject* pChild);
 	std::vector<GameObject*> const& GetChildren() const { return m_pChildren; }
@@ -57,13 +62,21 @@ public:
 private:
 	friend class PrefabsManager;
 	friend class Scene;
+
+	GameObject(Entity entity, std::weak_ptr<Coordinator>);
+
+	Entity m_Entity;
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
 	bool m_bIsInitialized;
 		
 	std::vector<Component*> m_pComponents;
+	std::shared_ptr<Coordinator> m_pRegistry;
+
 	TransformComponent* m_pTransform;
+	std::shared_ptr <ECS_TransformComponent> m_pEcsTransform;
+
 	std::vector<GameObject*> m_pChildren;
 	GameObject* m_pParent;
 		
@@ -78,6 +91,14 @@ private:
 		
 	GameObject(const GameObject& other);
 };
+template <typename T>
+void GameObject::AddComponent(T const& Component, bool n)
+{
+	if (n) //TEMP
+	{
+		m_pRegistry->AddComponent<T>(m_Entity, Component);
+	}
+}
 
 template <class T>
 T* GameObject::GetComponent() const

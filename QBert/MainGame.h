@@ -6,6 +6,9 @@ class MainGame final : public NapoleonEngine
 public:
 	MainGame();
 
-	void LoadGame() const override;
+	void InitGame() const override;
 	void CreatePrefabs() const override;
+
+private:
+	void CreateMainMenuScene();
 };

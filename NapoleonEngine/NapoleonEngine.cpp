@@ -25,21 +25,6 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	m_WindowWidth = width;
-	m_WindowHeight = height;
-	m_Window = SDL_CreateWindow(
-		name.c_str(),
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		m_WindowWidth,
-		m_WindowHeight,
-		SDL_WINDOW_OPENGL
-	);
-
-	if (m_Window == nullptr) 
-	{
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
-	}
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
@@ -48,7 +33,7 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 		return;
 	}
 	
-	Renderer::GetInstance().Init(m_Window);
+	Renderer::GetInstance().Init(width, height, name);
 	
 	std::srand(unsigned int(time(nullptr)));
 
@@ -85,15 +70,13 @@ void NapoleonEngine::Cleanup()
 	pService = nullptr;
 	Renderer::GetInstance().Destroy();
 	
-	SDL_DestroyWindow(m_Window);
-	m_Window = nullptr;
 	SDL_Quit();
 }
 
 void NapoleonEngine::Run()
 {
 	CreatePrefabs();
-	LoadGame();
+	InitGame();
 	SceneManager::GetInstance().Initialize(this);
 	{
 		auto& renderer = Renderer::GetInstance();

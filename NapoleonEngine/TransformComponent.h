@@ -6,6 +6,7 @@
 #pragma warning(pop)
 
 #include "Component.h"
+#include "System.h"
 
 class TransformComponent final : public Component
 {
@@ -56,12 +57,31 @@ private:
 
 struct ECS_TransformComponent : public ECS_Component
 {
-	glm::vec2 m_Position;
-	glm::vec2 m_Scale;
-	float m_Rotation;
+	friend class TransformSystem;
 
-	glm::mat3x3 m_World;
-	glm::vec2 m_WorldPosition;
-	glm::vec2 m_WorldScale;
-	float m_WorldRotation;
+	ECS_TransformComponent() : ECS_Component(true) {}
+
+	void Translate(vec2 const& translation);
+	void Translate(float x, float y);
+	void Scale(vec2 const& scale);
+	void Scale(float scale);
+	void Rotate(float rotation);
+
+	glm::vec2 m_Position{};
+	glm::vec2 m_Scale{1.f, 1.f};
+	float m_Rotation{};
+
+private:
+	glm::mat3x3 m_World{};
+	glm::vec2 m_WorldPosition{};
+	glm::vec2 m_WorldScale{};
+	float m_WorldRotation{};
+};
+
+class ComponentManager;
+class TransformSystem : public System {
+
+public:
+	TransformSystem();
+	void Update(ComponentManager* const pComponentManager) override;
 };
