@@ -37,8 +37,8 @@ void Coily::Initialize()
 		m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
 	}
 	
-	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
+	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
 	Enemy::Initialize();
 }
 
@@ -101,11 +101,11 @@ void Coily::Transform(bool isTransformed)
 	{
 		m_pGameObject->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
 	}
-	else
-	{
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
-	}
+	//else
+	//{
+	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
+	//}
 }
 
 void Coily::SetDirectionTextures(ConnectionDirection dir)
@@ -117,25 +117,25 @@ void Coily::SetDirectionTextures(ConnectionDirection dir)
 
 	m_FacingDirection = dir;
 
-	switch (dir)
-	{
-	case ConnectionDirection::downLeft:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownLeft.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
-		break;
-	case ConnectionDirection::downRight:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownRight.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownRight.png");
-		break;
-	case ConnectionDirection::upLeft:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpLeft.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
-		break;
-	case ConnectionDirection::upRight:
-		m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpRight.png");
-		m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_UpRight.png");
-		break;
-	}
+	//switch (dir)
+	//{
+	//case ConnectionDirection::downLeft:
+	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownLeft.png");
+	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
+	//	break;
+	//case ConnectionDirection::downRight:
+	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_DownRight.png");
+	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownRight.png");
+	//	break;
+	//case ConnectionDirection::upLeft:
+	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpLeft.png");
+	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_DownLeft.png");
+	//	break;
+	//case ConnectionDirection::upRight:
+	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Small_UpRight.png");
+	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Big_UpRight.png");
+	//	break;
+	//}
 }
 
 void Coily::MoveToCurrentQube()

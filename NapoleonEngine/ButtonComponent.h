@@ -5,7 +5,6 @@ class Command;
 class ButtonComponent final : public Component
 {
 public:
-		
 	ButtonComponent(float width, float height);
 		
 	ButtonComponent(ButtonComponent&& other) = delete;
@@ -42,4 +41,22 @@ private:
 
 		
 	ButtonComponent(ButtonComponent const& other);
+};
+
+struct ECS_ButtonComponent : public ECS_Component
+{
+	ECS_ButtonComponent(float width, float height);
+
+	void SetOnClickFunction(Command* func);
+	void SetOnSelectFunction(Command* func);
+	void SetOnDeselectFunction(Command* func);
+
+	Command* m_pOnClick;
+	Command* m_pOnSelect;
+	Command* m_pOnDeselect;
+
+	glm::vec2 m_Dimensions;
+
+	bool m_IsSelected;
+	bool m_bVisualize;
 };

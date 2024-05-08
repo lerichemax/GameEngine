@@ -8,8 +8,12 @@ void DumpMemoryLeaks();
 int main()
 {
 	StartHeapControl();
-	MainGame engine{};
-	engine.Run();
+
+	{
+		MainGame engine{};
+		engine.Run();
+	}
+
 	DumpMemoryLeaks();
 	return 0;
 }

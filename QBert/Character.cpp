@@ -82,7 +82,8 @@ void Character::MoveToCurrentQube()
 	if (m_pGameObject->IsActive())
 	{
 		m_pCurrentQube->CharacterJumpIn(this);
-		m_pGameObject->GetTransform()->SetWorldPosition(m_pCurrentQube->GetCharacterPos());
+		//m_pGameObject->GetECSTransform()->SetWorldPosition(m_pCurrentQube->GetCharacterPos());
+		m_pGameObject->GetECSTransform()->Translate(m_pCurrentQube->GetCharacterPos());
 	}
 }
 
@@ -94,7 +95,7 @@ void Character::JumpToQube(Qube* pTargetQube)
 	}
 
 	m_pCurrentQube = pTargetQube;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(), m_pCurrentQube->GetCharacterPos());
+	m_pJumper->Jump(m_pGameObject->GetECSTransform()->GetWorldPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
 void Character::SwitchToIdleTex() const
@@ -122,7 +123,7 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	SetLayerToBackGround();
 	
 	m_pCurrentQube->CharacterJumpOut();
-	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetWorldPosition(), dist);
+	m_pJumper->JumpToDeath(m_pGameObject->GetECSTransform()->GetWorldPosition(), dist);
 }
 
 void Character::Move(ConnectionDirection direction)

@@ -39,3 +39,18 @@ private:
 	void SetTexture(std::string const& ) override {};
 	void SetTexture(Texture2D* ) override{}
 };
+
+struct ECS_TextRendererComponent : public ECS_Component
+{
+	ECS_TextRendererComponent(std::string const& text, std::shared_ptr<Font> font);
+
+	std::string m_Text;
+
+private:
+	friend class TextRendererSystem;
+
+	bool m_NeedsUpdate{ true };
+
+	std::shared_ptr<Font> m_pFont{};
+	SDL_Color m_TextColor{255,255,255,255};
+};

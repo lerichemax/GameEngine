@@ -33,7 +33,7 @@ public:
 	template <class T>
 	void RemoveComponent();
 		
-	TransformComponent* GetTransform() const { return m_pTransform; } //deprecated
+	//TransformComponent* GetECSTransform() const { return m_pTransform; } //deprecated
 	std::shared_ptr<ECS_TransformComponent> GetECSTransform() const { return m_pEcsTransform; }
 
 	void AddComponent(Component* pComp); //deprecated
@@ -52,6 +52,7 @@ public:
 	bool IsActive() const;
 	bool HasChildren() const { return m_pChildren.size() > 0; }
 	std::string GetTag()const { return m_Tag; };
+	Entity GetEntity() const { return m_Entity; }
 		
 	void AddObserver(Observer* pObserver) const;
 	void RemoveObserver(Observer* pObserver) const;
@@ -63,7 +64,9 @@ private:
 	friend class PrefabsManager;
 	friend class Scene;
 
-	GameObject(Entity entity, std::weak_ptr<Coordinator>);
+	GameObject(std::weak_ptr<Coordinator>);
+
+	std::shared_ptr<Coordinator> m_pRegistry;
 
 	Entity m_Entity;
 		
@@ -72,7 +75,6 @@ private:
 	bool m_bIsInitialized;
 		
 	std::vector<Component*> m_pComponents;
-	std::shared_ptr<Coordinator> m_pRegistry;
 
 	TransformComponent* m_pTransform;
 	std::shared_ptr <ECS_TransformComponent> m_pEcsTransform;

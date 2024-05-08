@@ -14,6 +14,8 @@ struct ECS_TransformComponent;
 class Renderer final : public Singleton<Renderer>
 {
 public:
+	~Renderer();
+
 	void Init(unsigned int width, unsigned int height, std::string const& name);
 	void Render();
 	void Destroy();

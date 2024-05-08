@@ -31,7 +31,8 @@ void SlickSamManager::Spawn()
 	m_pPyramid->GetGameObject()->AddChild(pSlickSam);
 
 	pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-	pSlickSam->GetTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
+	//pSlickSam->GetECSTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
+	pSlickSam->GetECSTransform()->Translate(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
 	AddToArray(pSlickSam->GetComponent<SlickSam>());
 	if (m_pObserver != nullptr)
 	{

@@ -5,6 +5,7 @@
 
 
 class TextRendererComponent;
+class TextRendererComponent;
 class Pyramid;
 class QBert;
 class SwitchTextColor final : public Command

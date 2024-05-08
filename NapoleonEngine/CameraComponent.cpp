@@ -28,7 +28,7 @@ void CameraComponent::Initialize()
 
 void CameraComponent::Transform() const
 {
-	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
+	glm::vec2 const pos = m_pGameObject->GetECSTransform()->GetPosition();
 	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
@@ -41,8 +41,55 @@ glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
 
 glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
-	auto const trans = m_pGameObject->GetTransform();
+	auto const trans = m_pGameObject->GetECSTransform();
 
 	return BuildTransformMatrix(trans->GetWorldPosition(), trans->GetWorldRotation(), 
 		trans->GetWorldScale());
+}
+
+ECS_CameraComponent::ECS_CameraComponent()
+	:m_Width(Renderer::GetInstance().GetWindowWidth()),
+	m_Height(Renderer::GetInstance().GetWindowHeight())
+{
+}
+
+CameraSystem::CameraSystem(Coordinator* const pRegistry)
+{
+	Signature signature{};
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_CameraComponent>());
+
+	pRegistry->SetSystemSignature<CameraSystem>(signature);
+}
+
+void CameraSystem::Update(ComponentManager* const pComponentManager)
+{
+	for (Entity const& entity : m_Entities)
+	{
+		if (entity != m_MainCameraEntity)
+		{
+			continue;
+		}
+
+		auto transformComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+		auto cameraComp = pComponentManager->GetComponent<ECS_CameraComponent>(entity);
+
+		glm::vec2 const pos = transformComp->GetPosition();
+		glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
+
+		glTranslatef(-upLeft.x, -upLeft.y, 0);
+	}
+}
+
+void CameraSystem::SetMainCamera(Entity entity)
+{
+	auto entityIt = std::find(m_Entities.begin(), m_Entities.end(), entity);
+	
+	if (entityIt == m_Entities.end())
+	{
+		Debugger::GetInstance().LogWarning("This entity has no camera component");
+		return;
+	}
+
+	m_MainCameraEntity = entity;
 }

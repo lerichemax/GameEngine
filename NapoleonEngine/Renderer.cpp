@@ -21,6 +21,12 @@ Renderer::Renderer()
 {
 	
 }
+
+Renderer::~Renderer()
+{
+	Destroy();
+}
+
 void Renderer::Init(unsigned int width, unsigned int height, std::string const& name)
 {
 	CreateSDLWindow(width, height, name);

@@ -1,5 +1,7 @@
 #pragma once
 #include "Component.h"
+#include "System.h"
+#include "ComponentManager.h"
 
 class CameraComponent final : public Component
 {
@@ -20,7 +22,6 @@ protected:
 	CameraComponent* Clone() const override { return new CameraComponent(*this); }
 	
 private:
-	friend class Scene;
 		
 	unsigned int m_Width;
 	unsigned int m_Height;
@@ -28,4 +29,26 @@ private:
 	void Transform() const;
 		
 	CameraComponent(CameraComponent const& other);
+};
+
+struct ECS_CameraComponent : public ECS_Component
+{
+	ECS_CameraComponent();
+
+	unsigned int m_Width{};
+	unsigned int m_Height{};
+};
+
+class Coordinator;
+class CameraSystem : public System
+{
+public:
+	CameraSystem(Coordinator* const pRegistry);
+
+	void Update(ComponentManager* const pComponentManager) override;
+
+	void SetMainCamera(Entity entity);
+
+private:
+	Entity m_MainCameraEntity;
 };

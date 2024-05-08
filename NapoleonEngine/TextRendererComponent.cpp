@@ -77,3 +77,11 @@ void TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 {
 	m_TextColor = SDL_Color{ r,g,b };
 }
+
+ECS_TextRendererComponent::ECS_TextRendererComponent(std::string const& text, std::shared_ptr<Font> font)
+	:ECS_Component(true),
+	m_Text{text},
+	m_pFont{font}
+{
+
+}

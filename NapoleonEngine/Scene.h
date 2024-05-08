@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "ColliderComponent.h"
+#include "Entity.h"
 
 #include <memory>
 
@@ -9,6 +10,7 @@ class SceneRenderer;
 class RendererComponent;
 class GameObject;
 class CameraComponent;
+class CameraSystem;
 class TransformSystem;
 class Coordinator;
 class LayeredRendererSystem;
@@ -35,6 +37,7 @@ public:
 	
 protected:
 	virtual void CustomOnActivate(){}
+	void SetActiveCamera(Entity entity);
 
 	std::shared_ptr<Coordinator> m_pRegistry;
 	
@@ -53,7 +56,9 @@ private:
 	SceneRenderer* m_pSceneRenderer; //deprecated
 	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
+	std::shared_ptr<CameraSystem> m_pCamera;
 	CameraComponent* m_pActiveCamera;
+	
 
 		
 	bool m_bIsActive;

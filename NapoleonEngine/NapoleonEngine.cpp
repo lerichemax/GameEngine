@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "ObserverManager.h"
 #include "Renderer.h"
 #include "SoundServiceLocator.h"
 #include "Timer.h"
@@ -16,8 +17,19 @@
 #include "TransformComponent.h"
 #include "FPSCounter.h"
 
+class ObserverManager;
+
 using namespace std;
 bool NapoleonEngine::m_bQuit = false;
+NapoleonEngine* NapoleonEngine::m_pEngine = nullptr;
+
+NapoleonEngine::NapoleonEngine()
+{
+	assert(m_pEngine == nullptr && "Trying to instantiate more than one Engine instance");
+
+	m_pEngine = this;
+}
+
 void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::string const& name)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
@@ -46,12 +58,12 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 		Debugger::GetInstance().LogError(error.what());
 	}
 
-	auto fpsCounter = new GameObject{};
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
-	fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
-	fpsCounter->AddComponent(new FPSCounter{});
-	fpsCounter->GetTransform()->Translate(20.f, 20.f);
-	PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
+	//auto fpsCounter = new GameObject{};
+	//auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	//fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
+	//fpsCounter->AddComponent(new FPSCounter{});
+	//fpsCounter->GetECSTransform()->Translate(20.f, 20.f);
+	//PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
 }
 
 void NapoleonEngine::Quit()
@@ -59,6 +71,15 @@ void NapoleonEngine::Quit()
 	m_bQuit = true;
 }
 
+NapoleonEngine* NapoleonEngine::GetEngine()
+{
+	return m_pEngine;
+}
+
+void NapoleonEngine::RegisterSingleton(SingletonWrapper* singleton)
+{
+	m_Singletons.push_back(singleton);
+}
 
 void NapoleonEngine::Cleanup()
 {
@@ -68,16 +89,24 @@ void NapoleonEngine::Cleanup()
 		delete pService;
 	}
 	pService = nullptr;
-	Renderer::GetInstance().Destroy();
+
+	for (size_t i = 0; i < m_Singletons.size(); i++)
+	{
+		delete m_Singletons[i];
+	}
+
+	m_Singletons.clear();
+
+	m_pEngine = nullptr;
 	
 	SDL_Quit();
 }
 
 void NapoleonEngine::Run()
 {
-	CreatePrefabs();
+	//CreatePrefabs();
 	InitGame();
-	SceneManager::GetInstance().Initialize(this);
+	SceneManager::GetInstance().Initialize();
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();

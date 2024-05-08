@@ -33,7 +33,7 @@ private:
 		
 	SceneManager();
 
-	void Initialize(NapoleonEngine const* pEngine);
+	void Initialize();
 	void Update();
 	void Render();
 };

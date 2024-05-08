@@ -1,9 +1,12 @@
 #pragma once
 #include "System.h"
+
 #include <array>
+#include <memory>
 
 enum class Layer;
 class RendererComponent;
+class Coordinator;
 class SceneRenderer final
 {
 public:
@@ -20,8 +23,21 @@ private:
 	std::array<std::vector<RendererComponent*>, MAX_NBR_LAYERS> m_pLayersGroup;
 };
 
-class LayeredRendererSystem : public System
+class TextRendererSystem : public System
 {
 public:
+	TextRendererSystem(Coordinator* const pRegistry);
+
 	void Update(ComponentManager* const pComponentManager) override;
+};
+
+class LayeredRendererSystem : public System //TODO Add Layering
+{
+public:
+	LayeredRendererSystem(Coordinator* const pRegistry);
+
+	void Update(ComponentManager* const pComponentManager) override;
+
+private:
+	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
 };

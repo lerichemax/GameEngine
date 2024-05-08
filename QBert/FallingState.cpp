@@ -17,7 +17,7 @@ FallingState::FallingState(Character* pChar, Jumper* pJumper)
 
 CharacterState* FallingState::Update(GameObject* pObject)
 {
-	m_pJumperComp->UpdateFall(pObject->GetTransform());
+	//m_pJumperComp->UpdateFall(pObject->GetECSTransform());
 	if (m_pJumperComp->IsDead())
 	{
 		m_pJumperComp->SetIsNotDead();

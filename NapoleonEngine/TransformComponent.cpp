@@ -39,10 +39,10 @@ void TransformComponent::Update()
 	auto* pParent = m_pGameObject->GetParent();
 	if (pParent != nullptr)
 	{
-		auto const parentWorld = pParent->GetTransform()->m_WorldPosition;
+		/*auto const parentWorld = pParent->GetECSTransform()->m_WorldPosition;
 		m_WorldPosition = parentWorld + m_Position;
-		m_WorldRotation = pParent->GetTransform()->m_WorldRotation + m_Rotation;
-		m_WorldScale = pParent->GetTransform()->m_WorldScale * m_Scale;
+		m_WorldRotation = pParent->GetECSTransform()->m_WorldRotation + m_Rotation;
+		m_WorldScale = pParent->GetECSTransform()->m_WorldScale * m_Scale;*/
 	}
 	else
 	{
@@ -79,7 +79,7 @@ void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
 	}
 	else
 	{
-		auto const parentWorld = parentObj->GetTransform()->GetWorldPosition();
+		auto const parentWorld = parentObj->GetECSTransform()->GetWorldPosition();
 
 		auto const pos = worldPos - parentWorld;
 
@@ -157,10 +157,12 @@ void ECS_TransformComponent::Rotate(float rotation)
 	m_Rotation = rotation;
 }
 
-TransformSystem::TransformSystem()
-	:System()
+TransformSystem::TransformSystem(Coordinator* const pRegistry)
 {
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
 
+	pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
 void TransformSystem::Update(ComponentManager* const pComponentManager)

@@ -1,10 +1,6 @@
 #pragma once
 
-#include <memory>
-
-struct SDL_Window;
-class GameObject;
-class SystemManager;
+class SingletonWrapper;
 class NapoleonEngine
 {
 public:
@@ -14,10 +10,18 @@ public:
 	void Run();
 		
 	static void Quit();
+	static NapoleonEngine* GetEngine();
+
+	void RegisterSingleton(SingletonWrapper* singleton);
 
 protected:
+	NapoleonEngine();
+
 	void Initialize(unsigned int width, unsigned int height, std::string const& name);
 
 private:
 	static bool m_bQuit;
+	static NapoleonEngine* m_pEngine;
+
+	std::vector<SingletonWrapper*> m_Singletons;
 };

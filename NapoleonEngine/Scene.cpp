@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "SceneRenderer.h"
 #include "RendererComponent.h"
+#include "TextRendererComponent.h"
 #include "TransformComponent.h"
 
 #include <algorithm>
@@ -19,17 +20,10 @@ Scene::Scene(const std::string& name)
 	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
 	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
 	m_pActiveCamera(nullptr),
+	m_pCamera(m_pRegistry->RegisterSystem<CameraSystem>()),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
-
-	m_pRegistry->SetSystemSignature<ECS_TransformComponent>(signature);
-
-	signature.set(m_pRegistry->GetComponentType<ECS_RendererComponent>());
-
-	m_pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
 }
 
 Scene::~Scene()
@@ -60,9 +54,7 @@ void Scene::AddObject(GameObject* object)
 
 GameObject* Scene::CreateGameObject()
 {
-
-	m_pObjects.push_back(new GameObject{m_pRegistry->CreateEntity(), m_pRegistry});
-	m_pRegistry->AddComponent<ECS_TransformComponent>(m_pObjects.back()->m_Entity, *m_pObjects.back()->m_pEcsTransform); //TEMP
+	m_pObjects.push_back(new GameObject{m_pRegistry});
 
 	return m_pObjects.back();
 }
@@ -91,13 +83,13 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	if (m_pActiveCamera == nullptr)
+	if (m_pCamera == nullptr)
 	{
 		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
 	}
 	glPushMatrix();
 	{
-		m_pActiveCamera->Transform();
+		m_pCamera->Update(m_pRegistry->GetComponentManager());
 		m_pSceneRenderer->Render();
 		m_pECS_SceneRenderer->Update(m_pRegistry->GetComponentManager());
 	}
@@ -149,6 +141,11 @@ void Scene::CheckCollidersCollision()
 			pColl->CheckOverlap(pOtherColl);
 		}
 	}
+}
+
+void Scene::SetActiveCamera(Entity entity)
+{
+	m_pCamera->SetMainCamera(entity);
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

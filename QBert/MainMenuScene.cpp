@@ -18,98 +18,85 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	//ECS_RendererComponent rendererComp;
-	//rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
-	//rendererComp.m_Layer = Layer::uiGame;
+	ECS_RendererComponent rendererComp;
+	rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
+	rendererComp.m_Layer = Layer::uiGame;
 
-	//GameObject* titleObject = CreateGameObject();
-	//titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
-	//titleObject->GetECSTransform()->Translate(300, 50);
-	//titleObject->GetECSTransform()->Scale(0.8f);
+	GameObject* titleObject = CreateGameObject();
+	titleObject->AddComponent<ECS_RendererComponent>(rendererComp, true);
+	titleObject->GetECSTransform()->Translate(300, 50);
+	titleObject->GetECSTransform()->Scale(0.8f);
 
 	GameObject* soloBtn = CreateGameObject();
-	auto* btn = new ButtonComponent(70, 30);
-	soloBtn->AddComponent(btn);
+	ECS_ButtonComponent btn(70, 30);
+	soloBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
-	auto* textObj = new GameObject();
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
-	auto txt = new TextRendererComponent{ "Solo", font };
-	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 3);
-	soloBtn->AddChild(textObj);
+	ECS_TextRendererComponent txt{ "Solo", ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28) };
 
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	ECS_RendererComponent txtRendererComp;
+	txtRendererComp.m_Layer = Layer::uiGame;
 
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	soloBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
+	soloBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
+	soloBtn->GetECSTransform()->Translate(7, 3);
 
-	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
+	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	//btn.SetOnClickFunction(new SwitchScene{"SoloScene"});
 
-	soloBtn->GetTransform()->Translate(400, 200);
-	AddObject(soloBtn);
+	soloBtn->GetECSTransform()->Translate(400, 200);
 
-	auto* coopBtn = new GameObject();
-	btn = new ButtonComponent(80, 30);
-	coopBtn->AddComponent(btn);
+	auto* coopBtn = CreateGameObject();
+	btn.m_Dimensions = { 80, 30 };
+	coopBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
-	textObj = new GameObject();
-	txt = new TextRendererComponent{ "Co-op", font };
-	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 3);
-	coopBtn->AddChild(textObj);
+	txt.m_Text = "Co-op";
 
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	coopBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
+	coopBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
+	coopBtn->GetECSTransform()->Translate(7, 3);
 
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	//btn.SetOnClickFunction(new SwitchScene{"CoopScene"});
 
-	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
+	coopBtn->GetECSTransform()->Translate(400, 250);
 
-	coopBtn->GetTransform()->Translate(400, 250);
-	AddObject(coopBtn);
+	auto* vsBtn = CreateGameObject();
+	btn.m_Dimensions = { 92, 30 };
+	vsBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
-	auto* vsBtn = new GameObject();
-	btn = new ButtonComponent(92, 30);
-	vsBtn->AddComponent(btn);
+	txt.m_Text =  "Versus";
+	vsBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
+	vsBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
+	vsBtn->GetECSTransform()->Translate(7, 3);
 
-	textObj = new GameObject();
-	txt = new TextRendererComponent{ "Versus", font };
-	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 3);
-	vsBtn->AddChild(textObj);
+	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	//btn.SetOnClickFunction(new SwitchScene{"VersusScene"});
 
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	vsBtn->GetECSTransform()->Translate(400, 300);
 
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	auto* quitBtn = CreateGameObject();
+	btn.m_Dimensions = { 70, 30 };
+	quitBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
-	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
+	txt.m_Text = "Quit";
+	quitBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
+	quitBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
+	quitBtn->GetECSTransform()->Translate(7, 3);
 
-	vsBtn->GetTransform()->Translate(400, 300);
-	AddObject(vsBtn);
+	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
+	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
+	//btn.SetOnClickFunction(new QuitGameCommand{  });
 
-	auto* quitBtn = new GameObject();
-	btn = new ButtonComponent(70, 30);
-	quitBtn->AddComponent(btn);
-
-	textObj = new GameObject();
-	txt = new TextRendererComponent{ "Quit", font };
-	textObj->AddComponent(txt);
-	textObj->GetTransform()->Translate(7, 3);
-	quitBtn->AddChild(textObj);
-
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
-
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
-
-	btn->SetOnClickFunction(new QuitGameCommand{  });
-
-	quitBtn->GetTransform()->Translate(400, 350);
-	AddObject(quitBtn);
+	quitBtn->GetECSTransform()->Translate(400, 350);
 	
-	auto* camObj = new GameObject{};
-	auto* camComp = new CameraComponent{};
-	camObj->AddComponent(camComp);
-	camObj->GetTransform()->Translate(450, 300);
-	SetCameraActive(camComp);
-	AddObject(camObj);
+	auto* camObj = CreateGameObject();
+	ECS_CameraComponent camComp{};
+	camObj->AddComponent<ECS_CameraComponent>(camComp, true);
+	camObj->GetECSTransform()->m_Position = { 450, 300 };
+	SetActiveCamera(camObj->GetEntity());
 }
 
 void MainMenuScene::CustomOnActivate()

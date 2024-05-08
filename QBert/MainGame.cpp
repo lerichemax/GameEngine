@@ -40,12 +40,12 @@ MainGame::MainGame()
 
 void MainGame::InitGame() const
 {	
-	SceneManager::GetInstance().AddScene(new TestScene{});
-	//SceneManager::GetInstance().AddScene(new MainMenuScene{});
+	//SceneManager::GetInstance().AddScene(new TestScene{});
+	SceneManager::GetInstance().AddScene(new MainMenuScene{});
 	//SceneManager::GetInstance().AddScene(new SoloScene{});
 	//SceneManager::GetInstance().AddScene(new CoopScene{});
 	//SceneManager::GetInstance().AddScene(new VersusScene{});
-	SceneManager::GetInstance().SetSceneActive("Test Scene");
+	SceneManager::GetInstance().SetSceneActive("MainMenuScene");
 }
 
 void MainGame::CreatePrefabs() const
@@ -63,16 +63,16 @@ void MainGame::CreatePrefabs() const
 	SoundServiceLocator::Register(ss);
 	
 	auto const livesObj = new GameObject{};
-	livesObj->GetTransform()->Translate(20.f, 40.f);
-	livesObj->AddComponent(new TextRendererComponent{ "P1 Lives: ", font });
-	livesObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
+	livesObj->GetECSTransform()->Translate(20.f, 40.f);
+	//livesObj->AddComponent(new TextRendererComponent{ "P1 Lives: ", font });
+	//livesObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
 	pPrefabManager.AddPrefab("LivesUI", livesObj);
 
 
 	auto const pointsObj = new GameObject{};
-	pointsObj->GetTransform()->Translate(20.f, 60.f);
-	pointsObj->AddComponent(new TextRendererComponent{ "P1 Points: 0 ", font });
-	pointsObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
+	pointsObj->GetECSTransform()->Translate(20.f, 60.f);
+	//pointsObj->AddComponent(new TextRendererComponent{ "P1 Points: 0 ", font });
+	//pointsObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
 	pPrefabManager.AddPrefab("PointsUI", pointsObj);
 
 	//QBert
@@ -86,9 +86,9 @@ void MainGame::CreatePrefabs() const
 	auto hurtTextObj = new GameObject;
 	hurtTextObj->AddComponent(new RendererComponent("Textures/QBert/HurtText.png", Layer::foreground));
 	qbert->AddChild(hurtTextObj);
-	hurtTextObj->GetTransform()->Translate(10, -20);
+	hurtTextObj->GetECSTransform()->Translate(10, -20);
 	hurtTextObj->GetComponent<RendererComponent>()->SetEnable(false);
-	qbert->GetTransform()->Scale(1.5f);
+	qbert->GetECSTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("QBert", qbert);
 
 	JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
@@ -98,15 +98,15 @@ void MainGame::CreatePrefabs() const
 	auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
 	auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
 	auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
-	qubePf->GetTransform()->Scale(1.75f);
-	qubePf->AddComponent(new RendererComponent(text));
-	qubePf->AddComponent(new Qube{ text, interText, flippedText });
+	qubePf->GetECSTransform()->Scale(1.75f);
+	//qubePf->AddComponent(new RendererComponent(text));
+	//qubePf->AddComponent(new Qube{ text, interText, flippedText });
 	pPrefabManager.AddPrefab("Qube", qubePf);
 
 	//Pyramid
 	int levelWidth = json->ReadInt("width");
 	auto pyramid = new GameObject{};
-	pyramid->GetTransform()->Translate(250.f, 400.f);
+	pyramid->GetECSTransform()->Translate(250.f, 400.f);
 	pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
 	pPrefabManager.AddPrefab("Pyramid", pyramid);
 
@@ -117,17 +117,17 @@ void MainGame::CreatePrefabs() const
 	wrongWayPrefab->AddComponent(new WrongWayJumper{});
 	wrongWayPrefab->AddComponent(new EnemyCharacterController{});
 	wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
-	wrongWayPrefab->GetTransform()->Scale(2.f, 2.f);
+	wrongWayPrefab->GetECSTransform()->Scale(2.f);
 	pPrefabManager.AddPrefab("WrongWay", wrongWayPrefab);
 
 	//Coily prefab
 	auto coilyPrefab = new GameObject{};
 	auto pText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-	coilyPrefab->AddComponent(new RendererComponent(pText, Layer::middleground));
+	//coilyPrefab->AddComponent(new RendererComponent(pText, Layer::middleground));
 	coilyPrefab->AddComponent(new Coily{snakeFallId});
 	coilyPrefab->AddComponent(new CoilyCharacterController{});
 	coilyPrefab->AddComponent(new Jumper{});
-	coilyPrefab->GetTransform()->Scale(1.5f);
+	coilyPrefab->GetECSTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("Coily", coilyPrefab);
 
 	//SlickSam
@@ -136,15 +136,15 @@ void MainGame::CreatePrefabs() const
 	slickSamPf->AddComponent(new SlickSam{});
 	slickSamPf->AddComponent(new EnemyCharacterController{});
 	slickSamPf->AddComponent(new Jumper{});
-	slickSamPf->GetTransform()->Scale(1.5f);
+	slickSamPf->GetECSTransform()->Scale(1.5f);
 	pPrefabManager.AddPrefab("SlickSam", slickSamPf);
 
 	//ColoredDisk
 	auto diskPf = new GameObject{};
 	auto const diskText = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
 	diskPf->AddComponent(new ColoredDisk{ });
-	diskPf->AddComponent(new RendererComponent{ diskText, Layer::middleground });
-	diskPf->GetTransform()->Scale(2);
+	//diskPf->AddComponent(new RendererComponent{ diskText, Layer::middleground });
+	diskPf->GetECSTransform()->Scale(2);
 	pPrefabManager.AddPrefab("Disk", diskPf);
 
 	//Pause Menu
@@ -155,42 +155,42 @@ void MainGame::CreatePrefabs() const
 		new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} });
 
 	auto textObject = new GameObject{}; 
-	auto textComp = new TextRendererComponent{ "Pause", biggerFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	textObject->AddComponent(textComp);
+	//auto textComp = new TextRendererComponent{ "Pause", biggerFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
+	//textObject->AddComponent(textComp);
 	menuObj->AddChild(textObject);
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject->GetECSTransform()->Translate(glm::vec2{ 400, 100 });
 
 	auto btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Resume", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Resume", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	auto btn = new ButtonComponent{ 110, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->GetECSTransform()->Translate(400, 200);
 	btnObj->SetTag("ResumeBtn",false);
 
 	//Back to main btn
 	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	btn = new ButtonComponent{ 260, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->GetECSTransform()->Translate(400, 300);
 	btnObj->SetTag("BackToMainBtn", false);
 	
 	//Quit Btn
 	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	btn = new ButtonComponent{ 65, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->GetECSTransform()->Translate(400, 400);
 	btnObj->SetTag("QuitBtn", false);
 	
 	pPrefabManager.AddPrefab("PauseMenu", menuObj);
@@ -202,43 +202,43 @@ void MainGame::CreatePrefabs() const
 		new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 
 	 textObject = new GameObject{};
-	textComp = new TextRendererComponent{ "Game Over", biggerFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
-	textObject->AddComponent(textComp);
+	//textComp = new TextRendererComponent{ "Game Over", biggerFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
+	//textObject->AddComponent(textComp);
 	menuObj->AddChild(textObject);
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject->GetECSTransform()->Translate(glm::vec2{ 400, 100 });
 
 	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Replay", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Replay", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	btn = new ButtonComponent{ 100, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->GetECSTransform()->Translate(400, 200);
 	btnObj->SetTag("ReplayBtn", false);
 
 	//Back to main btn
 	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	btn = new ButtonComponent{ 260, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	btnObj->SetTag("BackToMainBtn", false);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->GetECSTransform()->Translate(400, 300);
 	
 	//Quit Btn
 	btnObj = new GameObject{};
-	textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	textComp->ChangeLayer(Layer::uiMenuFg);
+	//textComp = new TextRendererComponent{ "Quit", lessBigFont };
+	//textComp->ChangeLayer(Layer::uiMenuFg);
 	btn = new ButtonComponent{ 65, 30 };
-	btnObj->AddComponent(textComp);
+	//btnObj->AddComponent(textComp);
 	btnObj->AddComponent(btn);
 	btnObj->SetTag("QuitBtn", false);
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->GetECSTransform()->Translate(400, 400);
 	
 	pPrefabManager.AddPrefab("GameOverMenu", menuObj);
 

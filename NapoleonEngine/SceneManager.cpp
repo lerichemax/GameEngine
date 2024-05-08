@@ -1,6 +1,7 @@
 #include "PCH.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "NapoleonEngine.h"
 
 #include <map>
 
@@ -14,7 +15,7 @@ public:
 	SceneManagerImpl& operator=(SceneManagerImpl&& rhs) = delete;
 	~SceneManagerImpl();
 
-	void Initialize(NapoleonEngine const* pEngine);
+	void Initialize();
 	void Update();
 	void Render();
 	
@@ -30,13 +31,11 @@ private:
 	Scene* m_pNextActiveScene;
 
 	Scene* m_pActiveScene;
-	NapoleonEngine const* m_pEngine;
 	std::map <std::string, Scene*> m_pScenesMap;
 };
 
 SceneManager::SceneManagerImpl::SceneManagerImpl()
 	:m_pScenesMap(),
-	m_pEngine(nullptr),
 	m_pActiveScene(nullptr),
 	m_pNextActiveScene(nullptr)
 {
@@ -50,9 +49,8 @@ SceneManager::SceneManagerImpl::~SceneManagerImpl()
 	}
 }
 
-void SceneManager::SceneManagerImpl::Initialize(NapoleonEngine const* pEngine)
+void SceneManager::SceneManagerImpl::Initialize()
 {
-	m_pEngine = pEngine;
 	for (auto pScene : m_pScenesMap)
 	{
 		pScene.second->Initialize();
@@ -68,7 +66,15 @@ void SceneManager::SceneManagerImpl::Update()
 		m_pActiveScene->OnActivate();
 		m_pNextActiveScene = nullptr;
 	}
-	m_pActiveScene->Update();
+
+	if (m_pActiveScene != nullptr)
+	{
+		m_pActiveScene->Update();
+	}
+	else
+	{
+		NapoleonEngine::Quit();
+	}
 }
 
 void SceneManager::SceneManagerImpl::Render()
@@ -76,6 +82,8 @@ void SceneManager::SceneManagerImpl::Render()
 	if (m_pActiveScene == nullptr)
 	{
 		Debugger::GetInstance().LogError("SceneManager::Render - > no scene active");
+		NapoleonEngine::Quit();
+		return;
 	}
 
 	m_pActiveScene->Render();
@@ -184,9 +192,9 @@ SceneManager::~SceneManager()
 
 }
 
-void SceneManager::Initialize(NapoleonEngine const* pEngine)
+void SceneManager::Initialize()
 {
-	m_pImpl->Initialize(pEngine);
+	m_pImpl->Initialize();
 }
 
 void SceneManager::Update()

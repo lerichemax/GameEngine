@@ -33,13 +33,15 @@ void WrongWayManager::Spawn()
 	{
 		pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueRightTop());
 		pWWComp->SetEscheresqueRight(true);
-		pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueRightPos());
+		pWrongWay->GetECSTransform()->Translate(pWWComp->GetCurrentQube()->GetEscheresqueRightPos());
+		//pWrongWay->GetECSTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueRightPos());
 	}
 	else
 	{
 		pWWComp->SetCurrentQube(m_pPyramid->GetEscheresqueLeftTop());
 		pWWComp->SetEscheresqueRight(false);
-		pWrongWay->GetTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueLeftPos());
+		pWrongWay->GetECSTransform()->Translate(pWWComp->GetCurrentQube()->GetEscheresqueLeftPos());
+		//pWrongWay->GetECSTransform()->SetWorldPosition(pWWComp->GetCurrentQube()->GetEscheresqueLeftPos());
 	}
 	AddToArray(pWWComp);
 	

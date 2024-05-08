@@ -32,7 +32,8 @@ void CoilyManager::Spawn()
 	m_pPyramid->GetGameObject()->AddChild(pCoily);
 	pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 	pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-	pCoily->GetTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
+	//pCoily->GetECSTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
+	pCoily->GetECSTransform()->Translate(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
 
 	AddToArray(pCoily->GetComponent<Coily>());
 	if (m_pObserver != nullptr)

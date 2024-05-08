@@ -14,10 +14,11 @@ RendererComponent::RendererComponent(Layer layer)
 }
 
 RendererComponent::RendererComponent(std::string const& filename, Layer layer)
-	:m_pTexture(ResourceManager::GetInstance().GetTexture(filename)),
+	:m_pTexture(/*ResourceManager::GetInstance().GetTexture(filename)*/),
 	m_Layer(layer),
 	m_pSceneRenderer(nullptr)
 {
+	printf(filename.c_str());
 }
 
 RendererComponent::RendererComponent(Texture2D* pText, Layer layer)
@@ -54,7 +55,8 @@ void RendererComponent::Render(TransformComponent const& transform) const
 
 void RendererComponent::SetTexture(std::string const& filename)
 {
-	m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
+	printf(filename.c_str());
+	//m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
 }
 
 void RendererComponent::SetTexture(Texture2D* pText)
@@ -69,7 +71,7 @@ float RendererComponent::GetTextureWidth() const
 		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureWidth - > texture is nullptr, returning 0");
 		return 0.f;
 	}
-	return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x;
+	return m_pTexture->GetWidth() * m_pGameObject->GetECSTransform()->GetScale().x;
 }
 
 float RendererComponent::GetTextureHeight() const
@@ -79,7 +81,7 @@ float RendererComponent::GetTextureHeight() const
 		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureHeight - > texture is nullptr, returning 0");
 		return 0.f;
 	}
-	return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y;
+	return m_pTexture->GetHeight() * m_pGameObject->GetECSTransform()->GetScale().y;
 }
 
 void RendererComponent::Initialize()

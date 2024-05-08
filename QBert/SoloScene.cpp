@@ -141,7 +141,7 @@ nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSS
 	auto* camObj = new GameObject{};
 	auto* camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
-	camObj->GetTransform()->Translate(450, 300);
+	camObj->GetECSTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
 	AddObject(camObj);
 }

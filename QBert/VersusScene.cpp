@@ -48,7 +48,7 @@ void VersusScene::Initialize()
 	m_pTextP2 = pointsP2->GetComponent<TextRendererComponent>();
 	m_pTextP2->SetText("P2: 0 ");
 	m_pTextP2->SetTextColor(255, 0, 255);
-	pointsP2->GetTransform()->Translate(20.f, 80.f);
+	pointsP2->GetECSTransform()->Translate(20.f, 80.f);
 	AddObject(pointsP2);
 
 	//Pause Menu
@@ -81,8 +81,8 @@ void VersusScene::Initialize()
 	auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
 	
 	auto* const roundTxt = new GameObject{};
-	roundTxt->GetTransform()->Translate(400.f, 60.f);
-	roundTxt->AddComponent(new TextRendererComponent{ "Round 1", fontBig });
+	roundTxt->GetECSTransform()->Translate(400.f, 60.f);
+	//roundTxt->AddComponent(new TextRendererComponent{ "Round 1", fontBig });
 	roundTxt->GetComponent<TextRendererComponent>()->SetTextColor(255, 255, 255);
 	m_pRoundText = roundTxt->GetComponent<TextRendererComponent>();
 	AddObject(roundTxt);
@@ -146,7 +146,7 @@ void VersusScene::Initialize()
 	auto* camObj = new GameObject{};
 	auto* const camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
-	camObj->GetTransform()->Translate(450, 300);
+	camObj->GetECSTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
 	AddObject(camObj);
 }
@@ -161,7 +161,7 @@ void VersusScene::ResetGame()
 	
 	m_pCoilyPlayer->Transform(false);
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	m_pCoilyPlayer->GetGameObject()->GetECSTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 	m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
 	
@@ -180,7 +180,7 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 	
 	m_pCoilyPlayer->Transform(false);
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	m_pCoilyPlayer->GetGameObject()->GetECSTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 }
 

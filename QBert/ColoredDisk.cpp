@@ -28,7 +28,7 @@ ColoredDisk::ColoredDisk(ColoredDisk const& other)
 
 void ColoredDisk::Update()
 {
-	if (m_bHasQbert)
+	/*if (m_bHasQbert)
 	{
 		if (!m_bHasReachedTop)
 		{
@@ -36,11 +36,11 @@ void ColoredDisk::Update()
 			{
 				Debugger::GetInstance().LogError("Variable m_pPyramid top of ColoredDisk is undefined");
 			}
-			glm::vec2 finalPos = m_pPyramidTop->GetGameObject()->GetTransform()->GetWorldPosition();
+			glm::vec2 finalPos = m_pPyramidTop->GetGameObject()->GetECSTransform()->GetWorldPosition();
 			finalPos.y += OFFSET;
 			
-			TransformComponent* parentTrans{ m_pGameObject->GetTransform() };
-			TransformComponent* qBertTrans{ m_pQbert->GetGameObject()->GetTransform() };
+			TransformComponent* parentTrans{ m_pGameObject->GetECSTransform() };
+			TransformComponent* qBertTrans{ m_pQbert->GetGameObject()->GetECSTransform() };
 			glm::vec2 distance{ finalPos - parentTrans->GetWorldPosition() };
 			glm::vec2 direction{ glm::normalize(distance) };
 
@@ -67,13 +67,13 @@ void ColoredDisk::Update()
 				m_pQbert = nullptr;
 				m_pGameObject->Destroy();
 			}
-		}
-	}
+		}*/
+	//}
 }
 
 void ColoredDisk::ReceivePlayer(QBert* pQbert)
 {
 	m_pQbert = pQbert;
-	m_pQbert->GetGameObject()->GetTransform()->Translate(m_pGameObject->GetTransform()->GetWorldPosition());
+	m_pQbert->GetGameObject()->GetECSTransform()->Translate(m_pGameObject->GetECSTransform()->GetWorldPosition());
 	m_bHasQbert = true;
 }

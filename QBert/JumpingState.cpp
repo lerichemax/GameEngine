@@ -24,7 +24,7 @@ void JumpingState::Enter()
 
 CharacterState* JumpingState::Update(GameObject* pObject)
 {
-	m_pJumperComp->UpdateJump(pObject->GetTransform());
+	//m_pJumperComp->UpdateJump(pObject->GetECSTransform());
 	if (!m_pJumperComp->IsJumping())
 	{
 		m_pCharacter->LandOnQube();

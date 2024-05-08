@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include <memory>
+#include <map>
 
 class Texture2D;
 class Font;
@@ -15,8 +16,8 @@ public:
 		
 	void Init(const std::string& data);
 		
-	Texture2D* const GetTexture(const std::string& file);
-	Font* const GetFont(const std::string& file, unsigned int size);
+	std::shared_ptr<Texture2D> GetTexture(const std::string& file);
+	std::shared_ptr<Font> GetFont(const std::string& file, unsigned int size);
 	
 private:
 	friend class Singleton<ResourceManager>;
@@ -24,5 +25,4 @@ private:
 	class ResourceManagerImpl;
 	std::unique_ptr<ResourceManagerImpl> m_pImpl;
 	ResourceManager();
-
 };

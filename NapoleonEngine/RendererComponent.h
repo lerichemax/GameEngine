@@ -5,6 +5,8 @@
 #include "TransformComponent.h"
 #include "SceneRenderer.h"
 
+#include <memory>
+
 enum class Layer
 {
 	preBacground,
@@ -57,6 +59,6 @@ protected:
 
 struct ECS_RendererComponent : public ECS_Component
 {
-	Texture2D* m_pTexture{};
+	std::shared_ptr<Texture2D> m_pTexture{};
 	Layer m_Layer;
 };

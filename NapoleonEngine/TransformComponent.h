@@ -67,6 +67,13 @@ struct ECS_TransformComponent : public ECS_Component
 	void Scale(float scale);
 	void Rotate(float rotation);
 
+	const glm::vec2& GetPosition() const { return m_Position; }
+	const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }
+	const glm::vec2& GetScale() const { return m_Scale; }
+	const glm::vec2& GetWorldScale() const { return m_WorldScale; }
+	float GetRotation() const { return m_Rotation; }
+	float GetWorldRotation() const { return m_WorldRotation; }
+
 	glm::vec2 m_Position{};
 	glm::vec2 m_Scale{1.f, 1.f};
 	float m_Rotation{};
@@ -78,10 +85,11 @@ private:
 	float m_WorldRotation{};
 };
 
-class ComponentManager;
+
+class Coordinator;
 class TransformSystem : public System {
 
 public:
-	TransformSystem();
+	TransformSystem(Coordinator* const pRegistry);
 	void Update(ComponentManager* const pComponentManager) override;
 };

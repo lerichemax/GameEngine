@@ -25,22 +25,24 @@ GameObject::GameObject() //TEMP
 	//AddComponent(m_pTransform);
 }
 
-GameObject::GameObject(Entity entity, std::weak_ptr<Coordinator> pRegistry)
-	:m_Entity(entity),
+GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
+	:m_pRegistry(pRegistry), 
+	m_Entity(pRegistry.lock()->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_bIsInitialized(false),
 	m_pComponents(),
-	m_pRegistry(pRegistry),
-	m_pTransform(new TransformComponent(0.f, 0.f)),
-	m_pEcsTransform(m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity)),
+	m_pTransform(nullptr),
+	m_pEcsTransform(nullptr),
 	m_pChildren(),
 	m_pParent(nullptr),
 	m_pScene(nullptr),
 	m_pSubject(new Subject{}),
 	m_Tag()
 {
-
+	ECS_TransformComponent transform;
+	m_pRegistry->AddComponent<ECS_TransformComponent>(m_Entity, transform);
+	m_pEcsTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
 }
 
 GameObject::GameObject(const GameObject& other)

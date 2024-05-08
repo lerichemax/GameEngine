@@ -46,13 +46,13 @@ void CoopScene::Initialize()
 	livesP2->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 255);
 	livesP2->GetComponent<TextRendererComponent>()->SetText("P2 Lives: 0");
 	AddObject(livesP2);
-	livesP2->GetTransform()->Translate(20.f, 80.f);
+	livesP2->GetECSTransform()->Translate(20.f, 80.f);
 	
 	auto const pointsP2 = pPrefabManager.Instantiate("PointsUI");
 	pointsP2->GetComponent<TextRendererComponent>()->SetText("P2 Points: 0");
 	pointsP2->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 255);
 	AddObject(pointsP2);
-	pointsP2->GetTransform()->Translate(20.f, 100.f);
+	pointsP2->GetECSTransform()->Translate(20.f, 100.f);
 
 	//Pause Menu
 	m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
@@ -155,7 +155,7 @@ void CoopScene::Initialize()
 	auto const camObj = new GameObject{};
 	auto const camComp = new CameraComponent{};
 	camObj->AddComponent(camComp);
-	camObj->GetTransform()->Translate(450, 300);
+	camObj->GetECSTransform()->Translate(450, 300);
 	SetCameraActive(camComp);
 	AddObject(camObj);
 }

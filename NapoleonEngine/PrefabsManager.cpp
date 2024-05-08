@@ -71,9 +71,9 @@ GameObject* PrefabsManager::PrefabsManagerImpl::Instantiate(std::string const& k
 	}
 	auto prefab = m_pPrefabs.at(key);
 	auto toReturn = new GameObject(*prefab);
-	toReturn->GetTransform()->Translate(transform.GetPosition());
-	toReturn->GetTransform()->Scale(transform.GetScale());
-	toReturn->GetTransform()->Rotate(transform.GetRotation());
+	toReturn->GetECSTransform()->Translate(transform.GetPosition());
+	toReturn->GetECSTransform()->Scale(transform.GetScale());
+	toReturn->GetECSTransform()->Rotate(transform.GetRotation());
 	return toReturn;
 }
 
@@ -86,7 +86,7 @@ GameObject* PrefabsManager::PrefabsManagerImpl::Instantiate(std::string const& k
 	}
 	auto prefab = m_pPrefabs.at(key);
 	auto toReturn = new GameObject(*prefab);
-	toReturn->GetTransform()->Translate(pos);
+	toReturn->GetECSTransform()->Translate(pos);
 	return toReturn;
 }
 

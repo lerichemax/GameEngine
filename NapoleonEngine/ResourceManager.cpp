@@ -10,7 +10,7 @@
 
 #include <vector>
 #include <map>
-
+#include <memory>
 
 #include "NapoleonEngine.h"
 #include "SceneManager.h"
@@ -27,17 +27,17 @@ public:
 
 	void Init(const std::string& data);
 
-	Texture2D* const GetTexture(const std::string& file);
-	Font* const GetFont(const std::string& file, unsigned int size);
+	std::shared_ptr<Texture2D> GetTexture(const std::string& file);
+	std::shared_ptr<Font> GetFont(const std::string& file, unsigned int size);
 
 private:
 	std::string m_DataPath;
 
-	std::map<std::string, Texture2D*> m_pTextures;
-	std::vector<Font*> m_pFonts;
+	std::map<std::string, std::shared_ptr<Texture2D>> m_pTextures;
+	std::vector< std::shared_ptr<Font>> m_pFonts;
 
-	Texture2D* const LoadTexture(const std::string& file);
-	Font* const LoadFont(const std::string& file, unsigned int size);
+	std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
+	std::shared_ptr<Font>  LoadFont(const std::string& file, unsigned int size);
 };
 
 ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
@@ -51,17 +51,10 @@ ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
 
 ResourceManager::ResourceManagerImpl::~ResourceManagerImpl()
 {
-	for (auto pText : m_pTextures)
-	{
-		delete pText.second;
-	}
-	for (auto pFont : m_pFonts)
-	{
-		delete pFont;
-	}
-
 	m_pTextures.clear();
 	m_pFonts.clear();
+
+	IMG_Quit();
 }
 
 void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
@@ -69,7 +62,6 @@ void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
 	m_DataPath = dataPath;
 
 	// load support for png and jpg, this takes a while!
-
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG)
 	{
 		throw std::runtime_error(std::string("Failed to load support for png's: ") + SDL_GetError());
@@ -86,7 +78,7 @@ void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
 	}
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
+std::shared_ptr<Texture2D> ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
 	auto const texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -94,11 +86,10 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	m_pTextures.insert(std::make_pair(file, new Texture2D{ texture }));
-	return m_pTextures.at(file);
+	return m_pTextures.insert(std::make_pair(file, std::make_shared<Texture2D>( texture ))).first->second;
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::string& file)
+std::shared_ptr<Texture2D> ResourceManager::ResourceManagerImpl::GetTexture(const std::string& file)
 {
 	if (m_pTextures.find(file) == m_pTextures.end())
 	{
@@ -116,9 +107,9 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	return m_pTextures.at(file);
 }
 
-Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
+std::shared_ptr<Font> ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
 {
-	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](Font* pFont)
+	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](std::shared_ptr<Font> pFont)
 		{
 			return pFont->GetFilePath() == file && pFont->GetSize() == size;
 		});
@@ -132,15 +123,15 @@ Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& fil
 	}
 }
 
-Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
+std::shared_ptr<Font> ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
 {
-	m_pFonts.push_back(new Font{ m_DataPath + file, size });
+	m_pFonts.push_back(std::make_shared<Font>( m_DataPath + file, size ));
 	return m_pFonts.back();
 }
 
 ResourceManager::ResourceManager()
 	:Singleton<ResourceManager>(),
-	m_pImpl(new ResourceManagerImpl{})
+	m_pImpl(std::make_unique<ResourceManagerImpl>())
 {
 }
 
@@ -154,12 +145,12 @@ void ResourceManager::Init(const std::string& dataPath)
 	m_pImpl->Init(dataPath);
 }
 
-Texture2D* const ResourceManager::GetTexture(const std::string& file)
+std::shared_ptr<Texture2D> ResourceManager::GetTexture(const std::string& file)
 {
 	return m_pImpl->GetTexture(file);
 }
 
-Font* const ResourceManager::GetFont(const std::string& file, unsigned int size)
+std::shared_ptr<Font> ResourceManager::GetFont(const std::string& file, unsigned int size)
 {
 	return m_pImpl->GetFont(file, size);
 }
