@@ -26,7 +26,7 @@ EnemyCharacterController::EnemyCharacterController(EnemyCharacterController cons
 
 void EnemyCharacterController::Initialize()
 {
-	m_pEnemyCharacter = m_pGameObject->GetComponent<Enemy>();
+	//m_pEnemyCharacter = m_pGameObject->GetComponent<Enemy>();
 }
 
 ConnectionDirection EnemyCharacterController::ChooseDirection()

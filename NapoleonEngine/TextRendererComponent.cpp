@@ -85,3 +85,8 @@ ECS_TextRendererComponent::ECS_TextRendererComponent(std::string const& text, st
 {
 
 }
+
+void ECS_TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
+{
+	m_TextColor = SDL_Color{ r,g,b };
+}

@@ -25,7 +25,7 @@ public:
 	bool HasComponent() const;
 
 	template<class T>
-	T* GetComponent() const;
+	std::shared_ptr<T> GetComponent() const;
 
 	template <class T>
 	T* GetComponentInChildren() const;
@@ -103,31 +103,15 @@ void GameObject::AddComponent(T const& Component, bool n)
 }
 
 template <class T>
-T* GameObject::GetComponent() const
+std::shared_ptr<T> GameObject::GetComponent() const
 {
-	type_info const& type = typeid(T);
-	for (Component* pObjectComp : m_pComponents)
-	{
-		if (typeid(*pObjectComp) == type)
-		{
-			return static_cast<T*>(pObjectComp);
-		}
-		else
-		{
-			T* cast = dynamic_cast<T*>(pObjectComp);
-			if (cast != nullptr)
-			{
-				return cast;
-			}
-		}
-	}
-	return nullptr;
+	return m_pRegistry->GetComponent<T>(m_Entity).lock();
 }
 
 template <class T>
 T* GameObject::GetComponentInChildren() const
 {
-	T* pComp{};
+	/*T* pComp{};
 	for (auto pChild : m_pChildren)
 	{
 		pComp = pChild->GetComponent<T>();
@@ -135,7 +119,7 @@ T* GameObject::GetComponentInChildren() const
 		{
 			return pComp;
 		}
-	}
+	}*/
 	return nullptr;
 }
 

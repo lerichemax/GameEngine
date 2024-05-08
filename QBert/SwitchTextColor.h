@@ -1,17 +1,16 @@
 #pragma once
+#include <memory>
+
 #include "Command.h"
 
 #include "Shapes.h"
 
 
-class TextRendererComponent;
-class TextRendererComponent;
-class Pyramid;
-class QBert;
+struct ECS_TextRendererComponent;
 class SwitchTextColor final : public Command
 {
 public:
-	SwitchTextColor(Color targetColor, TextRendererComponent* pText);
+	SwitchTextColor(Color targetColor, std::shared_ptr<ECS_TextRendererComponent> pText);
 	SwitchTextColor* Clone() override { return nullptr; } //unclonable
 	SwitchTextColor(SwitchTextColor&& other) = delete;
 	SwitchTextColor& operator=(SwitchTextColor const& rhs) = delete;
@@ -22,7 +21,7 @@ public:
 
 private:
 	Color m_TargetColor;
-	TextRendererComponent* m_pText;
+	std::shared_ptr<ECS_TextRendererComponent> m_pText;
 
 	SwitchTextColor(SwitchTextColor const& other);
 };

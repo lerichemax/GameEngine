@@ -53,17 +53,17 @@ QBert::QBert(QBert const& other)
 
 void QBert::Initialize()
 {
-	m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
-	m_pLives = m_pGameObject->GetComponent<CharacterLives>();
+	//m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
+	//m_pLives = m_pGameObject->GetComponent<CharacterLives>();
 	
-	m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
-	m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
-		{
-			if (pOther->HasComponent<WrongWay>())
-			{
-				MeetCharacter(pOther->GetComponent<WrongWay>());
-			}
-		});
+	//m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
+	//m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
+	//	{
+	//		if (pOther->HasComponent<WrongWay>())
+	//		{
+	//			//MeetCharacter(pOther->GetComponent<WrongWay>());
+	//		}
+	//	});
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
@@ -147,7 +147,7 @@ void QBert::DoMove(ConnectionDirection direction)
 	else if(m_pCurrentQube->HasConnectionToDisk())
 	{
 		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
-		m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
+		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
 		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
 		m_pCurrentQube->CharacterJumpOut();
 		m_pCurrentQube = nullptr;
@@ -159,7 +159,7 @@ void QBert::JumpOffDisk()
 {
 	SwitchState(new OnQubeState(this, m_pJumper));
 	m_pGameObject->Notify(static_cast<int>(GameEvent::JumpOffDisk));
-	m_pGameObject->GetComponent<BoxCollider>()->SetEnable(true);
+	//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(true);
 	m_bCanMove = true;
 }
 

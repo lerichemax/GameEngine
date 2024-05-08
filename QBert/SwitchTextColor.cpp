@@ -3,7 +3,7 @@
 
 #include "TextRendererComponent.h"
 
-SwitchTextColor::SwitchTextColor(Color targetColor, TextRendererComponent* pText)
+SwitchTextColor::SwitchTextColor(Color targetColor, std::shared_ptr<ECS_TextRendererComponent> pText)
 	:m_TargetColor(targetColor),
 	m_pText(pText)
 {

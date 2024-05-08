@@ -46,14 +46,15 @@ private:
 struct ECS_ButtonComponent : public ECS_Component
 {
 	ECS_ButtonComponent(float width, float height);
+	~ECS_ButtonComponent();
 
 	void SetOnClickFunction(Command* func);
 	void SetOnSelectFunction(Command* func);
 	void SetOnDeselectFunction(Command* func);
 
-	Command* m_pOnClick;
-	Command* m_pOnSelect;
-	Command* m_pOnDeselect;
+	Command* m_pOnClick{ nullptr };
+	Command* m_pOnSelect{ nullptr };
+	Command* m_pOnDeselect{nullptr};
 
 	glm::vec2 m_Dimensions;
 

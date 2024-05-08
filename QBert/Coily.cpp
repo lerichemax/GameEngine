@@ -34,7 +34,7 @@ void Coily::Initialize()
 {
 	if (m_pGameObject->HasComponent<CoilyCharacterController>())
 	{
-		m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
+		//m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
 	}
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");

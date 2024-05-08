@@ -92,3 +92,24 @@ ECS_ButtonComponent::ECS_ButtonComponent(float width, float height)
 {
 
 }
+
+ECS_ButtonComponent::~ECS_ButtonComponent()
+{
+	SafeDelete(m_pOnClick);
+	SafeDelete(m_pOnSelect);
+	SafeDelete(m_pOnDeselect);
+}
+
+void ECS_ButtonComponent::SetOnClickFunction(Command* func)
+{
+	m_pOnClick = func;
+}
+
+void ECS_ButtonComponent::SetOnSelectFunction(Command* func)
+{
+	m_pOnSelect = func;
+}
+void ECS_ButtonComponent::SetOnDeselectFunction(Command* func)
+{
+	m_pOnDeselect = func;
+}

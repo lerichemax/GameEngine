@@ -51,7 +51,7 @@ void SlickSam::SetTexture()
 	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Up_Left.png");
 	//}
 	
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 }
 
 void SlickSam::DoDie()

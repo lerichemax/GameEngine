@@ -35,120 +35,120 @@ VersusScene::VersusScene()
 
 void VersusScene::Initialize()
 {
-	auto const& pPrefabManager = PrefabsManager::GetInstance();
-	
-	AddObject(pPrefabManager.Instantiate("FPSCounter"));
+	//auto const& pPrefabManager = PrefabsManager::GetInstance();
+	//
+	//AddObject(pPrefabManager.Instantiate("FPSCounter"));
 
-	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
-	m_pTextP1 = pointsP1->GetComponent<TextRendererComponent>();
-	m_pTextP1->SetText("P1: 0");
-	AddObject(pointsP1);
+	//auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
+	//m_pTextP1 = pointsP1->GetComponent<TextRendererComponent>();
+	//m_pTextP1->SetText("P1: 0");
+	//AddObject(pointsP1);
 
-	auto const pointsP2 = pPrefabManager.Instantiate("PointsUI");
-	m_pTextP2 = pointsP2->GetComponent<TextRendererComponent>();
-	m_pTextP2->SetText("P2: 0 ");
-	m_pTextP2->SetTextColor(255, 0, 255);
-	pointsP2->GetECSTransform()->Translate(20.f, 80.f);
-	AddObject(pointsP2);
+	//auto const pointsP2 = pPrefabManager.Instantiate("PointsUI");
+	//m_pTextP2 = pointsP2->GetComponent<TextRendererComponent>();
+	//m_pTextP2->SetText("P2: 0 ");
+	//m_pTextP2->SetTextColor(255, 0, 255);
+	//pointsP2->GetECSTransform()->Translate(20.f, 80.f);
+	//AddObject(pointsP2);
 
-	//Pause Menu
-	m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
-	AddObject(m_pPauseMenu);
+	////Pause Menu
+	//m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
+	//AddObject(m_pPauseMenu);
 
-	auto pBtnObject = m_pPauseMenu->FindTagInChildren("ResumeBtn");
-	auto pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	auto pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new PauseGameCommand{ this, m_pPauseMenu });
+	//auto pBtnObject = m_pPauseMenu->FindTagInChildren("ResumeBtn");
+	//auto pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//auto pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new PauseGameCommand{ this, m_pPauseMenu });
 
-	pBtnObject = m_pPauseMenu->FindTagInChildren("BackToMainBtn");
-	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	//pBtnObject = m_pPauseMenu->FindTagInChildren("BackToMainBtn");
+	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
-	pBtnObject = m_pPauseMenu->FindTagInChildren("QuitBtn");
-	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new QuitGameCommand{  });
+	//pBtnObject = m_pPauseMenu->FindTagInChildren("QuitBtn");
+	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new QuitGameCommand{  });
 
-	m_pPauseMenu->SetActive(false);
+	//m_pPauseMenu->SetActive(false);
 
-	auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
-	
-	auto* const roundTxt = new GameObject{};
-	roundTxt->GetECSTransform()->Translate(400.f, 60.f);
-	//roundTxt->AddComponent(new TextRendererComponent{ "Round 1", fontBig });
-	roundTxt->GetComponent<TextRendererComponent>()->SetTextColor(255, 255, 255);
-	m_pRoundText = roundTxt->GetComponent<TextRendererComponent>();
-	AddObject(roundTxt);
-	
-	auto qbertObj = pPrefabManager.Instantiate("QBert");
-	m_pQbert = qbertObj->GetComponent<QBert>();
-	m_pQbert->SetPlayerNbr(1);
-	AddObject(qbertObj);
-	
-	auto pyramid = pPrefabManager.Instantiate("Pyramid");
-	m_pPyramid = pyramid->GetComponent<Pyramid>();
-	m_pPyramid->SetQBert(m_pQbert);
-	AddObject(pyramid);
-	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
+	//auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
+	//
+	//auto* const roundTxt = new GameObject{};
+	//roundTxt->GetECSTransform()->Translate(400.f, 60.f);
+	////roundTxt->AddComponent(new TextRendererComponent{ "Round 1", fontBig });
+	//roundTxt->GetComponent<TextRendererComponent>()->SetTextColor(255, 255, 255);
+	//m_pRoundText = roundTxt->GetComponent<TextRendererComponent>();
+	//AddObject(roundTxt);
+	//
+	//auto qbertObj = pPrefabManager.Instantiate("QBert");
+	//m_pQbert = qbertObj->GetComponent<QBert>();
+	//m_pQbert->SetPlayerNbr(1);
+	//AddObject(qbertObj);
+	//
+	//auto pyramid = pPrefabManager.Instantiate("Pyramid");
+	//m_pPyramid = pyramid->GetComponent<Pyramid>();
+	//m_pPyramid->SetQBert(m_pQbert);
+	//AddObject(pyramid);
+	//m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
 
-	auto coilyObj = pPrefabManager.Instantiate("Coily");
-	m_pCoilyPlayer = coilyObj->GetComponent<Coily>();
-	
-	coilyObj->AddComponent(new CharacterPoint{});
-	coilyObj->AddComponent(new CharacterLives{ 3 });
-	coilyObj->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
-	AddObject(coilyObj);
-	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+	//auto coilyObj = pPrefabManager.Instantiate("Coily");
+	//m_pCoilyPlayer = coilyObj->GetComponent<Coily>();
+	//
+	//coilyObj->AddComponent(new CharacterPoint{});
+	//coilyObj->AddComponent(new CharacterLives{ 3 });
+	//coilyObj->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
+	//AddObject(coilyObj);
+	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 
-	//game over menu
-	m_pGameOverMenu = pPrefabManager.Instantiate("GameOverMenu");
-	AddObject(m_pGameOverMenu);
+	////game over menu
+	//m_pGameOverMenu = pPrefabManager.Instantiate("GameOverMenu");
+	//AddObject(m_pGameOverMenu);
 
-	//Replay
-	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
-	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
-	//Back to main
-	pBtnObject = m_pGameOverMenu->FindTagInChildren("BackToMainBtn");
-	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-	//quit
-	pBtnObject = m_pGameOverMenu->FindTagInChildren("QuitBtn");
-	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new QuitGameCommand{  });
-	m_pGameOverMenu->SetActive(false);
+	////Replay
+	//pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
+	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
+	////Back to main
+	//pBtnObject = m_pGameOverMenu->FindTagInChildren("BackToMainBtn");
+	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	////quit
+	//pBtnObject = m_pGameOverMenu->FindTagInChildren("QuitBtn");
+	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
+	//pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
+	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new QuitGameCommand{  });
+	//m_pGameOverMenu->SetActive(false);
 
-	auto const pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
-		qbertObj->GetComponent<CharacterPoint>(), coilyObj->GetComponent<CharacterPoint>(), m_pPyramid,
-		m_pGameOverMenu, 3 };
-	ObserverManager::GetInstance().AddObserver(pGameManager);
-	
-	qbertObj->AddObserver(pGameManager);
-	coilyObj->AddObserver(pGameManager);
-	pyramid->AddObserver(pGameManager);
+	//auto const pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
+	//	qbertObj->GetComponent<CharacterPoint>(), coilyObj->GetComponent<CharacterPoint>(), m_pPyramid,
+	//	m_pGameOverMenu, 3 };
+	//ObserverManager::GetInstance().AddObserver(pGameManager);
+	//
+	//qbertObj->AddObserver(pGameManager);
+	//coilyObj->AddObserver(pGameManager);
+	//pyramid->AddObserver(pGameManager);
 
-	auto* camObj = new GameObject{};
-	auto* const camComp = new CameraComponent{};
-	camObj->AddComponent(camComp);
-	camObj->GetECSTransform()->Translate(450, 300);
-	SetCameraActive(camComp);
-	AddObject(camObj);
+	//auto* camObj = new GameObject{};
+	//auto* const camComp = new CameraComponent{};
+	//camObj->AddComponent(camComp);
+	//camObj->GetECSTransform()->Translate(450, 300);
+	//SetCameraActive(camComp);
+	//AddObject(camObj);
 }
 
 void VersusScene::ResetGame()
@@ -156,14 +156,14 @@ void VersusScene::ResetGame()
 	m_pPyramid->Reset();
 	
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
-	m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+	//m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 	m_pQbert->SetCanMove();
 	
 	m_pCoilyPlayer->Transform(false);
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 	m_pCoilyPlayer->GetGameObject()->GetECSTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-	m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
+	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+	//m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
 	
 	m_pRoundText->SetText("Round 1");
 	m_pTextP1->SetText("P1: 0");
@@ -181,7 +181,7 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 	m_pCoilyPlayer->Transform(false);
 	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 	m_pCoilyPlayer->GetGameObject()->GetECSTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-	m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 }
 
 void VersusScene::DeclareInput()

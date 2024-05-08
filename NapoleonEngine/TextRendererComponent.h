@@ -46,6 +46,8 @@ struct ECS_TextRendererComponent : public ECS_Component
 
 	std::string m_Text;
 
+	void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
+
 private:
 	friend class TextRendererSystem;
 

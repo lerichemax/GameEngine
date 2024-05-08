@@ -255,6 +255,7 @@
     <ClInclude Include="System.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="UiSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -394,5 +395,6 @@
     <ClCompile Include="System.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="UiSystem.cpp" />
   </ItemGroup>
 </Project>

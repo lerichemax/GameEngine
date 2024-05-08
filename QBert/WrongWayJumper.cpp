@@ -26,7 +26,7 @@ void WrongWayJumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 
 	if (m_pGameObject->HasComponent<WrongWay>())
 	{
-		m_Halfway.x += m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? JUMP_MAX_HEIGHT : -JUMP_MAX_HEIGHT;
+		//m_Halfway.x += m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? JUMP_MAX_HEIGHT : -JUMP_MAX_HEIGHT;
 	}
 	
 }
@@ -44,9 +44,9 @@ void WrongWayJumper::UpdateFall(TransformComponent* transform)
 	{
 		if (m_pGameObject->HasComponent<WrongWay>())
 		{
-			transform->SetWorldPosition(
-				pos.x += (m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? -FALL_SPEED : FALL_SPEED) 
-				* Timer::GetInstance().GetDeltaTime(), pos.y );
+			//transform->SetWorldPosition(
+			//	pos.x += (m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? -FALL_SPEED : FALL_SPEED) 
+			//	* Timer::GetInstance().GetDeltaTime(), pos.y );
 		}
 		
 		m_FallTime += Timer::GetInstance().GetDeltaTime();

@@ -79,8 +79,8 @@ void Pyramid::Initialize()
 		{
 			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
 			
-			m_pQubes.push_back(pQube->GetComponent<Qube>());
-			m_pQubes.back()->SetPyramid(this);
+			//m_pQubes.push_back(pQube->GetComponent<Qube>());
+			//m_pQubes.back()->SetPyramid(this);
 			
 			if (i == MAX_WIDTH)
 			{
@@ -91,11 +91,11 @@ void Pyramid::Initialize()
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
 			
-			lastPos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth();
+			//lastPos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth();
 			m_pGameObject->AddChild(pQube);
 		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;
+		//startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
+		//startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 

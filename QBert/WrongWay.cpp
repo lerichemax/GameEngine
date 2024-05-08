@@ -41,8 +41,8 @@ void WrongWay::Initialize()
 	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/WrongWay/Ugg_Left.png");
 	//}
 
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
-	m_pJumper = m_pGameObject->GetComponent<Jumper>();
+	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+	//m_pJumper = m_pGameObject->GetComponent<Jumper>();
 
 	if (m_bEscheresqueRight)
 	{
@@ -54,7 +54,7 @@ void WrongWay::Initialize()
 		//m_pGameObject->GetECSTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueLeftPos());
 		m_pGameObject->GetECSTransform()->Translate(m_pCurrentQube->GetEscheresqueLeftPos());
 	}
-	SwitchState(new EnemyOnQubeState(this, m_pJumper, m_pGameObject->GetComponent<EnemyCharacterController>()));
+	//SwitchState(new EnemyOnQubeState(this, m_pJumper, m_pGameObject->GetComponent<EnemyCharacterController>()));
 }
 
 void WrongWay::DoMove(ConnectionDirection direction)

@@ -45,7 +45,7 @@ Character::~Character()
 
 void Character::Initialize()
 {
-	m_pJumper = m_pGameObject->GetComponent<Jumper>();
+	//m_pJumper = m_pGameObject->GetComponent<Jumper>();
 	SwitchState(CharacterStateType::onQube);
 	MoveToCurrentQube();
 }
@@ -100,12 +100,12 @@ void Character::JumpToQube(Qube* pTargetQube)
 
 void Character::SwitchToIdleTex() const
 {
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
+	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 }
 
 void Character::SwitchToJumpTex() const
 {
-	m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
+	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 }
 
 void Character::JumpToDeath(ConnectionDirection dir)
@@ -140,7 +140,7 @@ void Character::SetLayerToBackGround()
 {
 	if (!m_pCurrentQube->IsLastRow())
 	{
-		m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
+		//m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
 	}
 }
 
@@ -176,8 +176,8 @@ void Character::SwitchState(CharacterStateType type)
 			if (m_pGameObject->HasComponent<CoilyCharacterController>())
 			{
 
-				SwitchState(new CoilyOnQubeState(this, m_pJumper, 
-					m_pGameObject->GetComponent<CoilyCharacterController>()));
+				//SwitchState(new CoilyOnQubeState(this, m_pJumper, 
+				//	m_pGameObject->GetComponent<CoilyCharacterController>()));
 			}
 			else
 			{
@@ -185,8 +185,8 @@ void Character::SwitchState(CharacterStateType type)
 			}
 			break;
 		default:
-			SwitchState(new EnemyOnQubeState(this, m_pJumper,
-				m_pGameObject->GetComponent<EnemyCharacterController>()));
+			//SwitchState(new EnemyOnQubeState(this, m_pJumper,
+			//	m_pGameObject->GetComponent<EnemyCharacterController>()));
 			break;
 		}
 		

@@ -40,9 +40,9 @@ void MainMenuScene::Initialize()
 	soloBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
 	soloBtn->GetECSTransform()->Translate(7, 3);
 
-	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
-	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
-	//btn.SetOnClickFunction(new SwitchScene{"SoloScene"});
+	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, soloBtn->GetComponent<ECS_TextRendererComponent>()});
+	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, soloBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnClickFunction(new SwitchScene{"SoloScene"});
 
 	soloBtn->GetECSTransform()->Translate(400, 200);
 
@@ -56,9 +56,9 @@ void MainMenuScene::Initialize()
 	coopBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
 	coopBtn->GetECSTransform()->Translate(7, 3);
 
-	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
-	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
-	//btn.SetOnClickFunction(new SwitchScene{"CoopScene"});
+	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnClickFunction(new SwitchScene{"CoopScene"});
 
 	coopBtn->GetECSTransform()->Translate(400, 250);
 
@@ -71,9 +71,9 @@ void MainMenuScene::Initialize()
 	vsBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
 	vsBtn->GetECSTransform()->Translate(7, 3);
 
-	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
-	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
-	//btn.SetOnClickFunction(new SwitchScene{"VersusScene"});
+	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnClickFunction(new SwitchScene{"VersusScene"});
 
 	vsBtn->GetECSTransform()->Translate(400, 300);
 
@@ -86,9 +86,9 @@ void MainMenuScene::Initialize()
 	quitBtn->AddComponent<ECS_RendererComponent>(txtRendererComp, true);
 	quitBtn->GetECSTransform()->Translate(7, 3);
 
-	//btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, txt });
-	//btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, txt });
-	//btn.SetOnClickFunction(new QuitGameCommand{  });
+	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn.SetOnClickFunction(new QuitGameCommand{  });
 
 	quitBtn->GetECSTransform()->Translate(400, 350);
 	

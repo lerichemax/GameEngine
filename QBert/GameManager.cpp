@@ -44,31 +44,31 @@ void GameManager::Notify(GameObject* object, int event)
 	{
 	case GameEvent::PlayerDied:
 	{
-		auto pPlayer = object->GetComponent<QBert>();
+		//auto pPlayer = object->GetComponent<QBert>();
 			
-		UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
+		//UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
 
 		if (m_pCManager !=nullptr) m_pCManager->Reset();
 		if (m_pWWManager != nullptr) m_pWWManager->Reset();
 		if (m_pSSManager != nullptr) m_pSSManager->Reset();
 			
-		pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
-		pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
-		pPlayer->SetCanMove();
+		//pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
+		//pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+		//pPlayer->SetCanMove();
 		
 		break;
 	}
 	case GameEvent::IncreasePoints:
 	{
-		auto const pPlayer = object->GetComponent<QBert>();
-		UpdatePointsText(object->GetComponent<CharacterPoint>(), pPlayer->GetPlayerNbr());
+		//auto const pPlayer = object->GetComponent<QBert>();
+		//UpdatePointsText(object->GetComponent<CharacterPoint>(), pPlayer->GetPlayerNbr());
 	}
 	break;
 	case GameEvent::GameOver:
 	{
-		auto pPlayer = object->GetComponent<QBert>();
+		//auto pPlayer = object->GetComponent<QBert>();
 
-		UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
+		//UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
 		object->SetActive(false);
 		m_NbrDeadPlayers++;
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
@@ -88,18 +88,18 @@ void GameManager::Notify(GameObject* object, int event)
 	case GameEvent::JumpOffDisk:
 		if (m_pCManager != nullptr) m_pCManager->SetIdle(false);
 		break;
-	case GameEvent::CoilyDies:
-		if (m_pCManager != nullptr) m_pCManager->EnemyDied(object->GetComponent<Coily>());
-		break;
-	case GameEvent::SlickSamDies:
-		if (m_pSSManager != nullptr) m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
-		break;
-	case GameEvent::WrongWayDies:
-		if (m_pWWManager != nullptr) m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
-		break;
+	//case GameEvent::CoilyDies:
+	//	if (m_pCManager != nullptr) m_pCManager->EnemyDied(object->GetComponent<Coily>());
+	//	break;
+	//case GameEvent::SlickSamDies:
+	//	if (m_pSSManager != nullptr) m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
+	//	break;
+	//case GameEvent::WrongWayDies:
+	//	if (m_pWWManager != nullptr) m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
+	//	break;
 	case GameEvent::PyramidCompleted:
-		auto const pPyramid = object->GetComponent<Pyramid>();
-		pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * ColoredDisk::GetPoints());
+		//auto const pPyramid = object->GetComponent<Pyramid>();
+		//pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * ColoredDisk::GetPoints());
 		break;
 	}
 }

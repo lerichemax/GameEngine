@@ -6,7 +6,7 @@
 
 void FPSCounter::Initialize()
 {
-	m_pTextComp = m_pGameObject->GetComponent<TextRendererComponent>();
+	//m_pTextComp = m_pGameObject->GetComponent<TextRendererComponent>();
 }
 
 void FPSCounter::Update()

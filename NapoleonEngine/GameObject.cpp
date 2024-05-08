@@ -68,7 +68,7 @@ GameObject::GameObject(const GameObject& other)
 		m_pChildren.push_back(newChild);
 		newChild->m_pParent = this;
 	}
-	m_pTransform = GetComponent<TransformComponent>();
+	//m_pTransform = GetComponent<TransformComponent>();
 }
 
 GameObject::~GameObject()
