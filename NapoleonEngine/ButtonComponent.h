@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#include <memory>
+
 class Command;
 class ButtonComponent final : public Component
 {
@@ -46,15 +48,17 @@ private:
 struct ECS_ButtonComponent : public ECS_Component
 {
 	ECS_ButtonComponent(float width, float height);
+	ECS_ButtonComponent(ECS_ButtonComponent const& other);
+
 	~ECS_ButtonComponent();
 
-	void SetOnClickFunction(Command* func);
-	void SetOnSelectFunction(Command* func);
-	void SetOnDeselectFunction(Command* func);
+	void SetOnClickFunction(Command* const func);
+	void SetOnSelectFunction(Command* const func);
+	void SetOnDeselectFunction(Command* const func);
 
-	Command* m_pOnClick{ nullptr };
-	Command* m_pOnSelect{ nullptr };
-	Command* m_pOnDeselect{nullptr};
+	Command* m_pOnClick;
+	Command* m_pOnSelect;
+	Command* m_pOnDeselect;
 
 	glm::vec2 m_Dimensions;
 

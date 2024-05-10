@@ -11,7 +11,7 @@ class ComponentManager
 public:
 
 	template<typename T> ComponentType GetComponentType();
-	template<typename T> void AddComponent(Entity entity, T component);
+	template<typename T> void AddComponent(Entity entity, T const& component);
 	template<typename T> void RemoveComponent(Entity entity);
 	template<typename T> std::shared_ptr<T> GetComponent(Entity entity);
 	template<typename T> bool HasComponent(Entity entity);
@@ -52,7 +52,7 @@ ComponentType ComponentManager::GetComponentType()
 }
 
 template<typename T> 
-void ComponentManager::AddComponent(Entity entity, T component)
+void ComponentManager::AddComponent(Entity entity, T const& component)
 {
 	CheckComponentRegistered<T>();
 

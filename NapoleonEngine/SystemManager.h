@@ -14,9 +14,11 @@ public:
 	template <typename T> std::shared_ptr<T> RegisterSystem(Coordinator* const pRegistry);
 	template <typename T> void SetSignature(Signature signature);
 	template <typename T> void UpdateSignature(Signature signature);
+	template <typename T> Signature const& GetSystemSignature() const;
+	template <typename T> void AssignEntitiesToSystem(std::vector<Entity> const& entities) const;
 
 	void EntityDestroyed(Entity entity);
-	void EntitySignatureChanged(Entity entity, Signature entitySignature);
+	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
 
 private:
 	std::unordered_map<const char*, Signature> m_Signatures;
@@ -75,5 +77,39 @@ void SystemManager::UpdateSignature(Signature signature)
 	else
 	{
 		m_Signatures.at(typeName) = signature;
+	}
+}
+
+template <typename T> 
+Signature const& SystemManager::GetSystemSignature() const
+{
+	const char* typeName = typeid(T).name();
+
+	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
+
+	return m_Signatures.at(typeName);
+}
+
+template <typename T> 
+void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) const
+{
+	if (entities.empty())
+	{
+		return;
+	}
+	const char* typeName = typeid(T).name();
+
+	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
+
+	std::shared_ptr<System> pSystem = m_Systems.at(typeName);
+
+	if (pSystem == nullptr)
+	{
+		return;
+	}
+
+	for (Entity entity : entities)
+	{
+		pSystem->m_Entities.insert(entity);
 	}
 }

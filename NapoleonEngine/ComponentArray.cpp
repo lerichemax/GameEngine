@@ -15,7 +15,7 @@ template class ComponentArray<ECS_TextRendererComponent>;
 
 
 template<typename T>
-void ComponentArray<T>::InsertData(Entity entity, T component)
+void ComponentArray<T>::InsertData(Entity entity, T const& component)
 {
 	assert(m_EntityToIndex.find(entity) == m_EntityToIndex.end() && "Component added to the same entity more than once");
 
@@ -36,7 +36,7 @@ void ComponentArray<T>::RemoveData(Entity entity)
 	m_Components[indexOfRemovedEntity] = m_Components[indexOfLastElement];
 	
 	Entity entityOfLastElement = m_IndexToEntity[indexOfLastElement];
-	m_IndexToEntity[entityOfLastElement] = indexOfRemovedEntity;
+	m_IndexToEntity[entityOfLastElement] = static_cast<Entity>(indexOfRemovedEntity);
 	m_IndexToEntity[indexOfRemovedEntity] = entityOfLastElement;
 
 	m_EntityToIndex.erase(entity);

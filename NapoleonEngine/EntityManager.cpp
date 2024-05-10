@@ -43,3 +43,18 @@ Signature EntityManager::GetSignature(Entity entity)
 
 	return m_Signatures[entity];
 }
+
+std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& signature)
+{
+	std::vector<Entity> entities;
+
+	for (Entity i = 0; i < m_LivingEntitiesCount; i++)
+	{
+		if ((m_Signatures[i] & signature) == signature)
+		{
+			entities.push_back(i);
+		}
+	}
+
+	return entities;
+}

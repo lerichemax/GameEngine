@@ -5,6 +5,7 @@
 #include "RendererComponent.h"
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
+#include "System.h"
 
 #include <algorithm>
 
@@ -68,6 +69,7 @@ void Scene::OnActivate()
 
 void Scene::Update()
 {
+	//To delete
 	for(auto& object : m_pObjects)
 	{
 		if (object->IsActive())
@@ -75,8 +77,15 @@ void Scene::Update()
 			object->Update();
 		}
 	}
-	CheckCollidersCollision();
+	
+	for (auto& pSystem : m_Systems)
+	{
+		pSystem->Update(m_pRegistry->GetComponentManager());
+	}
+
 	m_pTransformSystem->Update(m_pRegistry->GetComponentManager());
+
+	CheckCollidersCollision();
 	
 	Refresh();
 }

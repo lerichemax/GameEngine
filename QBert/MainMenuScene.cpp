@@ -10,6 +10,7 @@
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
 #include "CameraComponent.h"
+#include "UiSystem.h"
 
 MainMenuScene::MainMenuScene()
 	:Scene("MainMenuScene")
@@ -29,8 +30,7 @@ void MainMenuScene::Initialize()
 
 	GameObject* soloBtn = CreateGameObject();
 	ECS_ButtonComponent btn(70, 30);
-	soloBtn->AddComponent<ECS_ButtonComponent>(btn, true);
-
+	btn.m_bVisualize = true;
 	ECS_TextRendererComponent txt{ "Solo", ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28) };
 
 	ECS_RendererComponent txtRendererComp;
@@ -45,10 +45,10 @@ void MainMenuScene::Initialize()
 	btn.SetOnClickFunction(new SwitchScene{"SoloScene"});
 
 	soloBtn->GetECSTransform()->Translate(400, 200);
+	soloBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
 	auto* coopBtn = CreateGameObject();
 	btn.m_Dimensions = { 80, 30 };
-	coopBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
 	txt.m_Text = "Co-op";
 
@@ -60,11 +60,12 @@ void MainMenuScene::Initialize()
 	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
 	btn.SetOnClickFunction(new SwitchScene{"CoopScene"});
 
+	coopBtn->AddComponent<ECS_ButtonComponent>(btn, true);
+
 	coopBtn->GetECSTransform()->Translate(400, 250);
 
 	auto* vsBtn = CreateGameObject();
 	btn.m_Dimensions = { 92, 30 };
-	vsBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
 	txt.m_Text =  "Versus";
 	vsBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
@@ -75,11 +76,12 @@ void MainMenuScene::Initialize()
 	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
 	btn.SetOnClickFunction(new SwitchScene{"VersusScene"});
 
+	vsBtn->AddComponent<ECS_ButtonComponent>(btn, true);
+
 	vsBtn->GetECSTransform()->Translate(400, 300);
 
 	auto* quitBtn = CreateGameObject();
 	btn.m_Dimensions = { 70, 30 };
-	quitBtn->AddComponent<ECS_ButtonComponent>(btn, true);
 
 	txt.m_Text = "Quit";
 	quitBtn->AddComponent<ECS_TextRendererComponent>(txt, true);
@@ -90,7 +92,11 @@ void MainMenuScene::Initialize()
 	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
 	btn.SetOnClickFunction(new QuitGameCommand{  });
 
+	quitBtn->AddComponent<ECS_ButtonComponent>(btn, true);
+
 	quitBtn->GetECSTransform()->Translate(400, 350);
+
+	AddSystem<UiSystem>();
 	
 	auto* camObj = CreateGameObject();
 	ECS_CameraComponent camComp{};

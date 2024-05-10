@@ -11,7 +11,7 @@ void SystemManager::EntityDestroyed(Entity entity)
 	}
 }
 
-void SystemManager::EntitySignatureChanged(Entity entity, Signature entitySignature)
+void SystemManager::EntitySignatureChanged(Entity entity, Signature const& entitySignature)
 {
 	for (std::pair<const char*, std::shared_ptr<System>> const& pair : m_Systems)
 	{

@@ -165,16 +165,18 @@ void SceneManager::SceneManagerImpl::RenameScene(std::string const& oldName, std
 
 void SceneManager::SceneManagerImpl::SetSceneActive(std::string const& name)
 {
+	if (m_pScenesMap.find(name) == m_pScenesMap.end())
+	{
+		Debugger::GetInstance().LogError("No existing scene with the name " + name);
+		return;
+	}
+
 	if (m_pActiveScene != nullptr)
 	{
 		m_pActiveScene->m_bIsActive = false;
 	}
 	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
 
-	if (m_pScenesMap.find(name) == m_pScenesMap.end())
-	{
-		Debugger::GetInstance().LogError("No existing scene with the name " + name);
-	}
 	auto newScene = m_pScenesMap.at(name);
 	newScene->m_bIsActive = true;
 	m_pNextActiveScene = newScene;

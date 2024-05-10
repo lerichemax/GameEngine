@@ -14,7 +14,7 @@ template<typename T>
 class ComponentArray : public IComponentArray
 {
 public:
-	void InsertData(Entity entity, T Component);
+	void InsertData(Entity entity, T const& Component);
 	void RemoveData(Entity entity);
 	std::shared_ptr<T> GetData(Entity entity);
 	void EntityDestroyed(Entity entity) override;

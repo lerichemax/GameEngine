@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "ColliderComponent.h"
+#include "Coordinator.h"
 #include "Entity.h"
 
 #include <memory>
@@ -12,8 +13,8 @@ class GameObject;
 class CameraComponent;
 class CameraSystem;
 class TransformSystem;
-class Coordinator;
 class LayeredRendererSystem;
+class System;
 class Scene
 {
 	friend class SceneManager;
@@ -38,6 +39,8 @@ public:
 protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(Entity entity);
+	template <typename T> void AddSystem();
+	template <typename T> void AddSystem(Signature signature);
 
 	std::shared_ptr<Coordinator> m_pRegistry;
 	
@@ -58,7 +61,8 @@ private:
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<CameraSystem> m_pCamera;
 	CameraComponent* m_pActiveCamera;
-	
+
+	std::vector<std::shared_ptr<System>> m_Systems;
 
 		
 	bool m_bIsActive;
@@ -74,3 +78,15 @@ private:
 	void CheckCollidersCollision();
 		
 };
+
+template <typename T>
+void Scene::AddSystem()
+{
+	m_Systems.push_back(m_pRegistry->RegisterSystem<T>());
+}
+
+template <typename T>
+void Scene::AddSystem(Signature signature)
+{
+	m_Systems.push_back(m_pRegistry->RegisterSystem<T>(signature));
+}
