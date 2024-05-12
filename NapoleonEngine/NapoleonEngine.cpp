@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "ObserverManager.h"
+#include "PrefabsManager.h"
 #include "Renderer.h"
 #include "SoundServiceLocator.h"
 #include "Timer.h"
@@ -15,7 +16,10 @@
 
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
+
 #include "FPSCounter.h"
+#include "Scene.h"
+
 
 class ObserverManager;
 
@@ -57,13 +61,23 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 	{
 		Debugger::GetInstance().LogError(error.what());
 	}
+}
 
-	//auto fpsCounter = new GameObject{};
-	//auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
-	//fpsCounter->AddComponent(new TextRendererComponent("FPS ", font));
-	//fpsCounter->AddComponent(new FPSCounter{});
-	//fpsCounter->GetECSTransform()->Translate(20.f, 20.f);
-	//PrefabsManager::GetInstance().AddPrefab("FPSCounter", fpsCounter);
+void NapoleonEngine::CreateBasePrefabs()
+{
+	//Fps counter prefab
+	auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab("FPSCounter");
+	auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
+	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+
+	ECS_TextRendererComponent txtRenderer("FPS ", font);
+	fpsCounterObject->AddComponent<ECS_TextRendererComponent>(txtRenderer, true);
+	fpsCounterObject->GetECSTransform()->Translate(20.f, 20.f);
+
+	fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
+
+	//game specific prefab
+	CreatePrefabs();
 }
 
 void NapoleonEngine::Quit()
@@ -104,7 +118,7 @@ void NapoleonEngine::Cleanup()
 
 void NapoleonEngine::Run()
 {
-	//CreatePrefabs();
+	CreateBasePrefabs();
 	InitGame();
 	SceneManager::GetInstance().Initialize();
 	{

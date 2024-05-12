@@ -7,6 +7,8 @@
 #include "TransformComponent.h"
 #include "System.h"
 
+#include "PrefabsManager.h"
+
 #include <algorithm>
 
 #include "CameraComponent.h"
@@ -155,6 +157,11 @@ void Scene::CheckCollidersCollision()
 void Scene::SetActiveCamera(Entity entity)
 {
 	m_pCamera->SetMainCamera(entity);
+}
+
+void Scene::InstantiatePrefab(std::string const& name)
+{
+	PrefabsManager::GetInstance()->
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

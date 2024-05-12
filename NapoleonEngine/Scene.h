@@ -34,7 +34,7 @@ public:
 	void AddToGroup(RendererComponent* pRenderer, Layer layer) const;
 	void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
 	void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
-	std::string GetName()const { return m_Name; }
+	std::string GetName() const { return m_Name; }
 	
 protected:
 	virtual void CustomOnActivate(){}
@@ -42,12 +42,15 @@ protected:
 	template <typename T> void AddSystem();
 	template <typename T> void AddSystem(Signature signature);
 
+	void InstantiatePrefab(std::string const& name);
+
 	std::shared_ptr<Coordinator> m_pRegistry;
 	
 private:
 	friend void ColliderComponent::Initialize();
 	friend ColliderComponent::~ColliderComponent();
 	friend class SceneManager;
+	friend class NapoleonEngine;
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
@@ -60,11 +63,10 @@ private:
 	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<CameraSystem> m_pCamera;
-	CameraComponent* m_pActiveCamera;
+	CameraComponent* m_pActiveCamera; //deprecated
 
 	std::vector<std::shared_ptr<System>> m_Systems;
 
-		
 	bool m_bIsActive;
 	bool m_bIsInitialized;
 
