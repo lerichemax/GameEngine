@@ -29,6 +29,9 @@ public:
 	TextRendererSystem(Coordinator* const pRegistry);
 
 	void Update(ComponentManager* const pComponentManager) override;
+
+protected:
+	std::shared_ptr<System> Clone() const override { return std::make_shared<TextRendererSystem>(*this); };
 };
 
 class LayeredRendererSystem : public System //TODO Add Layering
@@ -37,6 +40,9 @@ public:
 	LayeredRendererSystem(Coordinator* const pRegistry);
 
 	void Update(ComponentManager* const pComponentManager) override;
+
+protected:
+	std::shared_ptr<System> Clone() const override { return std::make_shared<LayeredRendererSystem>(*this); }
 
 private:
 	std::shared_ptr<TextRendererSystem> m_pTextRenderer;

@@ -17,8 +17,19 @@ private:
 	TextRendererComponent* m_pTextComp;
 };
 
-class FPSCounterSystem final : public System
+struct FPSCounterComponent : ECS_Component
+{
+
+};
+
+class FPSCounterSystem : public System
 {
 public:
+	FPSCounterSystem(Coordinator* const pRegistry);
+
 	virtual void Update(ComponentManager* const pComponentManager) override;
+
+
+protected:
+	std::shared_ptr<System> Clone() const override { return std::make_shared<FPSCounterSystem>(*this); }
 };

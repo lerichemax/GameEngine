@@ -21,6 +21,8 @@ public:
 	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
 
 private:
+	friend class Coordinator;
+
 	std::unordered_map<const char*, Signature> m_Signatures;
 	std::unordered_map<const char*, std::shared_ptr<System>> m_Systems;
 };

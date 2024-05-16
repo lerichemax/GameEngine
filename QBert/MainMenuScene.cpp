@@ -103,6 +103,8 @@ void MainMenuScene::Initialize()
 	camObj->AddComponent<ECS_CameraComponent>(camComp, true);
 	camObj->GetECSTransform()->m_Position = { 450, 300 };
 	SetActiveCamera(camObj->GetEntity());
+
+	InstantiatePrefab("FPSCounter");
 }
 
 void MainMenuScene::CustomOnActivate()

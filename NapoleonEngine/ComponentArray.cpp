@@ -6,12 +6,14 @@
 #include "CameraComponent.h"
 #include "ButtonComponent.h"
 #include "TextRendererComponent.h"
+#include "FPSCounter.h"
 
 template class ComponentArray<ECS_TransformComponent>;
 template class ComponentArray<ECS_RendererComponent>;
 template class ComponentArray<ECS_CameraComponent>;
 template class ComponentArray<ECS_ButtonComponent>;
 template class ComponentArray<ECS_TextRendererComponent>;
+template class ComponentArray<FPSCounterComponent>;
 
 
 template<typename T>
@@ -59,4 +61,22 @@ void ComponentArray<T>::EntityDestroyed(Entity entity)
 	{
 		RemoveData(entity);
 	}
+}
+
+template<typename T>
+void ComponentArray<T>::CloneToNewEntity(std::shared_ptr<IComponentArray> pOther, Entity newEntity, Entity entityToClone)
+{
+	if (m_EntityToIndex.find(newEntity) != m_EntityToIndex.end())
+	{
+		m_Components[m_EntityToIndex[newEntity]] = std::make_shared<T>(*std::static_pointer_cast<ComponentArray<T>>(pOther)->m_Components[entityToClone]);
+	}
+	else
+	{
+		size_t newIndex = m_Size;
+		m_EntityToIndex[newEntity] = newIndex;
+		m_IndexToEntity[newIndex] = newEntity;
+		m_Components[newIndex] = std::make_shared<T>(*std::static_pointer_cast<ComponentArray<T>>(pOther)->m_Components[entityToClone]);
+		m_Size++;
+	}
+
 }

@@ -15,6 +15,7 @@
 #include "PrefabsManager.h"
 
 #include "TextRendererComponent.h"
+#include "CameraComponent.h"
 #include "TransformComponent.h"
 
 #include "FPSCounter.h"
@@ -63,7 +64,7 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 	}
 }
 
-void NapoleonEngine::CreateBasePrefabs()
+void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 {
 	//Fps counter prefab
 	auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab("FPSCounter");
@@ -72,9 +73,25 @@ void NapoleonEngine::CreateBasePrefabs()
 
 	ECS_TextRendererComponent txtRenderer("FPS ", font);
 	fpsCounterObject->AddComponent<ECS_TextRendererComponent>(txtRenderer, true);
+
+	FPSCounterComponent fpsCounter{};
+	fpsCounterObject->AddComponent<FPSCounterComponent>(fpsCounter, true);
+
+	ECS_RendererComponent rendererComp;
+	rendererComp.m_Layer = Layer::uiGame;
+
+	fpsCounterObject->AddComponent<ECS_RendererComponent>(rendererComp, true);
+
 	fpsCounterObject->GetECSTransform()->Translate(20.f, 20.f);
 
 	fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
+
+	//Camera prefab
+	//auto cameraPrefab = PrefabsManager::GetInstance().CreatePrefab("Camera");
+	//auto cameraObject = cameraPrefab->CreateGameObject();
+
+	//ECS_CameraComponent camComp{};
+	//cameraObject->AddComponent<ECS_CameraComponent>(camComp, true);
 
 	//game specific prefab
 	CreatePrefabs();

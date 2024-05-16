@@ -42,7 +42,7 @@ void MainGame::InitGame() const
 {	
 	//SceneManager::GetInstance().AddScene(new TestScene{});
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
-	//SceneManager::GetInstance().AddScene(new SoloScene{});
+	SceneManager::GetInstance().AddScene(new SoloScene{});
 	//SceneManager::GetInstance().AddScene(new CoopScene{});
 	//SceneManager::GetInstance().AddScene(new VersusScene{});
 	SceneManager::GetInstance().SetSceneActive("MainMenuScene");

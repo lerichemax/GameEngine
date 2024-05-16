@@ -35,6 +35,7 @@ void Debugger::LogWarning(std::string const& message) const
 void Debugger::LogError(std::string const& message) const
 {
 	MessageBox(0, message.c_str(), "Error!", 0);
+	NapoleonEngine::Quit();
 }
 
 void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)

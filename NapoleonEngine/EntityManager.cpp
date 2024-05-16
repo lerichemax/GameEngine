@@ -58,3 +58,8 @@ std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& sig
 
 	return entities;
 }
+
+bool EntityManager::IsEntityValid(Entity entity)
+{
+	return entity <= MAX_ENTITIES;
+}

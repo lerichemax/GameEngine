@@ -46,7 +46,7 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 }
 
 GameObject::GameObject(const GameObject& other)
-	:m_Entity(0),
+	:m_Entity(m_pRegistry->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_bIsInitialized(other.m_bIsInitialized),
@@ -58,17 +58,7 @@ GameObject::GameObject(const GameObject& other)
 	m_pSubject(new Subject{*other.m_pSubject}),
 	m_Tag(other.m_Tag)
 {
-	for (Component* pComp : other.m_pComponents)
-	{
-		AddComponent(pComp->Clone());
-	}
-	for (GameObject* pChild : other.m_pChildren)
-	{
-		auto newChild = new GameObject(*pChild);
-		m_pChildren.push_back(newChild);
-		newChild->m_pParent = this;
-	}
-	//m_pTransform = GetComponent<TransformComponent>();
+
 }
 
 GameObject::~GameObject()

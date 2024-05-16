@@ -64,21 +64,13 @@ CameraSystem::CameraSystem(Coordinator* const pRegistry)
 
 void CameraSystem::Update(ComponentManager* const pComponentManager)
 {
-	for (Entity const& entity : m_Entities)
-	{
-		if (entity != m_MainCameraEntity)
-		{
-			continue;
-		}
+	auto transformComp = pComponentManager->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
+	auto cameraComp = pComponentManager->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
 
-		auto transformComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
-		auto cameraComp = pComponentManager->GetComponent<ECS_CameraComponent>(entity);
+	glm::vec2 const pos = transformComp->GetPosition();
+	glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
 
-		glm::vec2 const pos = transformComp->GetPosition();
-		glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
-
-		glTranslatef(-upLeft.x, -upLeft.y, 0);
-	}
+	glTranslatef(-upLeft.x, -upLeft.y, 0);
 }
 
 void CameraSystem::SetMainCamera(Entity entity)

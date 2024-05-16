@@ -78,7 +78,6 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
-		
 };
 
 template <typename T>

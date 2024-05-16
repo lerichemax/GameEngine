@@ -94,14 +94,13 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	if (m_pCamera == nullptr)
+	if (!EntityManager::IsEntityValid(m_pCamera->m_MainCameraEntity))
 	{
 		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
 	}
 	glPushMatrix();
 	{
 		m_pCamera->Update(m_pRegistry->GetComponentManager());
-		m_pSceneRenderer->Render();
 		m_pECS_SceneRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
@@ -161,7 +160,18 @@ void Scene::SetActiveCamera(Entity entity)
 
 void Scene::InstantiatePrefab(std::string const& name)
 {
-	PrefabsManager::GetInstance()->
+	std::shared_ptr<Prefab> prefab = PrefabsManager::GetInstance().GetPrefab(name);
+
+	std::vector<std::shared_ptr<System>> prefabSystems = m_pRegistry->ExtractSystems(prefab->m_pRegistry);
+	m_Systems.insert(m_Systems.end(), prefabSystems.begin(), prefabSystems.end());
+
+	//TODO : make all new game object the child of one
+	//CreateGameObject...
+	for (GameObject* const pObject : prefab->m_pObjects)
+	{
+		GameObject* pNewObject = CreateGameObject();
+		m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
+	}
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

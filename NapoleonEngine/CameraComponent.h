@@ -49,6 +49,11 @@ public:
 
 	void SetMainCamera(Entity entity);
 
+protected:
+	std::shared_ptr<System> Clone() const override { return std::make_shared<CameraSystem>(*this); };
+
 private:
+	friend class Scene;
+
 	Entity m_MainCameraEntity;
 };

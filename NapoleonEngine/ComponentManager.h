@@ -14,21 +14,19 @@ public:
 	template<typename T> void AddComponent(Entity entity, T const& component);
 	template<typename T> void RemoveComponent(Entity entity);
 	template<typename T> std::shared_ptr<T> GetComponent(Entity entity);
-	template<typename T> bool HasComponent(Entity entity);
-
 	
 	void EntityDestroyed(Entity entity);
 
 private:
-	std::unordered_map<const char*, ComponentType> m_ComponentTypes;
+	friend class Coordinator;
+
+	static std::unordered_map<const char*, ComponentType> m_ComponentTypes;
 	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays;
-	ComponentType m_NextComponentType;
+	static ComponentType m_NextComponentType;
 
 	template<typename T> void RegisterComponent();
 	template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray();
 	template <typename T> void CheckComponentRegistered();
-
-
 };
 
 template<typename T> 
@@ -37,8 +35,6 @@ void ComponentManager::RegisterComponent()
 	const char* typeName = typeid(T).name();
 
 	m_ComponentTypes.insert(std::make_pair(typeName, m_NextComponentType++));
-
-	m_ComponentArrays.insert(std::make_pair(typeName, std::make_shared<ComponentArray<T>>()));
 }
 
 template<typename T>
@@ -90,5 +86,9 @@ void ComponentManager::CheckComponentRegistered()
 	if (m_ComponentTypes.find(typeName) == m_ComponentTypes.end())
 	{
 		RegisterComponent<T>();
+	}
+	if (m_ComponentArrays.find(typeName) == m_ComponentArrays.end())
+	{
+		m_ComponentArrays.insert(std::make_pair(typeName, std::make_shared<ComponentArray<T>>()));
 	}
 }

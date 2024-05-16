@@ -14,6 +14,15 @@ void FPSCounter::Update()
 	m_pTextComp->SetText("FPS " + std::to_string(Timer::GetInstance().GetFPS()));
 }
 
+FPSCounterSystem::FPSCounterSystem(Coordinator* const pRegistry)
+{
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TextRendererComponent>());
+	signature.set(pRegistry->GetComponentType<FPSCounterComponent>());
+
+	pRegistry->SetSystemSignature<FPSCounterSystem>(signature);
+}
+
 void FPSCounterSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
@@ -21,6 +30,5 @@ void FPSCounterSystem::Update(ComponentManager* const pComponentManager)
 		auto textRenderComp = pComponentManager->GetComponent<ECS_TextRendererComponent>(entity);
 
 		textRenderComp->m_Text = "FPS " + std::to_string(Timer::GetInstance().GetFPS());
-
 	}
 }

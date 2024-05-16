@@ -65,6 +65,7 @@ private:
 	friend class Scene;
 
 	GameObject(std::weak_ptr<Coordinator>);
+	GameObject(const GameObject& other);
 
 	std::shared_ptr<Coordinator> m_pRegistry;
 
@@ -90,8 +91,6 @@ private:
 	void Refresh();
 	void Initialize();
 	void Update();
-		
-	GameObject(const GameObject& other);
 };
 template <typename T>
 void GameObject::AddComponent(T const& Component, bool n)

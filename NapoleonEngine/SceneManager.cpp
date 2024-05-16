@@ -51,7 +51,7 @@ SceneManager::SceneManagerImpl::~SceneManagerImpl()
 
 void SceneManager::SceneManagerImpl::Initialize()
 {
-	for (auto pScene : m_pScenesMap)
+	for (auto& pScene : m_pScenesMap)
 	{
 		pScene.second->Initialize();
 		pScene.second->DeclareInput();

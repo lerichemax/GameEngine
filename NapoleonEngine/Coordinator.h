@@ -25,10 +25,13 @@ public:
 	template <typename T> std::shared_ptr<T> RegisterSystem();
 	template <typename T> void SetSystemSignature(Signature signature);
 
+	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
+	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
+
 private:
-	std::unique_ptr<ComponentManager> m_ComponentManager;
-	std::unique_ptr<EntityManager> m_EntityManager;
-	std::unique_ptr<SystemManager> m_SystemManager;
+	std::unique_ptr<ComponentManager> m_pComponentManager;
+	std::unique_ptr<EntityManager> m_pEntityManager;
+	std::unique_ptr<SystemManager> m_pSystemManager;
 
 	template <typename T> void OnSystemSignatureChanged(Signature const& signature);
 };
@@ -36,43 +39,43 @@ private:
 template <typename T> 
 void Coordinator::AddComponent(Entity entity, T const& component)
 {
-	m_ComponentManager->AddComponent<T>(entity, component);
+	m_pComponentManager->AddComponent<T>(entity, component);
 
-	Signature signature = m_EntityManager->GetSignature(entity);
-	signature.set(m_ComponentManager->GetComponentType<T>(), true);
-	m_EntityManager->SetSignature(entity, signature);
+	Signature signature = m_pEntityManager->GetSignature(entity);
+	signature.set(m_pComponentManager->GetComponentType<T>(), true);
+	m_pEntityManager->SetSignature(entity, signature);
 
-	m_SystemManager->EntitySignatureChanged(entity, signature);
+	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
 template <typename T> 
 void Coordinator::RemoveComponent(Entity entity)
 {
-	m_ComponentManager->RemoveComponent<T>(entity);
+	m_pComponentManager->RemoveComponent<T>(entity);
 
-	Signature signature = m_EntityManager->GetSignature(entity);
-	signature.set(m_ComponentManager->GetComponentType<T>(), false);
-	m_EntityManager->SetSignature(entity, signature);
+	Signature signature = m_pEntityManager->GetSignature(entity);
+	signature.set(m_pComponentManager->GetComponentType<T>(), false);
+	m_pEntityManager->SetSignature(entity, signature);
 
-	m_SystemManager->EntitySignatureChanged(entity, signature);
+	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
 template <typename T> 
 std::weak_ptr<T> Coordinator::GetComponent(Entity entity) const
 {
-	return m_ComponentManager->GetComponent<T>(entity);
+	return m_pComponentManager->GetComponent<T>(entity);
 }
 
 template <typename T> 
 ComponentType Coordinator::GetComponentType() const
 {
-	return m_ComponentManager->GetComponentType<T>();
+	return m_pComponentManager->GetComponentType<T>();
 }
 
 template <typename T> 
 std::shared_ptr<T> Coordinator::RegisterSystem(Signature signature)
 {
-	std::shared_ptr<T> pSystem = m_SystemManager->RegisterSystem<T>(signature, this);
+	std::shared_ptr<T> pSystem = m_pSystemManager->RegisterSystem<T>(signature, this);
 	OnSystemSignatureChanged<T>(signature);
 	return pSystem;
 }
@@ -80,22 +83,22 @@ std::shared_ptr<T> Coordinator::RegisterSystem(Signature signature)
 template <typename T>
 std::shared_ptr<T> Coordinator::RegisterSystem()
 {
-	std::shared_ptr<T> pSystem = m_SystemManager->RegisterSystem<T>(this);
-	OnSystemSignatureChanged<T>(m_SystemManager->GetSystemSignature<T>());
+	std::shared_ptr<T> pSystem = m_pSystemManager->RegisterSystem<T>(this);
+	OnSystemSignatureChanged<T>(m_pSystemManager->GetSystemSignature<T>());
 	return pSystem;
 }
 
 template <typename T> 
 void Coordinator::SetSystemSignature(Signature signature)
 {
-	m_SystemManager->SetSignature<T>(signature);
+	m_pSystemManager->SetSignature<T>(signature);
 	OnSystemSignatureChanged<T>(signature);
 }
 
 template <typename T>
 void Coordinator::OnSystemSignatureChanged(Signature const& signature)
 {
-	std::vector<Entity> entities = m_EntityManager->GetEntitiesWithSignature(signature);
+	std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
 
-	m_SystemManager->AssignEntitiesToSystem<T>(entities);
+	m_pSystemManager->AssignEntitiesToSystem<T>(entities);
 }

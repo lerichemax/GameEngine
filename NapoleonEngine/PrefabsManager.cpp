@@ -61,7 +61,7 @@ std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::CreatePrefab(std::st
 	if (m_Prefabs.find(name) != m_Prefabs.end())
 	{
 		Debugger::GetInstance().LogWarning("A prefab with the name " + name + " already exists");
-		return;
+		return nullptr;
 	}
 
 	auto pPrefab = std::make_shared<Prefab>(name);
@@ -114,7 +114,7 @@ GameObject* PrefabsManager::PrefabsManagerImpl::Instantiate(std::string const& k
 
 std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::GetPrefab(std::string const& name) const
 {
-
+	return m_Prefabs.at(name);
 }
 
 PrefabsManager::PrefabsManager()

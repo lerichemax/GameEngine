@@ -48,7 +48,10 @@ LayeredRendererSystem::LayeredRendererSystem(Coordinator* const pRegistry)
 
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
-	m_pTextRenderer->Update(pComponentManager);
+	if (m_pTextRenderer != nullptr)
+	{
+		m_pTextRenderer->Update(pComponentManager);
+	}
 
 	for (Entity const& entity : m_Entities)
 	{
