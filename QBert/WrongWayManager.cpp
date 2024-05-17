@@ -27,7 +27,7 @@ void WrongWayManager::Spawn()
 {
 	int const random{ rand() % 2 };
 
-	GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
+	//GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
 	//auto pWWComp = pWrongWay->GetComponent<WrongWay>();
 	if (random == 0)
 	{
@@ -45,9 +45,9 @@ void WrongWayManager::Spawn()
 	}
 	//AddToArray(pWWComp);
 	
-	m_pPyramid->GetGameObject()->AddChild(pWrongWay);
-	if (m_pObserver != nullptr)
-	{
-		pWrongWay->AddObserver(m_pObserver);
-	}
+	//m_pPyramid->GetGameObject()->AddChild(pWrongWay);
+	//if (m_pObserver != nullptr)
+	//{
+	//	pWrongWay->AddObserver(m_pObserver);
+	//}
 }

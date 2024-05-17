@@ -77,7 +77,7 @@ void Pyramid::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
+			//GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
 			
 			//m_pQubes.push_back(pQube->GetComponent<Qube>());
 			//m_pQubes.back()->SetPyramid(this);
@@ -92,7 +92,7 @@ void Pyramid::Initialize()
 			}
 			
 			//lastPos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth();
-			m_pGameObject->AddChild(pQube);
+			//m_pGameObject->AddChild(pQube);
 		}
 		//startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
 		//startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;

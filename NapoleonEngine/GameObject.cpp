@@ -7,14 +7,12 @@
 
 #include "Scene.h"
 
-GameObject::GameObject() //TEMP
+GameObject::GameObject() //TO REMOVE
 	:m_Entity(0),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
-	m_bIsInitialized(false),
 	m_pComponents(),
 	m_pTransform(nullptr),
-	m_pEcsTransform(new ECS_TransformComponent{}),
 	m_pChildren(),
 	m_pParent(nullptr),
 	m_pScene(nullptr),
@@ -30,10 +28,8 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 	m_Entity(pRegistry.lock()->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
-	m_bIsInitialized(false),
 	m_pComponents(),
 	m_pTransform(nullptr),
-	m_pEcsTransform(nullptr),
 	m_pChildren(),
 	m_pParent(nullptr),
 	m_pScene(nullptr),
@@ -42,16 +38,14 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 {
 	ECS_TransformComponent transform;
 	m_pRegistry->AddComponent<ECS_TransformComponent>(m_Entity, transform);
-	m_pEcsTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
+	m_pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
 }
 
 GameObject::GameObject(const GameObject& other)
 	:m_Entity(m_pRegistry->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
-	m_bIsInitialized(other.m_bIsInitialized),
 	m_pComponents(),
-	m_pTransform(nullptr),
 	m_pChildren(),
 	m_pParent(nullptr),
 	m_pScene(nullptr),
@@ -63,10 +57,6 @@ GameObject::GameObject(const GameObject& other)
 
 GameObject::~GameObject()
 {
-	for (auto pChild : m_pChildren)
-	{
-		delete pChild;
-	}
 	m_pChildren.clear();
 	
 	for (auto comp : m_pComponents)
@@ -102,58 +92,26 @@ void GameObject::Refresh()
 		return;
 	}
 	
-	for (auto& pChild : m_pChildren)
-	{
-		pChild->Refresh();
-		if (pChild->m_bIsDestroyed)
-		{
-			SafeDelete(pChild);
-		}
-	}
+	//for (auto& pChild : m_pChildren)
+	//{
+	//	pChild->Refresh();
+	//	if (pChild->m_bIsDestroyed)
+	//	{
+	//		SafeDelete(pChild);
+	//	}
+	//}
 
 	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), nullptr), m_pChildren.end());
 }
 
-void GameObject::AddChild(GameObject* pChild)
+void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
 {
-	m_pChildren.push_back(pChild);
-	pChild->m_pParent = this;
-	
-	if (m_bIsInitialized)
-	{
-		pChild->m_pScene = m_pScene;
-		pChild->Initialize();
-	}
-}
+	m_pChildren.push_back(pChild); //remove ?
+	pChild->m_pParent = std::shared_ptr<GameObject>(this); //remove ?
 
-void GameObject::AddComponent(Component* pComp)
-{
-	if (typeid(*pComp) == typeid(TransformComponent) && HasComponent<TransformComponent>())
-	{
-		Debugger::GetInstance().Log("Game object already contains a Transform component");
-		return;
-	}
+	pChild->m_pTransform->m_pParent = m_pTransform;
 
-	m_pComponents.emplace_back(pComp);
-	pComp->RootInitialize(this);
-}
-
-void GameObject::Initialize()
-{
-	if (!m_bIsInitialized)
-	{
-		m_bIsInitialized = true;
-		for (auto pComp : m_pComponents)
-		{
-			pComp->Initialize();
-		}
-
-		for (auto pChild : m_pChildren)
-		{
-			pChild->Initialize();
-		}
-		
-	}
+	pChild->m_pScene = m_pScene; //remove ?
 }
 
 void GameObject::AddObserver(Observer* pObserver) const
@@ -173,7 +131,7 @@ void GameObject::Notify(int event)
 void GameObject::SetActive(bool active)
 {
 	m_bIsActive = active;
-	for (GameObject* pChild : m_pChildren)
+	for (std::shared_ptr<GameObject> pChild : m_pChildren)
 	{
 		pChild->SetActive(active);
 	}
@@ -189,16 +147,16 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 	m_Tag = tag;
 	if (applyToChildren)
 	{
-		for (GameObject* pChild : m_pChildren)
+		for (auto pChild : m_pChildren)
 		{
 			pChild->SetTag(tag, applyToChildren);
 		}
 	}
 }
 
-GameObject* GameObject::FindTagInChildren(std::string const& tag)
+std::shared_ptr<GameObject> GameObject::FindTagInChildren(std::string const& tag)
 {
-	for (GameObject* pChild : m_pChildren)
+	for (auto pChild : m_pChildren)
 	{
 		if (pChild->GetTag() == tag)
 		{

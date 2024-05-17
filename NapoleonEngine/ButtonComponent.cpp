@@ -37,12 +37,12 @@ void ButtonComponent::Update()
 {
 	if (m_bVisualize)
 	{
-		Debugger::GetInstance().DrawDebugRectangle(m_pGameObject->GetECSTransform()->GetPosition(), 
+		Debugger::GetInstance().DrawDebugRectangle(m_pGameObject->GetTransform()->GetPosition(), 
 			static_cast<unsigned int>(m_Dimensions.x), static_cast<unsigned int>(m_Dimensions.y),
 			Color{255,0,0,1});
 	}
 	glm::vec2 const mousePos = InputManager::GetInstance().GetMousePosition();
-	glm::vec2 const pos = m_pGameObject->GetECSTransform()->GetPosition();
+	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
 	
 	if (mousePos.x >= pos.x && mousePos.x <= pos.x + m_Dimensions.x &&
 		mousePos.y >= pos.y && mousePos.y <= pos.y + m_Dimensions.y)

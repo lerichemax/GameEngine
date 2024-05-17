@@ -34,10 +34,6 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-//	auto const& pPrefabManager = PrefabsManager::GetInstance();
-//	
-//	AddObject(pPrefabManager.Instantiate("FPSCounter"));
-//
 //	auto const livesP1 = pPrefabManager.Instantiate("LivesUI");
 //	AddObject(livesP1);
 //
@@ -71,10 +67,10 @@ void SoloScene::Initialize()
 //
 //	m_pPauseMenu->SetActive(false);
 //	
-//	auto qbertObj = pPrefabManager.Instantiate("QBert");
-//	m_pQbert = qbertObj->GetComponent<QBert>();
-//	m_pQbert->SetPlayerNbr(1);
-//	AddObject(qbertObj);
+	//auto qbertObj = InstantiatePrefab("QBert");
+	//m_pQbert = qbertObj->GetComponent<QBert>();
+	//m_pQbert->SetPlayerNbr(1);
+
 //
 //	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
 //		std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
@@ -144,6 +140,9 @@ void SoloScene::Initialize()
 //	camObj->GetECSTransform()->Translate(450, 300);
 //	SetCameraActive(camComp);
 //	AddObject(camObj);
+
+	//InstantiatePrefab("FPSCounter");
+	//GetCameraObject()->GetTransform()->m_Position = { 450, 300 };
 }
 
 void SoloScene::ResetScene(Level newLevel)
@@ -162,19 +161,19 @@ void SoloScene::ResetScene(Level newLevel)
 
 void SoloScene::ResetGame()
 {
-	m_Level = Level::Level1;
-	m_pPyramid->Reset();
-	
-	for (EnemyManager* pManager : m_pEnemyManagers)
-	{
-		pManager->Reset();
-		pManager->ResetTimer();
-	}
-	
-	m_pQbert->Reset(true, m_pPyramid->GetTop());
-	SetIsPaused(false);
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
+	//m_Level = Level::Level1;
+	//m_pPyramid->Reset();
+	//
+	//for (EnemyManager* pManager : m_pEnemyManagers)
+	//{
+	//	pManager->Reset();
+	//	pManager->ResetTimer();
+	//}
+	//
+	//m_pQbert->Reset(true, m_pPyramid->GetTop());
+	//SetIsPaused(false);
+	//m_pPauseMenu->SetActive(false);
+	//m_pGameOverMenu->SetActive(false);
 }
 
 void SoloScene::DeclareInput() 

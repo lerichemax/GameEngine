@@ -15,6 +15,11 @@ template class ComponentArray<ECS_ButtonComponent>;
 template class ComponentArray<ECS_TextRendererComponent>;
 template class ComponentArray<FPSCounterComponent>;
 
+template<typename T>
+ComponentArray<T>::~ComponentArray()
+{
+
+}
 
 template<typename T>
 void ComponentArray<T>::InsertData(Entity entity, T const& component)
@@ -35,10 +40,12 @@ void ComponentArray<T>::RemoveData(Entity entity)
 
 	size_t indexOfRemovedEntity = m_EntityToIndex[entity];
 	size_t indexOfLastElement = --m_Size;
+	m_Components[indexOfRemovedEntity].reset();
 	m_Components[indexOfRemovedEntity] = m_Components[indexOfLastElement];
+	m_Components[indexOfLastElement].reset();
 	
 	Entity entityOfLastElement = m_IndexToEntity[indexOfLastElement];
-	m_IndexToEntity[entityOfLastElement] = static_cast<Entity>(indexOfRemovedEntity);
+	m_EntityToIndex[entityOfLastElement] = static_cast<Entity>(indexOfRemovedEntity);
 	m_IndexToEntity[indexOfRemovedEntity] = entityOfLastElement;
 
 	m_EntityToIndex.erase(entity);

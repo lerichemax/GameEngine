@@ -17,10 +17,7 @@ ColliderComponent::ColliderComponent(Type type)
 
 ColliderComponent::~ColliderComponent()
 {
-	if (m_pGameObject->IsInitialized())
-	{
-		m_pGameObject->GetParentScene()->RemoveCollider(this);
-	}	
+	m_pGameObject->GetParentScene()->RemoveCollider(this);
 }
 
 void ColliderComponent::Initialize()

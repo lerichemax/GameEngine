@@ -15,37 +15,51 @@ class CameraSystem;
 class TransformSystem;
 class LayeredRendererSystem;
 class System;
-class Scene
+
+class BaseScene
 {
-	friend class SceneManager;
+	friend class NapoleonEngine;
+
+public:
+	explicit BaseScene(const std::string& name);
+	virtual ~BaseScene();
+
+	std::shared_ptr<GameObject> CreateGameObject();
+	std::string GetName() const { return m_Name; }
+
+protected:
+	std::shared_ptr<Coordinator> m_pRegistry;
+
+	std::string m_Name;
+	std::vector<std::shared_ptr<GameObject>> m_pObjects;
+	std::vector<std::shared_ptr<System>> m_Systems;
+
+	template <typename T> void AddSystem();
+	template <typename T> void AddSystem(Signature signature);
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+};
+
+class Scene : public BaseScene
+{
 public:
 	explicit Scene(const std::string& name);
-	virtual ~Scene();
+	~Scene();
 	Scene(const Scene& other) = delete;
 	Scene(Scene&& other) = delete;
 	Scene& operator=(const Scene& other) = delete;
 	Scene& operator=(Scene&& other) = delete;
-		
-	void AddObject(GameObject* object); //deprecated
-	GameObject* CreateGameObject();
 		
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
 	void AddToGroup(RendererComponent* pRenderer, Layer layer) const;
 	void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
 	void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
-	std::string GetName() const { return m_Name; }
-	
+
 protected:
 	virtual void CustomOnActivate(){}
-	void SetActiveCamera(Entity entity);
-	template <typename T> void AddSystem();
-	template <typename T> void AddSystem(Signature signature);
+	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
+	std::shared_ptr<GameObject> GetCameraObject() const;
 
-	void InstantiatePrefab(std::string const& name);
-
-	std::shared_ptr<Coordinator> m_pRegistry;
-	
 private:
 	friend void ColliderComponent::Initialize();
 	friend ColliderComponent::~ColliderComponent();
@@ -55,17 +69,14 @@ private:
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
 		
-	std::string m_Name;
-	std::vector<GameObject*> m_pObjects;
 	std::vector<ColliderComponent*> m_pColliders;
 		
 	SceneRenderer* m_pSceneRenderer; //deprecated
 	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<CameraSystem> m_pCamera;
+	std::shared_ptr<GameObject> m_pCameraObject;
 	CameraComponent* m_pActiveCamera; //deprecated
-
-	std::vector<std::shared_ptr<System>> m_Systems;
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -81,13 +92,13 @@ private:
 };
 
 template <typename T>
-void Scene::AddSystem()
+void BaseScene::AddSystem()
 {
 	m_Systems.push_back(m_pRegistry->RegisterSystem<T>());
 }
 
 template <typename T>
-void Scene::AddSystem(Signature signature)
+void BaseScene::AddSystem(Signature signature)
 {
 	m_Systems.push_back(m_pRegistry->RegisterSystem<T>(signature));
 }

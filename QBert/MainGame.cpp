@@ -50,34 +50,47 @@ void MainGame::InitGame() const
 
 void MainGame::CreatePrefabs() const
 {
-	//auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
-	//auto& pPrefabManager = PrefabsManager::GetInstance();
+	auto& pPrefabManager = PrefabsManager::GetInstance();
 
-	//auto ss = new SoundSystem{false};
-	//auto jumpSoundid = ss->AddEffect("Data/Sounds/jump.mp3");
-	//auto swearSoundId = ss->AddEffect("Data/Sounds/swear.mp3");
-	//auto snakeFallId = ss->AddEffect("Data/Sounds/snake-fall.mp3");
-	//auto fallsoundId = ss->AddEffect("Data/Sounds/fall.mp3");
+	auto ss = new SoundSystem{false};
+	/*auto jumpSoundid = */ss->AddEffect("Data/Sounds/jump.mp3");
+	/*auto swearSoundId = */ss->AddEffect("Data/Sounds/swear.mp3");
+	/*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
+	/*auto fallsoundId = */ss->AddEffect("Data/Sounds/fall.mp3");
 
-	//SoundServiceLocator::Register(ss);
-	//
-	//auto const livesObj = new GameObject{};
-	//livesObj->GetECSTransform()->Translate(20.f, 40.f);
-	////livesObj->AddComponent(new TextRendererComponent{ "P1 Lives: ", font });
-	////livesObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
-	//pPrefabManager.AddPrefab("LivesUI", livesObj);
+	SoundServiceLocator::Register(ss);
+
+	ECS_RendererComponent rendererComp;
+	rendererComp.m_Layer = Layer::uiGame;
+	
+	//lives
+	auto const livesPrefab = pPrefabManager.CreatePrefab("LivesUI");
+	auto livesObj = livesPrefab->CreateGameObject();
+	livesObj->GetTransform()->Translate(20.f, 40.f);
+
+	ECS_TextRendererComponent textRenderer{ "P1 Lives: ", font };
+	textRenderer.SetTextColor(255, 0, 0);
+
+	livesObj->AddComponent<ECS_TextRendererComponent>(textRenderer);
+	livesObj->AddComponent<ECS_RendererComponent>(rendererComp);
+
+	//points
+	auto const pointsrefab = pPrefabManager.CreatePrefab("PointsUI");
+	auto const pointsObj = pointsrefab->CreateGameObject();
+	pointsObj->GetTransform()->Translate(20.f, 60.f);
+	
+	textRenderer.m_Text = "P1 Points: 0 ";
+	pointsObj->AddComponent<ECS_TextRendererComponent>(textRenderer);
+	pointsObj->AddComponent<ECS_RendererComponent>(rendererComp);
 
 
-	//auto const pointsObj = new GameObject{};
-	//pointsObj->GetECSTransform()->Translate(20.f, 60.f);
-	////pointsObj->AddComponent(new TextRendererComponent{ "P1 Points: 0 ", font });
-	////pointsObj->GetComponent<TextRendererComponent>()->SetTextColor(255, 0, 0);
-	//pPrefabManager.AddPrefab("PointsUI", pointsObj);
-
-	////QBert
-	//auto qbert = new GameObject();
-	//qbert->AddComponent(new RendererComponent( Layer::foreground));
+	//QBert
+	auto qbertPrefab = pPrefabManager.CreatePrefab("QBert");
+	auto qbert = qbertPrefab->CreateGameObject();
+	rendererComp.m_Layer = Layer::foreground;
+	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
 	//qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
 	//qbert->AddComponent(new CharacterLives{3});
 	//qbert->AddComponent(new CharacterPoint{});
@@ -88,64 +101,84 @@ void MainGame::CreatePrefabs() const
 	//qbert->AddChild(hurtTextObj);
 	//hurtTextObj->GetECSTransform()->Translate(10, -20);
 	//hurtTextObj->GetComponent<RendererComponent>()->SetEnable(false);
-	//qbert->GetECSTransform()->Scale(1.5f);
-	//pPrefabManager.AddPrefab("QBert", qbert);
+	qbert->GetTransform()->Scale(1.5f);
 
-	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
-	//
-	////Qube prefab
-	//auto qubePf = new GameObject{};
-	//auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
-	//auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
-	//auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
-	//qubePf->GetECSTransform()->Scale(1.75f);
-	////qubePf->AddComponent(new RendererComponent(text));
-	////qubePf->AddComponent(new Qube{ text, interText, flippedText });
-	//pPrefabManager.AddPrefab("Qube", qubePf);
+	JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
+	
+	//Qube prefab
+	ECS_RendererComponent qubeRenderer;
+	qubeRenderer.m_Layer = Layer::uiGame;
 
-	////Pyramid
+	auto qubePf = pPrefabManager.CreatePrefab("Qube");
+	auto qubeObject = qubePf->CreateGameObject();
+	auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
+	auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
+	auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
+	qubeObject->GetTransform()->Scale(1.75f);
+	qubeRenderer.m_pTexture = text;
+	qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
+	//qubePf->AddComponent(new Qube{ text, interText, flippedText });
+
+	//Pyramid
 	//int levelWidth = json->ReadInt("width");
-	//auto pyramid = new GameObject{};
-	//pyramid->GetECSTransform()->Translate(250.f, 400.f);
+	auto pyramidPf = pPrefabManager.CreatePrefab("Pyramid");
+	auto pyramidObject = pyramidPf->CreateGameObject();
+	pyramidObject->GetTransform()->Translate(250.f, 400.f);
 	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
-	//pPrefabManager.AddPrefab("Pyramid", pyramid);
 
-	////Ugg + WrongWay
-	//auto wrongWayPrefab = new GameObject{};
+	//Ugg + WrongWay
+	auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");
+	auto wrongWayObject = wrongWayPrefab->CreateGameObject();
 	//wrongWayPrefab->AddComponent(new WrongWay{ true });
-	//wrongWayPrefab->AddComponent(new RendererComponent{ Layer::middleground });
+	ECS_RendererComponent wrongWayRenderer;
+	wrongWayRenderer.m_Layer = Layer::middleground;
+
+	wrongWayObject->AddComponent<ECS_RendererComponent>(wrongWayRenderer);
 	//wrongWayPrefab->AddComponent(new WrongWayJumper{});
 	//wrongWayPrefab->AddComponent(new EnemyCharacterController{});
 	//wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
-	//wrongWayPrefab->GetECSTransform()->Scale(2.f);
-	//pPrefabManager.AddPrefab("WrongWay", wrongWayPrefab);
+	wrongWayObject->GetTransform()->Scale(2.f);
 
-	////Coily prefab
-	//auto coilyPrefab = new GameObject{};
-	//auto pText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
-	////coilyPrefab->AddComponent(new RendererComponent(pText, Layer::middleground));
+	//Coily prefab
+	auto coilyPrefab = pPrefabManager.CreatePrefab("Coily");
+	auto coilyObject = coilyPrefab->CreateGameObject();
+
+	ECS_RendererComponent coilyRenderer;
+	coilyRenderer.m_Layer = Layer::middleground;
+	coilyRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+
+	coilyObject->AddComponent<ECS_RendererComponent>(coilyRenderer);
 	//coilyPrefab->AddComponent(new Coily{snakeFallId});
 	//coilyPrefab->AddComponent(new CoilyCharacterController{});
 	//coilyPrefab->AddComponent(new Jumper{});
-	//coilyPrefab->GetECSTransform()->Scale(1.5f);
-	//pPrefabManager.AddPrefab("Coily", coilyPrefab);
+	coilyObject->GetTransform()->Scale(1.5f);
 
-	////SlickSam
-	//auto slickSamPf = new GameObject();
-	//slickSamPf->AddComponent(new RendererComponent(Layer::middleground));
-	//slickSamPf->AddComponent(new SlickSam{});
-	//slickSamPf->AddComponent(new EnemyCharacterController{});
-	//slickSamPf->AddComponent(new Jumper{});
-	//slickSamPf->GetECSTransform()->Scale(1.5f);
-	//pPrefabManager.AddPrefab("SlickSam", slickSamPf);
 
-	////ColoredDisk
-	//auto diskPf = new GameObject{};
-	//auto const diskText = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
-	//diskPf->AddComponent(new ColoredDisk{ });
-	////diskPf->AddComponent(new RendererComponent{ diskText, Layer::middleground });
-	//diskPf->GetECSTransform()->Scale(2);
-	//pPrefabManager.AddPrefab("Disk", diskPf);
+	//SlickSam
+	auto slickSamPf = pPrefabManager.CreatePrefab("SlickSam");
+	auto slickSamObject = slickSamPf->CreateGameObject();
+
+	ECS_RendererComponent slickSamRenderer;
+	slickSamRenderer.m_Layer = Layer::middleground;
+
+	slickSamObject->AddComponent<ECS_RendererComponent>(slickSamRenderer);
+	//slickSamObject->AddComponent(new SlickSam{});
+	//slickSamObject->AddComponent(new EnemyCharacterController{});
+	//slickSamObject->AddComponent(new Jumper{});
+	slickSamObject->GetTransform()->Scale(1.5f);
+
+	//ColoredDisk
+	auto diskPf = pPrefabManager.CreatePrefab("Disk");
+	auto diskObject = diskPf->CreateGameObject();
+
+	//diskObject->AddComponent(new ColoredDisk{ });
+	ECS_RendererComponent diskRenderer;
+	diskRenderer.m_Layer = Layer::middleground;
+	diskRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
+
+	diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
+	diskObject->GetTransform()->Scale(2);
+
 
 	////Pause Menu
 	//auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
@@ -242,7 +275,7 @@ void MainGame::CreatePrefabs() const
 	//
 	//pPrefabManager.AddPrefab("GameOverMenu", menuObj);
 
-	//delete json;
+	delete json;
 }
 
 void MainGame::CreateMainMenuScene()

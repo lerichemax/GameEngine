@@ -14,10 +14,60 @@
 #include "CameraComponent.h"
 #include "Timer.h"
 
+BaseScene::BaseScene(const std::string& name)
+	: m_pRegistry(std::make_shared<Coordinator>()),
+	m_Name{ name },
+	m_pObjects()
+{
+}
+
+BaseScene::~BaseScene()
+{
+	m_pObjects.clear();
+	m_Systems.clear();
+}
+
+std::shared_ptr<GameObject> BaseScene::CreateGameObject()
+{
+	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry }));
+
+	return m_pObjects.back();
+}
+
+std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name)
+{
+	std::shared_ptr<Prefab> prefab = PrefabsManager::GetInstance().GetPrefab(name);
+
+	if (prefab == nullptr)
+	{
+		Debugger::GetInstance().LogWarning("No prefab with name " + name + " found");
+		return nullptr;
+	}
+
+	std::vector<std::shared_ptr<System>> prefabSystems = m_pRegistry->ExtractSystems(prefab->m_pRegistry);
+	m_Systems.insert(m_Systems.end(), prefabSystems.begin(), prefabSystems.end());
+
+	bool first = true;
+	std::shared_ptr<GameObject> toReturn;
+
+	for (std::shared_ptr<GameObject> const pObject : prefab->m_pObjects)
+	{
+		std::shared_ptr<GameObject> pNewObject = CreateGameObject();
+
+		if (first)
+		{
+			toReturn = pNewObject;
+			first = false;
+		}
+
+		m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
+	}
+
+	return toReturn;
+}
+
 Scene::Scene(const std::string& name)
-	: m_pRegistry(std::make_shared<Coordinator>()), 
-	m_Name{name},
-	m_pObjects(),
+	: BaseScene(name),
 	m_pColliders(),
 	m_pSceneRenderer(new SceneRenderer{}),
 	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
@@ -27,6 +77,11 @@ Scene::Scene(const std::string& name)
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
+	m_pCameraObject = CreateGameObject();
+
+	ECS_CameraComponent camComp{};
+	m_pCameraObject->AddComponent<ECS_CameraComponent>(camComp);
+	SetActiveCamera(m_pCameraObject);
 }
 
 Scene::~Scene()
@@ -36,30 +91,7 @@ Scene::~Scene()
 
 void Scene::CleanUpScene()
 {
-	for (auto pObject : m_pObjects)
-	{
-		SafeDelete(pObject);
-	}
-	m_pObjects.clear();
 	SafeDelete(m_pSceneRenderer);
-}
-
-void Scene::AddObject(GameObject* object)
-{
-	m_pObjects.emplace_back(std::move(object));
-	object->m_pScene = this;
-	for (auto pChild : object->m_pChildren)
-	{
-		pChild->m_pScene = this;
-	}
-	object->Initialize();
-}
-
-GameObject* Scene::CreateGameObject()
-{
-	m_pObjects.push_back(new GameObject{m_pRegistry});
-
-	return m_pObjects.back();
 }
 
 void Scene::OnActivate()
@@ -108,16 +140,10 @@ void Scene::Render() const
 
 void Scene::Refresh()
 {
-	std::for_each(m_pObjects.begin(), m_pObjects.end(), [](GameObject* pGo)
+	m_pObjects.erase(std::remove_if(m_pObjects.begin(), m_pObjects.end(), [](std::shared_ptr<GameObject> pGo)
 		{
-			pGo->Refresh();
-			if (pGo->m_bIsDestroyed)
-			{
-				SafeDelete(pGo);
-			}
-		});
-
-	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), nullptr),m_pObjects.end());
+			return pGo->m_bIsDestroyed;
+		}),m_pObjects.end());
 }
 
 void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer) const
@@ -153,25 +179,17 @@ void Scene::CheckCollidersCollision()
 	}
 }
 
-void Scene::SetActiveCamera(Entity entity)
+void Scene::SetActiveCamera(std::shared_ptr<GameObject> pGameObject)
 {
-	m_pCamera->SetMainCamera(entity);
+	if (m_pCamera->TrySetMainCamera(pGameObject))
+	{
+		m_pCameraObject = pGameObject;
+	}
 }
 
-void Scene::InstantiatePrefab(std::string const& name)
+std::shared_ptr<GameObject> Scene::GetCameraObject() const
 {
-	std::shared_ptr<Prefab> prefab = PrefabsManager::GetInstance().GetPrefab(name);
-
-	std::vector<std::shared_ptr<System>> prefabSystems = m_pRegistry->ExtractSystems(prefab->m_pRegistry);
-	m_Systems.insert(m_Systems.end(), prefabSystems.begin(), prefabSystems.end());
-
-	//TODO : make all new game object the child of one
-	//CreateGameObject...
-	for (GameObject* const pObject : prefab->m_pObjects)
-	{
-		GameObject* pNewObject = CreateGameObject();
-		m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
-	}
+	return m_pCameraObject;
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

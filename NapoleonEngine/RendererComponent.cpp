@@ -71,7 +71,7 @@ float RendererComponent::GetTextureWidth() const
 		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureWidth - > texture is nullptr, returning 0");
 		return 0.f;
 	}
-	return m_pTexture->GetWidth() * m_pGameObject->GetECSTransform()->GetScale().x;
+	return m_pTexture->GetWidth() * m_pGameObject->GetTransform()->GetScale().x;
 }
 
 float RendererComponent::GetTextureHeight() const
@@ -81,7 +81,7 @@ float RendererComponent::GetTextureHeight() const
 		Debugger::GetInstance().LogWarning("RendererComponent::GetTextureHeight - > texture is nullptr, returning 0");
 		return 0.f;
 	}
-	return m_pTexture->GetHeight() * m_pGameObject->GetECSTransform()->GetScale().y;
+	return m_pTexture->GetHeight() * m_pGameObject->GetTransform()->GetScale().y;
 }
 
 void RendererComponent::Initialize()

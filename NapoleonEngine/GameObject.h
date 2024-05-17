@@ -21,34 +21,24 @@ public:
 	GameObject& operator=(const GameObject& other) = delete;
 	GameObject& operator=(GameObject&& other) = delete;
 
-	template <class T>
-	bool HasComponent() const;
-
-	template<class T>
-	std::shared_ptr<T> GetComponent() const;
-
-	template <class T>
-	T* GetComponentInChildren() const;
-
-	template <class T>
-	void RemoveComponent();
+	template <class T> bool HasComponent() const;
+	template<class T> std::shared_ptr<T> GetComponent() const;
+	template <class T> T* GetComponentInChildren() const;
+	template <class T> void RemoveComponent();
 		
-	//TransformComponent* GetECSTransform() const { return m_pTransform; } //deprecated
-	std::shared_ptr<ECS_TransformComponent> GetECSTransform() const { return m_pEcsTransform; }
+	std::shared_ptr<ECS_TransformComponent> GetTransform() const { return m_pTransform; }
 
-	void AddComponent(Component* pComp); //deprecated
-	template <typename T> void AddComponent(T const& Component, bool n /*temp*/);
+	template <typename T> void AddComponent(T const& Component);
 
-	void AddChild(GameObject* pChild);
-	std::vector<GameObject*> const& GetChildren() const { return m_pChildren; }
+	void AddChild(std::shared_ptr<GameObject> pChild);
+	std::vector<std::shared_ptr<GameObject>> const& GetChildren() const { return m_pChildren; }
 		
 	void SetActive(bool active);
 	void Destroy();
 		
-	GameObject* GetParent() const{ return m_pParent; }
+	std::shared_ptr<GameObject> GetParent() const{ return m_pParent; }
 	Scene* const GetParentScene() const { return m_pScene; }
 		
-	bool IsInitialized() const { return m_bIsInitialized; }
 	bool IsActive() const;
 	bool HasChildren() const { return m_pChildren.size() > 0; }
 	std::string GetTag()const { return m_Tag; };
@@ -58,11 +48,11 @@ public:
 	void RemoveObserver(Observer* pObserver) const;
 	void Notify(int event);
 	void SetTag(std::string const& tag, bool applyToChildren);
-	GameObject* FindTagInChildren(std::string const& tag);
+	std::shared_ptr<GameObject> FindTagInChildren(std::string const& tag);
 
 private:
 	friend class PrefabsManager;
-	friend class Scene;
+	friend class BaseScene;
 
 	GameObject(std::weak_ptr<Coordinator>);
 	GameObject(const GameObject& other);
@@ -73,15 +63,13 @@ private:
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
-	bool m_bIsInitialized;
 		
 	std::vector<Component*> m_pComponents;
 
-	TransformComponent* m_pTransform;
-	std::shared_ptr <ECS_TransformComponent> m_pEcsTransform;
+	std::shared_ptr <ECS_TransformComponent> m_pTransform;
 
-	std::vector<GameObject*> m_pChildren;
-	GameObject* m_pParent;
+	std::vector<std::shared_ptr<GameObject>> m_pChildren;
+	std::shared_ptr<GameObject> m_pParent;
 		
 	Scene* m_pScene;
 	Subject* m_pSubject;
@@ -89,16 +77,12 @@ private:
 	std::string m_Tag;
 		
 	void Refresh();
-	void Initialize();
 	void Update();
 };
 template <typename T>
-void GameObject::AddComponent(T const& Component, bool n)
+void GameObject::AddComponent(T const& Component)
 {
-	if (n) //TEMP
-	{
-		m_pRegistry->AddComponent<T>(m_Entity, Component);
-	}
+	m_pRegistry->AddComponent<T>(m_Entity, Component);
 }
 
 template <class T>

@@ -17,20 +17,14 @@ TestScene::TestScene()
 
 void TestScene::Initialize()
 {
-	GameObject* testObject = CreateGameObject();
+	auto testObject = CreateGameObject();
 
 	ECS_RendererComponent renderer{};
 	renderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
 	renderer.m_Layer = Layer::foreground;
 
-	testObject->AddComponent<ECS_RendererComponent>(renderer, true);
-	testObject->GetECSTransform()->m_Position = { 450, 300 };
-
-	auto* camObj = CreateGameObject();
-	ECS_CameraComponent camComp{};
-	camObj->AddComponent<ECS_CameraComponent>(camComp, true);
-	camObj->GetECSTransform()->m_Position = {450, 300};
-	SetActiveCamera(camObj->GetEntity());
+	testObject->AddComponent<ECS_RendererComponent>(renderer);
+	testObject->GetTransform()->m_Position = { 450, 300 };
 }
 
 void TestScene::DeclareInput()

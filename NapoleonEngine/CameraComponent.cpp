@@ -28,7 +28,7 @@ void CameraComponent::Initialize()
 
 void CameraComponent::Transform() const
 {
-	glm::vec2 const pos = m_pGameObject->GetECSTransform()->GetPosition();
+	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
 	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
@@ -41,7 +41,7 @@ glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
 
 glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
-	auto const trans = m_pGameObject->GetECSTransform();
+	auto const trans = m_pGameObject->GetTransform();
 
 	return BuildTransformMatrix(trans->GetWorldPosition(), trans->GetWorldRotation(), 
 		trans->GetWorldScale());
@@ -73,15 +73,16 @@ void CameraSystem::Update(ComponentManager* const pComponentManager)
 	glTranslatef(-upLeft.x, -upLeft.y, 0);
 }
 
-void CameraSystem::SetMainCamera(Entity entity)
+bool CameraSystem::TrySetMainCamera(std::shared_ptr<GameObject> pGameObject)
 {
-	auto entityIt = std::find(m_Entities.begin(), m_Entities.end(), entity);
+	auto entityIt = std::find(m_Entities.begin(), m_Entities.end(), pGameObject->GetEntity());
 	
 	if (entityIt == m_Entities.end())
 	{
 		Debugger::GetInstance().LogWarning("This entity has no camera component");
-		return;
+		return false;
 	}
 
-	m_MainCameraEntity = entity;
+	m_MainCameraEntity = pGameObject->GetEntity();
+	return true;
 }

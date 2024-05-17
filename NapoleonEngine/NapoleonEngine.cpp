@@ -67,34 +67,32 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 {
 	//Fps counter prefab
-	auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab("FPSCounter");
-	auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	//auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab("FPSCounter");
+	//auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
+	//auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
-	ECS_TextRendererComponent txtRenderer("FPS ", font);
-	fpsCounterObject->AddComponent<ECS_TextRendererComponent>(txtRenderer, true);
+	//ECS_TextRendererComponent txtRenderer("FPS ", font);
+	//fpsCounterObject->AddComponent<ECS_TextRendererComponent>(txtRenderer);
 
-	FPSCounterComponent fpsCounter{};
-	fpsCounterObject->AddComponent<FPSCounterComponent>(fpsCounter, true);
+	//FPSCounterComponent fpsCounter{};
+	//fpsCounterObject->AddComponent<FPSCounterComponent>(fpsCounter);
 
-	ECS_RendererComponent rendererComp;
-	rendererComp.m_Layer = Layer::uiGame;
+	//ECS_RendererComponent rendererComp;
+	//rendererComp.m_Layer = Layer::uiGame;
 
-	fpsCounterObject->AddComponent<ECS_RendererComponent>(rendererComp, true);
-
-	fpsCounterObject->GetECSTransform()->Translate(20.f, 20.f);
-
-	fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
+	//fpsCounterObject->AddComponent<ECS_RendererComponent>(rendererComp);
+	//fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
+	//fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
 
 	//Camera prefab
 	//auto cameraPrefab = PrefabsManager::GetInstance().CreatePrefab("Camera");
 	//auto cameraObject = cameraPrefab->CreateGameObject();
 
 	//ECS_CameraComponent camComp{};
-	//cameraObject->AddComponent<ECS_CameraComponent>(camComp, true);
+	//cameraObject->AddComponent<ECS_CameraComponent>(camComp);
 
 	//game specific prefab
-	CreatePrefabs();
+	//CreatePrefabs();
 }
 
 void NapoleonEngine::Quit()

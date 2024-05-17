@@ -36,7 +36,7 @@ void TransformComponent::Initialize()
 
 void TransformComponent::Update()
 {
-	auto* pParent = m_pGameObject->GetParent();
+	std::shared_ptr<GameObject> pParent = m_pGameObject->GetParent();
 	if (pParent != nullptr)
 	{
 		/*auto const parentWorld = pParent->GetECSTransform()->m_WorldPosition;
@@ -72,14 +72,14 @@ void TransformComponent::SetWorldPosition(float x, float y)
 
 void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
 {
-	auto* const parentObj = m_pGameObject->GetParent();
+	auto const parentObj = m_pGameObject->GetParent();
 	if (parentObj == nullptr)
 	{
 		Translate(worldPos);
 	}
 	else
 	{
-		auto const parentWorld = parentObj->GetECSTransform()->GetWorldPosition();
+		auto const parentWorld = parentObj->GetTransform()->GetWorldPosition();
 
 		auto const pos = worldPos - parentWorld;
 
@@ -171,9 +171,20 @@ void TransformSystem::Update(ComponentManager* const pComponentManager)
 	{
 		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
 
-		transComp->m_WorldPosition = transComp->m_Position;
-		transComp->m_WorldRotation = transComp->m_Rotation;
-		transComp->m_WorldScale = transComp->m_Scale;
+		if (transComp->m_pParent != nullptr)
+		{
+			auto const parentWorld = transComp->m_pParent->m_WorldPosition;
+
+			transComp->m_WorldPosition = parentWorld + transComp->m_Position;
+			transComp->m_WorldRotation = transComp->m_pParent->m_WorldRotation + transComp->m_Rotation;
+			transComp->m_WorldScale = transComp->m_pParent->m_WorldScale * transComp->m_Scale;
+		}
+		else
+		{
+			transComp->m_WorldPosition = transComp->m_Position;
+			transComp->m_WorldRotation = transComp->m_Rotation;
+			transComp->m_WorldScale = transComp->m_Scale;
+		}
 
 		transComp->m_World = BuildTransformMatrix(transComp->m_WorldPosition, transComp->m_WorldRotation, transComp->m_WorldScale);
 	}

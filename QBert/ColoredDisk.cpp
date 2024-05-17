@@ -74,6 +74,6 @@ void ColoredDisk::Update()
 void ColoredDisk::ReceivePlayer(QBert* pQbert)
 {
 	m_pQbert = pQbert;
-	m_pQbert->GetGameObject()->GetECSTransform()->Translate(m_pGameObject->GetECSTransform()->GetWorldPosition());
+	m_pQbert->GetGameObject()->GetTransform()->Translate(m_pGameObject->GetTransform()->GetWorldPosition());
 	m_bHasQbert = true;
 }

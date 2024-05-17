@@ -13,3 +13,8 @@ void ComponentManager::EntityDestroyed(Entity entity)
 		pComponent->EntityDestroyed(entity);
 	}
 }
+
+ComponentManager::~ComponentManager()
+{
+
+}

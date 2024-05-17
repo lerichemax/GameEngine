@@ -17,11 +17,13 @@ public:
 	
 	void EntityDestroyed(Entity entity);
 
+	~ComponentManager();
+
 private:
 	friend class Coordinator;
 
 	static std::unordered_map<const char*, ComponentType> m_ComponentTypes;
-	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays;
+	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
 	static ComponentType m_NextComponentType;
 
 	template<typename T> void RegisterComponent();

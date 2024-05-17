@@ -47,7 +47,7 @@ public:
 
 	void Update(ComponentManager* const pComponentManager) override;
 
-	void SetMainCamera(Entity entity);
+	bool TrySetMainCamera(std::shared_ptr<GameObject> pGameObject);
 
 protected:
 	std::shared_ptr<System> Clone() const override { return std::make_shared<CameraSystem>(*this); };

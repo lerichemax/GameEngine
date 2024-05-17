@@ -58,6 +58,7 @@ private:
 struct ECS_TransformComponent : public ECS_Component
 {
 	friend class TransformSystem;
+	friend class GameObject;
 
 	ECS_TransformComponent() : ECS_Component(true) {}
 
@@ -83,6 +84,8 @@ private:
 	glm::vec2 m_WorldPosition{};
 	glm::vec2 m_WorldScale{};
 	float m_WorldRotation{};
+
+	std::shared_ptr<ECS_TransformComponent> m_pParent;
 };
 
 
