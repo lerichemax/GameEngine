@@ -18,6 +18,7 @@
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
 #include "CharacterLives.h"
+#include "UiSystem.h"
 
 #include "JsonReaderWriter.h"
 #include "QuitGameCommand.h"
@@ -34,15 +35,12 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-//	auto const livesP1 = pPrefabManager.Instantiate("LivesUI");
-//	AddObject(livesP1);
-//
-//	auto const pointsP1 = pPrefabManager.Instantiate("PointsUI");
-//	AddObject(pointsP1);
-//
-//	//Pause Menu
-//	m_pPauseMenu = pPrefabManager.Instantiate("PauseMenu");
-//	AddObject(m_pPauseMenu);
+	auto const livesP1 = InstantiatePrefab("LivesUI");
+	auto const pointsP1 = InstantiatePrefab("PointsUI");
+
+	//Pause Menu
+	m_pPauseMenu = InstantiatePrefab("PauseMenu");
+
 //
 //	auto pBtnObject = m_pPauseMenu->FindTagInChildren("ResumeBtn");
 //	auto pBtn = pBtnObject->GetComponent<ButtonComponent>();
@@ -65,7 +63,7 @@ void SoloScene::Initialize()
 //	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
 //	pBtn->SetOnClickFunction(new QuitGameCommand{  });
 //
-//	m_pPauseMenu->SetActive(false);
+	m_pPauseMenu->SetActive(false);
 //	
 	//auto qbertObj = InstantiatePrefab("QBert");
 	//m_pQbert = qbertObj->GetComponent<QBert>();
@@ -141,8 +139,10 @@ void SoloScene::Initialize()
 //	SetCameraActive(camComp);
 //	AddObject(camObj);
 
-	//InstantiatePrefab("FPSCounter");
-	//GetCameraObject()->GetTransform()->m_Position = { 450, 300 };
+	AddSystem<UiSystem>();
+
+	InstantiatePrefab("FPSCounter");
+	GetCameraObject()->GetTransform()->m_Position = { 450, 300 };
 }
 
 void SoloScene::ResetScene(Level newLevel)
@@ -178,31 +178,31 @@ void SoloScene::ResetGame()
 
 void SoloScene::DeclareInput() 
 {
-	InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_z, KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_q , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
+	//InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_z, KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+	//InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	//InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	//InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_q , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
-	InputManager::GetInstance().AddInputAction(4,
-		new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
-			new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	InputManager::GetInstance().AddInputAction(5,
-		new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	InputManager::GetInstance().AddInputAction(6,
-		new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	InputManager::GetInstance().AddInputAction(7,
-		new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
-	
-	InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu) });
+	//InputManager::GetInstance().AddInputAction(4,
+	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
+	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
+	//InputManager::GetInstance().AddInputAction(5,
+	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(6,
+	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(7,
+	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
+	//
+	//InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
+	//	new PauseGameCommand(this, m_pPauseMenu) });
 
-	InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 }

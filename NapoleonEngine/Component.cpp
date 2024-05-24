@@ -18,3 +18,19 @@ ECS_Component::ECS_Component(bool unique)
 	m_IsUnique{ unique }
 {
 }
+
+bool ECS_Component::IsActive() const
+{
+	return m_IsActive;
+}
+
+bool ECS_Component::IsUnique() const
+{
+	return m_IsUnique;
+}
+
+void ECS_Component::SetActive(bool isActive)
+{
+	m_IsActive = isActive;
+	m_NeedsUpdate = true;
+}

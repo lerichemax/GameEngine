@@ -67,6 +67,11 @@ void CameraSystem::Update(ComponentManager* const pComponentManager)
 	auto transformComp = pComponentManager->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
 	auto cameraComp = pComponentManager->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
 
+	if (!transformComp->IsActive() || !cameraComp->IsActive())
+	{
+		return;
+	}
+
 	glm::vec2 const pos = transformComp->GetPosition();
 	glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
 

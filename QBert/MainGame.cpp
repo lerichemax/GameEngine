@@ -19,6 +19,9 @@
 #include "CoilyCharacterController.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
+#include "QuitGameCommand.h"
+#include "SwitchTextColor.h"
+#include "SwitchScene.h"
 
 #include "RendererComponent.h"
 #include "PrefabsManager.h"
@@ -178,113 +181,129 @@ void MainGame::CreatePrefabs() const
 
 	diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
 	diskObject->GetTransform()->Scale(2);
-
-
-	////Pause Menu
-	//auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
-	//auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
-	//auto menuObj = new GameObject{};
+	
+	//Pause Menu
+	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
+	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
+	auto menuPrefab = pPrefabManager.CreatePrefab("PauseMenu");
+	auto menuObj = menuPrefab->CreateGameObject();
 	//menuObj->AddComponent(new ShapeRenderer{ +
 	//	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} });
 
-	//auto textObject = new GameObject{}; 
-	////auto textComp = new TextRendererComponent{ "Pause", biggerFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	////textObject->AddComponent(textComp);
-	//menuObj->AddChild(textObject);
-	//textObject->GetECSTransform()->Translate(glm::vec2{ 400, 100 });
+	auto textObject = menuPrefab->CreateGameObject();
+	auto textComp = ECS_TextRendererComponent{ "Pause", biggerFont };
+	ECS_RendererComponent menuRenderer;
+	menuRenderer.m_Layer = Layer::uiMenuFg;
 
-	//auto btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Resume", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//auto btn = new ButtonComponent{ 110, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 200);
+	textObject->AddComponent<ECS_TextRendererComponent>(textComp);
+	textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
+	menuObj->AddChild(textObject);
+	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+
+	auto btnObj = menuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Resume", lessBigFont };
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	ECS_ButtonComponent resumeBtn{ 110, 30 };
+	resumeBtn.m_bVisualize = true;
+	//resumeBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//resumeBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//btn.SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
+
+	btnObj->AddComponent<ECS_ButtonComponent>(resumeBtn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
 	//btnObj->SetTag("ResumeBtn",false);
 
-	////Back to main btn
-	//btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//btn = new ButtonComponent{ 260, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 300);
+	//Back to main btn
+	btnObj = menuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+
+	ECS_ButtonComponent backBtn{ 260, 30 };
+	//backBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//backBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	backBtn.SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	btnObj->AddComponent<ECS_ButtonComponent>(backBtn);
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
 	//btnObj->SetTag("BackToMainBtn", false);
-	//
-	////Quit Btn
-	//btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//btn = new ButtonComponent{ 65, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 400);
+	
+	//Quit Btn
+	btnObj = menuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
+
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+
+	ECS_ButtonComponent quitBtn{ 65, 30 };
+	//quitBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//quitBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	quitBtn.SetOnClickFunction(new QuitGameCommand{ });
+	btnObj->AddComponent<ECS_ButtonComponent>(quitBtn);
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
 	//btnObj->SetTag("QuitBtn", false);
-	//
-	//pPrefabManager.AddPrefab("PauseMenu", menuObj);
-	//
-	//
-	////Game over menu (opaque)
-	//menuObj = new GameObject{};
+
+	
+	//Game over menu (opaque)
+	auto quitMenuPrefab = pPrefabManager.CreatePrefab("GameOverMenu");
+	menuObj = menuPrefab->CreateGameObject();
 	//menuObj->AddComponent(new ShapeRenderer{ +
 	//	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 
-	// textObject = new GameObject{};
-	////textComp = new TextRendererComponent{ "Game Over", biggerFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	////textObject->AddComponent(textComp);
-	//menuObj->AddChild(textObject);
-	//textObject->GetECSTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject = quitMenuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Game Over", biggerFont };
+	textObject->AddComponent<ECS_TextRendererComponent>(textComp);
+	textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
+	menuObj->AddChild(textObject);
+	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
-	//btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Replay", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//btn = new ButtonComponent{ 100, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 200);
+	btnObj = quitMenuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Replay", lessBigFont };
+	ECS_ButtonComponent replayBtn{ 100, 30 };
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	
+	//replayBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//replayBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	btnObj->AddComponent<ECS_ButtonComponent>(replayBtn);
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
 	//btnObj->SetTag("ReplayBtn", false);
 
-	////Back to main btn
-	//btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//btn = new ButtonComponent{ 260, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//btnObj->SetTag("BackToMainBtn", false);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 300);
-	//
-	////Quit Btn
-	//btnObj = new GameObject{};
-	////textComp = new TextRendererComponent{ "Quit", lessBigFont };
-	////textComp->ChangeLayer(Layer::uiMenuFg);
-	//btn = new ButtonComponent{ 65, 30 };
-	////btnObj->AddComponent(textComp);
-	//btnObj->AddComponent(btn);
-	//btnObj->SetTag("QuitBtn", false);
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetECSTransform()->Translate(400, 400);
-	//
-	//pPrefabManager.AddPrefab("GameOverMenu", menuObj);
+	//Back to main btn
+	btnObj = quitMenuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+
+	ECS_ButtonComponent backbtn{ 260, 30 };
+	backbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	backbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	btnObj->AddComponent<ECS_ButtonComponent>(backbtn);
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->SetTag("BackToMainBtn", false);
+	
+	//Quit Btn
+	btnObj = quitMenuPrefab->CreateGameObject();
+	textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
+	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+
+	ECS_ButtonComponent quitbtn{ 65, 30 };
+	quitbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	quitbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	btnObj->AddComponent<ECS_ButtonComponent>(quitbtn);
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->SetTag("QuitBtn", false);
 
 	delete json;
-}
-
-void MainGame::CreateMainMenuScene()
-{
-	//Scene* mainMenuScene = new Scene{ "MainMenuScene" };
-
-	//auto* titleObject = new GameObject();
-	//titleObject->AddComponent(new RendererComponent{ "Textures/UI/Title.png", Layer::uiGame });
-	//Create(titleObject);
-	//titleObject->GetTransform()->Translate(300, 50);
-	//titleObject->GetTransform()->Scale(0.8f, 0.8f);
 }

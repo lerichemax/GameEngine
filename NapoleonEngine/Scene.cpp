@@ -10,6 +10,7 @@
 #include "PrefabsManager.h"
 
 #include <algorithm>
+#include <map>
 
 #include "CameraComponent.h"
 #include "Timer.h"
@@ -50,17 +51,50 @@ std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name
 	bool first = true;
 	std::shared_ptr<GameObject> toReturn;
 
+	std::map<Entity, Entity> processedEntities{};//key : prefab object entity //value : new object entity
+
 	for (std::shared_ptr<GameObject> const pObject : prefab->m_pObjects)
 	{
-		std::shared_ptr<GameObject> pNewObject = CreateGameObject();
+		std::shared_ptr<GameObject> pNewObject;
 
-		if (first)
+		if (processedEntities.find(pObject->m_Entity) == processedEntities.end())
 		{
-			toReturn = pNewObject;
-			first = false;
-		}
+			pNewObject = CreateGameObject();
+			processedEntities.insert(std::make_pair(pObject->m_Entity, pNewObject->m_Entity));
 
-		m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
+			if (first)
+			{
+				toReturn = pNewObject;
+				first = false;
+			}
+
+			m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
+		}
+		else {
+			pNewObject = *(std::find_if(m_pObjects.begin(), m_pObjects.end(), [pObject](auto& pObj) {
+				return pObj->m_Entity == pObject->m_Entity;
+				}));
+		}
+		
+		auto const& children = prefab->m_pRegistry->GetChildren(pObject->m_Entity);
+
+		for (Entity entity : children)
+		{
+			if (processedEntities.find(entity) != processedEntities.end())
+			{
+				m_pRegistry->AddChild(pNewObject->m_Entity, processedEntities.at(entity));
+			}
+			else
+			{
+				std::shared_ptr<GameObject> pChildObject = CreateGameObject();
+				processedEntities.insert(std::make_pair(entity, pChildObject->m_Entity));
+
+				pNewObject->AddChild(pChildObject);
+
+				m_pRegistry->TransferComponents(entity, pChildObject->m_Entity, prefab->m_pRegistry);
+			}
+			
+		}
 	}
 
 	return toReturn;
@@ -71,6 +105,7 @@ Scene::Scene(const std::string& name)
 	m_pColliders(),
 	m_pSceneRenderer(new SceneRenderer{}),
 	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
+	m_pTextRenderer(m_pRegistry->RegisterSystem<TextRendererSystem>()),
 	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
 	m_pActiveCamera(nullptr),
 	m_pCamera(m_pRegistry->RegisterSystem<CameraSystem>()),
@@ -133,6 +168,7 @@ void Scene::Render() const
 	glPushMatrix();
 	{
 		m_pCamera->Update(m_pRegistry->GetComponentManager());
+		m_pTextRenderer->Update(m_pRegistry->GetComponentManager());
 		m_pECS_SceneRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();

@@ -36,22 +36,22 @@ void TransformComponent::Initialize()
 
 void TransformComponent::Update()
 {
-	std::shared_ptr<GameObject> pParent = m_pGameObject->GetParent();
-	if (pParent != nullptr)
-	{
-		/*auto const parentWorld = pParent->GetECSTransform()->m_WorldPosition;
-		m_WorldPosition = parentWorld + m_Position;
-		m_WorldRotation = pParent->GetECSTransform()->m_WorldRotation + m_Rotation;
-		m_WorldScale = pParent->GetECSTransform()->m_WorldScale * m_Scale;*/
-	}
-	else
-	{
-		m_WorldPosition = m_Position;
-		m_WorldRotation = m_Rotation;
-		m_WorldScale = m_Scale;
-	}
+	//std::shared_ptr<GameObject> pParent = m_pGameObject->GetParent();
+	//if (pParent != nullptr)
+	//{
+	//	/*auto const parentWorld = pParent->GetECSTransform()->m_WorldPosition;
+	//	m_WorldPosition = parentWorld + m_Position;
+	//	m_WorldRotation = pParent->GetECSTransform()->m_WorldRotation + m_Rotation;
+	//	m_WorldScale = pParent->GetECSTransform()->m_WorldScale * m_Scale;*/
+	//}
+	//else
+	//{
+	//	m_WorldPosition = m_Position;
+	//	m_WorldRotation = m_Rotation;
+	//	m_WorldScale = m_Scale;
+	//}
 
-	m_World = BuildTransformMatrix(m_WorldPosition, m_WorldRotation, m_WorldScale);
+	//m_World = BuildTransformMatrix(m_WorldPosition, m_WorldRotation, m_WorldScale);
 }
 
 void TransformComponent::Translate(const float x, const float y)
@@ -72,19 +72,19 @@ void TransformComponent::SetWorldPosition(float x, float y)
 
 void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
 {
-	auto const parentObj = m_pGameObject->GetParent();
-	if (parentObj == nullptr)
-	{
+	//auto const parentObj = m_pGameObject->GetParent();
+	//if (parentObj == nullptr)
+	//{
 		Translate(worldPos);
-	}
-	else
-	{
-		auto const parentWorld = parentObj->GetTransform()->GetWorldPosition();
+	//}
+	//else
+	//{
+	//	auto const parentWorld = parentObj->GetTransform()->GetWorldPosition();
 
-		auto const pos = worldPos - parentWorld;
+	//	auto const pos = worldPos - parentWorld;
 
-		Translate(pos);
-	}
+	//	Translate(pos);
+	//}
 }
 
 void TransformComponent::Scale(float x, float y)
@@ -157,6 +157,11 @@ void ECS_TransformComponent::Rotate(float rotation)
 	m_Rotation = rotation;
 }
 
+bool ECS_TransformComponent::HasChanged() const
+{
+	return m_Position != m_OldPosition || m_Scale != m_OldScale || m_Rotation != m_OldRotation;
+}
+
 TransformSystem::TransformSystem(Coordinator* const pRegistry)
 {
 	Signature signature;
@@ -171,21 +176,37 @@ void TransformSystem::Update(ComponentManager* const pComponentManager)
 	{
 		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
 
-		if (transComp->m_pParent != nullptr)
+		if (!transComp->IsActive())
 		{
-			auto const parentWorld = transComp->m_pParent->m_WorldPosition;
+			return;
+		}
 
-			transComp->m_WorldPosition = parentWorld + transComp->m_Position;
-			transComp->m_WorldRotation = transComp->m_pParent->m_WorldRotation + transComp->m_Rotation;
-			transComp->m_WorldScale = transComp->m_pParent->m_WorldScale * transComp->m_Scale;
-		}
-		else
-		{
-			transComp->m_WorldPosition = transComp->m_Position;
-			transComp->m_WorldRotation = transComp->m_Rotation;
-			transComp->m_WorldScale = transComp->m_Scale;
-		}
+		RecursivelyUpdateHierarchy(transComp);
 
 		transComp->m_World = BuildTransformMatrix(transComp->m_WorldPosition, transComp->m_WorldRotation, transComp->m_WorldScale);
+	}
+}
+
+void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const
+{
+	transformComponent->m_OldPosition = transformComponent->m_Position;
+	transformComponent->m_OldRotation = transformComponent->m_Rotation;
+	transformComponent->m_OldScale = transformComponent->m_Scale;
+
+	if (transformComponent->m_pParent != nullptr)
+	{
+		RecursivelyUpdateHierarchy(transformComponent->m_pParent);
+
+		auto const parentWorld = transformComponent->m_pParent->m_WorldPosition;
+
+		transformComponent->m_WorldPosition = parentWorld + transformComponent->m_Position;
+		transformComponent->m_WorldRotation = transformComponent->m_pParent->m_WorldRotation + transformComponent->m_Rotation;
+		transformComponent->m_WorldScale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_Scale;
+	}
+	else
+	{
+		transformComponent->m_WorldPosition = transformComponent->m_Position;
+		transformComponent->m_WorldRotation = transformComponent->m_Rotation;
+		transformComponent->m_WorldScale = transformComponent->m_Scale;
 	}
 }

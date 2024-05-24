@@ -37,7 +37,6 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 }
 
 LayeredRendererSystem::LayeredRendererSystem(Coordinator* const pRegistry)
-	:m_pTextRenderer{ pRegistry->RegisterSystem<TextRendererSystem>()}
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
@@ -48,15 +47,15 @@ LayeredRendererSystem::LayeredRendererSystem(Coordinator* const pRegistry)
 
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
-	if (m_pTextRenderer != nullptr)
-	{
-		m_pTextRenderer->Update(pComponentManager);
-	}
-
 	for (Entity const& entity : m_Entities)
 	{
 		auto renderComp = pComponentManager->GetComponent<ECS_RendererComponent>(entity);
 		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+
+		if (!renderComp->IsActive() || !transComp->IsActive())
+		{
+			continue;
+		}
 
 		if (renderComp->m_pTexture != nullptr)
 		{
@@ -85,6 +84,11 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 
 		if (textRenderComp->m_NeedsUpdate)
 		{
+			if (!textRenderComp->IsActive())
+			{
+				continue;
+			}
+
 			const auto surf = TTF_RenderText_Blended(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(), textRenderComp->m_TextColor);
 			if (surf == nullptr)
 			{
@@ -97,7 +101,11 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 			}
 			SDL_FreeSurface(surf);
 
-			renderComp->m_pTexture.reset(new Texture2D{ texture });
+
+			if (renderComp->IsActive())
+			{
+				renderComp->m_pTexture.reset(new Texture2D{ texture });
+			}
 		}
 	}
 }

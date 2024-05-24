@@ -29,6 +29,11 @@ void FPSCounterSystem::Update(ComponentManager* const pComponentManager)
 	{
 		auto textRenderComp = pComponentManager->GetComponent<ECS_TextRendererComponent>(entity);
 
+		if (!textRenderComp->IsActive())
+		{
+			continue;
+		}
+
 		textRenderComp->m_Text = "FPS " + std::to_string(Timer::GetInstance().GetFPS());
 	}
 }

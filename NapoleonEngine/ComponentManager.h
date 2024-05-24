@@ -16,6 +16,7 @@ public:
 	template<typename T> std::shared_ptr<T> GetComponent(Entity entity);
 	
 	void EntityDestroyed(Entity entity);
+	std::vector<std::shared_ptr<ECS_Component>> GetComponentsForSignature(Entity entity, Signature signature);
 
 	~ComponentManager();
 

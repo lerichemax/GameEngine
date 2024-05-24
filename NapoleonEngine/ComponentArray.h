@@ -3,16 +3,19 @@
 
 #include <unordered_map>
 
+struct ECS_Component;
 class IComponentArray
 {
 public:
 	virtual ~IComponentArray() = default;
 	virtual void EntityDestroyed(Entity entity) = 0;
 	virtual std::shared_ptr<IComponentArray> Clone() const = 0;
+	virtual std::shared_ptr<ECS_Component> GetBaseData(Entity entity) = 0;
 
 private:
 	friend class Coordinator;
 	virtual void CloneToNewEntity(std::shared_ptr<IComponentArray> other, Entity newEntity, Entity entityToClone) = 0;
+
 };
 
 template<typename T>
@@ -21,13 +24,15 @@ class ComponentArray : public IComponentArray
 public:
 	void InsertData(Entity entity, T const& Component);
 	void RemoveData(Entity entity);
+	std::shared_ptr<ECS_Component> GetBaseData(Entity entity) override;
 	std::shared_ptr<T> GetData(Entity entity);
 	void EntityDestroyed(Entity entity) override;
+	ComponentArray();
 
 	~ComponentArray();
 
 	std::shared_ptr<IComponentArray> Clone() const override { return std::make_shared<ComponentArray<T>>(ComponentArray<T>()); }
-
+	static int counter;
 private:
 	std::array<std::shared_ptr<T>, MAX_ENTITIES> m_Components{};
 	std::unordered_map<Entity, size_t> m_EntityToIndex{};

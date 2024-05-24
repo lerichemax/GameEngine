@@ -17,6 +17,8 @@ Entity EntityManager::CreateEntity()
 	m_AvailableEntities.pop();
 	m_LivingEntitiesCount++;
 
+	m_EntitiesHierarchy.insert(std::make_pair(id, std::unordered_set<Entity>{}));
+
 	return id;
 }
 
@@ -27,6 +29,9 @@ void EntityManager::DestroyEntity(Entity entity)
 	m_Signatures[entity].reset();
 
 	m_AvailableEntities.push(entity);
+
+	m_EntitiesHierarchy.erase(entity);
+
 	m_LivingEntitiesCount--;
 }
 
@@ -44,6 +49,11 @@ Signature EntityManager::GetSignature(Entity entity)
 	return m_Signatures[entity];
 }
 
+void EntityManager::AddChild(Entity parent, Entity child)
+{
+	m_EntitiesHierarchy.at(parent).insert(child);
+}
+
 std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& signature)
 {
 	std::vector<Entity> entities;
@@ -57,6 +67,11 @@ std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& sig
 	}
 
 	return entities;
+}
+
+std::unordered_set<Entity> const& EntityManager::GetChildren(Entity entity)
+{
+	return m_EntitiesHierarchy.at(entity);
 }
 
 bool EntityManager::IsEntityValid(Entity entity)

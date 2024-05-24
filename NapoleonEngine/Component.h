@@ -41,7 +41,13 @@ struct ECS_Component //make class ?
 	ECS_Component() = default;
 	ECS_Component(bool unique);
 
+	bool IsActive() const;
+	bool IsUnique() const;
+
+	void SetActive(bool isActive);
+
+private:
 	bool m_IsActive{true};
 	bool m_IsUnique{};
-
+	bool m_NeedsUpdate{};
 };

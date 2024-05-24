@@ -31,8 +31,8 @@ protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	Pyramid* m_pPyramid;
-	GameObject* m_pPauseMenu;
-	GameObject* m_pGameOverMenu;
+	std::shared_ptr<GameObject> m_pPauseMenu;
+	std::shared_ptr<GameObject>m_pGameOverMenu;
 	std::vector<EnemyManager*> m_pEnemyManagers;
 	
 	virtual void DeclareInput() override{};

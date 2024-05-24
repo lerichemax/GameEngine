@@ -259,13 +259,13 @@ void Qube::Reset()
 	m_JumpCounter = 0;
 	m_pCharacter = nullptr;
 	
-	if (m_pGameObject->HasChildren())
-	{
-		for(auto pChild : m_pGameObject->GetChildren())
-		{
-			pChild->Destroy();
-		}
-	}
+	//if (m_pGameObject->HasChildren())
+	//{
+	//	for(auto pChild : m_pGameObject->GetChildren())
+	//	{
+	//		pChild->Destroy();
+	//	}
+	//}
 	m_pDiskConnection = nullptr;
 	
 	//GetGameObject()->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);

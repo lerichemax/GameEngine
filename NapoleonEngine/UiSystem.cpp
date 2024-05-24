@@ -22,6 +22,12 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 	for (Entity const& entity : m_Entities)
 	{
 		auto btn = pComponentManager->GetComponent<ECS_ButtonComponent>(entity);
+
+		if (!btn->IsActive())
+		{
+			return;
+		}
+
 		auto transform = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
 
 		if (btn->m_bVisualize)

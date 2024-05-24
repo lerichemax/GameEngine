@@ -105,7 +105,50 @@ ECS_ButtonComponent::ECS_ButtonComponent(ECS_ButtonComponent const& other)
 	m_IsSelected(other.m_IsSelected),
 	m_bVisualize(other.m_bVisualize)
 {
+}
 
+ECS_ButtonComponent::ECS_ButtonComponent(ECS_ButtonComponent&& other)
+	:ECS_Component(other),
+	m_Dimensions(other.m_Dimensions),
+	m_pOnClick(other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr),
+	m_pOnSelect(other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr),
+	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr),
+	m_IsSelected(other.m_IsSelected),
+	m_bVisualize(other.m_bVisualize)
+{
+	SafeDelete(other.m_pOnClick);
+	SafeDelete(other.m_pOnSelect);
+	SafeDelete(other.m_pOnDeselect);
+}
+
+ECS_ButtonComponent& ECS_ButtonComponent::operator=(ECS_ButtonComponent const& other)
+{
+	m_Dimensions = other.m_Dimensions;
+	m_pOnClick = other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr;
+	m_pOnSelect = other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr;
+	m_pOnDeselect = other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr;
+	m_IsSelected = other.m_IsSelected;
+	m_bVisualize = other.m_bVisualize;
+
+	return *this;
+}
+
+ECS_ButtonComponent& ECS_ButtonComponent::operator=(ECS_ButtonComponent&& other)
+{
+	m_Dimensions = other.m_Dimensions;
+	m_pOnClick = other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr;
+	SafeDelete(other.m_pOnClick);
+
+	m_pOnSelect = other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr;
+	SafeDelete(other.m_pOnSelect);
+
+	m_pOnDeselect = other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr;
+	SafeDelete(other.m_pOnDeselect);
+
+	m_IsSelected = other.m_IsSelected;
+	m_bVisualize = other.m_bVisualize;
+
+	return *this;
 }
 
 ECS_ButtonComponent::~ECS_ButtonComponent()

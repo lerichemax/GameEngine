@@ -14,7 +14,6 @@ class GameObject final
 {
 	friend class Scene;
 public:
-	GameObject();
 	~GameObject();
 
 	GameObject(GameObject&& other) = delete;
@@ -31,16 +30,13 @@ public:
 	template <typename T> void AddComponent(T const& Component);
 
 	void AddChild(std::shared_ptr<GameObject> pChild);
-	std::vector<std::shared_ptr<GameObject>> const& GetChildren() const { return m_pChildren; }
-		
+
 	void SetActive(bool active);
 	void Destroy();
 		
-	std::shared_ptr<GameObject> GetParent() const{ return m_pParent; }
 	Scene* const GetParentScene() const { return m_pScene; }
 		
 	bool IsActive() const;
-	bool HasChildren() const { return m_pChildren.size() > 0; }
 	std::string GetTag()const { return m_Tag; };
 	Entity GetEntity() const { return m_Entity; }
 		
@@ -63,13 +59,8 @@ private:
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
-		
-	std::vector<Component*> m_pComponents;
 
 	std::shared_ptr <ECS_TransformComponent> m_pTransform;
-
-	std::vector<std::shared_ptr<GameObject>> m_pChildren;
-	std::shared_ptr<GameObject> m_pParent;
 		
 	Scene* m_pScene;
 	Subject* m_pSubject;
@@ -109,23 +100,23 @@ T* GameObject::GetComponentInChildren() const
 template <class T>
 bool  GameObject::HasComponent() const
 {
-	auto const& type = typeid(T);
+	//auto const& type = typeid(T);
 
-	for (Component* pObjectComp : m_pComponents)
-	{
-		if (typeid(*pObjectComp) == type)
-		{
-			return true;
-		}
-	}
+	//for (Component* pObjectComp : m_pComponents)
+	//{
+	//	if (typeid(*pObjectComp) == type)
+	//	{
+	//		return true;
+	//	}
+	//}
 	return false;
 }
 
 template <class T>
 void GameObject::RemoveComponent()
 {
-	T* pComp = GetComponent<T>();
+	//T* pComp = GetComponent<T>();
 
-	m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComp), m_pComponents.end());
-	delete pComp;
+	//m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComp), m_pComponents.end());
+	//delete pComp;
 }

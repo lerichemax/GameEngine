@@ -196,59 +196,59 @@ void CoopScene::ResetGame()
 
 void CoopScene::DeclareInput()
 {
-	//Player1
-	InputManager::GetInstance().AddInputAction(8, new InputAction(SDLK_w, KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	InputManager::GetInstance().AddInputAction(9, new InputAction{ SDLK_d , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(10, new InputAction{ SDLK_s , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(11, new InputAction{ SDLK_a , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
+	////Player1
+	//InputManager::GetInstance().AddInputAction(8, new InputAction(SDLK_w, KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
+	//InputManager::GetInstance().AddInputAction(9, new InputAction{ SDLK_d , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	//InputManager::GetInstance().AddInputAction(10, new InputAction{ SDLK_s , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	//InputManager::GetInstance().AddInputAction(11, new InputAction{ SDLK_a , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
-	InputManager::GetInstance().AddInputAction(12,
-		new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
-			new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	InputManager::GetInstance().AddInputAction(13,
-		new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	InputManager::GetInstance().AddInputAction(14,
-		new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	InputManager::GetInstance().AddInputAction(15,
-		new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(12,
+	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
+	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
+	//InputManager::GetInstance().AddInputAction(13,
+	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(14,
+	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
+	//InputManager::GetInstance().AddInputAction(15,
+	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 
-	//Player2
-	InputManager::GetInstance().AddInputAction(16, new InputAction(SDLK_UP, KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upRight, m_pQbertP2)));
-	InputManager::GetInstance().AddInputAction(17, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbertP2) });
-	InputManager::GetInstance().AddInputAction(18, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2) });
-	InputManager::GetInstance().AddInputAction(19, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2) });
+	////Player2
+	//InputManager::GetInstance().AddInputAction(16, new InputAction(SDLK_UP, KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upRight, m_pQbertP2)));
+	//InputManager::GetInstance().AddInputAction(17, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbertP2) });
+	//InputManager::GetInstance().AddInputAction(18, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2) });
+	//InputManager::GetInstance().AddInputAction(19, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2) });
 
-	InputManager::GetInstance().AddInputAction(20,
-		new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
-			new MoveCommand(ConnectionDirection::upRight, m_pQbertP2), PlayerNbr::Two));
-	InputManager::GetInstance().AddInputAction(21,
-		new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbertP2), PlayerNbr::Two });
-	InputManager::GetInstance().AddInputAction(22,
-		new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2), PlayerNbr::Two });
-	InputManager::GetInstance().AddInputAction(23,
-		new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2), PlayerNbr::Two });
+	//InputManager::GetInstance().AddInputAction(20,
+	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
+	//		new MoveCommand(ConnectionDirection::upRight, m_pQbertP2), PlayerNbr::Two));
+	//InputManager::GetInstance().AddInputAction(21,
+	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downRight, m_pQbertP2), PlayerNbr::Two });
+	//InputManager::GetInstance().AddInputAction(22,
+	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2), PlayerNbr::Two });
+	//InputManager::GetInstance().AddInputAction(23,
+	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
+	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2), PlayerNbr::Two });
 
-	InputManager::GetInstance().AddInputAction(102, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu) });
+	//InputManager::GetInstance().AddInputAction(102, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
+	//	new PauseGameCommand(this, m_pPauseMenu) });
 
-	InputManager::GetInstance().AddInputAction(103, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
-		new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
-	
-	InputManager::GetInstance().AddInputAction(104, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
-	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
+	//InputManager::GetInstance().AddInputAction(103, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
+	//
+	//InputManager::GetInstance().AddInputAction(104, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
 
 }

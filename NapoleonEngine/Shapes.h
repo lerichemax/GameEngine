@@ -23,6 +23,10 @@ namespace geo
 			A{ a }
 		{
 		}
+
+		void Print() {
+			printf("R: %d G: %d B: %d A: %d \n", R, G, B, A);
+		}
 	};
 
 	struct Shape

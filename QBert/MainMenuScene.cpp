@@ -38,7 +38,6 @@ void MainMenuScene::Initialize()
 
 	soloBtn->AddComponent<ECS_TextRendererComponent>(txt);
 	soloBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);
-	soloBtn->GetTransform()->Translate(7, 3);
 
 	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, soloBtn->GetComponent<ECS_TextRendererComponent>()});
 	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, soloBtn->GetComponent<ECS_TextRendererComponent>() });
@@ -98,7 +97,7 @@ void MainMenuScene::Initialize()
 
 	AddSystem<UiSystem>();
 
-	//InstantiatePrefab("FPSCounter");
+	InstantiatePrefab("FPSCounter");
 
 	GetCameraObject()->GetComponent<ECS_TransformComponent>()->m_Position = { 450, 300 };
 }

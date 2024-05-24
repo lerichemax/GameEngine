@@ -7,6 +7,7 @@
 #include "ButtonComponent.h"
 #include "TextRendererComponent.h"
 #include "FPSCounter.h"
+#include "Component.h"
 
 template class ComponentArray<ECS_TransformComponent>;
 template class ComponentArray<ECS_RendererComponent>;
@@ -15,6 +16,14 @@ template class ComponentArray<ECS_ButtonComponent>;
 template class ComponentArray<ECS_TextRendererComponent>;
 template class ComponentArray<FPSCounterComponent>;
 
+
+template<typename T> int ComponentArray<T>::counter = 0;
+
+template<typename T>
+ComponentArray<T>::ComponentArray()
+{
+	counter++;
+}
 template<typename T>
 ComponentArray<T>::~ComponentArray()
 {
@@ -53,6 +62,14 @@ void ComponentArray<T>::RemoveData(Entity entity)
 }
 
 template<typename T>
+std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
+{
+	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
+
+	return m_Components[m_EntityToIndex[entity]];
+}
+
+template<typename T>
 std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 {
 	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
@@ -73,16 +90,18 @@ void ComponentArray<T>::EntityDestroyed(Entity entity)
 template<typename T>
 void ComponentArray<T>::CloneToNewEntity(std::shared_ptr<IComponentArray> pOther, Entity newEntity, Entity entityToClone)
 {
+	auto otherCompArray = std::static_pointer_cast<ComponentArray<T>>(pOther);
+
 	if (m_EntityToIndex.find(newEntity) != m_EntityToIndex.end())
 	{
-		m_Components[m_EntityToIndex[newEntity]] = std::make_shared<T>(*std::static_pointer_cast<ComponentArray<T>>(pOther)->m_Components[entityToClone]);
+		m_Components[m_EntityToIndex[newEntity]] = std::make_shared<T>(*std::static_pointer_cast<ComponentArray<T>>(pOther)->m_Components[otherCompArray->m_EntityToIndex[entityToClone]]);
 	}
 	else
 	{
 		size_t newIndex = m_Size;
 		m_EntityToIndex[newEntity] = newIndex;
 		m_IndexToEntity[newIndex] = newEntity;
-		m_Components[newIndex] = std::make_shared<T>(*std::static_pointer_cast<ComponentArray<T>>(pOther)->m_Components[entityToClone]);
+		m_Components[newIndex] = std::make_shared<T>(*otherCompArray->m_Components[otherCompArray->m_EntityToIndex[entityToClone]]);
 		m_Size++;
 	}
 

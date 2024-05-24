@@ -43,7 +43,4 @@ public:
 
 protected:
 	std::shared_ptr<System> Clone() const override { return std::make_shared<LayeredRendererSystem>(*this); }
-
-private:
-	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
 };

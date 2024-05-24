@@ -8,7 +8,4 @@ public:
 
 	void InitGame() const override;
 	void CreatePrefabs() const override;
-
-private:
-	void CreateMainMenuScene();
 };

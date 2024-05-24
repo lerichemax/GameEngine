@@ -86,12 +86,17 @@ private:
 	float m_WorldRotation{};
 
 	std::shared_ptr<ECS_TransformComponent> m_pParent;
+
+	glm::vec2 m_OldPosition{};
+	glm::vec2 m_OldScale{ 1.f, 1.f };
+	float m_OldRotation{};
+
+	bool HasChanged() const;
 };
 
 
 class Coordinator;
 class TransformSystem : public System {
-
 public:
 	TransformSystem(Coordinator* const pRegistry);
 	void Update(ComponentManager* const pComponentManager) override;
@@ -99,5 +104,6 @@ public:
 protected:
 	std::shared_ptr<System> Clone() const override { return std::make_shared<TransformSystem>(*this); }
 
-
+private:
+	void RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const;
 };

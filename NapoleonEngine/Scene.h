@@ -14,6 +14,7 @@ class CameraComponent;
 class CameraSystem;
 class TransformSystem;
 class LayeredRendererSystem;
+class TextRendererSystem;
 class System;
 
 class BaseScene
@@ -72,6 +73,7 @@ private:
 	std::vector<ColliderComponent*> m_pColliders;
 		
 	SceneRenderer* m_pSceneRenderer; //deprecated
+	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
 	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<CameraSystem> m_pCamera;

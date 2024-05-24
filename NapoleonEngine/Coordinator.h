@@ -27,6 +27,10 @@ public:
 
 	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
+	void SetEntityActive(Entity entity, bool isActive);
+	void SetEntityHierarchyActive(Entity entity, bool isActive);
+	void AddChild(Entity parent, Entity child);
+	std::unordered_set<Entity> const& GetChildren(Entity entity);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
@@ -39,6 +43,12 @@ private:
 template <typename T> 
 void Coordinator::AddComponent(Entity entity, T const& component)
 {
+	if (dynamic_cast<const ECS_Component*>(&component) == nullptr)
+	{
+		const char* typeName = typeid(T).name();
+		Debugger::GetInstance().LogError("Components must inherit from ECS_Component. Can't add " + std::string(typeName) + " as component");
+	}
+
 	m_pComponentManager->AddComponent<T>(entity, component);
 
 	Signature signature = m_pEntityManager->GetSignature(entity);

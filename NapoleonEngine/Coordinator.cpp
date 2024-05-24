@@ -72,3 +72,35 @@ std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr
 
 	return toReturn;
 }
+
+void Coordinator::SetEntityActive(Entity entity, bool isActive)
+{
+	auto components = m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));
+
+	for (std::shared_ptr<ECS_Component> comp : components)
+	{
+		comp->SetActive(isActive);
+	}
+}
+
+void Coordinator::SetEntityHierarchyActive(Entity entity, bool isActive)
+{
+	SetEntityActive(entity, isActive);
+
+	std::unordered_set<Entity> const& children = m_pEntityManager->GetChildren(entity);
+
+	for (Entity child : children)
+	{
+		SetEntityActive(child, isActive);
+	}
+}
+
+void Coordinator::AddChild(Entity parent, Entity child)
+{
+	m_pEntityManager->AddChild(parent, child);
+}
+
+std::unordered_set<Entity> const& Coordinator::GetChildren(Entity entity)
+{
+	return m_pEntityManager->GetChildren(entity);
+}

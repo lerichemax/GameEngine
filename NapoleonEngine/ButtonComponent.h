@@ -49,6 +49,9 @@ struct ECS_ButtonComponent : public ECS_Component
 {
 	ECS_ButtonComponent(float width, float height);
 	ECS_ButtonComponent(ECS_ButtonComponent const& other);
+	ECS_ButtonComponent(ECS_ButtonComponent&& other);
+	ECS_ButtonComponent& operator=(ECS_ButtonComponent const& other);
+	ECS_ButtonComponent& operator=(ECS_ButtonComponent&& other);
 
 	~ECS_ButtonComponent();
 
@@ -56,9 +59,9 @@ struct ECS_ButtonComponent : public ECS_Component
 	void SetOnSelectFunction(Command* const func);
 	void SetOnDeselectFunction(Command* const func);
 
-	Command* m_pOnClick;
-	Command* m_pOnSelect;
-	Command* m_pOnDeselect;
+	Command* m_pOnClick = nullptr;
+	Command* m_pOnSelect = nullptr;
+	Command* m_pOnDeselect= nullptr;
 
 	glm::vec2 m_Dimensions;
 
