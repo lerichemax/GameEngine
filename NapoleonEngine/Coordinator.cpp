@@ -47,6 +47,14 @@ void Coordinator::TransferComponents(Entity originEntity, Entity destinationEnti
 	m_pSystemManager->EntitySignatureChanged(destinationEntity, newSignature);
 }
 
+void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther)
+{
+	if (pOther->m_pEntityManager->HasATag(originEntity))
+	{
+		m_pEntityManager->SetTag(destinationEntity, pOther->GetTag(originEntity));
+	}
+}
+
 std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr<Coordinator> pOther)
 {
 	std::vector<std::shared_ptr<System>> toReturn;
@@ -98,6 +106,21 @@ void Coordinator::SetEntityHierarchyActive(Entity entity, bool isActive)
 void Coordinator::AddChild(Entity parent, Entity child)
 {
 	m_pEntityManager->AddChild(parent, child);
+}
+
+void Coordinator::SetTag(Entity entity, std::string const& tag)
+{
+	m_pEntityManager->SetTag(entity, tag);
+}
+
+std::string Coordinator::GetTag(Entity entity) const
+{
+	return m_pEntityManager->GetTag(entity);
+}
+
+bool Coordinator::HasTag(Entity entity, std::string const& tag) const
+{
+	return m_pEntityManager->HasTag(entity, tag);
 }
 
 std::unordered_set<Entity> const& Coordinator::GetChildren(Entity entity)

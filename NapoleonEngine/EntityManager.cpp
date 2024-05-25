@@ -74,6 +74,40 @@ std::unordered_set<Entity> const& EntityManager::GetChildren(Entity entity)
 	return m_EntitiesHierarchy.at(entity);
 }
 
+void EntityManager::SetTag(Entity entity, std::string const& tag)
+{
+	m_EntityToTag.insert(std::make_pair(entity, tag));
+}
+
+std::string EntityManager::GetTag(Entity entity) const
+{
+	auto it = m_EntityToTag.find(entity);
+
+	if (it == m_EntityToTag.end())
+	{
+		return "";
+	}
+	
+	return it->second;
+}
+
+bool EntityManager::HasTag(Entity entity, std::string const& tag) const
+{
+	if (!HasATag(entity))
+	{
+		return false;
+	}
+
+	return m_EntityToTag.at(entity) == tag;
+}
+
+bool EntityManager::HasATag(Entity entity) const
+{
+	auto it = m_EntityToTag.find(entity);
+
+	return it != m_EntityToTag.end();
+}
+
 bool EntityManager::IsEntityValid(Entity entity)
 {
 	return entity <= MAX_ENTITIES;

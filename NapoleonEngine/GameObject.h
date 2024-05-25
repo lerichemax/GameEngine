@@ -37,14 +37,13 @@ public:
 	Scene* const GetParentScene() const { return m_pScene; }
 		
 	bool IsActive() const;
-	std::string GetTag()const { return m_Tag; };
+	std::string GetTag() const;
 	Entity GetEntity() const { return m_Entity; }
 		
 	void AddObserver(Observer* pObserver) const;
 	void RemoveObserver(Observer* pObserver) const;
 	void Notify(int event);
-	void SetTag(std::string const& tag, bool applyToChildren);
-	std::shared_ptr<GameObject> FindTagInChildren(std::string const& tag);
+	void SetTag(std::string const& tag, bool applyToChildren = false);
 
 private:
 	friend class PrefabsManager;

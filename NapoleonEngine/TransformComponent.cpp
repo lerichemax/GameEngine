@@ -133,27 +133,31 @@ void TransformComponent::Rotate(float rot)
 
 void ECS_TransformComponent::Translate(vec2 const& translation)
 {
+	m_OldPosition = m_Position;
+
 	m_Position = translation;
 }
 
 void ECS_TransformComponent::Translate(float x, float y)
 {
-	m_Position.x = x;
-	m_Position.y = y;
+	Translate(vec2{ x,y });
 }
 
 void ECS_TransformComponent::Scale(vec2 const& scale)
 {
+	m_OldScale = m_Scale;
+
 	m_Scale = {scale.x, scale.y};
 }
 
 void ECS_TransformComponent::Scale(float scale)
 {
-	m_Scale = { scale, scale };
+	Scale({ scale, scale });
 }
 
 void ECS_TransformComponent::Rotate(float rotation)
 {
+	m_OldRotation = m_Rotation;
 	m_Rotation = rotation;
 }
 
@@ -189,9 +193,10 @@ void TransformSystem::Update(ComponentManager* const pComponentManager)
 
 void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const
 {
-	transformComponent->m_OldPosition = transformComponent->m_Position;
-	transformComponent->m_OldRotation = transformComponent->m_Rotation;
-	transformComponent->m_OldScale = transformComponent->m_Scale;
+	if (!transformComponent->HasChanged())
+	{
+		return;
+	}
 
 	if (transformComponent->m_pParent != nullptr)
 	{
@@ -209,4 +214,8 @@ void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformCo
 		transformComponent->m_WorldRotation = transformComponent->m_Rotation;
 		transformComponent->m_WorldScale = transformComponent->m_Scale;
 	}
+
+	transformComponent->m_OldPosition = transformComponent->m_Position;
+	transformComponent->m_OldRotation = transformComponent->m_Rotation;
+	transformComponent->m_OldScale = transformComponent->m_Scale;
 }

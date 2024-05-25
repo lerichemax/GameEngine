@@ -25,12 +25,18 @@ public:
 	template <typename T> std::shared_ptr<T> RegisterSystem();
 	template <typename T> void SetSystemSignature(Signature signature);
 
-	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
-	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
+	std::unordered_set<Entity> const& GetChildren(Entity entity);
+	
 	void SetEntityActive(Entity entity, bool isActive);
 	void SetEntityHierarchyActive(Entity entity, bool isActive);
 	void AddChild(Entity parent, Entity child);
-	std::unordered_set<Entity> const& GetChildren(Entity entity);
+	void SetTag(Entity entity, std::string const& tag);
+	std::string GetTag(Entity entity) const;
+	bool HasTag(Entity entity, std::string const& tag) const;
+
+	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
+	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
+	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;

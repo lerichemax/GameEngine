@@ -35,6 +35,41 @@ std::shared_ptr<GameObject> BaseScene::CreateGameObject()
 	return m_pObjects.back();
 }
 
+std::shared_ptr<GameObject> BaseScene::FindTagInChildren(std::shared_ptr<GameObject> pObj, std::string const& tag) const
+{
+	std::unordered_set<Entity> children = m_pRegistry->GetChildren(pObj->GetEntity());
+
+	for (Entity entity : children)
+	{
+		if (m_pRegistry->HasTag(entity, tag))
+		{
+			return GetGameObjectWithEntity(entity);
+		}
+	}
+
+	Debugger::GetInstance().LogWarning("No GameObject found with tag " + tag);
+	return nullptr;
+}
+
+std::vector<std::shared_ptr<GameObject>> BaseScene::GetChildrenWithTag(std::shared_ptr<GameObject> pObj, std::string const& tag) const
+{
+	std::vector<std::shared_ptr<GameObject>> childrenWithTag;
+
+	std::unordered_set<Entity> children = m_pRegistry->GetChildren(pObj->GetEntity());
+
+	for (Entity entity : children)
+	{
+		std::shared_ptr<GameObject> pChild = GetGameObjectWithEntity(entity);
+
+		if (pChild != nullptr && pChild->m_Tag == tag)
+		{
+			childrenWithTag.push_back(pChild);
+		}
+	}
+
+	return childrenWithTag;
+}
+
 std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name)
 {
 	std::shared_ptr<Prefab> prefab = PrefabsManager::GetInstance().GetPrefab(name);
@@ -69,6 +104,7 @@ std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name
 			}
 
 			m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
+			m_pRegistry->TransferTags(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
 		}
 		else {
 			pNewObject = *(std::find_if(m_pObjects.begin(), m_pObjects.end(), [pObject](auto& pObj) {
@@ -92,12 +128,25 @@ std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name
 				pNewObject->AddChild(pChildObject);
 
 				m_pRegistry->TransferComponents(entity, pChildObject->m_Entity, prefab->m_pRegistry);
+				m_pRegistry->TransferTags(entity, pChildObject->m_Entity, prefab->m_pRegistry);
 			}
-			
 		}
 	}
 
 	return toReturn;
+}
+
+std::shared_ptr<GameObject> BaseScene::GetGameObjectWithEntity(Entity entity) const
+{
+	for (auto& pObj : m_pObjects)
+	{
+		if (pObj->GetEntity() == entity)
+		{
+			return pObj;
+		}
+	}
+
+	return nullptr;
 }
 
 Scene::Scene(const std::string& name)

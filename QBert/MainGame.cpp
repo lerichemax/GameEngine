@@ -205,7 +205,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
 	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
 	ECS_ButtonComponent resumeBtn{ 110, 30 };
-	resumeBtn.m_bVisualize = true;
+
 	//resumeBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
 	//resumeBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
 	//btn.SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
@@ -213,7 +213,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<ECS_ButtonComponent>(resumeBtn);
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 200);
-	//btnObj->SetTag("ResumeBtn",false);
+	btnObj->SetTag("ResumeBtn");
 
 	//Back to main btn
 	btnObj = menuPrefab->CreateGameObject();
@@ -228,7 +228,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<ECS_ButtonComponent>(backBtn);
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 300);
-	//btnObj->SetTag("BackToMainBtn", false);
+	btnObj->SetTag("BackToMainBtn");
 	
 	//Quit Btn
 	btnObj = menuPrefab->CreateGameObject();
@@ -245,7 +245,7 @@ void MainGame::CreatePrefabs() const
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 400);
-	//btnObj->SetTag("QuitBtn", false);
+	btnObj->SetTag("QuitBtn");
 
 	
 	//Game over menu (opaque)
@@ -273,7 +273,7 @@ void MainGame::CreatePrefabs() const
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 200);
-	//btnObj->SetTag("ReplayBtn", false);
+	btnObj->SetTag("ReplayBtn");
 
 	//Back to main btn
 	btnObj = quitMenuPrefab->CreateGameObject();
@@ -288,7 +288,7 @@ void MainGame::CreatePrefabs() const
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 300);
-	btnObj->SetTag("BackToMainBtn", false);
+	btnObj->SetTag("BackToMainBtn");
 	
 	//Quit Btn
 	btnObj = quitMenuPrefab->CreateGameObject();
@@ -303,7 +303,7 @@ void MainGame::CreatePrefabs() const
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 400);
-	btnObj->SetTag("QuitBtn", false);
+	btnObj->SetTag("QuitBtn");
 
 	delete json;
 }

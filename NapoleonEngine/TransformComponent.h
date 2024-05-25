@@ -55,13 +55,20 @@ private:
 	TransformComponent(TransformComponent const& other) = default;
 };
 
+//WIP
+//To test
+//TODO : make loc/rot/sca world and store another local
 struct ECS_TransformComponent : public ECS_Component
 {
 	friend class TransformSystem;
 	friend class GameObject;
+	friend class Renderer;
 
 	ECS_TransformComponent() : ECS_Component(true) {}
 
+
+	//void SetLocation(vec2 const& loc);
+	//void SetLocation(float x, float y);
 	void Translate(vec2 const& translation);
 	void Translate(float x, float y);
 	void Scale(vec2 const& scale);
@@ -75,11 +82,11 @@ struct ECS_TransformComponent : public ECS_Component
 	float GetRotation() const { return m_Rotation; }
 	float GetWorldRotation() const { return m_WorldRotation; }
 
+private:
 	glm::vec2 m_Position{};
-	glm::vec2 m_Scale{1.f, 1.f};
+	glm::vec2 m_Scale{ 1.f, 1.f };
 	float m_Rotation{};
 
-private:
 	glm::mat3x3 m_World{};
 	glm::vec2 m_WorldPosition{};
 	glm::vec2 m_WorldScale{};

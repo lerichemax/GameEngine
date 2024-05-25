@@ -24,7 +24,7 @@ void TestScene::Initialize()
 	renderer.m_Layer = Layer::foreground;
 
 	testObject->AddComponent<ECS_RendererComponent>(renderer);
-	testObject->GetTransform()->m_Position = { 450, 300 };
+	testObject->GetTransform()->Translate(450, 300);
 }
 
 void TestScene::DeclareInput()

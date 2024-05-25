@@ -83,6 +83,24 @@ void GameObject::Notify(int event)
 {
 	m_pSubject->Notify(this, event);
 }
+
+void GameObject::SetTag(std::string const& tag, bool applyToChildren)
+{
+	m_pRegistry->SetTag(m_Entity, tag);
+
+	if (!applyToChildren)
+	{
+		return;
+	}
+
+	std::unordered_set<Entity> children = m_pRegistry->GetChildren(GetEntity());
+
+	for (Entity entity : children)
+	{
+		m_pRegistry->SetTag(entity, tag);
+	}
+}
+
 void GameObject::SetActive(bool active)
 {
 	m_bIsActive = active;
@@ -95,19 +113,9 @@ bool GameObject::IsActive() const
 	return m_bIsActive;//&& m_pScene->IsActive();
 }
 
-void GameObject::SetTag(std::string const& tag, bool applyToChildren)
-{
-	m_Tag = tag;
-	if (applyToChildren)
-	{
-
-	}
-}
-
-std::shared_ptr<GameObject> GameObject::FindTagInChildren(std::string const& tag)
-{
-	printf(tag.c_str());
-	return nullptr;
+std::string GameObject::GetTag() const
+{ 
+	return m_pRegistry->GetTag(m_Entity); 
 }
 
 void GameObject::Destroy()

@@ -41,30 +41,29 @@ void SoloScene::Initialize()
 	//Pause Menu
 	m_pPauseMenu = InstantiatePrefab("PauseMenu");
 
-//
-//	auto pBtnObject = m_pPauseMenu->FindTagInChildren("ResumeBtn");
-//	auto pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	auto pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
-//
-//	pBtnObject = m_pPauseMenu->FindTagInChildren("BackToMainBtn");
-//	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-//
-//	pBtnObject = m_pPauseMenu->FindTagInChildren("QuitBtn");
-//	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new QuitGameCommand{  });
-//
+	auto pBtnObject = FindTagInChildren(m_pPauseMenu, "ResumeBtn");
+	auto pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
+	auto pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	//pBtn->SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
+
+	pBtnObject = FindTagInChildren(m_pPauseMenu, "BackToMainBtn");
+	pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+
+	pBtnObject = FindTagInChildren(m_pPauseMenu, "QuitBtn");
+	pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
+	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
+	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBtn->SetOnClickFunction(new QuitGameCommand{  });
+
 	m_pPauseMenu->SetActive(false);
-//	
+	
 	//auto qbertObj = InstantiatePrefab("QBert");
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
@@ -142,7 +141,7 @@ void SoloScene::Initialize()
 	AddSystem<UiSystem>();
 
 	InstantiatePrefab("FPSCounter");
-	GetCameraObject()->GetTransform()->m_Position = { 450, 300 };
+	GetCameraObject()->GetTransform()->Translate(450, 300);
 }
 
 void SoloScene::ResetScene(Level newLevel)

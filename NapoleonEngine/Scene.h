@@ -28,6 +28,9 @@ public:
 	std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
+	std::shared_ptr<GameObject> FindTagInChildren(std::shared_ptr<GameObject> pObj, std::string const& tag) const; //returns the first one found
+	std::vector<std::shared_ptr<GameObject>> GetChildrenWithTag(std::shared_ptr<GameObject> pObj, std::string const& tag) const;
+
 protected:
 	std::shared_ptr<Coordinator> m_pRegistry;
 
@@ -38,6 +41,9 @@ protected:
 	template <typename T> void AddSystem();
 	template <typename T> void AddSystem(Signature signature);
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+
+private:
+	std::shared_ptr<GameObject> GetGameObjectWithEntity(Entity entity) const;
 };
 
 class Scene : public BaseScene

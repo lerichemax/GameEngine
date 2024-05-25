@@ -59,7 +59,7 @@ void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 
 		if (renderComp->m_pTexture != nullptr)
 		{
-			const auto pos = transComp->m_Position;
+			const auto pos = transComp->GetPosition();
 			Renderer::GetInstance().RenderTexture(*renderComp->m_pTexture, *transComp); //remove singleton ?
 		}
 	}

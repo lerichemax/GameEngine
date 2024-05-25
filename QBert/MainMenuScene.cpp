@@ -99,7 +99,7 @@ void MainMenuScene::Initialize()
 
 	InstantiatePrefab("FPSCounter");
 
-	GetCameraObject()->GetComponent<ECS_TransformComponent>()->m_Position = { 450, 300 };
+	GetCameraObject()->GetComponent<ECS_TransformComponent>()->Translate(450, 300);
 }
 
 void MainMenuScene::CustomOnActivate()
