@@ -10,7 +10,7 @@ struct Shape;
 class RendererComponent;
 class Texture2D;
 class TransformComponent;
-struct ECS_TransformComponent;
+class ECS_TransformComponent;
 class Renderer final : public Singleton<Renderer>
 {
 public:

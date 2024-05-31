@@ -21,3 +21,19 @@ private:
 
 	bool m_bIsGameOver;
 };
+
+struct ECS_CharacterLives final : public ECS_Component
+{
+public:
+	explicit ECS_CharacterLives(int maxLives);
+
+	void Die();
+	int GetNbrLives() const { return m_NbrLives; }
+	bool IsGameOver() const { return m_NbrLives == 0; }
+	void Reset();
+private:
+	int const MAX_LIVES;
+
+	int m_NbrLives;
+
+};

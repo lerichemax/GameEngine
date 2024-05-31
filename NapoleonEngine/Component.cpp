@@ -34,3 +34,17 @@ void ECS_Component::SetActive(bool isActive)
 	m_IsActive = isActive;
 	m_NeedsUpdate = true;
 }
+
+void ECS_Component::Serialize(StreamWriter& writer) const
+{
+	writer.StartArrayObject(); //temp
+	writer.WriteBool("IsActive", m_IsActive);
+	writer.WriteBool("IsUnique", m_IsUnique);
+	writer.EndObject();
+}
+
+void ECS_Component::Deserialize(JsonReader const* reader)
+{
+	reader->ReadBool("IsActive", m_IsActive);
+	reader->ReadBool("IsUnique", m_IsUnique);
+}

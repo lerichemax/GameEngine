@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
@@ -127,7 +127,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
@@ -160,7 +160,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
@@ -194,7 +194,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
@@ -229,6 +229,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="allocators.h" />
+    <ClInclude Include="AudioComponent.h" />
+    <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="BehaviourComponent.h" />
+    <ClInclude Include="BehaviourSystem.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -241,6 +245,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Coordinator.h" />
     <ClInclude Include="cursorstreamwrapper.h" />
     <ClInclude Include="Debugger.h" />
+    <ClInclude Include="Deserializer.h" />
     <ClInclude Include="document.h" />
     <ClInclude Include="encodedstream.h" />
     <ClInclude Include="encodings.h" />
@@ -260,13 +265,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="rapidjson.h" />
     <ClInclude Include="reader.h" />
     <ClInclude Include="schema.h" />
+    <ClInclude Include="Serializer.h" />
+    <ClInclude Include="SerializerServiceLocator.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="NapoleonEngine.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="ObserverManager.h" />
@@ -282,7 +288,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundInterface.h" />
-    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="stringbuffer.h" />
@@ -340,6 +345,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="AudioComponent.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BehaviourComponent.cpp" />
+    <ClCompile Include="BehaviourSystem.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -351,15 +360,17 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Coordinator.cpp" />
     <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="Deserializer.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="JsonReaderWriter.cpp" />
+    <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="SerializerServiceLocator.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="NapoleonEngine.cpp" />
     <ClCompile Include="ObserverManager.cpp" />
     <ClCompile Include="PCH.cpp">
@@ -378,7 +389,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="SceneRenderer.cpp" />
     <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
-    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="System.cpp" />

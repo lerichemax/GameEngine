@@ -58,17 +58,19 @@ private:
 //WIP
 //To test
 //TODO : make loc/rot/sca world and store another local
-struct ECS_TransformComponent : public ECS_Component
+class ECS_TransformComponent final: public ECS_Component
 {
 	friend class TransformSystem;
 	friend class GameObject;
 	friend class Renderer;
 
+public:
 	ECS_TransformComponent() : ECS_Component(true) {}
-
 
 	//void SetLocation(vec2 const& loc);
 	//void SetLocation(float x, float y);
+	//void SetLocalLocation(vec2 const& loc);
+	//void SetLocalLocation(float x, float y);
 	void Translate(vec2 const& translation);
 	void Translate(float x, float y);
 	void Scale(vec2 const& scale);
@@ -81,6 +83,10 @@ struct ECS_TransformComponent : public ECS_Component
 	const glm::vec2& GetWorldScale() const { return m_WorldScale; }
 	float GetRotation() const { return m_Rotation; }
 	float GetWorldRotation() const { return m_WorldRotation; }
+
+protected:
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader) override;
 
 private:
 	glm::vec2 m_Position{};

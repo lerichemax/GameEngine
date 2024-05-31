@@ -61,4 +61,8 @@ struct ECS_RendererComponent : public ECS_Component
 {
 	std::shared_ptr<Texture2D> m_pTexture{};
 	Layer m_Layer;
+
+protected:
+	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
+	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
 };

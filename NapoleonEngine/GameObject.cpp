@@ -101,6 +101,26 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 	}
 }
 
+void GameObject::Serialize(StreamWriter& writer) const
+{ 
+	writer.StartArrayObject();
+	writer.WriteInt("Entity", m_Entity);
+	writer.StartArray("components");
+	auto components = m_pRegistry->GetComponents(m_Entity);
+
+	for (std::shared_ptr<ECS_Component> pComp : components)
+	{
+		pComp->Serialize(writer);
+	}
+	writer.EndArray();
+	writer.EndObject();
+}
+
+void GameObject::Deserialize(JsonReader const* reader)
+{ 
+	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get());
+}
+
 void GameObject::SetActive(bool active)
 {
 	m_bIsActive = active;

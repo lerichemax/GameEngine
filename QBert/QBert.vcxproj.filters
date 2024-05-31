@@ -18,9 +18,6 @@
     <ClCompile Include="Qube.cpp">
       <Filter>GameScripts\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="QBert.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
@@ -69,12 +66,6 @@
     <ClCompile Include="VersusGameManager.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterLives.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterPoint.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="SwitchTextColor.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -120,6 +111,15 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterLives.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterPoint.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="QBert.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -137,9 +137,6 @@
     </ClInclude>
     <ClInclude Include="Qube.h">
       <Filter>GameScripts\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="QBert.h">
-      <Filter>GameScripts\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>GameScripts\Characters</Filter>
@@ -189,12 +186,6 @@
     <ClInclude Include="VersusGameManager.h">
       <Filter>Observers</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterLives.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterPoint.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
     <ClInclude Include="SwitchTextColor.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -240,6 +231,15 @@
     <ClInclude Include="TestScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterLives.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterPoint.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QBert.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -271,6 +271,12 @@
     </Filter>
     <Filter Include="GameScripts\Characters\States">
       <UniqueIdentifier>{3c0620e3-e2f0-45bb-bc9a-fa52b160d00e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{47507f06-e6d4-4cb1-ac69-316db98f5ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{d6938b4c-5562-4f47-a659-c2b7ff8a2035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

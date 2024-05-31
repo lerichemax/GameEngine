@@ -1,4 +1,6 @@
 #pragma once
+#include "Entity.h"
+#include "Serializer.h"
 
 #include <bitset>
 
@@ -36,8 +38,10 @@ const ComponentType MAX_COMPONENTS = 32;
 
 using Signature = std::bitset<MAX_COMPONENTS>;
 
-struct ECS_Component //make class ?
+struct ECS_Component : public ISerializable
 {
+	template<typename T> friend class ComponentArray;
+
 	ECS_Component() = default;
 	ECS_Component(bool unique);
 
@@ -46,8 +50,11 @@ struct ECS_Component //make class ?
 
 	void SetActive(bool isActive);
 
+	virtual void Serialize(StreamWriter& writer) const override;
+	virtual void Deserialize(JsonReader const* reader) override;
+
 private:
 	bool m_IsActive{true};
-	bool m_IsUnique{};
+	bool m_IsUnique{}; //Not yet implemented
 	bool m_NeedsUpdate{};
 };

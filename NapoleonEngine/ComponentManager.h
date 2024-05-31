@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "ComponentArray.h"
 #include "Entity.h"
+#include "JsonReaderWriter.h"
 
 #include <unordered_map>
 #include <memory>
@@ -30,6 +31,9 @@ private:
 	template<typename T> void RegisterComponent();
 	template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray();
 	template <typename T> void CheckComponentRegistered();
+
+	void DeserializeAndAddComponent(Entity entity, JsonReader const* reader);
+	std::shared_ptr<ECS_Component> GetComponent(std::string const& type);
 };
 
 template<typename T> 

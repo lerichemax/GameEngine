@@ -7,6 +7,7 @@
 
 #include <memory>
 
+class JSonReader;
 class Coordinator final
 {
 public:
@@ -26,6 +27,7 @@ public:
 	template <typename T> void SetSystemSignature(Signature signature);
 
 	std::unordered_set<Entity> const& GetChildren(Entity entity);
+	std::vector<std::shared_ptr<ECS_Component>> GetComponents(Entity entity);
 	
 	void SetEntityActive(Entity entity, bool isActive);
 	void SetEntityHierarchyActive(Entity entity, bool isActive);
@@ -37,6 +39,8 @@ public:
 	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
 	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
+
+	void DeserializeComponents(Entity entity, JsonReader const* reader);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;

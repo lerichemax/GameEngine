@@ -2,15 +2,16 @@
 #include "Entity.h"
 #include "Component.h"
 #include "Coordinator.h"
+#include "Serializer.h"
 
 #include <vector>
 
 class Subject;
 class Observer;
 class TransformComponent;
-struct ECS_TransformComponent;
+class ECS_TransformComponent;
 class Scene;
-class GameObject final
+class GameObject final : public ISerializable
 {
 	friend class Scene;
 public:
@@ -44,6 +45,9 @@ public:
 	void RemoveObserver(Observer* pObserver) const;
 	void Notify(int event);
 	void SetTag(std::string const& tag, bool applyToChildren = false);
+
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader) override;
 
 private:
 	friend class PrefabsManager;

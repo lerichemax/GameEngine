@@ -19,7 +19,7 @@ private:
 
 struct FPSCounterComponent : ECS_Component
 {
-
+	//empty class ?
 };
 
 class FPSCounterSystem : public System

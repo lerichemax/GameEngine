@@ -19,9 +19,6 @@
     <Filter Include="State">
       <UniqueIdentifier>{95b56b6a-7f95-4312-be6d-7421267bb049}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{160fbd26-60bd-44c6-b471-406f372e98a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Prefabs">
       <UniqueIdentifier>{d6f9c765-012c-4870-b324-7d94db18c2b5}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,12 @@
     </Filter>
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{11a305e1-b1ce-43c3-acb1-2211f2d0c740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{160fbd26-60bd-44c6-b471-406f372e98a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{55b7022d-a4d2-4f8e-831b-d73e9c7c653a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,13 +112,10 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundInterface.h">
-      <Filter>Sound</Filter>
+      <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="SoundEffect.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="LoggingSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
@@ -215,7 +215,6 @@
     <ClInclude Include="writer.h">
       <Filter>rapidjson</Filter>
     </ClInclude>
-    <ClInclude Include="JsonReaderWriter.h" />
     <ClInclude Include="ShapeRenderer.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -223,16 +222,13 @@
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="SoundServiceLocator.h">
-      <Filter>Sound</Filter>
+      <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>ECS</Filter>
@@ -255,7 +251,33 @@
     <ClInclude Include="System.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="UiSystem.h" />
+    <ClInclude Include="AudioComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSystem.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="UiSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Deserializer.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReaderWriter.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializerServiceLocator.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -323,13 +345,7 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SoundEffect.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="LoggingSoundSystem.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundSystem.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Audio</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
@@ -363,7 +379,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="JsonReaderWriter.cpp" />
     <ClCompile Include="ShapeRenderer.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -372,7 +387,7 @@
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="SoundServiceLocator.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Audio</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
@@ -395,6 +410,32 @@
     <ClCompile Include="System.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="UiSystem.cpp" />
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSystem.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="UiSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Deserializer.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonReaderWriter.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializerServiceLocator.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

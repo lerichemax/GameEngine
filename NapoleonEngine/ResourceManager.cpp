@@ -29,15 +29,20 @@ public:
 
 	std::shared_ptr<Texture2D> GetTexture(const std::string& file);
 	std::shared_ptr<Font> GetFont(const std::string& file, unsigned int size);
+	ID GetEffect(const std::string& file);
+	std::shared_ptr<SoundEffect> GetEffectById(ID id) const;
 
 private:
 	std::string m_DataPath;
 
 	std::map<std::string, std::shared_ptr<Texture2D>> m_pTextures;
-	std::vector< std::shared_ptr<Font>> m_pFonts;
+	std::vector<std::shared_ptr<Font>> m_pFonts;
+	std::map<std::string, std::shared_ptr<SoundEffect>> m_pEffectsStr;
+	std::map<ID, std::shared_ptr<SoundEffect>> m_pEffects;
 
 	std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
 	std::shared_ptr<Font>  LoadFont(const std::string& file, unsigned int size);
+	std::shared_ptr<SoundEffect> LoadEffect(const std::string& file);
 };
 
 ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
@@ -45,7 +50,6 @@ ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
 	m_pTextures(),
 	m_pFonts()
 {
-	
 }
 
 
@@ -123,10 +127,46 @@ std::shared_ptr<Font> ResourceManager::ResourceManagerImpl::GetFont(const std::s
 	}
 }
 
+ID ResourceManager::ResourceManagerImpl::GetEffect(const std::string& file)
+{
+	if (m_pEffectsStr.find(file) == m_pEffectsStr.end())
+	{
+		try
+		{
+			return LoadEffect(file)->GetId();
+
+		}
+		catch (std::runtime_error const& error)
+		{
+			Debugger::GetInstance().LogError(error.what());
+		}
+	}
+
+	return m_pEffectsStr.at(file)->GetId();
+}
+
+std::shared_ptr<SoundEffect> ResourceManager::ResourceManagerImpl::GetEffectById(ID id) const
+{
+	auto it = m_pEffects.find(id);
+
+	if (it != m_pEffects.end())
+	{
+		return it->second;
+	}
+	return nullptr;
+}
+
 std::shared_ptr<Font> ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
 {
 	m_pFonts.push_back(std::make_shared<Font>( m_DataPath + file, size ));
 	return m_pFonts.back();
+}
+
+std::shared_ptr<SoundEffect> ResourceManager::ResourceManagerImpl::LoadEffect(const std::string& file)
+{
+	auto pEffect = std::make_shared<SoundEffect>(m_DataPath + file);
+	m_pEffects.insert(std::make_pair(pEffect->GetId(), pEffect));
+	return pEffect;
 }
 
 ResourceManager::ResourceManager()
@@ -153,4 +193,14 @@ std::shared_ptr<Texture2D> ResourceManager::GetTexture(const std::string& file)
 std::shared_ptr<Font> ResourceManager::GetFont(const std::string& file, unsigned int size)
 {
 	return m_pImpl->GetFont(file, size);
+}
+
+ID ResourceManager::GetEffect(const std::string& file)
+{
+	return m_pImpl->GetEffect(file);
+}
+
+std::shared_ptr<SoundEffect> ResourceManager::GetEffectById(ID id) const
+{
+	return m_pImpl->GetEffectById(id);
 }

@@ -7,13 +7,6 @@ public:
 		
 	virtual void Play(unsigned int id, float volume) = 0;
 	virtual void Update() = 0;
-
-	void Mute() { m_bIsMuted = true; };
-	void UnMute() { m_bIsMuted = false; };
-
-protected:
-	bool m_bIsMuted{};
-
 };
 
 class NullSoundInterface final : public SoundInterface

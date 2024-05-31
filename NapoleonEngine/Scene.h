@@ -16,6 +16,7 @@ class TransformSystem;
 class LayeredRendererSystem;
 class TextRendererSystem;
 class System;
+class AudioSystem;
 
 class BaseScene
 {
@@ -25,13 +26,15 @@ public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
 
-	std::shared_ptr<GameObject> CreateGameObject();
+	virtual std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
 	std::shared_ptr<GameObject> FindTagInChildren(std::shared_ptr<GameObject> pObj, std::string const& tag) const; //returns the first one found
 	std::vector<std::shared_ptr<GameObject>> GetChildrenWithTag(std::shared_ptr<GameObject> pObj, std::string const& tag) const;
 
 protected:
+	BaseScene();
+
 	std::shared_ptr<Coordinator> m_pRegistry;
 
 	std::string m_Name;
@@ -40,10 +43,27 @@ protected:
 
 	template <typename T> void AddSystem();
 	template <typename T> void AddSystem(Signature signature);
-	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 
 private:
 	std::shared_ptr<GameObject> GetGameObjectWithEntity(Entity entity) const;
+};
+
+class Prefab : public BaseScene, public ISerializable
+{
+	friend class PrefabsManager;
+public:
+	explicit Prefab();
+
+	std::shared_ptr<GameObject> CreateGameObject() override;
+	std::shared_ptr<GameObject> GetRoot() const;
+
+protected:
+	void Serialize(StreamWriter& writer) const override;
+
+	void SetName(std::string const& name);
+
+private:
+	std::shared_ptr<GameObject> m_pRootObject;
 };
 
 class Scene : public BaseScene
@@ -66,6 +86,7 @@ protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 
 private:
 	friend void ColliderComponent::Initialize();
@@ -82,7 +103,9 @@ private:
 	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
 	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
+	std::shared_ptr<AudioSystem> m_pAudio;
 	std::shared_ptr<CameraSystem> m_pCamera;
+
 	std::shared_ptr<GameObject> m_pCameraObject;
 	CameraComponent* m_pActiveCamera; //deprecated
 
@@ -97,6 +120,8 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
+
+	void Deserialize(JsonReader const* reader) override;
 };
 
 template <typename T>

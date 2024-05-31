@@ -5,56 +5,154 @@
 #include "rapidjson.h"
 #include "document.h"
 
-using namespace rapidjson;
 
-JsonReaderWriter::JsonReaderWriter(std::string const& filename)
-	:m_JsonDoc(),
-	m_pFile(nullptr)
+StreamWriter::StreamWriter(StringBuffer& buffer)
+	:m_BufferWriter{buffer}
 {
-	fopen_s(&m_pFile, filename.c_str(), "rb");
+}
 
-	if (m_pFile == nullptr)
+void StreamWriter::WriteInt(std::string const& key, int value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.Int(value);
+}
+
+void StreamWriter::WriteBool(std::string const& key, bool value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.Bool(value);
+}
+
+void StreamWriter::WriteString(std::string const& key, std::string const& value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.String(value.c_str());
+}
+
+void StreamWriter::WriteDouble(std::string const& key, float value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.Double(value);
+}
+
+void StreamWriter::WriteDouble(std::string const& key, double value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.Double(value);
+}
+
+void StreamWriter::StartObject(std::string const& name)
+{
+	m_BufferWriter.Key(name.c_str());
+	m_BufferWriter.StartObject();
+}
+
+void StreamWriter::StartArrayObject()
+{
+	m_BufferWriter.StartObject();
+}
+
+void StreamWriter::EndObject()
+{
+	m_BufferWriter.EndObject();
+}
+
+void StreamWriter::StartArray(std::string const& name)
+{
+	m_BufferWriter.Key(name.c_str());
+	m_BufferWriter.StartArray();
+}
+
+void StreamWriter::EndArray()
+{
+	m_BufferWriter.EndArray();
+}
+
+JsonReader::JsonReader(Document&& doc)
+	:m_JsonValue{ std::make_unique<Value>(doc.GetObjectA())}
+{
+}
+
+JsonReader::JsonReader(Value const& value)
+	:m_JsonValue{ std::make_unique<Value>(value) }
+{
+
+}
+
+void JsonReader::ReadInt(std::string const& attribute, int& value) const
+{
+	value = ReadAttribute(attribute).GetInt();
+}
+void JsonReader::ReadString(std::string const& attribute, std::string& value) const
+{
+	value = ReadAttribute(attribute).GetString();
+}
+void JsonReader::ReadBool(std::string const& attribute, bool& value) const
+{
+	value = ReadAttribute(attribute).GetBool();
+}
+
+void JsonReader::ReadDouble(std::string const& attribute, float& value) const
+{
+	value = ReadAttribute(attribute).GetDouble();
+}
+
+void JsonReader::ReadDouble(std::string const& attribute, double& value) const
+{
+	value = ReadAttribute(attribute).GetDouble();
+}
+
+std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute) const
+{
+	auto& value = ReadAttribute(attribute);
+	if (value.IsObject())
 	{
-		Debugger::GetInstance().LogError("File " + filename + " not found");
+		return std::unique_ptr<JsonReader>(new JsonReader{ value });
 	}
-	
-	fseek(m_pFile, 0, SEEK_END);
 
-	size_t size = ftell(m_pFile);;
-	fseek(m_pFile, 0, SEEK_SET);
-	char* readBuffer = new char[size];
-	FileReadStream is(m_pFile, readBuffer, sizeof(readBuffer));
-	m_JsonDoc.ParseStream(is);
-	delete[] readBuffer;
-	fclose(m_pFile);
+	Debugger::GetInstance().LogWarning("No object found for key " + attribute);
+	return nullptr;
 }
 
-
-Value const& JsonReaderWriter::ReadAttribute(std::string const& attribute) const
+std::unique_ptr<JsonReader> JsonReader::ReadArray(std::string const& attribute) const
 {
-	if (m_JsonDoc.ObjectEmpty())
+	auto& value = ReadAttribute(attribute);
+	if (value.IsArray())
 	{
-		Debugger::GetInstance().LogWarning("JsonReaderWriter::ReadAttribute - > No file opened, returning an empty value");
+		return std::unique_ptr<JsonReader>(new JsonReader{ value });
 	}
 
-
-	return m_JsonDoc[attribute.c_str()];
-	
+	Debugger::GetInstance().LogWarning("No array found for key " + attribute);
+	return nullptr;
 }
 
-int JsonReaderWriter::ReadInt(std::string const& attribute)
+std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 {
-	return ReadAttribute(attribute).GetInt();
+	if (m_JsonValue->IsArray())
+	{
+		return std::unique_ptr<JsonReader>(new JsonReader{ (*m_JsonValue)[index]});
+	}
+
+	Debugger::GetInstance().LogWarning("This Json object is not an array");
+	return nullptr;
 }
 
-std::string JsonReaderWriter::ReadString(std::string const& attribute) const
+SizeType JsonReader::GetArraySize() const
 {
-	return ReadAttribute(attribute).GetString();
+	if (m_JsonValue->IsArray())
+	{
+		return m_JsonValue->Size();
+	}
 
+	return 0;
 }
 
-rapidjson::Value const& JsonReaderWriter::ReadValue(std::string const& attribute) const
+Value const& JsonReader::ReadAttribute(std::string const& attribute) const
 {
-	return ReadAttribute(attribute);
-}
+	if (m_JsonValue->ObjectEmpty())
+	{
+		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > Nothing to read");
+	}
 
+	return (*m_JsonValue)[attribute.c_str()];
+}

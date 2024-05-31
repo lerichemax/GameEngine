@@ -1,5 +1,7 @@
 #pragma once
 #include "Singleton.h"
+#include "SoundEffect.h"
+
 #include <memory>
 #include <map>
 
@@ -18,6 +20,8 @@ public:
 		
 	std::shared_ptr<Texture2D> GetTexture(const std::string& file);
 	std::shared_ptr<Font> GetFont(const std::string& file, unsigned int size);
+	ID GetEffect(const std::string& file);
+	std::shared_ptr<SoundEffect> GetEffectById(ID id) const;
 	
 private:
 	friend class Singleton<ResourceManager>;

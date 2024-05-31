@@ -64,14 +64,13 @@ void SoloScene::Initialize()
 
 	m_pPauseMenu->SetActive(false);
 	
-	//auto qbertObj = InstantiatePrefab("QBert");
+	auto qbertObj = InstantiatePrefab("QBert");
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 
-//
-//	livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + 
-//		std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
-//	
+
+	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
+	
 //	auto const pyramid = pPrefabManager.Instantiate("Pyramid");
 //	m_pPyramid = pyramid->GetComponent<Pyramid>();
 //	m_pPyramid->SetQBert(m_pQbert);

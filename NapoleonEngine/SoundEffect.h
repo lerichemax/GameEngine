@@ -1,11 +1,12 @@
 #pragma once
-#include <SDL_mixer.h>
 #include <string>
-#include "SoundSystem.h"
 
+#include "AudioSystem.h"
+
+struct Mix_Chunk;
 class SoundEffect final
 {
-	friend class SoundSystem;
+	friend class AudioSystem;
 public:
 	explicit SoundEffect(std::string const& path);
 	SoundEffect(SoundEffect const& other) = delete;

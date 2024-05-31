@@ -24,9 +24,6 @@ public:
 	SoundSystem& operator=(SoundSystem&& rhs) = delete;
 	virtual ~SoundSystem();
 
-	void Play(unsigned int id, float volume) override;
-	void Update() override;
-
 	ID AddEffect(SoundEffect* pEffect);
 	ID AddEffect(std::string const& path);
 	

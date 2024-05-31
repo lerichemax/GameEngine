@@ -5,7 +5,9 @@
 #include "RendererComponent.h"
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
+#include "AudioSystem.h"
 #include "System.h"
+#include "BehaviourSystem.h"
 
 #include "PrefabsManager.h"
 
@@ -14,6 +16,17 @@
 
 #include "CameraComponent.h"
 #include "Timer.h"
+
+//************************************
+// BaseScene
+//************************************
+
+BaseScene::BaseScene()
+	: m_pRegistry(std::make_shared<Coordinator>()),
+	m_Name{ },
+	m_pObjects()
+{
+}
 
 BaseScene::BaseScene(const std::string& name)
 	: m_pRegistry(std::make_shared<Coordinator>()),
@@ -70,72 +83,6 @@ std::vector<std::shared_ptr<GameObject>> BaseScene::GetChildrenWithTag(std::shar
 	return childrenWithTag;
 }
 
-std::shared_ptr<GameObject> BaseScene::InstantiatePrefab(std::string const& name)
-{
-	std::shared_ptr<Prefab> prefab = PrefabsManager::GetInstance().GetPrefab(name);
-
-	if (prefab == nullptr)
-	{
-		Debugger::GetInstance().LogWarning("No prefab with name " + name + " found");
-		return nullptr;
-	}
-
-	std::vector<std::shared_ptr<System>> prefabSystems = m_pRegistry->ExtractSystems(prefab->m_pRegistry);
-	m_Systems.insert(m_Systems.end(), prefabSystems.begin(), prefabSystems.end());
-
-	bool first = true;
-	std::shared_ptr<GameObject> toReturn;
-
-	std::map<Entity, Entity> processedEntities{};//key : prefab object entity //value : new object entity
-
-	for (std::shared_ptr<GameObject> const pObject : prefab->m_pObjects)
-	{
-		std::shared_ptr<GameObject> pNewObject;
-
-		if (processedEntities.find(pObject->m_Entity) == processedEntities.end())
-		{
-			pNewObject = CreateGameObject();
-			processedEntities.insert(std::make_pair(pObject->m_Entity, pNewObject->m_Entity));
-
-			if (first)
-			{
-				toReturn = pNewObject;
-				first = false;
-			}
-
-			m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
-			m_pRegistry->TransferTags(pObject->m_Entity, pNewObject->m_Entity, prefab->m_pRegistry);
-		}
-		else {
-			pNewObject = *(std::find_if(m_pObjects.begin(), m_pObjects.end(), [pObject](auto& pObj) {
-				return pObj->m_Entity == pObject->m_Entity;
-				}));
-		}
-		
-		auto const& children = prefab->m_pRegistry->GetChildren(pObject->m_Entity);
-
-		for (Entity entity : children)
-		{
-			if (processedEntities.find(entity) != processedEntities.end())
-			{
-				m_pRegistry->AddChild(pNewObject->m_Entity, processedEntities.at(entity));
-			}
-			else
-			{
-				std::shared_ptr<GameObject> pChildObject = CreateGameObject();
-				processedEntities.insert(std::make_pair(entity, pChildObject->m_Entity));
-
-				pNewObject->AddChild(pChildObject);
-
-				m_pRegistry->TransferComponents(entity, pChildObject->m_Entity, prefab->m_pRegistry);
-				m_pRegistry->TransferTags(entity, pChildObject->m_Entity, prefab->m_pRegistry);
-			}
-		}
-	}
-
-	return toReturn;
-}
-
 std::shared_ptr<GameObject> BaseScene::GetGameObjectWithEntity(Entity entity) const
 {
 	for (auto& pObj : m_pObjects)
@@ -149,11 +96,58 @@ std::shared_ptr<GameObject> BaseScene::GetGameObjectWithEntity(Entity entity) co
 	return nullptr;
 }
 
+//************************************
+// Prefab
+//************************************
+
+Prefab::Prefab()
+	:BaseScene(),
+	m_pRootObject{ BaseScene::CreateGameObject() }
+{
+}
+
+std::shared_ptr<GameObject> Prefab::CreateGameObject()
+{
+	auto pNewobject = BaseScene::CreateGameObject();
+
+	m_pRootObject->AddChild(pNewobject);
+
+	return pNewobject;
+}
+
+std::shared_ptr<GameObject> Prefab::GetRoot() const
+{
+	return m_pRootObject;
+}
+
+void Prefab::Serialize(StreamWriter& writer) const
+{
+	writer.StartObject("Prefab");
+	writer.WriteString("name", m_Name);
+	writer.StartArray("gameobjects");
+	for (std::shared_ptr<GameObject> pObject : m_pObjects)
+	{
+		pObject->Serialize(writer);
+	}
+	writer.EndArray();
+	writer.EndObject();
+}
+
+void Prefab::SetName(std::string const& name)
+{
+	m_Name = name;
+}
+
+//************************************
+// Scene
+//************************************
+
 Scene::Scene(const std::string& name)
 	: BaseScene(name),
 	m_pColliders(),
 	m_pSceneRenderer(new SceneRenderer{}),
 	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
+	m_pAudio(m_pRegistry->RegisterSystem<AudioSystem>()),
 	m_pTextRenderer(m_pRegistry->RegisterSystem<TextRendererSystem>()),
 	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
 	m_pActiveCamera(nullptr),
@@ -166,6 +160,8 @@ Scene::Scene(const std::string& name)
 	ECS_CameraComponent camComp{};
 	m_pCameraObject->AddComponent<ECS_CameraComponent>(camComp);
 	SetActiveCamera(m_pCameraObject);
+
+	AddSystem<BehaviourSystem>();
 }
 
 Scene::~Scene()
@@ -206,6 +202,8 @@ void Scene::Update()
 	CheckCollidersCollision();
 	
 	Refresh();
+
+	m_pAudio->Update(m_pRegistry->GetComponentManager());
 }
 
 void Scene::Render() const
@@ -264,6 +262,18 @@ void Scene::CheckCollidersCollision()
 	}
 }
 
+void Scene::Deserialize(JsonReader const* reader)
+{
+	reader->ReadString("name", m_Name);
+	auto objects = reader->ReadArray("gameobjects");
+
+	for (SizeType i = 0; i < objects->GetArraySize(); i++)
+	{
+		auto pNewObject = CreateGameObject();
+		pNewObject->Deserialize(objects->ReadArrayIndex(i).get());
+	}
+}
+
 void Scene::SetActiveCamera(std::shared_ptr<GameObject> pGameObject)
 {
 	if (m_pCamera->TrySetMainCamera(pGameObject))
@@ -275,6 +285,11 @@ void Scene::SetActiveCamera(std::shared_ptr<GameObject> pGameObject)
 std::shared_ptr<GameObject> Scene::GetCameraObject() const
 {
 	return m_pCameraObject;
+}
+
+std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
+{
+	Deserialize(PrefabsManager::GetInstance().GetPrefabForSerialization(name).get());
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

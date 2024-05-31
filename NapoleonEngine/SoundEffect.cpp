@@ -1,6 +1,7 @@
 #include "PCH.h"
 #include "SoundEffect.h"
 
+#include <SDL_mixer.h>
 
 ID SoundEffect::m_AutoIncrementId{};
 

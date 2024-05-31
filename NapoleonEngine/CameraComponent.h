@@ -33,10 +33,15 @@ private:
 
 struct ECS_CameraComponent : public ECS_Component
 {
+public:
 	ECS_CameraComponent();
 
 	unsigned int m_Width{};
 	unsigned int m_Height{};
+
+protected:
+	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
+	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
 };
 
 class Coordinator;

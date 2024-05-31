@@ -16,3 +16,15 @@ private:
 
 	int m_NbrPoints;
 };
+
+class ECS_CharacterPoint final : public ECS_Component
+{
+public:
+	ECS_CharacterPoint();
+
+	void AddPoints(int nbrPoint) { m_NbrPoints += nbrPoint; }
+	int GetPoints() const { return m_NbrPoints; }
+	void Reset() { m_NbrPoints = 0; }
+private:
+	int m_NbrPoints;
+};

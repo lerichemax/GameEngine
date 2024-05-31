@@ -6,7 +6,7 @@ ComponentType ComponentManager::m_NextComponentType = ComponentType{};
 
 ComponentManager::~ComponentManager()
 {
-	m_ComponentTypes.clear();
+	m_ComponentTypes.clear(); //TODO -> destroy in coordinator
 }
 
 void ComponentManager::EntityDestroyed(Entity entity)
@@ -32,4 +32,28 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 	}
 
 	return components;
+}
+
+void ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader)
+{
+	std::string type;
+	reader->ReadString("type", type);
+
+	if (m_ComponentTypes.find(type.c_str()) == m_ComponentTypes.end())
+	{
+		m_ComponentTypes.insert(std::make_pair(type.c_str(), m_NextComponentType++));
+	}
+
+	auto pComp = GetComponent(type);
+	pComp->Deserialize(reader);
+
+	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
+}
+
+std::shared_ptr<ECS_Component> ComponentManager::GetComponent(std::string const& type)
+{
+	if (type == "class ECS_TransformComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_TransformComponent>());
+	}
 }

@@ -6,3 +6,10 @@ CharacterPoint::CharacterPoint()
 {
 	
 }
+
+ECS_CharacterPoint::ECS_CharacterPoint()
+	:ECS_Component(true),
+	m_NbrPoints()
+{
+
+}

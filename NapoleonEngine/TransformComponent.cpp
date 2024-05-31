@@ -131,11 +131,33 @@ void TransformComponent::Rotate(float rot)
 	m_Rotation = rot;
 }
 
+//void ECS_TransformComponent::SetLocation(vec2 const& loc)
+//{
+//	m_OldPosition = m_Position;
+//
+//	m_Position = loc;
+//}
+//
+//void ECS_TransformComponent::SetLocation(float x, float y)
+//{
+//
+//}
+//
+//void ECS_TransformComponent::SetLocalLocation(vec2 const& loc)
+//{
+//
+//}
+//
+//void ECS_TransformComponent::SetLocalLocation(float x, float y)
+//{
+//
+//}
+
 void ECS_TransformComponent::Translate(vec2 const& translation)
 {
 	m_OldPosition = m_Position;
 
-	m_Position = translation;
+	m_Position += translation;
 }
 
 void ECS_TransformComponent::Translate(float x, float y)
@@ -164,6 +186,71 @@ void ECS_TransformComponent::Rotate(float rotation)
 bool ECS_TransformComponent::HasChanged() const
 {
 	return m_Position != m_OldPosition || m_Scale != m_OldScale || m_Rotation != m_OldRotation;
+}
+
+void ECS_TransformComponent::Serialize(StreamWriter& writer) const
+{
+	writer.StartArrayObject();
+	{
+		writer.WriteString("type", typeid(ECS_TransformComponent).name());
+		writer.StartObject("position");
+		{
+			writer.WriteDouble("x", m_Position.x);
+			writer.WriteDouble("y", m_Position.y);
+		}
+		writer.EndObject();
+
+		writer.StartObject("scale");
+		{
+			writer.WriteDouble("x", m_Scale.x);
+			writer.WriteDouble("y", m_Scale.y);
+		}
+		writer.EndObject();
+
+		writer.WriteDouble("rotation", m_Rotation);
+
+		writer.StartObject("world_position");
+		{
+			writer.WriteDouble("x", m_WorldPosition.x);
+			writer.WriteDouble("y", m_WorldPosition.y);
+		}
+		writer.EndObject();
+
+		writer.StartObject("world_scale");
+		{
+			writer.WriteDouble("x", m_WorldScale.x);
+			writer.WriteDouble("y", m_WorldScale.y);
+		}
+		writer.EndObject();
+
+		writer.WriteDouble("world_rotation", m_WorldRotation);
+	}
+	writer.EndObject();
+}
+
+void ECS_TransformComponent::Deserialize(JsonReader const* reader)
+{
+	auto posObject = reader->ReadObject("position");
+	posObject->ReadDouble("x", m_Position.x);
+	posObject->ReadDouble("y", m_Position.y);
+
+	auto rotObject = reader->ReadObject("scale");
+	rotObject->ReadDouble("x", m_Scale.x);
+	rotObject->ReadDouble("y", m_Scale.y);
+
+	reader->ReadDouble("rotation", m_Rotation);
+
+	auto posObject = reader->ReadObject("world_position");
+	posObject->ReadDouble("x", m_WorldPosition.x);
+	posObject->ReadDouble("y", m_WorldPosition.y);
+
+	auto rotObject = reader->ReadObject("world_scale");
+	rotObject->ReadDouble("x", m_WorldScale.x);
+	rotObject->ReadDouble("y", m_WorldScale.y);
+
+	reader->ReadDouble("world_rotation", m_WorldRotation);
+
+	ECS_Component::Deserialize(reader);
 }
 
 TransformSystem::TransformSystem(Coordinator* const pRegistry)

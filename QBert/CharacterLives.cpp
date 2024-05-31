@@ -23,3 +23,21 @@ void CharacterLives::Reset()
 	m_NbrLives = MAX_LIVES;
 	m_bIsGameOver = false;
 }
+
+ECS_CharacterLives::ECS_CharacterLives(int maxLives)
+	:ECS_Component(true),
+	MAX_LIVES(maxLives),
+	m_NbrLives(maxLives)
+{
+
+}
+
+void ECS_CharacterLives::Die()
+{
+	m_NbrLives--;
+}
+
+void ECS_CharacterLives::Reset()
+{
+	m_NbrLives = MAX_LIVES;
+}

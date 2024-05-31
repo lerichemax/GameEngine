@@ -55,6 +55,15 @@ void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, st
 	}
 }
 
+void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader /*array*/)
+{
+	auto array = reader->ReadArray("components");
+	for (SizeType i = 0; i < array->GetArraySize(); i++)
+	{
+		m_pComponentManager->DeserializeAndAddComponent(entity, reader);
+	}
+}
+
 std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr<Coordinator> pOther)
 {
 	std::vector<std::shared_ptr<System>> toReturn;
@@ -126,4 +135,9 @@ bool Coordinator::HasTag(Entity entity, std::string const& tag) const
 std::unordered_set<Entity> const& Coordinator::GetChildren(Entity entity)
 {
 	return m_pEntityManager->GetChildren(entity);
+}
+
+std::vector<std::shared_ptr<ECS_Component>> Coordinator::GetComponents(Entity entity)
+{
+	return m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));
 }

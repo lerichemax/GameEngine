@@ -13,6 +13,9 @@
 #include "SoundServiceLocator.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
+#include "SerializerServiceLocator.h"
+#include "Serializer.h"
+#include "Deserializer.h"
 
 #include "TextRendererComponent.h"
 #include "CameraComponent.h"
@@ -62,6 +65,9 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 	{
 		Debugger::GetInstance().LogError(error.what());
 	}
+
+	SerializerServiceLocator::RegisterSerializer(new Serializer{});
+	SerializerServiceLocator::RegisterDeserializer(new Deserializer{});
 }
 
 void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
@@ -148,7 +154,6 @@ void NapoleonEngine::Run()
 			m_bQuit = !input.ProcessInput();
 			
 			sceneManager.Update();	
-			SoundServiceLocator::GetService().Update();
 			
 			renderer.Render();
 

@@ -34,6 +34,7 @@
 #include "BoxCollider.h"
 #include "ButtonComponent.h"
 #include "SoundServiceLocator.h"
+#include "AudioComponent.h"
 
 MainGame::MainGame()
 	:NapoleonEngine()
@@ -45,7 +46,7 @@ void MainGame::InitGame() const
 {	
 	//SceneManager::GetInstance().AddScene(new TestScene{});
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
-	SceneManager::GetInstance().AddScene(new SoloScene{});
+	//SceneManager::GetInstance().AddScene(new SoloScene{});
 	//SceneManager::GetInstance().AddScene(new CoopScene{});
 	//SceneManager::GetInstance().AddScene(new VersusScene{});
 	SceneManager::GetInstance().SetSceneActive("MainMenuScene");
@@ -57,13 +58,7 @@ void MainGame::CreatePrefabs() const
 
 	auto& pPrefabManager = PrefabsManager::GetInstance();
 
-	auto ss = new SoundSystem{false};
-	/*auto jumpSoundid = */ss->AddEffect("Data/Sounds/jump.mp3");
-	/*auto swearSoundId = */ss->AddEffect("Data/Sounds/swear.mp3");
-	/*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
-	/*auto fallsoundId = */ss->AddEffect("Data/Sounds/fall.mp3");
-
-	SoundServiceLocator::Register(ss);
+	///*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
 
 	ECS_RendererComponent rendererComp;
 	rendererComp.m_Layer = Layer::uiGame;
@@ -78,6 +73,8 @@ void MainGame::CreatePrefabs() const
 
 	livesObj->AddComponent<ECS_TextRendererComponent>(textRenderer);
 	livesObj->AddComponent<ECS_RendererComponent>(rendererComp);
+
+	pPrefabManager.SavePrefab("LivesUI");
 
 	//points
 	auto const pointsrefab = pPrefabManager.CreatePrefab("PointsUI");
@@ -95,215 +92,221 @@ void MainGame::CreatePrefabs() const
 	rendererComp.m_Layer = Layer::foreground;
 	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
 	//qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
-	//qbert->AddComponent(new CharacterLives{3});
-	//qbert->AddComponent(new CharacterPoint{});
+	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50});
+	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50});
+	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50});
+	qbert->AddComponent<ECS_CharacterLives>(ECS_CharacterLives{ 3 });
+	qbert->AddComponent<ECS_CharacterPoint>(ECS_CharacterPoint{});
 	//qbert->AddComponent(new Jumper{});
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
-	//auto hurtTextObj = new GameObject;
-	//hurtTextObj->AddComponent(new RendererComponent("Textures/QBert/HurtText.png", Layer::foreground));
-	//qbert->AddChild(hurtTextObj);
-	//hurtTextObj->GetECSTransform()->Translate(10, -20);
-	//hurtTextObj->GetComponent<RendererComponent>()->SetEnable(false);
+	auto hurtTextObj = qbertPrefab->CreateGameObject();
+	ECS_RendererComponent hurtRenderer{};
+	hurtRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
+	hurtRenderer.m_Layer = Layer::foreground;
+	hurtRenderer.SetActive(false);
+	hurtTextObj->AddComponent<ECS_RendererComponent>(hurtRenderer);
+	qbert->AddChild(hurtTextObj);
+	hurtTextObj->GetTransform()->Translate(10, -20);
 	qbert->GetTransform()->Scale(1.5f);
 
-	JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
-	
-	//Qube prefab
-	ECS_RendererComponent qubeRenderer;
-	qubeRenderer.m_Layer = Layer::uiGame;
+	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
+	//
+	////Qube prefab
+	//ECS_RendererComponent qubeRenderer;
+	//qubeRenderer.m_Layer = Layer::uiGame;
 
-	auto qubePf = pPrefabManager.CreatePrefab("Qube");
-	auto qubeObject = qubePf->CreateGameObject();
-	auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
-	auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
-	auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
-	qubeObject->GetTransform()->Scale(1.75f);
-	qubeRenderer.m_pTexture = text;
-	qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
-	//qubePf->AddComponent(new Qube{ text, interText, flippedText });
+	//auto qubePf = pPrefabManager.CreatePrefab("Qube");
+	//auto qubeObject = qubePf->CreateGameObject();
+	//auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
+	//auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
+	//auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
+	//qubeObject->GetTransform()->Scale(1.75f);
+	//qubeRenderer.m_pTexture = text;
+	//qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
+	////qubePf->AddComponent(new Qube{ text, interText, flippedText });
 
-	//Pyramid
-	//int levelWidth = json->ReadInt("width");
-	auto pyramidPf = pPrefabManager.CreatePrefab("Pyramid");
-	auto pyramidObject = pyramidPf->CreateGameObject();
-	pyramidObject->GetTransform()->Translate(250.f, 400.f);
-	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
+	////Pyramid
+	////int levelWidth = json->ReadInt("width");
+	//auto pyramidPf = pPrefabManager.CreatePrefab("Pyramid");
+	//auto pyramidObject = pyramidPf->CreateGameObject();
+	//pyramidObject->GetTransform()->Translate(250.f, 400.f);
+	////pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
 
-	//Ugg + WrongWay
-	auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");
-	auto wrongWayObject = wrongWayPrefab->CreateGameObject();
-	//wrongWayPrefab->AddComponent(new WrongWay{ true });
-	ECS_RendererComponent wrongWayRenderer;
-	wrongWayRenderer.m_Layer = Layer::middleground;
+	////Ugg + WrongWay
+	//auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");
+	//auto wrongWayObject = wrongWayPrefab->CreateGameObject();
+	////wrongWayPrefab->AddComponent(new WrongWay{ true });
+	//ECS_RendererComponent wrongWayRenderer;
+	//wrongWayRenderer.m_Layer = Layer::middleground;
 
-	wrongWayObject->AddComponent<ECS_RendererComponent>(wrongWayRenderer);
-	//wrongWayPrefab->AddComponent(new WrongWayJumper{});
-	//wrongWayPrefab->AddComponent(new EnemyCharacterController{});
-	//wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
-	wrongWayObject->GetTransform()->Scale(2.f);
+	//wrongWayObject->AddComponent<ECS_RendererComponent>(wrongWayRenderer);
+	////wrongWayPrefab->AddComponent(new WrongWayJumper{});
+	////wrongWayPrefab->AddComponent(new EnemyCharacterController{});
+	////wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
+	//wrongWayObject->GetTransform()->Scale(2.f);
 
-	//Coily prefab
-	auto coilyPrefab = pPrefabManager.CreatePrefab("Coily");
-	auto coilyObject = coilyPrefab->CreateGameObject();
+	////Coily prefab
+	//auto coilyPrefab = pPrefabManager.CreatePrefab("Coily");
+	//auto coilyObject = coilyPrefab->CreateGameObject();
 
-	ECS_RendererComponent coilyRenderer;
-	coilyRenderer.m_Layer = Layer::middleground;
-	coilyRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	//ECS_RendererComponent coilyRenderer;
+	//coilyRenderer.m_Layer = Layer::middleground;
+	//coilyRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 
-	coilyObject->AddComponent<ECS_RendererComponent>(coilyRenderer);
-	//coilyPrefab->AddComponent(new Coily{snakeFallId});
-	//coilyPrefab->AddComponent(new CoilyCharacterController{});
-	//coilyPrefab->AddComponent(new Jumper{});
-	coilyObject->GetTransform()->Scale(1.5f);
+	//coilyObject->AddComponent<ECS_RendererComponent>(coilyRenderer);
+	////coilyPrefab->AddComponent(new Coily{snakeFallId});
+	////coilyPrefab->AddComponent(new CoilyCharacterController{});
+	////coilyPrefab->AddComponent(new Jumper{});
+	//coilyObject->GetTransform()->Scale(1.5f);
 
 
-	//SlickSam
-	auto slickSamPf = pPrefabManager.CreatePrefab("SlickSam");
-	auto slickSamObject = slickSamPf->CreateGameObject();
+	////SlickSam
+	//auto slickSamPf = pPrefabManager.CreatePrefab("SlickSam");
+	//auto slickSamObject = slickSamPf->CreateGameObject();
 
-	ECS_RendererComponent slickSamRenderer;
-	slickSamRenderer.m_Layer = Layer::middleground;
+	//ECS_RendererComponent slickSamRenderer;
+	//slickSamRenderer.m_Layer = Layer::middleground;
 
-	slickSamObject->AddComponent<ECS_RendererComponent>(slickSamRenderer);
-	//slickSamObject->AddComponent(new SlickSam{});
-	//slickSamObject->AddComponent(new EnemyCharacterController{});
-	//slickSamObject->AddComponent(new Jumper{});
-	slickSamObject->GetTransform()->Scale(1.5f);
+	//slickSamObject->AddComponent<ECS_RendererComponent>(slickSamRenderer);
+	////slickSamObject->AddComponent(new SlickSam{});
+	////slickSamObject->AddComponent(new EnemyCharacterController{});
+	////slickSamObject->AddComponent(new Jumper{});
+	//slickSamObject->GetTransform()->Scale(1.5f);
 
-	//ColoredDisk
-	auto diskPf = pPrefabManager.CreatePrefab("Disk");
-	auto diskObject = diskPf->CreateGameObject();
+	////ColoredDisk
+	//auto diskPf = pPrefabManager.CreatePrefab("Disk");
+	//auto diskObject = diskPf->CreateGameObject();
 
-	//diskObject->AddComponent(new ColoredDisk{ });
-	ECS_RendererComponent diskRenderer;
-	diskRenderer.m_Layer = Layer::middleground;
-	diskRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
+	////diskObject->AddComponent(new ColoredDisk{ });
+	//ECS_RendererComponent diskRenderer;
+	//diskRenderer.m_Layer = Layer::middleground;
+	//diskRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
 
-	diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
-	diskObject->GetTransform()->Scale(2);
-	
-	//Pause Menu
-	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
-	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
-	auto menuPrefab = pPrefabManager.CreatePrefab("PauseMenu");
-	auto menuObj = menuPrefab->CreateGameObject();
-	//menuObj->AddComponent(new ShapeRenderer{ +
-	//	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} });
+	//diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
+	//diskObject->GetTransform()->Scale(2);
+	//
+	////Pause Menu
+	//auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
+	//auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
+	//auto menuPrefab = pPrefabManager.CreatePrefab("PauseMenu");
+	//auto menuObj = menuPrefab->CreateGameObject();
+	////menuObj->AddComponent(new ShapeRenderer{ +
+	////	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} });
 
-	auto textObject = menuPrefab->CreateGameObject();
-	auto textComp = ECS_TextRendererComponent{ "Pause", biggerFont };
-	ECS_RendererComponent menuRenderer;
-	menuRenderer.m_Layer = Layer::uiMenuFg;
+	//auto textObject = menuPrefab->CreateGameObject();
+	//auto textComp = ECS_TextRendererComponent{ "Pause", biggerFont };
+	//ECS_RendererComponent menuRenderer;
+	//menuRenderer.m_Layer = Layer::uiMenuFg;
 
-	textObject->AddComponent<ECS_TextRendererComponent>(textComp);
-	textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
-	menuObj->AddChild(textObject);
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	//textObject->AddComponent<ECS_TextRendererComponent>(textComp);
+	//textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//menuObj->AddChild(textObject);
+	//textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
-	auto btnObj = menuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Resume", lessBigFont };
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
-	ECS_ButtonComponent resumeBtn{ 110, 30 };
+	//auto btnObj = menuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Resume", lessBigFont };
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//ECS_ButtonComponent resumeBtn{ 110, 30 };
 
-	//resumeBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//resumeBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//btn.SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
+	////resumeBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	////resumeBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	////btn.SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
 
-	btnObj->AddComponent<ECS_ButtonComponent>(resumeBtn);
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
-	btnObj->SetTag("ResumeBtn");
+	//btnObj->AddComponent<ECS_ButtonComponent>(resumeBtn);
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 200);
+	//btnObj->SetTag("ResumeBtn");
 
-	//Back to main btn
-	btnObj = menuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	////Back to main btn
+	//btnObj = menuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
 
-	ECS_ButtonComponent backBtn{ 260, 30 };
-	//backBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//backBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	backBtn.SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-	btnObj->AddComponent<ECS_ButtonComponent>(backBtn);
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
-	btnObj->SetTag("BackToMainBtn");
-	
-	//Quit Btn
-	btnObj = menuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
+	//ECS_ButtonComponent backBtn{ 260, 30 };
+	////backBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	////backBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//backBtn.SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	//btnObj->AddComponent<ECS_ButtonComponent>(backBtn);
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 300);
+	//btnObj->SetTag("BackToMainBtn");
+	//
+	////Quit Btn
+	//btnObj = menuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
 
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
 
-	ECS_ButtonComponent quitBtn{ 65, 30 };
-	//quitBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//quitBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	quitBtn.SetOnClickFunction(new QuitGameCommand{ });
-	btnObj->AddComponent<ECS_ButtonComponent>(quitBtn);
+	//ECS_ButtonComponent quitBtn{ 65, 30 };
+	////quitBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	////quitBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//quitBtn.SetOnClickFunction(new QuitGameCommand{ });
+	//btnObj->AddComponent<ECS_ButtonComponent>(quitBtn);
 
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
-	btnObj->SetTag("QuitBtn");
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 400);
+	//btnObj->SetTag("QuitBtn");
 
-	
-	//Game over menu (opaque)
-	auto quitMenuPrefab = pPrefabManager.CreatePrefab("GameOverMenu");
-	menuObj = menuPrefab->CreateGameObject();
-	//menuObj->AddComponent(new ShapeRenderer{ +
-	//	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
+	//
+	////Game over menu (opaque)
+	//auto quitMenuPrefab = pPrefabManager.CreatePrefab("GameOverMenu");
+	//menuObj = menuPrefab->CreateGameObject();
+	////menuObj->AddComponent(new ShapeRenderer{ +
+	////	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 
-	textObject = quitMenuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Game Over", biggerFont };
-	textObject->AddComponent<ECS_TextRendererComponent>(textComp);
-	textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
-	menuObj->AddChild(textObject);
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	//textObject = quitMenuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Game Over", biggerFont };
+	//textObject->AddComponent<ECS_TextRendererComponent>(textComp);
+	//textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//menuObj->AddChild(textObject);
+	//textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
-	btnObj = quitMenuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Replay", lessBigFont };
-	ECS_ButtonComponent replayBtn{ 100, 30 };
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
-	
-	//replayBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//replayBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	btnObj->AddComponent<ECS_ButtonComponent>(replayBtn);
+	//btnObj = quitMenuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Replay", lessBigFont };
+	//ECS_ButtonComponent replayBtn{ 100, 30 };
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//
+	////replayBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	////replayBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//btnObj->AddComponent<ECS_ButtonComponent>(replayBtn);
 
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
-	btnObj->SetTag("ReplayBtn");
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 200);
+	//btnObj->SetTag("ReplayBtn");
 
-	//Back to main btn
-	btnObj = quitMenuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	////Back to main btn
+	//btnObj = quitMenuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
 
-	ECS_ButtonComponent backbtn{ 260, 30 };
-	backbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	backbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	btnObj->AddComponent<ECS_ButtonComponent>(backbtn);
+	//ECS_ButtonComponent backbtn{ 260, 30 };
+	//backbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//backbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//btnObj->AddComponent<ECS_ButtonComponent>(backbtn);
 
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
-	btnObj->SetTag("BackToMainBtn");
-	
-	//Quit Btn
-	btnObj = quitMenuPrefab->CreateGameObject();
-	textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
-	btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 300);
+	//btnObj->SetTag("BackToMainBtn");
+	//
+	////Quit Btn
+	//btnObj = quitMenuPrefab->CreateGameObject();
+	//textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
+	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
+	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
 
-	ECS_ButtonComponent quitbtn{ 65, 30 };
-	quitbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	quitbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	btnObj->AddComponent<ECS_ButtonComponent>(quitbtn);
+	//ECS_ButtonComponent quitbtn{ 65, 30 };
+	//quitbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//quitbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	//btnObj->AddComponent<ECS_ButtonComponent>(quitbtn);
 
-	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
-	btnObj->SetTag("QuitBtn");
+	//menuObj->AddChild(btnObj);
+	//btnObj->GetTransform()->Translate(400, 400);
+	//btnObj->SetTag("QuitBtn");
 
-	delete json;
+	//delete json;
 }

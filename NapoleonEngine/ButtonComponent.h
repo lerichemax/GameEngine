@@ -47,6 +47,9 @@ private:
 
 struct ECS_ButtonComponent : public ECS_Component
 {
+	friend class UiSystem;
+
+public:
 	ECS_ButtonComponent(float width, float height);
 	ECS_ButtonComponent(ECS_ButtonComponent const& other);
 	ECS_ButtonComponent(ECS_ButtonComponent&& other);
@@ -59,12 +62,18 @@ struct ECS_ButtonComponent : public ECS_Component
 	void SetOnSelectFunction(Command* const func);
 	void SetOnDeselectFunction(Command* const func);
 
+	glm::vec2 m_Dimensions;
+
+	bool m_bVisualize;
+
+protected:
+	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
+	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
+
+private:
 	Command* m_pOnClick = nullptr;
 	Command* m_pOnSelect = nullptr;
 	Command* m_pOnDeselect= nullptr;
 
-	glm::vec2 m_Dimensions;
-
 	bool m_IsSelected;
-	bool m_bVisualize;
 };
