@@ -39,9 +39,10 @@ public:
 	unsigned int m_Width{};
 	unsigned int m_Height{};
 
-protected:
-	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
-	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 };
 
 class Coordinator;

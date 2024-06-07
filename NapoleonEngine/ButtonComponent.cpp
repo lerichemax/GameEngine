@@ -96,81 +96,57 @@ ECS_ButtonComponent::ECS_ButtonComponent(float width, float height)
 {
 }
 
-ECS_ButtonComponent::ECS_ButtonComponent(ECS_ButtonComponent const& other)
-	:ECS_Component(other),
-	m_Dimensions(other.m_Dimensions),
-	m_pOnClick(other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr),
-	m_pOnSelect(other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr),
-	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr),
-	m_IsSelected(other.m_IsSelected),
-	m_bVisualize(other.m_bVisualize)
+void ECS_ButtonComponent::SetOnClickFunction(Command* func)
 {
+	m_pOnClick.reset(func);
 }
 
-ECS_ButtonComponent::ECS_ButtonComponent(ECS_ButtonComponent&& other)
-	:ECS_Component(other),
-	m_Dimensions(other.m_Dimensions),
-	m_pOnClick(other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr),
-	m_pOnSelect(other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr),
-	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr),
-	m_IsSelected(other.m_IsSelected),
-	m_bVisualize(other.m_bVisualize)
+void ECS_ButtonComponent::SetOnSelectFunction(Command* func)
 {
-	SafeDelete(other.m_pOnClick);
-	SafeDelete(other.m_pOnSelect);
-	SafeDelete(other.m_pOnDeselect);
+	m_pOnSelect.reset(func);
+}
+void ECS_ButtonComponent::SetOnDeselectFunction(Command* func)
+{
+	m_pOnDeselect.reset(func);
 }
 
-ECS_ButtonComponent& ECS_ButtonComponent::operator=(ECS_ButtonComponent const& other)
+void ECS_ButtonComponent::Serialize(StreamWriter& writer) const
 {
-	m_Dimensions = other.m_Dimensions;
-	m_pOnClick = other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr;
-	m_pOnSelect = other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr;
-	m_pOnDeselect = other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr;
-	m_IsSelected = other.m_IsSelected;
-	m_bVisualize = other.m_bVisualize;
+	writer.StartArrayObject();
+	{
+		writer.WriteBool("visualize", m_bVisualize);
+		writer.StartObject("dimension");
+		{
+			writer.WriteDouble("x", m_Dimensions.x);
+			writer.WriteDouble("y", m_Dimensions.y);
+		}
+		writer.EndObject();
 
-	return *this;
+		writer.WriteInt("onClick", m_pOnClick->GetId());
+		writer.WriteInt("onSelect", m_pOnClick->GetId());
+		writer.WriteInt("onDeselect", m_pOnClick->GetId());
+	}
+	writer.EndObject();
 }
 
-ECS_ButtonComponent& ECS_ButtonComponent::operator=(ECS_ButtonComponent&& other)
+void ECS_ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	m_Dimensions = other.m_Dimensions;
-	m_pOnClick = other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr;
-	SafeDelete(other.m_pOnClick);
+	context.Add(GetId(), this);
+	reader->ReadBool("visualize", m_bVisualize);
+	auto dimensionObject = reader->ReadObject("dimension");
+	dimensionObject->ReadDouble("x", m_Dimensions.x);
+	dimensionObject->ReadDouble("y", m_Dimensions.y);
 
-	m_pOnSelect = other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr;
-	SafeDelete(other.m_pOnSelect);
-
-	m_pOnDeselect = other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr;
-	SafeDelete(other.m_pOnDeselect);
-
-	m_IsSelected = other.m_IsSelected;
-	m_bVisualize = other.m_bVisualize;
-
-	return *this;
 }
 
-ECS_ButtonComponent::~ECS_ButtonComponent()
+void ECS_ButtonComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	SafeDelete(m_pOnSelect);
-	SafeDelete(m_pOnDeselect);
-	SafeDelete(m_pOnClick);
-}
+	int id;
 
-void ECS_ButtonComponent::SetOnClickFunction(Command* const func)
-{
-	delete m_pOnClick;
-	m_pOnClick = func;
-}
-
-void ECS_ButtonComponent::SetOnSelectFunction(Command* const func)
-{
-	delete m_pOnSelect;
-	m_pOnSelect = func;
-}
-void ECS_ButtonComponent::SetOnDeselectFunction(Command* const func)
-{
-	delete m_pOnDeselect;
-	m_pOnDeselect = func;
+	reader->ReadInt("onClick", id);
+	m_pOnClick = context.GetRef<Command>(id);
+	reader->ReadInt("onSelect", id);
+	m_pOnSelect = context.GetRef<Command>(id);
+	reader->ReadInt("onDeselect", id);
+	m_pOnDeselect = context.GetRef<Command>(id);
 }

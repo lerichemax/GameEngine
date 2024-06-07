@@ -5,17 +5,21 @@
 
 #include <unordered_map>
 #include <memory>
+#include <concepts>
+
+template <typename T>
+concept SystemDerived = std::derived_from<T, System>;
 
 class Coordinator;
 class SystemManager
 {
 public:
-	template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature, Coordinator* const pRegistry);
-	template <typename T> std::shared_ptr<T> RegisterSystem(Coordinator* const pRegistry);
-	template <typename T> void SetSignature(Signature signature);
-	template <typename T> void UpdateSignature(Signature signature);
-	template <typename T> Signature const& GetSystemSignature() const;
-	template <typename T> void AssignEntitiesToSystem(std::vector<Entity> const& entities) const;
+	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Signature signature, Coordinator* const pRegistry);
+	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Coordinator* const pRegistry);
+	template <SystemDerived T> void SetSignature(Signature signature);
+	template <SystemDerived T> void UpdateSignature(Signature signature);
+	template <SystemDerived T> Signature const& GetSystemSignature() const;
+	template <SystemDerived T> void AssignEntitiesToSystem(std::vector<Entity> const& entities) const;
 
 	void EntityDestroyed(Entity entity);
 	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
@@ -27,7 +31,7 @@ private:
 	std::unordered_map<const char*, std::shared_ptr<System>> m_Systems;
 };
 
-template <typename T> 
+template <SystemDerived T>
 std::shared_ptr<T> SystemManager::RegisterSystem(Signature signature, Coordinator* const pRegistry)
 {
 	const char* typeName = typeid(T).name();
@@ -42,7 +46,7 @@ std::shared_ptr<T> SystemManager::RegisterSystem(Signature signature, Coordinato
 	return pSystem;
 }
 
-template <typename T>
+template <SystemDerived T>
 std::shared_ptr<T> SystemManager::RegisterSystem(Coordinator* const pRegistry)
 {
 	const char* typeName = typeid(T).name();
@@ -56,7 +60,7 @@ std::shared_ptr<T> SystemManager::RegisterSystem(Coordinator* const pRegistry)
 	return pSystem;
 }
 
-template <typename T> 
+template <SystemDerived T>
 void SystemManager::SetSignature(Signature signature)
 {
 	const char* typeName = typeid(T).name();
@@ -66,7 +70,7 @@ void SystemManager::SetSignature(Signature signature)
 	m_Signatures.insert(std::make_pair(typeName, signature));
 }
 
-template <typename T> 
+template <SystemDerived T>
 void SystemManager::UpdateSignature(Signature signature)
 {
 	const char* typeName = typeid(T).name();
@@ -82,7 +86,7 @@ void SystemManager::UpdateSignature(Signature signature)
 	}
 }
 
-template <typename T> 
+template <SystemDerived T>
 Signature const& SystemManager::GetSystemSignature() const
 {
 	const char* typeName = typeid(T).name();
@@ -92,7 +96,7 @@ Signature const& SystemManager::GetSystemSignature() const
 	return m_Signatures.at(typeName);
 }
 
-template <typename T> 
+template <SystemDerived T>
 void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) const
 {
 	if (entities.empty())

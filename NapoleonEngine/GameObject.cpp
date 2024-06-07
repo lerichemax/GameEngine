@@ -7,7 +7,7 @@
 
 #include "Scene.h"
 
-GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
+GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry, bool transform)
 	:m_pRegistry(pRegistry), 
 	m_Entity(pRegistry.lock()->CreateEntity()),
 	m_bIsActive(true),
@@ -17,9 +17,12 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 	m_pSubject(new Subject{}),
 	m_Tag()
 {
-	ECS_TransformComponent transform;
-	m_pRegistry->AddComponent<ECS_TransformComponent>(m_Entity, transform);
-	m_pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
+	if (transform)
+	{
+		ECS_TransformComponent transformComp;
+		m_pRegistry->AddComponent<ECS_TransformComponent>(m_Entity, transformComp);
+		m_pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
+	}
 }
 
 GameObject::GameObject(const GameObject& other)
@@ -103,22 +106,31 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 
 void GameObject::Serialize(StreamWriter& writer) const
 { 
-	writer.StartArrayObject();
 	writer.WriteInt("Entity", m_Entity);
 	writer.StartArray("components");
 	auto components = m_pRegistry->GetComponents(m_Entity);
 
 	for (std::shared_ptr<ECS_Component> pComp : components)
 	{
+		writer.StartArrayObject();
 		pComp->Serialize(writer);
+		writer.EndObject();
 	}
 	writer.EndArray();
-	writer.EndObject();
 }
 
-void GameObject::Deserialize(JsonReader const* reader)
+void GameObject::Deserialize(JsonReader const* reader, SerializationMap& context)
 { 
-	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get());
+	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get(), context);
+}
+
+void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	auto components = m_pRegistry->GetComponents(m_Entity);
+	for (std::shared_ptr<ECS_Component> pComp : components)
+	{
+		pComp->RestoreContext(reader, context);
+	}
 }
 
 void GameObject::SetActive(bool active)

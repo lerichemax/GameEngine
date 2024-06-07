@@ -1,11 +1,12 @@
 #pragma once
+#include "Serializer.h"
 
 struct _TTF_Font;
 
 /**
 	* Simple RAII wrapper for an _TTF_Font
 	*/
-class Font
+class Font : public ISerializable
 {
 public:
 		
@@ -20,6 +21,10 @@ public:
 	_TTF_Font* GetFont() const;
 	std::string GetFilePath() const { return m_FilePath; }
 	unsigned int GetSize() const { return m_Size; }
+
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader) override;
+
 private:
 	_TTF_Font* m_Font;
 	unsigned int m_Size;

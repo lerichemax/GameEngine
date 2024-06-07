@@ -11,7 +11,7 @@ class Observer;
 class TransformComponent;
 class ECS_TransformComponent;
 class Scene;
-class GameObject final : public ISerializable
+class GameObject final : public IContextSerializable
 {
 	friend class Scene;
 public:
@@ -47,13 +47,15 @@ public:
 	void SetTag(std::string const& tag, bool applyToChildren = false);
 
 	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader) override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
 	friend class PrefabsManager;
 	friend class BaseScene;
 
-	GameObject(std::weak_ptr<Coordinator>);
+	GameObject(std::weak_ptr<Coordinator> pRegistry, bool transform = true);
 	GameObject(const GameObject& other);
 
 	std::shared_ptr<Coordinator> m_pRegistry;

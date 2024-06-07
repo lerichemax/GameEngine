@@ -99,3 +99,20 @@ void RendererComponent::ChangeLayer(Layer newLayer)
 
 	m_Layer = newLayer;
 }
+
+void ECS_RendererComponent::Serialize(StreamWriter& writer) const
+{
+	m_pTexture->Serialize(writer);
+	writer.WriteInt("layer", static_cast<int>(m_Layer));
+}
+
+void ECS_RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	std::string filename;
+	m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
+	
+	int layer;
+	reader->ReadInt("layer", layer);
+
+	m_Layer = static_cast<Layer>(layer);
+}

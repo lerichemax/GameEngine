@@ -1,5 +1,6 @@
 #include "PCH.h"
 #include "ComponentManager.h"
+#include "TransformComponent.h"
 
 std::unordered_map<const char*, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<const char*, ComponentType>{};
 ComponentType ComponentManager::m_NextComponentType = ComponentType{};
@@ -34,7 +35,7 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 	return components;
 }
 
-void ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader)
+void ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context)
 {
 	std::string type;
 	reader->ReadString("type", type);
@@ -45,7 +46,7 @@ void ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader cons
 	}
 
 	auto pComp = GetComponent(type);
-	pComp->Deserialize(reader);
+	pComp->Deserialize(reader, context);
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
 }
@@ -56,4 +57,5 @@ std::shared_ptr<ECS_Component> ComponentManager::GetComponent(std::string const&
 	{
 		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_TransformComponent>());
 	}
+	return nullptr;
 }

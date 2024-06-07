@@ -6,7 +6,7 @@
 
 #include <memory>
 
-enum class Layer;
+enum class Layer : uint8_t;
 class SceneRenderer;
 class RendererComponent;
 class GameObject;
@@ -18,7 +18,7 @@ class TextRendererSystem;
 class System;
 class AudioSystem;
 
-class BaseScene
+class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
 
@@ -44,11 +44,13 @@ protected:
 	template <typename T> void AddSystem();
 	template <typename T> void AddSystem(Signature signature);
 
+	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
+
 private:
 	std::shared_ptr<GameObject> GetGameObjectWithEntity(Entity entity) const;
 };
 
-class Prefab : public BaseScene, public ISerializable
+class Prefab : public BaseScene
 {
 	friend class PrefabsManager;
 public:
@@ -57,9 +59,14 @@ public:
 	std::shared_ptr<GameObject> CreateGameObject() override;
 	std::shared_ptr<GameObject> GetRoot() const;
 
-protected:
 	void Serialize(StreamWriter& writer) const override;
 
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+
+protected:
 	void SetName(std::string const& name);
 
 private:
@@ -81,6 +88,12 @@ public:
 	void AddToGroup(RendererComponent* pRenderer, Layer layer) const;
 	void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
 	void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
+
+	void Serialize(StreamWriter& writer) const override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
 	virtual void CustomOnActivate(){}
@@ -120,8 +133,6 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
-
-	void Deserialize(JsonReader const* reader) override;
 };
 
 template <typename T>

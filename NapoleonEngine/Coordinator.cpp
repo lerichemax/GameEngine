@@ -55,12 +55,12 @@ void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, st
 	}
 }
 
-void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader /*array*/)
+void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader /*array*/, SerializationMap& context)
 {
 	auto array = reader->ReadArray("components");
 	for (SizeType i = 0; i < array->GetArraySize(); i++)
 	{
-		m_pComponentManager->DeserializeAndAddComponent(entity, reader);
+		m_pComponentManager->DeserializeAndAddComponent(entity, reader, context);
 	}
 }
 

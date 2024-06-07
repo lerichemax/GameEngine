@@ -1,7 +1,8 @@
 #pragma once
+#include "Serializer.h"
 
 class GameObject;
-class Command
+class Command : public IContextSerializable
 {
 public:
 	Command() = default;

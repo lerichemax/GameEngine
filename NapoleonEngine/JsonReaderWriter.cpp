@@ -74,7 +74,7 @@ JsonReader::JsonReader(Document&& doc)
 }
 
 JsonReader::JsonReader(Value const& value)
-	:m_JsonValue{ std::make_unique<Value>(value) }
+	:m_JsonValue{ std::make_unique<Value>(std::move(value)) }
 {
 
 }
@@ -94,7 +94,7 @@ void JsonReader::ReadBool(std::string const& attribute, bool& value) const
 
 void JsonReader::ReadDouble(std::string const& attribute, float& value) const
 {
-	value = ReadAttribute(attribute).GetDouble();
+	value = static_cast<float>(ReadAttribute(attribute).GetDouble());
 }
 
 void JsonReader::ReadDouble(std::string const& attribute, double& value) const

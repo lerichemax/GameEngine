@@ -19,7 +19,11 @@ private:
 
 struct FPSCounterComponent : ECS_Component
 {
-	//empty class ?
+	void Serialize(StreamWriter& writer) const override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
 };
 
 class FPSCounterSystem : public System

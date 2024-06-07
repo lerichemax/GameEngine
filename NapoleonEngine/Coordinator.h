@@ -18,13 +18,13 @@ public:
 
 	ComponentManager* const GetComponentManager() const;
 
-	template <typename T> void AddComponent(Entity entity, T const& component);
-	template <typename T> void RemoveComponent(Entity entity);
-	template <typename T> std::weak_ptr<T> GetComponent(Entity entity) const;
-	template <typename T> ComponentType GetComponentType() const;
-	template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature);
-	template <typename T> std::shared_ptr<T> RegisterSystem();
-	template <typename T> void SetSystemSignature(Signature signature);
+	template <ComponentDerived T> void AddComponent(Entity entity, T const& component);
+	template <ComponentDerived T> void RemoveComponent(Entity entity);
+	template <ComponentDerived T> std::weak_ptr<T> GetComponent(Entity entity) const;
+	template <ComponentDerived T> ComponentType GetComponentType() const;
+	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Signature signature);
+	template <SystemDerived T> std::shared_ptr<T> RegisterSystem();
+	template <SystemDerived T> void SetSystemSignature(Signature signature);
 
 	std::unordered_set<Entity> const& GetChildren(Entity entity);
 	std::vector<std::shared_ptr<ECS_Component>> GetComponents(Entity entity);
@@ -40,17 +40,17 @@ public:
 	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 
-	void DeserializeComponents(Entity entity, JsonReader const* reader);
+	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
 	std::unique_ptr<EntityManager> m_pEntityManager;
 	std::unique_ptr<SystemManager> m_pSystemManager;
 
-	template <typename T> void OnSystemSignatureChanged(Signature const& signature);
+	template <SystemDerived T> void OnSystemSignatureChanged(Signature const& signature);
 };
 
-template <typename T> 
+template <ComponentDerived T>
 void Coordinator::AddComponent(Entity entity, T const& component)
 {
 	if (dynamic_cast<const ECS_Component*>(&component) == nullptr)
@@ -68,7 +68,7 @@ void Coordinator::AddComponent(Entity entity, T const& component)
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
-template <typename T> 
+template <ComponentDerived T>
 void Coordinator::RemoveComponent(Entity entity)
 {
 	m_pComponentManager->RemoveComponent<T>(entity);
@@ -80,19 +80,19 @@ void Coordinator::RemoveComponent(Entity entity)
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
-template <typename T> 
+template <ComponentDerived T>
 std::weak_ptr<T> Coordinator::GetComponent(Entity entity) const
 {
 	return m_pComponentManager->GetComponent<T>(entity);
 }
 
-template <typename T> 
+template <ComponentDerived T>
 ComponentType Coordinator::GetComponentType() const
 {
 	return m_pComponentManager->GetComponentType<T>();
 }
 
-template <typename T> 
+template <SystemDerived T>
 std::shared_ptr<T> Coordinator::RegisterSystem(Signature signature)
 {
 	std::shared_ptr<T> pSystem = m_pSystemManager->RegisterSystem<T>(signature, this);
@@ -100,7 +100,7 @@ std::shared_ptr<T> Coordinator::RegisterSystem(Signature signature)
 	return pSystem;
 }
 
-template <typename T>
+template <SystemDerived T>
 std::shared_ptr<T> Coordinator::RegisterSystem()
 {
 	std::shared_ptr<T> pSystem = m_pSystemManager->RegisterSystem<T>(this);
@@ -108,14 +108,14 @@ std::shared_ptr<T> Coordinator::RegisterSystem()
 	return pSystem;
 }
 
-template <typename T> 
+template <SystemDerived T>
 void Coordinator::SetSystemSignature(Signature signature)
 {
 	m_pSystemManager->SetSignature<T>(signature);
 	OnSystemSignatureChanged<T>(signature);
 }
 
-template <typename T>
+template <SystemDerived T>
 void Coordinator::OnSystemSignatureChanged(Signature const& signature)
 {
 	std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);

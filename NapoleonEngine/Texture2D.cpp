@@ -4,16 +4,6 @@
 
 #include <SDL.h>
 
-Texture2D::~Texture2D()
-{
-	SDL_DestroyTexture(m_pTexture);
-}
-
-SDL_Texture* Texture2D::GetSDLTexture() const
-{
-	return m_pTexture;
-}
-
 Texture2D::Texture2D(SDL_Texture* texture)
 	:m_pTexture(texture),
 	m_Width(),
@@ -24,4 +14,24 @@ Texture2D::Texture2D(SDL_Texture* texture)
 	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
 	m_Width = static_cast<float>(width);
 	m_Height = static_cast<float>(height);
+}
+
+Texture2D::~Texture2D()
+{
+	SDL_DestroyTexture(m_pTexture);
+}
+
+SDL_Texture* Texture2D::GetSDLTexture() const
+{
+	return m_pTexture;
+}
+
+void Texture2D::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("filepath", m_FilePath);
+}
+
+void Texture2D::Deserialize(JsonReader const* reader)
+{
+	reader->ReadString("filepath", m_FilePath);
 }

@@ -83,6 +83,13 @@ std::vector<std::shared_ptr<GameObject>> BaseScene::GetChildrenWithTag(std::shar
 	return childrenWithTag;
 }
 
+std::shared_ptr<GameObject> BaseScene::CreateGameObjectNoTransform()
+{
+	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry, false}));
+
+	return m_pObjects.back();
+}
+
 std::shared_ptr<GameObject> BaseScene::GetGameObjectWithEntity(Entity entity) const
 {
 	for (auto& pObj : m_pObjects)
@@ -120,6 +127,7 @@ std::shared_ptr<GameObject> Prefab::GetRoot() const
 	return m_pRootObject;
 }
 
+
 void Prefab::Serialize(StreamWriter& writer) const
 {
 	writer.StartObject("Prefab");
@@ -127,7 +135,9 @@ void Prefab::Serialize(StreamWriter& writer) const
 	writer.StartArray("gameobjects");
 	for (std::shared_ptr<GameObject> pObject : m_pObjects)
 	{
+		writer.StartArrayObject();
 		pObject->Serialize(writer);
+		writer.EndObject();
 	}
 	writer.EndArray();
 	writer.EndObject();
@@ -262,15 +272,14 @@ void Scene::CheckCollidersCollision()
 	}
 }
 
-void Scene::Deserialize(JsonReader const* reader)
+void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadString("name", m_Name);
 	auto objects = reader->ReadArray("gameobjects");
 
 	for (SizeType i = 0; i < objects->GetArraySize(); i++)
 	{
 		auto pNewObject = CreateGameObject();
-		pNewObject->Deserialize(objects->ReadArrayIndex(i).get());
+		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
 	}
 }
 
@@ -289,7 +298,8 @@ std::shared_ptr<GameObject> Scene::GetCameraObject() const
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 {
-	Deserialize(PrefabsManager::GetInstance().GetPrefabForSerialization(name).get());
+	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
+	return m_pObjects.back();
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

@@ -4,7 +4,7 @@
 #include <array>
 #include <memory>
 
-enum class Layer;
+enum class Layer : uint8_t;
 class RendererComponent;
 class Coordinator;
 class SceneRenderer final

@@ -1,10 +1,10 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Serializer.h"
 
 namespace geo
 {
-
-	struct Color final
+	struct Color final : public ISerializable
 	{
 		unsigned char R, G, B, A;
 
@@ -27,6 +27,9 @@ namespace geo
 		void Print() {
 			printf("R: %d G: %d B: %d A: %d \n", R, G, B, A);
 		}
+
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
 	};
 
 	struct Shape

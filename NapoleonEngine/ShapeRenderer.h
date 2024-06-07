@@ -13,6 +13,16 @@ public:
 	ShapeRenderer& operator=(ShapeRenderer&& rhs) = delete;
 	~ShapeRenderer();
 
+	//void Serialize(StreamWriter& writer) const override { writer.WriteString(" ", " "); };
+	//void Deserialize(JsonReader const* reader, SerializationMap& context) override
+	//{
+	//	int t;
+	//	reader->ReadInt(" ", t);
+	//	context.Add(99999999);
+	//};
+
+	//void RestoreContext(JsonReader const* reader, SerializationMap const& context);
+
 protected:
 	void Render(TransformComponent const& transform) const override;
 	

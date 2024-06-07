@@ -11,10 +11,10 @@ class ComponentManager
 {
 public:
 
-	template<typename T> ComponentType GetComponentType();
-	template<typename T> void AddComponent(Entity entity, T const& component);
-	template<typename T> void RemoveComponent(Entity entity);
-	template<typename T> std::shared_ptr<T> GetComponent(Entity entity);
+	template<ComponentDerived T> ComponentType GetComponentType();
+	template<ComponentDerived T> void AddComponent(Entity entity, T const& component);
+	template<ComponentDerived T> void RemoveComponent(Entity entity);
+	template<ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity);
 	
 	void EntityDestroyed(Entity entity);
 	std::vector<std::shared_ptr<ECS_Component>> GetComponentsForSignature(Entity entity, Signature signature);
@@ -28,15 +28,15 @@ private:
 	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
 	static ComponentType m_NextComponentType;
 
-	template<typename T> void RegisterComponent();
-	template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray();
-	template <typename T> void CheckComponentRegistered();
+	template<ComponentDerived T> void RegisterComponent();
+	template <ComponentDerived T> std::shared_ptr<ComponentArray<T>> GetComponentArray();
+	template <ComponentDerived T> void CheckComponentRegistered();
 
-	void DeserializeAndAddComponent(Entity entity, JsonReader const* reader);
+	void DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
 	std::shared_ptr<ECS_Component> GetComponent(std::string const& type);
 };
 
-template<typename T> 
+template<ComponentDerived T>
 void ComponentManager::RegisterComponent()
 {
 	const char* typeName = typeid(T).name();
@@ -44,7 +44,7 @@ void ComponentManager::RegisterComponent()
 	m_ComponentTypes.insert(std::make_pair(typeName, m_NextComponentType++));
 }
 
-template<typename T>
+template<ComponentDerived T>
 ComponentType ComponentManager::GetComponentType()
 {
 	CheckComponentRegistered<T>();
@@ -54,7 +54,7 @@ ComponentType ComponentManager::GetComponentType()
 	return m_ComponentTypes[typeName];
 }
 
-template<typename T> 
+template<ComponentDerived T>
 void ComponentManager::AddComponent(Entity entity, T const& component)
 {
 	CheckComponentRegistered<T>();
@@ -62,20 +62,20 @@ void ComponentManager::AddComponent(Entity entity, T const& component)
 	GetComponentArray<T>()->InsertData(entity, component);
 }
 
-template<typename T> 
+template<ComponentDerived T>
 void ComponentManager::RemoveComponent(Entity entity)
 {
 	return GetComponentArray<T>()->RemoveData(entity);
 }
 
-template<typename T> 
+template<ComponentDerived T>
 std::shared_ptr<T> ComponentManager::GetComponent(Entity entity)
 {
 	return GetComponentArray<T>()->GetData(entity);
 }
 
 
-template <typename T> 
+template <ComponentDerived T>
 std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray()
 {
 	const char* typeName = typeid(T).name();
@@ -85,7 +85,7 @@ std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray()
 	return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
 }
 
-template <typename T> 
+template <ComponentDerived T>
 void ComponentManager::CheckComponentRegistered()
 {
 	const char* typeName = typeid(T).name();

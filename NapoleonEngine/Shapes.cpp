@@ -3,6 +3,29 @@
 
 using namespace geo;
 
+void Color::Serialize(StreamWriter& writer) const
+{
+	writer.WriteInt("r", R);
+	writer.WriteInt("g", G);
+	writer.WriteInt("b", B);
+	writer.WriteInt("a", A);
+}
+
+void Color::Deserialize(JsonReader const* reader)
+{
+	int r, g, b, a;
+
+	reader->ReadInt("r", r);
+	reader->ReadInt("g", g);
+	reader->ReadInt("b", b);
+	reader->ReadInt("a", a);
+
+	R = static_cast<uint8_t>(r);
+	G = static_cast<uint8_t>(g);
+	B = static_cast<uint8_t>(b);
+	A = static_cast<uint8_t>(a);
+}
+
 Point::Point(glm::vec2 const& pos, Color const& col)
 	:Shape(col),
 	pos{ pos }

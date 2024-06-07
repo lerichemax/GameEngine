@@ -192,7 +192,7 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 {
 	writer.StartArrayObject();
 	{
-		writer.WriteString("type", typeid(ECS_TransformComponent).name());
+		writer.WriteInt("parent", m_pParent->GetId());
 		writer.StartObject("position");
 		{
 			writer.WriteDouble("x", m_Position.x);
@@ -228,7 +228,7 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 	writer.EndObject();
 }
 
-void ECS_TransformComponent::Deserialize(JsonReader const* reader)
+void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	auto posObject = reader->ReadObject("position");
 	posObject->ReadDouble("x", m_Position.x);
@@ -240,17 +240,24 @@ void ECS_TransformComponent::Deserialize(JsonReader const* reader)
 
 	reader->ReadDouble("rotation", m_Rotation);
 
-	auto posObject = reader->ReadObject("world_position");
-	posObject->ReadDouble("x", m_WorldPosition.x);
-	posObject->ReadDouble("y", m_WorldPosition.y);
+	auto worlPosObject = reader->ReadObject("world_position");
+	worlPosObject->ReadDouble("x", m_WorldPosition.x);
+	worlPosObject->ReadDouble("y", m_WorldPosition.y);
 
-	auto rotObject = reader->ReadObject("world_scale");
-	rotObject->ReadDouble("x", m_WorldScale.x);
-	rotObject->ReadDouble("y", m_WorldScale.y);
+	auto scaleObject = reader->ReadObject("world_scale");
+	scaleObject->ReadDouble("x", m_WorldScale.x);
+	scaleObject->ReadDouble("y", m_WorldScale.y);
 
 	reader->ReadDouble("world_rotation", m_WorldRotation);
 
-	ECS_Component::Deserialize(reader);
+	ECS_Component::Deserialize(reader, context);
+}
+
+void ECS_TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	int parent = 0;
+	reader->ReadInt("parent", parent);
+	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
 }
 
 TransformSystem::TransformSystem(Coordinator* const pRegistry)

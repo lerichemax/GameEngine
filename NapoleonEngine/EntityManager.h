@@ -36,5 +36,4 @@ private:
 
 	//bool HasChild(Entity entity, Entity child) const;
 	//bool CheckHierarchyForExistingChild(Entity child);
-
 };

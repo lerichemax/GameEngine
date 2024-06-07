@@ -38,7 +38,7 @@ const ComponentType MAX_COMPONENTS = 32;
 
 using Signature = std::bitset<MAX_COMPONENTS>;
 
-struct ECS_Component : public ISerializable
+struct ECS_Component : public IContextSerializable
 {
 	template<typename T> friend class ComponentArray;
 
@@ -50,8 +50,10 @@ struct ECS_Component : public ISerializable
 
 	void SetActive(bool isActive);
 
-	virtual void Serialize(StreamWriter& writer) const override;
-	virtual void Deserialize(JsonReader const* reader) override;
+	//void Serialize(StreamWriter& writer) const override;
+	//void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	//void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
 	bool m_IsActive{true};

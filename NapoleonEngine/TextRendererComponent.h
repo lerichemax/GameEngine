@@ -48,9 +48,10 @@ struct ECS_TextRendererComponent : public ECS_Component
 
 	void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
 
-protected:
-	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
-	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader const* reader, SerializationMap& context);
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) {}
 
 private:
 	friend class TextRendererSystem;

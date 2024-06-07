@@ -51,29 +51,25 @@ struct ECS_ButtonComponent : public ECS_Component
 
 public:
 	ECS_ButtonComponent(float width, float height);
-	ECS_ButtonComponent(ECS_ButtonComponent const& other);
-	ECS_ButtonComponent(ECS_ButtonComponent&& other);
-	ECS_ButtonComponent& operator=(ECS_ButtonComponent const& other);
-	ECS_ButtonComponent& operator=(ECS_ButtonComponent&& other);
+	ECS_ButtonComponent() = default;
 
-	~ECS_ButtonComponent();
-
-	void SetOnClickFunction(Command* const func);
-	void SetOnSelectFunction(Command* const func);
-	void SetOnDeselectFunction(Command* const func);
+	void SetOnClickFunction(Command* func);
+	void SetOnSelectFunction(Command* func);
+	void SetOnDeselectFunction(Command* func);
 
 	glm::vec2 m_Dimensions;
 
 	bool m_bVisualize;
 
-protected:
-	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
-	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
+	virtual void Serialize(StreamWriter& writer) const override;
+	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	Command* m_pOnClick = nullptr;
-	Command* m_pOnSelect = nullptr;
-	Command* m_pOnDeselect= nullptr;
+	std::shared_ptr<Command> m_pOnClick = nullptr; 
+	std::shared_ptr<Command> m_pOnSelect = nullptr; 
+	std::shared_ptr<Command> m_pOnDeselect= nullptr; 
 
 	bool m_IsSelected;
 };

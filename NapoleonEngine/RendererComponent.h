@@ -7,7 +7,7 @@
 
 #include <memory>
 
-enum class Layer
+enum class Layer : uint8_t
 {
 	preBacground,
 	background,
@@ -60,9 +60,10 @@ protected:
 struct ECS_RendererComponent : public ECS_Component
 {
 	std::shared_ptr<Texture2D> m_pTexture{};
-	Layer m_Layer;
+	Layer m_Layer{};
 
-protected:
-	//void Serialize(rapidjson::StringBuffer& stream) const override { printf("%d \n", stream.GetSize()); };
-	//void Deserialize(rapidjson::StringStream const& stream) const override { printf("%d \n", stream.Tell()); };
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {}
 };

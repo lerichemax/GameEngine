@@ -53,6 +53,21 @@ ECS_CameraComponent::ECS_CameraComponent()
 {
 }
 
+void ECS_CameraComponent::Serialize(StreamWriter& writer) const
+{
+	writer.WriteInt("width", m_Width);
+	writer.WriteInt("height", m_Height);
+}
+
+void ECS_CameraComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	int width, height;
+	reader->ReadInt("width", width);
+	reader->ReadInt("height", height);
+	m_Width = width;
+	m_Height = height;
+}
+
 CameraSystem::CameraSystem(Coordinator* const pRegistry)
 {
 	Signature signature{};

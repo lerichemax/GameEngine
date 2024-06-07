@@ -4,6 +4,7 @@
 #include "Component.h"
 
 #include <unordered_map>
+#include <concepts>
 
 struct ECS_Component;
 class IComponentArray
@@ -16,7 +17,7 @@ public:
 
 protected:
 	virtual void CloneToNewEntity(std::shared_ptr<IComponentArray> other, Entity newEntity, Entity entityToClone) = 0;
-	virtual void ForceInsertData(std::shared_ptr<ECS_Component>, Entity entity);
+	virtual void ForceInsertData(std::shared_ptr<ECS_Component>, Entity entity) = 0;
 
 private:
 	friend class Coordinator;
@@ -24,7 +25,13 @@ private:
 };
 
 template<typename T>
-class ComponentArray : public IComponentArray
+concept ComponentDerived = std::derived_from<T, ECS_Component>;
+
+template<typename T>
+class ComponentArray;
+
+template<ComponentDerived T>
+class ComponentArray<T> : public IComponentArray
 {
 public:
 	void InsertData(Entity entity, T const& Component);
@@ -49,17 +56,17 @@ private:
 	size_t m_Size{};
 };
 
-template<typename T>
+template<ComponentDerived T>
 ComponentArray<T>::ComponentArray()
 {
 }
-template<typename T>
+template<ComponentDerived T>
 ComponentArray<T>::~ComponentArray()
 {
 
 }
 
-template<typename T>
+template<ComponentDerived T>
 void ComponentArray<T>::InsertData(Entity entity, T const& component)
 {
 	//TODO: check for unique component
@@ -72,7 +79,7 @@ void ComponentArray<T>::InsertData(Entity entity, T const& component)
 	m_Size++;
 }
 
-template<typename T>
+template<ComponentDerived T>
 void ComponentArray<T>::RemoveData(Entity entity)
 {
 	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Removing a non existent component");
@@ -91,7 +98,7 @@ void ComponentArray<T>::RemoveData(Entity entity)
 	m_IndexToEntity.erase(indexOfLastElement);
 }
 
-template<typename T>
+template<ComponentDerived T>
 std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
 {
 	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
@@ -99,7 +106,7 @@ std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
 	return std::static_pointer_cast<ECS_Component>(m_Components[m_EntityToIndex[entity]]);
 }
 
-template<typename T>
+template<ComponentDerived T>
 std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 {
 	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
@@ -108,7 +115,7 @@ std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 }
 
 
-template<typename T>
+template<ComponentDerived T>
 void ComponentArray<T>::EntityDestroyed(Entity entity)
 {
 	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end())
@@ -117,7 +124,7 @@ void ComponentArray<T>::EntityDestroyed(Entity entity)
 	}
 }
 
-template<typename T>
+template<ComponentDerived T>
 void ComponentArray<T>::CloneToNewEntity(std::shared_ptr<IComponentArray> pOther, Entity newEntity, Entity entityToClone)
 {
 	auto otherCompArray = std::static_pointer_cast<ComponentArray<T>>(pOther);
@@ -136,12 +143,12 @@ void ComponentArray<T>::CloneToNewEntity(std::shared_ptr<IComponentArray> pOther
 	}
 }
 
-template<typename T>
+template<ComponentDerived T>
 void ComponentArray<T>::ForceInsertData(std::shared_ptr<ECS_Component> pComp, Entity entity)
 {
 	size_t newIndex = m_Size;
 	m_EntityToIndex[entity] = newIndex;
 	m_IndexToEntity[newIndex] = entity;
-	m_Components[newIndex] = pComp;
+	m_Components[newIndex] = std::static_pointer_cast<T>(pComp);
 	m_Size++;
 }

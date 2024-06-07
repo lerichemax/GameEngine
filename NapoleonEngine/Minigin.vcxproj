@@ -100,7 +100,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +131,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,7 +165,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -197,7 +200,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
