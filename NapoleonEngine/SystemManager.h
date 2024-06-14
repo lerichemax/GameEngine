@@ -14,7 +14,6 @@ class Coordinator;
 class SystemManager
 {
 public:
-	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Signature signature, Coordinator* const pRegistry);
 	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Coordinator* const pRegistry);
 	template <SystemDerived T> void SetSignature(Signature signature);
 	template <SystemDerived T> void UpdateSignature(Signature signature);
@@ -27,24 +26,12 @@ public:
 private:
 	friend class Coordinator;
 
-	std::unordered_map<const char*, Signature> m_Signatures;
-	std::unordered_map<const char*, std::shared_ptr<System>> m_Systems;
+	std::unordered_map<std::string, Signature> m_Signatures;
+	std::unordered_map<std::string, std::shared_ptr<System>> m_Systems;
+
+	std::shared_ptr<System> AddSystemFromName(std::string const& str, Coordinator* const pRegistry);
+	std::shared_ptr<System> CreateSystemFromName(std::string const& str) const;
 };
-
-template <SystemDerived T>
-std::shared_ptr<T> SystemManager::RegisterSystem(Signature signature, Coordinator* const pRegistry)
-{
-	const char* typeName = typeid(T).name();
-
-	assert(m_Systems.find(typeName) == m_Systems.end() && "Trying to register a system more than once");
-
-	m_Systems.insert(std::make_pair(typeName, nullptr));
-	auto pSystem = std::make_shared<T>(pRegistry);
-	m_Systems.at(typeName) = pSystem;
-
-	m_Signatures.insert(std::make_pair(typeName, signature));
-	return pSystem;
-}
 
 template <SystemDerived T>
 std::shared_ptr<T> SystemManager::RegisterSystem(Coordinator* const pRegistry)
@@ -54,7 +41,8 @@ std::shared_ptr<T> SystemManager::RegisterSystem(Coordinator* const pRegistry)
 	assert(m_Systems.find(typeName) == m_Systems.end() && "Trying to register a system more than once");
 
 	m_Systems.insert(std::make_pair(typeName, nullptr));
-	auto pSystem = std::make_shared<T>(pRegistry);
+	auto pSystem = std::make_shared<T>();
+	pSystem->SetSignature(pRegistry);
 	m_Systems.at(typeName) = pSystem;
 
 	return pSystem;

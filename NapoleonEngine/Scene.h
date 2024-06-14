@@ -39,7 +39,7 @@ protected:
 
 	std::string m_Name;
 	std::vector<std::shared_ptr<GameObject>> m_pObjects;
-	std::vector<std::shared_ptr<System>> m_Systems;
+	std::vector<std::shared_ptr<System>> m_pSystems;
 
 	template <typename T> void AddSystem();
 	template <typename T> void AddSystem(Signature signature);
@@ -53,6 +53,7 @@ private:
 class Prefab : public BaseScene
 {
 	friend class PrefabsManager;
+	friend class Scene;
 public:
 	explicit Prefab();
 
@@ -60,11 +61,10 @@ public:
 	std::shared_ptr<GameObject> GetRoot() const;
 
 	void Serialize(StreamWriter& writer) const override;
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
-
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
-
+	bool IsRoot(std::shared_ptr<GameObject> pObject) const;
 
 protected:
 	void SetName(std::string const& name);
@@ -89,17 +89,15 @@ public:
 	void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
 	void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
 
-	void Serialize(StreamWriter& writer) const override {};
-
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
-
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
 protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+
+	void Serialize(StreamWriter& writer) const override {};
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
 
 private:
 	friend void ColliderComponent::Initialize();
@@ -133,16 +131,17 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
+	std::shared_ptr<GameObject> MergePrefab(std::shared_ptr<Prefab> pPrefab);
 };
 
 template <typename T>
 void BaseScene::AddSystem()
 {
-	m_Systems.push_back(m_pRegistry->RegisterSystem<T>());
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
 }
 
 template <typename T>
 void BaseScene::AddSystem(Signature signature)
 {
-	m_Systems.push_back(m_pRegistry->RegisterSystem<T>(signature));
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>(signature));
 }

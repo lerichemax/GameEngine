@@ -42,6 +42,7 @@ private:
 
 struct ECS_TextRendererComponent : public ECS_Component
 {
+	ECS_TextRendererComponent() = default;
 	ECS_TextRendererComponent(std::string const& text, std::shared_ptr<Font> font);
 
 	std::string m_Text;

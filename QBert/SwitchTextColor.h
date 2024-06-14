@@ -19,6 +19,11 @@ public:
 
 	void Execute() override;
 
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader const* reader, SerializationMap& context);
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context);
+
 private:
 	Color m_TargetColor;
 	std::shared_ptr<ECS_TextRendererComponent> m_pText;

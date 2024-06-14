@@ -31,6 +31,11 @@ public:
 	int GetNbrLives() const { return m_NbrLives; }
 	bool IsGameOver() const { return m_NbrLives == 0; }
 	void Reset();
+
+	void Serialize(StreamWriter& writer) const override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 private:
 	int const MAX_LIVES;
 

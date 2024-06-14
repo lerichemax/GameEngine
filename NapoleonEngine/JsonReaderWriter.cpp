@@ -17,6 +17,11 @@ void StreamWriter::WriteInt(std::string const& key, int value)
 	m_BufferWriter.Int(value);
 }
 
+void StreamWriter::WriteIntNoKey(int value)
+{
+	m_BufferWriter.Int(value);
+}
+
 void StreamWriter::WriteBool(std::string const& key, bool value)
 {
 	m_BufferWriter.Key(key.c_str());
@@ -26,6 +31,11 @@ void StreamWriter::WriteBool(std::string const& key, bool value)
 void StreamWriter::WriteString(std::string const& key, std::string const& value)
 {
 	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.String(value.c_str());
+}
+
+void StreamWriter::WriteStringNoKey(std::string const& value)
+{
 	m_BufferWriter.String(value.c_str());
 }
 
@@ -74,55 +84,87 @@ JsonReader::JsonReader(Document&& doc)
 }
 
 JsonReader::JsonReader(Value const& value)
-	:m_JsonValue{ std::make_unique<Value>(std::move(value)) }
+	:m_JsonValue{ std::make_unique<Value>(std::move(const_cast<Value&>(value))) }
 {
 
 }
 
 void JsonReader::ReadInt(std::string const& attribute, int& value) const
 {
-	value = ReadAttribute(attribute).GetInt();
+	Value readValue;
+	if (TryReadAttribute(attribute, readValue))
+	{
+		value = readValue.GetInt();
+	}
 }
 void JsonReader::ReadString(std::string const& attribute, std::string& value) const
 {
-	value = ReadAttribute(attribute).GetString();
+	Value readValue;
+
+	if (TryReadAttribute(attribute, readValue))
+	{
+		value = readValue.GetString();
+	}
 }
 void JsonReader::ReadBool(std::string const& attribute, bool& value) const
 {
-	value = ReadAttribute(attribute).GetBool();
+	Value readValue;
+
+	if (TryReadAttribute(attribute, readValue))
+	{
+		value = readValue.GetBool();
+	}
 }
 
 void JsonReader::ReadDouble(std::string const& attribute, float& value) const
 {
-	value = static_cast<float>(ReadAttribute(attribute).GetDouble());
+	double valueDouble = 0;
+
+	ReadDouble(attribute, valueDouble);
+
+	value = static_cast<float>(valueDouble);
 }
 
 void JsonReader::ReadDouble(std::string const& attribute, double& value) const
 {
-	value = ReadAttribute(attribute).GetDouble();
+	Value readValue;
+
+	if (TryReadAttribute(attribute, readValue))
+	{
+		value = readValue.GetDouble();
+	}
 }
 
 std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute) const
 {
-	auto& value = ReadAttribute(attribute);
-	if (value.IsObject())
-	{
-		return std::unique_ptr<JsonReader>(new JsonReader{ value });
-	}
+	Value object;
 
-	Debugger::GetInstance().LogWarning("No object found for key " + attribute);
+	if (TryReadAttribute(attribute, object))
+	{
+		if (object.IsObject())
+		{
+			return std::unique_ptr<JsonReader>(new JsonReader{ object });
+		}
+
+		Debugger::GetInstance().LogWarning("No object found for key " + attribute);
+	}
+	
 	return nullptr;
 }
 
 std::unique_ptr<JsonReader> JsonReader::ReadArray(std::string const& attribute) const
 {
-	auto& value = ReadAttribute(attribute);
-	if (value.IsArray())
+	Value array;
+
+	if (TryReadAttribute(attribute, array))
 	{
-		return std::unique_ptr<JsonReader>(new JsonReader{ value });
+		if (array.IsArray())
+		{
+			return std::unique_ptr<JsonReader>(new JsonReader{ array });
+		}
+		Debugger::GetInstance().LogWarning("No array found for key " + attribute);
 	}
 
-	Debugger::GetInstance().LogWarning("No array found for key " + attribute);
 	return nullptr;
 }
 
@@ -137,6 +179,26 @@ std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 	return nullptr;
 }
 
+std::string JsonReader::ReadArrayIndexAsString(SizeType index) const
+{
+	if (m_JsonValue->IsArray())
+	{
+		return (*m_JsonValue)[index].GetString();
+	}
+
+	return "";
+}
+
+int JsonReader::ReadArrayIndexAsInt(SizeType index) const
+{
+	if (m_JsonValue->IsArray())
+	{
+		return (*m_JsonValue)[index].GetInt();
+	}
+
+	return -1;
+}
+
 SizeType JsonReader::GetArraySize() const
 {
 	if (m_JsonValue->IsArray())
@@ -147,12 +209,25 @@ SizeType JsonReader::GetArraySize() const
 	return 0;
 }
 
-Value const& JsonReader::ReadAttribute(std::string const& attribute) const
+bool JsonReader::IsValid() const
+{
+	return !m_JsonValue->IsNull();
+}
+
+bool JsonReader::TryReadAttribute(std::string const& attribute, Value& value) const
 {
 	if (m_JsonValue->ObjectEmpty())
 	{
 		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > Nothing to read");
+		return false;
 	}
 
-	return (*m_JsonValue)[attribute.c_str()];
+	if (!m_JsonValue->HasMember(attribute.c_str()))
+	{
+		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > attribute " + attribute + " not found in current Json object");
+		return false;
+	}
+
+	value = (*m_JsonValue)[attribute.c_str()];
+	return true;
 }

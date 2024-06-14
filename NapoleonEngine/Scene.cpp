@@ -38,7 +38,7 @@ BaseScene::BaseScene(const std::string& name)
 BaseScene::~BaseScene()
 {
 	m_pObjects.clear();
-	m_Systems.clear();
+	m_pSystems.clear();
 }
 
 std::shared_ptr<GameObject> BaseScene::CreateGameObject()
@@ -140,7 +140,52 @@ void Prefab::Serialize(StreamWriter& writer) const
 		writer.EndObject();
 	}
 	writer.EndArray();
+	writer.StartArray("systems");
+	for (std::shared_ptr<System> pSystem : m_pSystems)
+	{
+		writer.WriteStringNoKey(pSystem->GetNameForSerialization());
+	}
+	writer.EndArray();
 	writer.EndObject();
+}
+
+void Prefab::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	auto prefab = reader->ReadObject("Prefab");
+	reader->ReadString("name", m_Name);
+
+	auto systems = prefab->ReadArray("systems");
+	for (SizeType i = 0; i < systems->GetArraySize(); i++)
+	{
+		auto pNewSystem = m_pRegistry->AddSystemFromName(systems->ReadArrayIndexAsString(i));
+		if (pNewSystem != nullptr)
+		{
+			m_pSystems.push_back(pNewSystem);
+		}
+	}
+
+	auto objects = prefab->ReadArray("gameobjects");
+
+	m_pRootObject->Deserialize(objects->ReadArrayIndex(0).get(), context);
+
+	for (SizeType i = 1; i < objects->GetArraySize(); i++)
+	{
+		auto pNewObject = CreateGameObjectNoTransform();
+		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
+	}
+}
+
+void Prefab::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	for (std::shared_ptr<GameObject> pObject : m_pObjects)
+	{
+		pObject->RestoreContext(reader, context);
+	}
+}
+
+bool Prefab::IsRoot(std::shared_ptr<GameObject> pObject) const
+{
+	return pObject->GetEntity() == m_pRootObject->GetEntity();
 }
 
 void Prefab::SetName(std::string const& name)
@@ -202,7 +247,7 @@ void Scene::Update()
 		}
 	}
 	
-	for (auto& pSystem : m_Systems)
+	for (auto& pSystem : m_pSystems)
 	{
 		pSystem->Update(m_pRegistry->GetComponentManager());
 	}
@@ -272,15 +317,61 @@ void Scene::CheckCollidersCollision()
 	}
 }
 
-void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
+std::shared_ptr<GameObject> Scene::MergePrefab(std::shared_ptr<Prefab> pPrefab)
 {
-	auto objects = reader->ReadArray("gameobjects");
+	//systems
+	std::vector<std::shared_ptr<System>> prefabSystems = m_pRegistry->ExtractSystems(pPrefab->m_pRegistry);
+	m_pSystems.insert(m_pSystems.end(), prefabSystems.begin(), prefabSystems.end());
 
-	for (SizeType i = 0; i < objects->GetArraySize(); i++)
+	std::shared_ptr<GameObject> toReturn;
+
+	std::map<Entity, Entity> processedEntities{};//key : prefab object entity //value : new object entity
+
+	for (std::shared_ptr<GameObject> const pObject : pPrefab->m_pObjects)
 	{
-		auto pNewObject = CreateGameObject();
-		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
+		std::shared_ptr<GameObject> pNewObject;
+
+		if (processedEntities.find(pObject->m_Entity) == processedEntities.end())
+		{
+			pNewObject = CreateGameObject();
+			processedEntities.insert(std::make_pair(pObject->m_Entity, pNewObject->m_Entity));
+
+			if (toReturn == nullptr && pPrefab->IsRoot(pObject))
+			{
+				toReturn = pNewObject;
+			}
+
+			m_pRegistry->TransferComponents(pObject->m_Entity, pNewObject->m_Entity, pPrefab->m_pRegistry);
+			m_pRegistry->TransferTags(pObject->m_Entity, pNewObject->m_Entity, pPrefab->m_pRegistry);
+		}
+		else {
+			pNewObject = *(std::find_if(m_pObjects.begin(), m_pObjects.end(), [pObject](auto& pObj) {
+				return pObj->m_Entity == pObject->m_Entity;
+				}));
+		}
+
+		auto const& children = pPrefab->m_pRegistry->GetChildren(pObject->m_Entity);
+
+		for (Entity entity : children)
+		{
+			if (processedEntities.find(entity) != processedEntities.end())
+			{
+				m_pRegistry->AddChild(pNewObject->m_Entity, processedEntities.at(entity));
+			}
+			else
+			{
+				std::shared_ptr<GameObject> pChildObject = CreateGameObject();
+				processedEntities.insert(std::make_pair(entity, pChildObject->m_Entity));
+
+				pNewObject->AddChild(pChildObject);
+
+				m_pRegistry->TransferComponents(entity, pChildObject->m_Entity, pPrefab->m_pRegistry);
+				m_pRegistry->TransferTags(entity, pChildObject->m_Entity, pPrefab->m_pRegistry);
+			}
+		}
 	}
+
+	return toReturn;
 }
 
 void Scene::SetActiveCamera(std::shared_ptr<GameObject> pGameObject)
@@ -298,8 +389,9 @@ std::shared_ptr<GameObject> Scene::GetCameraObject() const
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 {
-	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
-	return m_pObjects.back();
+	auto pPrefab = PrefabsManager::GetInstance().InstantiatePrefab(name);
+
+	return MergePrefab(pPrefab);
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

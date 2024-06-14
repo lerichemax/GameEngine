@@ -112,21 +112,18 @@ void ECS_ButtonComponent::SetOnDeselectFunction(Command* func)
 
 void ECS_ButtonComponent::Serialize(StreamWriter& writer) const
 {
-	writer.StartArrayObject();
+	writer.WriteString("type", typeid(ECS_ButtonComponent).name());
+	writer.WriteBool("visualize", m_bVisualize);
+	writer.StartObject("dimension");
 	{
-		writer.WriteBool("visualize", m_bVisualize);
-		writer.StartObject("dimension");
-		{
-			writer.WriteDouble("x", m_Dimensions.x);
-			writer.WriteDouble("y", m_Dimensions.y);
-		}
-		writer.EndObject();
-
-		writer.WriteInt("onClick", m_pOnClick->GetId());
-		writer.WriteInt("onSelect", m_pOnClick->GetId());
-		writer.WriteInt("onDeselect", m_pOnClick->GetId());
+		writer.WriteDouble("x", m_Dimensions.x);
+		writer.WriteDouble("y", m_Dimensions.y);
 	}
 	writer.EndObject();
+
+	writer.WriteInt("onClick", m_pOnClick->GetId());
+	writer.WriteInt("onSelect", m_pOnSelect->GetId());
+	writer.WriteInt("onDeselect", m_pOnDeselect->GetId());
 }
 
 void ECS_ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -136,7 +133,6 @@ void ECS_ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap
 	auto dimensionObject = reader->ReadObject("dimension");
 	dimensionObject->ReadDouble("x", m_Dimensions.x);
 	dimensionObject->ReadDouble("y", m_Dimensions.y);
-
 }
 
 void ECS_ButtonComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)

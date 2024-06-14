@@ -22,7 +22,6 @@ public:
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::weak_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
-	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Signature signature);
 	template <SystemDerived T> std::shared_ptr<T> RegisterSystem();
 	template <SystemDerived T> void SetSystemSignature(Signature signature);
 
@@ -41,6 +40,7 @@ public:
 	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
+	std::shared_ptr<System> AddSystemFromName(std::string const& str);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
@@ -90,14 +90,6 @@ template <ComponentDerived T>
 ComponentType Coordinator::GetComponentType() const
 {
 	return m_pComponentManager->GetComponentType<T>();
-}
-
-template <SystemDerived T>
-std::shared_ptr<T> Coordinator::RegisterSystem(Signature signature)
-{
-	std::shared_ptr<T> pSystem = m_pSystemManager->RegisterSystem<T>(signature, this);
-	OnSystemSignatureChanged<T>(signature);
-	return pSystem;
 }
 
 template <SystemDerived T>

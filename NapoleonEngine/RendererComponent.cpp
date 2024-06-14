@@ -102,14 +102,23 @@ void RendererComponent::ChangeLayer(Layer newLayer)
 
 void ECS_RendererComponent::Serialize(StreamWriter& writer) const
 {
-	m_pTexture->Serialize(writer);
+	writer.WriteString("type", typeid(ECS_RendererComponent).name());
+	if (m_pTexture != nullptr)
+	{
+		m_pTexture->Serialize(writer);
+	}
+
 	writer.WriteInt("layer", static_cast<int>(m_Layer));
 }
 
 void ECS_RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	std::string filename;
-	m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
+	reader->ReadString("filepath", filename);
+	if (!filename.empty())
+	{
+		m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
+	}
 	
 	int layer;
 	reader->ReadInt("layer", layer);

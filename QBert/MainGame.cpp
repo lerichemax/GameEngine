@@ -58,13 +58,13 @@ void MainGame::CreatePrefabs() const
 
 	auto& pPrefabManager = PrefabsManager::GetInstance();
 
-	///*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
+	//*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
 
 	ECS_RendererComponent rendererComp;
 	rendererComp.m_Layer = Layer::uiGame;
 	
 	//lives
-	auto const livesPrefab = pPrefabManager.CreatePrefab("LivesUI");
+	auto const livesPrefab = pPrefabManager.CreatePrefab();
 	auto livesObj = livesPrefab->CreateGameObject();
 	livesObj->GetTransform()->Translate(20.f, 40.f);
 
@@ -74,20 +74,20 @@ void MainGame::CreatePrefabs() const
 	livesObj->AddComponent<ECS_TextRendererComponent>(textRenderer);
 	livesObj->AddComponent<ECS_RendererComponent>(rendererComp);
 
-	pPrefabManager.SavePrefab("LivesUI");
+	pPrefabManager.SavePrefab(livesPrefab, "LivesUI");
 
 	//points
-	auto const pointsrefab = pPrefabManager.CreatePrefab("PointsUI");
+	auto const pointsrefab = pPrefabManager.CreatePrefab();
 	auto const pointsObj = pointsrefab->CreateGameObject();
 	pointsObj->GetTransform()->Translate(20.f, 60.f);
 	
 	textRenderer.m_Text = "P1 Points: 0 ";
 	pointsObj->AddComponent<ECS_TextRendererComponent>(textRenderer);
 	pointsObj->AddComponent<ECS_RendererComponent>(rendererComp);
-
+	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
 
 	//QBert
-	auto qbertPrefab = pPrefabManager.CreatePrefab("QBert");
+	auto qbertPrefab = pPrefabManager.CreatePrefab();
 	auto qbert = qbertPrefab->CreateGameObject();
 	rendererComp.m_Layer = Layer::foreground;
 	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
@@ -108,6 +108,7 @@ void MainGame::CreatePrefabs() const
 	qbert->AddChild(hurtTextObj);
 	hurtTextObj->GetTransform()->Translate(10, -20);
 	qbert->GetTransform()->Scale(1.5f);
+	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
 	//

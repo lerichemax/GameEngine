@@ -45,13 +45,14 @@ private:
 	ButtonComponent(ButtonComponent const& other);
 };
 
-struct ECS_ButtonComponent : public ECS_Component
+class ECS_ButtonComponent : public ECS_Component
 {
 	friend class UiSystem;
 
 public:
-	ECS_ButtonComponent(float width, float height);
 	ECS_ButtonComponent() = default;
+	ECS_ButtonComponent(float width, float height);
+	~ECS_ButtonComponent() {};
 
 	void SetOnClickFunction(Command* func);
 	void SetOnSelectFunction(Command* func);
@@ -67,9 +68,9 @@ public:
 	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	std::shared_ptr<Command> m_pOnClick = nullptr; 
-	std::shared_ptr<Command> m_pOnSelect = nullptr; 
-	std::shared_ptr<Command> m_pOnDeselect= nullptr; 
+	std::shared_ptr<Command> m_pOnClick{};
+	std::shared_ptr<Command> m_pOnSelect{};
+	std::shared_ptr<Command> m_pOnDeselect{};
 
 	bool m_IsSelected;
 };

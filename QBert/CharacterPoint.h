@@ -25,6 +25,11 @@ public:
 	void AddPoints(int nbrPoint) { m_NbrPoints += nbrPoint; }
 	int GetPoints() const { return m_NbrPoints; }
 	void Reset() { m_NbrPoints = 0; }
+
+	void Serialize(StreamWriter& writer) const override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 private:
 	int m_NbrPoints;
 };

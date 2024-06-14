@@ -7,16 +7,6 @@
 #include "ButtonComponent.h"
 #include "TransformComponent.h"
 
-
-UiSystem::UiSystem(Coordinator* const pRegistry)
-{
-	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_ButtonComponent>());
-
-	pRegistry->SetSystemSignature<UiSystem>(signature);
-}
-
 void UiSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
@@ -63,4 +53,13 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 			btn->m_pOnClick->Execute();
 		}
 	}
+}
+
+void UiSystem::SetSignature(Coordinator* const pRegistry)
+{
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_ButtonComponent>());
+
+	pRegistry->SetSystemSignature<UiSystem>(signature);
 }

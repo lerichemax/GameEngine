@@ -31,7 +31,7 @@ void Coordinator::TransferComponents(Entity originEntity, Entity destinationEnti
 
 	Signature newSignature = m_pEntityManager->GetSignature(destinationEntity);
 
-	for (std::pair<const char*, ComponentType> const& pair : m_pComponentManager->m_ComponentTypes)
+	for (std::pair<std::string, ComponentType> const& pair : m_pComponentManager->m_ComponentTypes)
 	{
 		if (newSignature[pair.second] == 1)
 		{
@@ -57,27 +57,36 @@ void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, st
 
 void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader /*array*/, SerializationMap& context)
 {
-	auto array = reader->ReadArray("components");
-	for (SizeType i = 0; i < array->GetArraySize(); i++)
+	Signature signature = m_pEntityManager->GetSignature(entity);
+	for (SizeType i = 0; i < reader->GetArraySize(); i++)
 	{
-		m_pComponentManager->DeserializeAndAddComponent(entity, reader, context);
+		ComponentType type = m_pComponentManager->DeserializeAndAddComponent(entity, reader->ReadArrayIndex(i).get(), context);
+		signature.set(type, true);
 	}
+
+	m_pEntityManager->SetSignature(entity, signature);
+	m_pSystemManager->EntitySignatureChanged(entity, signature);
+}
+
+std::shared_ptr<System> Coordinator::AddSystemFromName(std::string const& str)
+{
+	return m_pSystemManager->AddSystemFromName(str, this);
 }
 
 std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr<Coordinator> pOther)
 {
 	std::vector<std::shared_ptr<System>> toReturn;
 
-	for (std::pair<const char*, std::shared_ptr<System>> const& pair : pOther->m_pSystemManager->m_Systems)
+	for (std::pair<std::string, std::shared_ptr<System>> const& pair : pOther->m_pSystemManager->m_Systems)
 	{
 		if (m_pSystemManager->m_Systems.find(pair.first) == m_pSystemManager->m_Systems.end())
 		{
 			std::shared_ptr<System> pSystem = pOther->m_pSystemManager->m_Systems.at(pair.first)->Clone();
 			toReturn.push_back(pSystem);
 			m_pSystemManager->m_Systems.insert(std::make_pair(pair.first, pSystem));
+			pSystem->SetSignature(this);
 
-			Signature signature = pOther->m_pSystemManager->m_Signatures.at(pair.first);
-			m_pSystemManager->m_Signatures.insert(std::make_pair(pair.first, signature));
+			Signature signature = m_pSystemManager->m_Signatures.at(pair.first);
 
 			std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
 			for (Entity entity : entities)

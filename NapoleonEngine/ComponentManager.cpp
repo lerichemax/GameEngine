@@ -1,18 +1,18 @@
 #include "PCH.h"
 #include "ComponentManager.h"
 #include "TransformComponent.h"
+#include "ButtonComponent.h"
+#include "RendererComponent.h"
+#include "TextRendererComponent.h"
+#include "CameraComponent.h"
+#include "FPSCounter.h"
 
-std::unordered_map<const char*, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<const char*, ComponentType>{};
+std::unordered_map<std::string, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<std::string, ComponentType>{};
 ComponentType ComponentManager::m_NextComponentType = ComponentType{};
-
-ComponentManager::~ComponentManager()
-{
-	m_ComponentTypes.clear(); //TODO -> destroy in coordinator
-}
 
 void ComponentManager::EntityDestroyed(Entity entity)
 {
-	for (std::pair<const char*, std::shared_ptr<IComponentArray>> const& pair : m_ComponentArrays)
+	for (std::pair<std::string, std::shared_ptr<IComponentArray>> const& pair : m_ComponentArrays)
 	{
 		std::shared_ptr<IComponentArray> pComponent = pair.second;
 
@@ -24,7 +24,7 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 {
 	std::vector<std::shared_ptr<ECS_Component>> components;
 
-	for (std::pair<const char*, ComponentType> const& pair : m_ComponentTypes)
+	for (std::pair<std::string, ComponentType> const& pair : m_ComponentTypes)
 	{
 		if (signature[pair.second] == 1)
 		{
@@ -35,20 +35,19 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 	return components;
 }
 
-void ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context)
+ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context)
 {
 	std::string type;
 	reader->ReadString("type", type);
 
-	if (m_ComponentTypes.find(type.c_str()) == m_ComponentTypes.end())
-	{
-		m_ComponentTypes.insert(std::make_pair(type.c_str(), m_NextComponentType++));
-	}
+	ForceRegisterComponent(type);
 
 	auto pComp = GetComponent(type);
 	pComp->Deserialize(reader, context);
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
+
+	return m_ComponentTypes.at(type);
 }
 
 std::shared_ptr<ECS_Component> ComponentManager::GetComponent(std::string const& type)
@@ -57,5 +56,53 @@ std::shared_ptr<ECS_Component> ComponentManager::GetComponent(std::string const&
 	{
 		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_TransformComponent>());
 	}
+	else if (type == "class ECS_ButtonComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_ButtonComponent>());
+	}
+	else if (type == "struct ECS_CameraComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_CameraComponent>());
+	}
+	else if (type == "struct ECS_RendererComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_RendererComponent>());
+	}
+	else if (type == "struct ECS_TextRendererComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<ECS_TextRendererComponent>());
+	}
+	else if (type == "struct FPSCounterComponent")
+	{
+		return std::static_pointer_cast<ECS_Component>(std::make_shared<FPSCounterComponent>());
+	}
 	return nullptr;
+}
+
+void ComponentManager::ForceRegisterComponent(std::string const& type)
+{
+	if (type == "class ECS_TransformComponent")
+	{
+		RegisterComponent<ECS_TransformComponent>();
+	}
+	else if (type == "class ECS_ButtonComponent")
+	{
+		RegisterComponent<ECS_ButtonComponent>();
+	}
+	else if (type == "struct ECS_CameraComponent")
+	{
+		RegisterComponent<ECS_CameraComponent>();
+	}
+	else if (type == "struct ECS_RendererComponent")
+	{
+		RegisterComponent<ECS_RendererComponent>();
+	}
+	else if (type == "struct ECS_TextRendererComponent")
+	{
+		RegisterComponent<ECS_TextRendererComponent>();
+	}
+	else if (type == "struct FPSCounterComponent")
+	{
+		RegisterComponent<FPSCounterComponent>();
+	}
 }

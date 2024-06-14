@@ -50,10 +50,8 @@ struct ECS_Component : public IContextSerializable
 
 	void SetActive(bool isActive);
 
-	//void Serialize(StreamWriter& writer) const override;
-	//void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
-	//void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 private:
 	bool m_IsActive{true};

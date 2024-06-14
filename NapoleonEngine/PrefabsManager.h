@@ -18,7 +18,7 @@ public:
 	std::shared_ptr<Prefab> CreatePrefab();
 	void SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string const& name);
 	std::unique_ptr<JsonReader> GetPrefabForSerialization(std::string const& name);
-	void InstantiatePrefab(std::string const& name, Scene* const pScene) const;
+	std::shared_ptr<Prefab> InstantiatePrefab(std::string const& name) const;
 
 private:
 	friend class Singleton<PrefabsManager>;

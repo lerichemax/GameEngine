@@ -36,15 +36,6 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 	currentGroup.erase(std::find(currentGroup.begin(), currentGroup.end(), pRenderer));
 }
 
-LayeredRendererSystem::LayeredRendererSystem(Coordinator* const pRegistry)
-{
-	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_RendererComponent>());
-
-	pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
-}
-
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
@@ -65,14 +56,13 @@ void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 	}
 }
 
-TextRendererSystem::TextRendererSystem(Coordinator* const pRegistry)
+void LayeredRendererSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
 	signature.set(pRegistry->GetComponentType<ECS_RendererComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_TextRendererComponent>());
 
-	pRegistry->SetSystemSignature<TextRendererSystem>(signature);
+	pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
 }
 
 void TextRendererSystem::Update(ComponentManager* const pComponentManager)
@@ -108,4 +98,14 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 			}
 		}
 	}
+}
+
+void TextRendererSystem::SetSignature(Coordinator* const pRegistry)
+{
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_RendererComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_TextRendererComponent>());
+
+	pRegistry->SetSystemSignature<TextRendererSystem>(signature);
 }

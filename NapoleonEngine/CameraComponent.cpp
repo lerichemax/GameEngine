@@ -55,6 +55,7 @@ ECS_CameraComponent::ECS_CameraComponent()
 
 void ECS_CameraComponent::Serialize(StreamWriter& writer) const
 {
+	writer.WriteString("type", typeid(ECS_CameraComponent).name());
 	writer.WriteInt("width", m_Width);
 	writer.WriteInt("height", m_Height);
 }
@@ -66,15 +67,6 @@ void ECS_CameraComponent::Deserialize(JsonReader const* reader, SerializationMap
 	reader->ReadInt("height", height);
 	m_Width = width;
 	m_Height = height;
-}
-
-CameraSystem::CameraSystem(Coordinator* const pRegistry)
-{
-	Signature signature{};
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_CameraComponent>());
-
-	pRegistry->SetSystemSignature<CameraSystem>(signature);
 }
 
 void CameraSystem::Update(ComponentManager* const pComponentManager)
@@ -105,4 +97,13 @@ bool CameraSystem::TrySetMainCamera(std::shared_ptr<GameObject> pGameObject)
 
 	m_MainCameraEntity = pGameObject->GetEntity();
 	return true;
+}
+
+void CameraSystem::SetSignature(Coordinator* const pRegistry)
+{
+	Signature signature{};
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_CameraComponent>());
+
+	pRegistry->SetSystemSignature<CameraSystem>(signature);
 }

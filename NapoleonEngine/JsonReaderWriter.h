@@ -14,8 +14,10 @@ public:
 	StreamWriter(StringBuffer& buffer);
 
 	void WriteInt(std::string const& key, int value);
+	void WriteIntNoKey(int value);
 	void WriteBool(std::string const& key, bool value);
 	void WriteString(std::string const& key, std::string const& value);
+	void WriteStringNoKey(std::string const& value);
 	void WriteDouble(std::string const& key, float value);
 	void WriteDouble(std::string const& key, double value);
 	void StartObject(std::string const& name);
@@ -42,10 +44,13 @@ public:
 	std::unique_ptr<JsonReader> ReadObject(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArray(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArrayIndex(SizeType index) const;
+	std::string ReadArrayIndexAsString(SizeType index) const;
+	int ReadArrayIndexAsInt(SizeType index) const;
 	SizeType GetArraySize() const;
+	bool IsValid() const;
 
 private:
 	std::unique_ptr<Value> m_JsonValue;
 
-	Value const& ReadAttribute(std::string const& attribute) const;
+	bool TryReadAttribute(std::string const& attribute, Value& value) const;
 };

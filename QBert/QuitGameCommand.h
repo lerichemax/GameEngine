@@ -11,6 +11,13 @@ public:
 	QuitGameCommand& operator=(QuitGameCommand&& rhs) = delete;
 	void Execute() override;
 
+	void Serialize(StreamWriter& writer) const override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
+
+
 private:
 
 	QuitGameCommand(QuitGameCommand const& ){}

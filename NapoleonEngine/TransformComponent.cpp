@@ -190,42 +190,39 @@ bool ECS_TransformComponent::HasChanged() const
 
 void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 {
-	writer.StartArrayObject();
+	writer.WriteString("type", typeid(ECS_TransformComponent).name());
+	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
+	writer.StartObject("position");
 	{
-		writer.WriteInt("parent", m_pParent->GetId());
-		writer.StartObject("position");
-		{
-			writer.WriteDouble("x", m_Position.x);
-			writer.WriteDouble("y", m_Position.y);
-		}
-		writer.EndObject();
-
-		writer.StartObject("scale");
-		{
-			writer.WriteDouble("x", m_Scale.x);
-			writer.WriteDouble("y", m_Scale.y);
-		}
-		writer.EndObject();
-
-		writer.WriteDouble("rotation", m_Rotation);
-
-		writer.StartObject("world_position");
-		{
-			writer.WriteDouble("x", m_WorldPosition.x);
-			writer.WriteDouble("y", m_WorldPosition.y);
-		}
-		writer.EndObject();
-
-		writer.StartObject("world_scale");
-		{
-			writer.WriteDouble("x", m_WorldScale.x);
-			writer.WriteDouble("y", m_WorldScale.y);
-		}
-		writer.EndObject();
-
-		writer.WriteDouble("world_rotation", m_WorldRotation);
+		writer.WriteDouble("x", m_Position.x);
+		writer.WriteDouble("y", m_Position.y);
 	}
 	writer.EndObject();
+
+	writer.StartObject("scale");
+	{
+		writer.WriteDouble("x", m_Scale.x);
+		writer.WriteDouble("y", m_Scale.y);
+	}
+	writer.EndObject();
+
+	writer.WriteDouble("rotation", m_Rotation);
+
+	writer.StartObject("world_position");
+	{
+		writer.WriteDouble("x", m_WorldPosition.x);
+		writer.WriteDouble("y", m_WorldPosition.y);
+	}
+	writer.EndObject();
+
+	writer.StartObject("world_scale");
+	{
+		writer.WriteDouble("x", m_WorldScale.x);
+		writer.WriteDouble("y", m_WorldScale.y);
+	}
+	writer.EndObject();
+
+	writer.WriteDouble("world_rotation", m_WorldRotation);
 }
 
 void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -260,14 +257,6 @@ void ECS_TransformComponent::RestoreContext(JsonReader const* reader, Serializat
 	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
 }
 
-TransformSystem::TransformSystem(Coordinator* const pRegistry)
-{
-	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-
-	pRegistry->SetSystemSignature<TransformSystem>(signature);
-}
-
 void TransformSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
@@ -283,6 +272,14 @@ void TransformSystem::Update(ComponentManager* const pComponentManager)
 
 		transComp->m_World = BuildTransformMatrix(transComp->m_WorldPosition, transComp->m_WorldRotation, transComp->m_WorldScale);
 	}
+}
+
+void TransformSystem::SetSignature(Coordinator* const pRegistry)
+{
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+
+	pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
 void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const

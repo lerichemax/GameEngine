@@ -117,11 +117,22 @@ void GameObject::Serialize(StreamWriter& writer) const
 		writer.EndObject();
 	}
 	writer.EndArray();
+
+	auto children = m_pRegistry->GetChildren(m_Entity);
+	writer.StartArray("children");
+	for (Entity entity : children)
+	{
+		writer.WriteIntNoKey(static_cast<int>(entity));
+	}
+	writer.EndArray();
 }
 
 void GameObject::Deserialize(JsonReader const* reader, SerializationMap& context)
 { 
 	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get(), context);
+	int entity;
+	reader->ReadInt("Entity", entity);
+	context.Add(entity, this);
 }
 
 void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const& context)
@@ -130,6 +141,16 @@ void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const
 	for (std::shared_ptr<ECS_Component> pComp : components)
 	{
 		pComp->RestoreContext(reader, context);
+	}
+
+	auto children = reader->ReadArray("children");
+	if (children != nullptr && children->IsValid())
+	{
+		for (SizeType i = 0; i < children->GetArraySize(); i++)
+		{
+			int child = children->ReadArrayIndexAsInt(i);
+			m_pRegistry->AddChild(m_Entity, context.GetRef<GameObject>(child)->m_Entity);
+		}
 	}
 }
 

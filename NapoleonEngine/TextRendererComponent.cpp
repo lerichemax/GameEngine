@@ -94,6 +94,7 @@ void ECS_TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 
 void ECS_TextRendererComponent::Serialize(StreamWriter& writer) const
 {
+	writer.WriteString("type", typeid(ECS_TextRendererComponent).name());
 	Color color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };
 	writer.StartObject("color");
 	color.Serialize(writer);

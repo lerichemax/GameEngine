@@ -49,18 +49,18 @@ void SoloScene::Initialize()
 	//pBtn->SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
 
 	pBtnObject = FindTagInChildren(m_pPauseMenu, "BackToMainBtn");
-	pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
+	auto pBackBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
 	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	pBackBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pBackBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pBackBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
 	pBtnObject = FindTagInChildren(m_pPauseMenu, "QuitBtn");
-	pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
+	auto pQuitBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
 	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBtn->SetOnClickFunction(new QuitGameCommand{  });
+	pQuitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
+	pQuitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
+	pQuitBtn->SetOnClickFunction(new QuitGameCommand{  });
 
 	m_pPauseMenu->SetActive(false);
 	

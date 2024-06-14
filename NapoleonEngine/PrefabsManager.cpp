@@ -23,7 +23,7 @@ public:
 	std::shared_ptr<Prefab> CreatePrefab();
 	void SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string const& name);
 	std::unique_ptr<JsonReader> GetPrefabForSerialization(std::string const& name);
-	void InstantiatePrefab(std::string const& name, Scene* const pScene) const;
+	std::shared_ptr<Prefab> InstantiatePrefab(std::string const& name) const;
 
 private:
 	std::map<std::string, std::unique_ptr<rapidjson::Document>> m_Prefabs;
@@ -69,9 +69,13 @@ std::unique_ptr<JsonReader> PrefabsManager::PrefabsManagerImpl::GetPrefabForSeri
 	return SerializerServiceLocator::GetDeserializerService().ReadDocument(m_Prefabs.at(name).get());
 }
 
-void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name, Scene* const pScene) const
+std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name) const
 {
-	SerializerServiceLocator::GetDeserializerService().DeserializeDocumentIntoScene(m_Prefabs.at(name).get(), pScene);
+	auto pPrefab = std::make_shared<Prefab>();
+
+	SerializerServiceLocator::GetDeserializerService().DeserializePrefab(m_Prefabs.at(name).get(), pPrefab);
+
+	return pPrefab;
 }
 
 PrefabsManager::PrefabsManager()
@@ -99,7 +103,7 @@ std::unique_ptr<JsonReader> PrefabsManager::GetPrefabForSerialization(std::strin
 	return m_pImpl->GetPrefabForSerialization(name);
 }
 
-void PrefabsManager::InstantiatePrefab(std::string const& name, Scene* const pScene) const
+std::shared_ptr<Prefab> PrefabsManager::InstantiatePrefab(std::string const& name) const
 {
-	return m_pImpl->InstantiatePrefab(name, pScene);
+	return m_pImpl->InstantiatePrefab(name);
 }

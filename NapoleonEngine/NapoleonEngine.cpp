@@ -74,7 +74,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 {
 	//Fps counter prefab
 	auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab();
-	auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
+	auto fpsCounterObject = fpsCounterPrefab->GetRoot();
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
 	ECS_TextRendererComponent txtRenderer("FPS ", font);

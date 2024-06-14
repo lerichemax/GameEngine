@@ -11,6 +11,12 @@ public:
 	SwitchScene& operator=(SwitchScene&& rhs) = delete;
 	void Execute() override;
 
+	void Serialize(StreamWriter& writer) const override {};
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
+
 private:
 	std::string m_TargetSceneName;
 
