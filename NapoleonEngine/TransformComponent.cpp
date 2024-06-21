@@ -252,7 +252,7 @@ void ECS_TransformComponent::Deserialize(JsonReader const* reader, Serialization
 
 void ECS_TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	int parent = 0;
+	int parent = -1;
 	reader->ReadInt("parent", parent);
 	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
 }

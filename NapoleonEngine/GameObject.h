@@ -38,7 +38,7 @@ public:
 	Scene* const GetParentScene() const { return m_pScene; }
 		
 	bool IsActive() const;
-	std::string GetTag() const;
+	std::string GetTag() const; //add compareTag function
 	Entity GetEntity() const { return m_Entity; }
 		
 	void AddObserver(Observer* pObserver) const;
@@ -69,8 +69,6 @@ private:
 		
 	Scene* m_pScene;
 	Subject* m_pSubject;
-
-	std::string m_Tag;
 		
 	void Refresh();
 	void Update();

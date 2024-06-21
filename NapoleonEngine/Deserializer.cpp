@@ -25,18 +25,18 @@ std::unique_ptr<JsonReader> Deserializer::ReadFile(std::string const& filename)
 	char* readBuffer = new char[size];
 	FileReadStream is(file, readBuffer, sizeof(readBuffer));
 
-	Document doc;
-	doc.ParseStream(is);
+	Document* doc = new Document;
+	doc->ParseStream(is);
 
 	delete[] readBuffer;
 	fclose(file);
 
-	return std::make_unique<JsonReader>(JsonReader{ std::move(doc) });
+	return std::make_unique<JsonReader>(JsonReader{ doc });
 }
 
 std::unique_ptr<JsonReader> Deserializer::ReadDocument(Document* const document)
 {
-	return std::make_unique<JsonReader>(JsonReader{ std::move(*document) });
+	return std::make_unique<JsonReader>(JsonReader{ document });
 }
 
 void Deserializer::DeserializePrefab(Document* const document, std::shared_ptr<Prefab> pPrefab)

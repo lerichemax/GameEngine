@@ -47,20 +47,7 @@ std::unique_ptr<Document> Serializer::Serialize(IContextSerializable const& seri
 
 SerializationMap::SerializationMap()
 {
-	Add(-1, nullptr);
-}
-
-void SerializationMap::Add(int id, std::shared_ptr<void> pRef)
-{
-	auto it = m_Refs.find(id);
-	if (it == m_Refs.end())
-	{
-		m_Refs.insert(std::make_pair(id, pRef));
-	}
-	else
-	{
-		Debugger::GetInstance().LogWarning("ID alrady added to the context");
-	}
+	m_Refs.insert(std::make_pair(- 1, nullptr));
 }
 
 int SerializationMap::GetId(std::shared_ptr<void> pRef) const

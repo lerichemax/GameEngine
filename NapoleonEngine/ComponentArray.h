@@ -86,9 +86,7 @@ void ComponentArray<T>::RemoveData(Entity entity)
 
 	size_t indexOfRemovedEntity = m_EntityToIndex[entity];
 	size_t indexOfLastElement = --m_Size;
-	m_Components[indexOfRemovedEntity].reset();
 	m_Components[indexOfRemovedEntity] = m_Components[indexOfLastElement];
-	m_Components[indexOfLastElement].reset();
 
 	Entity entityOfLastElement = m_IndexToEntity[indexOfLastElement];
 	m_EntityToIndex[entityOfLastElement] = static_cast<Entity>(indexOfRemovedEntity);

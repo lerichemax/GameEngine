@@ -74,7 +74,7 @@ std::vector<std::shared_ptr<GameObject>> BaseScene::GetChildrenWithTag(std::shar
 	{
 		std::shared_ptr<GameObject> pChild = GetGameObjectWithEntity(entity);
 
-		if (pChild != nullptr && pChild->m_Tag == tag)
+		if (pChild != nullptr && pChild->GetTag() == tag)
 		{
 			childrenWithTag.push_back(pChild);
 		}
@@ -166,20 +166,25 @@ void Prefab::Deserialize(JsonReader const* reader, SerializationMap& context)
 
 	auto objects = prefab->ReadArray("gameobjects");
 
-	m_pRootObject->Deserialize(objects->ReadArrayIndex(0).get(), context);
-
 	for (SizeType i = 1; i < objects->GetArraySize(); i++)
 	{
 		auto pNewObject = CreateGameObjectNoTransform();
+		auto go = objects->ReadArrayIndex(i);
+		int entity;
+		go->ReadInt("Entity", entity);
+		context.Add(entity, pNewObject);
 		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
 	}
 }
 
 void Prefab::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	for (std::shared_ptr<GameObject> pObject : m_pObjects)
+	auto prefab = reader->ReadObject("Prefab");
+	auto objects = prefab->ReadArray("gameobjects");
+
+	for (size_t i = 0; i < m_pObjects.size(); i++)
 	{
-		pObject->RestoreContext(reader, context);
+		m_pObjects[i]->RestoreContext(objects->ReadArrayIndex(i).get(), context);
 	}
 }
 
@@ -387,7 +392,7 @@ std::shared_ptr<GameObject> Scene::GetCameraObject() const
 	return m_pCameraObject;
 }
 
-std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
+std::weak_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 {
 	auto pPrefab = PrefabsManager::GetInstance().InstantiatePrefab(name);
 

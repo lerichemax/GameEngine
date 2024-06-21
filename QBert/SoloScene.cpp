@@ -39,7 +39,7 @@ void SoloScene::Initialize()
 	auto const pointsP1 = InstantiatePrefab("PointsUI");
 
 	//Pause Menu
-	m_pPauseMenu = InstantiatePrefab("PauseMenu");
+	m_pPauseMenu = InstantiatePrefab("PauseMenu").lock();
 
 	auto pBtnObject = FindTagInChildren(m_pPauseMenu, "ResumeBtn");
 	auto pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
@@ -64,12 +64,12 @@ void SoloScene::Initialize()
 
 	m_pPauseMenu->SetActive(false);
 	
-	auto qbertObj = InstantiatePrefab("QBert");
+	//auto qbertObj = InstantiatePrefab("QBert");
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 
 
-	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
+	//livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
 	
 //	auto const pyramid = pPrefabManager.Instantiate("Pyramid");
 //	m_pPyramid = pyramid->GetComponent<Pyramid>();

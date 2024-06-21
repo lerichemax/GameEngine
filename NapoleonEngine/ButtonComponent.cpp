@@ -121,14 +121,14 @@ void ECS_ButtonComponent::Serialize(StreamWriter& writer) const
 	}
 	writer.EndObject();
 
-	writer.WriteInt("onClick", m_pOnClick->GetId());
-	writer.WriteInt("onSelect", m_pOnSelect->GetId());
-	writer.WriteInt("onDeselect", m_pOnDeselect->GetId());
+	writer.WriteInt("onClick", m_pOnClick == nullptr ? -1 : m_pOnClick->GetId());
+	writer.WriteInt("onSelect", m_pOnSelect == nullptr ? -1 : m_pOnSelect->GetId());
+	writer.WriteInt("onDeselect", m_pOnDeselect == nullptr ? -1 : m_pOnDeselect->GetId());
 }
 
 void ECS_ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	context.Add(GetId(), this);
+	//context.Add(GetId(), this);
 	reader->ReadBool("visualize", m_bVisualize);
 	auto dimensionObject = reader->ReadObject("dimension");
 	dimensionObject->ReadDouble("x", m_Dimensions.x);

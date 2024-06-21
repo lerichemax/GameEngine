@@ -66,7 +66,10 @@ class ECS_TransformComponent final: public ECS_Component
 
 public:
 	ECS_TransformComponent() : ECS_Component(true) {}
+	~ECS_TransformComponent()
+	{
 
+	}
 	//void SetLocation(vec2 const& loc);
 	//void SetLocation(float x, float y);
 	//void SetLocalLocation(vec2 const& loc);

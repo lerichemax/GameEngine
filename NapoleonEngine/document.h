@@ -2165,7 +2165,7 @@ private:
     //! Assignment without calling destructor
     void RawAssign(GenericValue& rhs) RAPIDJSON_NOEXCEPT {
         data_ = rhs.data_;
-        // data_.f.flags = rhs.data_.f.flags;
+        //data_.f.flags = rhs.data_.f.flags;
         rhs.data_.f.flags = kNullFlag;
     }
 

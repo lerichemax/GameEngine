@@ -44,6 +44,7 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	auto pComp = GetComponent(type);
 	pComp->Deserialize(reader, context);
+	context.Add(pComp->GetId(), pComp);
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
 

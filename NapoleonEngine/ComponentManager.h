@@ -11,6 +11,8 @@
 class ComponentManager
 {
 public:
+	~ComponentManager() = default;
+
 	template<ComponentDerived T> ComponentType GetComponentType();
 	template<ComponentDerived T> void AddComponent(Entity entity, T const& component);
 	template<ComponentDerived T> void RemoveComponent(Entity entity);

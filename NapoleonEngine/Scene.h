@@ -93,7 +93,7 @@ protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
-	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+	std::weak_ptr<GameObject> InstantiatePrefab(std::string const& name);
 
 	void Serialize(StreamWriter& writer) const override {};
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};

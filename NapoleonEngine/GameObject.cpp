@@ -14,8 +14,7 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry, bool transform)
 	m_bIsDestroyed(false),
 	m_pTransform(nullptr),
 	m_pScene(nullptr),
-	m_pSubject(new Subject{}),
-	m_Tag()
+	m_pSubject(new Subject{})
 {
 	if (transform)
 	{
@@ -30,8 +29,7 @@ GameObject::GameObject(const GameObject& other)
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
 	m_pScene(nullptr),
-	m_pSubject(new Subject{*other.m_pSubject}),
-	m_Tag(other.m_Tag)
+	m_pSubject(new Subject{*other.m_pSubject})
 {
 
 }
@@ -107,6 +105,7 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 void GameObject::Serialize(StreamWriter& writer) const
 { 
 	writer.WriteInt("Entity", m_Entity);
+	writer.WriteString("Tag", GetTag());
 	writer.StartArray("components");
 	auto components = m_pRegistry->GetComponents(m_Entity);
 
@@ -130,17 +129,20 @@ void GameObject::Serialize(StreamWriter& writer) const
 void GameObject::Deserialize(JsonReader const* reader, SerializationMap& context)
 { 
 	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get(), context);
-	int entity;
-	reader->ReadInt("Entity", entity);
-	context.Add(entity, this);
+
+	std::string tag;
+	reader->ReadString("Tag", tag);
+	SetTag(tag);
 }
 
 void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
+	auto jsonComponents = reader->ReadArray("components");
 	auto components = m_pRegistry->GetComponents(m_Entity);
-	for (std::shared_ptr<ECS_Component> pComp : components)
+
+	for (size_t i = 0; i < components.size(); i++)
 	{
-		pComp->RestoreContext(reader, context);
+		components[i]->RestoreContext(jsonComponents->ReadArrayIndex(i).get(), context);
 	}
 
 	auto children = reader->ReadArray("children");

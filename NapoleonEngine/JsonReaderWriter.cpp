@@ -78,41 +78,37 @@ void StreamWriter::EndArray()
 	m_BufferWriter.EndArray();
 }
 
-JsonReader::JsonReader(Document&& doc)
-	:m_JsonValue{ std::make_unique<Value>(doc.GetObjectA())}
-{
-}
-
-JsonReader::JsonReader(Value const& value)
-	:m_JsonValue{ std::make_unique<Value>(std::move(const_cast<Value&>(value))) }
+JsonReader::JsonReader(Value* value)
+	:m_JsonValue{ value }
 {
 
 }
 
 void JsonReader::ReadInt(std::string const& attribute, int& value) const
 {
-	Value readValue;
-	if (TryReadAttribute(attribute, readValue))
+	auto attributeReader = ReadAttribute(attribute);
+
+	if (attributeReader != nullptr)
 	{
-		value = readValue.GetInt();
+		value = attributeReader->m_JsonValue->GetInt();
 	}
 }
 void JsonReader::ReadString(std::string const& attribute, std::string& value) const
 {
-	Value readValue;
+	auto attributeReader = ReadAttribute(attribute);
 
-	if (TryReadAttribute(attribute, readValue))
+	if (attributeReader != nullptr)
 	{
-		value = readValue.GetString();
+		value = attributeReader->m_JsonValue->GetString();
 	}
 }
 void JsonReader::ReadBool(std::string const& attribute, bool& value) const
 {
-	Value readValue;
+	auto attributeReader = ReadAttribute(attribute);
 
-	if (TryReadAttribute(attribute, readValue))
+	if (attributeReader != nullptr)
 	{
-		value = readValue.GetBool();
+		value = attributeReader->m_JsonValue->GetBool();
 	}
 }
 
@@ -127,23 +123,23 @@ void JsonReader::ReadDouble(std::string const& attribute, float& value) const
 
 void JsonReader::ReadDouble(std::string const& attribute, double& value) const
 {
-	Value readValue;
+	auto attributeReader = ReadAttribute(attribute);
 
-	if (TryReadAttribute(attribute, readValue))
+	if (attributeReader != nullptr)
 	{
-		value = readValue.GetDouble();
+		value = attributeReader->m_JsonValue->GetDouble();
 	}
 }
 
 std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute) const
 {
-	Value object;
+	auto attributeReader = ReadAttribute(attribute);
 
-	if (TryReadAttribute(attribute, object))
+	if (attributeReader != nullptr)
 	{
-		if (object.IsObject())
+		if (attributeReader->m_JsonValue->IsObject())
 		{
-			return std::unique_ptr<JsonReader>(new JsonReader{ object });
+			return attributeReader;
 		}
 
 		Debugger::GetInstance().LogWarning("No object found for key " + attribute);
@@ -154,13 +150,13 @@ std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute)
 
 std::unique_ptr<JsonReader> JsonReader::ReadArray(std::string const& attribute) const
 {
-	Value array;
+	auto attributeReader = ReadAttribute(attribute);
 
-	if (TryReadAttribute(attribute, array))
+	if (attributeReader != nullptr)
 	{
-		if (array.IsArray())
+		if (attributeReader->m_JsonValue->IsArray())
 		{
-			return std::unique_ptr<JsonReader>(new JsonReader{ array });
+			return attributeReader;
 		}
 		Debugger::GetInstance().LogWarning("No array found for key " + attribute);
 	}
@@ -172,7 +168,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 {
 	if (m_JsonValue->IsArray())
 	{
-		return std::unique_ptr<JsonReader>(new JsonReader{ (*m_JsonValue)[index]});
+		return std::unique_ptr<JsonReader>(new JsonReader{ &(*m_JsonValue)[index]});
 	}
 
 	Debugger::GetInstance().LogWarning("This Json object is not an array");
@@ -214,20 +210,19 @@ bool JsonReader::IsValid() const
 	return !m_JsonValue->IsNull();
 }
 
-bool JsonReader::TryReadAttribute(std::string const& attribute, Value& value) const
+std::unique_ptr<JsonReader> JsonReader::ReadAttribute(std::string const& attribute) const
 {
 	if (m_JsonValue->ObjectEmpty())
 	{
 		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > Nothing to read");
-		return false;
+		return nullptr;
 	}
 
 	if (!m_JsonValue->HasMember(attribute.c_str()))
 	{
 		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > attribute " + attribute + " not found in current Json object");
-		return false;
+		return nullptr;
 	}
 
-	value = (*m_JsonValue)[attribute.c_str()];
-	return true;
+	return std::unique_ptr<JsonReader>(new JsonReader{ &(*m_JsonValue)[attribute.c_str()] });
 }

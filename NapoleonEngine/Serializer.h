@@ -21,9 +21,8 @@ public:
 class SerializationMap final
 {
 public:
-	void Add(int Id, std::shared_ptr<void> pRef);
-	template <typename T> void Add(int Id, T* pRef);
 	int GetId(std::shared_ptr<void> pRef) const;
+	template <typename T> void Add(int Id, std::shared_ptr<T> pRef);
 	template <typename T> std::shared_ptr<T> GetRef(int id) const;
 
 private:
@@ -70,13 +69,12 @@ std::shared_ptr<T> SerializationMap::GetRef(int id) const
 }
 
 template <typename T>
-void SerializationMap::Add(int id, T* pRef)
+void SerializationMap::Add(int id, std::shared_ptr<T> pRef)
 {
 	auto it = m_Refs.find(id);
 	if (it == m_Refs.end())
 	{
-		auto pShared = std::shared_ptr<T>(pRef);
-		m_Refs.insert(std::make_pair(id, pShared));
+		m_Refs.insert(std::make_pair(id, pRef));
 	}
 	else
 	{

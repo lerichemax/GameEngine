@@ -33,8 +33,7 @@ private:
 class JsonReader
 {
 public:
-	explicit JsonReader(Document&& doc);
-	explicit JsonReader(Value const& value);
+	explicit JsonReader(Value* value);
 
 	void ReadInt(std::string const& attribute, int&	value) const;
 	void ReadString(std::string const& attribute, std::string& value) const;
@@ -50,7 +49,7 @@ public:
 	bool IsValid() const;
 
 private:
-	std::unique_ptr<Value> m_JsonValue;
+	Value* const m_JsonValue;
 
-	bool TryReadAttribute(std::string const& attribute, Value& value) const;
+	std::unique_ptr<JsonReader> ReadAttribute(std::string const& attribute) const;
 };
