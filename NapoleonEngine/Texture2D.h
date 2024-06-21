@@ -7,8 +7,8 @@ struct SDL_Texture;
 	*/
 class Texture2D final : public ISerializable
 {
+	friend class ResourceManager;
 public:
-		
 	explicit Texture2D(SDL_Texture* texture);
 	Texture2D(const Texture2D&) = delete;
 	Texture2D(Texture2D&&) = delete;
@@ -28,4 +28,7 @@ private:
 	std::string m_FilePath;
 	float m_Width;
 	float m_Height;
+
+	explicit Texture2D(SDL_Texture* texture, std::string const& filePath);
+
 };

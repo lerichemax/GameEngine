@@ -23,31 +23,17 @@
 #include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
-QBert::QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId)
+QBert::QBert(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear)
 	:Character(nullptr, CharacterType::player),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_pHurtTex{ nullptr },
-	m_JumpSoundID(jumpId),
-	m_FallSoundID(fallId),
-	m_SwearSoundID(swearId),
+	m_JumpSound(jump),
+	m_FallSound(fall),
+	m_SwearSound(swear),
 	m_PlayerNbr(),
 	m_bCanMove(true),
 	m_bWillSleep(false)	
-{
-}
-
-QBert::QBert(QBert const& other)
-	:Character(other),
-	m_pPoints(nullptr),
-	m_pLives(nullptr),
-	m_pHurtTex(nullptr),
-	m_JumpSoundID(other.m_JumpSoundID),
-	m_FallSoundID(other.m_FallSoundID),
-	m_SwearSoundID(other.m_SwearSoundID),
-	m_PlayerNbr(other.m_PlayerNbr),
-	m_bCanMove(other.m_bCanMove),
-	m_bWillSleep(other.m_bWillSleep)
 {
 }
 
@@ -127,32 +113,32 @@ void QBert::DoMove(ConnectionDirection direction)
 		return;
 	}
 	
-	if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
-	{
-		JumpToDeath(direction);
-		SwitchState(new FallingState(this, m_pJumper));
-		SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
-		return;
-	}
+	//if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
+	//{
+	//	JumpToDeath(direction);
+	//	SwitchState(new FallingState(this, m_pJumper));
+	//	SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
+	//	return;
+	//}
 
-	SetDirectionTextures(direction);
-	
-	if (m_pCurrentQube->HasConnection(direction))
-	{
-		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
-		m_pCurrentQube->CharacterJumpOut();
-		JumpToQube(m_pCurrentQube->GetConnection(direction));
-		SwitchState(new JumpingState(this, m_pJumper));
-	}
-	else if(m_pCurrentQube->HasConnectionToDisk())
-	{
-		SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
-		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
-		m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
-		m_pCurrentQube->CharacterJumpOut();
-		m_pCurrentQube = nullptr;
-		m_bCanMove = false;
-	}
+	//SetDirectionTextures(direction);
+	//
+	//if (m_pCurrentQube->HasConnection(direction))
+	//{
+	//	SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
+	//	m_pCurrentQube->CharacterJumpOut();
+	//	JumpToQube(m_pCurrentQube->GetConnection(direction));
+	//	SwitchState(new JumpingState(this, m_pJumper));
+	//}
+	//else if(m_pCurrentQube->HasConnectionToDisk())
+	//{
+	//	SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
+	//	//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
+	//	m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
+	//	m_pCurrentQube->CharacterJumpOut();
+	//	m_pCurrentQube = nullptr;
+	//	m_bCanMove = false;
+	//}
 }
 
 void QBert::JumpOffDisk()

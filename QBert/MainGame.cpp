@@ -92,7 +92,7 @@ void MainGame::CreatePrefabs() const
 	auto qbert = qbertPrefab->CreateGameObject();
 	rendererComp.m_Layer = Layer::foreground;
 	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
-	//qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
+	qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
 	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50});
 	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50});
 	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50});
@@ -113,26 +113,29 @@ void MainGame::CreatePrefabs() const
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
 	//
-	////Qube prefab
-	//ECS_RendererComponent qubeRenderer;
-	//qubeRenderer.m_Layer = Layer::uiGame;
+	//Qube prefab
+	ECS_RendererComponent qubeRenderer;
+	qubeRenderer.m_Layer = Layer::uiGame;
 
-	//auto qubePf = pPrefabManager.CreatePrefab("Qube");
-	//auto qubeObject = qubePf->CreateGameObject();
-	//auto text = ResourceManager::GetInstance().GetTexture(json->ReadString("initial texture"));
-	//auto interText = ResourceManager::GetInstance().GetTexture(json->ReadString("intermediate texture"));
-	//auto flippedText = ResourceManager::GetInstance().GetTexture(json->ReadString("flipped texture"));
-	//qubeObject->GetTransform()->Scale(1.75f);
-	//qubeRenderer.m_pTexture = text;
-	//qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
-	////qubePf->AddComponent(new Qube{ text, interText, flippedText });
+	auto qubePf = pPrefabManager.CreatePrefab();
+	auto qubeObject = qubePf->CreateGameObject();
+	auto text = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png");
+	//auto interText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png");
+	//auto flippedText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png");
+	qubeObject->GetTransform()->Scale(1.75f);
+	qubeRenderer.m_pTexture = text;
+	qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
+	//qubePf->AddComponent(new Qube{ text, interText, flippedText });
+	pPrefabManager.SavePrefab(qubePf, "Qube");
 
-	////Pyramid
-	////int levelWidth = json->ReadInt("width");
-	//auto pyramidPf = pPrefabManager.CreatePrefab("Pyramid");
-	//auto pyramidObject = pyramidPf->CreateGameObject();
-	//pyramidObject->GetTransform()->Translate(250.f, 400.f);
-	////pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
+	//Pyramid
+	//int levelWidth = json->ReadInt("width");
+	auto pyramidPf = pPrefabManager.CreatePrefab();
+	auto pyramidObject = pyramidPf->CreateGameObject();
+	pyramidObject->GetTransform()->Translate(250.f, 400.f);
+	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
+	//pyramidObject->AddComponent(new Pyramid{ 7});
+	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	////Ugg + WrongWay
 	//auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");

@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "BehaviourComponent.h"
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -9,13 +9,11 @@ class Qube;
 enum class ConnectionDirection;
 class QBert;
 class ColoredDisk;
-class Pyramid final : public Component
+class Pyramid final : public BehaviourComponent
 {
 
 public:
 	explicit Pyramid(unsigned int maxWidth);
-	
-	Pyramid* Clone() const override { return new Pyramid(*this); } 
 	
 	Pyramid(Pyramid&& other) = delete;
 	Pyramid& operator=(Pyramid const& rhs) = delete;
@@ -65,6 +63,4 @@ private:
 	int GetQBertIndex() const;
 	
 	void DiskSpawnerTimer();
-
-	Pyramid(Pyramid const& other);
 };

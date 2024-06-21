@@ -35,7 +35,7 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-	auto const livesP1 = InstantiatePrefab("LivesUI");
+	auto const livesP1 = InstantiatePrefab("LivesUI").lock();
 	auto const pointsP1 = InstantiatePrefab("PointsUI");
 
 	//Pause Menu
@@ -64,7 +64,9 @@ void SoloScene::Initialize()
 
 	m_pPauseMenu->SetActive(false);
 	
-	//auto qbertObj = InstantiatePrefab("QBert");
+	//auto qbertObj = InstantiatePrefab("QBert").lock();
+	auto qubeObj = InstantiatePrefab("Qube").lock();
+	qubeObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 

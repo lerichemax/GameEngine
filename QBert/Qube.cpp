@@ -12,20 +12,33 @@
 #include "PrefabsManager.h"
 
 
+//Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
+//	:m_pScene(nullptr),
+//	m_pPyramid(nullptr),
+//	m_pConnections{ nullptr },
+//	m_pEscheresqueRightConnections{nullptr},
+//	m_pEscheresqueLeftConnections{nullptr},
+//	m_pDiskConnection(nullptr),
+//	m_pDefaultText(pDefText),
+//	m_pIntermediateTexture(pInterText),
+//	m_pFlippedTexture(pFlippedText),
+//	m_pCharacter(nullptr),
+//	m_CharacterPos(),
+//	m_EscheresqueLeftPos(),
+//	m_EscheresqueRightPos(),
+//	m_bIsFlipped(false),
+//	m_bIsLastRow(false),
+//	m_bIsSideColumn(false),
+//	m_JumpCounter()
+//{
+//}
+
 Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
-	:m_pScene(nullptr),
-	m_pPyramid(nullptr),
-	m_pConnections{ nullptr },
-	m_pEscheresqueRightConnections{nullptr},
-	m_pEscheresqueLeftConnections{nullptr},
-	m_pDiskConnection(nullptr),
-	m_pDefaultText(pDefText),
+	:m_pDefaultText(pDefText),
 	m_pIntermediateTexture(pInterText),
 	m_pFlippedTexture(pFlippedText),
 	m_pCharacter(nullptr),
 	m_CharacterPos(),
-	m_EscheresqueLeftPos(),
-	m_EscheresqueRightPos(),
 	m_bIsFlipped(false),
 	m_bIsLastRow(false),
 	m_bIsSideColumn(false),
@@ -33,36 +46,9 @@ Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
 {
 }
 
-Qube::Qube(Qube const& other)
-	:m_pScene(other.m_pScene),
-	m_pPyramid(other.m_pPyramid),
-	m_pConnections{nullptr},
-	m_pEscheresqueLeftConnections{nullptr},
-	m_pEscheresqueRightConnections{nullptr},
-	m_pDiskConnection(other.m_pDiskConnection),
-	m_pDefaultText(other.m_pDefaultText),
-	m_pIntermediateTexture(other.m_pIntermediateTexture),
-	m_pFlippedTexture(other.m_pFlippedTexture),
-	m_pCharacter(other.m_pCharacter),
-	m_CharacterPos(other.m_CharacterPos),
-	m_EscheresqueLeftPos(other.m_EscheresqueLeftPos),
-	m_EscheresqueRightPos(other.m_EscheresqueRightPos),
-	m_bIsFlipped(other.m_bIsFlipped),
-	m_bIsLastRow(other.m_bIsLastRow),
-	m_bIsSideColumn(other.m_bIsSideColumn),
-	m_JumpCounter(other.m_JumpCounter)
-{
-	for (unsigned int i{}; i <MAX_NBR_CONNECTION;++i)
-	{
-		m_pConnections[i] = other.m_pConnections[i];
-		m_pEscheresqueLeftConnections[i] = other.m_pEscheresqueLeftConnections[i];
-		m_pEscheresqueRightConnections[i] = other.m_pEscheresqueRightConnections[i];
-	}
-}
-
 void Qube::Initialize()
 {
-	m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
+	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
 	
 	//m_CharacterPos.x =  m_pGameObject->GetECSTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
 	//m_CharacterPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
@@ -76,11 +62,11 @@ void Qube::Initialize()
 
 void Qube::Update()
 {
-	if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
+	/*if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
 	{
 		m_pDiskConnection = nullptr;
 		m_pPyramid->DiskUsed();
-	}
+	}*/
 }
 
 void Qube::SetTexture(Texture2D* pText)
@@ -91,26 +77,26 @@ void Qube::SetTexture(Texture2D* pText)
 
 void Qube::AddConnection(ConnectionDirection dir, Qube* const pConnection)
 {
-	if (dir != ConnectionDirection::null)
+	/*if (dir != ConnectionDirection::null)
 	{
 		m_pConnections[static_cast<int>(dir)] = pConnection;
-	}
+	}*/
 }
 
 void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection)
 {
-	if (dir != ConnectionDirection::null)
+	/*if (dir != ConnectionDirection::null)
 	{
 		m_pEscheresqueRightConnections[static_cast<int>(dir)] = pConnection;
-	}	
+	}*/	
 }
 
 void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection)
 {
-	if (dir != ConnectionDirection::null)
+	/*if (dir != ConnectionDirection::null)
 	{
 		m_pEscheresqueLeftConnections[static_cast<int>(dir)] = pConnection;
-	}
+	}*/
 }
 
 void Qube::AddConnectionToDisk()
@@ -147,31 +133,35 @@ bool Qube::HasConnection(ConnectionDirection dir) const
 	{
 		return false;
 	}
-	return m_pConnections[static_cast<int>(dir)] != nullptr;
+	//return m_pConnections[static_cast<int>(dir)] != nullptr;
+	return true;
 }
 
 bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
-	if (escheresqueRight)
+	/*if (escheresqueRight)
 	{
 		return m_pEscheresqueRightConnections[static_cast<int>(dir)] != nullptr;
 	}
 	else
 	{
 		return m_pEscheresqueLeftConnections[static_cast<int>(dir)] != nullptr;
-	}
+	}*/
+	return true;
 }
 
 Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
-	if (escheresqueRight)
-	{
-		return m_pEscheresqueRightConnections[static_cast<int>(dir)];
-	}
-	else
-	{
-		return m_pEscheresqueLeftConnections[static_cast<int>(dir)];
-	}
+
+	//if (escheresqueRight)
+	//{
+	//	return m_pEscheresqueRightConnections[static_cast<int>(dir)];
+	//}
+	//else
+	//{
+	//	return m_pEscheresqueLeftConnections[static_cast<int>(dir)];
+	//}
+	return nullptr;
 }
 
 void Qube::QBertJump(QBert* pQbert)
@@ -181,49 +171,49 @@ void Qube::QBertJump(QBert* pQbert)
 		pQbert->EarnPoints(POINTS_FOR_FLIP);
 	}
 	
-	switch (m_pScene->GetLevel())
-	{
-	case QBertScene::Level::Level1:
-		Flip();
-		if (m_pPyramid->AreAllQubesFlipped())
-		{
-			Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
-			m_pScene->ResetScene(QBertScene::Level::Level2);
-		}
-		break;
-	case QBertScene::Level::Level2:
-		if (m_JumpCounter == 0)
-		{
-			IntermediateFlip();
-			return;
-		}
-		else if (m_JumpCounter == 1)
-		{
-			Flip();
-			if (m_pPyramid->AreAllQubesFlipped())
-			{
-				Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
-				m_pScene->ResetScene(QBertScene::Level::Level3);
-			}
-		}
-		break;
-	case QBertScene::Level::Level3:
-		if (m_bIsFlipped)
-		{
-			UnFlip();
-		}
-		else
-		{
-			Flip();
-		}
-		
-		if (m_pPyramid->AreAllQubesFlipped())
-		{
-			Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
-			m_pScene->EndGame(true);
-		}
-		break;
-	}
+	//switch (m_pScene->GetLevel())
+	//{
+	//case QBertScene::Level::Level1:
+	//	Flip();
+	//	if (m_pPyramid->AreAllQubesFlipped())
+	//	{
+	//		Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
+	//		m_pScene->ResetScene(QBertScene::Level::Level2);
+	//	}
+	//	break;
+	//case QBertScene::Level::Level2:
+	//	if (m_JumpCounter == 0)
+	//	{
+	//		IntermediateFlip();
+	//		return;
+	//	}
+	//	else if (m_JumpCounter == 1)
+	//	{
+	//		Flip();
+	//		if (m_pPyramid->AreAllQubesFlipped())
+	//		{
+	//			Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
+	//			m_pScene->ResetScene(QBertScene::Level::Level3);
+	//		}
+	//	}
+	//	break;
+	//case QBertScene::Level::Level3:
+	//	if (m_bIsFlipped)
+	//	{
+	//		UnFlip();
+	//	}
+	//	else
+	//	{
+	//		Flip();
+	//	}
+	//	
+	//	if (m_pPyramid->AreAllQubesFlipped())
+	//	{
+	//		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
+	//		m_pScene->EndGame(true);
+	//	}
+	//	break;
+	//}
 	
 }
 
@@ -266,14 +256,15 @@ void Qube::Reset()
 	//		pChild->Destroy();
 	//	}
 	//}
-	m_pDiskConnection = nullptr;
+	//m_pDiskConnection = nullptr;
 	
 	//GetGameObject()->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
 }
 
 ColoredDisk* Qube::GetConnectedDisk() const
 {
-	return m_pDiskConnection;
+	//return m_pDiskConnection;
+	return nullptr;
 }
 
 void Qube::CharacterJumpIn(Character* pCharacter)

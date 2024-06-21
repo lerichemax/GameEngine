@@ -16,6 +16,19 @@ Texture2D::Texture2D(SDL_Texture* texture)
 	m_Height = static_cast<float>(height);
 }
 
+Texture2D::Texture2D(SDL_Texture* texture, std::string const& filePath)
+	:m_pTexture(texture),
+	m_FilePath(filePath),
+	m_Width(),
+	m_Height()
+{
+	int width{};
+	int height{};
+	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
+	m_Width = static_cast<float>(width);
+	m_Height = static_cast<float>(height);
+}
+
 Texture2D::~Texture2D()
 {
 	SDL_DestroyTexture(m_pTexture);

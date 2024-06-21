@@ -47,12 +47,12 @@ void WrongWay::Initialize()
 	if (m_bEscheresqueRight)
 	{
 		//m_pGameObject->GetECSTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueRightPos());
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueRightPos());
+		//m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueRightPos());
 	}
 	else
 	{
 		//m_pGameObject->GetECSTransform()->SetWorldPosition(m_pCurrentQube->GetEscheresqueLeftPos());
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueLeftPos());
+		//m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetEscheresqueLeftPos());
 	}
 	//SwitchState(new EnemyOnQubeState(this, m_pJumper, m_pGameObject->GetComponent<EnemyCharacterController>()));
 }
@@ -78,9 +78,9 @@ void WrongWay::JumpToQube(Qube* pNextQube)
 		return;
 	}
 
-	m_pCurrentQube = pNextQube;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(),
-		m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
+	//m_pCurrentQube = pNextQube;
+	//m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(),
+	//	m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }
 
 void WrongWay::DoDie()

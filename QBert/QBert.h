@@ -6,7 +6,7 @@ class CharacterPoint;
 class QBert final : public Character
 {
 public:
-	explicit QBert(unsigned int jumpId, unsigned int fallId, unsigned int swearId);
+	explicit QBert(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear);
 	
 	QBert(QBert&& other) = delete;
 	QBert& operator=(QBert const& rhs) = delete;
@@ -24,8 +24,6 @@ public:
 	void Swear()const;
 
 protected:
-	QBert* Clone() const override { return new QBert(*this); }
-	
 	void MeetCharacter(Character* pOther) override;
 	void LandOnQube() override;
 	void DoDie() override;
@@ -39,14 +37,12 @@ private:
 	CharacterLives* m_pLives;
 	RendererComponent* m_pHurtTex;
 
-	unsigned int m_JumpSoundID;
-	unsigned int m_FallSoundID;
-	unsigned int m_SwearSoundID;
+	std::shared_ptr<AudioComponent> m_JumpSound;
+	std::shared_ptr<AudioComponent> m_FallSound;
+	std::shared_ptr<AudioComponent> m_SwearSound;
 	
 	int m_PlayerNbr;
 
 	bool m_bCanMove;
 	bool m_bWillSleep;
-
-	QBert(QBert const& other);
 };

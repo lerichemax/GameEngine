@@ -24,19 +24,6 @@ Pyramid::Pyramid(unsigned int maxWidth)
 {
 }
 
-Pyramid::Pyramid(Pyramid const& other)
-	:MAX_WIDTH(other.MAX_WIDTH),
-	m_NbrDisksSpawned(other.m_NbrDisksSpawned),
-	m_DiskSpawnTimer(other.m_DiskSpawnTimer),
-	m_pQubes(),
-	m_pQBert(other.m_pQBert)
-{
-	for (size_t i{}; i < other.m_pQubes.size(); ++i)
-	{
-		m_pQubes.push_back(other.m_pQubes[i]->Clone());
-	}
-}
-
 Pyramid::~Pyramid()
 {
 	m_pQubes.clear();
@@ -202,7 +189,7 @@ bool Pyramid::AreAllQubesFlipped() const
 			return false;
 		}
 	}
-	m_pGameObject->Notify(8);
+	//m_pGameObject->Notify(8);
 	if (m_pQBert != nullptr)
 	{
 		m_pQBert->EarnPoints(m_NbrDisksSpawned * ColoredDisk::GetPoints());
@@ -233,19 +220,20 @@ unsigned int Pyramid::FindOutsideQubeIndex() const
 {
 	unsigned int randomIndex{};
 
-	do
-	{
-		randomIndex = rand() % m_pQubes.size();
-	}
-	while (!IsOutsideOfPyramid(m_pQubes[randomIndex]) && !m_pQubes[randomIndex]->HasConnectionToDisk());
+	//do
+	//{
+	//	randomIndex = rand() % m_pQubes.size();
+	//}
+	//while (!IsOutsideOfPyramid(m_pQubes[randomIndex]) && !m_pQubes[randomIndex]->HasConnectionToDisk());
 	
 	return randomIndex;
 }
 
 bool Pyramid::IsOutsideOfPyramid(Qube* pQube) const
 {
-	return (pQube->GetConnection(ConnectionDirection::upLeft) == nullptr || pQube->GetConnection(ConnectionDirection::upRight) == nullptr)
-		&& !IsTop(pQube);
+	/*return (pQube->GetConnection(ConnectionDirection::upLeft) == nullptr || pQube->GetConnection(ConnectionDirection::upRight) == nullptr)
+		&& !IsTop(pQube);*/
+	return true;
 }
 
 bool Pyramid::IsTop(Qube* pQube) const
@@ -279,14 +267,14 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 	visited[currentIdx] = true;
 	while (!queue.empty())
 	{
-		int const q = queue.front();
+		//int const q = queue.front();
 		queue.pop_front();
-		auto const pQube = GetQube(q);
+		//auto const pQube = GetQube(q);
 		bool doBreak{ false };
 		
 		for (int i{}; i < 4; i++)
 		{
-			if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
+			/*if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
 			{
 				int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
 				if (!visited[nextIdx])
@@ -301,7 +289,7 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 						doBreak = true;
 					}
 				}
-			}
+			}*/
 		}
 		if (doBreak)
 		{

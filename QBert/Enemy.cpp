@@ -21,7 +21,7 @@ void Enemy::DoMove(ConnectionDirection direction)
 	
 	if (m_pCurrentQube->HasConnection(direction))
 	{
-		auto* const pNextQube = m_pCurrentQube->GetConnection(direction);
+		/*auto* const pNextQube = m_pCurrentQube->GetConnection(direction);
 		if (pNextQube->HasCharacter())
 		{
 			if (pNextQube->GetCharacter()->GetType() != CharacterType::player)
@@ -31,7 +31,7 @@ void Enemy::DoMove(ConnectionDirection direction)
 		}
 		
 		m_pCurrentQube->CharacterJumpOut();
-		JumpToQube(pNextQube);
+		JumpToQube(pNextQube);*/
 	}
 	else
 	{

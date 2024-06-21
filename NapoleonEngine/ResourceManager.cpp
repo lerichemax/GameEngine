@@ -90,7 +90,8 @@ std::shared_ptr<Texture2D> ResourceManager::ResourceManagerImpl::LoadTexture(con
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return m_pTextures.insert(std::make_pair(file, std::make_shared<Texture2D>( texture ))).first->second;
+
+	return m_pTextures.insert(std::make_pair(file, std::shared_ptr<Texture2D>(new Texture2D{ texture, file }))).first->second;
 }
 
 std::shared_ptr<Texture2D> ResourceManager::ResourceManagerImpl::GetTexture(const std::string& file)
