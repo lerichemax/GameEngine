@@ -88,28 +88,33 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
 
 	//QBert
-	auto qbertPrefab = pPrefabManager.CreatePrefab();
-	auto qbert = qbertPrefab->CreateGameObject();
-	rendererComp.m_Layer = Layer::foreground;
-	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
-	qbert->AddComponent(new QBert(jumpSoundid, fallsoundId, swearSoundId));
-	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50});
-	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50});
-	qbert->AddComponent<AudioComponent>(AudioComponent{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50});
-	qbert->AddComponent<ECS_CharacterLives>(ECS_CharacterLives{ 3 });
-	qbert->AddComponent<ECS_CharacterPoint>(ECS_CharacterPoint{});
+	//auto qbertPrefab = pPrefabManager.CreatePrefab();
+	//auto qbert = qbertPrefab->CreateGameObject();
+	//rendererComp.m_Layer = Layer::foreground;
+	//qbert->AddComponent<ECS_RendererComponent>(rendererComp);
+	//AudioComponent jumpSound{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50 };
+	//AudioComponent swearSound{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50 };
+	//AudioComponent fallSound{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50 };
+
+	//qbert->AddComponent<QBert>(QBert{ jumpSound, fallSound, swearSound });
+	//qbert->AddComponent<AudioComponent>(jumpSound);
+	//qbert->AddComponent<AudioComponent>(swearSound);
+	//qbert->AddComponent<AudioComponent>(fallSound);
+
+	//qbert->AddComponent<ECS_CharacterLives>(ECS_CharacterLives{ 3 });
+	//qbert->AddComponent<ECS_CharacterPoint>(ECS_CharacterPoint{});
 	//qbert->AddComponent(new Jumper{});
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
-	auto hurtTextObj = qbertPrefab->CreateGameObject();
-	ECS_RendererComponent hurtRenderer{};
-	hurtRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
-	hurtRenderer.m_Layer = Layer::foreground;
-	hurtRenderer.SetActive(false);
-	hurtTextObj->AddComponent<ECS_RendererComponent>(hurtRenderer);
-	qbert->AddChild(hurtTextObj);
-	hurtTextObj->GetTransform()->Translate(10, -20);
-	qbert->GetTransform()->Scale(1.5f);
-	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
+	//auto hurtTextObj = qbertPrefab->CreateGameObject();
+	//ECS_RendererComponent hurtRenderer{};
+	//hurtRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
+	//hurtRenderer.m_Layer = Layer::foreground;
+	//hurtRenderer.SetActive(false);
+	//hurtTextObj->AddComponent<ECS_RendererComponent>(hurtRenderer);
+	//qbert->AddChild(hurtTextObj);
+	//hurtTextObj->GetTransform()->Translate(10, -20);
+	//qbert->GetTransform()->Scale(1.5f);
+	//pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
 	//
@@ -130,12 +135,12 @@ void MainGame::CreatePrefabs() const
 
 	//Pyramid
 	//int levelWidth = json->ReadInt("width");
-	auto pyramidPf = pPrefabManager.CreatePrefab();
-	auto pyramidObject = pyramidPf->CreateGameObject();
-	pyramidObject->GetTransform()->Translate(250.f, 400.f);
-	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
-	//pyramidObject->AddComponent(new Pyramid{ 7});
-	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
+	//auto pyramidPf = pPrefabManager.CreatePrefab();
+	//auto pyramidObject = pyramidPf->CreateGameObject();
+	//pyramidObject->GetTransform()->Translate(250.f, 400.f);
+	////pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
+	////pyramidObject->AddComponent(new Pyramid{ 7});
+	//pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	////Ugg + WrongWay
 	//auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");

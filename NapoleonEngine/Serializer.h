@@ -65,7 +65,12 @@ private:
 template <typename T> 
 std::shared_ptr<T> SerializationMap::GetRef(int id) const
 {
-	return static_cast<size_t>(id) >= m_Refs.size() ? nullptr : std::static_pointer_cast<T>(m_Refs.at(id));
+	auto it = m_Refs.find(id);
+	if (it != m_Refs.end())
+	{
+		return std::static_pointer_cast<T>(m_Refs.at(id));
+	}
+	return nullptr;
 }
 
 template <typename T>

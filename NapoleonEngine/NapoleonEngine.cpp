@@ -94,7 +94,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 
 	//Camera prefab
 	auto cameraPrefab = PrefabsManager::GetInstance().CreatePrefab();
-	auto cameraObject = cameraPrefab->CreateGameObject();
+	auto cameraObject = cameraPrefab->GetRoot();
 
 	ECS_CameraComponent camComp{};
 	cameraObject->AddComponent<ECS_CameraComponent>(camComp);

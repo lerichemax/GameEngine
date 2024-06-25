@@ -96,7 +96,7 @@ void QBert::DoDie()
 
 void QBert::Swear()const
 {
-	SoundServiceLocator::GetService().Play(m_SwearSoundID, 50);
+	//SoundServiceLocator::GetService().Play(m_SwearSoundID, 50);
 }
 
 void QBert::EarnPoints(int points)

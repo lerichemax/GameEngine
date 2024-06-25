@@ -37,14 +37,14 @@ void ECS_Component::SetActive(bool isActive)
 
 void ECS_Component::Serialize(StreamWriter& writer) const
 {
-	writer.StartArrayObject(); //temp
 	writer.WriteBool("IsActive", m_IsActive);
 	writer.WriteBool("IsUnique", m_IsUnique);
-	writer.EndObject();
+	writer.WriteInt("ID", m_Id);
 }
 
 void ECS_Component::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	reader->ReadBool("IsActive", m_IsActive);
 	reader->ReadBool("IsUnique", m_IsUnique);
+	reader->ReadInt("ID", m_Id);
 }

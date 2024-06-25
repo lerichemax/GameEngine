@@ -3,6 +3,7 @@
 #include "ComponentArray.h"
 #include "Entity.h"
 #include "JsonReaderWriter.h"
+#include "ComponentFactory.h"
 
 #include <unordered_map>
 #include <string>
@@ -32,8 +33,7 @@ private:
 	template <ComponentDerived T> std::shared_ptr<ComponentArray<T>> GetComponentArray();
 
 	ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
-	std::shared_ptr<ECS_Component> GetComponent(std::string const& type);
-	void ForceRegisterComponent(std::string const& type);
+	template<ComponentDerived T> void RegisterComponentArray(const char* typeName);
 };
 
 template<ComponentDerived T>
@@ -44,12 +44,19 @@ void ComponentManager::RegisterComponent()
 	if (m_ComponentTypes.find(typeName) == m_ComponentTypes.end())
 	{
 		m_ComponentTypes.insert(std::make_pair(typeName, m_NextComponentType++));
+
+		ComponentFactory::GetInstance().RegisterType<T>([this](ComponentManager* const compManager) {
+			auto shared = std::make_shared<T>();
+
+			const char* compTypeName = typeid(T).name();
+
+			compManager->RegisterComponentArray<T>(compTypeName);
+
+			return shared;
+			});
 	}
 
-	if (m_ComponentArrays.find(typeName) == m_ComponentArrays.end())
-	{
-		m_ComponentArrays.insert(std::make_pair(typeName, std::make_shared<ComponentArray<T>>()));
-	}
+	RegisterComponentArray<T>(typeName);
 }
 
 template<ComponentDerived T>
@@ -91,4 +98,13 @@ std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray()
 	assert(m_ComponentTypes.find(typeName) != m_ComponentTypes.end() && "Component type not registered before use");
 
 	return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
+}
+
+template<ComponentDerived T> 
+void ComponentManager::RegisterComponentArray(const char* typeName)
+{
+	if (m_ComponentArrays.find(typeName) == m_ComponentArrays.end())
+	{
+		m_ComponentArrays.insert(std::make_pair(typeName, std::make_shared<ComponentArray<T>>()));
+	}
 }

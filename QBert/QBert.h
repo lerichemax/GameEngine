@@ -1,6 +1,8 @@
 #pragma once
 #include "Character.h"
 
+
+struct AudioComponent;
 class CharacterLives;
 class CharacterPoint;
 class QBert final : public Character

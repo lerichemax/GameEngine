@@ -245,6 +245,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentArray.h" />
+    <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Coordinator.h" />
     <ClInclude Include="cursorstreamwrapper.h" />
@@ -361,6 +362,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentArray.cpp" />
+    <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Coordinator.cpp" />
     <ClCompile Include="Debugger.cpp" />

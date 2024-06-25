@@ -278,6 +278,9 @@
     <ClInclude Include="SerializerServiceLocator.h">
       <Filter>Serialization</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentFactory.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -436,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="SerializerServiceLocator.cpp">
       <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentFactory.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

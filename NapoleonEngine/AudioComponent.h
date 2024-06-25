@@ -5,6 +5,7 @@ struct AudioComponent final : public ECS_Component
 {
 	friend class AudioSystem;
 public:
+	AudioComponent() = default;
 	AudioComponent(unsigned int id, float volume);
 
 	unsigned int m_AudioId;

@@ -152,7 +152,7 @@ void Prefab::Serialize(StreamWriter& writer) const
 void Prefab::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	auto prefab = reader->ReadObject("Prefab");
-	reader->ReadString("name", m_Name);
+	prefab->ReadString("name", m_Name);
 
 	auto systems = prefab->ReadArray("systems");
 	for (SizeType i = 0; i < systems->GetArraySize(); i++)
@@ -166,14 +166,24 @@ void Prefab::Deserialize(JsonReader const* reader, SerializationMap& context)
 
 	auto objects = prefab->ReadArray("gameobjects");
 
+	auto go = objects->ReadArrayIndex(0);
+	int entity;
+	go->ReadInt("Entity", entity);
+	context.Add(entity, m_pRootObject);
+	m_pRootObject->Deserialize(objects->ReadArrayIndex(0).get(), context);
+
 	for (SizeType i = 1; i < objects->GetArraySize(); i++)
 	{
 		auto pNewObject = CreateGameObjectNoTransform();
-		auto go = objects->ReadArrayIndex(i);
-		int entity;
+		go = objects->ReadArrayIndex(i);
 		go->ReadInt("Entity", entity);
 		context.Add(entity, pNewObject);
 		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
+	}
+
+	if (!m_pObjects.empty())
+	{
+		m_pRootObject = m_pObjects[0];
 	}
 }
 
@@ -239,6 +249,8 @@ void Scene::OnActivate()
 	Timer::GetInstance().SetTimeScale(1);
 	m_bIsActive = true;
 	CustomOnActivate();
+	Initialize();
+	DeclareInput();
 }
 
 void Scene::Update()

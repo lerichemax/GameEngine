@@ -223,6 +223,8 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 	writer.EndObject();
 
 	writer.WriteDouble("world_rotation", m_WorldRotation);
+	
+	ECS_Component::Serialize(writer);
 }
 
 void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -265,7 +267,7 @@ void TransformSystem::Update(ComponentManager* const pComponentManager)
 
 		if (!transComp->IsActive())
 		{
-			return;
+			continue;
 		}
 
 		RecursivelyUpdateHierarchy(transComp);
