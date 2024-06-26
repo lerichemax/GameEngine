@@ -155,9 +155,13 @@ void TransformComponent::Rotate(float rot)
 
 void ECS_TransformComponent::Translate(vec2 const& translation)
 {
-	m_OldPosition = m_Position;
+	m_OldPosition = m_WorldPosition;
 
-	m_Position += translation;
+	m_WorldPosition += translation;
+	if (m_pParent != nullptr)
+	{
+		m_Position = m_WorldPosition - m_pParent->m_WorldPosition;
+	}
 }
 
 void ECS_TransformComponent::Translate(float x, float y)
@@ -167,9 +171,14 @@ void ECS_TransformComponent::Translate(float x, float y)
 
 void ECS_TransformComponent::Scale(vec2 const& scale)
 {
-	m_OldScale = m_Scale;
+	m_OldScale = m_WorldScale;
 
-	m_Scale = {scale.x, scale.y};
+	m_WorldScale = {scale.x, scale.y};
+
+	if (m_pParent != nullptr)
+	{
+		m_Scale = m_WorldScale * m_pParent->m_WorldScale;
+	}
 }
 
 void ECS_TransformComponent::Scale(float scale)
@@ -179,8 +188,13 @@ void ECS_TransformComponent::Scale(float scale)
 
 void ECS_TransformComponent::Rotate(float rotation)
 {
-	m_OldRotation = m_Rotation;
-	m_Rotation = rotation;
+	m_OldRotation = m_WorldRotation;
+	m_WorldRotation = rotation;
+
+	if (m_pParent != nullptr)
+	{
+		m_Rotation = m_WorldRotation - m_pParent->m_WorldRotation;
+	}
 }
 
 bool ECS_TransformComponent::HasChanged() const
@@ -286,29 +300,31 @@ void TransformSystem::SetSignature(Coordinator* const pRegistry)
 
 void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const
 {
-	if (!transformComponent->HasChanged())
-	{
-		return;
-	}
+	//if (!transformComponent->HasChanged())
+	//{
+	//	return;
+	//}
 
 	if (transformComponent->m_pParent != nullptr)
 	{
 		RecursivelyUpdateHierarchy(transformComponent->m_pParent);
 
-		auto const parentWorld = transformComponent->m_pParent->m_WorldPosition;
-
-		transformComponent->m_WorldPosition = parentWorld + transformComponent->m_Position;
+		transformComponent->m_WorldPosition = transformComponent->m_pParent->m_WorldPosition + transformComponent->m_Position;
 		transformComponent->m_WorldRotation = transformComponent->m_pParent->m_WorldRotation + transformComponent->m_Rotation;
 		transformComponent->m_WorldScale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_Scale;
+
+		transformComponent->m_Position = transformComponent->m_WorldPosition - transformComponent->m_pParent->m_WorldPosition;
+		transformComponent->m_Rotation = transformComponent->m_WorldRotation - transformComponent->m_pParent->m_WorldRotation;
+		transformComponent->m_Scale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_WorldScale;
 	}
 	else
 	{
-		transformComponent->m_WorldPosition = transformComponent->m_Position;
-		transformComponent->m_WorldRotation = transformComponent->m_Rotation;
-		transformComponent->m_WorldScale = transformComponent->m_Scale;
+		transformComponent->m_Position = transformComponent->m_WorldPosition;
+		transformComponent->m_Rotation = transformComponent->m_WorldRotation;
+		transformComponent->m_Scale = transformComponent->m_WorldScale;
 	}
 
-	transformComponent->m_OldPosition = transformComponent->m_Position;
-	transformComponent->m_OldRotation = transformComponent->m_Rotation;
-	transformComponent->m_OldScale = transformComponent->m_Scale;
+	transformComponent->m_OldPosition = transformComponent->m_WorldPosition;
+	transformComponent->m_OldRotation = transformComponent->m_WorldRotation;
+	transformComponent->m_OldScale = transformComponent->m_WorldScale;
 }

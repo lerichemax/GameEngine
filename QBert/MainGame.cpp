@@ -66,7 +66,7 @@ void MainGame::CreatePrefabs() const
 	
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
-	auto livesObj = livesPrefab->CreateGameObject();
+	auto livesObj = livesPrefab->GetRoot();
 	livesObj->GetTransform()->Translate(20.f, 40.f);
 
 	ECS_TextRendererComponent textRenderer{ "P1 Lives: ", font };
@@ -79,7 +79,7 @@ void MainGame::CreatePrefabs() const
 
 	//points
 	auto const pointsrefab = pPrefabManager.CreatePrefab();
-	auto const pointsObj = pointsrefab->CreateGameObject();
+	auto const pointsObj = pointsrefab->GetRoot();
 	pointsObj->GetTransform()->Translate(20.f, 60.f);
 	
 	textRenderer.m_Text = "P1 Points: 0 ";

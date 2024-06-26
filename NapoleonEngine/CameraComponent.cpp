@@ -43,8 +43,8 @@ glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
 	auto const trans = m_pGameObject->GetTransform();
 
-	return BuildTransformMatrix(trans->GetWorldPosition(), trans->GetWorldRotation(), 
-		trans->GetWorldScale());
+	return BuildTransformMatrix(trans->GetPosition(), trans->GetRotation(),
+		trans->GetScale());
 }
 
 ECS_CameraComponent::ECS_CameraComponent()

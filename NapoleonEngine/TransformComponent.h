@@ -7,6 +7,7 @@
 
 #include "Component.h"
 #include "System.h"
+#include "Scene.h"
 
 class TransformComponent final : public Component
 {
@@ -63,6 +64,7 @@ class ECS_TransformComponent final: public ECS_Component
 	friend class TransformSystem;
 	friend class GameObject;
 	friend class Renderer;
+	friend class Scene;
 
 public:
 	ECS_TransformComponent() : ECS_Component(true) {}
@@ -80,12 +82,12 @@ public:
 	void Scale(float scale);
 	void Rotate(float rotation);
 
-	const glm::vec2& GetPosition() const { return m_Position; }
-	const glm::vec2& GetWorldPosition() const { return m_WorldPosition; }
-	const glm::vec2& GetScale() const { return m_Scale; }
-	const glm::vec2& GetWorldScale() const { return m_WorldScale; }
-	float GetRotation() const { return m_Rotation; }
-	float GetWorldRotation() const { return m_WorldRotation; }
+	const glm::vec2& GetPosition() const { return m_WorldPosition; }
+	const glm::vec2& GetLocalPosition() const { return m_Position; }
+	const glm::vec2& GetScale() const { return m_WorldScale; }
+	const glm::vec2& GetLocalScale() const { return m_Scale; }
+	float GetRotation() const { return m_WorldRotation; }
+	float GetLocalRotation() const { return m_Rotation; }
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -98,7 +100,7 @@ private:
 
 	glm::mat3x3 m_World{};
 	glm::vec2 m_WorldPosition{};
-	glm::vec2 m_WorldScale{};
+	glm::vec2 m_WorldScale{ 1.f, 1.f };
 	float m_WorldRotation{};
 
 	std::shared_ptr<ECS_TransformComponent> m_pParent;

@@ -25,13 +25,13 @@ BoxCollider::~BoxCollider()
 
 void BoxCollider::Initialize()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
+	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
 	ColliderComponent::Initialize();
 }
 
 void BoxCollider::Update()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetWorldPosition();
+	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
 }
 
 void BoxCollider::CheckOverlap(ColliderComponent* pOther)

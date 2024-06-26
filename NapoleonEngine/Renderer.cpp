@@ -109,12 +109,12 @@ void Renderer::RenderTexture(const Texture2D& texture, ECS_TransformComponent co
 {
 	glPushMatrix();
 	{
-		glTranslatef(pTransform.m_Position.x, pTransform.m_Position.y, 0);
-		glRotatef(pTransform.m_Rotation, 0, 0, 1);
-		glScalef(pTransform.m_Scale.x, pTransform.m_Scale.y, 0);
-		glTranslatef(-pTransform.m_Position.x, -pTransform.m_Position.y, 0);
+		glTranslatef(pTransform.m_WorldPosition.x, pTransform.m_WorldPosition.y, 0);
+		glRotatef(pTransform.m_WorldRotation, 0, 0, 1);
+		glScalef(pTransform.m_WorldScale.x, pTransform.m_WorldScale.y, 0);
+		glTranslatef(-pTransform.m_WorldPosition.x, -pTransform.m_WorldPosition.y, 0);
 
-		RenderTexture(texture, pTransform.m_Position.x, pTransform.m_Position.y);
+		RenderTexture(texture, pTransform.m_WorldPosition.x, pTransform.m_WorldPosition.y);
 	}
 	glPopMatrix();
 }

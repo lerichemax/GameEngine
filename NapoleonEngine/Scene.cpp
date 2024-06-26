@@ -384,6 +384,8 @@ std::shared_ptr<GameObject> Scene::MergePrefab(std::shared_ptr<Prefab> pPrefab)
 
 				m_pRegistry->TransferComponents(entity, pChildObject->m_Entity, pPrefab->m_pRegistry);
 				m_pRegistry->TransferTags(entity, pChildObject->m_Entity, pPrefab->m_pRegistry);
+
+				pChildObject->GetComponent<ECS_TransformComponent>()->m_pParent = pNewObject->GetComponent<ECS_TransformComponent>();
 			}
 		}
 	}
