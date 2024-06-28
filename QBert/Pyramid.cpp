@@ -31,7 +31,7 @@ Pyramid::~Pyramid()
 
 void Pyramid::Update()
 {
-	DiskSpawnerTimer();
+	//DiskSpawnerTimer();
 }
 
 void Pyramid::DiskSpawnerTimer()
@@ -64,9 +64,9 @@ void Pyramid::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			//GameObject* pQube = PrefabsManager::GetInstance().Instantiate("Qube", lastPos);
+			std::shared_ptr<GameObject> pQube = Instantiate("Qube");
 			
-			//m_pQubes.push_back(pQube->GetComponent<Qube>());
+			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			//m_pQubes.back()->SetPyramid(this);
 			
 			if (i == MAX_WIDTH)
@@ -78,11 +78,11 @@ void Pyramid::Initialize()
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
 			
-			//lastPos.x += pQube->GetComponent<RendererComponent>()->GetTextureWidth();
-			//m_pGameObject->AddChild(pQube);
+			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth();
+			m_pGameObject->AddChild(pQube);
 		}
-		//startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
-		//startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 
@@ -117,13 +117,13 @@ void Pyramid::CreateConnections()
 		
 		if (leftChild < m_pQubes.size())
 		{
-			m_pQubes[i]->AddConnection(ConnectionDirection::downLeft, m_pQubes[leftChild]);
-			m_pQubes[leftChild]->AddConnection(ConnectionDirection::upRight, m_pQubes[i]);
+			//m_pQubes[i]->AddConnection(ConnectionDirection::downLeft, m_pQubes[leftChild]);
+			//m_pQubes[leftChild]->AddConnection(ConnectionDirection::upRight, m_pQubes[i]);
 		}
 		if (rightChild < m_pQubes.size())
 		{
-			m_pQubes[i]->AddConnection(ConnectionDirection::downRight, m_pQubes[rightChild]);
-			m_pQubes[rightChild]->AddConnection(ConnectionDirection::upLeft, m_pQubes[i]);
+			//m_pQubes[i]->AddConnection(ConnectionDirection::downRight, m_pQubes[rightChild]);
+			//m_pQubes[rightChild]->AddConnection(ConnectionDirection::upLeft, m_pQubes[i]);
 		}
 	}
 }
@@ -143,12 +143,12 @@ void Pyramid::CreateEscheresqueRightConnections()
 			}
 			if (j != i - 1)
 			{
-				m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downLeft, m_pQubes[idx - (i - 1)]);
-				m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downRight, m_pQubes[idx + 1]);
+				//m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downLeft, m_pQubes[idx - (i - 1)]);
+				//m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downRight, m_pQubes[idx + 1]);
 				if (j != 0)
 				{
-					m_pQubes[idx - (i - 1)]->AddEscheresqueRightConnection(ConnectionDirection::upRight, m_pQubes[idx]);
-					m_pQubes[idx + 1]->AddEscheresqueRightConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
+					//m_pQubes[idx - (i - 1)]->AddEscheresqueRightConnection(ConnectionDirection::upRight, m_pQubes[idx]);
+					//m_pQubes[idx + 1]->AddEscheresqueRightConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
 				}
 			}
 			idx++;
@@ -167,12 +167,12 @@ void Pyramid::CreateEscheresqueLeftConnections()
 		{
 			if (j != i - 1)
 			{
-				m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downLeft, m_pQubes[idx - 1]);
-				m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downRight, m_pQubes[idx - i]);
+				//m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downLeft, m_pQubes[idx - 1]);
+				//m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downRight, m_pQubes[idx - i]);
 				if (j!=0)
 				{
-					m_pQubes[idx - 1]->AddEscheresqueLeftConnection(ConnectionDirection::upRight, m_pQubes[idx]);
-					m_pQubes[idx - i]->AddEscheresqueLeftConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
+					//m_pQubes[idx - 1]->AddEscheresqueLeftConnection(ConnectionDirection::upRight, m_pQubes[idx]);
+					//m_pQubes[idx - i]->AddEscheresqueLeftConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
 				}
 			}
 			idx--;
@@ -238,7 +238,7 @@ bool Pyramid::IsOutsideOfPyramid(Qube* pQube) const
 
 bool Pyramid::IsTop(Qube* pQube) const
 {
-	return pQube == m_pQubes.front();
+	return true;// pQube == m_pQubes.front();
 }
 
 bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const
@@ -334,13 +334,13 @@ int Pyramid::GetQBertIndex() const
 
 int Pyramid::GetQubeIndex(Qube* pQube) const
 {
-	for (int i{}; i < static_cast<int>(m_pQubes.size()); i++)
-	{
-		if (m_pQubes[i] == pQube)
-		{
-			return i;
-		}
-	}
+	//for (int i{}; i < static_cast<int>(m_pQubes.size()); i++)
+	//{
+	//	if (m_pQubes[i] == pQube)
+	//	{
+	//		return i;
+	//	}
+	//}
 
 	return -1;
 }

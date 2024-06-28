@@ -101,6 +101,8 @@ void ECS_TextRendererComponent::Serialize(StreamWriter& writer) const
 	color.Serialize(writer);
 	writer.EndObject();
 	m_pFont->Serialize(writer);
+
+	ECS_Component::Serialize(writer);
 }
 
 void ECS_TextRendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -118,4 +120,6 @@ void ECS_TextRendererComponent::Deserialize(JsonReader const* reader, Serializat
 	reader->ReadInt("fontSize", size);
 
 	m_pFont = ResourceManager::GetInstance().GetFont(fontName, size);
+
+	ECS_Component::Deserialize(reader, context);
 }

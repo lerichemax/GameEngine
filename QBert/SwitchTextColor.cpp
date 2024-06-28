@@ -24,21 +24,25 @@ void SwitchTextColor::Execute()
 
 void SwitchTextColor::Serialize(StreamWriter& writer) const
 {
+	writer.WriteString("type", typeid(SwitchTextColor).name());
 	writer.StartObject("color");
 	m_TargetColor.Serialize(writer);
 	writer.EndObject();
 	writer.WriteInt("textRenderer", m_pText->GetId());
 
+	Command::Serialize(writer);
 }
 void SwitchTextColor::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	auto colorReader = reader->ReadObject("color");
 	m_TargetColor.Deserialize(colorReader.get());
+
+	Command::Deserialize(reader, context);
 }
 
 void SwitchTextColor::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	int textId;
+	int textId = -1;
 	reader->ReadInt("textRenderer", textId);
 	m_pText = context.GetRef<ECS_TextRendererComponent>(textId);
 }

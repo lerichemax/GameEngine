@@ -13,3 +13,18 @@ ECS_CharacterPoint::ECS_CharacterPoint()
 {
 
 }
+
+void ECS_CharacterPoint::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(ECS_CharacterPoint).name());
+	writer.WriteInt("points", m_NbrPoints);
+
+	ECS_Component::Serialize(writer);
+}
+
+void ECS_CharacterPoint::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	reader->ReadInt("points", m_NbrPoints);
+
+	ECS_Component::Deserialize(reader, context);
+}

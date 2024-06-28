@@ -3,7 +3,7 @@
 #include "ComponentArray.h"
 #include "Entity.h"
 #include "JsonReaderWriter.h"
-#include "ComponentFactory.h"
+#include "Factories.h"
 
 #include <unordered_map>
 #include <string>
@@ -15,7 +15,7 @@ public:
 	~ComponentManager() = default;
 
 	template<ComponentDerived T> ComponentType GetComponentType();
-	template<ComponentDerived T> void AddComponent(Entity entity, T const& component);
+	template<ComponentDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
 	template<ComponentDerived T> void RemoveComponent(Entity entity);
 	template<ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity);
 	
@@ -45,7 +45,7 @@ void ComponentManager::RegisterComponent()
 	{
 		m_ComponentTypes.insert(std::make_pair(typeName, m_NextComponentType++));
 
-		ComponentFactory::GetInstance().RegisterType<T>([this](ComponentManager* const compManager) {
+		ComponentFactory::GetInstance().RegisterType<T>([](ComponentManager* const compManager) {
 			auto shared = std::make_shared<T>();
 
 			const char* compTypeName = typeid(T).name();
@@ -70,11 +70,11 @@ ComponentType ComponentManager::GetComponentType()
 }
 
 template<ComponentDerived T>
-void ComponentManager::AddComponent(Entity entity, T const& component)
+std::shared_ptr<T> ComponentManager::AddComponent(Entity entity, T const& component)
 {
 	RegisterComponent<T>();
 
-	GetComponentArray<T>()->InsertData(entity, component);
+	return GetComponentArray<T>()->InsertData(entity, component);
 }
 
 template<ComponentDerived T>

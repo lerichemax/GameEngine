@@ -5,6 +5,7 @@ class QBertScene;
 class ReloadSceneCommand final : public Command
 {
 public:
+	ReloadSceneCommand() = default;
 	ReloadSceneCommand(QBertScene* pScene);
 	ReloadSceneCommand* Clone() override { return new ReloadSceneCommand(*this); }
 	ReloadSceneCommand(ReloadSceneCommand&& other) = delete;

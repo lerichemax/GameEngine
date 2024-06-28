@@ -2,6 +2,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 
+#include "SceneManager.h"
+#include "Scene.h"
+
 inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale)
 {
 	auto identityMatrix = glm::mat3(1.0f);
@@ -43,4 +46,9 @@ inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
 {
 	glm::vec3 toTransform{ vec.x, vec.y, 0 };
 	return mat * toTransform;
+}
+
+std::shared_ptr<GameObject> Instantiate(std::string const& name)
+{
+	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name);
 }

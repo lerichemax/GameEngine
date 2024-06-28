@@ -41,6 +41,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 struct ECS_Component : public IContextSerializable
 {
 	template<typename T> friend class ComponentArray;
+	friend class GameObject;
 
 	ECS_Component() = default;
 	ECS_Component(bool unique);
@@ -52,6 +53,13 @@ struct ECS_Component : public IContextSerializable
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	virtual void Initialize() {};
+
+	std::shared_ptr<GameObject> GetGameObject() const { return m_pGameObject; }
+
+protected:
+	std::shared_ptr<GameObject> m_pGameObject;
 
 private:
 	bool m_IsActive{true};

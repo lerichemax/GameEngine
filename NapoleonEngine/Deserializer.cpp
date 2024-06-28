@@ -39,11 +39,11 @@ std::unique_ptr<JsonReader> Deserializer::ReadDocument(Document* const document)
 	return std::make_unique<JsonReader>(JsonReader{ document });
 }
 
-void Deserializer::DeserializePrefab(Document* const document, std::shared_ptr<Prefab> pPrefab)
+void Deserializer::DeserializePrefabIntoScene(Document* const document, Scene* const targetScene)
 {
 	SerializationMap context;
 
 	auto doc = ReadDocument(document);
-	pPrefab->Deserialize(doc.get(), context);
-	pPrefab->RestoreContext(doc.get(), context);
+	targetScene->Deserialize(doc.get(), context);
+	targetScene->RestoreContext(doc.get(), context);
 }

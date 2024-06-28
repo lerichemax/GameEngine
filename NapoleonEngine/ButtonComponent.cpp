@@ -96,20 +96,6 @@ ECS_ButtonComponent::ECS_ButtonComponent(float width, float height)
 {
 }
 
-void ECS_ButtonComponent::SetOnClickFunction(Command* func)
-{
-	m_pOnClick.reset(func);
-}
-
-void ECS_ButtonComponent::SetOnSelectFunction(Command* func)
-{
-	m_pOnSelect.reset(func);
-}
-void ECS_ButtonComponent::SetOnDeselectFunction(Command* func)
-{
-	m_pOnDeselect.reset(func);
-}
-
 void ECS_ButtonComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(ECS_ButtonComponent).name());
@@ -121,28 +107,101 @@ void ECS_ButtonComponent::Serialize(StreamWriter& writer) const
 	}
 	writer.EndObject();
 
-	writer.WriteInt("onClick", m_pOnClick == nullptr ? -1 : m_pOnClick->GetId());
-	writer.WriteInt("onSelect", m_pOnSelect == nullptr ? -1 : m_pOnSelect->GetId());
-	writer.WriteInt("onDeselect", m_pOnDeselect == nullptr ? -1 : m_pOnDeselect->GetId());
+	if (m_pOnClick != nullptr)
+	{
+		writer.StartObject("onClick");
+		{
+			m_pOnClick->Serialize(writer);
+		}
+		writer.EndObject();
+	}
+	
+	if (m_pOnSelect != nullptr)
+	{
+		writer.StartObject("onSelect");
+		{
+			m_pOnSelect->Serialize(writer);
+		}
+		writer.EndObject();
+	}
+
+	if (m_pOnDeselect != nullptr)
+	{
+		writer.StartObject("onDeselect");
+		{
+			m_pOnDeselect->Serialize(writer);
+		}
+		writer.EndObject();
+	}
 }
 
 void ECS_ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	//context.Add(GetId(), this);
 	reader->ReadBool("visualize", m_bVisualize);
 	auto dimensionObject = reader->ReadObject("dimension");
 	dimensionObject->ReadDouble("x", m_Dimensions.x);
 	dimensionObject->ReadDouble("y", m_Dimensions.y);
+
+	std::string type;
+
+	auto onclickReader = reader->ReadObject("onClick");
+	if (onclickReader != nullptr && onclickReader->IsValid())
+	{
+		onclickReader->ReadString("type", type);
+		m_pOnClick = CommandFactory::GetInstance().Create(type);
+
+		if (m_pOnClick != nullptr)
+		{
+			m_pOnClick->Deserialize(onclickReader.get(), context);
+			context.Add(m_pOnClick->GetId(), m_pOnClick);
+		}
+	}
+	
+	auto onSelectReader = reader->ReadObject("onSelect");
+	if (onSelectReader != nullptr && onSelectReader->IsValid())
+	{
+		onSelectReader->ReadString("type", type);
+		m_pOnSelect = CommandFactory::GetInstance().Create(type);
+		if (m_pOnSelect != nullptr)
+		{
+			m_pOnSelect->Deserialize(onSelectReader.get(), context);
+			context.Add(m_pOnSelect->GetId(), m_pOnSelect);
+		}
+	}
+	
+	auto onDeselectReader = reader->ReadObject("onDeselect");
+	if (onDeselectReader != nullptr && onDeselectReader->IsValid())
+	{
+		onDeselectReader->ReadString("type", type);
+		m_pOnDeselect = CommandFactory::GetInstance().Create(type);
+		if (m_pOnDeselect != nullptr)
+		{
+			m_pOnDeselect->Deserialize(onDeselectReader.get(), context);
+			context.Add(m_pOnDeselect->GetId(), m_pOnDeselect);
+		}
+	}
+	
+	ECS_Component::Deserialize(reader, context);
 }
 
 void ECS_ButtonComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	int id;
+	std::string type;
+	auto onclickReader = reader->ReadObject("onClick");
+	if (onclickReader != nullptr && onclickReader->IsValid() && m_pOnClick != nullptr)
+	{
+		m_pOnClick->RestoreContext(onclickReader.get(), context);
+	}
 
-	reader->ReadInt("onClick", id);
-	m_pOnClick = context.GetRef<Command>(id);
-	reader->ReadInt("onSelect", id);
-	m_pOnSelect = context.GetRef<Command>(id);
-	reader->ReadInt("onDeselect", id);
-	m_pOnDeselect = context.GetRef<Command>(id);
+	auto onSelectReader = reader->ReadObject("onSelect");
+	if (onSelectReader != nullptr && onSelectReader->IsValid() && m_pOnSelect != nullptr)
+	{
+		m_pOnSelect->RestoreContext(onSelectReader.get(), context);
+	}
+
+	auto onDeselectReader = reader->ReadObject("onDeselect");
+	if (onDeselectReader != nullptr && onDeselectReader->IsValid() && m_pOnDeselect != nullptr)
+	{
+		m_pOnDeselect->RestoreContext(onDeselectReader.get(), context);
+	}
 }

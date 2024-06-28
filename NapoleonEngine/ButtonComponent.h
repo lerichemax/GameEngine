@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Factories.h"
 
 #include <memory>
 
@@ -54,9 +55,9 @@ public:
 	ECS_ButtonComponent(float width, float height);
 	~ECS_ButtonComponent() {};
 
-	void SetOnClickFunction(Command* func);
-	void SetOnSelectFunction(Command* func);
-	void SetOnDeselectFunction(Command* func);
+	template<CommandDerived T> void SetOnClickFunction(T* func);
+	template<CommandDerived T> void SetOnSelectFunction(T* func);
+	template<CommandDerived T> void SetOnDeselectFunction(T* func);
 
 	glm::vec2 m_Dimensions;
 
@@ -74,3 +75,31 @@ private:
 
 	bool m_IsSelected;
 };
+
+template<CommandDerived T> 
+void ECS_ButtonComponent::SetOnClickFunction(T* func)
+{
+	CommandFactory::GetInstance().RegisterType<T>([]() {
+		return std::make_shared<T>();
+		});
+
+	m_pOnClick.reset(func);
+}
+
+template<CommandDerived T> 
+void ECS_ButtonComponent::SetOnSelectFunction(T* func)
+{
+	CommandFactory::GetInstance().RegisterType<T>([]() {
+		return std::make_shared<T>();
+		});
+	m_pOnSelect.reset(func);
+}
+
+template<CommandDerived T> 
+void ECS_ButtonComponent::SetOnDeselectFunction(T* func)
+{
+	CommandFactory::GetInstance().RegisterType<T>([]() {
+		return std::make_shared<T>();
+		});
+	m_pOnDeselect.reset(func);
+}

@@ -8,6 +8,8 @@ namespace geo
 	{
 		unsigned char R, G, B, A;
 
+		Color() :R{}, G{}, B{}, A{} {}
+
 		Color(unsigned char r, unsigned char g, unsigned char b)
 			:R{ r },
 			G{ g },

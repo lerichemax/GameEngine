@@ -7,6 +7,7 @@ class QBertScene;
 class PauseGameCommand final : public Command
 {
 public:
+	PauseGameCommand() = default;
 	PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu);
 	PauseGameCommand* Clone() override { return new PauseGameCommand(*this); }
 	PauseGameCommand(PauseGameCommand&& other) = delete;

@@ -1,7 +1,6 @@
 #pragma once
 #include "Serializer.h"
 
-class GameObject;
 class Command : public IContextSerializable
 {
 public:
@@ -15,4 +14,7 @@ public:
 	virtual ~Command() = default;
 
 	virtual void Execute() = 0;
+
+	virtual void Serialize(StreamWriter& writer) const override;
+	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 };

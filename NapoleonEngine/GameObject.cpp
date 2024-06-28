@@ -143,6 +143,7 @@ void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->RestoreContext(jsonComponents->ReadArrayIndex(i).get(), context);
+		components[i]->m_pGameObject = std::shared_ptr<GameObject>(this);
 	}
 
 	auto children = reader->ReadArray("children");

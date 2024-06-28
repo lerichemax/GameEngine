@@ -13,6 +13,11 @@ void Color::Serialize(StreamWriter& writer) const
 
 void Color::Deserialize(JsonReader const* reader)
 {
+	if (reader == nullptr || !reader->IsValid())
+	{
+		return;
+	}
+
 	int r, g, b, a;
 
 	reader->ReadInt("r", r);

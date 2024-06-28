@@ -34,7 +34,7 @@ template<ComponentDerived T>
 class ComponentArray<T> : public IComponentArray
 {
 public:
-	void InsertData(Entity entity, T const& Component);
+	std::shared_ptr<T> InsertData(Entity entity, T const& Component);
 	void RemoveData(Entity entity);
 	std::shared_ptr<ECS_Component> GetBaseData(Entity entity) override;
 	std::shared_ptr<T> GetData(Entity entity);
@@ -67,7 +67,7 @@ ComponentArray<T>::~ComponentArray()
 }
 
 template<ComponentDerived T>
-void ComponentArray<T>::InsertData(Entity entity, T const& component)
+std::shared_ptr<T> ComponentArray<T>::InsertData(Entity entity, T const& component)
 {
 	//TODO: check for unique component
 	//assert(m_EntityToIndex.find(entity) == m_EntityToIndex.end() && "Component added to the same entity more than once");
@@ -76,6 +76,7 @@ void ComponentArray<T>::InsertData(Entity entity, T const& component)
 	m_EntityToIndex[entity] = newIndex;
 	m_IndexToEntity[newIndex] = entity;
 	m_Components[newIndex] = std::make_shared<T>(component);
+	return m_Components[newIndex];
 	m_Size++;
 }
 

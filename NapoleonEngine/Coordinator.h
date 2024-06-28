@@ -18,7 +18,7 @@ public:
 
 	ComponentManager* const GetComponentManager() const;
 
-	template <ComponentDerived T> void AddComponent(Entity entity, T const& component);
+	template <ComponentDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::weak_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
@@ -51,7 +51,7 @@ private:
 };
 
 template <ComponentDerived T>
-void Coordinator::AddComponent(Entity entity, T const& component)
+std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
 {
 	if (dynamic_cast<const ECS_Component*>(&component) == nullptr)
 	{
@@ -59,13 +59,15 @@ void Coordinator::AddComponent(Entity entity, T const& component)
 		Debugger::GetInstance().LogError("Components must inherit from ECS_Component. Can't add " + std::string(typeName) + " as component");
 	}
 
-	m_pComponentManager->AddComponent<T>(entity, component);
+	auto comp = m_pComponentManager->AddComponent<T>(entity, component);
 
 	Signature signature = m_pEntityManager->GetSignature(entity);
 	signature.set(m_pComponentManager->GetComponentType<T>(), true);
 	m_pEntityManager->SetSignature(entity, signature);
 
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
+
+	return comp;
 }
 
 template <ComponentDerived T>

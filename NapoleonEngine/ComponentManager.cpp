@@ -1,6 +1,6 @@
 #include "PCH.h"
 #include "ComponentManager.h"
-#include "ComponentFactory.h"
+#include "Factories.h"
 
 std::unordered_map<std::string, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<std::string, ComponentType>{};
 ComponentType ComponentManager::m_NextComponentType = ComponentType{};

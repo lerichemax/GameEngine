@@ -32,6 +32,10 @@ public:
 	std::shared_ptr<GameObject> FindTagInChildren(std::shared_ptr<GameObject> pObj, std::string const& tag) const; //returns the first one found
 	std::vector<std::shared_ptr<GameObject>> GetChildrenWithTag(std::shared_ptr<GameObject> pObj, std::string const& tag) const;
 
+	void Serialize(StreamWriter& writer) const override;
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
 protected:
 	BaseScene();
 
@@ -59,10 +63,6 @@ public:
 
 	std::shared_ptr<GameObject> CreateGameObject() override;
 	std::shared_ptr<GameObject> GetRoot() const;
-
-	void Serialize(StreamWriter& writer) const override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 	bool IsRoot(std::shared_ptr<GameObject> pObject) const;
 
@@ -93,17 +93,14 @@ protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
-	std::weak_ptr<GameObject> InstantiatePrefab(std::string const& name);
-
-	void Serialize(StreamWriter& writer) const override {};
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 
 private:
 	friend void ColliderComponent::Initialize();
 	friend ColliderComponent::~ColliderComponent();
 	friend class SceneManager;
 	friend class NapoleonEngine;
+	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);

@@ -76,7 +76,8 @@ private:
 template <typename T>
 void GameObject::AddComponent(T const& Component)
 {
-	m_pRegistry->AddComponent<T>(m_Entity, Component);
+	auto newComp = m_pRegistry->AddComponent<T>(m_Entity, Component);
+	newComp->m_pGameObject = std::shared_ptr<GameObject>(this);
 }
 
 template <class T>

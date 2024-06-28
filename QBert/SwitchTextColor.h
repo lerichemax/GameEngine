@@ -10,6 +10,7 @@ struct ECS_TextRendererComponent;
 class SwitchTextColor final : public Command
 {
 public:
+	SwitchTextColor() = default;
 	SwitchTextColor(Color targetColor, std::shared_ptr<ECS_TextRendererComponent> pText);
 	SwitchTextColor* Clone() override { return new SwitchTextColor(*this); }
 	SwitchTextColor(SwitchTextColor&& other) = delete;
@@ -25,7 +26,7 @@ public:
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context);
 
 private:
-	Color m_TargetColor;
+	Color m_TargetColor{};
 	std::shared_ptr<ECS_TextRendererComponent> m_pText;
 
 	SwitchTextColor(SwitchTextColor const& other);

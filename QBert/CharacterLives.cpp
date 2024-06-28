@@ -26,7 +26,7 @@ void CharacterLives::Reset()
 
 ECS_CharacterLives::ECS_CharacterLives(int maxLives)
 	:ECS_Component(true),
-	MAX_LIVES(maxLives),
+	m_MaxLives(maxLives),
 	m_NbrLives(maxLives)
 {
 
@@ -39,5 +39,22 @@ void ECS_CharacterLives::Die()
 
 void ECS_CharacterLives::Reset()
 {
-	m_NbrLives = MAX_LIVES;
+	m_NbrLives = m_MaxLives;
+}
+
+void ECS_CharacterLives::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(ECS_CharacterLives).name());
+	writer.WriteInt("maxLives", m_MaxLives);
+	writer.WriteInt("lives", m_NbrLives);
+	
+	ECS_Component::Serialize(writer);
+}
+
+void ECS_CharacterLives::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	reader->ReadInt("maxLives", m_MaxLives);
+	reader->ReadInt("lives", m_NbrLives);
+
+	ECS_Component::Deserialize(reader, context);
 }

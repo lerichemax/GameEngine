@@ -7,6 +7,7 @@ class QBert;
 class MoveCommand final : public Command
 {
 public:
+	MoveCommand() = default;
 	MoveCommand(ConnectionDirection dir, Character* pChar);
 	MoveCommand* Clone() { return new MoveCommand(*this); }
 	MoveCommand(MoveCommand&& other) = delete;

@@ -4,6 +4,7 @@
 class SwitchScene final : public Command
 {
 public:
+	SwitchScene() = default;
 	SwitchScene(std::string pTargetScene);
 	SwitchScene* Clone() override { return new SwitchScene(*this); }
 	SwitchScene(SwitchScene&& other) = delete;
@@ -11,8 +12,8 @@ public:
 	SwitchScene& operator=(SwitchScene&& rhs) = delete;
 	void Execute() override;
 
-	void Serialize(StreamWriter& writer) const override {};
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 

@@ -35,43 +35,20 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-	auto const livesP1 = InstantiatePrefab("LivesUI").lock();
+	auto const livesP1 = InstantiatePrefab("LivesUI");
 	auto const pointsP1 = InstantiatePrefab("PointsUI");
 
 	//Pause Menu
-	m_pPauseMenu = InstantiatePrefab("PauseMenu").lock();
-
-	auto pBtnObject = FindTagInChildren(m_pPauseMenu, "ResumeBtn");
-	auto pBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
-	auto pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
-	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	//pBtn->SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
-
-	pBtnObject = FindTagInChildren(m_pPauseMenu, "BackToMainBtn");
-	auto pBackBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
-	pBackBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pBackBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pBackBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-
-	pBtnObject = FindTagInChildren(m_pPauseMenu, "QuitBtn");
-	auto pQuitBtn = pBtnObject->GetComponent<ECS_ButtonComponent>();
-	pTextComp = pBtnObject->GetComponent<ECS_TextRendererComponent>();
-	pQuitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-	pQuitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-	pQuitBtn->SetOnClickFunction(new QuitGameCommand{  });
-
+	m_pPauseMenu = InstantiatePrefab("PauseMenu");
 	m_pPauseMenu->SetActive(false);
 	
-	//auto qbertObj = InstantiatePrefab("QBert").lock();
-	auto qubeObj = InstantiatePrefab("Qube").lock();
-	qubeObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
+	auto qbertObj = InstantiatePrefab("QBert");
+	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 
 
-	//livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
+	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
 	
 //	auto const pyramid = pPrefabManager.Instantiate("Pyramid");
 //	m_pPyramid = pyramid->GetComponent<Pyramid>();

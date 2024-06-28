@@ -83,6 +83,68 @@ std::vector<std::shared_ptr<GameObject>> BaseScene::GetChildrenWithTag(std::shar
 	return childrenWithTag;
 }
 
+void BaseScene::Serialize(StreamWriter& writer) const
+{
+	writer.StartObject("Prefab");
+	writer.WriteString("name", m_Name);
+	writer.StartArray("gameobjects");
+	for (std::shared_ptr<GameObject> pObject : m_pObjects)
+	{
+		writer.StartArrayObject();
+		pObject->Serialize(writer);
+		writer.EndObject();
+	}
+	writer.EndArray();
+	writer.StartArray("systems");
+	for (std::shared_ptr<System> pSystem : m_pSystems)
+	{
+		writer.WriteStringNoKey(pSystem->GetNameForSerialization());
+	}
+	writer.EndArray();
+	writer.EndObject();
+}
+
+void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	auto prefab = reader->ReadObject("Prefab");
+	//prefab->ReadString("name", m_Name);
+
+	auto systems = prefab->ReadArray("systems");
+	for (SizeType i = 0; i < systems->GetArraySize(); i++)
+	{
+		auto pNewSystem = m_pRegistry->AddSystemFromName(systems->ReadArrayIndexAsString(i));
+		if (pNewSystem != nullptr)
+		{
+			m_pSystems.push_back(pNewSystem);
+		}
+	}
+
+	auto objects = prefab->ReadArray("gameobjects");
+
+	for (SizeType i = 0; i < objects->GetArraySize(); i++)
+	{
+		auto pNewObject = CreateGameObjectNoTransform();
+		int entity;
+		auto go = objects->ReadArrayIndex(i);
+		go->ReadInt("Entity", entity);
+		context.Add(entity, pNewObject);
+		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
+	}
+}
+
+void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	auto prefab = reader->ReadObject("Prefab");
+	auto objects = prefab->ReadArray("gameobjects");
+
+	size_t arraySize = objects->GetArraySize();
+
+	for (size_t i = 0; i < arraySize; i++)
+	{
+		m_pObjects[m_pObjects.size() - (arraySize - i)]->RestoreContext(objects->ReadArrayIndex(i).get(), context);
+	}
+}
+
 std::shared_ptr<GameObject> BaseScene::CreateGameObjectNoTransform()
 {
 	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry, false}));
@@ -125,77 +187,6 @@ std::shared_ptr<GameObject> Prefab::CreateGameObject()
 std::shared_ptr<GameObject> Prefab::GetRoot() const
 {
 	return m_pRootObject;
-}
-
-
-void Prefab::Serialize(StreamWriter& writer) const
-{
-	writer.StartObject("Prefab");
-	writer.WriteString("name", m_Name);
-	writer.StartArray("gameobjects");
-	for (std::shared_ptr<GameObject> pObject : m_pObjects)
-	{
-		writer.StartArrayObject();
-		pObject->Serialize(writer);
-		writer.EndObject();
-	}
-	writer.EndArray();
-	writer.StartArray("systems");
-	for (std::shared_ptr<System> pSystem : m_pSystems)
-	{
-		writer.WriteStringNoKey(pSystem->GetNameForSerialization());
-	}
-	writer.EndArray();
-	writer.EndObject();
-}
-
-void Prefab::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	auto prefab = reader->ReadObject("Prefab");
-	prefab->ReadString("name", m_Name);
-
-	auto systems = prefab->ReadArray("systems");
-	for (SizeType i = 0; i < systems->GetArraySize(); i++)
-	{
-		auto pNewSystem = m_pRegistry->AddSystemFromName(systems->ReadArrayIndexAsString(i));
-		if (pNewSystem != nullptr)
-		{
-			m_pSystems.push_back(pNewSystem);
-		}
-	}
-
-	auto objects = prefab->ReadArray("gameobjects");
-
-	auto go = objects->ReadArrayIndex(0);
-	int entity;
-	go->ReadInt("Entity", entity);
-	context.Add(entity, m_pRootObject);
-	m_pRootObject->Deserialize(objects->ReadArrayIndex(0).get(), context);
-
-	for (SizeType i = 1; i < objects->GetArraySize(); i++)
-	{
-		auto pNewObject = CreateGameObjectNoTransform();
-		go = objects->ReadArrayIndex(i);
-		go->ReadInt("Entity", entity);
-		context.Add(entity, pNewObject);
-		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
-	}
-
-	if (!m_pObjects.empty())
-	{
-		m_pRootObject = m_pObjects[0];
-	}
-}
-
-void Prefab::RestoreContext(JsonReader const* reader, SerializationMap const& context)
-{
-	auto prefab = reader->ReadObject("Prefab");
-	auto objects = prefab->ReadArray("gameobjects");
-
-	for (size_t i = 0; i < m_pObjects.size(); i++)
-	{
-		m_pObjects[i]->RestoreContext(objects->ReadArrayIndex(i).get(), context);
-	}
 }
 
 bool Prefab::IsRoot(std::shared_ptr<GameObject> pObject) const
@@ -406,11 +397,18 @@ std::shared_ptr<GameObject> Scene::GetCameraObject() const
 	return m_pCameraObject;
 }
 
-std::weak_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
+std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 {
-	auto pPrefab = PrefabsManager::GetInstance().InstantiatePrefab(name);
+	size_t index = m_pObjects.size();
 
-	return MergePrefab(pPrefab);
+	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
+
+	if (m_pObjects.size() > index)
+	{
+		return m_pObjects[index];
+	}
+
+	return nullptr;
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

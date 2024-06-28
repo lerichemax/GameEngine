@@ -14,6 +14,7 @@ class Pyramid final : public BehaviourComponent
 
 public:
 	explicit Pyramid(unsigned int maxWidth);
+	Pyramid() = default;
 	
 	Pyramid(Pyramid&& other) = delete;
 	Pyramid& operator=(Pyramid const& rhs) = delete;
@@ -22,13 +23,13 @@ public:
 
 	void Update() override;
 	
-	Qube* GetTop() const { return m_pQubes.front(); }
-	Qube* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
-	Qube* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
-	Qube* GetQube(int index) const { return m_pQubes[index]; }
+	Qube* GetTop() const { return nullptr; /*m_pQubes.front();*/ }
+	Qube* GetEscheresqueLeftTop() const { return nullptr; /*m_pQubes.back();*/ }
+	Qube* GetEscheresqueRightTop() const { return nullptr; /*m_pQubes[m_pQubes.size() - MAX_WIDTH];*/ }
+	Qube* GetQube(int index) const { return nullptr;  /*m_pQubes[index]*/; }
 	int GetQubeIndex(Qube* pQube) const;
 	int GetNbrDisks()const { return m_NbrDisksSpawned; }
-	std::vector<Qube*> const& GetQubes() const { return m_pQubes; }
+	std::vector<Qube*> const& GetQubes() const { return std::vector<Qube*>{};  /*m_pQubes;*/ }
 	
 	bool AreAllQubesFlipped() const;
 	void Reset();
@@ -47,7 +48,7 @@ private:
 	
 	float m_DiskSpawnTimer;
 	
-	std::vector<Qube*> m_pQubes;
+	std::vector<std::shared_ptr<Qube>> m_pQubes;
 	QBert* m_pQBert;
 	
 	void Initialize() override;
