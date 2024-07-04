@@ -95,9 +95,7 @@ void MainMenuScene::Initialize()
 
 	quitBtn->GetTransform()->Translate(400, 350);
 
-	AddSystem<UiSystem>();
-
-	InstantiatePrefab("FPSCounter");
+	Instantiate("FPSCounter");
 
 	GetCameraObject()->GetComponent<ECS_TransformComponent>()->Translate(450, 300);
 }

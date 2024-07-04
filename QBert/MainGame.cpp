@@ -125,14 +125,15 @@ void MainGame::CreatePrefabs() const
 	qubeRenderer.m_Layer = Layer::uiGame;
 
 	auto qubePf = pPrefabManager.CreatePrefab();
-	auto qubeObject = qubePf->CreateGameObject();
+	auto qubeObject = qubePf->GetRoot();
 	auto text = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png");
-	//auto interText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png");
-	//auto flippedText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png");
+	auto interText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png");
+	auto flippedText = ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png");
 	qubeObject->GetTransform()->Scale(1.75f);
 	qubeRenderer.m_pTexture = text;
 	qubeObject->AddComponent<ECS_RendererComponent>(qubeRenderer);
-	//qubePf->AddComponent(new Qube{ text, interText, flippedText });
+	Qube qube{ text, interText, flippedText };
+	qubeObject->AddComponent<Qube>(qube);
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
 	//Pyramid

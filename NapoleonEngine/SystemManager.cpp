@@ -23,7 +23,7 @@ void SystemManager::EntitySignatureChanged(Entity entity, Signature const& entit
 
 		if ((entitySignature & systemSignature) == systemSignature)
 		{
-			pSystem->m_Entities.insert(entity);
+			pSystem->AddEntity(entity);
 		}
 		else {
 			pSystem->m_Entities.erase(entity);

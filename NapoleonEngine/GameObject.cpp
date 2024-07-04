@@ -7,21 +7,14 @@
 
 #include "Scene.h"
 
-GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry, bool transform)
+GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 	:m_pRegistry(pRegistry), 
 	m_Entity(pRegistry.lock()->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false),
-	m_pTransform(nullptr),
 	m_pScene(nullptr),
 	m_pSubject(new Subject{})
 {
-	if (transform)
-	{
-		ECS_TransformComponent transformComp;
-		m_pRegistry->AddComponent<ECS_TransformComponent>(m_Entity, transformComp);
-		m_pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(m_Entity).lock();
-	}
 }
 
 GameObject::GameObject(const GameObject& other)
@@ -41,11 +34,6 @@ GameObject::~GameObject()
 	SafeDelete(m_pSubject);
 }
 
-void GameObject::Update()
-{
-
-}
-
 void GameObject::Refresh()
 {
 	
@@ -59,12 +47,17 @@ void GameObject::Refresh()
 	//}
 }
 
+std::shared_ptr<ECS_TransformComponent> GameObject::GetTransform() const
+{ 
+	return GetComponent<ECS_TransformComponent>(); 
+}
+
 void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
 {
 	//m_pChildren.push_back(pChild); //remove ?
 	//pChild->m_pParent = std::shared_ptr<GameObject>(this); //remove ?
 
-	pChild->m_pTransform->m_pParent = m_pTransform;
+	pChild->GetTransform()->m_pParent = GetTransform();
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
 
 	//pChild->m_pScene = m_pScene; //remove ?
@@ -143,7 +136,7 @@ void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->RestoreContext(jsonComponents->ReadArrayIndex(i).get(), context);
-		components[i]->m_pGameObject = std::shared_ptr<GameObject>(this);
+		components[i]->m_pGameObject = this;
 	}
 
 	auto children = reader->ReadArray("children");

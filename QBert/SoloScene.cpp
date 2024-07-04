@@ -35,22 +35,21 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-	auto const livesP1 = InstantiatePrefab("LivesUI");
-	auto const pointsP1 = InstantiatePrefab("PointsUI");
+	auto const livesP1 = Instantiate("LivesUI");
+	auto const pointsP1 = Instantiate("PointsUI");
 
 	//Pause Menu
-	m_pPauseMenu = InstantiatePrefab("PauseMenu");
+	m_pPauseMenu = Instantiate("PauseMenu");
 	m_pPauseMenu->SetActive(false);
 	
-	auto qbertObj = InstantiatePrefab("QBert");
+	auto qbertObj = Instantiate("QBert");
 	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
 	//m_pQbert = qbertObj->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 
-
 	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
 	
-//	auto const pyramid = pPrefabManager.Instantiate("Pyramid");
+	auto const pyramid = Instantiate("Pyramid");
 //	m_pPyramid = pyramid->GetComponent<Pyramid>();
 //	m_pPyramid->SetQBert(m_pQbert);
 //	AddObject(pyramid);
@@ -116,9 +115,7 @@ void SoloScene::Initialize()
 //	SetCameraActive(camComp);
 //	AddObject(camObj);
 
-	AddSystem<UiSystem>();
-
-	InstantiatePrefab("FPSCounter");
+	Instantiate("FPSCounter");
 	GetCameraObject()->GetTransform()->Translate(450, 300);
 }
 

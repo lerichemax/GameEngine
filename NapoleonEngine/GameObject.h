@@ -26,7 +26,7 @@ public:
 	template <class T> T* GetComponentInChildren() const;
 	template <class T> void RemoveComponent();
 		
-	std::shared_ptr<ECS_TransformComponent> GetTransform() const { return m_pTransform; }
+	std::shared_ptr<ECS_TransformComponent> GetTransform() const;
 
 	template <typename T> void AddComponent(T const& Component);
 
@@ -55,7 +55,7 @@ private:
 	friend class PrefabsManager;
 	friend class BaseScene;
 
-	GameObject(std::weak_ptr<Coordinator> pRegistry, bool transform = true);
+	GameObject(std::weak_ptr<Coordinator> pRegistry);
 	GameObject(const GameObject& other);
 
 	std::shared_ptr<Coordinator> m_pRegistry;
@@ -64,26 +64,22 @@ private:
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
-
-	std::shared_ptr <ECS_TransformComponent> m_pTransform;
 		
 	Scene* m_pScene;
 	Subject* m_pSubject;
 		
 	void Refresh();
-	void Update();
 };
 template <typename T>
 void GameObject::AddComponent(T const& Component)
 {
 	auto newComp = m_pRegistry->AddComponent<T>(m_Entity, Component);
-	newComp->m_pGameObject = std::shared_ptr<GameObject>(this);
+	newComp->m_pGameObject = this;
 }
-
 template <class T>
 std::shared_ptr<T> GameObject::GetComponent() const
 {
-	return m_pRegistry->GetComponent<T>(m_Entity).lock();
+	return m_pRegistry->GetComponent<T>(m_Entity);
 }
 
 template <class T>

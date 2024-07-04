@@ -1,5 +1,6 @@
 #include "PCH.h"
 #include "Component.h"
+#include "GameObject.h"
 
 Component::Component()
 	:m_pGameObject{},
@@ -40,6 +41,7 @@ void ECS_Component::Serialize(StreamWriter& writer) const
 	writer.WriteBool("IsActive", m_IsActive);
 	writer.WriteBool("IsUnique", m_IsUnique);
 	writer.WriteInt("ID", m_Id);
+	writer.WriteInt("gameobject", m_pGameObject->GetEntity());
 }
 
 void ECS_Component::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -47,4 +49,12 @@ void ECS_Component::Deserialize(JsonReader const* reader, SerializationMap& cont
 	reader->ReadBool("IsActive", m_IsActive);
 	reader->ReadBool("IsUnique", m_IsUnique);
 	reader->ReadInt("ID", m_Id);
+}
+
+void ECS_Component::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	int id = -1;
+	reader->ReadInt("gameobject", id);
+
+	m_pGameObject = context.GetRef<GameObject>(id).get();
 }

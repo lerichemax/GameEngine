@@ -8,6 +8,7 @@
 #include "AudioSystem.h"
 #include "System.h"
 #include "BehaviourSystem.h"
+#include "UiSystem.h"
 
 #include "PrefabsManager.h"
 
@@ -43,7 +44,12 @@ BaseScene::~BaseScene()
 
 std::shared_ptr<GameObject> BaseScene::CreateGameObject()
 {
-	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry }));
+	auto newObject = std::shared_ptr<GameObject>(new GameObject{ m_pRegistry }) ;
+	
+	ECS_TransformComponent transformComp;
+	newObject->AddComponent<ECS_TransformComponent>(transformComp);
+
+	m_pObjects.push_back(newObject);
 
 	return m_pObjects.back();
 }
@@ -147,7 +153,7 @@ void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const&
 
 std::shared_ptr<GameObject> BaseScene::CreateGameObjectNoTransform()
 {
-	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry, false}));
+	m_pObjects.push_back(std::shared_ptr<GameObject>(new GameObject{ m_pRegistry}));
 
 	return m_pObjects.back();
 }
@@ -211,6 +217,8 @@ Scene::Scene(const std::string& name)
 	m_pAudio(m_pRegistry->RegisterSystem<AudioSystem>()),
 	m_pTextRenderer(m_pRegistry->RegisterSystem<TextRendererSystem>()),
 	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
+	m_pBehaviours(m_pRegistry->RegisterSystem<BehaviourSystem>()),
+	m_pUi(m_pRegistry->RegisterSystem<UiSystem>()),
 	m_pActiveCamera(nullptr),
 	m_pCamera(m_pRegistry->RegisterSystem<CameraSystem>()),
 	m_bIsActive(false),
@@ -221,8 +229,6 @@ Scene::Scene(const std::string& name)
 	ECS_CameraComponent camComp{};
 	m_pCameraObject->AddComponent<ECS_CameraComponent>(camComp);
 	SetActiveCamera(m_pCameraObject);
-
-	AddSystem<BehaviourSystem>();
 }
 
 Scene::~Scene()
@@ -240,27 +246,21 @@ void Scene::OnActivate()
 	Timer::GetInstance().SetTimeScale(1);
 	m_bIsActive = true;
 	CustomOnActivate();
-	Initialize();
 	DeclareInput();
+	Initialize();
+	m_pBehaviours->Initialize(m_pRegistry->GetComponentManager());
 }
 
 void Scene::Update()
-{
-	//To delete
-	for(auto& object : m_pObjects)
-	{
-		if (object->IsActive())
-		{
-			object->Update();
-		}
-	}
-	
+{	
 	for (auto& pSystem : m_pSystems)
 	{
 		pSystem->Update(m_pRegistry->GetComponentManager());
 	}
 
+	m_pBehaviours->Update(m_pRegistry->GetComponentManager());
 	m_pTransformSystem->Update(m_pRegistry->GetComponentManager());
+	m_pUi->Update(m_pRegistry->GetComponentManager());
 
 	CheckCollidersCollision();
 	
@@ -301,6 +301,7 @@ void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const
 {
 	m_pSceneRenderer->RemoveFromGroup(pRenderer, layer);
 }
+
 
 void Scene::CheckCollidersCollision()
 {

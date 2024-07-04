@@ -16,7 +16,7 @@
 #include "ColoredDisk.h"
 
 Pyramid::Pyramid(unsigned int maxWidth)
-	:MAX_WIDTH(maxWidth),
+	:m_MaxWidth(maxWidth),
 	m_NbrDisksSpawned(),
 	m_DiskSpawnTimer(),
 	m_pQubes(),
@@ -59,7 +59,7 @@ void Pyramid::Initialize()
 	glm::vec2 lastPos{startPos};
 	
 	//spawn qubes
-	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	for (unsigned int i = m_MaxWidth; i != 0; i--)
 	{
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
@@ -69,7 +69,7 @@ void Pyramid::Initialize()
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			//m_pQubes.back()->SetPyramid(this);
 			
-			if (i == MAX_WIDTH)
+			if (i == m_MaxWidth)
 			{
 				m_pQubes.back()->SetIsLastRow(true);
 			}
@@ -79,10 +79,10 @@ void Pyramid::Initialize()
 			}
 			
 			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth();
-			m_pGameObject->AddChild(pQube);
+			GetGameObject()->AddChild(pQube);
 		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() / 2;
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight()*0.75f;
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 2;
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() *0.75f;
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 
@@ -130,10 +130,10 @@ void Pyramid::CreateConnections()
 
 void Pyramid::CreateEscheresqueRightConnections()
 {
-	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - MAX_WIDTH;
+	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - m_MaxWidth;
 	int nextlineStartIdx{};
 
-	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	for (unsigned int i = m_MaxWidth; i != 0; i--)
 	{
 		for (unsigned int j = 0; j < i; j++)
 		{
@@ -161,7 +161,7 @@ void Pyramid::CreateEscheresqueLeftConnections()
 {
 	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - 1;
 	
-	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	for (unsigned int i = m_MaxWidth; i != 0; i--)
 	{
 		for (unsigned int j = 0; j < i; j++)
 		{
@@ -325,6 +325,28 @@ bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection
 		}
 	}
 	return true;
+}
+
+void Pyramid::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(Pyramid).name());
+	writer.WriteInt("maxWidth", m_MaxWidth);
+
+	BehaviourComponent::Serialize(writer);
+}
+
+void Pyramid::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	int tmpWidth{};
+	reader->ReadInt("maxWidth", tmpWidth);
+	m_MaxWidth = static_cast<unsigned int>(tmpWidth);
+
+	BehaviourComponent::Deserialize(reader, context);
+}
+
+void Pyramid::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+
 }
 
 int Pyramid::GetQBertIndex() const

@@ -48,7 +48,13 @@ inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
 	return mat * toTransform;
 }
 
-std::shared_ptr<GameObject> Instantiate(std::string const& name)
+inline std::shared_ptr<GameObject> Instantiate(std::string const& name)
 {
 	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name);
+}
+
+template <ComponentDerived T>
+inline std::shared_ptr<T> FindObjectOfType()
+{
+	return nullptr;
 }

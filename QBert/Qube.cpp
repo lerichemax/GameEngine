@@ -10,6 +10,7 @@
 #include "RendererComponent.h"
 #include "GameObject.h"
 #include "PrefabsManager.h"
+#include "ResourceManager.h"
 
 
 //Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
@@ -33,7 +34,7 @@
 //{
 //}
 
-Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
+Qube::Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInterText, std::shared_ptr<Texture2D> pFlippedText)
 	:m_pDefaultText(pDefText),
 	m_pIntermediateTexture(pInterText),
 	m_pFlippedTexture(pFlippedText),
@@ -69,7 +70,7 @@ void Qube::Update()
 	}*/
 }
 
-void Qube::SetTexture(Texture2D* pText)
+void Qube::SetTexture(std::shared_ptr<Texture2D> pText)
 {
 	m_pIntermediateTexture = pText;
 	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
@@ -279,4 +280,58 @@ void Qube::CharacterJumpIn(Character* pCharacter)
 void Qube::CharacterJumpOut()
 {
 	m_pCharacter = nullptr;
+}
+
+void Qube::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(Qube).name());
+
+
+	writer.StartObject("defaultText");
+	{
+		m_pDefaultText->Serialize(writer);
+	}
+	writer.EndObject();
+
+	writer.StartObject("intermediateText");
+	{
+		m_pIntermediateTexture->Serialize(writer);
+	}
+	writer.EndObject();
+
+	writer.StartObject("flippedText");
+	{
+		m_pFlippedTexture->Serialize(writer);
+	}
+	writer.EndObject();
+
+	BehaviourComponent::Serialize(writer);
+}
+
+void Qube::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	std::string filename;
+
+	auto defaultObj = reader->ReadObject("defaultText");
+	defaultObj->ReadString("filepath", filename);
+	if (!filename.empty())
+	{
+		m_pDefaultText = ResourceManager::GetInstance().GetTexture(filename);
+	}
+
+	auto intermediateObj = reader->ReadObject("intermediateText");
+	intermediateObj->ReadString("filepath", filename);
+	if (!filename.empty())
+	{
+		m_pIntermediateTexture = ResourceManager::GetInstance().GetTexture(filename);
+	}
+
+	auto flippedObj = reader->ReadObject("flippedText");
+	flippedObj->ReadString("filepath", filename);
+	if (!filename.empty())
+	{
+		m_pFlippedTexture = ResourceManager::GetInstance().GetTexture(filename);
+	}
+
+	BehaviourComponent::Deserialize(reader, context);
 }

@@ -46,6 +46,8 @@ struct ECS_Component : public IContextSerializable
 	ECS_Component() = default;
 	ECS_Component(bool unique);
 
+	virtual ~ECS_Component() = default;
+
 	bool IsActive() const;
 	bool IsUnique() const;
 
@@ -54,12 +56,12 @@ struct ECS_Component : public IContextSerializable
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	virtual void Initialize() {};
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
-	std::shared_ptr<GameObject> GetGameObject() const { return m_pGameObject; }
+	GameObject* const GetGameObject() const { return m_pGameObject; }
 
 protected:
-	std::shared_ptr<GameObject> m_pGameObject;
+	GameObject* m_pGameObject{};
 
 private:
 	bool m_IsActive{true};

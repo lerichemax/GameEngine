@@ -10,6 +10,7 @@ class Texture2D final : public ISerializable
 	friend class ResourceManager;
 public:
 	explicit Texture2D(SDL_Texture* texture);
+
 	Texture2D(const Texture2D&) = delete;
 	Texture2D(Texture2D&&) = delete;
 	Texture2D& operator= (const Texture2D&) = delete;
@@ -31,4 +32,5 @@ private:
 
 	explicit Texture2D(SDL_Texture* texture, std::string const& filePath);
 
+	void InitTexture();
 };

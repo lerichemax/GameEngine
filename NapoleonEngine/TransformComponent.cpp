@@ -315,7 +315,7 @@ void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformCo
 
 		transformComponent->m_Position = transformComponent->m_WorldPosition - transformComponent->m_pParent->m_WorldPosition;
 		transformComponent->m_Rotation = transformComponent->m_WorldRotation - transformComponent->m_pParent->m_WorldRotation;
-		transformComponent->m_Scale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_WorldScale;
+		//transformComponent->m_Scale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_WorldScale;
 	}
 	else
 	{

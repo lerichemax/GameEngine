@@ -22,11 +22,9 @@ class QBert;
 class Qube final : public BehaviourComponent 
 {
 public:
-	explicit Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText);
-	
-	Qube(Qube&& other) = delete;
-	Qube& operator=(Qube const& rhs) = delete;
-	Qube& operator=(Qube&& rhs) = delete;
+	Qube() = default;
+	explicit Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInterText, std::shared_ptr<Texture2D> pFlippedText);
+
 	~Qube() = default;
 
 	void Initialize() override;
@@ -52,7 +50,7 @@ public:
 	
 	void SetIsLastRow(bool lastRow) { m_bIsLastRow = lastRow; };
 	void SetIsSideColumn(bool sideCol) { m_bIsSideColumn = sideCol; }
-	void SetTexture(Texture2D* pText);
+	void SetTexture(std::shared_ptr<Texture2D> pText);
 	//void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
 	
 	void AddConnection(ConnectionDirection dir, Qube* const pConnection);
@@ -64,6 +62,11 @@ public:
 	void Reset();
 	void CharacterJumpIn(Character* pCharacter);
 	void CharacterJumpOut();
+
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 
 private:
 	int static const MAX_NBR_CONNECTION{ 4 };
@@ -78,9 +81,9 @@ private:
 	
 	//ColoredDisk* m_pDiskConnection;
 	
-	Texture2D* m_pDefaultText;
-	Texture2D* m_pIntermediateTexture;
-	Texture2D* m_pFlippedTexture;
+	std::shared_ptr<Texture2D> m_pDefaultText;
+	std::shared_ptr<Texture2D> m_pIntermediateTexture;
+	std::shared_ptr<Texture2D> m_pFlippedTexture;
 
 	Character* m_pCharacter;
 	

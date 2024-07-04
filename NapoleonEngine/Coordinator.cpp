@@ -91,7 +91,7 @@ std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr
 			std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
 			for (Entity entity : entities)
 			{
-				pSystem->m_Entities.insert(entity);
+				pSystem->AddEntity(entity);
 			}
 		}
 	}

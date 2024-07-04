@@ -20,7 +20,7 @@ public:
 
 	template <ComponentDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
-	template <ComponentDerived T> std::weak_ptr<T> GetComponent(Entity entity) const;
+	template <ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
 	template <SystemDerived T> std::shared_ptr<T> RegisterSystem();
 	template <SystemDerived T> void SetSystemSignature(Signature signature);
@@ -83,7 +83,7 @@ void Coordinator::RemoveComponent(Entity entity)
 }
 
 template <ComponentDerived T>
-std::weak_ptr<T> Coordinator::GetComponent(Entity entity) const
+std::shared_ptr<T> Coordinator::GetComponent(Entity entity) const
 {
 	return m_pComponentManager->GetComponent<T>(entity);
 }

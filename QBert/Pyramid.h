@@ -16,9 +16,6 @@ public:
 	explicit Pyramid(unsigned int maxWidth);
 	Pyramid() = default;
 	
-	Pyramid(Pyramid&& other) = delete;
-	Pyramid& operator=(Pyramid const& rhs) = delete;
-	Pyramid& operator=(Pyramid&& rhs) = delete;
 	~Pyramid();
 
 	void Update() override;
@@ -39,8 +36,13 @@ public:
 	bool FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const; //used by coily to move to qbert
 	QBert* GetQBert()const { return m_pQBert; }
 
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+
 private:
-	unsigned int const MAX_WIDTH;
+	unsigned int m_MaxWidth;
 	unsigned int const MAX_NBR_DISKS{ 4 };
 	float const DISK_SPAWNING_INTERVAL{ 7.f };
 	

@@ -76,8 +76,8 @@ std::shared_ptr<T> ComponentArray<T>::InsertData(Entity entity, T const& compone
 	m_EntityToIndex[entity] = newIndex;
 	m_IndexToEntity[newIndex] = entity;
 	m_Components[newIndex] = std::make_shared<T>(component);
-	return m_Components[newIndex];
 	m_Size++;
+	return m_Components[newIndex];
 }
 
 template<ComponentDerived T>

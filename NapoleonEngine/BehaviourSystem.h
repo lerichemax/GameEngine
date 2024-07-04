@@ -11,4 +11,8 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 protected:
 	std::shared_ptr<System> Clone() const override { return std::make_shared<BehaviourSystem>(*this); }
+	void AddEntity(Entity entity) override;
+
+private:
+	std::vector<Entity> m_ToBeAdded;
 };

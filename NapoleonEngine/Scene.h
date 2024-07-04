@@ -17,6 +17,8 @@ class LayeredRendererSystem;
 class TextRendererSystem;
 class System;
 class AudioSystem;
+class BehaviourSystem;
+class UiSystem;
 
 class BaseScene : public IContextSerializable
 {
@@ -93,7 +95,6 @@ protected:
 	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
-	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 
 private:
 	friend void ColliderComponent::Initialize();
@@ -113,6 +114,8 @@ private:
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<AudioSystem> m_pAudio;
 	std::shared_ptr<CameraSystem> m_pCamera;
+	std::shared_ptr<BehaviourSystem> m_pBehaviours;
+	std::shared_ptr<UiSystem> m_pUi;
 
 	std::shared_ptr<GameObject> m_pCameraObject;
 	CameraComponent* m_pActiveCamera; //deprecated
@@ -128,7 +131,8 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
-	std::shared_ptr<GameObject> MergePrefab(std::shared_ptr<Prefab> pPrefab);
+	std::shared_ptr<GameObject> MergePrefab(std::shared_ptr<Prefab> pPrefab); //unused currently
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 };
 
 template <typename T>
