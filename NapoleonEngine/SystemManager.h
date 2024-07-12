@@ -55,7 +55,7 @@ void SystemManager::SetSignature(Signature signature)
 
 	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
 
-	m_Signatures.insert(std::make_pair(typeName, signature));
+	m_Signatures[typeName] = signature;
 }
 
 template <SystemDerived T>

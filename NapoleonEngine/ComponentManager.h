@@ -15,9 +15,12 @@ public:
 	~ComponentManager() = default;
 
 	template<ComponentDerived T> ComponentType GetComponentType();
+
 	template<ComponentDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
+
 	template<ComponentDerived T> void RemoveComponent(Entity entity);
 	template<ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity);
+	template<ComponentDerived T> std::vector<std::shared_ptr<T>> GetComponents(Entity entity);
 	
 	void EntityDestroyed(Entity entity);
 	std::vector<std::shared_ptr<ECS_Component>> GetComponentsForSignature(Entity entity, Signature signature);
@@ -53,7 +56,7 @@ void ComponentManager::RegisterComponent()
 			compManager->RegisterComponentArray<T>(compTypeName);
 
 			return shared;
-			});
+		});
 	}
 
 	RegisterComponentArray<T>(typeName);
@@ -73,7 +76,6 @@ template<ComponentDerived T>
 std::shared_ptr<T> ComponentManager::AddComponent(Entity entity, T const& component)
 {
 	RegisterComponent<T>();
-
 	return GetComponentArray<T>()->InsertData(entity, component);
 }
 
@@ -87,6 +89,21 @@ template<ComponentDerived T>
 std::shared_ptr<T> ComponentManager::GetComponent(Entity entity)
 {
 	return GetComponentArray<T>()->GetData(entity);
+}
+template<ComponentDerived T>
+std::vector<std::shared_ptr<T>> ComponentManager::GetComponents(Entity entity)
+{
+	std::vector<std::shared_ptr<T>> toReturn;
+
+	for (auto compArray : m_ComponentArrays)
+	{
+		if (std::dynamic_pointer_cast<ComponentArray<T>>(compArray.second))
+		{
+			toReturn.push_back(GetComponentArray<T>()->GetData(entity));
+		}
+	}
+
+	return toReturn;
 }
 
 

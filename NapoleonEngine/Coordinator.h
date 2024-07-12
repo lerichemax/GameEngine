@@ -4,8 +4,15 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "BehaviourComponent.h"
 
 #include <memory>
+
+template<typename T>
+concept BehaviourDerived = std::derived_from<T, BehaviourComponent>;
+
+template<typename T>
+concept ComponentDerivedNotBehaviour = std::derived_from<T, ECS_Component> && !std::derived_from<T, BehaviourComponent>;
 
 class JSonReader;
 class Coordinator final
@@ -18,7 +25,8 @@ public:
 
 	ComponentManager* const GetComponentManager() const;
 
-	template <ComponentDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
+	template <ComponentDerivedNotBehaviour T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
+	template <BehaviourDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
@@ -50,19 +58,34 @@ private:
 	template <SystemDerived T> void OnSystemSignatureChanged(Signature const& signature);
 };
 
-template <ComponentDerived T>
+template <ComponentDerivedNotBehaviour T>
 std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
 {
-	if (dynamic_cast<const ECS_Component*>(&component) == nullptr)
-	{
-		const char* typeName = typeid(T).name();
-		Debugger::GetInstance().LogError("Components must inherit from ECS_Component. Can't add " + std::string(typeName) + " as component");
-	}
-
-	auto comp = m_pComponentManager->AddComponent<T>(entity, component);
+	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity, component);
 
 	Signature signature = m_pEntityManager->GetSignature(entity);
+
 	signature.set(m_pComponentManager->GetComponentType<T>(), true);
+
+	m_pEntityManager->SetSignature(entity, signature);
+
+	m_pSystemManager->EntitySignatureChanged(entity, signature);
+
+	return comp;
+}
+
+template <BehaviourDerived T> 
+std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
+{
+	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity, component);
+	m_pComponentManager->RegisterComponent<BehaviourComponent>();
+	m_pComponentManager->m_ComponentArrays[typeid(BehaviourComponent).name()]->ForceInsertData(comp, entity);
+
+	Signature signature = m_pEntityManager->GetSignature(entity);
+	signature.set(m_pComponentManager->GetComponentType<BehaviourComponent>(), true);
+
+	signature.set(m_pComponentManager->GetComponentType<T>(), true);
+
 	m_pEntityManager->SetSignature(entity, signature);
 
 	m_pSystemManager->EntitySignatureChanged(entity, signature);

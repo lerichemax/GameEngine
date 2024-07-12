@@ -21,9 +21,18 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 
 	for (std::pair<std::string, ComponentType> const& pair : m_ComponentTypes)
 	{
+		if (pair.second == GetComponentType<BehaviourComponent>())
+		{
+			continue;
+		}
+
 		if (signature[pair.second] == 1)
 		{
-			components.push_back(m_ComponentArrays.at(pair.first)->GetBaseData(entity));
+			auto data = m_ComponentArrays.at(pair.first)->GetBaseData(entity);
+			if (data != nullptr)
+			{
+				components.push_back(data);
+			}
 		}
 	}
 
@@ -37,10 +46,20 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	auto pComp = ComponentFactory::GetInstance().Create(type, this);
 
+	assert(pComp != nullptr && "Failed to construct object from type");
+
 	pComp->Deserialize(reader, context);
 	context.Add(pComp->GetId(), pComp);
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
+
+	bool isBehaviour;
+	reader->ReadBool("behaviour", isBehaviour);
+	if (isBehaviour)
+	{
+		m_ComponentArrays.at(typeid(BehaviourComponent).name())->ForceInsertData(pComp, entity);
+	}
+
 
 	return m_ComponentTypes.at(type);
 }

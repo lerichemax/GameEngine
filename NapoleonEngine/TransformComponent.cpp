@@ -157,10 +157,14 @@ void ECS_TransformComponent::Translate(vec2 const& translation)
 {
 	m_OldPosition = m_WorldPosition;
 
-	m_WorldPosition += translation;
+	m_WorldPosition = translation;
 	if (m_pParent != nullptr)
 	{
 		m_Position = m_WorldPosition - m_pParent->m_WorldPosition;
+	}
+	else
+	{
+		m_Position = m_WorldPosition;
 	}
 }
 
@@ -179,6 +183,10 @@ void ECS_TransformComponent::Scale(vec2 const& scale)
 	{
 		m_Scale = m_WorldScale * m_pParent->m_WorldScale;
 	}
+	else
+	{
+		m_Scale = m_WorldScale;
+	}
 }
 
 void ECS_TransformComponent::Scale(float scale)
@@ -194,7 +202,7 @@ void ECS_TransformComponent::Rotate(float rotation)
 	if (m_pParent != nullptr)
 	{
 		m_Rotation = m_WorldRotation - m_pParent->m_WorldRotation;
-	}
+	} 
 }
 
 bool ECS_TransformComponent::HasChanged() const

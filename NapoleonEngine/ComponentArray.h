@@ -1,12 +1,11 @@
 #pragma once
 #include "Entity.h"
-
 #include "Component.h"
+#include "BehaviourComponent.h"
 
 #include <unordered_map>
 #include <concepts>
 
-struct ECS_Component;
 class IComponentArray
 {
 public:
@@ -26,6 +25,7 @@ private:
 
 template<typename T>
 concept ComponentDerived = std::derived_from<T, ECS_Component>;
+
 
 template<typename T>
 class ComponentArray;
@@ -100,7 +100,13 @@ void ComponentArray<T>::RemoveData(Entity entity)
 template<ComponentDerived T>
 std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
 {
-	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
+	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
+	{
+		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		return nullptr;
+	}
+	
+	//assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
 
 	return std::static_pointer_cast<ECS_Component>(m_Components[m_EntityToIndex[entity]]);
 }

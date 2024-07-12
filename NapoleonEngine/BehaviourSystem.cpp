@@ -6,35 +6,48 @@ void BehaviourSystem::Initialize(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto behaviour = pComponentManager->GetComponent<BehaviourComponent>(entity);
-		behaviour->Initialize();
+		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
+
+		for (auto behaviour : behaviours)
+		{
+			behaviour->Initialize();
+		}
 	}
 }
 
 void BehaviourSystem::Update(ComponentManager* const pComponentManager)
 {
-	for (Entity const& entity : m_ToBeAdded)
+	size_t const size = m_ToBeAdded.size();
+	for (size_t i = 0; i < size; i++)
 	{
-		auto behaviour = pComponentManager->GetComponent<BehaviourComponent>(entity);
-		if (behaviour->IsActive())
+		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(m_ToBeAdded[i]);
+
+		for (auto behaviour : behaviours)
 		{
-			behaviour->Initialize();
+			if (behaviour->IsActive())
+			{
+				behaviour->Initialize();
+			}
 		}
 
-		m_Entities.insert(entity);
+		m_Entities.insert(m_ToBeAdded[i]);
 	}
 
-	m_ToBeAdded.clear();
+	m_ToBeAdded.erase(m_ToBeAdded.begin(), m_ToBeAdded.begin() + size);
 
 	for (Entity const& entity : m_Entities)
 	{
-		auto behaviour = pComponentManager->GetComponent<BehaviourComponent>(entity);
-		if (!behaviour->IsActive())
-		{
-			continue;
-		}
+		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
 
-		behaviour->Update();
+		for (auto behaviour : behaviours)
+		{
+			if (!behaviour->IsActive())
+			{
+				continue;
+			}
+
+			behaviour->Update();
+		}
 	}
 }
 

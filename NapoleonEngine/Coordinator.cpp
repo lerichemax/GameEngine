@@ -1,5 +1,6 @@
 #include "PCH.h"
 #include "Coordinator.h"
+#include "BehaviourComponent.h"
 
 Coordinator::Coordinator()
 	:m_pComponentManager{std::make_unique<ComponentManager>()},
@@ -60,10 +61,18 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 	Signature signature = m_pEntityManager->GetSignature(entity);
 	for (SizeType i = 0; i < reader->GetArraySize(); i++)
 	{
-		ComponentType type = m_pComponentManager->DeserializeAndAddComponent(entity, reader->ReadArrayIndex(i).get(), context);
+		auto arrayIndex = reader->ReadArrayIndex(i);
+		ComponentType type = m_pComponentManager->DeserializeAndAddComponent(entity, arrayIndex.get(), context);
 		signature.set(type, true);
-	}
 
+		bool behaviour = false;
+		arrayIndex->ReadBool("behaviour", behaviour);
+		if (behaviour)
+		{
+			signature.set(m_pComponentManager->GetComponentType<BehaviourComponent>(), true);
+		}
+	}
+	
 	m_pEntityManager->SetSignature(entity, signature);
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
