@@ -26,7 +26,7 @@ enum class ControllerButton : WORD
 	None = 65535
 };
 
-enum class PlayerNbr
+enum class PlayerNbr // to remove
 {
 	One,
 	Two,
@@ -119,8 +119,10 @@ public:
 	~InputManager();
 		
 	bool ProcessInput();
-	bool IsPressed(ControllerButton button, PlayerNbr nbr) const;
-	bool IsPressed(SDL_KeyCode keyCode) const;
+	bool IsDown(ControllerButton button, PlayerNbr nbr) const;
+	bool IsDown(SDL_KeyCode keyCode) const;
+	bool IsUp(SDL_KeyCode keyCode) const;
+	bool IsHeldDown(SDL_KeyCode keyCode) const;
 	bool IsActionTriggered(int id) const;
 	void AddInputAction(int id, InputAction* pAction);
 	InputAction* GetAction(int id);

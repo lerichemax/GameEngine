@@ -13,27 +13,6 @@
 #include "ResourceManager.h"
 
 
-//Qube::Qube(Texture2D* pDefText, Texture2D* pInterText, Texture2D* pFlippedText)
-//	:m_pScene(nullptr),
-//	m_pPyramid(nullptr),
-//	m_pConnections{ nullptr },
-//	m_pEscheresqueRightConnections{nullptr},
-//	m_pEscheresqueLeftConnections{nullptr},
-//	m_pDiskConnection(nullptr),
-//	m_pDefaultText(pDefText),
-//	m_pIntermediateTexture(pInterText),
-//	m_pFlippedTexture(pFlippedText),
-//	m_pCharacter(nullptr),
-//	m_CharacterPos(),
-//	m_EscheresqueLeftPos(),
-//	m_EscheresqueRightPos(),
-//	m_bIsFlipped(false),
-//	m_bIsLastRow(false),
-//	m_bIsSideColumn(false),
-//	m_JumpCounter()
-//{
-//}
-
 Qube::Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInterText, std::shared_ptr<Texture2D> pFlippedText)
 	:m_pDefaultText(pDefText),
 	m_pIntermediateTexture(pInterText),
@@ -50,15 +29,20 @@ Qube::Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInte
 void Qube::Initialize()
 {
 	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
-	
-	//m_CharacterPos.x =  m_pGameObject->GetECSTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() / 4;
-	//m_CharacterPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 5;
+
+	m_CharacterPos.x = m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 4;
+	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() / 5;
 
 	//m_EscheresqueRightPos.x = m_pGameObject->GetECSTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
 	//m_EscheresqueRightPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 
 	//m_EscheresqueLeftPos.x = m_pGameObject->GetECSTransform()->GetWorldPosition().x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
 	//m_EscheresqueLeftPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+}
+
+void Qube::Start()
+{
+
 }
 
 void Qube::Update()
@@ -151,7 +135,7 @@ bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRig
 	return true;
 }
 
-Qube* Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
+std::shared_ptr<Qube> Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
 
 	//if (escheresqueRight)

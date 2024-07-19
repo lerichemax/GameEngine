@@ -28,11 +28,11 @@ void QBertScene::EndGame(bool isWin) const
 {
 	if (isWin)
 	{
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->SetText("You Win!");
+		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "You Win!";
 	}
 	else
 	{
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
+		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "Game Over";
 	}
 	m_pGameOverMenu->SetActive(true);
 }

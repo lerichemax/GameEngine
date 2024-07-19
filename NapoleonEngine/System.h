@@ -19,7 +19,6 @@ public:
 protected:
 	std::set<Entity> m_Entities;
 
-	virtual std::shared_ptr<System> Clone() const = 0; // we do not clone entities
 	virtual void AddEntity(Entity entity);
 
 	System() = default;

@@ -21,8 +21,10 @@ public:
 	~InputManagerImpl();
 	
 	bool ProcessInput();
-	bool IsPressed(ControllerButton button, PlayerNbr nbr) const;
-	bool IsPressed(SDL_KeyCode keyCode) const;
+	bool IsDown(ControllerButton button, PlayerNbr nbr) const;
+	bool IsDown(SDL_KeyCode keyCode) const;
+	bool IsUp(SDL_KeyCode keyCode) const;
+	bool IsHeldDown(SDL_KeyCode keyCode) const;
 	bool IsActionTriggered(int id) const;
 	void AddInputAction(int id, InputAction* pAction);
 	InputAction* GetAction(int id);
@@ -36,6 +38,7 @@ private:
 	bool m_ConnectedControllers[XUSER_MAX_COUNT];
 
 	Uint8 const* m_pKeyboardState;
+	Uint8 const* m_pPreviousKeyboardState;
 
 	std::map<int, InputAction*> m_pActions;
 
@@ -60,7 +63,8 @@ InputManager::InputManagerImpl::InputManagerImpl()
 	:m_pActions(),
 	m_MousePosition(0, 0),
 	m_bIsMouseLBtnClicked(false),
-	m_pKeyboardState(),
+	m_pKeyboardState(SDL_GetKeyboardState(NULL)),
+	m_pPreviousKeyboardState(SDL_GetKeyboardState(NULL)),
 	m_CurrentControllerState()
 {
 	RefreshControllerConnections();
@@ -73,16 +77,6 @@ InputManager::InputManagerImpl::~InputManagerImpl()
 		SafeDelete(pair.second);
 	}
 	m_pActions.clear();
-}
-
-InputManager::InputManager()
-	:Singleton<InputManager>(),
-	m_pImpl(new InputManagerImpl())
-{
-}
-
-InputManager::~InputManager()
-{
 }
 
 bool InputManager::InputManagerImpl::ProcessInput()
@@ -108,7 +102,7 @@ void InputManager::InputManagerImpl::ResetTriggeredState()
 	}
 }
 
-bool InputManager::InputManagerImpl::IsPressed(ControllerButton button, PlayerNbr nbr) const
+bool InputManager::InputManagerImpl::IsDown(ControllerButton button, PlayerNbr nbr) const
 {
 	if (button == ControllerButton::None)
 	{
@@ -117,9 +111,19 @@ bool InputManager::InputManagerImpl::IsPressed(ControllerButton button, PlayerNb
 	return m_CurrentControllerState[(int)nbr].Gamepad.wButtons & (WORD)button;
 }
 
-bool InputManager::InputManagerImpl::IsPressed(SDL_KeyCode keyCode) const
+bool InputManager::InputManagerImpl::IsDown(SDL_KeyCode keyCode) const
 {
 	return m_pKeyboardState[keyCode];
+}
+
+bool InputManager::InputManagerImpl::IsUp(SDL_KeyCode keyCode) const
+{
+	return m_pPreviousKeyboardState[keyCode] && !m_pKeyboardState[keyCode];
+}
+
+bool InputManager::InputManagerImpl::IsHeldDown(SDL_KeyCode keyCode) const
+{
+	return m_pPreviousKeyboardState[keyCode] && m_pKeyboardState[keyCode];
 }
 
 bool InputManager::InputManagerImpl::IsActionTriggered(int id) const
@@ -180,6 +184,7 @@ bool InputManager::InputManagerImpl::ProcessSDLEvents()
 		}
 	}
 	SDL_PumpEvents();
+	m_pPreviousKeyboardState = m_pKeyboardState;
 	m_pKeyboardState = SDL_GetKeyboardState(NULL);
 
 	return true;
@@ -291,7 +296,7 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 			switch (pAction->state)
 			{
 			case KeyActionState::held:
-				if (IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
+				if (IsDown(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
 					pAction->lastKeyPos = LastKeyPosition::down;
 					if (pAction->pCommand != nullptr)
@@ -307,7 +312,7 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 				pAction->lastKeyPos  = LastKeyPosition::up;
 				break;
 			case KeyActionState::pressed:
-				if (IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
+				if (IsDown(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
 					if (pAction->lastKeyPos == LastKeyPosition::up)
 					{
@@ -324,7 +329,7 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 				pAction->lastKeyPos = LastKeyPosition::up;
 				break;
 			case KeyActionState::released:
-				if (!IsPressed(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
+				if (!IsDown(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
 					if (pAction->lastKeyPos == LastKeyPosition::down)
 					{
@@ -360,19 +365,39 @@ InputAction* InputManager::InputManagerImpl::GetAction(int id)
 	return m_pActions.at(id);
 }
 
+InputManager::InputManager()
+	:Singleton<InputManager>(),
+	m_pImpl(new InputManagerImpl())
+{
+}
+
+InputManager::~InputManager()
+{
+}
+
 bool InputManager::ProcessInput()
 {
 	return m_pImpl->ProcessInput();
 }
 
-bool InputManager::IsPressed(ControllerButton button, PlayerNbr nbr) const
+bool InputManager::IsDown(ControllerButton button, PlayerNbr nbr) const
 {
-	return m_pImpl->IsPressed(button, nbr);
+	return m_pImpl->IsDown(button, nbr);
 }
 
-bool InputManager::IsPressed(SDL_KeyCode keyCode) const
+bool InputManager::IsDown(SDL_KeyCode keyCode) const
 {
-	return m_pImpl->IsPressed(keyCode);
+	return m_pImpl->IsDown(keyCode);
+}
+
+bool InputManager::IsUp(SDL_KeyCode keyCode) const
+{
+	return m_pImpl->IsUp(keyCode);
+}
+
+bool InputManager::IsHeldDown(SDL_KeyCode keyCode) const
+{
+	return m_pImpl->IsHeldDown(keyCode);
 }
 
 bool InputManager::IsActionTriggered(int id) const

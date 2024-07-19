@@ -44,16 +44,14 @@ void SoloScene::Initialize()
 	
 	auto qbertObj = Instantiate("QBert");
 	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
-	//m_pQbert = qbertObj->GetComponent<QBert>();
-	//m_pQbert->SetPlayerNbr(1);
+	auto qbert = qbertObj->GetComponent<QBert>();
+	qbert->SetPlayerNbr(1);
 
 	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
 	
-	auto const pyramid = Instantiate("Pyramid");
-//	m_pPyramid = pyramid->GetComponent<Pyramid>();
-//	m_pPyramid->SetQBert(m_pQbert);
-//	AddObject(pyramid);
-//	m_pQbert->SetCurrentQube(m_pPyramid->GetTop());
+	auto const pyramidObj = Instantiate("Pyramid");
+	auto pyramid = pyramidObj->GetComponent<Pyramid>();
+	//m_pPyramid->SetQBert(qbert);
 //	
 //	auto* enemyManagerObj = new GameObject{};
 //	auto* pWWm = new WrongWayManager{2, 7};

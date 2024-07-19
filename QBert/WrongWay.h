@@ -6,8 +6,6 @@ class WrongWay final : public Enemy
 public:
 	explicit WrongWay(bool escheresqueRight);
 
-	WrongWay* Clone() const override { return new WrongWay(*this); }
-
 	WrongWay(WrongWay&& other) = delete;
 	WrongWay & operator=(WrongWay const&) = delete;
 	WrongWay& operator=(WrongWay&&) = delete;
@@ -16,10 +14,10 @@ public:
 	void Initialize() override;
 	void DoMove(ConnectionDirection direction) override;
 	void MoveToCurrentQube() override{};
-	void JumpToQube(Qube* pNextQube) override;
+	void JumpToQube(std::shared_ptr<Qube> pNextQube) override;
 	virtual void DoDie() override;
 	
-	void SetCurrentQube(Qube* pQube) { m_pCurrentQube = pQube; }
+	void SetCurrentQube(std::shared_ptr<Qube> pQube) { m_pCurrentQube = pQube; }
 	void SetEscheresqueRight(bool isRight) { m_bEscheresqueRight = isRight; }
 	
 	bool IsEscheresqueRight() const { return m_bEscheresqueRight; }

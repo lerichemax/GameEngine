@@ -21,7 +21,7 @@ void TestScene::Initialize()
 
 	ECS_RendererComponent renderer{};
 	renderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
-	renderer.m_Layer = Layer::foreground;
+	renderer.m_Layer = 11;
 
 	testObject->AddComponent<ECS_RendererComponent>(renderer);
 	testObject->GetTransform()->Translate(450, 300);

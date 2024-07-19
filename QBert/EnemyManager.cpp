@@ -25,10 +25,10 @@ EnemyManager::EnemyManager(EnemyManager const& other)
 	m_pObserver(other.m_pObserver),
 	m_pEnemies()
 {
-	for (size_t i = 0; i < MAX_ENEMY_OF_TYPE; i++)
-	{
-		m_pEnemies[i] = other.m_pEnemies[i]->Clone();
-	}
+	//for (size_t i = 0; i < MAX_ENEMY_OF_TYPE; i++)
+	//{
+	//	m_pEnemies[i] = other.m_pEnemies[i]->Clone();
+	//}
 }
 
 void EnemyManager::Initialize()

@@ -8,6 +8,8 @@
 
 class IComponentArray
 {
+	friend class Coordinator;
+	friend class ComponentManager;
 public:
 	virtual ~IComponentArray() = default;
 	virtual void EntityDestroyed(Entity entity) = 0;
@@ -17,10 +19,6 @@ public:
 protected:
 	virtual void CloneToNewEntity(std::shared_ptr<IComponentArray> other, Entity newEntity, Entity entityToClone) = 0;
 	virtual void ForceInsertData(std::shared_ptr<ECS_Component>, Entity entity) = 0;
-
-private:
-	friend class Coordinator;
-	friend class ComponentManager;
 };
 
 template<typename T>
@@ -33,6 +31,8 @@ class ComponentArray;
 template<ComponentDerived T>
 class ComponentArray<T> : public IComponentArray
 {
+	friend class ComponentManager;
+
 public:
 	std::shared_ptr<T> InsertData(Entity entity, T const& Component);
 	void RemoveData(Entity entity);
@@ -114,7 +114,13 @@ std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
 template<ComponentDerived T>
 std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 {
-	assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
+	//assert(m_EntityToIndex.find(entity) != m_EntityToIndex.end() && "Retrieving a non existent component");
+
+	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
+	{
+		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		return nullptr;
+	}
 
 	return m_Components[m_EntityToIndex[entity]];
 }

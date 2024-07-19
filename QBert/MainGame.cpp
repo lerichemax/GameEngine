@@ -36,6 +36,7 @@
 #include "ButtonComponent.h"
 #include "SoundServiceLocator.h"
 #include "AudioComponent.h"
+#include "CharacterController.h"
 
 MainGame::MainGame()
 	:NapoleonEngine()
@@ -62,7 +63,7 @@ void MainGame::CreatePrefabs() const
 	//*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
 
 	ECS_RendererComponent rendererComp;
-	rendererComp.m_Layer = Layer::uiGame;
+	rendererComp.m_Layer = 10;
 	
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
@@ -90,27 +91,30 @@ void MainGame::CreatePrefabs() const
 	//QBert
 	auto qbertPrefab = pPrefabManager.CreatePrefab();
 	auto qbert = qbertPrefab->GetRoot();
-	rendererComp.m_Layer = Layer::foreground;
+	rendererComp.m_Layer = 8;
 	rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
 	qbert->AddComponent<ECS_RendererComponent>(rendererComp);
-	//AudioComponent jumpSound{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50 };
-	//AudioComponent swearSound{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50 };
-	//AudioComponent fallSound{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50 };
-
-	//qbert->AddComponent<QBert>(QBert{ jumpSound, fallSound, swearSound });
-	//qbert->AddComponent<AudioComponent>(jumpSound);
-	//qbert->AddComponent<AudioComponent>(swearSound);
-	//qbert->AddComponent<AudioComponent>(fallSound);
-
+	AudioComponent jumpSound{ ResourceManager::GetInstance().GetEffect("Sounds/jump.mp3"), 50 };
+	AudioComponent swearSound{ ResourceManager::GetInstance().GetEffect("Sounds/swear.mp3"), 50 };
+	AudioComponent fallSound{ ResourceManager::GetInstance().GetEffect("Sounds/fall.mp3"), 50 };
+	
+	std::shared_ptr<AudioComponent> jumpSoundPtr = qbert->AddComponent<AudioComponent>(jumpSound);
+	std::shared_ptr<AudioComponent> swearSoundPtr = qbert->AddComponent<AudioComponent>(swearSound);
+	std::shared_ptr<AudioComponent> fallSoundPtr = qbert->AddComponent<AudioComponent>(fallSound);
+	QBert qBertComp{ jumpSoundPtr, fallSoundPtr, swearSoundPtr };
+	CharacterController controller{};
+	qbert->AddComponent<QBert>(qBertComp);
+	qbert->AddComponent<CharacterController>(controller);
 	qbert->AddComponent<ECS_CharacterLives>(ECS_CharacterLives{ 3 });
 	qbert->AddComponent<ECS_CharacterPoint>(ECS_CharacterPoint{});
+
 	//qbert->AddComponent(new Jumper{});
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 	ECS_RendererComponent hurtRenderer{};
 	hurtRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
-	hurtRenderer.m_Layer = Layer::foreground;
+	hurtRenderer.m_Layer = 8;
 	hurtRenderer.SetActive(false);
 	hurtTextObj->AddComponent<ECS_RendererComponent>(hurtRenderer);
 	qbert->AddChild(hurtTextObj);
@@ -119,10 +123,10 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
-	//
+	
 	//Qube prefab
 	ECS_RendererComponent qubeRenderer;
-	qubeRenderer.m_Layer = Layer::uiGame;
+	qubeRenderer.m_Layer = 2;
 
 	auto qubePf = pPrefabManager.CreatePrefab();
 	auto qubeObject = qubePf->GetRoot();
@@ -139,7 +143,7 @@ void MainGame::CreatePrefabs() const
 	//Pyramid
 	//int levelWidth = json->ReadInt("width");
 	auto pyramidPf = pPrefabManager.CreatePrefab();
-	auto pyramidObject = pyramidPf->CreateGameObject();
+	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->Translate(250.f, 400.f);
 	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
 	Pyramid pyramid{ 7 };
@@ -210,7 +214,7 @@ void MainGame::CreatePrefabs() const
 	auto textObject = menuPrefab->CreateGameObject();
 	auto textComp = ECS_TextRendererComponent{ "Pause", biggerFont };
 	ECS_RendererComponent menuRenderer;
-	menuRenderer.m_Layer = Layer::uiMenuFg;
+	menuRenderer.m_Layer = 11;
 
 	textObject->AddComponent<ECS_TextRendererComponent>(textComp);
 	textObject->AddComponent<ECS_RendererComponent>(menuRenderer);

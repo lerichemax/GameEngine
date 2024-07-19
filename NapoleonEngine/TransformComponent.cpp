@@ -143,11 +143,20 @@ void TransformComponent::Rotate(float rot)
 //
 //}
 //
-//void ECS_TransformComponent::SetLocalLocation(vec2 const& loc)
-//{
-//
-//}
-//
+void ECS_TransformComponent::SetLocalLocation(vec2 const& loc)
+{
+	m_Position = loc;
+
+	if (m_pParent != nullptr)
+	{
+		m_WorldPosition = m_pParent->m_WorldPosition + m_Position;
+	}
+	else
+	{
+		m_WorldPosition = m_Position;
+	}
+}
+
 //void ECS_TransformComponent::SetLocalLocation(float x, float y)
 //{
 //
@@ -203,6 +212,14 @@ void ECS_TransformComponent::Rotate(float rotation)
 	{
 		m_Rotation = m_WorldRotation - m_pParent->m_WorldRotation;
 	} 
+}
+
+void ECS_TransformComponent::SetParent(std::shared_ptr<ECS_TransformComponent> pParent)
+{
+	m_pParent = pParent;
+	Translate(m_WorldPosition);
+	Rotate(m_WorldRotation);
+	Scale(m_WorldScale);
 }
 
 bool ECS_TransformComponent::HasChanged() const

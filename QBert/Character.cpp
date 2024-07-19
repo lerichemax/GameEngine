@@ -14,7 +14,7 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 
-Character::Character(Qube* pStart, CharacterType type)
+Character::Character(std::shared_ptr<Qube> pStart, CharacterType type)
 	: m_pCurrentQube(pStart),
 	m_pJumper(nullptr),
 	m_pState(nullptr),
@@ -43,7 +43,7 @@ Character::~Character()
 	SafeDelete(m_pState);
 }
 
-void Character::Initialize()
+void Character::Start()
 {
 	//m_pJumper = m_pGameObject->GetComponent<Jumper>();
 	SwitchState(CharacterStateType::onQube);
@@ -52,11 +52,11 @@ void Character::Initialize()
 
 void Character::Update()
 {
-	auto newState = m_pState->Update(m_pGameObject);
-	SwitchState(newState);
+	//auto newState = m_pState->Update(m_pGameObject);
+	//SwitchState(newState);
 }
 
-void Character::SetCurrentQube(Qube* pTargetQube)
+void Character::SetCurrentQube(std::shared_ptr<Qube> pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{
@@ -82,12 +82,11 @@ void Character::MoveToCurrentQube()
 	if (m_pGameObject->IsActive())
 	{
 		m_pCurrentQube->CharacterJumpIn(this);
-		//m_pGameObject->GetECSTransform()->SetWorldPosition(m_pCurrentQube->GetCharacterPos());
 		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
 	}
 }
 
-void Character::JumpToQube(Qube* pTargetQube)
+void Character::JumpToQube(std::shared_ptr<Qube> pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{

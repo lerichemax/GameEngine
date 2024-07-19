@@ -29,11 +29,14 @@ public:
 	template <BehaviourDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity) const;
+	template <ComponentDerived T> std::shared_ptr<T> FindComponentOfType() const;
+	template <ComponentDerived T> std::shared_ptr<T> GetComponentInChildren(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
 	template <SystemDerived T> std::shared_ptr<T> RegisterSystem();
 	template <SystemDerived T> void SetSystemSignature(Signature signature);
 
-	std::unordered_set<Entity> const& GetChildren(Entity entity);
+	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
+	std::vector<Entity> GetEntityHierarchy(Entity entity) const;
 	std::vector<std::shared_ptr<ECS_Component>> GetComponents(Entity entity);
 	
 	void SetEntityActive(Entity entity, bool isActive);
@@ -109,6 +112,30 @@ template <ComponentDerived T>
 std::shared_ptr<T> Coordinator::GetComponent(Entity entity) const
 {
 	return m_pComponentManager->GetComponent<T>(entity);
+}
+
+template <ComponentDerived T> 
+std::shared_ptr<T> Coordinator::FindComponentOfType() const
+{
+	return m_pComponentManager->FindComponentOfType<T>();
+}
+
+template <ComponentDerived T> 
+std::shared_ptr<T> Coordinator::GetComponentInChildren(Entity entity) const
+{
+	std::shared_ptr<T> compToReturn;
+
+	for (Entity child : GetChildren(entity))
+	{
+		compToReturn = m_pComponentManager->GetComponent<T>(child);
+
+		if (compToReturn != nullptr)
+		{
+			return compToReturn;
+		}
+	}
+
+	return nullptr;
 }
 
 template <ComponentDerived T>

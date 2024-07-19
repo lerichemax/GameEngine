@@ -74,7 +74,7 @@ public:
 	}
 	//void SetLocation(vec2 const& loc);
 	//void SetLocation(float x, float y);
-	//void SetLocalLocation(vec2 const& loc);
+	void SetLocalLocation(vec2 const& loc);
 	//void SetLocalLocation(float x, float y);
 	void Translate(vec2 const& translation);
 	void Translate(float x, float y);
@@ -88,6 +88,8 @@ public:
 	const glm::vec2& GetLocalScale() const { return m_Scale; }
 	float GetRotation() const { return m_WorldRotation; }
 	float GetLocalRotation() const { return m_Rotation; }
+
+	void SetParent(std::shared_ptr<ECS_TransformComponent> pParent);
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -119,9 +121,6 @@ public:
 	void Update(ComponentManager* const pComponentManager) override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
-
-protected:
-	std::shared_ptr<System> Clone() const override { return std::make_shared<TransformSystem>(*this); }
 
 private:
 	void RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const;

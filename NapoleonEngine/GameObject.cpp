@@ -57,7 +57,7 @@ void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
 	//m_pChildren.push_back(pChild); //remove ?
 	//pChild->m_pParent = std::shared_ptr<GameObject>(this); //remove ?
 
-	pChild->GetTransform()->m_pParent = GetTransform();
+	pChild->GetTransform()->SetParent(GetTransform());
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
 
 	//pChild->m_pScene = m_pScene; //remove ?

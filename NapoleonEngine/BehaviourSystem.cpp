@@ -2,38 +2,19 @@
 #include "BehaviourSystem.h"
 #include "BehaviourComponent.h"
 
-void BehaviourSystem::Initialize(ComponentManager* const pComponentManager)
+void BehaviourSystem::Initialize(Entity entity, ComponentManager* const pComponentManager)
 {
-	for (Entity const& entity : m_Entities)
-	{
-		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
+	auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
 
-		for (auto behaviour : behaviours)
-		{
-			behaviour->Initialize();
-		}
+	for (auto behaviour : behaviours)
+	{
+		behaviour->Initialize();
 	}
 }
 
 void BehaviourSystem::Update(ComponentManager* const pComponentManager)
 {
-	size_t const size = m_ToBeAdded.size();
-	for (size_t i = 0; i < size; i++)
-	{
-		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(m_ToBeAdded[i]);
-
-		for (auto behaviour : behaviours)
-		{
-			if (behaviour->IsActive())
-			{
-				behaviour->Initialize();
-			}
-		}
-
-		m_Entities.insert(m_ToBeAdded[i]);
-	}
-
-	m_ToBeAdded.erase(m_ToBeAdded.begin(), m_ToBeAdded.begin() + size);
+	UpdateToBeStartedVector(pComponentManager);
 
 	for (Entity const& entity : m_Entities)
 	{
@@ -61,5 +42,26 @@ void BehaviourSystem::SetSignature(Coordinator* const pRegistry)
 
 void BehaviourSystem::AddEntity(Entity entity)
 {
-	m_ToBeAdded.push_back(entity);
+	System::AddEntity(entity);
+	m_ToBeStarted.push_back(entity);
+}
+
+void BehaviourSystem::UpdateToBeStartedVector(ComponentManager* const pComponentManager)
+{
+	size_t const size = m_ToBeStarted.size();
+
+	for (size_t i = 0; i < size; i++)
+	{
+		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(m_ToBeStarted[i]);
+
+		for (auto behaviour : behaviours)
+		{
+			if (behaviour->IsActive())
+			{
+				behaviour->Start();
+			}
+		}
+	}
+
+	m_ToBeStarted.erase(m_ToBeStarted.begin(), m_ToBeStarted.begin() + size);
 }

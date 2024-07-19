@@ -53,7 +53,7 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
 
-	bool isBehaviour;
+	bool isBehaviour{ false };
 	reader->ReadBool("behaviour", isBehaviour);
 	if (isBehaviour)
 	{

@@ -84,7 +84,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	fpsCounterObject->AddComponent<FPSCounterComponent>(fpsCounter);
 
 	ECS_RendererComponent rendererComp;
-	rendererComp.m_Layer = Layer::uiGame;
+	rendererComp.m_Layer = 10;
 
 	fpsCounterObject->AddComponent<ECS_RendererComponent>(rendererComp);
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);

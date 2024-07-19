@@ -20,20 +20,20 @@ public:
 
 	void Update() override;
 	
-	Qube* GetTop() const { return nullptr; /*m_pQubes.front();*/ }
-	Qube* GetEscheresqueLeftTop() const { return nullptr; /*m_pQubes.back();*/ }
-	Qube* GetEscheresqueRightTop() const { return nullptr; /*m_pQubes[m_pQubes.size() - MAX_WIDTH];*/ }
-	Qube* GetQube(int index) const { return nullptr;  /*m_pQubes[index]*/; }
-	int GetQubeIndex(Qube* pQube) const;
+	std::shared_ptr<Qube> GetTop() const { return m_pQubes.front(); }
+	std::shared_ptr<Qube> GetEscheresqueLeftTop() const { return m_pQubes.back(); }
+	std::shared_ptr<Qube> GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - m_MaxWidth]; }
+	std::shared_ptr<Qube> GetQube(int index) const { return m_pQubes[index]; }
+	int GetQubeIndex(std::shared_ptr<Qube> pQube) const;
 	int GetNbrDisks()const { return m_NbrDisksSpawned; }
-	std::vector<Qube*> const& GetQubes() const { return std::vector<Qube*>{};  /*m_pQubes;*/ }
+	std::vector<std::shared_ptr<Qube>> const& GetQubes() const { return m_pQubes; }
 	
 	bool AreAllQubesFlipped() const;
 	void Reset();
 	void PartialReset();
 	void DiskUsed(){ m_NbrDisksSpawned--; }
 	void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
-	bool FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const; //used by coily to move to qbert
+	bool FindNextQubeToQbert(std::shared_ptr<Qube> const pStartingQube, ConnectionDirection* directions, unsigned int size) const; //used by coily to move to qbert
 	QBert* GetQBert()const { return m_pQBert; }
 
 	void Serialize(StreamWriter& writer) const override;
@@ -59,8 +59,8 @@ private:
 	void CreateEscheresqueRightConnections();
 	void CreateEscheresqueLeftConnections();
 	
-	bool IsOutsideOfPyramid(Qube* pQube) const;
-	bool IsTop(Qube* pQube) const;
+	bool IsOutsideOfPyramid(std::shared_ptr<Qube> pQube) const;
+	bool IsTop(std::shared_ptr<Qube> pQube) const;
 	
 	unsigned int FindOutsideQubeIndex() const;
 	int GetQBertIndex() const;

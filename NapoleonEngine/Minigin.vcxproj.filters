@@ -43,11 +43,17 @@
     <Filter Include="Serialization">
       <UniqueIdentifier>{55b7022d-a4d2-4f8e-831b-d73e9c7c653a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS\Components\Base">
+      <UniqueIdentifier>{cb37869b-1a8c-4c95-8311-20c276275744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Systems\Base">
+      <UniqueIdentifier>{0a4f6500-32f4-4a43-a290-fdc3c48d07be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Entity">
+      <UniqueIdentifier>{2d999d6e-183c-4cd3-9f31-a40d0ab78038}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="RendererComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -230,26 +236,8 @@
     <ClInclude Include="Helpers.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentArray.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Coordinator.h">
       <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>ECS\Components</Filter>
@@ -279,11 +267,29 @@
       <Filter>Serialization</Filter>
     </ClInclude>
     <ClInclude Include="Factories.h" />
+    <ClInclude Include="Component.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentArray.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Component.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="RendererComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -393,23 +399,8 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentArray.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
     <ClCompile Include="Coordinator.cpp">
       <Filter>ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp">
       <Filter>ECS\Components</Filter>
@@ -439,5 +430,23 @@
       <Filter>Serialization</Filter>
     </ClCompile>
     <ClCompile Include="Factories.cpp" />
+    <ClCompile Include="Component.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentArray.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>ECS\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

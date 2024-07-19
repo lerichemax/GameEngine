@@ -8,7 +8,6 @@ class Coily final : public Enemy
 {
 public:
 	explicit Coily(unsigned int fallSoundId);
-	Coily* Clone() const override { return new Coily(*this); }
 	
 	Coily(Coily&& other) = delete;
 	Coily& operator=(Coily const& rhs) = delete;

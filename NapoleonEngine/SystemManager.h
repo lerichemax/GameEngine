@@ -10,6 +10,7 @@
 template <typename T>
 concept SystemDerived = std::derived_from<T, System>;
 
+class ComponentManager;
 class Coordinator;
 class SystemManager
 {

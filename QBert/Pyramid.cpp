@@ -64,8 +64,9 @@ void Pyramid::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			std::shared_ptr<GameObject> pQube = Instantiate("Qube");
-			
+			std::shared_ptr<GameObject> pQube = Instantiate("Qube", GetGameObject()->GetTransform()->GetPosition() + lastPos);
+			GetGameObject()->AddChild(pQube);
+
 			m_pQubes.push_back(pQube->GetComponent<Qube>());
 			//m_pQubes.back()->SetPyramid(this);
 			
@@ -78,11 +79,10 @@ void Pyramid::Initialize()
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
 			
-			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth();
-			GetGameObject()->AddChild(pQube);
+			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
 		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 2;
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() *0.75f;
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 
@@ -229,19 +229,19 @@ unsigned int Pyramid::FindOutsideQubeIndex() const
 	return randomIndex;
 }
 
-bool Pyramid::IsOutsideOfPyramid(Qube* pQube) const
+bool Pyramid::IsOutsideOfPyramid(std::shared_ptr<Qube> pQube) const
 {
 	/*return (pQube->GetConnection(ConnectionDirection::upLeft) == nullptr || pQube->GetConnection(ConnectionDirection::upRight) == nullptr)
 		&& !IsTop(pQube);*/
 	return true;
 }
 
-bool Pyramid::IsTop(Qube* pQube) const
+bool Pyramid::IsTop(std::shared_ptr<Qube> pQube) const
 {
 	return true;// pQube == m_pQubes.front();
 }
 
-bool Pyramid::FindNextQubeToQbert(Qube* const pStartingQube, ConnectionDirection* directions, unsigned int size) const
+bool Pyramid::FindNextQubeToQbert(std::shared_ptr<Qube> const pStartingQube, ConnectionDirection* directions, unsigned int size) const
 {
 	
 	int const currentIdx = GetQubeIndex(pStartingQube);
@@ -354,7 +354,7 @@ int Pyramid::GetQBertIndex() const
 	return GetQubeIndex(m_pQBert->GetCurrentQube());
 }
 
-int Pyramid::GetQubeIndex(Qube* pQube) const
+int Pyramid::GetQubeIndex(std::shared_ptr<Qube> pQube) const
 {
 	//for (int i{}; i < static_cast<int>(m_pQubes.size()); i++)
 	//{

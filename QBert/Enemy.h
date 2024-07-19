@@ -5,7 +5,6 @@ class Enemy : public Character
 {
 public:
 	explicit Enemy(int pointsForKill, CharacterType type);
-	Enemy* Clone() const override { return new Enemy(*this); }
 
 	Enemy(Enemy&& other) = delete;
 	Enemy& operator=(Enemy const& rhs) = delete;

@@ -13,6 +13,7 @@
 #include "CharacterLives.h"
 #include "JumpingState.h"
 #include "FallingState.h"
+#include "Pyramid.h"
 
 #include "GameObject.h"
 #include "ResourceManager.h"
@@ -28,9 +29,9 @@ QBert::QBert(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponen
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_pHurtTex{ nullptr },
-	m_JumpSound(jump),
-	m_FallSound(fall),
-	m_SwearSound(swear),
+	m_pJumpSound(jump),
+	m_pFallSound(fall),
+	m_pSwearSound(swear),
 	m_PlayerNbr(),
 	m_bCanMove(true),
 	m_bWillSleep(false)	
@@ -39,8 +40,8 @@ QBert::QBert(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponen
 
 void QBert::Initialize()
 {
-	//m_pPoints = m_pGameObject->GetComponent<CharacterPoint>();
-	//m_pLives = m_pGameObject->GetComponent<CharacterLives>();
+	m_pPoints = m_pGameObject->GetComponent<ECS_CharacterPoint>();
+	m_pLives = m_pGameObject->GetComponent<ECS_CharacterLives>();
 	
 	//m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
 	//m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
@@ -53,9 +54,15 @@ void QBert::Initialize()
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
-	m_pHurtTex = m_pGameObject->GetComponentInChildren<RendererComponent>();
-	m_pHurtTex->SetEnable(false);
+	m_pHurtTex = m_pGameObject->GetComponentInChildren<ECS_RendererComponent>();
+	m_pHurtTex->SetActive(false);
+
 	Character::Initialize();
+}
+
+void QBert::Start()
+{
+	SetCurrentQube(FindComponentOfType<Pyramid>()->GetTop());
 }
 
 void QBert::Update()
@@ -65,7 +72,7 @@ void QBert::Update()
 		if (m_pHurtTex != nullptr)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			m_pHurtTex->SetEnable(false);
+			m_pHurtTex->SetActive(false);
 			m_bWillSleep = false;
 		}
 	}
@@ -78,7 +85,7 @@ void QBert::DoDie()
 	
 	if (m_pHurtTex != nullptr)
 	{
-		m_pHurtTex->SetEnable(true);
+		m_pHurtTex->SetActive(true);
 		m_bWillSleep = true;
 
 	}
@@ -96,7 +103,30 @@ void QBert::DoDie()
 
 void QBert::Swear()const
 {
-	//SoundServiceLocator::GetService().Play(m_SwearSoundID, 50);
+	m_pSwearSound->Play();
+}
+
+void QBert::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(QBert).name());
+	writer.WriteInt("jumpId", m_pJumpSound->GetId());
+	writer.WriteInt("fallId", m_pFallSound->GetId());
+	writer.WriteInt("swearId", m_pSwearSound->GetId());
+
+	Character::Serialize(writer);
+}
+
+void QBert::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+}
+
+void QBert::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	int id = -1;
+	reader->ReadInt("jumpId", id);
+	m_pJumpSound = context.GetRef<AudioComponent>(id);
+	m_pFallSound = context.GetRef<AudioComponent>(id);
+	m_pSwearSound = context.GetRef<AudioComponent>(id);
 }
 
 void QBert::EarnPoints(int points)
@@ -149,7 +179,7 @@ void QBert::JumpOffDisk()
 	m_bCanMove = true;
 }
 
-void QBert::Reset(bool fullReset, Qube* pTargetQube)
+void QBert::Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube)
 {
 	SetCurrentQube(pTargetQube);
 	m_pGameObject->SetActive(true);
@@ -172,7 +202,7 @@ void QBert::MeetCharacter(Character* pOther)
 	if (pOther->GetType() == CharacterType::coily && static_cast<Coily*>(pOther)->IsTransformed() || 
 		pOther->GetType() == CharacterType::wrongWay)
 	{
-		Swear();
+		m_pSwearSound->Play();
 		DoDie();
 	}
 	else if (pOther->GetType() == CharacterType::slickSam)

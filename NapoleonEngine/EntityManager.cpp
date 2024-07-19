@@ -69,9 +69,21 @@ std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& sig
 	return entities;
 }
 
-std::unordered_set<Entity> const& EntityManager::GetChildren(Entity entity)
+std::unordered_set<Entity> const& EntityManager::GetChildren(Entity entity) const
 {
 	return m_EntitiesHierarchy.at(entity);
+}
+
+std::vector<Entity> EntityManager::GetEntityHierarchy(Entity entity) const
+{
+	std::vector<Entity> hierarchy;
+	hierarchy.push_back(entity);
+
+	for (Entity child : GetChildren(entity))
+	{
+		hierarchy.push_back(child);
+	}
+	return hierarchy;
 }
 
 void EntityManager::SetTag(Entity entity, std::string const& tag)

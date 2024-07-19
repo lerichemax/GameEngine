@@ -248,7 +248,6 @@ void Scene::OnActivate()
 	CustomOnActivate();
 	DeclareInput();
 	Initialize();
-	m_pBehaviours->Initialize(m_pRegistry->GetComponentManager());
 }
 
 void Scene::Update()
@@ -406,6 +405,31 @@ std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 
 	if (m_pObjects.size() > index)
 	{
+		for (Entity child : m_pRegistry->GetEntityHierarchy(m_pObjects[index]->m_Entity))
+		{
+			m_pBehaviours->Initialize(child, m_pRegistry->GetComponentManager());
+		}
+
+		return m_pObjects[index];
+	}
+
+	return nullptr;
+}
+
+std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name, glm::vec2 const& location)
+{
+	size_t index = m_pObjects.size();
+
+	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
+
+	if (m_pObjects.size() > index)
+	{
+		m_pObjects[index]->GetTransform()->Translate(location);
+		for (Entity child : m_pRegistry->GetEntityHierarchy(m_pObjects[index]->m_Entity))
+		{
+			m_pBehaviours->Initialize(child, m_pRegistry->GetComponentManager());
+		}
+
 		return m_pObjects[index];
 	}
 

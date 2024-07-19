@@ -86,24 +86,24 @@ std::vector<std::shared_ptr<System>> Coordinator::ExtractSystems(std::shared_ptr
 {
 	std::vector<std::shared_ptr<System>> toReturn;
 
-	for (std::pair<std::string, std::shared_ptr<System>> const& pair : pOther->m_pSystemManager->m_Systems)
-	{
-		if (m_pSystemManager->m_Systems.find(pair.first) == m_pSystemManager->m_Systems.end())
-		{
-			std::shared_ptr<System> pSystem = pOther->m_pSystemManager->m_Systems.at(pair.first)->Clone();
-			toReturn.push_back(pSystem);
-			m_pSystemManager->m_Systems.insert(std::make_pair(pair.first, pSystem));
-			pSystem->SetSignature(this);
+	//for (std::pair<std::string, std::shared_ptr<System>> const& pair : pOther->m_pSystemManager->m_Systems)
+	//{
+	//	if (m_pSystemManager->m_Systems.find(pair.first) == m_pSystemManager->m_Systems.end())
+	//	{
+	//		std::shared_ptr<System> pSystem = pOther->m_pSystemManager->m_Systems.at(pair.first)->Clone();
+	//		toReturn.push_back(pSystem);
+	//		m_pSystemManager->m_Systems.insert(std::make_pair(pair.first, pSystem));
+	//		pSystem->SetSignature(this);
 
-			Signature signature = m_pSystemManager->m_Signatures.at(pair.first);
+	//		Signature signature = m_pSystemManager->m_Signatures.at(pair.first);
 
-			std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
-			for (Entity entity : entities)
-			{
-				pSystem->AddEntity(entity);
-			}
-		}
-	}
+	//		std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
+	//		for (Entity entity : entities)
+	//		{
+	//			pSystem->AddEntity(entity);
+	//		}
+	//	}
+	//}
 
 	return toReturn;
 }
@@ -150,9 +150,14 @@ bool Coordinator::HasTag(Entity entity, std::string const& tag) const
 	return m_pEntityManager->HasTag(entity, tag);
 }
 
-std::unordered_set<Entity> const& Coordinator::GetChildren(Entity entity)
+std::unordered_set<Entity> const& Coordinator::GetChildren(Entity entity) const
 {
 	return m_pEntityManager->GetChildren(entity);
+}
+
+std::vector<Entity> Coordinator::GetEntityHierarchy(Entity entity) const
+{
+	return m_pEntityManager->GetEntityHierarchy(entity);
 }
 
 std::vector<std::shared_ptr<ECS_Component>> Coordinator::GetComponents(Entity entity)

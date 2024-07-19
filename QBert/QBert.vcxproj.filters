@@ -111,14 +111,17 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterLives.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterPoint.cpp">
-      <Filter>Components</Filter>
+    <ClCompile Include="CharacterController.cpp">
+      <Filter>GameScripts</Filter>
     </ClCompile>
     <ClCompile Include="QBert.cpp">
-      <Filter>Components</Filter>
+      <Filter>GameScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterLives.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterPoint.cpp">
+      <Filter>GameScripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,14 +234,17 @@
     <ClInclude Include="TestScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
     <ClInclude Include="CharacterLives.h">
-      <Filter>Components</Filter>
+      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="CharacterPoint.h">
-      <Filter>Components</Filter>
+      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
-      <Filter>Components</Filter>
+      <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,9 +280,6 @@
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{47507f06-e6d4-4cb1-ac69-316db98f5ff0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{d6938b4c-5562-4f47-a659-c2b7ff8a2035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

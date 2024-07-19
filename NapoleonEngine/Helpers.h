@@ -4,6 +4,9 @@
 
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GameObject.h"
+#include "BehaviourSystem.h"
+#include "TransformComponent.h"
 
 inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale)
 {
@@ -53,8 +56,13 @@ inline std::shared_ptr<GameObject> Instantiate(std::string const& name)
 	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name);
 }
 
-template <ComponentDerived T>
-inline std::shared_ptr<T> FindObjectOfType()
+inline std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location)
 {
-	return nullptr;
+	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name, location);
+}
+
+template <ComponentDerived T>
+inline std::shared_ptr<T> FindComponentOfType()
+{
+	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
 }

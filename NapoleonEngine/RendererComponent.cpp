@@ -108,7 +108,7 @@ void ECS_RendererComponent::Serialize(StreamWriter& writer) const
 		m_pTexture->Serialize(writer);
 	}
 
-	writer.WriteInt("layer", static_cast<int>(m_Layer));
+	writer.WriteInt("layer", m_Layer);
 }
 
 void ECS_RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -123,5 +123,5 @@ void ECS_RendererComponent::Deserialize(JsonReader const* reader, SerializationM
 	int layer;
 	reader->ReadInt("layer", layer);
 
-	m_Layer = static_cast<Layer>(layer);
+	m_Layer = static_cast<uint8_t>(layer);
 }

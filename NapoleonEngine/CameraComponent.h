@@ -55,9 +55,6 @@ public:
 
 	void SetSignature(Coordinator* const pRegistry) override;
 
-protected:
-	std::shared_ptr<System> Clone() const override { return std::make_shared<CameraSystem>(*this); };
-
 private:
 	friend class Scene;
 

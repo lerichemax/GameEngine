@@ -17,7 +17,7 @@ private:
 	TextRendererComponent* m_pTextComp;
 };
 
-struct FPSCounterComponent : ECS_Component
+struct FPSCounterComponent : ECS_Component // make behaviour ? 
 {
 	void Serialize(StreamWriter& writer) const override { writer.WriteString("type", typeid(FPSCounterComponent).name()); };
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
@@ -26,7 +26,7 @@ struct FPSCounterComponent : ECS_Component
 
 };
 
-class FPSCounterSystem : public System
+class FPSCounterSystem : public System 
 {
 public:
 	virtual void Update(ComponentManager* const pComponentManager) override;
@@ -34,6 +34,4 @@ public:
 
 	void SetSignature(Coordinator* const pRegistry) override;
 
-protected:
-	std::shared_ptr<System> Clone() const override { return std::make_shared<FPSCounterSystem>(*this); }
 };

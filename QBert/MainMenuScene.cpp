@@ -21,7 +21,7 @@ void MainMenuScene::Initialize()
 {
 	ECS_RendererComponent rendererComp;
 	rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
-	rendererComp.m_Layer = Layer::uiGame;
+	rendererComp.m_Layer = 10;
 
 	std::shared_ptr<GameObject> titleObject = CreateGameObject();
 	titleObject->AddComponent<ECS_RendererComponent>(rendererComp);
@@ -34,7 +34,7 @@ void MainMenuScene::Initialize()
 	ECS_TextRendererComponent txt{ "Solo", ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28) };
 
 	ECS_RendererComponent txtRendererComp;
-	txtRendererComp.m_Layer = Layer::uiGame;
+	txtRendererComp.m_Layer = 10;
 
 	soloBtn->AddComponent<ECS_TextRendererComponent>(txt);
 	soloBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);

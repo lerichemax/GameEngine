@@ -29,12 +29,9 @@ public:
 	void Update(ComponentManager* const pComponentManager) override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
-
-protected:
-	std::shared_ptr<System> Clone() const override { return std::make_shared<TextRendererSystem>(*this); };
 };
 
-class LayeredRendererSystem : public System //TODO Add Layering
+class LayeredRendererSystem : public System
 {
 public:
 	void Update(ComponentManager* const pComponentManager) override;
@@ -42,5 +39,11 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 
 protected:
-	std::shared_ptr<System> Clone() const override { return std::make_shared<LayeredRendererSystem>(*this); }
+	void AddEntity(Entity entity) override;
+
+private:
+	bool m_NeedsSorting = false;
+
+	std::vector<Entity> m_EntityPerLayer;
+
 };

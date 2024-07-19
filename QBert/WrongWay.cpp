@@ -61,7 +61,7 @@ void WrongWay::DoMove(ConnectionDirection direction)
 {
 	if (m_pCurrentQube->HasEscheresqueConnection(direction, m_bEscheresqueRight))
 	{
-		auto *const pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
+		auto pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
 
 		JumpToQube(pNextQube);
 	}
@@ -71,14 +71,14 @@ void WrongWay::DoMove(ConnectionDirection direction)
 	}
 }
 
-void WrongWay::JumpToQube(Qube* pNextQube)
+void WrongWay::JumpToQube(std::shared_ptr<Qube> pNextQube)
 {
 	if (pNextQube == nullptr)
 	{
 		return;
 	}
 
-	//m_pCurrentQube = pNextQube;
+	m_pCurrentQube = pNextQube;
 	//m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(),
 	//	m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }

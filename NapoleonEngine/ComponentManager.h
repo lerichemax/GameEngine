@@ -21,6 +21,7 @@ public:
 	template<ComponentDerived T> void RemoveComponent(Entity entity);
 	template<ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity);
 	template<ComponentDerived T> std::vector<std::shared_ptr<T>> GetComponents(Entity entity);
+	template<ComponentDerived T> std::shared_ptr<T> FindComponentOfType();
 	
 	void EntityDestroyed(Entity entity);
 	std::vector<std::shared_ptr<ECS_Component>> GetComponentsForSignature(Entity entity, Signature signature);
@@ -99,11 +100,28 @@ std::vector<std::shared_ptr<T>> ComponentManager::GetComponents(Entity entity)
 	{
 		if (std::dynamic_pointer_cast<ComponentArray<T>>(compArray.second))
 		{
-			toReturn.push_back(GetComponentArray<T>()->GetData(entity));
+			std::shared_ptr<T> data = GetComponentArray<T>()->GetData(entity);
+			if (data != nullptr)
+			{
+				toReturn.push_back(data);
+			}	
 		}
 	}
 
 	return toReturn;
+}
+
+template<ComponentDerived T> 
+std::shared_ptr<T>  ComponentManager::FindComponentOfType()
+{
+	auto compArray = GetComponentArray<T>();
+
+	if (compArray != nullptr)
+	{
+		return compArray->m_Components[0];
+	}
+
+	return nullptr;
 }
 
 

@@ -1,20 +1,16 @@
 #pragma once
-#include "Component.h"
+#include "BehaviourComponent.h"
 
-class CharacterController final : public empire::Component
+class QBert;
+class CharacterController : public BehaviourComponent
 {
 public:
-	CharacterController() = default;
-	CharacterController* Clone() override { return new CharacterController(*this); }
+	void Serialize(StreamWriter& writer) const override;
 
-	CharacterController(CharacterController&& other) = delete;
-	CharacterController& operator=(CharacterController const& rhs) = delete;
-	CharacterController& operator=(CharacterController&& rhs) = delete;
-	~CharacterController() = default;
-
+protected:
 	void Initialize() override;
 	void Update() override;
 
 private:
-	CharacterController(CharacterController const& ){}
+	std::shared_ptr<QBert> m_pQbert;
 };

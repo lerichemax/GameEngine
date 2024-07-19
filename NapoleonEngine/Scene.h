@@ -102,6 +102,8 @@ private:
 	friend class SceneManager;
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
+	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
+	template <ComponentDerived T> friend std::shared_ptr<T> FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
@@ -133,6 +135,7 @@ private:
 	void CheckCollidersCollision();
 	std::shared_ptr<GameObject> MergePrefab(std::shared_ptr<Prefab> pPrefab); //unused currently
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
 template <typename T>

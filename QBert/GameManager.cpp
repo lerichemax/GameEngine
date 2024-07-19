@@ -74,7 +74,7 @@ void GameManager::Notify(GameObject* object, int event)
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
 			Debugger::GetInstance().Log("GAME OVER");
-			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
+			m_pGameOver->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "Game Over";
 			Timer::GetInstance().SetTimeScale(0);
 			m_pGameOver->SetActive(true);
 			m_NbrDeadPlayers = 0;

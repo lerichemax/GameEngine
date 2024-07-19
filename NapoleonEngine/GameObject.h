@@ -23,12 +23,12 @@ public:
 
 	template <class T> bool HasComponent() const;
 	template<class T> std::shared_ptr<T> GetComponent() const;
-	template <class T> T* GetComponentInChildren() const;
+	template <class T> std::shared_ptr<T> GetComponentInChildren() const;
 	template <class T> void RemoveComponent();
 		
 	std::shared_ptr<ECS_TransformComponent> GetTransform() const;
 
-	template <typename T> void AddComponent(T const& Component);
+	template <typename T> std::shared_ptr<T> AddComponent(T const& Component);
 
 	void AddChild(std::shared_ptr<GameObject> pChild);
 
@@ -71,10 +71,11 @@ private:
 	void Refresh();
 };
 template <typename T>
-void GameObject::AddComponent(T const& Component)
+std::shared_ptr<T> GameObject::AddComponent(T const& Component)
 {
 	auto newComp = m_pRegistry->AddComponent<T>(m_Entity, Component);
 	newComp->m_pGameObject = this;
+	return newComp;
 }
 template <class T>
 std::shared_ptr<T> GameObject::GetComponent() const
@@ -83,18 +84,9 @@ std::shared_ptr<T> GameObject::GetComponent() const
 }
 
 template <class T>
-T* GameObject::GetComponentInChildren() const
+std::shared_ptr<T> GameObject::GetComponentInChildren() const
 {
-	/*T* pComp{};
-	for (auto pChild : m_pChildren)
-	{
-		pComp = pChild->GetComponent<T>();
-		if (pComp != nullptr)
-		{
-			return pComp;
-		}
-	}*/
-	return nullptr;
+	return m_pRegistry->GetComponentInChildren<T>(m_Entity);
 }
 
 template <class T>

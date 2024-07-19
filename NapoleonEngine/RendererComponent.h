@@ -60,7 +60,7 @@ protected:
 struct ECS_RendererComponent : public ECS_Component
 {
 	std::shared_ptr<Texture2D> m_pTexture{};
-	Layer m_Layer{};
+	uint8_t m_Layer{};
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;

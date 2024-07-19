@@ -17,7 +17,8 @@ public:
 	Signature GetSignature(Entity entity);
 	void AddChild(Entity parent, Entity child);
 	std::vector<Entity> GetEntitiesWithSignature(Signature const&  signature);
-	std::unordered_set<Entity> const& GetChildren(Entity entity);
+	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
+	std::vector<Entity> GetEntityHierarchy(Entity entity) const; //not fully functional, make recursive
 	void SetTag(Entity entity, std::string const& tag);
 	std::string GetTag(Entity entity) const;
 	bool HasTag(Entity entity, std::string const& tag) const;

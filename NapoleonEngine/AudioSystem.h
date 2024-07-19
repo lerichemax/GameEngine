@@ -20,8 +20,6 @@ public:
 	AudioSystem& operator=(AudioSystem const& rhs) = delete;
 	AudioSystem& operator=(AudioSystem&& rhs) = delete;
 
-	std::shared_ptr<System> Clone() const override { return std::make_shared<AudioSystem>(*this); };
-
 	void Update(ComponentManager* const pComponentManager) override;
 
 	void SetSignature(Coordinator* const pRegistry) override;

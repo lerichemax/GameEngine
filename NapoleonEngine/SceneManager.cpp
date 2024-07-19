@@ -114,9 +114,10 @@ void SceneManager::SceneManagerImpl::LoadScene(std::string const& name)
 	{
 		auto activeScene = GetActiveScene();
 		activeScene->m_bIsActive = false;
+		
+		scene->OnActivate();
 		scene->m_bIsActive = true;
 		m_pActiveScene = scene;
-		m_pActiveScene->OnActivate();
 	}
 	else
 	{

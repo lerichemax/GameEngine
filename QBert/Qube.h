@@ -26,16 +26,13 @@ public:
 	explicit Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInterText, std::shared_ptr<Texture2D> pFlippedText);
 
 	~Qube() = default;
-
-	void Initialize() override;
-	void Update() override;
 	
 	glm::vec2 GetCharacterPos() const { return m_CharacterPos; }
 	//glm::vec2 GetEscheresqueRightPos() const { return m_EscheresqueRightPos; }
 	//glm::vec2 GetEscheresqueLeftPos() const { return m_EscheresqueLeftPos; }
 	
 	//Qube* GetConnection(ConnectionDirection dir) const { return m_pConnections[(int)dir]; }
-	Qube* GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
+	std::shared_ptr<Qube> GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
 	unsigned int GetJumpCounter() const { return m_JumpCounter; }
 	ColoredDisk* GetConnectedDisk() const;
 	Character* GetCharacter() const { return m_pCharacter; }
@@ -67,6 +64,11 @@ public:
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+
+protected:
+	void Initialize() override;
+	void Start() override;
+	void Update() override;
 
 private:
 	int static const MAX_NBR_CONNECTION{ 4 };
