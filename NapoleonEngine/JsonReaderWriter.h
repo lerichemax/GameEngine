@@ -43,6 +43,7 @@ public:
 	std::unique_ptr<JsonReader> ReadObject(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArray(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArrayIndex(SizeType index) const;
+	std::unique_ptr<JsonReader> ReadArrayIndex(size_t index) const;
 	std::string ReadArrayIndexAsString(SizeType index) const;
 	int ReadArrayIndexAsInt(SizeType index) const;
 	SizeType GetArraySize() const;

@@ -8,7 +8,7 @@ class MoveCommand final : public Command
 {
 public:
 	MoveCommand() = default;
-	MoveCommand(ConnectionDirection dir, Character* pChar);
+	MoveCommand(ConnectionDirection dir, std::shared_ptr<Character> pChar);
 	MoveCommand* Clone() { return new MoveCommand(*this); }
 	MoveCommand(MoveCommand&& other) = delete;
 	MoveCommand& operator=(MoveCommand const& rhs) = delete;
@@ -24,7 +24,7 @@ public:
 
 private:
 	ConnectionDirection m_MoveDirection;
-	Character* m_pCharacter;
+	std::shared_ptr<Character> m_pCharacter;
 
 	MoveCommand(MoveCommand const& other);
 };

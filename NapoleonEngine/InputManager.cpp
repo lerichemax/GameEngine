@@ -22,25 +22,26 @@ public:
 	
 	bool ProcessInput();
 	bool IsDown(ControllerButton button, PlayerNbr nbr) const;
-	bool IsDown(SDL_KeyCode keyCode) const;
-	bool IsUp(SDL_KeyCode keyCode) const;
-	bool IsHeldDown(SDL_KeyCode keyCode) const;
-	bool IsActionTriggered(int id) const;
-	void AddInputAction(int id, InputAction* pAction);
-	InputAction* GetAction(int id);
+	bool IsDown(SDL_Scancode keyCode) const;
+	bool IsUp(SDL_Scancode keyCode) const;
+	bool IsHeldDown(SDL_Scancode keyCode) const;
 
 	glm::vec2 GetMousePosition() const { return m_MousePosition; }
 	bool IsLMBPressed() const { return m_bIsMouseLBtnClicked; }
 	bool IsRMBPressed() const { return m_bIsMouseRBtnClicked; }
+
+	void AddInputAction(InputAction* action);
 
 private:
 	XINPUT_STATE m_CurrentControllerState[XUSER_MAX_COUNT];
 	bool m_ConnectedControllers[XUSER_MAX_COUNT];
 
 	Uint8 const* m_pKeyboardState;
-	Uint8 const* m_pPreviousKeyboardState;
+	Uint8* m_pPreviousKeyboardState;
 
-	std::map<int, InputAction*> m_pActions;
+	int m_KeyboardLength;
+
+	std::vector<InputAction*> m_pActions;
 
 	glm::vec2 m_MousePosition;
 
@@ -63,8 +64,8 @@ InputManager::InputManagerImpl::InputManagerImpl()
 	:m_pActions(),
 	m_MousePosition(0, 0),
 	m_bIsMouseLBtnClicked(false),
-	m_pKeyboardState(SDL_GetKeyboardState(NULL)),
-	m_pPreviousKeyboardState(SDL_GetKeyboardState(NULL)),
+	m_pKeyboardState(SDL_GetKeyboardState(&m_KeyboardLength)),
+	m_pPreviousKeyboardState(new Uint8[m_KeyboardLength]),
 	m_CurrentControllerState()
 {
 	RefreshControllerConnections();
@@ -72,11 +73,13 @@ InputManager::InputManagerImpl::InputManagerImpl()
 
 InputManager::InputManagerImpl::~InputManagerImpl()
 {
-	for (auto pair : m_pActions)
+	for (InputAction* action : m_pActions)
 	{
-		SafeDelete(pair.second);
+		SafeDelete(action);
 	}
 	m_pActions.clear();
+
+	SafeDelete(m_pPreviousKeyboardState);
 }
 
 bool InputManager::InputManagerImpl::ProcessInput()
@@ -92,12 +95,12 @@ bool InputManager::InputManagerImpl::ProcessInput()
 
 void InputManager::InputManagerImpl::ResetTriggeredState()
 {
-	for (auto pActionPair : m_pActions)
+	for (InputAction* action : m_pActions)
 	{
-		if ((pActionPair.second->state == KeyActionState::released && pActionPair.second->isTriggered) ||
-			pActionPair.second->state == KeyActionState::pressed && pActionPair.second->isTriggered)
+		if ((action->state == KeyActionState::released && action->isTriggered) ||
+			action->state == KeyActionState::pressed && action->isTriggered)
 		{
-			pActionPair.second->isTriggered = false;
+			action->isTriggered = false;
 		}
 	}
 }
@@ -111,33 +114,25 @@ bool InputManager::InputManagerImpl::IsDown(ControllerButton button, PlayerNbr n
 	return m_CurrentControllerState[(int)nbr].Gamepad.wButtons & (WORD)button;
 }
 
-bool InputManager::InputManagerImpl::IsDown(SDL_KeyCode keyCode) const
+bool InputManager::InputManagerImpl::IsDown(SDL_Scancode keyCode) const
 {
-	return m_pKeyboardState[keyCode];
+	return !m_pPreviousKeyboardState[keyCode] && m_pKeyboardState[keyCode];
 }
 
-bool InputManager::InputManagerImpl::IsUp(SDL_KeyCode keyCode) const
+bool InputManager::InputManagerImpl::IsUp(SDL_Scancode keyCode) const
 {
 	return m_pPreviousKeyboardState[keyCode] && !m_pKeyboardState[keyCode];
 }
 
-bool InputManager::InputManagerImpl::IsHeldDown(SDL_KeyCode keyCode) const
+bool InputManager::InputManagerImpl::IsHeldDown(SDL_Scancode keyCode) const
 {
 	return m_pPreviousKeyboardState[keyCode] && m_pKeyboardState[keyCode];
 }
 
-bool InputManager::InputManagerImpl::IsActionTriggered(int id) const
-{
-	if (m_pActions.find(id) == m_pActions.end())
-	{
-		return false;
-	}
-
-	return m_pActions.at(id)->isTriggered;
-}
-
 bool InputManager::InputManagerImpl::ProcessSDLEvents()
 {
+	memcpy(m_pPreviousKeyboardState, m_pKeyboardState, m_KeyboardLength);
+
 	SDL_Event e;	
 	while (SDL_PollEvent(&e))
 	{
@@ -147,22 +142,21 @@ bool InputManager::InputManagerImpl::ProcessSDLEvents()
 		}
 		
 		auto actionIt = std::find_if(m_pActions.begin(), m_pActions.end(), 
-			[&e](std::pair<int, InputAction*> pair)
+			[&e](InputAction* action)
 			{
-				return pair.second->keyBoardBtn == e.key.keysym.sym;
+				return action->keyBoardBtn == e.key.keysym.sym;
 			});
 
-		std::for_each(m_pActions.begin(), m_pActions.end(), [&e, this](std::pair<int, InputAction*> pair)
+		std::for_each(m_pActions.begin(), m_pActions.end(), [&e, this](InputAction* action)
 			{
-				auto pAction = pair.second;
-				if (pAction->keyBoardBtn == e.key.keysym.sym)
+				if (action->keyBoardBtn == e.key.keysym.sym)
 				{
-					ProcessKeyboardInput(e.key, pAction);
+					ProcessKeyboardInput(e.key, action);
 
 				}
-				else if (pAction->mouseBtn != MouseButton::none)
+				else if (action->mouseBtn != MouseButton::none)
 				{
-					ProcessMouseInput(e, pAction);
+					ProcessMouseInput(e, action);
 				}
 			});
 
@@ -183,9 +177,8 @@ bool InputManager::InputManagerImpl::ProcessSDLEvents()
 			break;
 		}
 	}
+	
 	SDL_PumpEvents();
-	m_pPreviousKeyboardState = m_pKeyboardState;
-	m_pKeyboardState = SDL_GetKeyboardState(NULL);
 
 	return true;
 }
@@ -257,9 +250,6 @@ void InputManager::InputManagerImpl::ProcessButtonUp(InputAction* pCurrentAction
 	pCurrentAction->lastKeyPos = LastKeyPosition::up;
 }
 
-/// <summary>
-/// Copyright : DAE Overlord Engine
-/// </summary>
 void InputManager::InputManagerImpl::RefreshControllerConnections()
 {
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
@@ -285,9 +275,8 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 	
 	
 
-	std::for_each(m_pActions.begin(), m_pActions.end(), [this](std::pair<const int, InputAction*>& actionPair)
+	std::for_each(m_pActions.begin(), m_pActions.end(), [this](InputAction* pAction)
 		{
-			auto pAction = actionPair.second;
 			if (pAction->gamepadBtn == ControllerButton::None)
 			{
 				return;
@@ -344,25 +333,9 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 		});
 }
 
-void InputManager::InputManagerImpl::AddInputAction(int id, InputAction* pAction)
+void InputManager::InputManagerImpl::AddInputAction(InputAction* action)
 {
-	if (m_pActions.find(id) != m_pActions.end())
-	{
-		Debugger::GetInstance().LogWarning("An Action already exists for this id");
-		return;
-	}
-	m_pActions.insert(std::make_pair(id, pAction));
-}
-
-InputAction* InputManager::InputManagerImpl::GetAction(int id)
-{
-	if (m_pActions.find(id) == m_pActions.end())
-	{
-		Debugger::GetInstance().LogWarning("No actions exists for this id");
-		return nullptr;
-	}
-	
-	return m_pActions.at(id);
+	m_pActions.push_back(action);
 }
 
 InputManager::InputManager()
@@ -385,34 +358,24 @@ bool InputManager::IsDown(ControllerButton button, PlayerNbr nbr) const
 	return m_pImpl->IsDown(button, nbr);
 }
 
-bool InputManager::IsDown(SDL_KeyCode keyCode) const
+bool InputManager::IsDown(SDL_Scancode keyCode) const
 {
 	return m_pImpl->IsDown(keyCode);
 }
 
-bool InputManager::IsUp(SDL_KeyCode keyCode) const
+bool InputManager::IsUp(SDL_Scancode keyCode) const
 {
 	return m_pImpl->IsUp(keyCode);
 }
 
-bool InputManager::IsHeldDown(SDL_KeyCode keyCode) const
+bool InputManager::IsHeldDown(SDL_Scancode keyCode) const
 {
 	return m_pImpl->IsHeldDown(keyCode);
 }
 
-bool InputManager::IsActionTriggered(int id) const
+void InputManager::AddInputAction(InputAction* action)
 {
-	return m_pImpl->IsActionTriggered(id);
-}
-
-void InputManager::AddInputAction(int id, InputAction* pAction)
-{
-	m_pImpl->AddInputAction(id, pAction);
-}
-
-InputAction* InputManager::GetAction(int id)
-{
-	return m_pImpl->GetAction(id);
+	m_pImpl->AddInputAction(action);
 }
 
 glm::vec2 InputManager::GetMousePosition() const

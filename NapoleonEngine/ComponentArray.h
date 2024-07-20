@@ -102,7 +102,7 @@ std::shared_ptr<ECS_Component> ComponentArray<T>::GetBaseData(Entity entity)
 {
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		//Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
 		return nullptr;
 	}
 	
@@ -118,7 +118,7 @@ std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		//Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
 		return nullptr;
 	}
 

@@ -175,6 +175,11 @@ std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 	return nullptr;
 }
 
+std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(size_t index) const
+{
+	return ReadArrayIndex(static_cast<SizeType>(index));
+}
+
 std::string JsonReader::ReadArrayIndexAsString(SizeType index) const
 {
 	if (m_JsonValue->IsArray())

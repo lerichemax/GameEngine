@@ -120,12 +120,10 @@ public:
 		
 	bool ProcessInput();
 	bool IsDown(ControllerButton button, PlayerNbr nbr) const;
-	bool IsDown(SDL_KeyCode keyCode) const;
-	bool IsUp(SDL_KeyCode keyCode) const;
-	bool IsHeldDown(SDL_KeyCode keyCode) const;
-	bool IsActionTriggered(int id) const;
-	void AddInputAction(int id, InputAction* pAction);
-	InputAction* GetAction(int id);
+	bool IsDown(SDL_Scancode keyCode) const;
+	bool IsUp(SDL_Scancode keyCode) const;
+	bool IsHeldDown(SDL_Scancode keyCode) const;
+	void AddInputAction(InputAction* action);
 		
 	glm::vec2 GetMousePosition() const;
 	bool IsLMBPressed() const;

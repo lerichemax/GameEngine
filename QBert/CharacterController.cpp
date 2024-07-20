@@ -3,19 +3,26 @@
 
 #include "QBert.h"
 
+#include "MoveCommand.h"
+
 #include "InputManager.h"
 
 void CharacterController::Initialize()
 {
 	m_pQbert = GetGameObject()->GetComponent<QBert>();
+}  
+  
+void CharacterController::Start()
+{
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_d , KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_s , KeyActionState::pressed,
+		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
 }
+
 void CharacterController::Update()
 {
-	if (InputManager::GetInstance().IsUp(SDLK_x))
-	{
-		printf("bonjour \n");
-	}
-	
+
 }
 
 void CharacterController::Serialize(StreamWriter& writer) const
