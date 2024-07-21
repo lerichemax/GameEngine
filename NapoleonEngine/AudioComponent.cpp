@@ -5,7 +5,6 @@ AudioComponent::AudioComponent(unsigned int id, float volume)
 	:m_AudioId{id},
 	m_Volume{volume}
 {
-
 }	
 
 void AudioComponent::Play()

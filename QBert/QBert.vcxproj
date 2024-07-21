@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="CharacterMovement.cpp" />
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="CoilyManager.cpp" />
     <ClCompile Include="CoilyOnQubeState.cpp" />
@@ -212,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="CharacterMovement.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CoilyManager.h" />
     <ClInclude Include="CoilyOnQubeState.h" />

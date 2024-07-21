@@ -74,7 +74,10 @@ template <typename T>
 std::shared_ptr<T> GameObject::AddComponent(T const& Component)
 {
 	auto newComp = m_pRegistry->AddComponent<T>(m_Entity, Component);
-	newComp->m_pGameObject = this;
+	if (newComp != nullptr)
+	{
+		newComp->m_pGameObject = this;
+	}
 	return newComp;
 }
 template <class T>

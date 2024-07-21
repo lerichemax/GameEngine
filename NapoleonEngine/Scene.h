@@ -133,7 +133,6 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
-	std::shared_ptr<GameObject> MergePrefab(std::shared_ptr<Prefab> pPrefab); //unused currently
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };

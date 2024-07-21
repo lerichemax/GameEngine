@@ -13,19 +13,21 @@ void AudioSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto audio = pComponentManager->GetComponent<AudioComponent>(entity);
-
-		if (!audio->IsActive())
+		auto audioComps = pComponentManager->GetComponents<AudioComponent>(entity);
+		for (std::shared_ptr<AudioComponent> audio : audioComps)
 		{
-			continue;
-		}
-
-		if (audio->m_Play)
-		{
-			ResourceManager::GetInstance().GetEffectById(audio->m_AudioId)->Play(audio->m_Volume);
-			if (!audio->m_Loop)
+			if (!audio->IsActive())
 			{
-				audio->m_Play = false;
+				continue;
+			}
+
+			if (audio->m_Play)
+			{
+				ResourceManager::GetInstance().GetEffectById(audio->m_AudioId)->Play(audio->m_Volume);
+				if (!audio->m_Loop)
+				{
+					audio->m_Play = false;
+				}
 			}
 		}
 	}

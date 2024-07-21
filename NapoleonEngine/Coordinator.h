@@ -46,8 +46,6 @@ public:
 	std::string GetTag(Entity entity) const;
 	bool HasTag(Entity entity, std::string const& tag) const;
 
-	std::vector<std::shared_ptr<System>> ExtractSystems(std::shared_ptr<Coordinator> pOther);
-	void TransferComponents(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);

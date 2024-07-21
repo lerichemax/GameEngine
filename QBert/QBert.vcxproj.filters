@@ -123,6 +123,9 @@
     <ClCompile Include="CharacterPoint.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterMovement.cpp">
+      <Filter>GameScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -244,6 +247,9 @@
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
+      <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterMovement.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
   </ItemGroup>

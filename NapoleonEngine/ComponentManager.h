@@ -98,13 +98,16 @@ std::vector<std::shared_ptr<T>> ComponentManager::GetComponents(Entity entity)
 
 	for (auto compArray : m_ComponentArrays)
 	{
-		auto baseComp = compArray.second->GetBaseData(entity);
-		if (baseComp != nullptr)
+		std::vector<std::shared_ptr<ECS_Component>> baseComps;
+		if (compArray.second->TryGetAllBaseData(entity, baseComps))
 		{
-			auto castedPtr = std::dynamic_pointer_cast<T>(baseComp);
-			if (castedPtr != nullptr)
+			for (std::shared_ptr<ECS_Component> comp : baseComps)
 			{
-				toReturn.push_back(castedPtr);
+				auto castedPtr = std::dynamic_pointer_cast<T>(comp);
+				if (castedPtr != nullptr)
+				{
+					toReturn.push_back(castedPtr);
+				}
 			}
 		}
 	}

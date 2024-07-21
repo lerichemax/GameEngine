@@ -28,10 +28,10 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 
 		if (signature[pair.second] == 1)
 		{
-			auto data = m_ComponentArrays.at(pair.first)->GetBaseData(entity);
-			if (data != nullptr)
+			std::vector<std::shared_ptr<ECS_Component>> datas;
+			if (m_ComponentArrays.at(pair.first)->TryGetAllBaseData(entity, datas))
 			{
-				components.push_back(data);
+				components.insert(components.end(), datas.begin(), datas.end());
 			}
 		}
 	}
