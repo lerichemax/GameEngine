@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Event.h"
 
 class CharacterLives final : public Component
 {
@@ -25,8 +26,11 @@ private:
 struct ECS_CharacterLives final : public ECS_Component
 {
 public:
-	explicit ECS_CharacterLives(int maxLives);
-	ECS_CharacterLives() = default;
+	ECS_CharacterLives();
+
+	EventHandler<ECS_CharacterLives, int> OnDied;
+	EventHandler<ECS_CharacterLives> OnGameOver;
+
 
 	void Die();
 	int GetNbrLives() const { return m_NbrLives; }
@@ -35,8 +39,9 @@ public:
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+
 private:
-	int m_MaxLives;
+	int const MAX_LIVES{ 3 };
 
 	int m_NbrLives;
 

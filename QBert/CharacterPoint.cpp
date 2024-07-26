@@ -14,6 +14,12 @@ ECS_CharacterPoint::ECS_CharacterPoint()
 
 }
 
+void ECS_CharacterPoint::AddPoints(int nbrPoint)
+{ 
+	m_NbrPoints += nbrPoint; 
+	OnPointsUpdated.Notify(m_NbrPoints); 
+}
+
 void ECS_CharacterPoint::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(ECS_CharacterPoint).name());

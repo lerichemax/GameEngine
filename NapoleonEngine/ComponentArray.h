@@ -34,12 +34,13 @@ class ComponentArray<T> : public IComponentArray
 	friend class ComponentManager;
 
 public:
-	std::shared_ptr<T> InsertData(Entity entity, T const& Component);
+	std::shared_ptr<T> InsertData(Entity entity);
 	void RemoveData(Entity entity);
 	std::shared_ptr<ECS_Component> GetBaseData(Entity entity) override;
 	bool TryGetBaseData(Entity entity, std::shared_ptr<ECS_Component>& data) override;
 	bool TryGetAllBaseData(Entity entity, std::vector<std::shared_ptr<ECS_Component>>&) override;
 	std::shared_ptr<T> GetData(Entity entity);
+	std::vector<std::shared_ptr<T>> GetAllData(Entity entity);
 	void EntityDestroyed(Entity entity) override;
 	ComponentArray();
 
@@ -66,9 +67,11 @@ ComponentArray<T>::~ComponentArray()
 }
 
 template<ComponentDerived T>
-std::shared_ptr<T> ComponentArray<T>::InsertData(Entity entity, T const& component)
+std::shared_ptr<T> ComponentArray<T>::InsertData(Entity entity)
 {
-	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end() && static_cast<ECS_Component const&>(component).IsUnique())
+	T* component = new T{};
+
+	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end() && static_cast<ECS_Component*>(component)->IsUnique())
 	{
 		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " is unique and can't be added twice to Entity " + std::to_string(entity));
 		return nullptr;
@@ -77,7 +80,7 @@ std::shared_ptr<T> ComponentArray<T>::InsertData(Entity entity, T const& compone
 	size_t newIndex = m_Size;
 	m_EntityToIndex.insert(std::make_pair(entity, newIndex));
 	m_IndexToEntity[newIndex] = entity;
-	m_Components[newIndex] = std::make_shared<T>(component);
+	m_Components[newIndex] = std::shared_ptr<T>(component);
 	m_Size++;
 	return m_Components[newIndex];
 }
@@ -160,6 +163,24 @@ std::shared_ptr<T> ComponentArray<T>::GetData(Entity entity)
 	}
 
 	return m_Components[m_EntityToIndex.find(entity)->second];
+}
+
+template<ComponentDerived T>
+std::vector<std::shared_ptr<T>> ComponentArray<T>::GetAllData(Entity entity)
+{
+	std::vector<std::shared_ptr<T>> toReturn;
+
+	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
+	{
+		return toReturn;
+	}
+
+	auto range = m_EntityToIndex.equal_range(entity);
+	for (auto it = range.first; it != range.second; it++)
+	{
+		toReturn.push_back(m_Components[it->second]);
+	}
+	return toReturn;
 }
 
 

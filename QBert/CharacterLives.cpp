@@ -24,10 +24,9 @@ void CharacterLives::Reset()
 	m_bIsGameOver = false;
 }
 
-ECS_CharacterLives::ECS_CharacterLives(int maxLives)
+ECS_CharacterLives::ECS_CharacterLives()
 	:ECS_Component(true),
-	m_MaxLives(maxLives),
-	m_NbrLives(maxLives)
+	m_NbrLives(MAX_LIVES)
 {
 
 }
@@ -35,17 +34,22 @@ ECS_CharacterLives::ECS_CharacterLives(int maxLives)
 void ECS_CharacterLives::Die()
 {
 	m_NbrLives--;
+	OnDied.Notify(m_NbrLives);
+
+	if (m_NbrLives <= 0)
+	{
+		OnGameOver.Notify();
+	}
 }
 
 void ECS_CharacterLives::Reset()
 {
-	m_NbrLives = m_MaxLives;
+	m_NbrLives = MAX_LIVES;
 }
 
 void ECS_CharacterLives::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(ECS_CharacterLives).name());
-	writer.WriteInt("maxLives", m_MaxLives);
 	writer.WriteInt("lives", m_NbrLives);
 	
 	ECS_Component::Serialize(writer);
@@ -53,7 +57,6 @@ void ECS_CharacterLives::Serialize(StreamWriter& writer) const
 
 void ECS_CharacterLives::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadInt("maxLives", m_MaxLives);
 	reader->ReadInt("lives", m_NbrLives);
 
 	ECS_Component::Deserialize(reader, context);

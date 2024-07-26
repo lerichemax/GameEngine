@@ -33,7 +33,6 @@ bool ECS_Component::IsUnique() const
 void ECS_Component::SetActive(bool isActive)
 {
 	m_IsActive = isActive;
-	m_NeedsUpdate = true;
 }
 
 void ECS_Component::Serialize(StreamWriter& writer) const

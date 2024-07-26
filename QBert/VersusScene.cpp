@@ -153,7 +153,7 @@ void VersusScene::Initialize()
 
 void VersusScene::ResetGame()
 {
-	m_pPyramid->Reset();
+	//m_pPyramid->Reset();
 	
 	m_pQbert->Reset(true, m_pPyramid->GetTop());
 	//m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
@@ -175,7 +175,7 @@ void VersusScene::ResetGame()
 
 void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 {
-	m_pPyramid->Reset();
+	//m_pPyramid->Reset();
 	//m_pQbert->Reset(false, m_pPyramid->GetTop());
 	
 	m_pCoilyPlayer->Transform(false);

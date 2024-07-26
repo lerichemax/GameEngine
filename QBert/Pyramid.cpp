@@ -7,6 +7,7 @@
 #include "ObserverManager.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
+#include "GameManager.h"
 
 #include "QBert.h"
 #include "Qube.h"
@@ -15,9 +16,8 @@
 
 #include "ColoredDisk.h"
 
-Pyramid::Pyramid(unsigned int maxWidth)
-	:m_MaxWidth(maxWidth),
-	m_NbrDisksSpawned(),
+Pyramid::Pyramid()
+	:m_NbrDisksSpawned(),
 	m_DiskSpawnTimer(),
 	m_pQubes(),
 	m_pQBert(nullptr)
@@ -27,6 +27,48 @@ Pyramid::Pyramid(unsigned int maxWidth)
 Pyramid::~Pyramid()
 {
 	m_pQubes.clear();
+}
+
+void Pyramid::Initialize()
+{
+	glm::vec2 startPos{0,0};
+	glm::vec2 lastPos{startPos};
+	
+	//spawn qubes
+	for (unsigned int i = MAX_WIDTH; i != 0; i--)
+	{
+		lastPos = startPos;
+		for (unsigned int j = 0; j < i; j++)
+		{
+			std::shared_ptr<GameObject> pQube = Instantiate("Qube", GetGameObject()->GetTransform()->GetPosition() + lastPos);
+			GetGameObject()->AddChild(pQube);
+
+			m_pQubes.push_back(pQube->GetComponent<Qube>());
+			//m_pQubes.back()->SetPyramid(this);
+			
+			if (i == MAX_WIDTH)
+			{
+				m_pQubes.back()->SetIsLastRow(true);
+			}
+			if (j == 0 || j == i-1)
+			{
+				m_pQubes.back()->SetIsSideColumn(true);
+			}
+			
+			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
+		}
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
+	}
+	std::reverse(m_pQubes.begin(), m_pQubes.end());
+
+	CreateConnections();
+	CreateEscheresqueLeftConnections();
+	CreateEscheresqueRightConnections();
+
+	Qube::OnAnyQubeFlipped.Subscribe([this]() {
+		CheckAllQubesFlipped();
+		});
 }
 
 void Pyramid::Update()
@@ -51,44 +93,6 @@ void Pyramid::DiskSpawnerTimer()
 			m_NbrDisksSpawned++;
 		}
 	}
-}
-
-void Pyramid::Initialize()
-{
-	glm::vec2 startPos{0,0};
-	glm::vec2 lastPos{startPos};
-	
-	//spawn qubes
-	for (unsigned int i = m_MaxWidth; i != 0; i--)
-	{
-		lastPos = startPos;
-		for (unsigned int j = 0; j < i; j++)
-		{
-			std::shared_ptr<GameObject> pQube = Instantiate("Qube", GetGameObject()->GetTransform()->GetPosition() + lastPos);
-			GetGameObject()->AddChild(pQube);
-
-			m_pQubes.push_back(pQube->GetComponent<Qube>());
-			//m_pQubes.back()->SetPyramid(this);
-			
-			if (i == m_MaxWidth)
-			{
-				m_pQubes.back()->SetIsLastRow(true);
-			}
-			if (j == 0 || j == i-1)
-			{
-				m_pQubes.back()->SetIsSideColumn(true);
-			}
-			
-			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
-		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
-	}
-	std::reverse(m_pQubes.begin(), m_pQubes.end());
-
-	CreateConnections();
-	CreateEscheresqueLeftConnections();
-	CreateEscheresqueRightConnections();
 }
 
 void Pyramid::CreateConnections()
@@ -117,23 +121,23 @@ void Pyramid::CreateConnections()
 		
 		if (leftChild < m_pQubes.size())
 		{
-			//m_pQubes[i]->AddConnection(ConnectionDirection::downLeft, m_pQubes[leftChild]);
-			//m_pQubes[leftChild]->AddConnection(ConnectionDirection::upRight, m_pQubes[i]);
+			m_pQubes[i]->AddConnection(ConnectionDirection::downLeft, m_pQubes[leftChild]);
+			m_pQubes[leftChild]->AddConnection(ConnectionDirection::upRight, m_pQubes[i]);
 		}
 		if (rightChild < m_pQubes.size())
 		{
-			//m_pQubes[i]->AddConnection(ConnectionDirection::downRight, m_pQubes[rightChild]);
-			//m_pQubes[rightChild]->AddConnection(ConnectionDirection::upLeft, m_pQubes[i]);
+			m_pQubes[i]->AddConnection(ConnectionDirection::downRight, m_pQubes[rightChild]);
+			m_pQubes[rightChild]->AddConnection(ConnectionDirection::upLeft, m_pQubes[i]);
 		}
 	}
 }
 
 void Pyramid::CreateEscheresqueRightConnections()
 {
-	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - m_MaxWidth;
+	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - MAX_WIDTH;
 	int nextlineStartIdx{};
 
-	for (unsigned int i = m_MaxWidth; i != 0; i--)
+	for (unsigned int i = MAX_WIDTH; i != 0; i--)
 	{
 		for (unsigned int j = 0; j < i; j++)
 		{
@@ -161,7 +165,7 @@ void Pyramid::CreateEscheresqueLeftConnections()
 {
 	unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - 1;
 	
-	for (unsigned int i = m_MaxWidth; i != 0; i--)
+	for (unsigned int i = MAX_WIDTH; i != 0; i--)
 	{
 		for (unsigned int j = 0; j < i; j++)
 		{
@@ -180,31 +184,27 @@ void Pyramid::CreateEscheresqueLeftConnections()
 	}
 }
 
-bool Pyramid::AreAllQubesFlipped() const
+void Pyramid::CheckAllQubesFlipped() const
 {
 	for (auto pQube : m_pQubes)
 	{
 		if (!pQube->IsFlipped())
 		{
-			return false;
+			return;
 		}
 	}
 	//m_pGameObject->Notify(8);
-	if (m_pQBert != nullptr)
-	{
-		m_pQBert->EarnPoints(m_NbrDisksSpawned * ColoredDisk::GetPoints());
-	}
-	return true;
+	OnAllQubesFlipped.Notify(/*m_NbrDisksSpawned **/ ColoredDisk::GetPoints());
 }
 
-void Pyramid::Reset()
+void Pyramid::Reset(Level level)
 {
 	m_DiskSpawnTimer = 0;
 	m_NbrDisksSpawned = 0;
 	
 	for (auto pQube : m_pQubes)
 	{
-		pQube->Reset();
+		pQube->Reset(level);
 	}
 }
 
@@ -330,17 +330,12 @@ bool Pyramid::FindNextQubeToQbert(std::shared_ptr<Qube> const pStartingQube, Con
 void Pyramid::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(Pyramid).name());
-	writer.WriteInt("maxWidth", m_MaxWidth);
 
 	BehaviourComponent::Serialize(writer);
 }
 
 void Pyramid::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	int tmpWidth{};
-	reader->ReadInt("maxWidth", tmpWidth);
-	m_MaxWidth = static_cast<unsigned int>(tmpWidth);
-
 	BehaviourComponent::Deserialize(reader, context);
 }
 

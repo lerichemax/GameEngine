@@ -25,8 +25,8 @@ public:
 
 	ComponentManager* const GetComponentManager() const;
 
-	template <ComponentDerivedNotBehaviour T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
-	template <BehaviourDerived T> std::shared_ptr<T> AddComponent(Entity entity, T const& component);
+	template <ComponentDerivedNotBehaviour T> std::shared_ptr<T> AddComponent(Entity entity);
+	template <BehaviourDerived T> std::shared_ptr<T> AddComponent(Entity entity);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> std::shared_ptr<T> FindComponentOfType() const;
@@ -60,9 +60,9 @@ private:
 };
 
 template <ComponentDerivedNotBehaviour T>
-std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
+std::shared_ptr<T> Coordinator::AddComponent(Entity entity)
 {
-	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity, component);
+	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity);
 
 	Signature signature = m_pEntityManager->GetSignature(entity);
 
@@ -76,9 +76,9 @@ std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
 }
 
 template <BehaviourDerived T> 
-std::shared_ptr<T> Coordinator::AddComponent(Entity entity, T const& component)
+std::shared_ptr<T> Coordinator::AddComponent(Entity entity)
 {
-	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity, component);
+	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity);
 	m_pComponentManager->RegisterComponent<BehaviourComponent>();
 	m_pComponentManager->m_ComponentArrays[typeid(BehaviourComponent).name()]->ForceInsertData(comp, entity);
 

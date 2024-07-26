@@ -95,7 +95,7 @@ void GameManager::Notify(GameObject* object, int event)
 	//	if (m_pSSManager != nullptr) m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
 	//	break;
 	//case GameEvent::WrongWayDies:
-	//	if (m_pWWManager != nullptr) m_pWWManager->EnemyDied(object->GetComponent<WrongWay>());
+	//	if (m_pWWManager != nullptr) m_pWWManagergma->EnemyDied(object->GetComponent<WrongWay>());
 	//	break;
 	case GameEvent::PyramidCompleted:
 		//auto const pPyramid = object->GetComponent<Pyramid>();
@@ -126,6 +126,66 @@ void GameManager::UpdatePointsText(CharacterPoint* pPoint, int playerNbr)
 		break;
 	case 2:
 		m_pP2PointsCounter->SetText("P2 Points: " + std::to_string(pPoint->GetPoints()));
+		break;
+	}
+}
+
+void GameManagerBehaviour::Start()
+{
+	m_Level = Level::Level1;
+
+	m_pPyramid = FindComponentOfType<Pyramid>();
+	m_pQbert = FindComponentOfType<QBert>();
+
+	if (m_pPyramid != nullptr)
+	{
+		m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+			HandleEndGame();
+			});
+	}
+
+	m_pQbert->GetGameObject()->GetComponent<ECS_CharacterLives>()->OnGameOver.Subscribe([this]() {
+		PauseGame();
+		});
+}
+
+
+void GameManagerBehaviour::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(GameManagerBehaviour).name());
+
+	BehaviourComponent::Serialize(writer);
+}
+
+void GameManagerBehaviour::PauseGame()
+{
+	Timer::GetInstance().SetTimeScale(0);
+}
+
+void GameManagerBehaviour::ResetGame()
+{
+	m_pPyramid->Reset(m_Level);
+	m_pQbert->Reset(false, m_pPyramid->GetTop());
+}
+
+void GameManagerBehaviour::HandleEndGame()
+{
+	switch (m_Level)
+	{
+	case Level::Level1:
+		Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
+		m_Level = Level::Level2;
+		ResetGame();
+		break;
+	case Level::Level2:
+		Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
+		m_Level = Level::Level3;
+		ResetGame();
+		break;
+	case Level::Level3:
+		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
+		break;
+	default:
 		break;
 	}
 }

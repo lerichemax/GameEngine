@@ -288,6 +288,9 @@
     <ClInclude Include="Entity.h">
       <Filter>ECS\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -431,9 +434,6 @@
     </ClCompile>
     <ClCompile Include="Factories.cpp" />
     <ClCompile Include="Component.cpp">
-      <Filter>ECS\Components\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentArray.cpp">
       <Filter>ECS\Components\Base</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">

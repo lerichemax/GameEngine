@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "CharacterController.h"
 
-#include "QBert.h"
+#include "CharacterMovement.h"
 
 #include "MoveCommand.h"
 
@@ -9,20 +9,23 @@
 
 void CharacterController::Initialize()
 {
-	m_pQbert = GetGameObject()->GetComponent<QBert>();
+	m_pMover = GetGameObject()->GetComponent<CharacterMovement>();
 }  
   
 void CharacterController::Start()
 {
-	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_d , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_s , KeyActionState::pressed,
-		new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_d , KeyActionState::released,
+		new MoveCommand(ConnectionDirection::downRight, m_pMover) });
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_s , KeyActionState::released,
+		new MoveCommand(ConnectionDirection::downLeft, m_pMover) });
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_q , KeyActionState::released,
+		new MoveCommand(ConnectionDirection::upLeft, m_pMover) });
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_z , KeyActionState::released,
+		new MoveCommand(ConnectionDirection::upRight, m_pMover) });
 }
 
 void CharacterController::Update()
 {
-
 }
 
 void CharacterController::Serialize(StreamWriter& writer) const

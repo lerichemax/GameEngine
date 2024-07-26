@@ -88,30 +88,27 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 		auto textRenderComp = pComponentManager->GetComponent<ECS_TextRendererComponent>(entity);
 		auto renderComp = pComponentManager->GetComponent<ECS_RendererComponent>(entity);
 
-		if (textRenderComp->m_NeedsUpdate)
+		if (!textRenderComp->IsActive())
 		{
-			if (!textRenderComp->IsActive())
-			{
-				continue;
-			}
+			continue;
+		}
 
-			const auto surf = TTF_RenderText_Blended(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(), textRenderComp->m_TextColor);
-			if (surf == nullptr)
-			{
-				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-			}
-			auto const texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-			if (texture == nullptr)
-			{
-				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-			}
-			SDL_FreeSurface(surf);
+		const auto surf = TTF_RenderText_Blended(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(), textRenderComp->m_TextColor);
+		if (surf == nullptr)
+		{
+			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+		}
+		auto const texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+		if (texture == nullptr)
+		{
+			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+		}
+		SDL_FreeSurface(surf);
 
 
-			if (renderComp->IsActive())
-			{
-				renderComp->m_pTexture.reset(new Texture2D{ texture });
-			}
+		if (renderComp->IsActive())
+		{
+			renderComp->m_pTexture.reset(new Texture2D{ texture });
 		}
 	}
 }

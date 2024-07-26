@@ -150,11 +150,14 @@ void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const
 	}
 }
 
-void GameObject::SetActive(bool active)
+void GameObject::SetActive(bool active, bool includeChildren)
 {
 	m_bIsActive = active;
 
-	m_pRegistry->SetEntityHierarchyActive(m_Entity, active);
+	if (includeChildren)
+	{
+		m_pRegistry->SetEntityHierarchyActive(m_Entity, active);
+	}
 }
 
 bool GameObject::IsActive() const

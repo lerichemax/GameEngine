@@ -77,16 +77,13 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	auto fpsCounterObject = fpsCounterPrefab->GetRoot();
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
-	ECS_TextRendererComponent txtRenderer("FPS ", font);
-	fpsCounterObject->AddComponent<ECS_TextRendererComponent>(txtRenderer);
+	auto txtRenderer = fpsCounterObject->AddComponent<ECS_TextRendererComponent>();
+	txtRenderer->m_Text = "FPS";
+	txtRenderer->m_pFont = font;
+	
 
-	FPSCounterComponent fpsCounter{};
-	fpsCounterObject->AddComponent<FPSCounterComponent>(fpsCounter);
-
-	ECS_RendererComponent rendererComp;
-	rendererComp.m_Layer = 10;
-
-	fpsCounterObject->AddComponent<ECS_RendererComponent>(rendererComp);
+	fpsCounterObject->AddComponent<FPSCounterComponent>();
+	fpsCounterObject->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
 	fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
 
@@ -96,8 +93,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	auto cameraPrefab = PrefabsManager::GetInstance().CreatePrefab();
 	auto cameraObject = cameraPrefab->GetRoot();
 
-	ECS_CameraComponent camComp{};
-	cameraObject->AddComponent<ECS_CameraComponent>(camComp);
+	cameraObject->AddComponent<ECS_CameraComponent>();
 	PrefabsManager::GetInstance().SavePrefab(cameraPrefab, "Camera");
 
 

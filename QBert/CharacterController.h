@@ -1,7 +1,7 @@
 #pragma once
 #include "BehaviourComponent.h"
 
-class QBert;
+class CharacterMovement;
 class CharacterController : public BehaviourComponent
 {
 public:
@@ -13,5 +13,5 @@ protected:
 	void Update() override;
 
 private:
-	std::shared_ptr<QBert> m_pQbert;
+	std::shared_ptr<CharacterMovement> m_pMover;
 };

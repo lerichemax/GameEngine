@@ -5,18 +5,19 @@ struct AudioComponent final : public ECS_Component
 {
 	friend class AudioSystem;
 public:
-	AudioComponent() = default;
-	AudioComponent(unsigned int id, float volume);
+	AudioComponent();
 
-	unsigned int m_AudioId;
-	float m_Volume;
+	float m_Volume = 50;
 	bool m_Loop{ false };
 
 	void Play();
+
+	void SetAudioClip(std::string const& clipLocation);
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 	
 private:
 	bool m_Play{ false };
+	int m_AudioId;
 };

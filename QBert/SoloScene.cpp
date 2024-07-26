@@ -19,6 +19,7 @@
 #include "ButtonComponent.h"
 #include "CharacterLives.h"
 #include "UiSystem.h"
+#include "UIManager.h"
 
 #include "JsonReaderWriter.h"
 #include "QuitGameCommand.h"
@@ -26,6 +27,7 @@
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
 #include "Timer.h"
+
 #include "../3rdParty/imgui/imgui.h"
 
 SoloScene::SoloScene()
@@ -37,6 +39,11 @@ void SoloScene::Initialize()
 {
 	auto const livesP1 = Instantiate("LivesUI");
 	auto const pointsP1 = Instantiate("PointsUI");
+
+	auto uiManagerObj = CreateGameObject();
+	auto uiManager = uiManagerObj->AddComponent<UIManager>();
+	uiManager->m_P1LivesCounter = livesP1->GetComponent<ECS_TextRendererComponent>();
+	uiManager->m_pP1PointsCounter = pointsP1->GetComponent<ECS_TextRendererComponent>();
 
 	//Pause Menu
 	m_pPauseMenu = Instantiate("PauseMenu");
@@ -52,6 +59,10 @@ void SoloScene::Initialize()
 	auto const pyramidObj = Instantiate("Pyramid");
 	auto pyramid = pyramidObj->GetComponent<Pyramid>();
 	//m_pPyramid->SetQBert(qbert);
+	
+	auto gameManagerObj = CreateGameObject();
+	gameManagerObj->AddComponent<GameManagerBehaviour>();
+
 //	
 //	auto* enemyManagerObj = new GameObject{};
 //	auto* pWWm = new WrongWayManager{2, 7};
@@ -120,7 +131,7 @@ void SoloScene::Initialize()
 void SoloScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
-	m_pPyramid->Reset();
+	//m_pPyramid->Reset();
 
 	for (EnemyManager* pManager : m_pEnemyManagers)
 	{

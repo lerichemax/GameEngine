@@ -163,7 +163,7 @@ void CoopScene::Initialize()
 void CoopScene::ResetScene(Level newLevel)
 {
 	m_Level = newLevel;
-	m_pPyramid->Reset();
+	//m_pPyramid->Reset();
 	for (EnemyManager* pManager : m_pEnemyManagers)
 	{
 		pManager->Reset();
@@ -177,7 +177,7 @@ void CoopScene::ResetScene(Level newLevel)
 void CoopScene::ResetGame()
 {
 	m_Level = Level::Level1;
-	m_pPyramid->Reset();
+	//m_pPyramid->Reset();
 
 	for (EnemyManager* pManager : m_pEnemyManagers)
 	{

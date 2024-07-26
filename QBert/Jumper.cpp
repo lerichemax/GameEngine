@@ -6,10 +6,9 @@
 #include "Timer.h"
 
 Jumper::Jumper()
-	:JUMP_MAX_HEIGHT{ 17.f },
-	m_bJumpDown(false),
+	:m_bJumpDown(false),
 	m_bIsJumping(false),
-	m_bIsDead(false),
+	m_bIsFalling(false),
 	m_FallTime(0.f),
 	m_TargetPos(),
 	m_Halfway()
@@ -17,9 +16,22 @@ Jumper::Jumper()
 	
 }
 
-void Jumper::UpdateJump(TransformComponent* transform)
+void Jumper::Update()
 {
-	auto const pos = transform->GetWorldPosition();
+	if (!m_bIsFalling && (m_bIsJumping || m_bJumpDown))
+	{
+		UpdateJump();
+	}
+	else if(m_bIsFalling)
+	{
+		UpdateFall();
+	}
+}
+
+void Jumper::UpdateJump()
+{
+	auto pTransform = m_pGameObject->GetTransform();
+	auto const pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 	
 	if (!m_bJumpDown)
@@ -33,21 +45,24 @@ void Jumper::UpdateJump(TransformComponent* transform)
 	
 	dir = glm::normalize(dir);
 	
-	transform->SetWorldPosition(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 
-	if (glm::length(transform->GetWorldPosition() - m_Halfway) <= 2.f)
+	if (glm::length(pTransform->GetPosition() - m_Halfway) <= 2.f)
 	{
 		m_bJumpDown = true;
 	}
-	else if(glm::length(transform->GetWorldPosition() - m_TargetPos) <= 2.f)
+	else if(glm::length(pTransform->GetPosition() - m_TargetPos) <= 2.f)
 	{
 		m_bIsJumping = false;
+		m_bJumpDown = false;
+		OnJumpLanded.Notify();
 	}
 }
 
-void Jumper::UpdateFall(TransformComponent* transform)
+void Jumper::UpdateFall()
 {
-	auto pos = transform->GetWorldPosition();
+	auto pTransform = m_pGameObject->GetTransform();
+	auto pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
 	if (!m_bJumpDown)
@@ -56,20 +71,23 @@ void Jumper::UpdateFall(TransformComponent* transform)
 	}
 	else
 	{
-		transform->SetWorldPosition(pos.x, pos.y += FALL_SPEED * Timer::GetInstance().GetDeltaTime());
+		pTransform->Translate(pos.x, pos.y += FALL_SPEED * Timer::GetInstance().GetDeltaTime());
 		m_FallTime += Timer::GetInstance().GetDeltaTime();
 		if (m_FallTime >= FALL_TIME)
 		{
-			m_bIsDead = true;
+			OnFell.Notify();
+			m_bIsFalling = false;
+			m_bIsJumping = false;
+			m_bJumpDown = false;
 		}
 		return;
 	}
 
 	dir = glm::normalize(dir);
 
-	transform->SetWorldPosition(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 
-	if (glm::length(transform->GetWorldPosition() - m_Halfway) <= 2.f)
+	if (glm::length(pTransform->GetPosition() - m_Halfway) <= 2.f)
 	{
 		m_bJumpDown = true;
 	}
@@ -111,9 +129,18 @@ void Jumper::JumpToDeath(glm::vec2 const& startPos, float xDist)
 {
 	m_bIsJumping = true;
 	m_bJumpDown = false;
+	m_bIsFalling = true;
 
 	m_FallTime = 0;
 	m_Halfway = startPos;
 	m_Halfway.x += xDist;
 	m_Halfway.y -= JUMP_MAX_HEIGHT *2;
+	OnJumpedToDeath.Notify();
+}
+
+void Jumper::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(Jumper).name());
+
+	BehaviourComponent::Serialize(writer);
 }

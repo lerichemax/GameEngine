@@ -28,11 +28,11 @@ public:
 		
 	std::shared_ptr<ECS_TransformComponent> GetTransform() const;
 
-	template <typename T> std::shared_ptr<T> AddComponent(T const& Component);
+	template <typename T> std::shared_ptr<T> AddComponent();
 
 	void AddChild(std::shared_ptr<GameObject> pChild);
 
-	void SetActive(bool active);
+	void SetActive(bool active, bool includeChildren = true);
 	void Destroy();
 		
 	Scene* const GetParentScene() const { return m_pScene; }
@@ -71,9 +71,9 @@ private:
 	void Refresh();
 };
 template <typename T>
-std::shared_ptr<T> GameObject::AddComponent(T const& Component)
+std::shared_ptr<T> GameObject::AddComponent()
 {
-	auto newComp = m_pRegistry->AddComponent<T>(m_Entity, Component);
+	auto newComp = m_pRegistry->AddComponent<T>(m_Entity);
 	if (newComp != nullptr)
 	{
 		newComp->m_pGameObject = this;

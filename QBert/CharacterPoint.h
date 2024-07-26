@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Event.h"
 
 class CharacterPoint final : public Component
 {
@@ -22,7 +23,9 @@ class ECS_CharacterPoint final : public ECS_Component
 public:
 	ECS_CharacterPoint();
 
-	void AddPoints(int nbrPoint) { m_NbrPoints += nbrPoint; }
+	EventHandler<ECS_CharacterPoint, int> OnPointsUpdated;
+
+	void AddPoints(int nbrPoint);
 	int GetPoints() const { return m_NbrPoints; }
 	void Reset() { m_NbrPoints = 0; }
 

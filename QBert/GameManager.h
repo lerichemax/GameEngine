@@ -1,6 +1,8 @@
 #pragma once
 #include "Observer.h"
 
+#include "BehaviourComponent.h"
+
 enum class GameEvent
 {
 	PlayerDied,
@@ -12,6 +14,13 @@ enum class GameEvent
 	SlickSamDies,
 	WrongWayDies,
 	PyramidCompleted
+};
+
+enum class Level
+{
+	Level1,
+	Level2,
+	Level3
 };
 
 
@@ -52,4 +61,24 @@ private:
 	void UpdateLivesText(CharacterLives* pLives, int playerNbr);
 	void UpdatePointsText(CharacterPoint* pPoints, int playerNbr);
 	
+};
+
+class GameManagerBehaviour : public BehaviourComponent
+{
+public:
+	void Serialize(StreamWriter& writer) const override;
+
+	void PauseGame();
+
+protected:
+	void Start() override;
+
+private:
+	std::shared_ptr<QBert> m_pQbert;
+	std::shared_ptr<Pyramid> m_pPyramid;
+
+	Level m_Level;
+
+	void ResetGame();
+	void HandleEndGame();
 };

@@ -46,6 +46,8 @@ struct ECS_TextRendererComponent : public ECS_Component
 	ECS_TextRendererComponent(std::string const& text, std::shared_ptr<Font> font);
 
 	std::string m_Text;
+	std::shared_ptr<Font> m_pFont{};
+	SDL_Color m_TextColor{ 255,255,255,255 };
 
 	void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
 
@@ -53,12 +55,4 @@ struct ECS_TextRendererComponent : public ECS_Component
 	void Deserialize(JsonReader const* reader, SerializationMap& context);
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) {}
-
-private:
-	friend class TextRendererSystem;
-
-	bool m_NeedsUpdate{ true };
-
-	std::shared_ptr<Font> m_pFont{};
-	SDL_Color m_TextColor{255,255,255,255};
 };

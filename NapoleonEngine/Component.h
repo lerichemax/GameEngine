@@ -66,5 +66,4 @@ protected:
 private:
 	bool m_IsActive{true};
 	bool m_IsUnique{}; //Not yet implemented
-	bool m_NeedsUpdate{};
 };

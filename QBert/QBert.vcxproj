@@ -205,6 +205,7 @@
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />

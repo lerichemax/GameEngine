@@ -19,11 +19,10 @@ void TestScene::Initialize()
 {
 	auto testObject = CreateGameObject();
 
-	ECS_RendererComponent renderer{};
-	renderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
-	renderer.m_Layer = 11;
+	auto renderer = testObject->AddComponent<ECS_RendererComponent>();
+	renderer->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
+	renderer->m_Layer = 11;
 
-	testObject->AddComponent<ECS_RendererComponent>(renderer);
 	testObject->GetTransform()->Translate(450, 300);
 }
 

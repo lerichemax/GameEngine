@@ -46,8 +46,7 @@ std::shared_ptr<GameObject> BaseScene::CreateGameObject()
 {
 	auto newObject = std::shared_ptr<GameObject>(new GameObject{ m_pRegistry }) ;
 	
-	ECS_TransformComponent transformComp;
-	newObject->AddComponent<ECS_TransformComponent>(transformComp);
+	newObject->AddComponent<ECS_TransformComponent>();
 
 	m_pObjects.push_back(newObject);
 
@@ -226,8 +225,7 @@ Scene::Scene(const std::string& name)
 {
 	m_pCameraObject = CreateGameObject();
 
-	ECS_CameraComponent camComp{};
-	m_pCameraObject->AddComponent<ECS_CameraComponent>(camComp);
+	m_pCameraObject->AddComponent<ECS_CameraComponent>();
 	SetActiveCamera(m_pCameraObject);
 }
 

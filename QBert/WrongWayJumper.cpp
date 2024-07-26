@@ -31,9 +31,10 @@ void WrongWayJumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 	
 }
 
-void WrongWayJumper::UpdateFall(TransformComponent* transform)
+void WrongWayJumper::UpdateFall()
 {
-	auto pos = transform->GetWorldPosition();
+	auto pTransform = m_pGameObject->GetTransform();
+	auto pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
 	if (!m_bJumpDown)
@@ -44,24 +45,24 @@ void WrongWayJumper::UpdateFall(TransformComponent* transform)
 	{
 		if (m_pGameObject->HasComponent<WrongWay>())
 		{
-			//transform->SetWorldPosition(
+			//pTransform->SetWorldPosition(
 			//	pos.x += (m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? -FALL_SPEED : FALL_SPEED) 
 			//	* Timer::GetInstance().GetDeltaTime(), pos.y );
 		}
 		
 		m_FallTime += Timer::GetInstance().GetDeltaTime();
-		if (m_FallTime >= FALL_TIME)
-		{
-			m_bIsDead = true;
-		}
+		//if (m_FallTime >= FALL_TIME)
+		//{
+		//	
+		//}
 		return;
 	}
 
 	dir = glm::normalize(dir);
 
-	transform->SetWorldPosition(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 
-	if (glm::length(transform->GetWorldPosition() - m_Halfway) <= 2.f)
+	if (glm::length(pTransform->GetPosition() - m_Halfway) <= 2.f)
 	{
 		m_bJumpDown = true;
 	}

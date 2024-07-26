@@ -48,9 +48,6 @@
     <ClCompile Include="SoloScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
     <ClCompile Include="PauseGameCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="CoilyCharacterController.cpp">
       <Filter>GameScripts\AIControllers</Filter>
-    </ClCompile>
-    <ClCompile Include="VersusGameManager.cpp">
-      <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="SwitchTextColor.cpp">
       <Filter>Commands</Filter>
@@ -79,16 +73,16 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="SlickSamManager.cpp">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="WrongWayManager.cpp">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="CoilyManager.cpp">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="CharacterState.cpp">
       <Filter>GameScripts\Characters\States</Filter>
@@ -125,6 +119,15 @@
     </ClCompile>
     <ClCompile Include="CharacterMovement.cpp">
       <Filter>GameScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameScripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>GameScripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="VersusGameManager.cpp">
+      <Filter>GameScripts\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,9 +177,6 @@
     <ClInclude Include="SoloScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PauseGameCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -188,9 +188,6 @@
     </ClInclude>
     <ClInclude Include="CoilyCharacterController.h">
       <Filter>GameScripts\AIControllers</Filter>
-    </ClInclude>
-    <ClInclude Include="VersusGameManager.h">
-      <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="SwitchTextColor.h">
       <Filter>Commands</Filter>
@@ -205,16 +202,16 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="SlickSamManager.h">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="WrongWayManager.h">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="CoilyManager.h">
-      <Filter>GameScripts\EnemyManagers</Filter>
+      <Filter>GameScripts\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="CharacterState.h">
       <Filter>GameScripts\Characters\States</Filter>
@@ -252,6 +249,15 @@
     <ClInclude Include="CharacterMovement.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameScripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>GameScripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="VersusGameManager.h">
+      <Filter>GameScripts\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -259,9 +265,6 @@
   <ItemGroup>
     <Filter Include="Scenes">
       <UniqueIdentifier>{9a549e60-3b03-4304-a10a-d5afc2e70f76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Observers">
-      <UniqueIdentifier>{701180cf-1e32-4f4e-8fb2-3dd275053292}</UniqueIdentifier>
     </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{b951194b-7545-4512-81cc-fb1b0d4f0a95}</UniqueIdentifier>
@@ -278,14 +281,17 @@
     <Filter Include="GameScripts\AIControllers">
       <UniqueIdentifier>{cc14cbc8-d8c9-46ed-b121-99cb91d9b2f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameScripts\EnemyManagers">
-      <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScripts\Characters\States">
       <UniqueIdentifier>{3c0620e3-e2f0-45bb-bc9a-fa52b160d00e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{47507f06-e6d4-4cb1-ac69-316db98f5ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Managers">
+      <UniqueIdentifier>{ce08548e-336f-44fa-b4b3-7942baf66b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Managers\EnemyManagers">
+      <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

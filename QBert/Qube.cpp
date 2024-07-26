@@ -11,14 +11,17 @@
 #include "GameObject.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
+#include "GameManager.h"
 
+EventHandler<Qube> Qube::OnAnyQubeFlipped{};
 
-Qube::Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInterText, std::shared_ptr<Texture2D> pFlippedText)
-	:m_pDefaultText(pDefText),
-	m_pIntermediateTexture(pInterText),
-	m_pFlippedTexture(pFlippedText),
+Qube::Qube()
+	:m_pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
+	m_pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
+	m_pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png")),
 	m_pCharacter(nullptr),
 	m_CharacterPos(),
+	m_QubeLevel{Level::Level1},
 	m_bIsFlipped(false),
 	m_bIsLastRow(false),
 	m_bIsSideColumn(false),
@@ -29,6 +32,8 @@ Qube::Qube(std::shared_ptr<Texture2D> pDefText, std::shared_ptr<Texture2D> pInte
 void Qube::Initialize()
 {
 	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
+
+	m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
 
 	m_CharacterPos.x = m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 4;
 	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() / 5;
@@ -42,7 +47,6 @@ void Qube::Initialize()
 
 void Qube::Start()
 {
-
 }
 
 void Qube::Update()
@@ -60,12 +64,42 @@ void Qube::SetTexture(std::shared_ptr<Texture2D> pText)
 	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
 }
 
-void Qube::AddConnection(ConnectionDirection dir, Qube* const pConnection)
+void Qube::HandleQBertLanding()
 {
-	/*if (dir != ConnectionDirection::null)
+	switch (m_QubeLevel)
+	{
+	case Level::Level1:
+		Flip();
+		break;
+	case Level::Level2:
+		if (m_JumpCounter < 1)
+		{
+			m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pIntermediateTexture;
+			m_JumpCounter++;
+		}
+		else 
+		{
+			Flip();
+		}
+		break;
+	case Level::Level3:
+		if (IsFlipped())
+		{
+			UnFlip();
+		}
+		else {
+			Flip();
+		}
+		break;
+	}
+}
+
+void Qube::AddConnection(ConnectionDirection dir, std::shared_ptr<Qube> pConnection)
+{
+	if (dir != ConnectionDirection::null)
 	{
 		m_pConnections[static_cast<int>(dir)] = pConnection;
-	}*/
+	}
 }
 
 void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection)
@@ -118,8 +152,7 @@ bool Qube::HasConnection(ConnectionDirection dir) const
 	{
 		return false;
 	}
-	//return m_pConnections[static_cast<int>(dir)] != nullptr;
-	return true;
+	return m_pConnections[static_cast<int>(dir)] != nullptr;
 }
 
 bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
@@ -206,33 +239,26 @@ void Qube::Flip()
 {
 	if (!m_bIsFlipped)
 	{
-		//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pFlippedTexture);
+		m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pFlippedTexture;
 		m_bIsFlipped = true;
 		m_JumpCounter++;
-	}
-}
-
-void Qube::IntermediateFlip()
-{
-	if (!m_bIsFlipped)
-	{
-		//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
-		m_JumpCounter++;
+		OnAnyQubeFlipped.Notify();
 	}
 }
 
 void Qube::UnFlip()
 {
 	m_bIsFlipped = false;
-	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
+	m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
 	m_JumpCounter=0;
 }
 
-void Qube::Reset()
+void Qube::Reset(Level level)
 {
 	m_bIsFlipped = false;
 	m_JumpCounter = 0;
 	m_pCharacter = nullptr;
+	m_QubeLevel = level;
 	
 	//if (m_pGameObject->HasChildren())
 	//{
@@ -243,7 +269,7 @@ void Qube::Reset()
 	//}
 	//m_pDiskConnection = nullptr;
 	
-	//GetGameObject()->GetComponent<RendererComponent>()->SetTexture(m_pDefaultText);
+	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
 }
 
 ColoredDisk* Qube::GetConnectedDisk() const
@@ -270,52 +296,5 @@ void Qube::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(Qube).name());
 
-
-	writer.StartObject("defaultText");
-	{
-		m_pDefaultText->Serialize(writer);
-	}
-	writer.EndObject();
-
-	writer.StartObject("intermediateText");
-	{
-		m_pIntermediateTexture->Serialize(writer);
-	}
-	writer.EndObject();
-
-	writer.StartObject("flippedText");
-	{
-		m_pFlippedTexture->Serialize(writer);
-	}
-	writer.EndObject();
-
 	BehaviourComponent::Serialize(writer);
-}
-
-void Qube::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	std::string filename;
-
-	auto defaultObj = reader->ReadObject("defaultText");
-	defaultObj->ReadString("filepath", filename);
-	if (!filename.empty())
-	{
-		m_pDefaultText = ResourceManager::GetInstance().GetTexture(filename);
-	}
-
-	auto intermediateObj = reader->ReadObject("intermediateText");
-	intermediateObj->ReadString("filepath", filename);
-	if (!filename.empty())
-	{
-		m_pIntermediateTexture = ResourceManager::GetInstance().GetTexture(filename);
-	}
-
-	auto flippedObj = reader->ReadObject("flippedText");
-	flippedObj->ReadString("filepath", filename);
-	if (!filename.empty())
-	{
-		m_pFlippedTexture = ResourceManager::GetInstance().GetTexture(filename);
-	}
-
-	BehaviourComponent::Deserialize(reader, context);
 }

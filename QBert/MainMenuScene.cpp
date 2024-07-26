@@ -19,79 +19,74 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	ECS_RendererComponent rendererComp;
-	rendererComp.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
-	rendererComp.m_Layer = 10;
-
 	std::shared_ptr<GameObject> titleObject = CreateGameObject();
-	titleObject->AddComponent<ECS_RendererComponent>(rendererComp);
+	auto rendererComp = titleObject->AddComponent<ECS_RendererComponent>();
+	rendererComp->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
+	rendererComp->m_Layer = 10;
+
 	titleObject->GetTransform()->Translate(300, 50);
 	titleObject->GetTransform()->Scale(0.8f);
 
 	std::shared_ptr<GameObject> soloBtn = CreateGameObject();
-	ECS_ButtonComponent btn(70, 30);
-	btn.m_bVisualize = true;
-	ECS_TextRendererComponent txt{ "Solo", ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28) };
 
-	ECS_RendererComponent txtRendererComp;
-	txtRendererComp.m_Layer = 10;
+	auto txt = soloBtn->AddComponent<ECS_TextRendererComponent>();
+	txt->m_Text = "Solo";
+	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
+	soloBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 
-	soloBtn->AddComponent<ECS_TextRendererComponent>(txt);
-	soloBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);
-
-	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, soloBtn->GetComponent<ECS_TextRendererComponent>()});
-	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, soloBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnClickFunction(new SwitchScene{"SoloScene"});
+	auto btn = soloBtn->AddComponent<ECS_ButtonComponent>();
+	btn->m_Dimensions = { 70,30 };
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, soloBtn->GetComponent<ECS_TextRendererComponent>()});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, soloBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
 
 	soloBtn->GetTransform()->Translate(400, 200);
-	soloBtn->AddComponent<ECS_ButtonComponent>(btn);
 
 	auto coopBtn = CreateGameObject();
-	btn.m_Dimensions = { 80, 30 };
 
-	txt.m_Text = "Co-op";
+	txt = coopBtn->AddComponent<ECS_TextRendererComponent>();
+	txt->m_Text = "Co-op";
+	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	coopBtn->AddComponent<ECS_TextRendererComponent>(txt);
-	coopBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);
-	coopBtn->GetTransform()->Translate(7, 3);
+	coopBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 
-	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnClickFunction(new SwitchScene{"CoopScene"});
-
-	coopBtn->AddComponent<ECS_ButtonComponent>(btn);
+	btn = coopBtn->AddComponent<ECS_ButtonComponent>();
+	btn->m_Dimensions = { 80, 30 };
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
 
 	coopBtn->GetTransform()->Translate(400, 250);
 
 	auto vsBtn = CreateGameObject();
-	btn.m_Dimensions = { 92, 30 };
+	
+	txt = vsBtn->AddComponent<ECS_TextRendererComponent>();
+	txt->m_Text = "Versus";
+	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	txt.m_Text =  "Versus";
-	vsBtn->AddComponent<ECS_TextRendererComponent>(txt);
-	vsBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);
-	vsBtn->GetTransform()->Translate(7, 3);
+	vsBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 
-	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnClickFunction(new SwitchScene{"VersusScene"});
-
-	vsBtn->AddComponent<ECS_ButtonComponent>(btn);
+	btn = vsBtn->AddComponent<ECS_ButtonComponent>();
+	btn->m_Dimensions = { 92, 30 };
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
 
 	vsBtn->GetTransform()->Translate(400, 300);
 
 	auto quitBtn = CreateGameObject();
-	btn.m_Dimensions = { 70, 30 };
 
-	txt.m_Text = "Quit";
-	quitBtn->AddComponent<ECS_TextRendererComponent>(txt);
-	quitBtn->AddComponent<ECS_RendererComponent>(txtRendererComp);
-	quitBtn->GetTransform()->Translate(7, 3);
+	txt = quitBtn->AddComponent<ECS_TextRendererComponent>();
+	txt->m_Text = "Quit";
+	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	btn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn.SetOnClickFunction(new QuitGameCommand{  });
+	quitBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 
-	quitBtn->AddComponent<ECS_ButtonComponent>(btn);
+	btn = quitBtn->AddComponent<ECS_ButtonComponent>();
+	btn->m_Dimensions = { 70, 30 };
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnClickFunction(new QuitGameCommand{  });
 
 	quitBtn->GetTransform()->Translate(400, 350);
 

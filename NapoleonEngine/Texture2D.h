@@ -26,7 +26,7 @@ public:
 
 private:
 	SDL_Texture* m_pTexture;
-	std::string m_FilePath;
+	std::string m_FilePath{};
 	float m_Width;
 	float m_Height;
 

@@ -51,8 +51,7 @@ class ECS_ButtonComponent : public ECS_Component
 	friend class UiSystem;
 
 public:
-	ECS_ButtonComponent() = default;
-	ECS_ButtonComponent(float width, float height);
+	ECS_ButtonComponent();
 	~ECS_ButtonComponent() {};
 
 	template<CommandDerived T> void SetOnClickFunction(T* func);

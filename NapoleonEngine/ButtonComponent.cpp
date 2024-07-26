@@ -85,9 +85,9 @@ void ButtonComponent::SetOnDeselectFunction(Command* func)
 	m_pOnDeselect = func;
 }
 
-ECS_ButtonComponent::ECS_ButtonComponent(float width, float height)
+ECS_ButtonComponent::ECS_ButtonComponent()
 	:ECS_Component(true),
-	m_Dimensions(width, height),
+	m_Dimensions(100, 50), //by default
 	m_IsSelected(false),
 	m_bVisualize(false),
 	m_pOnClick(nullptr),

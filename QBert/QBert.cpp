@@ -14,6 +14,7 @@
 #include "JumpingState.h"
 #include "FallingState.h"
 #include "Pyramid.h"
+#include "Jumper.h"
 
 #include "GameObject.h"
 #include "ResourceManager.h"
@@ -23,15 +24,17 @@
 #include "OnQubeState.h"
 #include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
+#include "CharacterMovement.h"
+#include "AudioComponent.h"
 
-QBert::QBert(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear)
+QBert::QBert()
 	:Character(nullptr, CharacterType::player),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_pHurtTex{ nullptr },
-	m_pJumpSound(jump),
-	m_pFallSound(fall),
-	m_pSwearSound(swear),
+	m_pJumpSound(nullptr),
+	m_pFallSound(nullptr),
+	m_pSwearSound(nullptr),
 	m_PlayerNbr(),
 	m_bCanMove(true),
 	m_bWillSleep(false)	
@@ -62,7 +65,33 @@ void QBert::Initialize()
 
 void QBert::Start()
 {
-	SetCurrentQube(FindComponentOfType<Pyramid>()->GetTop());
+	auto pyramid = FindComponentOfType<Pyramid>();
+	auto pMover = m_pGameObject->GetComponent<CharacterMovement>();
+	pMover->SetCurrentQube(pyramid->GetTop());
+
+	pMover->OnMoveStarted.Subscribe([this]() {
+		m_pJumpSound->Play();
+		});
+
+	pyramid->OnAllQubesFlipped.Subscribe([this](int points) {
+		EarnPoints(points);
+		});
+
+	Qube::OnAnyQubeFlipped.Subscribe([this]() {
+		EarnPoints(Qube::POINTS_FOR_FLIP);
+		});
+
+	auto jumper = m_pGameObject->GetComponent<Jumper>();
+	jumper->OnJumpedToDeath.Subscribe([this]() {
+		m_pFallSound->Play();
+		m_pGameObject->GetComponent<ECS_RendererComponent>()->m_Layer = 1;
+		});
+
+	jumper->OnFell.Subscribe([this]() {
+		m_pLives->Die();
+		Reset(false, m_pGameObject->GetComponent<CharacterMovement>()->GetCurrentQube());
+		});
+
 }
 
 void QBert::Update()
@@ -106,6 +135,13 @@ void QBert::Swear()const
 	m_pSwearSound->Play();
 }
 
+void QBert::SetAudioComponents(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear)
+{
+	m_pJumpSound = jump;
+	m_pFallSound = fall;
+	m_pSwearSound = swear;
+}
+
 void QBert::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(QBert).name());
@@ -125,7 +161,9 @@ void QBert::RestoreContext(JsonReader const* reader, SerializationMap const& con
 	int id = -1;
 	reader->ReadInt("jumpId", id);
 	m_pJumpSound = context.GetRef<AudioComponent>(id);
+	reader->ReadInt("fallId", id);
 	m_pFallSound = context.GetRef<AudioComponent>(id);
+	reader->ReadInt("swearId", id);
 	m_pSwearSound = context.GetRef<AudioComponent>(id);
 }
 
@@ -146,7 +184,7 @@ void QBert::DoMove(ConnectionDirection direction)
 	
 	//if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
 	//{
-	//	JumpToDeath(direction);
+		JumpToDeath(direction);
 	//	SwitchState(new FallingState(this, m_pJumper));
 	//	SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
 	//	return;
@@ -182,8 +220,8 @@ void QBert::JumpOffDisk()
 
 void QBert::Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube)
 {
-	SetCurrentQube(pTargetQube);
-	m_pGameObject->SetActive(true);
+	m_pGameObject->GetComponent<CharacterMovement>()->SetCurrentQube(pTargetQube);
+	m_pGameObject->SetActive(true, false);
 	if (!fullReset)
 	{
 		return;

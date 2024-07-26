@@ -1,11 +1,13 @@
 #pragma once
 #include "BehaviourComponent.h"
+#include "Event.h"
 
 #include <vector>
 #include <glm/glm.hpp>
 
 class EnemyManager_bu;
 class Qube;
+enum class Level;
 enum class ConnectionDirection;
 class QBert;
 class ColoredDisk;
@@ -13,23 +15,20 @@ class Pyramid final : public BehaviourComponent
 {
 
 public:
-	explicit Pyramid(unsigned int maxWidth);
-	Pyramid() = default;
-	
+	Pyramid();
 	~Pyramid();
 
-	void Update() override;
+	EventHandler<Pyramid, int> OnAllQubesFlipped{};
 	
 	std::shared_ptr<Qube> GetTop() const { return m_pQubes.front(); }
 	std::shared_ptr<Qube> GetEscheresqueLeftTop() const { return m_pQubes.back(); }
-	std::shared_ptr<Qube> GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - m_MaxWidth]; }
+	std::shared_ptr<Qube> GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	std::shared_ptr<Qube> GetQube(int index) const { return m_pQubes[index]; }
 	int GetQubeIndex(std::shared_ptr<Qube> pQube) const;
 	int GetNbrDisks()const { return m_NbrDisksSpawned; }
 	std::vector<std::shared_ptr<Qube>> const& GetQubes() const { return m_pQubes; }
 	
-	bool AreAllQubesFlipped() const;
-	void Reset();
+	void Reset(Level level);
 	void PartialReset();
 	void DiskUsed(){ m_NbrDisksSpawned--; }
 	void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
@@ -41,8 +40,11 @@ public:
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
+protected:
+	void Update() override;
+
 private:
-	unsigned int m_MaxWidth;
+	unsigned int const MAX_WIDTH{ 7 };
 	unsigned int const MAX_NBR_DISKS{ 4 };
 	float const DISK_SPAWNING_INTERVAL{ 7.f };
 	
@@ -66,4 +68,5 @@ private:
 	int GetQBertIndex() const;
 	
 	void DiskSpawnerTimer();
+	void CheckAllQubesFlipped() const;
 };
