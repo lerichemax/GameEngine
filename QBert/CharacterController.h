@@ -14,4 +14,6 @@ protected:
 
 private:
 	std::shared_ptr<CharacterMovement> m_pMover;
+
+	bool m_BlockInput = false;
 };

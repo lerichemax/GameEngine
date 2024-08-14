@@ -38,14 +38,9 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
-	if (m_NeedsSorting)
-	{
-		std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [&pComponentManager](Entity a, Entity b) {
-			return pComponentManager->GetComponent<ECS_RendererComponent>(a)->m_Layer < pComponentManager->GetComponent<ECS_RendererComponent>(b)->m_Layer;
-			});
-
-		m_NeedsSorting = false;
-	}
+	std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [&pComponentManager](Entity a, Entity b) {
+		return pComponentManager->GetComponent<ECS_RendererComponent>(a)->m_Layer < pComponentManager->GetComponent<ECS_RendererComponent>(b)->m_Layer;
+		});
 
 	for (Entity const& entity : m_EntityPerLayer)
 	{
@@ -78,7 +73,6 @@ void LayeredRendererSystem::AddEntity(Entity entity)
 {
 	System::AddEntity(entity);
 	m_EntityPerLayer.push_back(entity);
-	m_NeedsSorting = true;
 }
 
 void TextRendererSystem::Update(ComponentManager* const pComponentManager)

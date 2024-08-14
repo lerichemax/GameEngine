@@ -36,8 +36,8 @@ void MainMenuScene::Initialize()
 
 	auto btn = soloBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 70,30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, soloBtn->GetComponent<ECS_TextRendererComponent>()});
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, soloBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
 
 	soloBtn->GetTransform()->Translate(400, 200);
@@ -52,8 +52,8 @@ void MainMenuScene::Initialize()
 
 	btn = coopBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 80, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, coopBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
 
 	coopBtn->GetTransform()->Translate(400, 250);
@@ -68,8 +68,8 @@ void MainMenuScene::Initialize()
 
 	btn = vsBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 92, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, vsBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
 
 	vsBtn->GetTransform()->Translate(400, 300);
@@ -84,8 +84,8 @@ void MainMenuScene::Initialize()
 
 	btn = quitBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 70, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, quitBtn->GetComponent<ECS_TextRendererComponent>() });
+	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
+	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new QuitGameCommand{  });
 
 	quitBtn->GetTransform()->Translate(400, 350);

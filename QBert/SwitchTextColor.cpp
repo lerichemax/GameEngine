@@ -3,23 +3,22 @@
 
 #include "TextRendererComponent.h"
 
-SwitchTextColor::SwitchTextColor(Color targetColor, std::shared_ptr<ECS_TextRendererComponent> pText)
-	:m_TargetColor(targetColor),
-	m_pText(pText)
+SwitchTextColor::SwitchTextColor(Color targetColor)
+	:m_TargetColor(targetColor)
 {
 	
 }
 
-SwitchTextColor::SwitchTextColor(SwitchTextColor const& other)
-	:m_TargetColor(other.m_TargetColor),
-	m_pText(other.m_pText)
+void SwitchTextColor::Execute(GameObject* const gObject)
 {
-	
-}
-
-void SwitchTextColor::Execute()
-{
-	m_pText->SetTextColor(m_TargetColor.R, m_TargetColor.G, m_TargetColor.B);
+	if (gObject != nullptr)
+	{
+		auto pText = gObject->GetComponent<ECS_TextRendererComponent>();
+		if (pText != nullptr)
+		{
+			pText->SetTextColor(m_TargetColor.R, m_TargetColor.G, m_TargetColor.B);
+		}
+	}
 }
 
 void SwitchTextColor::Serialize(StreamWriter& writer) const
@@ -28,7 +27,6 @@ void SwitchTextColor::Serialize(StreamWriter& writer) const
 	writer.StartObject("color");
 	m_TargetColor.Serialize(writer);
 	writer.EndObject();
-	writer.WriteInt("textRenderer", m_pText->GetId());
 
 	Command::Serialize(writer);
 }
@@ -38,11 +36,4 @@ void SwitchTextColor::Deserialize(JsonReader const* reader, SerializationMap& co
 	m_TargetColor.Deserialize(colorReader.get());
 
 	Command::Deserialize(reader, context);
-}
-
-void SwitchTextColor::RestoreContext(JsonReader const* reader, SerializationMap const& context)
-{
-	int textId = -1;
-	reader->ReadInt("textRenderer", textId);
-	m_pText = context.GetRef<ECS_TextRendererComponent>(textId);
 }

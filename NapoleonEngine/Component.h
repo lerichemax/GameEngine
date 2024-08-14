@@ -60,10 +60,9 @@ struct ECS_Component : public IContextSerializable
 
 	GameObject* const GetGameObject() const { return m_pGameObject; }
 
-protected:
+private:
 	GameObject* m_pGameObject{};
 
-private:
 	bool m_IsActive{true};
-	bool m_IsUnique{}; //Not yet implemented
+	bool m_IsUnique{};
 };

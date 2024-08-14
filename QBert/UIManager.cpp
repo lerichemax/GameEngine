@@ -4,6 +4,7 @@
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
 #include "TextRendererComponent.h"
+#include "GameManager.h"
 
 void UIManager::Start()
 {
@@ -19,4 +20,28 @@ void UIManager::Start()
 	characterLives->OnGameOver.Subscribe([this]() {
 		m_pGameOverMenu->SetActive(true);
 		});
+
+	FindComponentOfType<GameManagerBehaviour>()->OnGamePaused.Subscribe([this](bool isPaused) {
+		m_pPauseMenu->SetActive(isPaused);
+		});
+}
+
+void UIManager::SetP1PointsCounter(std::shared_ptr<ECS_TextRendererComponent> p1Points)
+{
+	m_pP1PointsCounter = p1Points;
+}
+
+void UIManager::SetP1LivesCounter(std::shared_ptr<ECS_TextRendererComponent> p1Lives)
+{
+	m_P1LivesCounter = p1Lives;
+}
+
+void UIManager::SetPauseMenu(std::shared_ptr<GameObject> pauseMenu)
+{
+	m_pPauseMenu = pauseMenu;
+}
+
+void UIManager::SetGameOverMenu(std::shared_ptr<GameObject> gameOverMenu)
+{
+	m_pGameOverMenu = gameOverMenu;
 }

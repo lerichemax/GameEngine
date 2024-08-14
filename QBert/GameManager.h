@@ -2,6 +2,7 @@
 #include "Observer.h"
 
 #include "BehaviourComponent.h"
+#include "Event.h"
 
 enum class GameEvent
 {
@@ -60,24 +61,30 @@ private:
 	
 	void UpdateLivesText(CharacterLives* pLives, int playerNbr);
 	void UpdatePointsText(CharacterPoint* pPoints, int playerNbr);
-	
 };
 
-class GameManagerBehaviour : public BehaviourComponent
+class GameManagerBehaviour : public BehaviourComponent // cahnge name later
 {
 public:
+	GameManagerBehaviour();
+
 	void Serialize(StreamWriter& writer) const override;
 
-	void PauseGame();
+	void TogglePause();
+
+	static EventHandler<GameManagerBehaviour, bool> OnGamePaused;
 
 protected:
 	void Start() override;
+	void Update() override;
 
 private:
 	std::shared_ptr<QBert> m_pQbert;
 	std::shared_ptr<Pyramid> m_pPyramid;
 
 	Level m_Level;
+
+	bool m_IsPaused;
 
 	void ResetGame();
 	void HandleEndGame();

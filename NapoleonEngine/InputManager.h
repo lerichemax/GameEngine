@@ -7,6 +7,7 @@
 #include <memory>
 
 class Command;
+class GameObject;
 enum class ControllerButton : WORD
 {
 	ButtonA = XINPUT_GAMEPAD_A,
@@ -63,7 +64,7 @@ private:
 	ControllerButton gamepadBtn;
 	MouseButton mouseBtn;
 
-	Command* pCommand;
+	Command* pCommand;// make shared ?
 		
 	KeyActionState state;
 	LastKeyPosition lastKeyPos;
@@ -123,7 +124,14 @@ public:
 	bool IsDown(SDL_Scancode keyCode) const;
 	bool IsUp(SDL_Scancode keyCode) const;
 	bool IsHeldDown(SDL_Scancode keyCode) const;
+
 	void AddInputAction(InputAction* action);
+	Command* const GetCommand(SDL_KeyCode keyCode) const;
+	Command* const GetCommand(ControllerButton ctrlBtn) const;
+	Command* const GetCommand(MouseButton mousebtn) const;
+	void HandleInput(SDL_KeyCode keyCode, GameObject* const gObject);
+	void HandleInput(ControllerButton ctrlBtn, GameObject* const gObject);
+	void HandleInput(MouseButton mousebtn, GameObject* const gObject);
 		
 	glm::vec2 GetMousePosition() const;
 	bool IsLMBPressed() const;

@@ -1,21 +1,13 @@
 #include "PCH.h"
 #include "ReloadSceneCommand.h"
 
-#include "QBertScene.h"
-#include "Timer.h"
+#include "SceneManager.h"
 
-ReloadSceneCommand::ReloadSceneCommand(QBertScene* pScene)
-	:m_pScene(pScene)
+ReloadSceneCommand::ReloadSceneCommand(std::string scenName)
+	:m_SceneName(scenName)
 {}
 
-ReloadSceneCommand::ReloadSceneCommand(ReloadSceneCommand const& other)
-	:m_pScene(other.m_pScene)
+void ReloadSceneCommand::Execute(GameObject* const gObject)
 {
-	
-}
-
-void ReloadSceneCommand::Execute()
-{
-	m_pScene->ResetGame();
-	Timer::GetInstance().SetTimeScale(1);
+	SceneManager::GetInstance().LoadScene(m_SceneName);
 }

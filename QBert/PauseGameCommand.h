@@ -3,28 +3,26 @@
 
 
 class GameObject;
-class QBertScene;
+class GameManagerBehaviour;
 class PauseGameCommand final : public Command
 {
 public:
 	PauseGameCommand() = default;
-	PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu);
-	PauseGameCommand* Clone() override { return new PauseGameCommand(*this); }
+	PauseGameCommand(std::shared_ptr<GameManagerBehaviour> pGameManager);
+
+	PauseGameCommand(PauseGameCommand const& other) = delete;
 	PauseGameCommand(PauseGameCommand&& other) = delete;
 	PauseGameCommand& operator=(PauseGameCommand const& rhs) = delete;
 	PauseGameCommand& operator=(PauseGameCommand&& rhs) = delete;
 	~PauseGameCommand() = default;
 	
-	void Execute() override;
+	void Execute(GameObject* const gObject) override;
 
-	void Serialize(StreamWriter& writer) const override {};
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	QBertScene* m_pScene;
-	GameObject* m_pPauseMenu;
-	
-	PauseGameCommand(PauseGameCommand const& other);
+	std::shared_ptr<GameManagerBehaviour> m_pGameManager;
 };

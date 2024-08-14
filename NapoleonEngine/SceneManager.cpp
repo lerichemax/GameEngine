@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "NapoleonEngine.h"
+#include "Timer.h"
 
 #include <map>
 
@@ -213,6 +214,7 @@ void SceneManager::Render()
 void SceneManager::LoadScene(std::string const& name)
 {
 	m_pImpl->LoadScene(name);
+	Timer::GetInstance().SetTimeScale(1);
 }
 
 void SceneManager::ReloadCurrentScene()

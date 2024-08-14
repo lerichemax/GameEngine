@@ -24,7 +24,7 @@ void WrongWayJumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 
 	m_Halfway += (dirNorm * (jumpDist / 2));
 
-	if (m_pGameObject->HasComponent<WrongWay>())
+	if (GetGameObject()->HasComponent<WrongWay>())
 	{
 		//m_Halfway.x += m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? JUMP_MAX_HEIGHT : -JUMP_MAX_HEIGHT;
 	}
@@ -33,7 +33,7 @@ void WrongWayJumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 
 void WrongWayJumper::UpdateFall()
 {
-	auto pTransform = m_pGameObject->GetTransform();
+	auto pTransform = GetGameObject()->GetTransform();
 	auto pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
@@ -43,7 +43,7 @@ void WrongWayJumper::UpdateFall()
 	}
 	else
 	{
-		if (m_pGameObject->HasComponent<WrongWay>())
+		if (GetGameObject()->HasComponent<WrongWay>())
 		{
 			//pTransform->SetWorldPosition(
 			//	pos.x += (m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? -FALL_SPEED : FALL_SPEED) 

@@ -20,10 +20,7 @@ ButtonComponent::ButtonComponent(float width, float height)
 ButtonComponent::ButtonComponent(ButtonComponent const& other)
 	:m_Dimensions(other.m_Dimensions),
 	m_IsSelected(other.m_IsSelected),
-	m_bVisualize(other.m_bVisualize),
-	m_pOnClick(other.m_pOnClick != nullptr ? other.m_pOnClick->Clone() : nullptr),
-	m_pOnSelect(other.m_pOnSelect != nullptr ? other.m_pOnSelect->Clone() : nullptr),
-	m_pOnDeselect(other.m_pOnDeselect != nullptr ? other.m_pOnDeselect->Clone() : nullptr)
+	m_bVisualize(other.m_bVisualize)
 {}
 
 ButtonComponent::~ButtonComponent()
@@ -35,38 +32,7 @@ ButtonComponent::~ButtonComponent()
 
 void ButtonComponent::Update()
 {
-	if (m_bVisualize)
-	{
-		Debugger::GetInstance().DrawDebugRectangle(m_pGameObject->GetTransform()->GetPosition(), 
-			static_cast<unsigned int>(m_Dimensions.x), static_cast<unsigned int>(m_Dimensions.y),
-			Color{255,0,0,1});
-	}
-	glm::vec2 const mousePos = InputManager::GetInstance().GetMousePosition();
-	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
-	
-	if (mousePos.x >= pos.x && mousePos.x <= pos.x + m_Dimensions.x &&
-		mousePos.y >= pos.y && mousePos.y <= pos.y + m_Dimensions.y)
-	{
-		if (!m_IsSelected && m_pOnSelect)
-		{
-			m_pOnSelect->Execute();
-		}
 
-		m_IsSelected = true;
-	}
-	else
-	{
-		if (m_IsSelected && m_pOnDeselect)
-		{
-			m_pOnDeselect->Execute();
-		}
-		m_IsSelected = false;
-	}
-
-	if (InputManager::GetInstance().IsLMBPressed() && m_IsSelected && m_pOnClick)
-	{
-		m_pOnClick->Execute();
-	}
 
 }
 

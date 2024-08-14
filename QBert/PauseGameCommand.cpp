@@ -3,38 +3,34 @@
 
 #include "GameObject.h"
 #include "InputManager.h"
-#include "QBertScene.h"
+#include "GameManager.h"
 #include "Timer.h"
 
-PauseGameCommand::PauseGameCommand(QBertScene* pScene, GameObject* pPauseMenu)
-	:Command(),
-	m_pScene(pScene),
-	m_pPauseMenu(pPauseMenu)
+PauseGameCommand::PauseGameCommand(std::shared_ptr<GameManagerBehaviour> pGameManager)
+	:m_pGameManager(pGameManager)
 {
-	
 }
 
-PauseGameCommand::PauseGameCommand(PauseGameCommand const& other)
-	:m_pPauseMenu(other.m_pPauseMenu)
+void PauseGameCommand::Execute(GameObject* const gObject)
 {
-	
+	m_pGameManager->TogglePause();
 }
-void PauseGameCommand::Execute()
+
+void PauseGameCommand::Serialize(StreamWriter& writer) const
 {
-	if (!m_pScene->IsActive())
-	{
-		return;
-	}
-	
-	if (m_pScene->IsPaused())
-	{
-		Timer::GetInstance().SetTimeScale(1);
-		m_pPauseMenu->SetActive(false);
-	}
-	else
-	{
-		Timer::GetInstance().SetTimeScale(0);
-		m_pPauseMenu->SetActive(true);
-	}
-	m_pScene->SetIsPaused(!m_pScene->IsPaused());
+	writer.WriteString("type", typeid(PauseGameCommand).name());
+	writer.WriteInt("gameManager", m_pGameManager->GetId());
+	Command::Serialize(writer);
+}
+
+void PauseGameCommand::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	Command::Deserialize(reader, context);
+}
+
+void PauseGameCommand::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+{
+	int id{-1};
+	reader->ReadInt("gameManager", id);
+	m_pGameManager =  context.GetRef<GameManagerBehaviour>(id);
 }

@@ -57,7 +57,7 @@ void SlickSam::SetTexture()
 void SlickSam::DoDie()
 {
 	Enemy::DoDie();
-	m_pGameObject->Notify(static_cast<int>(GameEvent::SlickSamDies));
+	GetGameObject()->Notify(static_cast<int>(GameEvent::SlickSamDies));
 }
 
 void SlickSam::MeetCharacter(Character* pOther)

@@ -30,7 +30,7 @@ void Jumper::Update()
 
 void Jumper::UpdateJump()
 {
-	auto pTransform = m_pGameObject->GetTransform();
+	auto pTransform = GetGameObject()->GetTransform();
 	auto const pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 	
@@ -61,7 +61,7 @@ void Jumper::UpdateJump()
 
 void Jumper::UpdateFall()
 {
-	auto pTransform = m_pGameObject->GetTransform();
+	auto pTransform = GetGameObject()->GetTransform();
 	auto pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
@@ -101,7 +101,7 @@ void Jumper::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos)
 	m_TargetPos = targetPos;
 	m_Halfway = startPos;
 	
-	if (m_pGameObject->HasComponent<WrongWay>() )
+	if (GetGameObject()->HasComponent<WrongWay>() )
 	{
 		glm::vec2 const jumpDir = targetPos - startPos;
 		float const jumpDist = glm::length(jumpDir);

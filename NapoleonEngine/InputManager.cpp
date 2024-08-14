@@ -26,6 +26,13 @@ public:
 	bool IsUp(SDL_Scancode keyCode) const;
 	bool IsHeldDown(SDL_Scancode keyCode) const;
 
+	Command* const GetCommand(SDL_KeyCode keyCode) const;
+	Command* const GetCommand(ControllerButton ctrlBtn) const;
+	Command* const GetCommand(MouseButton mousebtn) const;
+	void HandleInput(SDL_KeyCode keyCode, GameObject* const gObject);
+	void HandleInput(ControllerButton ctrlBtn, GameObject* const gObject);
+	void HandleInput(MouseButton mousebtn, GameObject* const gObject);
+
 	glm::vec2 GetMousePosition() const { return m_MousePosition; }
 	bool IsLMBPressed() const { return m_bIsMouseLBtnClicked; }
 	bool IsRMBPressed() const { return m_bIsMouseRBtnClicked; }
@@ -129,6 +136,73 @@ bool InputManager::InputManagerImpl::IsHeldDown(SDL_Scancode keyCode) const
 	return m_pPreviousKeyboardState[keyCode] && m_pKeyboardState[keyCode];
 }
 
+Command* const InputManager::InputManagerImpl::GetCommand(SDL_KeyCode keyCode) const
+{
+	auto action = std::find_if(m_pActions.begin(), m_pActions.end(), [keyCode](InputAction* action) {
+		return action->keyBoardBtn == keyCode && action->isTriggered;
+		});
+
+	if (action != m_pActions.end())
+	{
+		return (*action)->pCommand;
+	}
+
+	return nullptr;
+}
+Command* const InputManager::InputManagerImpl::GetCommand(ControllerButton ctrlBtn) const
+{
+	auto action = std::find_if(m_pActions.begin(), m_pActions.end(), [ctrlBtn](InputAction* action) {
+		return action->gamepadBtn == ctrlBtn && action->isTriggered;
+		});
+
+	if (action != m_pActions.end())
+	{
+		return (*action)->pCommand;
+	}
+
+	return nullptr;
+}
+Command* const InputManager::InputManagerImpl::GetCommand(MouseButton mousebtn) const
+{
+	auto action = std::find_if(m_pActions.begin(), m_pActions.end(), [mousebtn](InputAction* action) {
+		return action->mouseBtn == mousebtn && action->isTriggered;
+		});
+
+	if (action != m_pActions.end())
+	{
+		return (*action)->pCommand;
+	}
+
+	return nullptr;
+}
+void InputManager::InputManagerImpl::HandleInput(SDL_KeyCode keyCode, GameObject* const gObject)
+{
+	auto cmd = GetCommand(keyCode);
+
+	if (cmd != nullptr)
+	{
+		cmd->Execute(gObject);
+	}
+}
+void InputManager::InputManagerImpl::HandleInput(ControllerButton ctrlBtn, GameObject* const gObject)
+{
+	auto cmd = GetCommand(ctrlBtn);
+
+	if (cmd != nullptr)
+	{
+		cmd->Execute(gObject);
+	}
+}
+void InputManager::InputManagerImpl::HandleInput(MouseButton mousebtn, GameObject* const gObject)
+{
+	auto cmd = GetCommand(mousebtn);
+
+	if (cmd != nullptr)
+	{
+		cmd->Execute(gObject);
+	}
+}
+
 bool InputManager::InputManagerImpl::ProcessSDLEvents()
 {
 	memcpy(m_pPreviousKeyboardState, m_pKeyboardState, m_KeyboardLength);
@@ -218,11 +292,6 @@ void InputManager::InputManagerImpl::ProcessButtonDown(InputAction* pCurrentActi
 	if (pCurrentAction->state == KeyActionState::held ||
 		pCurrentAction->state == KeyActionState::pressed && pCurrentAction->lastKeyPos == LastKeyPosition::up)
 	{
-
-		if (pCurrentAction->pCommand != nullptr)
-		{
-			pCurrentAction->pCommand->Execute();
-		}
 		pCurrentAction->isTriggered = true;
 	}
 	else if (pCurrentAction->state == KeyActionState::released ||
@@ -237,10 +306,6 @@ void InputManager::InputManagerImpl::ProcessButtonUp(InputAction* pCurrentAction
 {
 	if (pCurrentAction->state == KeyActionState::released)
 	{
-		if (pCurrentAction->pCommand != nullptr)
-		{
-			pCurrentAction->pCommand->Execute();
-		}
 		pCurrentAction->isTriggered = true;
 	}
 	else
@@ -288,10 +353,6 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 				if (IsDown(static_cast<ControllerButton>(pAction->gamepadBtn), pAction->playerNbr))
 				{
 					pAction->lastKeyPos = LastKeyPosition::down;
-					if (pAction->pCommand != nullptr)
-					{
-						pAction->pCommand->Execute();
-					}
 					pAction->isTriggered = true;
 				}
 				else
@@ -305,10 +366,6 @@ void InputManager::InputManagerImpl::ProcessControllerInput()
 				{
 					if (pAction->lastKeyPos == LastKeyPosition::up)
 					{
-						if (pAction->pCommand != nullptr)
-						{
-							pAction->pCommand->Execute();
-						}
 						pAction->isTriggered = true;
 					}
 					
@@ -376,6 +433,36 @@ bool InputManager::IsHeldDown(SDL_Scancode keyCode) const
 void InputManager::AddInputAction(InputAction* action)
 {
 	m_pImpl->AddInputAction(action);
+}
+
+Command* const InputManager::GetCommand(SDL_KeyCode keyCode) const
+{
+	return m_pImpl->GetCommand(keyCode);
+}
+
+Command* const InputManager::GetCommand(ControllerButton ctrlBtn) const
+{
+	return m_pImpl->GetCommand(ctrlBtn);
+}
+
+Command* const InputManager::GetCommand(MouseButton mousebtn) const
+{
+	return m_pImpl->GetCommand(mousebtn);
+}
+
+void InputManager::HandleInput(SDL_KeyCode keyCode, GameObject* const gObject)
+{
+	m_pImpl->HandleInput(keyCode, gObject);
+}
+
+void InputManager::HandleInput(ControllerButton ctrlBtn, GameObject* const gObject)
+{
+	m_pImpl->HandleInput(ctrlBtn, gObject);
+}
+
+void InputManager::HandleInput(MouseButton mousebtn, GameObject* const gObject)
+{
+	m_pImpl->HandleInput(mousebtn, gObject);
 }
 
 glm::vec2 InputManager::GetMousePosition() const

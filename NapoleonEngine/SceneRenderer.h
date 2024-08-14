@@ -42,8 +42,6 @@ protected:
 	void AddEntity(Entity entity) override;
 
 private:
-	bool m_NeedsSorting = false;
-
 	std::vector<Entity> m_EntityPerLayer;
 
 };

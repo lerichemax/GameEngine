@@ -6,6 +6,7 @@ template<class T, typename... Types>
 class EventHandler final
 {
 	friend T;
+	friend class UiSystem;
 	using Subscriber = std::function<void(Types...)>;
 
 public:

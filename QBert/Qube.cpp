@@ -33,16 +33,16 @@ void Qube::Initialize()
 {
 	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
 
-	m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
+	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
 
-	m_CharacterPos.x = m_pGameObject->GetTransform()->GetPosition().x + m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 4;
-	m_CharacterPos.y = m_pGameObject->GetTransform()->GetPosition().y - m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() / 5;
+	m_CharacterPos.x = GetGameObject()->GetTransform()->GetPosition().x + GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 4;
+	m_CharacterPos.y = GetGameObject()->GetTransform()->GetPosition().y - GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() / 5;
 
-	//m_EscheresqueRightPos.x = m_pGameObject->GetECSTransform()->GetWorldPosition().x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
-	//m_EscheresqueRightPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
+	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 
-	//m_EscheresqueLeftPos.x = m_pGameObject->GetECSTransform()->GetWorldPosition().x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
-	//m_EscheresqueLeftPos.y = m_pGameObject->GetECSTransform()->GetWorldPosition().y + m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	//m_EscheresqueLeftPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x - GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
+	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
 void Qube::Start()
@@ -74,7 +74,7 @@ void Qube::HandleQBertLanding()
 	case Level::Level2:
 		if (m_JumpCounter < 1)
 		{
-			m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pIntermediateTexture;
+			GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pIntermediateTexture;
 			m_JumpCounter++;
 		}
 		else 
@@ -239,7 +239,7 @@ void Qube::Flip()
 {
 	if (!m_bIsFlipped)
 	{
-		m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pFlippedTexture;
+		GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pFlippedTexture;
 		m_bIsFlipped = true;
 		m_JumpCounter++;
 		OnAnyQubeFlipped.Notify();
@@ -249,7 +249,7 @@ void Qube::Flip()
 void Qube::UnFlip()
 {
 	m_bIsFlipped = false;
-	m_pGameObject->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
+	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
 	m_JumpCounter=0;
 }
 

@@ -42,13 +42,14 @@ void SoloScene::Initialize()
 
 	auto uiManagerObj = CreateGameObject();
 	auto uiManager = uiManagerObj->AddComponent<UIManager>();
-	uiManager->m_P1LivesCounter = livesP1->GetComponent<ECS_TextRendererComponent>();
-	uiManager->m_pP1PointsCounter = pointsP1->GetComponent<ECS_TextRendererComponent>();
+	uiManager->SetP1LivesCounter(livesP1->GetComponent<ECS_TextRendererComponent>());
+	uiManager->SetP1PointsCounter(pointsP1->GetComponent<ECS_TextRendererComponent>());
 
 	//Pause Menu
 	m_pPauseMenu = Instantiate("PauseMenu");
 	m_pPauseMenu->SetActive(false);
-	
+	uiManager->SetPauseMenu(m_pPauseMenu);
+
 	auto qbertObj = Instantiate("QBert");
 	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
 	auto qbert = qbertObj->GetComponent<QBert>();
@@ -60,10 +61,13 @@ void SoloScene::Initialize()
 	auto pyramid = pyramidObj->GetComponent<Pyramid>();
 	//m_pPyramid->SetQBert(qbert);
 	
+	//game manager
 	auto gameManagerObj = CreateGameObject();
-	gameManagerObj->AddComponent<GameManagerBehaviour>();
+	auto gameManager = gameManagerObj->AddComponent<GameManagerBehaviour>();
 
-//	
+	auto resumeBtn = FindTagInChildren(m_pPauseMenu, "ResumeBtn");
+	resumeBtn->GetComponent<ECS_ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ gameManager });
+
 //	auto* enemyManagerObj = new GameObject{};
 //	auto* pWWm = new WrongWayManager{2, 7};
 //	auto* pSSm = new SlickSamManager{ 2, 7 };

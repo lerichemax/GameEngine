@@ -8,8 +8,8 @@
 
 void CharacterMovement::Start()
 {
-	m_pRenderer = m_pGameObject->GetComponent<ECS_RendererComponent>();
-	m_pJumper = m_pGameObject->GetComponent<Jumper>();
+	m_pRenderer = GetGameObject()->GetComponent<ECS_RendererComponent>();
+	m_pJumper = GetGameObject()->GetComponent<Jumper>();
 
 	if (m_pJumper != nullptr)
 	{
@@ -43,7 +43,7 @@ void CharacterMovement::Move(ConnectionDirection direction)
 		OnMoveStarted.Notify();
 		m_pCurrentQube->CharacterJumpOut();
 		m_pCurrentQube = m_pCurrentQube->GetConnection(m_CurentDirection);
-		m_pJumper->Jump(m_pGameObject->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
+		m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
 		m_CanMove = false;
 		//SwitchState(new JumpingState(this, m_pJumper));
 	}
@@ -60,7 +60,7 @@ void CharacterMovement::Move(ConnectionDirection direction)
 		}
 
 		m_pCurrentQube->CharacterJumpOut();
-		m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetPosition(), dist);
+		m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
 	}
 	//else if(m_pCurrentQube->HasConnectionToDisk())
 	//{
@@ -163,10 +163,10 @@ void CharacterMovement::MoveToCurrentQube()
 	//	MeetCharacter(m_pCurrentQube->GetCharacter());
 	//}
 
-	if (m_pGameObject->IsActive())
+	if (GetGameObject()->IsActive())
 	{
 		//m_pCurrentQube->CharacterJumpIn(this);
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+		GetGameObject()->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
 	}
 
 	SetIdleTexture();

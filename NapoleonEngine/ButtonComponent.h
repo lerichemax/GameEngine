@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Factories.h"
+#include "Event.h"
 
 #include <memory>
 
@@ -62,6 +63,10 @@ public:
 
 	bool m_bVisualize;
 
+	EventHandler<ECS_ButtonComponent> OnSelect;
+	EventHandler<ECS_ButtonComponent> OnDeselect;
+	EventHandler<ECS_ButtonComponent> OnClick;
+
 	virtual void Serialize(StreamWriter& writer) const override;
 	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
@@ -76,7 +81,7 @@ private:
 };
 
 template<CommandDerived T> 
-void ECS_ButtonComponent::SetOnClickFunction(T* func)
+void ECS_ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
 {
 	CommandFactory::GetInstance().RegisterType<T>([]() {
 		return std::make_shared<T>();

@@ -206,7 +206,7 @@ void MainGame::CreatePrefabs() const
 
 	//diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
 	//diskObject->GetTransform()->Scale(2);
-	//
+	
 	//Pause Menu
 	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
 	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
@@ -232,12 +232,10 @@ void MainGame::CreatePrefabs() const
 
 	btnObj->AddComponent<ECS_RendererComponent>()->m_Layer = 11;
 
-
 	auto resumeBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	resumeBtn->m_Dimensions = { 110, 30 };
-	resumeBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//resumeBtn.SetOnClickFunction(new PauseGameCommand{this, m_pPauseMenu});
+	resumeBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 200);
@@ -253,8 +251,8 @@ void MainGame::CreatePrefabs() const
 
 	auto backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	backBtn->m_Dimensions = { 110, 30 };
-	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
@@ -271,8 +269,8 @@ void MainGame::CreatePrefabs() const
 
 	auto quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	quitBtn->m_Dimensions = { 65, 30 };
-	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
+	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
 
 	menuObj->AddChild(btnObj);
@@ -281,10 +279,10 @@ void MainGame::CreatePrefabs() const
 
 	pPrefabManager.SavePrefab(menuPrefab, "PauseMenu");
 
-	//
-	////Game over menu (opaque)
-	//auto quitMenuPrefab = pPrefabManager.CreatePrefab("GameOverMenu");
-	//menuObj = menuPrefab->CreateGameObject();
+	
+	//Game over menu (opaque)
+	//auto quitMenuPrefab = pPrefabManager.CreatePrefab();
+	//menuObj = menuPrefab->GetRoot();
 	////menuObj->AddComponent(new ShapeRenderer{ +
 	////	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 

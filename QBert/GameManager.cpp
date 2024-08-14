@@ -1,5 +1,6 @@
 #include "PCH.h"
 #include "GameManager.h"
+
 #include "EnemyManager.h"
 #include "QBert.h"
 #include "Coily.h"
@@ -7,12 +8,14 @@
 #include "WrongWay.h"
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
+#include "InputManager.h"
+
+#include "PauseGameCommand.h"
 
 #include "TextRendererComponent.h"
 #include "RendererComponent.h"
 #include "Timer.h"
 
-#include <algorithm>
 
 
 #include "CoilyManager.h"
@@ -20,6 +23,10 @@
 #include "Pyramid.h"
 #include "WrongWayManager.h"
 #include "SlickSamManager.h"
+
+#include <algorithm>
+
+EventHandler<GameManagerBehaviour, bool> GameManagerBehaviour::OnGamePaused{};
 
 GameManager::GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points,
                          TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives,
@@ -130,6 +137,11 @@ void GameManager::UpdatePointsText(CharacterPoint* pPoint, int playerNbr)
 	}
 }
 
+GameManagerBehaviour::GameManagerBehaviour()
+	:m_IsPaused{false}
+{
+}
+
 void GameManagerBehaviour::Start()
 {
 	m_Level = Level::Level1;
@@ -145,10 +157,17 @@ void GameManagerBehaviour::Start()
 	}
 
 	m_pQbert->GetGameObject()->GetComponent<ECS_CharacterLives>()->OnGameOver.Subscribe([this]() {
-		PauseGame();
+		Timer::GetInstance().SetTimeScale(0);
 		});
+
+	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
+	new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
 }
 
+void GameManagerBehaviour::Update()
+{
+	InputManager::GetInstance().HandleInput(SDLK_p, GetGameObject());
+}
 
 void GameManagerBehaviour::Serialize(StreamWriter& writer) const
 {
@@ -157,9 +176,12 @@ void GameManagerBehaviour::Serialize(StreamWriter& writer) const
 	BehaviourComponent::Serialize(writer);
 }
 
-void GameManagerBehaviour::PauseGame()
+void GameManagerBehaviour::TogglePause()
 {
-	Timer::GetInstance().SetTimeScale(0);
+	Timer::GetInstance().SetTimeScale(m_IsPaused ? 1.f : 0.f);
+
+	m_IsPaused = !m_IsPaused;
+	OnGamePaused.Notify(m_IsPaused);
 }
 
 void GameManagerBehaviour::ResetGame()

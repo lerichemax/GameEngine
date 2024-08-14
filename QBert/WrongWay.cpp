@@ -85,8 +85,8 @@ void WrongWay::JumpToQube(std::shared_ptr<Qube> pNextQube)
 
 void WrongWay::DoDie()
 {
-	m_pGameObject->Destroy();
-	m_pGameObject->Notify(static_cast<int>(GameEvent::WrongWayDies));
+	GetGameObject()->Destroy();
+	GetGameObject()->Notify(static_cast<int>(GameEvent::WrongWayDies));
 }
 
 void WrongWay::SetDirectionTextures(ConnectionDirection dir)

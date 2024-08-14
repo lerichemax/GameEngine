@@ -79,10 +79,10 @@ void Character::MoveToCurrentQube()
 		MeetCharacter(m_pCurrentQube->GetCharacter());
 	}
 
-	if (m_pGameObject->IsActive())
+	if (GetGameObject()->IsActive())
 	{
 		m_pCurrentQube->CharacterJumpIn(this);
-		m_pGameObject->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+		GetGameObject()->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
 	}
 }
 
@@ -94,7 +94,7 @@ void Character::JumpToQube(std::shared_ptr<Qube> pTargetQube)
 	}
 
 	m_pCurrentQube = pTargetQube;
-	m_pJumper->Jump(m_pGameObject->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
+	m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
 void Character::SwitchToIdleTex() const
@@ -122,7 +122,7 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	SetLayerToBackGround();
 	
 	m_pCurrentQube->CharacterJumpOut();
-	m_pJumper->JumpToDeath(m_pGameObject->GetTransform()->GetPosition(), dist);
+	m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
 }
 
 void Character::Move(ConnectionDirection direction)
@@ -172,7 +172,7 @@ void Character::SwitchState(CharacterStateType type)
 			SwitchState(new OnQubeState(this, m_pJumper));
 			break;
 		case CharacterType::coily:
-			if (m_pGameObject->HasComponent<CoilyCharacterController>())
+			if (GetGameObject()->HasComponent<CoilyCharacterController>())
 			{
 
 				//SwitchState(new CoilyOnQubeState(this, m_pJumper, 

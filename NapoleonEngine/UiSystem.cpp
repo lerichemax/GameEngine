@@ -34,8 +34,9 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 		{
 			if (!btn->m_IsSelected && btn->m_pOnSelect)
 			{
-				btn->m_pOnSelect->Execute();
+				btn->m_pOnSelect->Execute(btn->GetGameObject());
 			}
+			btn->OnSelect.Notify();
 
 			btn->m_IsSelected = true;
 		}
@@ -43,14 +44,21 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 		{
 			if (btn->m_IsSelected && btn->m_pOnDeselect)
 			{
-				btn->m_pOnDeselect->Execute();
+				btn->m_pOnDeselect->Execute(btn->GetGameObject());
 			}
+			btn->OnDeselect.Notify();
+
 			btn->m_IsSelected = false;
 		}
 
-		if (InputManager::GetInstance().IsLMBPressed() && btn->m_IsSelected && btn->m_pOnClick)
+		if (InputManager::GetInstance().IsLMBPressed())
 		{
-			btn->m_pOnClick->Execute();
+			if (btn->m_IsSelected && btn->m_pOnClick)
+			{
+				btn->m_pOnClick->Execute(btn->GetGameObject());
+			}
+
+			btn->OnClick.Notify();
 		}
 	}
 }

@@ -6,14 +6,15 @@ class ReloadSceneCommand final : public Command
 {
 public:
 	ReloadSceneCommand() = default;
-	ReloadSceneCommand(QBertScene* pScene);
-	ReloadSceneCommand* Clone() override { return new ReloadSceneCommand(*this); }
+	ReloadSceneCommand(std::string scenName);
+
+	ReloadSceneCommand(ReloadSceneCommand const& other) = delete;
 	ReloadSceneCommand(ReloadSceneCommand&& other) = delete;
 	ReloadSceneCommand& operator=(ReloadSceneCommand const& rhs) = delete;
 	ReloadSceneCommand& operator=(ReloadSceneCommand&& rhs) = delete;
 	~ReloadSceneCommand() = default;
 
-	void Execute() override;
+	void Execute(GameObject* const gObject) override;
 
 	void Serialize(StreamWriter& writer) const override {};
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override {};
@@ -21,7 +22,5 @@ public:
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 
 private:
-	QBertScene* m_pScene;
-
-	ReloadSceneCommand(ReloadSceneCommand const& other);
+	std::string m_SceneName;
 };
