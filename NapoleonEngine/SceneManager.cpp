@@ -37,8 +37,7 @@ private:
 
 SceneManager::SceneManagerImpl::SceneManagerImpl()
 	:m_pScenesMap(),
-	m_pActiveScene(nullptr),
-	m_pNextActiveScene(nullptr)
+	m_pActiveScene(nullptr)
 {
 }
 
@@ -63,8 +62,14 @@ void SceneManager::SceneManagerImpl::Update()
 {
 	if (m_pNextActiveScene != nullptr)
 	{
+		if (m_pActiveScene != nullptr)
+		{
+			m_pActiveScene->CleanUpScene();
+		}
+		
 		m_pActiveScene = m_pNextActiveScene;
-		m_pActiveScene->OnActivate();
+		m_pActiveScene->m_bIsActive = true;
+		m_pActiveScene->OnLoad();
 		m_pNextActiveScene = nullptr;
 	}
 
@@ -111,20 +116,8 @@ void SceneManager::SceneManagerImpl::LoadScene(std::string const& name)
 		Debugger::GetInstance().LogWarning("SceneManager::LoadScene - > Wrong scene name!");
 		return;
 	}
-	if (!scene->IsActive())
-	{
-		auto activeScene = GetActiveScene();
-		activeScene->m_bIsActive = false;
-		
-		scene->OnActivate();
-		scene->m_bIsActive = true;
-		m_pActiveScene = scene;
-	}
-	else
-	{
-		scene->CleanUpScene();
-	}
-	scene->Initialize();
+	
+	m_pNextActiveScene = scene;
 }
 
 void SceneManager::SceneManagerImpl::ReloadCurrentScene()
@@ -136,7 +129,7 @@ Scene* SceneManager::SceneManagerImpl::GetActiveScene() const
 {
 	if (m_pActiveScene == nullptr)
 	{
-		Debugger::GetInstance().LogError("SceneManager::GetActiveScene - > no scene active");
+		Debugger::GetInstance().LogWarning("SceneManager::GetActiveScene - > no scene active");
 		return nullptr;
 	}
 	return m_pActiveScene;
@@ -214,7 +207,6 @@ void SceneManager::Render()
 void SceneManager::LoadScene(std::string const& name)
 {
 	m_pImpl->LoadScene(name);
-	Timer::GetInstance().SetTimeScale(1);
 }
 
 void SceneManager::ReloadCurrentScene()

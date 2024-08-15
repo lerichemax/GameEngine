@@ -18,12 +18,18 @@ void UIManager::Start()
 		});
 
 	characterLives->OnGameOver.Subscribe([this]() {
+		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "Game Over";
 		m_pGameOverMenu->SetActive(true);
 		});
 
 	FindComponentOfType<GameManagerBehaviour>()->OnGamePaused.Subscribe([this](bool isPaused) {
 		m_pPauseMenu->SetActive(isPaused);
 		});
+
+	FindComponentOfType<GameManagerBehaviour>()->OnGameEnded.Subscribe([this]() {
+		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "You Win";
+		m_pGameOverMenu->SetActive(true);
+	});
 }
 
 void UIManager::SetP1PointsCounter(std::shared_ptr<ECS_TextRendererComponent> p1Points)

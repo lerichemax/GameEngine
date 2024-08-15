@@ -11,7 +11,7 @@ SwitchScene::SwitchScene(std::string pTargetScene)
 
 void SwitchScene::Execute(GameObject* const gObject)
 {
-	SceneManager::GetInstance().SetSceneActive(m_TargetSceneName);
+	SceneManager::GetInstance().LoadScene(m_TargetSceneName);
 }
 
 void SwitchScene::Serialize(StreamWriter& writer) const

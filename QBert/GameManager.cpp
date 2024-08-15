@@ -26,7 +26,7 @@
 
 #include <algorithm>
 
-EventHandler<GameManagerBehaviour, bool> GameManagerBehaviour::OnGamePaused{};
+//EventHandler<GameManagerBehaviour, bool> GameManagerBehaviour::OnGamePaused{};
 
 GameManager::GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points,
                          TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives,
@@ -206,6 +206,7 @@ void GameManagerBehaviour::HandleEndGame()
 		break;
 	case Level::Level3:
 		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
+		OnGameEnded.Notify();
 		break;
 	default:
 		break;

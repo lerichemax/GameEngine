@@ -72,7 +72,8 @@ public:
 
 	void TogglePause();
 
-	static EventHandler<GameManagerBehaviour, bool> OnGamePaused;
+	EventHandler<GameManagerBehaviour, bool> OnGamePaused;
+	EventHandler<GameManagerBehaviour> OnGameEnded;
 
 protected:
 	void Start() override;

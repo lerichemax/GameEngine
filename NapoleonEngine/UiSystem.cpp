@@ -15,7 +15,7 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 
 		if (!btn->IsActive())
 		{
-			return;
+			continue;
 		}
 
 		auto transform = pComponentManager->GetComponent<ECS_TransformComponent>(entity);

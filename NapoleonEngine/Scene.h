@@ -129,7 +129,7 @@ private:
 	void Update();
 	virtual void DeclareInput() {};
 		
-	void OnActivate();
+	void OnLoad();
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();

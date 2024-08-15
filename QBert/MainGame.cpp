@@ -21,6 +21,7 @@
 #include "CharacterPoint.h"
 #include "QuitGameCommand.h"
 #include "PauseGameCommand.h"
+#include "ReloadSceneCommand.h"
 #include "SwitchTextColor.h"
 #include "SwitchScene.h"
 #include "QBert.h"
@@ -53,7 +54,7 @@ void MainGame::InitGame() const
 	SceneManager::GetInstance().AddScene(new SoloScene{});
 	//SceneManager::GetInstance().AddScene(new CoopScene{});
 	//SceneManager::GetInstance().AddScene(new VersusScene{});
-	SceneManager::GetInstance().SetSceneActive("MainMenuScene");
+	SceneManager::GetInstance().LoadScene("MainMenuScene");
 }
 
 void MainGame::CreatePrefabs() const
@@ -83,12 +84,12 @@ void MainGame::CreatePrefabs() const
 	auto const pointsrefab = pPrefabManager.CreatePrefab();
 	auto const pointsObj = pointsrefab->GetRoot();
 	pointsObj->GetTransform()->Translate(20.f, 60.f);
-	
+
 	textRenderer = pointsObj->AddComponent<ECS_TextRendererComponent>();
 	textRenderer->m_Text = "P1 Points: 0 ";
 	textRenderer->m_pFont = font;
 
-	pointsObj->AddComponent<ECS_RendererComponent>()-> m_Layer = 10;
+	pointsObj->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
 	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
 
 	//QBert
@@ -98,7 +99,7 @@ void MainGame::CreatePrefabs() const
 	auto rendererComp = qbert->AddComponent<ECS_RendererComponent>();
 	rendererComp->m_Layer = 8;
 	rendererComp->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
-	
+
 	auto jumpSoundPtr = qbert->AddComponent<AudioComponent>();
 	jumpSoundPtr->SetAudioClip("Sounds/jump.mp3");
 
@@ -107,7 +108,7 @@ void MainGame::CreatePrefabs() const
 
 	auto fallSoundPtr = qbert->AddComponent<AudioComponent>();
 	fallSoundPtr->SetAudioClip("Sounds/fall.mp3");
-	
+
 	auto qBertComp = qbert->AddComponent<QBert>();
 	qBertComp->SetAudioComponents(jumpSoundPtr, fallSoundPtr, swearSoundPtr);
 
@@ -123,7 +124,7 @@ void MainGame::CreatePrefabs() const
 	qbert->AddComponent<Jumper>();
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
-	
+
 	auto hurtRenderer = hurtTextObj->AddComponent<ECS_RendererComponent>();
 	hurtRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
 	hurtRenderer->m_Layer = 8;
@@ -135,7 +136,7 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
-	
+
 	//Qube prefab
 	auto qubePf = pPrefabManager.CreatePrefab();
 	auto qubeObject = qubePf->GetRoot();
@@ -206,7 +207,7 @@ void MainGame::CreatePrefabs() const
 
 	//diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
 	//diskObject->GetTransform()->Scale(2);
-	
+
 	//Pause Menu
 	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
 	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
@@ -258,7 +259,7 @@ void MainGame::CreatePrefabs() const
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->Translate(400, 300);
 	btnObj->SetTag("BackToMainBtn");
-	
+
 	//Quit Btn
 	btnObj = menuPrefab->CreateGameObject();
 	textComp = btnObj->AddComponent<ECS_TextRendererComponent>();
@@ -279,63 +280,80 @@ void MainGame::CreatePrefabs() const
 
 	pPrefabManager.SavePrefab(menuPrefab, "PauseMenu");
 
-	
+
 	//Game over menu (opaque)
-	//auto quitMenuPrefab = pPrefabManager.CreatePrefab();
-	//menuObj = menuPrefab->GetRoot();
-	////menuObj->AddComponent(new ShapeRenderer{ +
-	////	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
+	auto quitMenuPrefab = pPrefabManager.CreatePrefab();
+	menuObj = quitMenuPrefab->GetRoot();
+	//menuObj->AddComponent(new ShapeRenderer{ +
+	//	new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true} });
 
-	//textObject = quitMenuPrefab->CreateGameObject();
-	//textComp = ECS_TextRendererComponent{ "Game Over", biggerFont };
-	//textObject->AddComponent<ECS_TextRendererComponent>(textComp);
-	//textObject->AddComponent<ECS_RendererComponent>(menuRenderer);
-	//menuObj->AddChild(textObject);
-	//textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject = quitMenuPrefab->CreateGameObject();
 
-	//btnObj = quitMenuPrefab->CreateGameObject();
-	//textComp = ECS_TextRendererComponent{ "Replay", lessBigFont };
-	//ECS_ButtonComponent replayBtn{ 100, 30 };
-	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
-	//
-	////replayBtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	////replayBtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//btnObj->AddComponent<ECS_ButtonComponent>(replayBtn);
+	textComp = textObject->AddComponent<ECS_TextRendererComponent>();
+	textComp->m_Text = "Game Over";
+	textComp->m_pFont = biggerFont;
 
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetTransform()->Translate(400, 200);
-	//btnObj->SetTag("ReplayBtn");
+	textObject->AddComponent<ECS_RendererComponent>();
+	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
-	////Back to main btn
-	//btnObj = quitMenuPrefab->CreateGameObject();
-	//textComp = ECS_TextRendererComponent{ "Back to Main Menu", lessBigFont };
-	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	menuObj->AddChild(textObject);
 
-	//ECS_ButtonComponent backbtn{ 260, 30 };
-	//backbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//backbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//btnObj->AddComponent<ECS_ButtonComponent>(backbtn);
+	btnObj = quitMenuPrefab->CreateGameObject();
 
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetTransform()->Translate(400, 300);
-	//btnObj->SetTag("BackToMainBtn");
-	//
-	////Quit Btn
-	//btnObj = quitMenuPrefab->CreateGameObject();
-	//textComp = ECS_TextRendererComponent{ "Quit", lessBigFont };
-	//btnObj->AddComponent<ECS_TextRendererComponent>(textComp);
-	//btnObj->AddComponent<ECS_RendererComponent>(menuRenderer);
+	textComp = btnObj->AddComponent<ECS_TextRendererComponent>();
+	textComp->m_Text = "Replay";
+	textComp->m_pFont = lessBigFont;
 
-	//ECS_ButtonComponent quitbtn{ 65, 30 };
-	//quitbtn.SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//quitbtn.SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, btnObj->GetComponent<ECS_TextRendererComponent>() });
-	//btnObj->AddComponent<ECS_ButtonComponent>(quitbtn);
+	btnObj->AddComponent<ECS_RendererComponent>()->m_Layer = 11;
+	auto replayBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	replayBtn->m_Dimensions = { 100, 30 };
+	replayBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	replayBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
+	replayBtn->SetOnClickFunction(new ReloadSceneCommand{});
 
-	//menuObj->AddChild(btnObj);
-	//btnObj->GetTransform()->Translate(400, 400);
-	//btnObj->SetTag("QuitBtn");
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->SetTag("ReplayBtn");
+
+	//Back to main btn
+	btnObj = quitMenuPrefab->CreateGameObject();
+
+	textComp = btnObj->AddComponent<ECS_TextRendererComponent>();
+	textComp->m_Text = "Back to Main Menu";
+	textComp->m_pFont = lessBigFont;
+
+	btnObj->AddComponent<ECS_RendererComponent>()->m_Layer = 11;
+
+	backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	backBtn->m_Dimensions = { 260, 30 };
+	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
+	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->SetTag("BackToMainBtn");
+	
+	//Quit Btn
+	btnObj = quitMenuPrefab->CreateGameObject();
+
+	textComp = btnObj->AddComponent<ECS_TextRendererComponent>();
+	textComp->m_Text = "Quit";
+	textComp->m_pFont = lessBigFont;
+
+	btnObj->AddComponent<ECS_RendererComponent>()->m_Layer = 11;
+
+	quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	quitBtn->m_Dimensions = { 65, 30 };
+	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
+	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
+	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
+
+	menuObj->AddChild(btnObj);
+	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->SetTag("QuitBtn");
+
+	pPrefabManager.SavePrefab(quitMenuPrefab, "GameOverMenu");
 
 	//delete json;
 }

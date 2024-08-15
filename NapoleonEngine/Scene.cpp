@@ -212,21 +212,17 @@ Scene::Scene(const std::string& name)
 	: BaseScene(name),
 	m_pColliders(),
 	m_pSceneRenderer(new SceneRenderer{}),
-	m_pTransformSystem(m_pRegistry->RegisterSystem<TransformSystem>()),
-	m_pAudio(m_pRegistry->RegisterSystem<AudioSystem>()),
-	m_pTextRenderer(m_pRegistry->RegisterSystem<TextRendererSystem>()),
-	m_pECS_SceneRenderer(m_pRegistry->RegisterSystem<LayeredRendererSystem>()),
-	m_pBehaviours(m_pRegistry->RegisterSystem<BehaviourSystem>()),
-	m_pUi(m_pRegistry->RegisterSystem<UiSystem>()),
+	m_pTransformSystem(nullptr),
+	m_pAudio(nullptr),
+	m_pTextRenderer(nullptr),
+	m_pECS_SceneRenderer(nullptr),
+	m_pBehaviours(nullptr),
+	m_pUi(nullptr),
 	m_pActiveCamera(nullptr),
-	m_pCamera(m_pRegistry->RegisterSystem<CameraSystem>()),
+	m_pCamera(nullptr),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
-	m_pCameraObject = CreateGameObject();
-
-	m_pCameraObject->AddComponent<ECS_CameraComponent>();
-	SetActiveCamera(m_pCameraObject);
 }
 
 Scene::~Scene()
@@ -237,11 +233,28 @@ Scene::~Scene()
 void Scene::CleanUpScene()
 {
 	SafeDelete(m_pSceneRenderer);
+	m_pObjects.clear();
+	m_pSystems.clear();
+	m_pRegistry.reset();
 }
 
-void Scene::OnActivate()
+void Scene::OnLoad()
 {
 	Timer::GetInstance().SetTimeScale(1);
+	m_pRegistry = std::make_shared<Coordinator>();
+	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
+	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
+	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
+	m_pECS_SceneRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
+	m_pBehaviours = m_pRegistry->RegisterSystem<BehaviourSystem>();
+	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
+	m_pCamera = m_pRegistry->RegisterSystem<CameraSystem>();
+
+	m_pCameraObject = CreateGameObject();
+
+	m_pCameraObject->AddComponent<ECS_CameraComponent>();
+	SetActiveCamera(m_pCameraObject);
+
 	m_bIsActive = true;
 	CustomOnActivate();
 	DeclareInput();

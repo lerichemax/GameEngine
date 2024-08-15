@@ -50,6 +50,12 @@ void SoloScene::Initialize()
 	m_pPauseMenu->SetActive(false);
 	uiManager->SetPauseMenu(m_pPauseMenu);
 
+	//Game Over menu
+	auto gameOverMenu = Instantiate("GameOverMenu");
+	gameOverMenu->SetActive(false);
+	uiManager->SetGameOverMenu(gameOverMenu);
+
+	//Qbert
 	auto qbertObj = Instantiate("QBert");
 	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
 	auto qbert = qbertObj->GetComponent<QBert>();
