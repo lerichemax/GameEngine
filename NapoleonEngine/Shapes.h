@@ -34,7 +34,7 @@ namespace geo
 		void Deserialize(JsonReader const* reader) override;
 	};
 
-	struct Shape
+	struct Shape : public ISerializable
 	{
 		Color color;
 
@@ -47,6 +47,9 @@ namespace geo
 
 		virtual ~Shape() = default;
 
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
+
 	};
 
 	struct Point final : public Shape
@@ -54,13 +57,19 @@ namespace geo
 		glm::vec2 pos;
 
 		explicit Point(glm::vec2 const& pos, Color const& col);
+		Point() = default;
+
 		Point* Clone() const override { return new Point(*this); }
 
 		~Point() = default;
 
 		void Draw(SDL_Renderer* pRenderer) const override;
 
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
+
 	};
+
 	struct Circle;
 	struct Rectangle final : public Shape
 	{
@@ -72,12 +81,15 @@ namespace geo
 		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled = false);
 		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled = false);
 		explicit Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled = false);
+		Rectangle() = default;
 
 		Rectangle* Clone() const override { return new Rectangle(*this); }
 
-
 		void Draw(SDL_Renderer* pRenderer) const override;
-		void Fill(SDL_Renderer* pRenderer)const;
+		void Fill(SDL_Renderer* pRenderer) const;
+
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
 	};
 
 	struct Line final : public Shape
@@ -86,13 +98,14 @@ namespace geo
 		glm::vec2 endPos;
 
 		explicit Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col);
+		Line() = default;
 
 		Line* Clone() const override { return new Line(*this); }
 
-
 		void Draw(SDL_Renderer* pRenderer) const override;
 
-
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
 	};
 
 	struct Circle final : public Shape
@@ -102,11 +115,13 @@ namespace geo
 
 		explicit Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
 		explicit Circle(glm::vec2 const& center, unsigned int radius);
+		Circle() = default;
+
 		Circle* Clone() const override { return new Circle(*this); }
 
-
 		void Draw(SDL_Renderer* pRenderer) const override;
-
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader) override;
 
 	};
 

@@ -4,36 +4,19 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 
-void FPSCounter::Initialize()
-{
-	//m_pTextComp = m_pGameObject->GetComponent<TextRendererComponent>();
-}
+void FPSCounter::Serialize(StreamWriter& writer) const
+{ 
+	writer.WriteString("type", typeid(FPSCounter).name()); 
+	
+	BehaviourComponent::Serialize(writer);
+};
 
 void FPSCounter::Update()
 {
-	m_pTextComp->SetText("FPS " + std::to_string(Timer::GetInstance().GetFPS()));
-}
+	auto textRendererComp = GetGameObject()->GetComponent<TextRendererComponent>();
 
-void FPSCounterSystem::Update(ComponentManager* const pComponentManager)
-{
-	for (Entity const& entity : m_Entities)
+	if (textRendererComp != nullptr)
 	{
-		auto textRenderComp = pComponentManager->GetComponent<ECS_TextRendererComponent>(entity);
-
-		if (!textRenderComp->IsActive())
-		{
-			continue;
-		}
-
-		textRenderComp->m_Text = "FPS " + std::to_string(Timer::GetInstance().GetFPS());
+		textRendererComp->m_Text = "FPS " + std::to_string(Timer::GetInstance().GetFPS());
 	}
-}
-
-void FPSCounterSystem::SetSignature(Coordinator* const pRegistry)
-{
-	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TextRendererComponent>());
-	signature.set(pRegistry->GetComponentType<FPSCounterComponent>());
-
-	pRegistry->SetSystemSignature<FPSCounterSystem>(signature);
 }

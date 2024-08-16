@@ -1,7 +1,5 @@
 #pragma once
 
-class Observer;
-
 template<class T, typename... Types>
 class EventHandler final
 {

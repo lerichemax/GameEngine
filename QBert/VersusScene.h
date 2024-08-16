@@ -1,7 +1,7 @@
 #pragma once
 #include "QBertScene.h"
 
-class TextRendererComponent;
+struct TextRendererComponent;
 class Coily;
 class VersusScene final : public QBertScene
 {

@@ -2,9 +2,6 @@
 #include "Serializer.h"
 
 struct SDL_Texture;
-/**
-	* Simple RAII wrapper for an SDL_Texture
-	*/
 class Texture2D final : public ISerializable
 {
 	friend class ResourceManager;

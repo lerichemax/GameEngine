@@ -23,7 +23,6 @@ public:
 	Scene const* GetScene(std::string const& sceneName) const;
 	void AddScene(Scene* pScene);
 	void RenameScene(std::string const& oldName, std::string const& newName);
-	void SetSceneActive(std::string const& name);
 	void LoadScene(std::string const& name);
 	void ReloadCurrentScene();
 	Scene* GetActiveScene() const;
@@ -118,6 +117,7 @@ void SceneManager::SceneManagerImpl::LoadScene(std::string const& name)
 	}
 	
 	m_pNextActiveScene = scene;
+	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
 }
 
 void SceneManager::SceneManagerImpl::ReloadCurrentScene()
@@ -156,25 +156,6 @@ void SceneManager::SceneManagerImpl::RenameScene(std::string const& oldName, std
 		m_pScenesMap.insert({ newName, value });
 		value->m_Name = newName;
 	}
-}
-
-void SceneManager::SceneManagerImpl::SetSceneActive(std::string const& name)
-{
-	if (m_pScenesMap.find(name) == m_pScenesMap.end())
-	{
-		Debugger::GetInstance().LogError("No existing scene with the name " + name);
-		return;
-	}
-
-	if (m_pActiveScene != nullptr)
-	{
-		m_pActiveScene->m_bIsActive = false;
-	}
-	Renderer::GetInstance().SetBackgroundColor(0, 0, 0, 0);
-
-	auto newScene = m_pScenesMap.at(name);
-	newScene->m_bIsActive = true;
-	m_pNextActiveScene = newScene;
 }
 
 SceneManager::SceneManager()
@@ -227,9 +208,4 @@ void SceneManager::AddScene(Scene* pScene)
 void SceneManager::RenameScene(std::string const& oldName, std::string const& newName)
 {
 	m_pImpl->RenameScene(oldName, newName);
-}
-
-void SceneManager::SetSceneActive(std::string const& name)
-{
-	m_pImpl->SetSceneActive(name);
 }

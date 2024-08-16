@@ -273,6 +273,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="schema.h" />
     <ClInclude Include="Serializer.h" />
     <ClInclude Include="SerializerServiceLocator.h" />
+    <ClInclude Include="ShapeComponent.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
@@ -290,7 +291,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneRenderer.h" />
-    <ClInclude Include="SoundServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundInterface.h" />
@@ -371,6 +371,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="JsonReaderWriter.cpp" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="SerializerServiceLocator.cpp" />
+    <ClCompile Include="ShapeComponent.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -393,7 +394,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneRenderer.cpp" />
-    <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Subject.cpp" />

@@ -81,7 +81,7 @@ void GameManager::Notify(GameObject* object, int event)
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
 			Debugger::GetInstance().Log("GAME OVER");
-			m_pGameOver->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "Game Over";
+			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
 			Timer::GetInstance().SetTimeScale(0);
 			m_pGameOver->SetActive(true);
 			m_NbrDeadPlayers = 0;
@@ -116,10 +116,10 @@ void GameManager::UpdateLivesText(CharacterLives* pLives, int playerNbr)
 	switch (playerNbr)
 	{
 	case 1:
-		m_P1LivesCounter->SetText("P1 Lives: " + std::to_string(pLives->GetNbrLives()));
+		//m_P1LivesCounter->SetText("P1 Lives: " + std::to_string(pLives->GetNbrLives()));
 		break;
 	case 2:
-		m_P2LivesCounter->SetText("P2 Lives: " + std::to_string(pLives->GetNbrLives()));
+		//m_P2LivesCounter->SetText("P2 Lives: " + std::to_string(pLives->GetNbrLives()));
 		break;
 	}
 }
@@ -129,10 +129,10 @@ void GameManager::UpdatePointsText(CharacterPoint* pPoint, int playerNbr)
 	switch (playerNbr)
 	{
 	case 1:
-		m_pP1PointsCounter->SetText("P1 Points: " + std::to_string(pPoint->GetPoints()));
+		//m_pP1PointsCounter->SetText("P1 Points: " + std::to_string(pPoint->GetPoints()));
 		break;
 	case 2:
-		m_pP2PointsCounter->SetText("P2 Points: " + std::to_string(pPoint->GetPoints()));
+		//m_pP2PointsCounter->SetText("P2 Points: " + std::to_string(pPoint->GetPoints()));
 		break;
 	}
 }

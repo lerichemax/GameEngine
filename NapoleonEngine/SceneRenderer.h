@@ -5,7 +5,7 @@
 #include <memory>
 
 enum class Layer : uint8_t;
-class RendererComponent;
+struct RendererComponent;
 class Coordinator;
 class SceneRenderer final
 {

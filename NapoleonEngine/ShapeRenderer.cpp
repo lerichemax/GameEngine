@@ -1,26 +1,25 @@
 #include "PCH.h"
 #include "ShapeRenderer.h"
+#include "ShapeComponent.h"
 
-
-ShapeRenderer::ShapeRenderer(geo::Shape* pShape)
-	:RendererComponent(Layer::uiMenuBg),
-	m_pShape(pShape)
+void ShapeRenderer::Update(ComponentManager* const pComponentManager)
 {
+	for (Entity const& entity : m_Entities)
+	{
+		auto shape = pComponentManager->GetComponent<ShapeComponent>(entity);
+
+		if (shape != nullptr && shape->IsActive())
+		{
+			Renderer::GetInstance().RenderShape(*shape->m_pShape.get()); // remove singleton call ?
+		}
+	}
 }
 
-ShapeRenderer::ShapeRenderer(ShapeRenderer const& other)
-	:RendererComponent(other),
-	m_pShape(other.m_pShape->Clone())
+void ShapeRenderer::SetSignature(Coordinator* const pRegistry)
 {
-	
-}
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<ShapeComponent>());
 
-ShapeRenderer::~ShapeRenderer()
-{
-	delete m_pShape;
-}
-
-void ShapeRenderer::Render(TransformComponent const&) const
-{
-	Renderer::GetInstance().RenderShape(*m_pShape);
+	pRegistry->SetSystemSignature<ShapeRenderer>(signature);
 }

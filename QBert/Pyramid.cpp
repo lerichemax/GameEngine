@@ -55,10 +55,10 @@ void Pyramid::Initialize()
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
 			
-			lastPos.x += pQube->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
+			lastPos.x += pQube->GetComponent<RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
 		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 

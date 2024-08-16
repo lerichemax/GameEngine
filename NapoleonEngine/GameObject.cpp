@@ -11,18 +11,14 @@ GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
 	:m_pRegistry(pRegistry), 
 	m_Entity(pRegistry.lock()->CreateEntity()),
 	m_bIsActive(true),
-	m_bIsDestroyed(false),
-	m_pScene(nullptr),
-	m_pSubject(new Subject{})
+	m_bIsDestroyed(false)
 {
 }
 
 GameObject::GameObject(const GameObject& other)
 	:m_Entity(m_pRegistry->CreateEntity()),
 	m_bIsActive(true),
-	m_bIsDestroyed(false),
-	m_pScene(nullptr),
-	m_pSubject(new Subject{*other.m_pSubject})
+	m_bIsDestroyed(false)
 {
 
 }
@@ -30,8 +26,6 @@ GameObject::GameObject(const GameObject& other)
 GameObject::~GameObject()
 {
 	m_pRegistry->DestroyEntity(m_Entity);
-
-	SafeDelete(m_pSubject);
 }
 
 void GameObject::Refresh()
@@ -61,21 +55,6 @@ void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
 
 	//pChild->m_pScene = m_pScene; //remove ?
-}
-
-void GameObject::AddObserver(Observer* pObserver) const
-{
-	m_pSubject->AddObserver(pObserver);
-}
-
-void GameObject::RemoveObserver(Observer* pObserver) const
-{
-	m_pSubject->RemoveObserver(pObserver);
-}
-
-void GameObject::Notify(int event)
-{
-	m_pSubject->Notify(this, event);
 }
 
 void GameObject::SetTag(std::string const& tag, bool applyToChildren)

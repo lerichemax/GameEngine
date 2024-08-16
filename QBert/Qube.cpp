@@ -33,10 +33,10 @@ void Qube::Initialize()
 {
 	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
 
-	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
+	GetGameObject()->GetComponent<RendererComponent>()->m_pTexture = m_pDefaultText;
 
-	m_CharacterPos.x = GetGameObject()->GetTransform()->GetPosition().x + GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetWidth() / 4;
-	m_CharacterPos.y = GetGameObject()->GetTransform()->GetPosition().y - GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture->GetHeight() / 5;
+	m_CharacterPos.x = GetGameObject()->GetTransform()->GetPosition().x + GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetWidth() / 4;
+	m_CharacterPos.y = GetGameObject()->GetTransform()->GetPosition().y - GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetHeight() / 5;
 
 	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
 	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
@@ -74,7 +74,7 @@ void Qube::HandleQBertLanding()
 	case Level::Level2:
 		if (m_JumpCounter < 1)
 		{
-			GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pIntermediateTexture;
+			GetGameObject()->GetComponent<RendererComponent>()->m_pTexture = m_pIntermediateTexture;
 			m_JumpCounter++;
 		}
 		else 
@@ -239,7 +239,7 @@ void Qube::Flip()
 {
 	if (!m_bIsFlipped)
 	{
-		GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pFlippedTexture;
+		GetGameObject()->GetComponent<RendererComponent>()->m_pTexture = m_pFlippedTexture;
 		m_bIsFlipped = true;
 		m_JumpCounter++;
 		OnAnyQubeFlipped.Notify();
@@ -249,7 +249,7 @@ void Qube::Flip()
 void Qube::UnFlip()
 {
 	m_bIsFlipped = false;
-	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
+	GetGameObject()->GetComponent<RendererComponent>()->m_pTexture = m_pDefaultText;
 	m_JumpCounter=0;
 }
 
@@ -269,7 +269,7 @@ void Qube::Reset(Level level)
 	//}
 	//m_pDiskConnection = nullptr;
 	
-	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_pTexture = m_pDefaultText;
+	GetGameObject()->GetComponent<RendererComponent>()->m_pTexture = m_pDefaultText;
 }
 
 ColoredDisk* Qube::GetConnectedDisk() const

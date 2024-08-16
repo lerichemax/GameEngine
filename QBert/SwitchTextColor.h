@@ -6,7 +6,7 @@
 #include "Shapes.h"
 
 
-struct ECS_TextRendererComponent;
+struct TextRendererComponent;
 class SwitchTextColor final : public Command
 {
 public:

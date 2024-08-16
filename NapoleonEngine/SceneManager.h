@@ -15,10 +15,8 @@ public:
 	SceneManager& operator=(SceneManager const& rhs) = delete;
 	SceneManager& operator=(SceneManager&& rhs) = delete;
 		
-	Scene const* GetScene(std::string const& sceneName) const;
 	void AddScene(Scene* pScene);
 	void RenameScene(std::string const& oldName, std::string const& newName);
-	void SetSceneActive(std::string const& name);
 	void LoadScene(std::string const& name);
 	void ReloadCurrentScene();
 	Scene* GetActiveScene() const;

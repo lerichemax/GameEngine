@@ -9,6 +9,7 @@
 #include "System.h"
 #include "BehaviourSystem.h"
 #include "UiSystem.h"
+#include "ShapeRenderer.h"
 
 #include "PrefabsManager.h"
 
@@ -39,7 +40,6 @@ BaseScene::BaseScene(const std::string& name)
 BaseScene::~BaseScene()
 {
 	m_pObjects.clear();
-	m_pSystems.clear();
 }
 
 std::shared_ptr<GameObject> BaseScene::CreateGameObject()
@@ -100,12 +100,6 @@ void BaseScene::Serialize(StreamWriter& writer) const
 		writer.EndObject();
 	}
 	writer.EndArray();
-	writer.StartArray("systems");
-	for (std::shared_ptr<System> pSystem : m_pSystems)
-	{
-		writer.WriteStringNoKey(pSystem->GetNameForSerialization());
-	}
-	writer.EndArray();
 	writer.EndObject();
 }
 
@@ -113,16 +107,6 @@ void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	auto prefab = reader->ReadObject("Prefab");
 	//prefab->ReadString("name", m_Name);
-
-	auto systems = prefab->ReadArray("systems");
-	for (SizeType i = 0; i < systems->GetArraySize(); i++)
-	{
-		auto pNewSystem = m_pRegistry->AddSystemFromName(systems->ReadArrayIndexAsString(i));
-		if (pNewSystem != nullptr)
-		{
-			m_pSystems.push_back(pNewSystem);
-		}
-	}
 
 	auto objects = prefab->ReadArray("gameobjects");
 
@@ -211,14 +195,12 @@ void Prefab::SetName(std::string const& name)
 Scene::Scene(const std::string& name)
 	: BaseScene(name),
 	m_pColliders(),
-	m_pSceneRenderer(new SceneRenderer{}),
 	m_pTransformSystem(nullptr),
 	m_pAudio(nullptr),
 	m_pTextRenderer(nullptr),
-	m_pECS_SceneRenderer(nullptr),
+	m_pLayeredRenderer(nullptr),
 	m_pBehaviours(nullptr),
 	m_pUi(nullptr),
-	m_pActiveCamera(nullptr),
 	m_pCamera(nullptr),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
@@ -232,9 +214,7 @@ Scene::~Scene()
 
 void Scene::CleanUpScene()
 {
-	SafeDelete(m_pSceneRenderer);
 	m_pObjects.clear();
-	m_pSystems.clear();
 	m_pRegistry.reset();
 }
 
@@ -245,7 +225,8 @@ void Scene::OnLoad()
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
-	m_pECS_SceneRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
+	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
+	m_pShapeRenderer = m_pRegistry->RegisterSystem<ShapeRenderer>();
 	m_pBehaviours = m_pRegistry->RegisterSystem<BehaviourSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
 	m_pCamera = m_pRegistry->RegisterSystem<CameraSystem>();
@@ -256,18 +237,15 @@ void Scene::OnLoad()
 	SetActiveCamera(m_pCameraObject);
 
 	m_bIsActive = true;
-	CustomOnActivate();
+	
 	DeclareInput();
 	Initialize();
+
+	Renderer::GetInstance().SetBackgroundColor(m_BackgroundColor);
 }
 
 void Scene::Update()
 {	
-	for (auto& pSystem : m_pSystems)
-	{
-		pSystem->Update(m_pRegistry->GetComponentManager());
-	}
-
 	m_pBehaviours->Update(m_pRegistry->GetComponentManager());
 	m_pTransformSystem->Update(m_pRegistry->GetComponentManager());
 	m_pUi->Update(m_pRegistry->GetComponentManager());
@@ -288,8 +266,9 @@ void Scene::Render() const
 	glPushMatrix();
 	{
 		m_pCamera->Update(m_pRegistry->GetComponentManager());
+		m_pShapeRenderer->Update(m_pRegistry->GetComponentManager());
 		m_pTextRenderer->Update(m_pRegistry->GetComponentManager());
-		m_pECS_SceneRenderer->Update(m_pRegistry->GetComponentManager());
+		m_pLayeredRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
 }
@@ -300,16 +279,6 @@ void Scene::Refresh()
 		{
 			return pGo->m_bIsDestroyed;
 		}),m_pObjects.end());
-}
-
-void Scene::AddToGroup(RendererComponent* pRenderer, Layer layer) const
-{
-	m_pSceneRenderer->AddToGroup(pRenderer, layer);
-}
-
-void Scene::RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const
-{
-	m_pSceneRenderer->RemoveFromGroup(pRenderer, layer);
 }
 
 

@@ -21,7 +21,6 @@ public:
 	Level GetLevel()const { return m_Level; }
 	virtual void ResetScene(Level newLevel) = 0;
 	virtual void ResetGame() = 0;
-	void CustomOnActivate() override;
 	
 	bool IsPaused()const { return m_bIsPaused; }
 	void SetIsPaused(bool isPaused) { m_bIsPaused = isPaused; }

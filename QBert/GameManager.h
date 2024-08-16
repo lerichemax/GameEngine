@@ -25,7 +25,7 @@ enum class Level
 };
 
 
-class TextRendererComponent;
+struct TextRendererComponent;
 class Pyramid;
 class CoilyManager;
 class SlickSamManager;

@@ -1,34 +1,10 @@
 #pragma once
-#include "RendererComponent.h"
+#include "System.h"
 
-struct Shape;
-class ShapeRenderer final : public RendererComponent
+class ShapeRenderer final : public System
 {
 public:
-	explicit ShapeRenderer(geo::Shape* pShape);
-	ShapeRenderer* Clone() const override { return new ShapeRenderer(*this); }
+	void Update(ComponentManager* const pComponentManager) override;
 
-	ShapeRenderer(ShapeRenderer&& other) = delete;
-	ShapeRenderer& operator=(ShapeRenderer const& rhs) = delete;
-	ShapeRenderer& operator=(ShapeRenderer&& rhs) = delete;
-	~ShapeRenderer();
-
-	//void Serialize(StreamWriter& writer) const override { writer.WriteString(" ", " "); };
-	//void Deserialize(JsonReader const* reader, SerializationMap& context) override
-	//{
-	//	int t;
-	//	reader->ReadInt(" ", t);
-	//	context.Add(99999999);
-	//};
-
-	//void RestoreContext(JsonReader const* reader, SerializationMap const& context);
-
-protected:
-	void Render(TransformComponent const& transform) const override;
-	
-private:
-	geo::Shape* m_pShape;
-
-		
-	ShapeRenderer(ShapeRenderer const& other);
+	void SetSignature(Coordinator* const pRegistry) override;
 };

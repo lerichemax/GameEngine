@@ -8,7 +8,7 @@
 
 void CharacterMovement::Start()
 {
-	m_pRenderer = GetGameObject()->GetComponent<ECS_RendererComponent>();
+	m_pRenderer = GetGameObject()->GetComponent<RendererComponent>();
 	m_pJumper = GetGameObject()->GetComponent<Jumper>();
 
 	if (m_pJumper != nullptr)

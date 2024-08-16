@@ -10,7 +10,6 @@
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "Renderer.h"
-#include "SoundServiceLocator.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
 #include "SerializerServiceLocator.h"
@@ -77,15 +76,14 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	auto fpsCounterObject = fpsCounterPrefab->GetRoot();
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
-	auto txtRenderer = fpsCounterObject->AddComponent<ECS_TextRendererComponent>();
+	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
 	txtRenderer->m_Text = "FPS";
 	txtRenderer->m_pFont = font;
 	
 
-	fpsCounterObject->AddComponent<FPSCounterComponent>();
-	fpsCounterObject->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
+	fpsCounterObject->AddComponent<FPSCounter>();
+	fpsCounterObject->AddComponent<RendererComponent>()->m_Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
-	fpsCounterPrefab->AddSystem<FPSCounterSystem>(); 
 
 	PrefabsManager::GetInstance().SavePrefab(fpsCounterPrefab, "FPSCounter");
 
@@ -118,13 +116,6 @@ void NapoleonEngine::RegisterSingleton(SingletonWrapper* singleton)
 
 void NapoleonEngine::Cleanup()
 {
-	auto pService = &SoundServiceLocator::GetService();
-	if (typeid(*pService) != typeid(NullSoundInterface))
-	{
-		delete pService;
-	}
-	pService = nullptr;
-
 	for (size_t i = 0; i < m_Singletons.size(); i++)
 	{
 		delete m_Singletons[i];

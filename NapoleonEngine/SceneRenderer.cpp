@@ -27,7 +27,7 @@ void SceneRenderer::Render()
 void SceneRenderer::AddToGroup(RendererComponent* pRenderer, Layer layer)
 {
 	m_pLayersGroup[static_cast<int>(layer)].emplace_back(pRenderer);
-	pRenderer->m_pSceneRenderer = this;
+	//pRenderer->m_pSceneRenderer = this;
 }
 
 void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
@@ -39,12 +39,12 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
 	std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [&pComponentManager](Entity a, Entity b) {
-		return pComponentManager->GetComponent<ECS_RendererComponent>(a)->m_Layer < pComponentManager->GetComponent<ECS_RendererComponent>(b)->m_Layer;
+		return pComponentManager->GetComponent<RendererComponent>(a)->m_Layer < pComponentManager->GetComponent<RendererComponent>(b)->m_Layer;
 		});
 
 	for (Entity const& entity : m_EntityPerLayer)
 	{
-		auto renderComp = pComponentManager->GetComponent<ECS_RendererComponent>(entity);
+		auto renderComp = pComponentManager->GetComponent<RendererComponent>(entity);
 		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
 
 		if (!renderComp->IsActive() || !transComp->IsActive())
@@ -64,7 +64,7 @@ void LayeredRendererSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_RendererComponent>());
+	signature.set(pRegistry->GetComponentType<RendererComponent>());
 
 	pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
 }
@@ -79,8 +79,8 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto textRenderComp = pComponentManager->GetComponent<ECS_TextRendererComponent>(entity);
-		auto renderComp = pComponentManager->GetComponent<ECS_RendererComponent>(entity);
+		auto textRenderComp = pComponentManager->GetComponent<TextRendererComponent>(entity);
+		auto renderComp = pComponentManager->GetComponent<RendererComponent>(entity);
 
 		if (!textRenderComp->IsActive())
 		{
@@ -111,8 +111,8 @@ void TextRendererSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_RendererComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_TextRendererComponent>());
+	signature.set(pRegistry->GetComponentType<RendererComponent>());
+	signature.set(pRegistry->GetComponentType<TextRendererComponent>());
 
 	pRegistry->SetSystemSignature<TextRendererSystem>(signature);
 }

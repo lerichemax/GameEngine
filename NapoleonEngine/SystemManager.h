@@ -29,9 +29,6 @@ private:
 
 	std::unordered_map<std::string, Signature> m_Signatures;
 	std::unordered_map<std::string, std::shared_ptr<System>> m_Systems;
-
-	std::shared_ptr<System> AddSystemFromName(std::string const& str, Coordinator* const pRegistry);
-	std::shared_ptr<System> CreateSystemFromName(std::string const& str) const;
 };
 
 template <SystemDerived T>

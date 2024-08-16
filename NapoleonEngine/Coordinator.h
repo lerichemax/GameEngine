@@ -49,7 +49,6 @@ public:
 	void TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
-	std::shared_ptr<System> AddSystemFromName(std::string const& str);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;

@@ -221,14 +221,8 @@
     <ClInclude Include="writer.h">
       <Filter>rapidjson</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeRenderer.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundServiceLocator.h">
-      <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>ECS\Components</Filter>
@@ -290,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeRenderer.h">
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -389,15 +389,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeRenderer.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Subject.cpp">
       <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundServiceLocator.cpp">
-      <Filter>Audio</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
@@ -447,6 +441,12 @@
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeRenderer.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeComponent.cpp">
+      <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ void UIManager::Start()
 		});
 
 	characterLives->OnGameOver.Subscribe([this]() {
-		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "Game Over";
+		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
 		m_pGameOverMenu->SetActive(true);
 		});
 
@@ -27,17 +27,17 @@ void UIManager::Start()
 		});
 
 	FindComponentOfType<GameManagerBehaviour>()->OnGameEnded.Subscribe([this]() {
-		m_pGameOverMenu->GetComponentInChildren<ECS_TextRendererComponent>()->m_Text = "You Win";
+		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "You Win";
 		m_pGameOverMenu->SetActive(true);
 	});
 }
 
-void UIManager::SetP1PointsCounter(std::shared_ptr<ECS_TextRendererComponent> p1Points)
+void UIManager::SetP1PointsCounter(std::shared_ptr<TextRendererComponent> p1Points)
 {
 	m_pP1PointsCounter = p1Points;
 }
 
-void UIManager::SetP1LivesCounter(std::shared_ptr<ECS_TextRendererComponent> p1Lives)
+void UIManager::SetP1LivesCounter(std::shared_ptr<TextRendererComponent> p1Lives)
 {
 	m_P1LivesCounter = p1Lives;
 }

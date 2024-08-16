@@ -5,7 +5,7 @@
 struct AudioComponent;
 struct ECS_CharacterLives;
 class ECS_CharacterPoint;
-struct ECS_RendererComponent;
+struct RendererComponent;
 class QBert final : public Character
 {
 public:
@@ -42,7 +42,7 @@ protected:
 private:
 	std::shared_ptr<ECS_CharacterPoint> m_pPoints;
 	std::shared_ptr<ECS_CharacterLives> m_pLives;
-	std::shared_ptr<ECS_RendererComponent> m_pHurtTex;
+	std::shared_ptr<RendererComponent> m_pHurtTex;
 
 	std::shared_ptr<AudioComponent> m_pJumpSound;
 	std::shared_ptr<AudioComponent> m_pFallSound;

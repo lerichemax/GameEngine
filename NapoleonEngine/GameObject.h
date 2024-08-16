@@ -35,15 +35,10 @@ public:
 	void SetActive(bool active, bool includeChildren = true);
 	void Destroy();
 		
-	Scene* const GetParentScene() const { return m_pScene; }
-		
 	bool IsActive() const;
 	std::string GetTag() const; //add compareTag function
 	Entity GetEntity() const { return m_Entity; }
 		
-	void AddObserver(Observer* pObserver) const;
-	void RemoveObserver(Observer* pObserver) const;
-	void Notify(int event);
 	void SetTag(std::string const& tag, bool applyToChildren = false);
 
 	void Serialize(StreamWriter& writer) const override;
@@ -64,9 +59,6 @@ private:
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
-		
-	Scene* m_pScene;
-	Subject* m_pSubject;
 		
 	void Refresh();
 };

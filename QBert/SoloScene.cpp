@@ -42,8 +42,8 @@ void SoloScene::Initialize()
 
 	auto uiManagerObj = CreateGameObject();
 	auto uiManager = uiManagerObj->AddComponent<UIManager>();
-	uiManager->SetP1LivesCounter(livesP1->GetComponent<ECS_TextRendererComponent>());
-	uiManager->SetP1PointsCounter(pointsP1->GetComponent<ECS_TextRendererComponent>());
+	uiManager->SetP1LivesCounter(livesP1->GetComponent<TextRendererComponent>());
+	uiManager->SetP1PointsCounter(pointsP1->GetComponent<TextRendererComponent>());
 
 	//Pause Menu
 	m_pPauseMenu = Instantiate("PauseMenu");
@@ -61,7 +61,7 @@ void SoloScene::Initialize()
 	auto qbert = qbertObj->GetComponent<QBert>();
 	qbert->SetPlayerNbr(1);
 
-	livesP1->GetComponent<ECS_TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
+	livesP1->GetComponent<TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
 	
 	auto const pyramidObj = Instantiate("Pyramid");
 	auto pyramid = pyramidObj->GetComponent<Pyramid>();

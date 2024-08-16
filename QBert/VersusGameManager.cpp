@@ -81,7 +81,7 @@ void VersusGameManager::Notify(GameObject* object, int event)
 void VersusGameManager::UpdateRound()
 {
 	m_CurrentRound++;
-	m_pRoundText->SetText("Round " + std::to_string(m_CurrentRound));
+	//m_pRoundText->SetText("Round " + std::to_string(m_CurrentRound));
 }
 
 void VersusGameManager::UpdateCharacterPoint(CharacterPoint* pCharacterPoints)

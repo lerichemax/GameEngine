@@ -55,11 +55,6 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
-std::shared_ptr<System> Coordinator::AddSystemFromName(std::string const& str)
-{
-	return m_pSystemManager->AddSystemFromName(str, this);
-}
-
 void Coordinator::SetEntityActive(Entity entity, bool isActive)
 {
 	auto components = m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));

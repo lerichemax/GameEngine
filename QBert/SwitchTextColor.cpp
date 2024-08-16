@@ -13,7 +13,7 @@ void SwitchTextColor::Execute(GameObject* const gObject)
 {
 	if (gObject != nullptr)
 	{
-		auto pText = gObject->GetComponent<ECS_TextRendererComponent>();
+		auto pText = gObject->GetComponent<TextRendererComponent>();
 		if (pText != nullptr)
 		{
 			pText->SetTextColor(m_TargetColor.R, m_TargetColor.G, m_TargetColor.B);

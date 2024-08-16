@@ -165,9 +165,9 @@ void VersusScene::ResetGame()
 	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 	//m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
 	
-	m_pRoundText->SetText("Round 1");
-	m_pTextP1->SetText("P1: 0");
-	m_pTextP2->SetText("P2: 0");
+	//m_pRoundText->SetText("Round 1");
+	//m_pTextP1->SetText("P1: 0");
+	//m_pTextP2->SetText("P2: 0");
 	SetIsPaused(false);
 	m_pPauseMenu->SetActive(false);
 	m_pGameOverMenu->SetActive(false);

@@ -22,7 +22,6 @@
 #include "BoxCollider.h"
 #include "GameManager.h"
 #include "OnQubeState.h"
-#include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 #include "CharacterMovement.h"
 #include "AudioComponent.h"
@@ -57,7 +56,7 @@ void QBert::Initialize()
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
-	m_pHurtTex = GetGameObject()->GetComponentInChildren<ECS_RendererComponent>();
+	m_pHurtTex = GetGameObject()->GetComponentInChildren<RendererComponent>();
 	m_pHurtTex->SetActive(false);
 
 	Character::Initialize();
@@ -84,7 +83,7 @@ void QBert::Start()
 	auto jumper = GetGameObject()->GetComponent<Jumper>();
 	jumper->OnJumpedToDeath.Subscribe([this]() {
 		m_pFallSound->Play();
-		GetGameObject()->GetComponent<ECS_RendererComponent>()->m_Layer = 1;
+		GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 1;
 		});
 
 	jumper->OnFell.Subscribe([this]() {
@@ -119,15 +118,15 @@ void QBert::DoDie()
 
 	}
 
-	if (m_pLives->IsGameOver())
-	{
-		GetGameObject()->Notify(static_cast<int>(GameEvent::GameOver));
-	}
-	else
-	{
-		GetGameObject()->Notify(static_cast<int>(GameEvent::PlayerDied));
-		GetGameObject()->Notify(static_cast<int>(VersusGameEvent::Player1Died));
-	}
+	//if (m_pLives->IsGameOver())
+	//{
+	//	GetGameObject()->Notify(static_cast<int>(GameEvent::GameOver));
+	//}
+	//else
+	//{
+	//	GetGameObject()->Notify(static_cast<int>(GameEvent::PlayerDied));
+	//	GetGameObject()->Notify(static_cast<int>(VersusGameEvent::Player1Died));
+	//}
 }
 
 void QBert::Swear()const
@@ -170,8 +169,6 @@ void QBert::RestoreContext(JsonReader const* reader, SerializationMap const& con
 void QBert::EarnPoints(int points)
 {
 	m_pPoints->AddPoints(points);
-	GetGameObject()->Notify(static_cast<int>(GameEvent::IncreasePoints));
-	GetGameObject()->Notify(static_cast<int>(VersusGameEvent::IncreasePoints));
 }
 
 void QBert::DoMove(ConnectionDirection direction)
@@ -213,7 +210,7 @@ void QBert::DoMove(ConnectionDirection direction)
 void QBert::JumpOffDisk()
 {
 	SwitchState(new OnQubeState(this, m_pJumper));
-	GetGameObject()->Notify(static_cast<int>(GameEvent::JumpOffDisk));
+	//GetGameObject()->Notify(static_cast<int>(GameEvent::JumpOffDisk));
 	//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(true);
 	m_bCanMove = true;
 }
@@ -222,7 +219,7 @@ void QBert::Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube)
 {
 	GetGameObject()->GetComponent<CharacterMovement>()->SetCurrentQube(pTargetQube);
 	GetGameObject()->SetActive(true, false);
-	GetGameObject()->GetComponent<ECS_RendererComponent>()->m_Layer = 8;
+	GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 8;
 
 	if (!fullReset)
 	{
@@ -234,8 +231,8 @@ void QBert::Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube)
 	m_pPoints->Reset();
 	
 	//Notify these events to update the HUD
-	GetGameObject()->Notify(static_cast<int>(GameEvent::PlayerDied));
-	GetGameObject()->Notify(static_cast<int>(GameEvent::IncreasePoints));
+	//GetGameObject()->Notify(static_cast<int>(GameEvent::PlayerDied));
+	//GetGameObject()->Notify(static_cast<int>(GameEvent::IncreasePoints));
 }
 
 void QBert::MeetCharacter(Character* pOther) 

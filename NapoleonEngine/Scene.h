@@ -6,9 +6,8 @@
 
 #include <memory>
 
-enum class Layer : uint8_t;
 class SceneRenderer;
-class RendererComponent;
+struct RendererComponent;
 class GameObject;
 class CameraComponent;
 class CameraSystem;
@@ -45,10 +44,6 @@ protected:
 
 	std::string m_Name;
 	std::vector<std::shared_ptr<GameObject>> m_pObjects;
-	std::vector<std::shared_ptr<System>> m_pSystems;
-
-	template <typename T> void AddSystem();
-	template <typename T> void AddSystem(Signature signature);
 
 	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
 
@@ -75,6 +70,7 @@ private:
 	std::shared_ptr<GameObject> m_pRootObject;
 };
 
+class ShapeRenderer;
 class Scene : public BaseScene
 {
 public:
@@ -87,14 +83,12 @@ public:
 		
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
-	void AddToGroup(RendererComponent* pRenderer, Layer layer) const;
-	void RemoveFromGroup(RendererComponent* pRenderer, Layer layer) const;
-	void SetCameraActive(CameraComponent* pCamera) { m_pActiveCamera = pCamera; }
 
 protected:
-	virtual void CustomOnActivate(){}
 	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
 	std::shared_ptr<GameObject> GetCameraObject() const;
+
+	Color m_BackgroundColor{ 0,0,0,0 };
 
 private:
 	friend void ColliderComponent::Initialize();
@@ -110,9 +104,9 @@ private:
 		
 	std::vector<ColliderComponent*> m_pColliders;
 		
-	SceneRenderer* m_pSceneRenderer; //deprecated
 	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
-	std::shared_ptr<LayeredRendererSystem> m_pECS_SceneRenderer;
+	std::shared_ptr<LayeredRendererSystem> m_pLayeredRenderer;
+	std::shared_ptr<ShapeRenderer> m_pShapeRenderer;
 	std::shared_ptr<TransformSystem> m_pTransformSystem;
 	std::shared_ptr<AudioSystem> m_pAudio;
 	std::shared_ptr<CameraSystem> m_pCamera;
@@ -120,7 +114,6 @@ private:
 	std::shared_ptr<UiSystem> m_pUi;
 
 	std::shared_ptr<GameObject> m_pCameraObject;
-	CameraComponent* m_pActiveCamera; //deprecated
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -136,15 +129,3 @@ private:
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
-
-template <typename T>
-void BaseScene::AddSystem()
-{
-	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
-}
-
-template <typename T>
-void BaseScene::AddSystem(Signature signature)
-{
-	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>(signature));
-}

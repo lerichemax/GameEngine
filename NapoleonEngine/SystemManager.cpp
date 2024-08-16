@@ -30,33 +30,3 @@ void SystemManager::EntitySignatureChanged(Entity entity, Signature const& entit
 		}
 	}
 }
-
-std::shared_ptr<System> SystemManager::AddSystemFromName(std::string const& str, Coordinator* const pRegistry)
-{
-	if (str == "Not for serialization")
-	{
-		return nullptr;
-	}
-
-	m_Signatures.insert(std::make_pair(str, Signature{}));
-	m_Systems.insert(std::make_pair(str, nullptr));
-
-	auto pSystem = CreateSystemFromName(str);
-	pSystem->SetSignature(pRegistry);
-	if (pSystem != nullptr)
-	{
-		m_Systems[str] = pSystem;
-	}
-
-	return pSystem;
-}
-
-std::shared_ptr<System> SystemManager::CreateSystemFromName(std::string const& name) const
-{
-	if (name == "class FPSCounterSystem")
-	{
-		return std::static_pointer_cast<System>(std::make_shared<FPSCounterSystem>());
-	}
-	
-	return nullptr;
-}

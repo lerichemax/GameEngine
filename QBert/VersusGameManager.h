@@ -2,7 +2,7 @@
 #include "Observer.h"
 
 
-class TextRendererComponent;
+struct TextRendererComponent;
 
 enum class VersusGameEvent
 {

@@ -19,8 +19,10 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
+	m_BackgroundColor = { 0, 77, 153, 1 };
+
 	std::shared_ptr<GameObject> titleObject = CreateGameObject();
-	auto rendererComp = titleObject->AddComponent<ECS_RendererComponent>();
+	auto rendererComp = titleObject->AddComponent<RendererComponent>();
 	rendererComp->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
 	rendererComp->m_Layer = 10;
 
@@ -29,10 +31,10 @@ void MainMenuScene::Initialize()
 
 	std::shared_ptr<GameObject> soloBtn = CreateGameObject();
 
-	auto txt = soloBtn->AddComponent<ECS_TextRendererComponent>();
+	auto txt = soloBtn->AddComponent<TextRendererComponent>();
 	txt->m_Text = "Solo";
 	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
-	soloBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
+	soloBtn->AddComponent<RendererComponent>()->m_Layer = 10;
 
 	auto btn = soloBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 70,30 };
@@ -44,11 +46,11 @@ void MainMenuScene::Initialize()
 
 	auto coopBtn = CreateGameObject();
 
-	txt = coopBtn->AddComponent<ECS_TextRendererComponent>();
+	txt = coopBtn->AddComponent<TextRendererComponent>();
 	txt->m_Text = "Co-op";
 	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	coopBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
+	coopBtn->AddComponent<RendererComponent>()->m_Layer = 10;
 
 	btn = coopBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 80, 30 };
@@ -60,11 +62,11 @@ void MainMenuScene::Initialize()
 
 	auto vsBtn = CreateGameObject();
 	
-	txt = vsBtn->AddComponent<ECS_TextRendererComponent>();
+	txt = vsBtn->AddComponent<TextRendererComponent>();
 	txt->m_Text = "Versus";
 	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	vsBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
+	vsBtn->AddComponent<RendererComponent>()->m_Layer = 10;
 
 	btn = vsBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 92, 30 };
@@ -76,11 +78,11 @@ void MainMenuScene::Initialize()
 
 	auto quitBtn = CreateGameObject();
 
-	txt = quitBtn->AddComponent<ECS_TextRendererComponent>();
+	txt = quitBtn->AddComponent<TextRendererComponent>();
 	txt->m_Text = "Quit";
 	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
 
-	quitBtn->AddComponent<ECS_RendererComponent>()->m_Layer = 10;
+	quitBtn->AddComponent<RendererComponent>()->m_Layer = 10;
 
 	btn = quitBtn->AddComponent<ECS_ButtonComponent>();
 	btn->m_Dimensions = { 70, 30 };
@@ -93,9 +95,4 @@ void MainMenuScene::Initialize()
 	Instantiate("FPSCounter");
 
 	GetCameraObject()->GetComponent<ECS_TransformComponent>()->Translate(450, 300);
-}
-
-void MainMenuScene::CustomOnActivate()
-{
-	Renderer::GetInstance().SetBackgroundColor(0, 77, 153, 1);
 }

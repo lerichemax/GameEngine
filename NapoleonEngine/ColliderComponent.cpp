@@ -17,12 +17,12 @@ ColliderComponent::ColliderComponent(Type type)
 
 ColliderComponent::~ColliderComponent()
 {
-	m_pGameObject->GetParentScene()->RemoveCollider(this);
+	//m_pGameObject->GetParentScene()->RemoveCollider(this);
 }
 
 void ColliderComponent::Initialize()
 {
-	m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
+	//m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
 }
 
 void ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderComponent* pOther)

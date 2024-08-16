@@ -19,7 +19,7 @@ void TestScene::Initialize()
 {
 	auto testObject = CreateGameObject();
 
-	auto renderer = testObject->AddComponent<ECS_RendererComponent>();
+	auto renderer = testObject->AddComponent<RendererComponent>();
 	renderer->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
 	renderer->m_Layer = 11;
 

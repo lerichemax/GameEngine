@@ -119,7 +119,7 @@ void Renderer::RenderTexture(const Texture2D& texture, ECS_TransformComponent co
 	glPopMatrix();
 }
 
-void Renderer::RenderShape(geo::Shape const& pShape) const
+void Renderer::RenderShape(geo::Shape const& pShape) const 
 {
 	pShape.Draw(m_pRenderer);
 }

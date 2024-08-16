@@ -12,7 +12,6 @@
 #include "JumpingState.h"
 
 #include "GameManager.h"
-#include "SoundServiceLocator.h"
 #include "VersusGameManager.h"
 
 Coily::Coily(unsigned int fallSoundId)
@@ -62,7 +61,7 @@ void Coily::DoMove(ConnectionDirection direction)
 
 void Coily::FallSound() const
 {
-	SoundServiceLocator::GetService().Play(m_FallSoundId, 50);
+	//SoundServiceLocator::GetService().Play(m_FallSoundId, 50);
 }
 
 
@@ -88,10 +87,10 @@ void Coily::DoDie()
 	if (m_pController != nullptr && m_pController->IsEnable())
 	{
 		Enemy::DoDie();
-		GetGameObject()->Notify(static_cast<int>(GameEvent::CoilyDies));
+		//GetGameObject()->Notify(static_cast<int>(GameEvent::CoilyDies));
 	}
 	
-	GetGameObject()->Notify(static_cast<int>(VersusGameEvent::Player2Died));
+	//GetGameObject()->Notify(static_cast<int>(VersusGameEvent::Player2Died));
 }
 
 void Coily::Transform(bool isTransformed)
@@ -99,7 +98,7 @@ void Coily::Transform(bool isTransformed)
 	m_bIsTransformed = isTransformed;
 	if (m_bIsTransformed)
 	{
-		GetGameObject()->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
+		//GetGameObject()->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
 	}
 	//else
 	//{
