@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include "RendererComponent.h"
+#include "TextureRendererComponent.h"
 #include "ObserverManager.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
@@ -11,6 +11,7 @@
 
 #include "QBert.h"
 #include "Qube.h"
+#include "Texture2D.h"
 
 #include <list>
 
@@ -55,10 +56,10 @@ void Pyramid::Initialize()
 				m_pQubes.back()->SetIsSideColumn(true);
 			}
 			
-			lastPos.x += pQube->GetComponent<RendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
+			lastPos.x += pQube->GetComponent<TextureRendererComponent>()->m_pTexture->GetWidth() * pQube->GetTransform()->GetScale().x;
 		}
-		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
-		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<RendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
+		startPos.x += m_pQubes.back()->GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture->GetWidth() * 0.85f; // magic numbers
+		startPos.y -= m_pQubes.back()->GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture->GetHeight() * m_pQubes.back()->GetGameObject()->GetTransform()->GetScale().y * 0.75f; // magic number
 	}
 	std::reverse(m_pQubes.begin(), m_pQubes.end());
 

@@ -110,6 +110,10 @@ void JsonReader::ReadBool(std::string const& attribute, bool& value) const
 	{
 		value = attributeReader->m_JsonValue->GetBool();
 	}
+	else
+	{ 
+		value = false;
+	}
 }
 
 void JsonReader::ReadDouble(std::string const& attribute, float& value) const

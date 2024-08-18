@@ -1,11 +1,11 @@
 #pragma once
-#include "Component.h"
+#include "RendererComponent.h"
 #include "Shapes.h"
 
 #include <concepts>
 #include <memory>
 
-class ShapeComponent final : public ECS_Component // add layers ?
+class ShapeComponent final : public RendererComponent
 {
 	friend class ShapeRenderer;
 
@@ -13,15 +13,14 @@ public:
 	explicit ShapeComponent(geo::Shape* pShape);
 	ShapeComponent() = default;
 
-	ShapeComponent(ShapeComponent const& other) = delete;
-	ShapeComponent(ShapeComponent&& other) = delete;
-	ShapeComponent& operator=(ShapeComponent const& rhs) = delete;
-	ShapeComponent& operator=(ShapeComponent&& rhs) = delete;
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	template <ShapeDerived S> void SetShape(S* const shape); //unsafe
+	template <ShapeDerived S> void SetShape(S* const shape);
+
+protected:
+	void Render() override;
 	
 private:
 	std::shared_ptr<geo::Shape> m_pShape = nullptr;

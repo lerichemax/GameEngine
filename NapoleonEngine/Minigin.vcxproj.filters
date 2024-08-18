@@ -291,6 +291,9 @@
     <ClInclude Include="ShapeRenderer.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="TextureRendererComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -446,6 +449,9 @@
       <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="ShapeComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRendererComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>

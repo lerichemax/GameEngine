@@ -6,7 +6,7 @@
 #include "Jumper.h"
 #include "ColoredDisk.h"
 #include "MainMenuScene.h"
-#include "TestScene.h"
+
 #include "QBert.h"
 #include "Qube.h"
 #include "VersusScene.h"
@@ -26,7 +26,7 @@
 #include "SwitchScene.h"
 #include "QBert.h"
 
-#include "RendererComponent.h"
+#include "TextureRendererComponent.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
 #include "TextRendererComponent.h"
@@ -77,7 +77,7 @@ void MainGame::CreatePrefabs() const
 	textRenderer->m_pFont = font;
 	textRenderer->SetTextColor(255, 0, 0);
 
-	livesObj->AddComponent<RendererComponent>()->m_Layer = 10;
+	livesObj->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 
 	pPrefabManager.SavePrefab(livesPrefab, "LivesUI");
 
@@ -90,14 +90,14 @@ void MainGame::CreatePrefabs() const
 	textRenderer->m_Text = "P1 Points: 0 ";
 	textRenderer->m_pFont = font;
 
-	pointsObj->AddComponent<RendererComponent>()->m_Layer = 10;
+	pointsObj->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
 
 	//QBert
 	auto qbertPrefab = pPrefabManager.CreatePrefab();
 	auto qbert = qbertPrefab->GetRoot();
 
-	auto rendererComp = qbert->AddComponent<RendererComponent>();
+	auto rendererComp = qbert->AddComponent<TextureRendererComponent>();
 	rendererComp->m_Layer = 8;
 	rendererComp->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
@@ -126,7 +126,7 @@ void MainGame::CreatePrefabs() const
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 
-	auto hurtRenderer = hurtTextObj->AddComponent<RendererComponent>();
+	auto hurtRenderer = hurtTextObj->AddComponent<TextureRendererComponent>();
 	hurtRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
 	hurtRenderer->m_Layer = 8;
 	hurtRenderer->SetActive(false);
@@ -142,7 +142,7 @@ void MainGame::CreatePrefabs() const
 	auto qubePf = pPrefabManager.CreatePrefab();
 	auto qubeObject = qubePf->GetRoot();
 	qubeObject->GetTransform()->Scale(1.75f);
-	qubeObject->AddComponent<RendererComponent>()->m_Layer = 2;
+	qubeObject->AddComponent<TextureRendererComponent>()->m_Layer = 2;
 
 	qubeObject->AddComponent<Qube>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
@@ -217,6 +217,7 @@ void MainGame::CreatePrefabs() const
 
 	auto shapeRenderer = menuObj->AddComponent<ShapeComponent>();
 	shapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} );
+	shapeRenderer->m_Layer = 10;
 
 	auto textObject = menuPrefab->CreateGameObject();
 
@@ -224,7 +225,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Pause";
 	textComp->m_pFont = biggerFont;
 
-	textObject->AddComponent<RendererComponent>()->m_Layer = 11;
+	textObject->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 	menuObj->AddChild(textObject);
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
@@ -233,7 +234,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Resume";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
 	auto resumeBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	resumeBtn->m_Dimensions = { 110, 30 };
@@ -250,7 +251,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Back to Main Menu";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
 	auto backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	backBtn->m_Dimensions = { 110, 30 };
@@ -268,7 +269,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Quit";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
 	auto quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	quitBtn->m_Dimensions = { 65, 30 };
@@ -288,7 +289,8 @@ void MainGame::CreatePrefabs() const
 	menuObj = quitMenuPrefab->GetRoot();
 
 	shapeRenderer = menuObj->AddComponent<ShapeComponent>();
-	shapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true });
+	shapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true });
+	shapeRenderer->m_Layer = 10;
 
 	textObject = quitMenuPrefab->CreateGameObject();
 
@@ -296,7 +298,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Game Over";
 	textComp->m_pFont = biggerFont;
 
-	textObject->AddComponent<RendererComponent>();
+	textObject->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
 
 	menuObj->AddChild(textObject);
@@ -307,7 +309,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Replay";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 	auto replayBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	replayBtn->m_Dimensions = { 100, 30 };
 	replayBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
@@ -325,7 +327,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Back to Main Menu";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
 	backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	backBtn->m_Dimensions = { 260, 30 };
@@ -344,7 +346,7 @@ void MainGame::CreatePrefabs() const
 	textComp->m_Text = "Quit";
 	textComp->m_pFont = lessBigFont;
 
-	btnObj->AddComponent<RendererComponent>()->m_Layer = 11;
+	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
 	quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
 	quitBtn->m_Dimensions = { 65, 30 };

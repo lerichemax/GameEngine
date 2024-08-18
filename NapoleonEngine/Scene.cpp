@@ -226,7 +226,7 @@ void Scene::OnLoad()
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
 	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
-	m_pShapeRenderer = m_pRegistry->RegisterSystem<ShapeRenderer>();
+	//m_pShapeRenderer = m_pRegistry->RegisterSystem<ShapeRenderer>();
 	m_pBehaviours = m_pRegistry->RegisterSystem<BehaviourSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
 	m_pCamera = m_pRegistry->RegisterSystem<CameraSystem>();
@@ -263,14 +263,18 @@ void Scene::Render() const
 	{
 		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
 	}
+
+	m_pTextRenderer->Update(m_pRegistry->GetComponentManager());
+
 	glPushMatrix();
-	{
+	{	
 		m_pCamera->Update(m_pRegistry->GetComponentManager());
-		m_pShapeRenderer->Update(m_pRegistry->GetComponentManager());
-		m_pTextRenderer->Update(m_pRegistry->GetComponentManager());
 		m_pLayeredRenderer->Update(m_pRegistry->GetComponentManager());
+		//m_pShapeRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
+
+	
 }
 
 void Scene::Refresh()

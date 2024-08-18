@@ -102,9 +102,6 @@
     <ClCompile Include="CoilyOnQubeState.cpp">
       <Filter>GameScripts\Characters\States</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterController.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
@@ -230,9 +227,6 @@
     </ClInclude>
     <ClInclude Include="CoilyOnQubeState.h">
       <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="CharacterController.h">
       <Filter>GameScripts</Filter>

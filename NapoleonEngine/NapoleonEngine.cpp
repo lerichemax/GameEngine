@@ -19,6 +19,7 @@
 #include "TextRendererComponent.h"
 #include "CameraComponent.h"
 #include "TransformComponent.h"
+#include "TextureRendererComponent.h"
 
 #include "FPSCounter.h"
 #include "Scene.h"
@@ -82,7 +83,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	
 
 	fpsCounterObject->AddComponent<FPSCounter>();
-	fpsCounterObject->AddComponent<RendererComponent>()->m_Layer = 10;
+	fpsCounterObject->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
 
 	PrefabsManager::GetInstance().SavePrefab(fpsCounterPrefab, "FPSCounter");

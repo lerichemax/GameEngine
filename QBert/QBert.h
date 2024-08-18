@@ -5,7 +5,7 @@
 struct AudioComponent;
 struct ECS_CharacterLives;
 class ECS_CharacterPoint;
-struct RendererComponent;
+class RendererComponent;
 class QBert final : public Character
 {
 public:

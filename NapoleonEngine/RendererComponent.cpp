@@ -7,24 +7,13 @@
 
 void RendererComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(RendererComponent).name());
-	if (m_pTexture != nullptr)
-	{
-		m_pTexture->Serialize(writer);
-	}
-
+	writer.WriteBool("renderer", true);
 	writer.WriteInt("layer", m_Layer);
 }
 
 void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	std::string filename;
-	reader->ReadString("filepath", filename);
-	if (!filename.empty())
-	{
-		m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
-	}
-	
+
 	int layer;
 	reader->ReadInt("layer", layer);
 

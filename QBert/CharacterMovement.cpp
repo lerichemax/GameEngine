@@ -2,13 +2,13 @@
 #include "CharacterMovement.h"
 
 #include "Qube.h"
-#include "RendererComponent.h"
+#include "TextureRendererComponent.h"
 #include "ResourceManager.h"
 #include "Jumper.h"
 
 void CharacterMovement::Start()
 {
-	m_pRenderer = GetGameObject()->GetComponent<RendererComponent>();
+	m_pRenderer = GetGameObject()->GetComponent<TextureRendererComponent>();
 	m_pJumper = GetGameObject()->GetComponent<Jumper>();
 
 	if (m_pJumper != nullptr)

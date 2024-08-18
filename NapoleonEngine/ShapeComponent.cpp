@@ -16,7 +16,7 @@ void ShapeComponent::Serialize(StreamWriter& writer) const
 	m_pShape->Serialize(writer);
 	writer.EndObject();
 
-	ECS_Component::Serialize(writer);
+	RendererComponent::Serialize(writer);
 }
 
 void ShapeComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -33,4 +33,11 @@ void ShapeComponent::Deserialize(JsonReader const* reader, SerializationMap& con
 			m_pShape->Deserialize(shapeObj.get());
 		}
 	}
+
+	RendererComponent::Deserialize(reader, context);
+}
+
+void ShapeComponent::Render()
+{
+	Renderer::GetInstance().RenderShape(*m_pShape.get());
 }

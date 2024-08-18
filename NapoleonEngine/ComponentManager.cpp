@@ -2,6 +2,8 @@
 #include "ComponentManager.h"
 #include "Factories.h"
 
+#include "RendererComponent.h"
+
 std::unordered_map<std::string, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<std::string, ComponentType>{};
 ComponentType ComponentManager::m_NextComponentType = ComponentType{};
 
@@ -21,7 +23,7 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 
 	for (std::pair<std::string, ComponentType> const& pair : m_ComponentTypes)
 	{
-		if (pair.second == GetComponentType<BehaviourComponent>())
+		if (pair.second == GetComponentType<BehaviourComponent>() || pair.second == GetComponentType<RendererComponent>())
 		{
 			continue;
 		}
@@ -53,11 +55,16 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
 
-	bool isBehaviour{ false };
-	reader->ReadBool("behaviour", isBehaviour);
-	if (isBehaviour)
+	bool isException{ false };
+	reader->ReadBool("behaviour", isException);
+	if (isException)
 	{
 		m_ComponentArrays.at(typeid(BehaviourComponent).name())->ForceInsertData(pComp, entity);
+	}
+	reader->ReadBool("renderer", isException);
+	if (isException)
+	{
+		m_ComponentArrays.at(typeid(RendererComponent).name())->ForceInsertData(pComp, entity);
 	}
 
 

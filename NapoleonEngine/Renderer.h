@@ -7,7 +7,7 @@ using namespace geo;
 struct SDL_Window;
 struct SDL_Renderer;
 struct Shape;
-struct RendererComponent;
+class RendererComponent;
 class Texture2D;
 class TransformComponent;
 class ECS_TransformComponent;

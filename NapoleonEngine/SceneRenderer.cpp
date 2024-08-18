@@ -1,9 +1,11 @@
 #include "PCH.h"
 #include "SceneRenderer.h"
-#include "RendererComponent.h"
+#include "TextureRendererComponent.h"
 #include "TextRendererComponent.h"
+
 #include "ComponentManager.h"
 #include "Coordinator.h"
+#include "Texture2D.h"
 
 #include <algorithm>
 #include <SDL.h>
@@ -45,18 +47,12 @@ void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 	for (Entity const& entity : m_EntityPerLayer)
 	{
 		auto renderComp = pComponentManager->GetComponent<RendererComponent>(entity);
-		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
 
-		if (!renderComp->IsActive() || !transComp->IsActive())
+		if (!renderComp->IsActive())
 		{
 			continue;
 		}
-
-		if (renderComp->m_pTexture != nullptr)
-		{
-			const auto pos = transComp->GetPosition();
-			Renderer::GetInstance().RenderTexture(*renderComp->m_pTexture, *transComp); //remove singleton ?
-		}
+		renderComp->Render();
 	}
 }
 
@@ -80,7 +76,7 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 	for (Entity const& entity : m_Entities)
 	{
 		auto textRenderComp = pComponentManager->GetComponent<TextRendererComponent>(entity);
-		auto renderComp = pComponentManager->GetComponent<RendererComponent>(entity);
+		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity); //log if absent
 
 		if (!textRenderComp->IsActive())
 		{

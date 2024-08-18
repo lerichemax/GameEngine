@@ -7,7 +7,7 @@
 #include <memory>
 
 class SceneRenderer;
-struct RendererComponent;
+class RendererComponent;
 class GameObject;
 class CameraComponent;
 class CameraSystem;

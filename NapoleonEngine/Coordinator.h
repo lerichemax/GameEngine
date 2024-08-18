@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "SystemManager.h"
 #include "BehaviourComponent.h"
+#include "RendererComponent.h"
 
 #include <memory>
 
@@ -12,7 +13,10 @@ template<typename T>
 concept BehaviourDerived = std::derived_from<T, BehaviourComponent>;
 
 template<typename T>
-concept ComponentDerivedNotBehaviour = std::derived_from<T, ECS_Component> && !std::derived_from<T, BehaviourComponent>;
+concept RendererDerived = std::derived_from<T, RendererComponent>;
+
+template<typename T>
+concept ComponentDerivedNotBehaviourRenderer = std::derived_from<T, ECS_Component> && !std::derived_from<T, BehaviourComponent> && !std::derived_from<T, RendererComponent>;
 
 class JSonReader;
 class Coordinator final
@@ -25,8 +29,9 @@ public:
 
 	ComponentManager* const GetComponentManager() const;
 
-	template <ComponentDerivedNotBehaviour T> std::shared_ptr<T> AddComponent(Entity entity);
+	template <ComponentDerivedNotBehaviourRenderer T> std::shared_ptr<T> AddComponent(Entity entity);
 	template <BehaviourDerived T> std::shared_ptr<T> AddComponent(Entity entity);
+	template <RendererDerived T> std::shared_ptr<T> AddComponent(Entity entity);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> std::shared_ptr<T> GetComponent(Entity entity) const;
 	template <ComponentDerived T> std::shared_ptr<T> FindComponentOfType() const;
@@ -58,7 +63,7 @@ private:
 	template <SystemDerived T> void OnSystemSignatureChanged(Signature const& signature);
 };
 
-template <ComponentDerivedNotBehaviour T>
+template <ComponentDerivedNotBehaviourRenderer T>
 std::shared_ptr<T> Coordinator::AddComponent(Entity entity)
 {
 	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity);
@@ -83,6 +88,25 @@ std::shared_ptr<T> Coordinator::AddComponent(Entity entity)
 
 	Signature signature = m_pEntityManager->GetSignature(entity);
 	signature.set(m_pComponentManager->GetComponentType<BehaviourComponent>(), true);
+
+	signature.set(m_pComponentManager->GetComponentType<T>(), true);
+
+	m_pEntityManager->SetSignature(entity, signature);
+
+	m_pSystemManager->EntitySignatureChanged(entity, signature);
+
+	return comp;
+}
+
+template <RendererDerived T>
+std::shared_ptr<T> Coordinator::AddComponent(Entity entity)
+{
+	std::shared_ptr<T> comp = m_pComponentManager->AddComponent<T>(entity);
+	m_pComponentManager->RegisterComponent<RendererComponent>();
+	m_pComponentManager->m_ComponentArrays[typeid(RendererComponent).name()]->ForceInsertData(comp, entity);
+
+	Signature signature = m_pEntityManager->GetSignature(entity);
+	signature.set(m_pComponentManager->GetComponentType<RendererComponent>(), true);
 
 	signature.set(m_pComponentManager->GetComponentType<T>(), true);
 

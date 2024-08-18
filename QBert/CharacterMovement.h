@@ -3,7 +3,7 @@
 
 #include "Event.h"
 
-struct RendererComponent;
+class TextureRendererComponent;
 class Jumper;
 enum class ConnectionDirection;
 class Qube;
@@ -30,7 +30,7 @@ private:
 	bool m_CanMove{ true };
 
 	std::shared_ptr<Qube> m_pCurrentQube{ nullptr };
-	std::shared_ptr<RendererComponent> m_pRenderer{ nullptr };
+	std::shared_ptr<TextureRendererComponent> m_pRenderer{ nullptr };
 	std::shared_ptr<Jumper> m_pJumper{ nullptr };
 
 	std::string m_TextureIdleDownRight;
