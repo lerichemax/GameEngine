@@ -19,10 +19,10 @@ CoilyOnQubeState::CoilyOnQubeState(Character* pChar, Jumper* pJumper, CoilyChara
 
 CharacterState* CoilyOnQubeState::Update(GameObject* pObject)
 {
-	if (!m_pCharController->IsEnable())
-	{
-		return nullptr;
-	}
+	//if (!m_pCharController->IsEnable())
+	//{
+	//	return nullptr;
+	//}
 	if (!m_pCharController->m_pCoilyCharacter->IsTransformed())
 	{
 		

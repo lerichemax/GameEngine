@@ -25,14 +25,14 @@ enum class Level
 };
 
 
-struct TextRendererComponent;
-class Pyramid;
+class TextRendererComponent;
+class PyramidSystem;
 class CoilyManager;
 class SlickSamManager;
 class WrongWayManager;
 class QBert;
 class CharacterPoint;
-class CharacterLives;
+struct CharacterLives;
 class GameManager final : public Observer
 {
 public:
@@ -80,8 +80,8 @@ protected:
 	void Update() override;
 
 private:
-	std::shared_ptr<QBert> m_pQbert;
-	std::shared_ptr<Pyramid> m_pPyramid;
+	QBert* m_pQbert;
+	PyramidSystem* m_pPyramid;
 
 	Level m_Level;
 

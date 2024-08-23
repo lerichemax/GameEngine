@@ -16,10 +16,7 @@ public:
 	glm::mat3x3 GetCameraMatrix() const;
 	
 protected:
-	void Initialize() override;
-	void Update() override {};
-
-	CameraComponent* Clone() const override { return new CameraComponent(*this); }
+	void Initialize();
 	
 private:
 		
@@ -31,7 +28,7 @@ private:
 	CameraComponent(CameraComponent const& other);
 };
 
-struct ECS_CameraComponent : public ECS_Component
+struct ECS_CameraComponent : public Component
 {
 public:
 	ECS_CameraComponent();
@@ -51,7 +48,7 @@ class CameraSystem : public System
 public:
 	void Update(ComponentManager* const pComponentManager) override;
 
-	bool TrySetMainCamera(std::shared_ptr<GameObject> pGameObject);
+	bool TrySetMainCamera(GameObject* const pGameObject);
 
 	void SetSignature(Coordinator* const pRegistry) override;
 

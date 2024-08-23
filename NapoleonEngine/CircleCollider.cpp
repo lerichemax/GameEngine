@@ -18,7 +18,7 @@ CircleCollider::CircleCollider(CircleCollider const& other)
 
 CircleCollider::~CircleCollider()
 {
-	SafeDelete(m_pCircle);
+	SAFE_DELETE(m_pCircle);
 }
 
 void CircleCollider::CheckOverlap(ColliderComponent* pOther)

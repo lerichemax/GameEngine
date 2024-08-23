@@ -3,7 +3,6 @@
 
 #include "CharacterState.h"
 #include "GameObject.h"
-#include "CharacterMovement.h"
 
 MoveCommand::MoveCommand(ConnectionDirection dir)
 	:m_MoveDirection{ dir }
@@ -16,10 +15,10 @@ void MoveCommand::Execute(GameObject* const gObject)
 		return;
 	}
 
-	std::shared_ptr<CharacterMovement> pMover = gObject->GetComponent<CharacterMovement>();
+	//CharacterMovement* const pMover = gObject->GetComponent<CharacterMovement>();
 
-	if (pMover != nullptr)
-	{
-		pMover->Move(m_MoveDirection);
-	}
+	//if (pMover != nullptr)
+	//{
+	//	pMover->Move(m_MoveDirection);
+	//}
 }

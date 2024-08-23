@@ -27,7 +27,7 @@ void ShapeComponent::Deserialize(JsonReader const* reader, SerializationMap& con
 	{
 		std::string type;
 		shapeObj->ReadString("type", type);
-		m_pShape = ShapeFactory::GetInstance().Create(type);
+		m_pShape = Factory<geo::Shape>::GetInstance().Create(type);
 		if (m_pShape != nullptr)
 		{
 			m_pShape->Deserialize(shapeObj.get());
@@ -39,5 +39,5 @@ void ShapeComponent::Deserialize(JsonReader const* reader, SerializationMap& con
 
 void ShapeComponent::Render()
 {
-	Renderer::GetInstance().RenderShape(*m_pShape.get());
+	Renderer::GetInstance().RenderShape(*m_pShape);
 }

@@ -7,6 +7,7 @@
 
 class Texture2D;
 class Font;
+struct _TTF_Font;
 class ResourceManager final : public Singleton<ResourceManager>
 {
 public:
@@ -18,10 +19,11 @@ public:
 		
 	void Init(const std::string& data);
 		
-	std::shared_ptr<Texture2D> GetTexture(const std::string& file);
-	std::shared_ptr<Font> GetFont(const std::string& file, unsigned int size);
+	Texture2D* const GetTexture(const std::string& file);
+	Texture2D* const GetTextTexture(_TTF_Font*, const char* txt, SDL_Color color, int id);
+	Font* const GetFont(const std::string& file, unsigned int size);
 	ID GetEffect(const std::string& file);
-	std::shared_ptr<SoundEffect> GetEffectById(ID id) const;
+	SoundEffect* const GetEffectById(ID id) const;
 	
 private:
 	friend class Singleton<ResourceManager>;

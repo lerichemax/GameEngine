@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-class Qube;
+class QubeSystem;
 class SlickSam final : public Enemy
 {
 public:

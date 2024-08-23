@@ -6,6 +6,7 @@
 #include "ComponentManager.h"
 #include "Coordinator.h"
 #include "Texture2D.h"
+#include "ResourceManager.h"
 
 #include <algorithm>
 #include <SDL.h>
@@ -41,12 +42,12 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
 {
 	std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [&pComponentManager](Entity a, Entity b) {
-		return pComponentManager->GetComponent<RendererComponent>(a)->m_Layer < pComponentManager->GetComponent<RendererComponent>(b)->m_Layer;
+		return pComponentManager->GetComponent<TextureRendererComponent>(a)->m_Layer < pComponentManager->GetComponent<TextureRendererComponent>(b)->m_Layer;
 		});
 
 	for (Entity const& entity : m_EntityPerLayer)
 	{
-		auto renderComp = pComponentManager->GetComponent<RendererComponent>(entity);
+		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity);
 
 		if (!renderComp->IsActive())
 		{
@@ -60,7 +61,7 @@ void LayeredRendererSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<RendererComponent>());
+	signature.set(pRegistry->GetComponentType<TextureRendererComponent>());
 
 	pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
 }
@@ -76,30 +77,18 @@ void TextRendererSystem::Update(ComponentManager* const pComponentManager)
 	for (Entity const& entity : m_Entities)
 	{
 		auto textRenderComp = pComponentManager->GetComponent<TextRendererComponent>(entity);
-		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity); //log if absent
 
-		if (!textRenderComp->IsActive())
+		if (!textRenderComp->IsActive() || !textRenderComp-> m_NeedsUpdate)
 		{
 			continue;
 		}
 
-		const auto surf = TTF_RenderText_Blended(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(), textRenderComp->m_TextColor);
-		if (surf == nullptr)
-		{
-			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-		}
-		auto const texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-		if (texture == nullptr)
-		{
-			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-		}
-		SDL_FreeSurface(surf);
+		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity); //log if absent (also when adding)
 
+		renderComp->m_pTexture = ResourceManager::GetInstance().GetTextTexture(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(),
+			textRenderComp->m_TextColor, textRenderComp->m_TextId);
 
-		if (renderComp->IsActive())
-		{
-			renderComp->m_pTexture.reset(new Texture2D{ texture });
-		}
+		textRenderComp->m_NeedsUpdate = false;
 	}
 }
 
@@ -107,7 +96,7 @@ void TextRendererSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<RendererComponent>());
+	signature.set(pRegistry->GetComponentType<TextureRendererComponent>());
 	signature.set(pRegistry->GetComponentType<TextRendererComponent>());
 
 	pRegistry->SetSystemSignature<TextRendererSystem>(signature);

@@ -3,12 +3,9 @@
 
 #include "System.h"
 
-struct TextRendererComponent;
-struct FPSCounter : BehaviourComponent
+struct FPSCounter : public Component
 {
+	int m_FPS;
+
 	void Serialize(StreamWriter& writer) const override;
-
-protected:
-	void Update() override;
-
 };

@@ -44,7 +44,7 @@ SceneManager::SceneManagerImpl::~SceneManagerImpl()
 {
 	for (auto pScene : m_pScenesMap)
 	{
-		SafeDelete(pScene.second);
+		SAFE_DELETE(pScene.second);
 	}
 }
 

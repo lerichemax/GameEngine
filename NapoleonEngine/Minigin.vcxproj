@@ -259,6 +259,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="filereadstream.h" />
     <ClInclude Include="filewritestream.h" />
+    <ClInclude Include="FPSCounterSystem.h" />
     <ClInclude Include="fwd.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="istreamwrapper.h" />
@@ -354,7 +355,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
-    <ClCompile Include="BehaviourComponent.cpp" />
     <ClCompile Include="BehaviourSystem.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
@@ -363,12 +363,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Factories.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Coordinator.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Deserializer.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="FPSCounterSystem.cpp" />
     <ClCompile Include="JsonReaderWriter.cpp" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="SerializerServiceLocator.cpp" />

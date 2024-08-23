@@ -1,23 +1,29 @@
 #pragma once
 #include "BehaviourComponent.h"
 
-struct TextRendererComponent;
+class TextRendererComponent;
 class UIManager : public BehaviourComponent
 {
 public:
 	UIManager() = default;
+	~UIManager()
+	{
+
+	}
 	void Start() override;
 
-	void SetP1PointsCounter(std::shared_ptr<TextRendererComponent> p1Points);
-	void SetP1LivesCounter(std::shared_ptr<TextRendererComponent> p1Lives);
+	void Serialize(StreamWriter& writer) const override;
 
-	void SetPauseMenu(std::shared_ptr<GameObject> pauseMenu);
-	void SetGameOverMenu(std::shared_ptr<GameObject> gameOverMenu);
+	void SetP1PointsCounter(TextRendererComponent* const p1Points);
+	void SetP1LivesCounter(TextRendererComponent* const p1Lives);
+
+	void SetPauseMenu(GameObject* const pauseMenu);
+	void SetGameOverMenu(GameObject* const gameOverMenu);
 
 private:
-	std::shared_ptr<TextRendererComponent> m_pP1PointsCounter;
-	std::shared_ptr<TextRendererComponent> m_P1LivesCounter;
+	TextRendererComponent* m_pP1PointsCounter;
+	TextRendererComponent* m_P1LivesCounter;
 
-	std::shared_ptr<GameObject> m_pPauseMenu;
-	std::shared_ptr<GameObject> m_pGameOverMenu;
+	GameObject* m_pPauseMenu;
+	GameObject* m_pGameOverMenu;
 };

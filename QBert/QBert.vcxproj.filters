@@ -12,12 +12,6 @@
     <ClCompile Include="ColoredDisk.cpp">
       <Filter>GameScripts\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>GameScripts\Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="Qube.cpp">
-      <Filter>GameScripts\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
@@ -29,9 +23,6 @@
     </ClCompile>
     <ClCompile Include="SlickSam.cpp">
       <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Jumper.cpp">
-      <Filter>GameScripts</Filter>
     </ClCompile>
     <ClCompile Include="WrongWay.cpp">
       <Filter>GameScripts\Characters</Filter>
@@ -102,9 +93,6 @@
     <ClCompile Include="CoilyOnQubeState.cpp">
       <Filter>GameScripts\Characters\States</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterController.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="QBert.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
@@ -112,9 +100,6 @@
       <Filter>GameScripts</Filter>
     </ClCompile>
     <ClCompile Include="CharacterPoint.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterMovement.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
@@ -125,6 +110,36 @@
     </ClCompile>
     <ClCompile Include="VersusGameManager.cpp">
       <Filter>GameScripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControllerComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControllerSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterMovementSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="JumperSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PyramidSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="QubeSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PyramidComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="QubeComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +153,6 @@
     <ClInclude Include="ColoredDisk.h">
       <Filter>GameScripts\Environment</Filter>
     </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>GameScripts\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Qube.h">
-      <Filter>GameScripts\Environment</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>GameScripts\Characters</Filter>
     </ClInclude>
@@ -155,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="SlickSam.h">
       <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Jumper.h">
-      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="WrongWay.h">
       <Filter>GameScripts\Characters</Filter>
@@ -228,9 +234,6 @@
     <ClInclude Include="CoilyOnQubeState.h">
       <Filter>GameScripts\Characters\States</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterController.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterLives.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
@@ -238,9 +241,6 @@
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterMovement.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
@@ -251,6 +251,36 @@
     </ClInclude>
     <ClInclude Include="VersusGameManager.h">
       <Filter>GameScripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControllerComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControllerSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterMovementSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumperSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="QubeSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QubeComponent.h">
+      <Filter>GameScripts\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +316,12 @@
     </Filter>
     <Filter Include="GameScripts\Managers\EnemyManagers">
       <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Components">
+      <UniqueIdentifier>{c4cf47e3-cbeb-4834-93da-dcf393c74f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Systems">
+      <UniqueIdentifier>{40c92dc8-2fb3-4dc1-b44c-d342f19fc9b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

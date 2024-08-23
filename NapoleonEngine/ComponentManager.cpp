@@ -9,17 +9,18 @@ ComponentType ComponentManager::m_NextComponentType = ComponentType{};
 
 void ComponentManager::EntityDestroyed(Entity entity)
 {
-	for (std::pair<std::string, std::shared_ptr<IComponentArray>> const& pair : m_ComponentArrays)
+	for (auto const& pair : m_ComponentArrays)
 	{
-		std::shared_ptr<IComponentArray> pComponent = pair.second;
-
-		pComponent->EntityDestroyed(entity);
+		if (pair.second != nullptr)
+		{
+			pair.second->EntityDestroyed(entity);
+		}
 	}
 }
 
-std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSignature(Entity entity, Signature signature)
+std::vector<Component*> ComponentManager::GetComponentsForSignature(Entity entity, Signature signature)
 {
-	std::vector<std::shared_ptr<ECS_Component>> components;
+	std::vector<Component*> components;
 
 	for (std::pair<std::string, ComponentType> const& pair : m_ComponentTypes)
 	{
@@ -30,7 +31,7 @@ std::vector<std::shared_ptr<ECS_Component>> ComponentManager::GetComponentsForSi
 
 		if (signature[pair.second] == 1)
 		{
-			std::vector<std::shared_ptr<ECS_Component>> datas;
+			std::vector<Component*> datas;
 			if (m_ComponentArrays.at(pair.first)->TryGetAllBaseData(entity, datas))
 			{
 				components.insert(components.end(), datas.begin(), datas.end());
@@ -46,7 +47,7 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 	std::string type;
 	reader->ReadString("type", type);
 
-	auto pComp = ComponentFactory::GetInstance().Create(type, this);
+	auto pComp = Factory<Component, ComponentManager* const>::GetInstance().Create(type, this);
 
 	assert(pComp != nullptr && "Failed to construct object from type");
 
@@ -55,18 +56,17 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	m_ComponentArrays.at(type.c_str())->ForceInsertData(pComp, entity);
 
-	bool isException{ false };
-	reader->ReadBool("behaviour", isException);
-	if (isException)
-	{
-		m_ComponentArrays.at(typeid(BehaviourComponent).name())->ForceInsertData(pComp, entity);
-	}
-	reader->ReadBool("renderer", isException);
-	if (isException)
-	{
-		m_ComponentArrays.at(typeid(RendererComponent).name())->ForceInsertData(pComp, entity);
-	}
-
+	//bool isException{ false };
+	//reader->ReadBool("behaviour", isException);
+	//if (isException)
+	//{
+	//	m_ComponentArrays.at(typeid(BehaviourComponent).name())->ForceInsertData(pCompShared, entity);
+	//}
+	//reader->ReadBool("renderer", isException);
+	//if (isException)
+	//{
+	//	m_ComponentArrays.at(typeid(RendererComponent).name())->ForceInsertData(pCompShared, entity);
+	//}
 
 	return m_ComponentTypes.at(type);
 }

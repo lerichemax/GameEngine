@@ -9,7 +9,6 @@ public:
 	
 
 	void ResetScene(Level newLevel) override;
-	void ResetGame() override;
 
 private:
 	QBert* m_pQbertP2;

@@ -18,7 +18,6 @@ public:
 protected:
 	void CheckOverlap(ColliderComponent* pOther) override;
 		
-	CircleCollider* Clone() const override { return new CircleCollider(*this); }
 
 private:
 	geo::Circle* m_pCircle;

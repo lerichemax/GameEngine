@@ -12,14 +12,14 @@ enum class CharacterType //enum to avoid using typeid
 class Texture2D;
 
 class Jumper;
-class Qube;
+class QubeSystem;
 class CharacterState;
 enum class ConnectionDirection;
 enum class CharacterStateType;
 class Character : public BehaviourComponent
 {
 public:
-	explicit Character(std::shared_ptr<Qube> pStart, CharacterType type);
+	explicit Character(QubeSystem* const pStart, CharacterType type);
 	explicit Character() = default;
 	Character(Character&& other) = delete;
 	Character& operator=(Character const& rhs) = delete;
@@ -29,11 +29,11 @@ public:
 	
 	void Update() override; 
 	
-	std::shared_ptr<Qube> const GetCurrentQube() const { return m_pCurrentQube; }
+	QubeSystem* const GetCurrentQube() const { return m_pCurrentQube; }
 	CharacterType GetType() const { return m_Type; }
 	CharacterState* GetState() const { return m_pState; }
 
-	void SetCurrentQube(std::shared_ptr<Qube> pTargetQube);
+	void SetCurrentQube(QubeSystem* const pTargetQube);
 	void JumpToDeath(ConnectionDirection dir);
 	void Move(ConnectionDirection direction);
 	void Die();
@@ -43,7 +43,7 @@ protected:
 	friend class JumpingState;
 	friend class FallingState;
 	
-	std::shared_ptr<Qube> m_pCurrentQube;
+	QubeSystem* m_pCurrentQube;
 	Jumper* m_pJumper;
 	
 	CharacterState* m_pState;
@@ -59,7 +59,7 @@ protected:
 	virtual void DoDie() = 0;
 	virtual void MeetCharacter(Character* pOther) = 0; // Find itself on the same cube as another character
 	virtual void SetDirectionTextures(ConnectionDirection dir) = 0;
-	virtual void JumpToQube(std::shared_ptr<Qube> pTargetQube);
+	virtual void JumpToQube(QubeSystem* const pTargetQube);
 	virtual void MoveToCurrentQube();
 	virtual void LandOnQube() {};
 	virtual void SetLayerToBackGround();

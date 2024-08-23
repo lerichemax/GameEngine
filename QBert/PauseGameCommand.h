@@ -8,7 +8,7 @@ class PauseGameCommand final : public Command
 {
 public:
 	PauseGameCommand() = default;
-	PauseGameCommand(std::shared_ptr<GameManagerBehaviour> pGameManager);
+	PauseGameCommand(GameManagerBehaviour* const pGameManager);
 
 	PauseGameCommand(PauseGameCommand const& other) = delete;
 	PauseGameCommand(PauseGameCommand&& other) = delete;
@@ -24,5 +24,5 @@ public:
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	std::shared_ptr<GameManagerBehaviour> m_pGameManager;
+	GameManagerBehaviour* m_pGameManager;
 };

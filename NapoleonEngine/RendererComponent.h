@@ -4,7 +4,7 @@
 #include <memory>
 
 class Texture2D;
-class RendererComponent : public ECS_Component
+class RendererComponent : public Component
 {
 	friend class LayeredRendererSystem;
 public:

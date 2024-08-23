@@ -14,7 +14,6 @@
 #include "JumpingState.h"
 #include "FallingState.h"
 #include "Pyramid.h"
-#include "Jumper.h"
 
 #include "GameObject.h"
 #include "ResourceManager.h"
@@ -23,7 +22,6 @@
 #include "GameManager.h"
 #include "OnQubeState.h"
 #include "VersusGameManager.h"
-#include "CharacterMovement.h"
 #include "AudioComponent.h"
 
 QBert::QBert()
@@ -42,8 +40,8 @@ QBert::QBert()
 
 void QBert::Initialize()
 {
-	m_pPoints = GetGameObject()->GetComponent<ECS_CharacterPoint>();
-	m_pLives = GetGameObject()->GetComponent<ECS_CharacterLives>();
+	m_pPoints = GetGameObject()->GetComponent<CharacterPoint>();
+	m_pLives = GetGameObject()->GetComponent<CharacterLives>();
 	
 	//m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
 	//m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
@@ -64,32 +62,32 @@ void QBert::Initialize()
 
 void QBert::Start()
 {
-	auto pyramid = FindComponentOfType<Pyramid>();
-	auto pMover = GetGameObject()->GetComponent<CharacterMovement>();
-	pMover->SetCurrentQube(pyramid->GetTop());
+	auto pyramid = FindComponentOfType<PyramidSystem>();
+	//auto pMover = GetGameObject()->GetComponent<CharacterMovement>();
+	//pMover->SetCurrentQube(pyramid->GetTop());
 
-	pMover->OnMoveStarted.Subscribe([this]() {
-		m_pJumpSound->Play();
-		});
+	//pMover->OnMoveStarted.Subscribe([this]() {
+	//	m_pJumpSound->Play();
+	//	});
 
 	pyramid->OnAllQubesFlipped.Subscribe([this](int points) {
 		EarnPoints(points);
 		});
 
-	Qube::OnAnyQubeFlipped.Subscribe([this]() {
-		EarnPoints(Qube::POINTS_FOR_FLIP);
+	QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
+		EarnPoints(QubeSystem::POINTS_FOR_FLIP);
 		});
 
-	auto jumper = GetGameObject()->GetComponent<Jumper>();
-	jumper->OnJumpedToDeath.Subscribe([this]() {
-		m_pFallSound->Play();
-		GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 1;
-		});
+	//auto jumper = GetGameObject()->GetComponent<Jumper>();
+	//jumper->OnJumpedToDeath.Subscribe([this]() {
+	//	m_pFallSound->Play();
+	//	GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 1;
+	//	});
 
-	jumper->OnFell.Subscribe([this]() {
-		m_pLives->Die();
-		Reset(false, GetGameObject()->GetComponent<CharacterMovement>()->GetCurrentQube());
-		});
+	//jumper->OnFell.Subscribe([this]() {
+	//	m_pLives->Die();
+	//	Reset(false, GetGameObject()->GetComponent<CharacterMovement>()->GetCurrentQube());
+	//	});
 
 }
 
@@ -134,7 +132,7 @@ void QBert::Swear()const
 	m_pSwearSound->Play();
 }
 
-void QBert::SetAudioComponents(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear)
+void QBert::SetAudioComponents(AudioComponent* const jump, AudioComponent* const fall, AudioComponent* const swear)
 {
 	m_pJumpSound = jump;
 	m_pFallSound = fall;
@@ -215,9 +213,9 @@ void QBert::JumpOffDisk()
 	m_bCanMove = true;
 }
 
-void QBert::Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube)
+void QBert::Reset(bool fullReset, QubeSystem* const pTargetQube)
 {
-	GetGameObject()->GetComponent<CharacterMovement>()->SetCurrentQube(pTargetQube);
+	//GetGameObject()->GetComponent<CharacterMovement>()->SetCurrentQube(pTargetQube);
 	GetGameObject()->SetActive(true, false);
 	GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 8;
 

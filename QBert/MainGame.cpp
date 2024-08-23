@@ -1,16 +1,25 @@
 #include "PCH.h"
 #include "MainGame.h"
 
+#include "CharacterControllerSystem.h"
+#include "CharacterMovementSystem.h"
+#include "JumperSystem.h"
+#include "PyramidComponent.h"
+
+#include "CharacterControllerComponent.h"
+#include "MovementComponent.h"
+#include "JumpComponent.h"
+#include "QubeComponent.h"
+
+
 #include "Coily.h"
 #include "CoopScene.h"
-#include "Jumper.h"
 #include "ColoredDisk.h"
 #include "MainMenuScene.h"
 
 #include "QBert.h"
-#include "Qube.h"
+
 #include "VersusScene.h"
-#include "Pyramid.h"
 #include "SlickSam.h"
 #include "SoloScene.h"
 #include "WrongWay.h"
@@ -39,8 +48,6 @@
 #include "ShapeComponent.h"
 
 #include "AudioComponent.h"
-#include "CharacterController.h"
-#include "CharacterMovement.h"
 
 MainGame::MainGame()
 	:NapoleonEngine()
@@ -73,8 +80,8 @@ void MainGame::CreatePrefabs() const
 
 
 	auto textRenderer = livesObj->AddComponent<TextRendererComponent>();
-	textRenderer->m_Text = "P1 Lives: ";
-	textRenderer->m_pFont = font;
+	textRenderer->SetText("P1 Lives: ");
+	textRenderer->SetFont(font);
 	textRenderer->SetTextColor(255, 0, 0);
 
 	livesObj->AddComponent<TextureRendererComponent>()->m_Layer = 10;
@@ -87,8 +94,8 @@ void MainGame::CreatePrefabs() const
 	pointsObj->GetTransform()->Translate(20.f, 60.f);
 
 	textRenderer = pointsObj->AddComponent<TextRendererComponent>();
-	textRenderer->m_Text = "P1 Points: 0 ";
-	textRenderer->m_pFont = font;
+	textRenderer->SetText("P1 Points: 0 ");
+	textRenderer->SetFont(font);
 
 	pointsObj->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
@@ -113,16 +120,16 @@ void MainGame::CreatePrefabs() const
 	auto qBertComp = qbert->AddComponent<QBert>();
 	qBertComp->SetAudioComponents(jumpSoundPtr, fallSoundPtr, swearSoundPtr);
 
-	qbert->AddComponent<CharacterController>();
-	auto characterMovement = qbert->AddComponent<CharacterMovement>();
+	qbert->AddComponent<CharacterControllerComponent>();
+	auto characterMovement = qbert->AddComponent<MovementComponent>();
 	characterMovement->SetTextureIdleNames("Textures/QBert/QBert1_DownRight_Qube.png", "Textures/QBert/QBert1_DownLeft_Qube.png",
 		"Textures/QBert/QBert1_UpRight_Qube.png", "Textures/QBert/QBert1_UpLeft_Qube.png");
 	characterMovement->SetTextureJumpNames("Textures/QBert/QBert1_DownRight_Jump.png", "Textures/QBert/QBert1_DownLeft_Jump.png",
 		"Textures/QBert/QBert1_UpRight_Jump.png", "Textures/QBert/QBert1_UpLeft_Jump.png");
 
-	qbert->AddComponent<ECS_CharacterLives>();
-	qbert->AddComponent<ECS_CharacterPoint>();
-	qbert->AddComponent<Jumper>();
+	qbert->AddComponent<CharacterLives>();
+	qbert->AddComponent<CharacterPoint>();
+	qbert->AddComponent<JumpComponent>();
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 
@@ -134,6 +141,11 @@ void MainGame::CreatePrefabs() const
 	qbert->AddChild(hurtTextObj);
 	hurtTextObj->GetTransform()->Translate(10, -20);
 	qbert->GetTransform()->Scale(1.5f);
+
+	qbertPrefab->AddSystem<CharacterControllerSystem>();
+	qbertPrefab->AddSystem<CharacterMovementSystem>();
+	qbertPrefab->AddSystem<JumperSystem>();
+
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
@@ -144,7 +156,7 @@ void MainGame::CreatePrefabs() const
 	qubeObject->GetTransform()->Scale(1.75f);
 	qubeObject->AddComponent<TextureRendererComponent>()->m_Layer = 2;
 
-	qubeObject->AddComponent<Qube>();
+	qubeObject->AddComponent<QubeComponent>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
 	//Pyramid
@@ -153,7 +165,7 @@ void MainGame::CreatePrefabs() const
 	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->Translate(250.f, 400.f);
 	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
-	pyramidObject->AddComponent<Pyramid>();
+	pyramidObject->AddComponent<PyramidSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	////Ugg + WrongWay
@@ -222,8 +234,8 @@ void MainGame::CreatePrefabs() const
 	auto textObject = menuPrefab->CreateGameObject();
 
 	auto textComp = textObject->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Pause";
-	textComp->m_pFont = biggerFont;
+	textComp->SetText("Pause");
+	textComp->SetFont(biggerFont);
 
 	textObject->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 	menuObj->AddChild(textObject);
@@ -231,12 +243,12 @@ void MainGame::CreatePrefabs() const
 
 	auto btnObj = menuPrefab->CreateGameObject();
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Resume";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Resume");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
-	auto resumeBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	auto resumeBtn = btnObj->AddComponent<ButtonComponent>();
 	resumeBtn->m_Dimensions = { 110, 30 };
 	resumeBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -248,12 +260,12 @@ void MainGame::CreatePrefabs() const
 	//Back to main btn
 	btnObj = menuPrefab->CreateGameObject();
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Back to Main Menu";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Back to Main Menu");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
-	auto backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	auto backBtn = btnObj->AddComponent<ButtonComponent>();
 	backBtn->m_Dimensions = { 110, 30 };
 	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -266,12 +278,12 @@ void MainGame::CreatePrefabs() const
 	//Quit Btn
 	btnObj = menuPrefab->CreateGameObject();
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Quit";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Quit");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
-	auto quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	auto quitBtn = btnObj->AddComponent<ButtonComponent>();
 	quitBtn->m_Dimensions = { 65, 30 };
 	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -295,8 +307,8 @@ void MainGame::CreatePrefabs() const
 	textObject = quitMenuPrefab->CreateGameObject();
 
 	textComp = textObject->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Game Over";
-	textComp->m_pFont = biggerFont;
+	textComp->SetText("Game Over");
+	textComp->SetFont(biggerFont);
 
 	textObject->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
@@ -306,11 +318,11 @@ void MainGame::CreatePrefabs() const
 	btnObj = quitMenuPrefab->CreateGameObject();
 
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Replay";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Replay");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
-	auto replayBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	auto replayBtn = btnObj->AddComponent<ButtonComponent>();
 	replayBtn->m_Dimensions = { 100, 30 };
 	replayBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	replayBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -324,12 +336,12 @@ void MainGame::CreatePrefabs() const
 	btnObj = quitMenuPrefab->CreateGameObject();
 
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Back to Main Menu";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Back to Main Menu");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
-	backBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	backBtn = btnObj->AddComponent<ButtonComponent>();
 	backBtn->m_Dimensions = { 260, 30 };
 	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -343,12 +355,12 @@ void MainGame::CreatePrefabs() const
 	btnObj = quitMenuPrefab->CreateGameObject();
 
 	textComp = btnObj->AddComponent<TextRendererComponent>();
-	textComp->m_Text = "Quit";
-	textComp->m_pFont = lessBigFont;
+	textComp->SetText("Quit");
+	textComp->SetFont(lessBigFont);
 
 	btnObj->AddComponent<TextureRendererComponent>()->m_Layer = 11;
 
-	quitBtn = btnObj->AddComponent<ECS_ButtonComponent>();
+	quitBtn = btnObj->AddComponent<ButtonComponent>();
 	quitBtn->m_Dimensions = { 65, 30 };
 	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });

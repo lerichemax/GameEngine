@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include  "JumpingState.h"
 
-#include "Jumper.h"
 #include "OnQubeState.h"
 #include "Character.h"
 #include "CoilyCharacterController.h"
@@ -25,29 +24,29 @@ void JumpingState::Enter()
 CharacterState* JumpingState::Update(GameObject* pObject)
 {
 	//m_pJumperComp->UpdateJump(pObject->GetECSTransform());
-	if (!m_pJumperComp->IsJumping())
-	{
-		m_pCharacter->LandOnQube();
-		m_pCharacter->MoveToCurrentQube();
-		switch (m_pCharacter->m_Type)
-		{
-		case CharacterType::player:
-			return new OnQubeState(m_pCharacter, m_pJumperComp);
-		case CharacterType::coily:
-			if (pObject->HasComponent<CoilyCharacterController>())
-			{
-				//return new CoilyOnQubeState(m_pCharacter, m_pJumperComp,
-				//	pObject->GetComponent<CoilyCharacterController>());
-			}
-			else
-			{
-				return new OnQubeState(m_pCharacter, m_pJumperComp);
-			}
-		default:
-			/*return new EnemyOnQubeState(m_pCharacter, m_pJumperComp,
-				pObject->GetComponent<EnemyCharacterController>());*/
-			return nullptr;
-		}
-	}
+	//if (!m_pJumperComp->IsJumping())
+	//{
+	//	m_pCharacter->LandOnQube();
+	//	m_pCharacter->MoveToCurrentQube();
+	//	switch (m_pCharacter->m_Type)
+	//	{
+	//	case CharacterType::player:
+	//		return new OnQubeState(m_pCharacter, m_pJumperComp);
+	//	case CharacterType::coily:
+	//		if (pObject->HasComponent<CoilyCharacterController>())
+	//		{
+	//			//return new CoilyOnQubeState(m_pCharacter, m_pJumperComp,
+	//			//	pObject->GetComponent<CoilyCharacterController>());
+	//		}
+	//		else
+	//		{
+	//			return new OnQubeState(m_pCharacter, m_pJumperComp);
+	//		}
+	//	default:
+	//		/*return new EnemyOnQubeState(m_pCharacter, m_pJumperComp,
+	//			pObject->GetComponent<EnemyCharacterController>());*/
+	//		return nullptr;
+	//	}
+	//}
 	return nullptr;
 }

@@ -7,9 +7,9 @@
 
 #include "Scene.h"
 
-GameObject::GameObject(std::weak_ptr<Coordinator> pRegistry)
+GameObject::GameObject(Coordinator* const pRegistry)
 	:m_pRegistry(pRegistry), 
-	m_Entity(pRegistry.lock()->CreateEntity()),
+	m_Entity(pRegistry->CreateEntity()),
 	m_bIsActive(true),
 	m_bIsDestroyed(false)
 {
@@ -41,12 +41,12 @@ void GameObject::Refresh()
 	//}
 }
 
-std::shared_ptr<ECS_TransformComponent> GameObject::GetTransform() const
+ECS_TransformComponent* const GameObject::GetTransform() const
 { 
 	return GetComponent<ECS_TransformComponent>(); 
 }
 
-void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
+void GameObject::AddChild(GameObject* const pChild)
 {
 	//m_pChildren.push_back(pChild); //remove ?
 	//pChild->m_pParent = std::shared_ptr<GameObject>(this); //remove ?
@@ -81,7 +81,7 @@ void GameObject::Serialize(StreamWriter& writer) const
 	writer.StartArray("components");
 	auto components = m_pRegistry->GetComponents(m_Entity);
 
-	for (std::shared_ptr<ECS_Component> pComp : components)
+	for (Component* const pComp : components)
 	{
 		writer.StartArrayObject();
 		pComp->Serialize(writer);

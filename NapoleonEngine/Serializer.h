@@ -21,9 +21,8 @@ public:
 class SerializationMap final
 {
 public:
-	int GetId(std::shared_ptr<void> pRef) const;
-	template <typename T> void Add(int Id, std::shared_ptr<T> pRef);
-	template <typename T> std::shared_ptr<T> GetRef(int id) const;
+	template <typename T> void Add(int Id, T* pRef);
+	template <typename T> T* GetRef(int id) const;
 
 private:
 	friend class Serializer;
@@ -31,7 +30,7 @@ private:
 
 	SerializationMap();
 
-	std::map<int, std::shared_ptr<void>> m_Refs{};
+	std::map<int, void*> m_Refs{};
 };
 
 class IContextSerializable
@@ -63,18 +62,18 @@ private:
 };
 
 template <typename T> 
-std::shared_ptr<T> SerializationMap::GetRef(int id) const
+T* SerializationMap::GetRef(int id) const
 {
 	auto it = m_Refs.find(id);
 	if (it != m_Refs.end())
 	{
-		return std::static_pointer_cast<T>(m_Refs.at(id));
+		return static_cast<T*>(m_Refs.at(id));
 	}
 	return nullptr;
 }
 
 template <typename T>
-void SerializationMap::Add(int id, std::shared_ptr<T> pRef)
+void SerializationMap::Add(int id, T* pRef)
 {
 	auto it = m_Refs.find(id);
 	if (it == m_Refs.end())

@@ -12,28 +12,21 @@ QBertScene::QBertScene(std::string const& name, Level startLevel)
 	m_Level(startLevel),
 	m_pQbert(nullptr),
 	m_pPyramid(nullptr),
-	m_pPauseMenu(nullptr),
-	m_pGameOverMenu(nullptr),
 	m_pEnemyManagers(),
 	m_bIsPaused(false)
 {
 }
 
-//void QBertScene::CustomOnActivate()
-//{
-//	ResetGame();
-//}
-
 void QBertScene::EndGame(bool isWin) const
 {
-	if (isWin)
-	{
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "You Win!";
-	}
-	else
-	{
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
-	}
-	m_pGameOverMenu->SetActive(true);
+//	if (isWin)
+//	{
+//		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "You Win!";
+//	}
+//	else
+//	{
+//		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
+//	}
+//	m_pGameOverMenu->SetActive(true);
 }
 

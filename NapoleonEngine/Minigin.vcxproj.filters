@@ -294,6 +294,9 @@
     <ClInclude Include="TextureRendererComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="FPSCounterSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -408,9 +411,6 @@
     <ClCompile Include="AudioSystem.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviourComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviourSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
@@ -429,7 +429,6 @@
     <ClCompile Include="SerializerServiceLocator.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="Factories.cpp" />
     <ClCompile Include="Component.cpp">
       <Filter>ECS\Components\Base</Filter>
     </ClCompile>
@@ -453,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="TextureRendererComponent.cpp">
       <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounterSystem.cpp">
+      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

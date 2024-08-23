@@ -7,13 +7,12 @@ class EnemyCharacterController : public Component
 {
 public:
 	EnemyCharacterController();
-	EnemyCharacterController* Clone() const override { return new EnemyCharacterController{ *this }; }
 	EnemyCharacterController(EnemyCharacterController&& other) = delete;
 	EnemyCharacterController& operator=(EnemyCharacterController const& rhs) = delete;
 	EnemyCharacterController& operator=(EnemyCharacterController&& rhs) = delete;
 	virtual ~EnemyCharacterController() = default;
 
-	void Initialize() override;
+	void Initialize();
 
 
 protected:
@@ -28,6 +27,4 @@ protected:
 
 	EnemyCharacterController(EnemyCharacterController const& other);
 
-private:
-	void Update() override {};
 };

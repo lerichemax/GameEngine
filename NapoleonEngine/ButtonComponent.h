@@ -1,59 +1,22 @@
 #pragma once
 #include "Component.h"
+#include "Command.h"
+
 #include "Factories.h"
 #include "Event.h"
 
 #include <memory>
 
-class Command;
-class ButtonComponent final : public Component
-{
-public:
-	ButtonComponent(float width, float height);
-		
-	ButtonComponent(ButtonComponent&& other) = delete;
-	ButtonComponent& operator=(ButtonComponent const& rhs) = delete;
-	ButtonComponent& operator=(ButtonComponent&& rhs) = delete;
-	~ButtonComponent();
-		
-	void SetWidth(float width) { m_Dimensions.x = width; }
-	void SetHeight(float height) { m_Dimensions.y = height; }
-	void SetDimensions(glm::vec2 const& dim) { m_Dimensions = dim; }
+template<typename T>
+concept CommandDerived = std::derived_from<T, Command>;
 
-	void SetIsHighlighted(bool isSelected) { m_IsSelected = isSelected; }
-		
-	void SetOnClickFunction(Command* func);
-	void SetOnSelectFunction(Command* func);
-	void SetOnDeselectFunction(Command* func);
-		
-	void SetVisualize(bool visualize) { m_bVisualize = visualize; }
-
-protected:
-	void Initialize() override {};
-	void Update() override;
-	ButtonComponent* Clone() const override { return new ButtonComponent(*this); }
-	
-private:
-	Command* m_pOnClick;
-	Command* m_pOnSelect;
-	Command* m_pOnDeselect;
-		
-	glm::vec2 m_Dimensions;
-		
-	bool m_IsSelected;
-	bool m_bVisualize;
-
-		
-	ButtonComponent(ButtonComponent const& other);
-};
-
-class ECS_ButtonComponent : public ECS_Component
+class ButtonComponent : public Component
 {
 	friend class UiSystem;
 
 public:
-	ECS_ButtonComponent();
-	~ECS_ButtonComponent() {};
+	ButtonComponent();
+	~ButtonComponent() {};
 
 	template<CommandDerived T> void SetOnClickFunction(T* func);
 	template<CommandDerived T> void SetOnSelectFunction(T* func);
@@ -63,9 +26,9 @@ public:
 
 	bool m_bVisualize;
 
-	EventHandler<ECS_ButtonComponent> OnSelect;
-	EventHandler<ECS_ButtonComponent> OnDeselect;
-	EventHandler<ECS_ButtonComponent> OnClick;
+	EventHandler<ButtonComponent> OnSelect;
+	EventHandler<ButtonComponent> OnDeselect;
+	EventHandler<ButtonComponent> OnClick;
 
 	virtual void Serialize(StreamWriter& writer) const override;
 	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -73,37 +36,37 @@ public:
 	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	std::shared_ptr<Command> m_pOnClick{};
-	std::shared_ptr<Command> m_pOnSelect{};
-	std::shared_ptr<Command> m_pOnDeselect{};
+	std::unique_ptr<Command> m_pOnClick{};
+	std::unique_ptr<Command> m_pOnSelect{};
+	std::unique_ptr<Command> m_pOnDeselect{};
 
 	bool m_IsSelected;
 };
 
 template<CommandDerived T> 
-void ECS_ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
+void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
 {
-	CommandFactory::GetInstance().RegisterType<T>([]() {
-		return std::make_shared<T>();
+	Factory<Command>::GetInstance().RegisterType<T>([]() {
+		return new T{};
 		});
 
 	m_pOnClick.reset(func);
 }
 
 template<CommandDerived T> 
-void ECS_ButtonComponent::SetOnSelectFunction(T* func)
+void ButtonComponent::SetOnSelectFunction(T* func)
 {
-	CommandFactory::GetInstance().RegisterType<T>([]() {
-		return std::make_shared<T>();
+	Factory<Command>::GetInstance().RegisterType<T>([]() {
+		return new T{};
 		});
 	m_pOnSelect.reset(func);
 }
 
 template<CommandDerived T> 
-void ECS_ButtonComponent::SetOnDeselectFunction(T* func)
+void ButtonComponent::SetOnDeselectFunction(T* func)
 {
-	CommandFactory::GetInstance().RegisterType<T>([]() {
-		return std::make_shared<T>();
+	Factory<Command>::GetInstance().RegisterType<T>([]() {
+		return new T{};
 		});
 	m_pOnDeselect.reset(func);
 }

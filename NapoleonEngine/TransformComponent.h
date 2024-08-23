@@ -50,16 +50,14 @@ private:
 	glm::vec2 m_WorldScale;
 	float m_WorldRotation;
 		
-	void Initialize() override;
-	void Update() override;
-	TransformComponent* Clone() const override { return new TransformComponent(*this); };
-	TransformComponent(TransformComponent const& other) = default;
+	void Initialize();
+	void Update();
 };
 
 //WIP
 //To test
 //TODO : make loc/rot/sca world and store another local
-class ECS_TransformComponent final: public ECS_Component
+class ECS_TransformComponent final: public Component
 {
 	friend class TransformSystem;
 	friend class GameObject;
@@ -67,7 +65,7 @@ class ECS_TransformComponent final: public ECS_Component
 	friend class Scene;
 
 public:
-	ECS_TransformComponent() : ECS_Component(true) {}
+	ECS_TransformComponent() : Component(true) {}
 	~ECS_TransformComponent()
 	{
 
@@ -89,7 +87,7 @@ public:
 	float GetRotation() const { return m_WorldRotation; }
 	float GetLocalRotation() const { return m_Rotation; }
 
-	void SetParent(std::shared_ptr<ECS_TransformComponent> pParent);
+	void SetParent(ECS_TransformComponent* const pParent);
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -105,7 +103,7 @@ private:
 	glm::vec2 m_WorldScale{ 1.f, 1.f };
 	float m_WorldRotation{};
 
-	std::shared_ptr<ECS_TransformComponent> m_pParent;
+	ECS_TransformComponent* m_pParent;
 
 	glm::vec2 m_OldPosition{};
 	glm::vec2 m_OldScale{ 1.f, 1.f };
@@ -123,5 +121,5 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 
 private:
-	void RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const;
+	void RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const;
 };

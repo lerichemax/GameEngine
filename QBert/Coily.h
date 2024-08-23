@@ -2,8 +2,8 @@
 #include "Enemy.h"
 
 class CoilyCharacterController;
-class Pyramid;
-class Qube;
+class PyramidSystem;
+class QubeSystem;
 class Coily final : public Enemy
 {
 public:

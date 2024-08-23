@@ -20,18 +20,18 @@ BoxCollider::BoxCollider(BoxCollider const& other)
 
 BoxCollider::~BoxCollider()
 {
-	SafeDelete(m_pRectangle);
+	SAFE_DELETE(m_pRectangle);
 }
 
 void BoxCollider::Initialize()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
+	m_pRectangle->pos = GetGameObject()->GetTransform()->GetPosition();
 	ColliderComponent::Initialize();
 }
 
 void BoxCollider::Update()
 {
-	m_pRectangle->pos = m_pGameObject->GetTransform()->GetPosition();
+	m_pRectangle->pos = GetGameObject()->GetTransform()->GetPosition();
 }
 
 void BoxCollider::CheckOverlap(ColliderComponent* pOther)

@@ -12,7 +12,7 @@
 #include "Timer.h"
 
 VersusGameManager::VersusGameManager(TextRendererComponent* pRoundText, TextRendererComponent* pText1,
-                                     TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid,
+                                     TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, PyramidSystem* pPyramid,
                                      GameObject* pGameOver, unsigned int nbrRounds)
 	:m_pRoundText(pRoundText),
 	m_pTextP1(pText1),

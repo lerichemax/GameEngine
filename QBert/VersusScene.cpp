@@ -151,27 +151,27 @@ void VersusScene::Initialize()
 	//AddObject(camObj);
 }
 
-void VersusScene::ResetGame()
-{
-	//m_pPyramid->Reset();
-	
-	m_pQbert->Reset(true, m_pPyramid->GetTop());
-	//m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
-	m_pQbert->SetCanMove();
-	
-	m_pCoilyPlayer->Transform(false);
-	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-	//m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
-	
-	//m_pRoundText->SetText("Round 1");
-	//m_pTextP1->SetText("P1: 0");
-	//m_pTextP2->SetText("P2: 0");
-	SetIsPaused(false);
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
-}
+//void VersusScene::ResetGame()
+//{
+//	//m_pPyramid->Reset();
+//	
+//	m_pQbert->Reset(true, m_pPyramid->GetTop());
+//	//m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+//	m_pQbert->SetCanMove();
+//	
+//	m_pCoilyPlayer->Transform(false);
+//	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+//	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+//	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+//	//m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
+//	
+//	//m_pRoundText->SetText("Round 1");
+//	//m_pTextP1->SetText("P1: 0");
+//	//m_pTextP2->SetText("P2: 0");
+//	SetIsPaused(false);
+//	m_pPauseMenu->SetActive(false);
+//	m_pGameOverMenu->SetActive(false);
+//}
 
 void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 {

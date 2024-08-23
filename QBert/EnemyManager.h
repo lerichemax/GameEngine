@@ -2,29 +2,28 @@
 #include "Component.h"
 
 
-class Pyramid;
-class Qube;
+class PyramidSystem;
+class QubeSystem;
 class Enemy;
 class GameManager;
 class EnemyManager : public Component
 {
 public:
 	explicit EnemyManager(unsigned int maxNbr, float spawnInterval);
-	virtual EnemyManager* Clone() const override = 0;
 
 	EnemyManager(EnemyManager&& other) = delete;
 	EnemyManager& operator=(EnemyManager const& rhs) = delete;
 	EnemyManager& operator=(EnemyManager&& rhs) = delete;
 	virtual ~EnemyManager() = default;
 
-	void Initialize() override;
-	void Update() override;
+	void Initialize();
+	void Update();
 
 	void EnemyDied(Enemy* pEnemy);
 	void Reset();
 	void ResetTimer();
 
-	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
+	void SetPyramid(PyramidSystem* pPyramid) { m_pPyramid = pPyramid; }
 	void SetGameManager(GameManager* pManager) { m_pObserver = pManager; }
 
 protected:
@@ -35,7 +34,7 @@ protected:
 
 	float m_EnemySpawnTimer;
 
-	Pyramid* m_pPyramid;
+	PyramidSystem* m_pPyramid;
 	GameManager* m_pObserver;
 
 	std::vector<Enemy*> m_pEnemies;

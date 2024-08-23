@@ -28,7 +28,7 @@ void CameraComponent::Initialize()
 
 void CameraComponent::Transform() const
 {
-	glm::vec2 const pos = m_pGameObject->GetTransform()->GetPosition();
+	glm::vec2 const pos = GetGameObject()->GetTransform()->GetPosition();
 	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
@@ -41,7 +41,7 @@ glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
 
 glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
-	auto const trans = m_pGameObject->GetTransform();
+	auto const trans = GetGameObject()->GetTransform();
 
 	return BuildTransformMatrix(trans->GetPosition(), trans->GetRotation(),
 		trans->GetScale());
@@ -85,7 +85,7 @@ void CameraSystem::Update(ComponentManager* const pComponentManager)
 	glTranslatef(-upLeft.x, -upLeft.y, 0);
 }
 
-bool CameraSystem::TrySetMainCamera(std::shared_ptr<GameObject> pGameObject)
+bool CameraSystem::TrySetMainCamera(GameObject* const pGameObject)
 {
 	auto entityIt = std::find(m_Entities.begin(), m_Entities.end(), pGameObject->GetEntity());
 	

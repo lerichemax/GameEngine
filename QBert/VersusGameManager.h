@@ -2,7 +2,7 @@
 #include "Observer.h"
 
 
-struct TextRendererComponent;
+class TextRendererComponent;
 
 enum class VersusGameEvent
 {
@@ -17,13 +17,13 @@ enum class VersusGameEvent
 class QBert;
 class Coily;
 class Character;
-class Pyramid;
+class PyramidSystem;
 class CharacterPoint;
 class VersusGameManager final : public Observer
 {
 public:
 	VersusGameManager(TextRendererComponent* pRoundText, TextRendererComponent* pText1,
-		TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, Pyramid* pPyramid, 
+		TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, PyramidSystem* pPyramid, 
 		GameObject* pGameOver, unsigned int nbrRounds);
 	void Notify(GameObject* object, int event) override;
 
@@ -34,7 +34,7 @@ private:
 
 	CharacterPoint* m_pP1;
 	CharacterPoint* m_pP2;
-	Pyramid* m_pPyramid;
+	PyramidSystem* m_pPyramid;
 	GameObject* m_pGameOver;
 	
 	unsigned int m_NbrRounds;

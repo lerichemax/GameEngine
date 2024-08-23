@@ -10,7 +10,7 @@ void ShapeRenderer::Update(ComponentManager* const pComponentManager)
 
 		if (shape != nullptr && shape->IsActive())
 		{
-			Renderer::GetInstance().RenderShape(*shape->m_pShape.get()); // remove singleton call ?
+			Renderer::GetInstance().RenderShape(*shape->m_pShape); // remove singleton call ?
 		}
 	}
 }

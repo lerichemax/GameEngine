@@ -22,15 +22,15 @@ public:
 	GameObject& operator=(GameObject&& other) = delete;
 
 	template <class T> bool HasComponent() const;
-	template<class T> std::shared_ptr<T> GetComponent() const;
-	template <class T> std::shared_ptr<T> GetComponentInChildren() const;
+	template<class T> T* const GetComponent() const;
+	template <class T> T* const GetComponentInChildren() const;
 	template <class T> void RemoveComponent();
 		
-	std::shared_ptr<ECS_TransformComponent> GetTransform() const;
+	ECS_TransformComponent* const GetTransform() const;
 
-	template <typename T> std::shared_ptr<T> AddComponent();
+	template <typename T> T* const AddComponent();
 
-	void AddChild(std::shared_ptr<GameObject> pChild);
+	void AddChild(GameObject* const pChild);
 
 	void SetActive(bool active, bool includeChildren = true);
 	void Destroy();
@@ -50,10 +50,10 @@ private:
 	friend class PrefabsManager;
 	friend class BaseScene;
 
-	GameObject(std::weak_ptr<Coordinator> pRegistry);
+	GameObject(Coordinator* const pRegistry);
 	GameObject(const GameObject& other);
 
-	std::shared_ptr<Coordinator> m_pRegistry;
+	Coordinator* m_pRegistry;
 
 	Entity m_Entity;
 		
@@ -63,7 +63,7 @@ private:
 	void Refresh();
 };
 template <typename T>
-std::shared_ptr<T> GameObject::AddComponent()
+T* const GameObject::AddComponent()
 {
 	auto newComp = m_pRegistry->AddComponent<T>(m_Entity);
 	if (newComp != nullptr)
@@ -73,13 +73,13 @@ std::shared_ptr<T> GameObject::AddComponent()
 	return newComp;
 }
 template <class T>
-std::shared_ptr<T> GameObject::GetComponent() const
+T* const GameObject::GetComponent() const
 {
 	return m_pRegistry->GetComponent<T>(m_Entity);
 }
 
 template <class T>
-std::shared_ptr<T> GameObject::GetComponentInChildren() const
+T* const GameObject::GetComponentInChildren() const
 {
 	return m_pRegistry->GetComponentInChildren<T>(m_Entity);
 }

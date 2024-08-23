@@ -214,7 +214,7 @@ void ECS_TransformComponent::Rotate(float rotation)
 	} 
 }
 
-void ECS_TransformComponent::SetParent(std::shared_ptr<ECS_TransformComponent> pParent)
+void ECS_TransformComponent::SetParent(ECS_TransformComponent* const pParent)
 {
 	m_pParent = pParent;
 	Translate(m_WorldPosition);
@@ -263,7 +263,7 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 
 	writer.WriteDouble("world_rotation", m_WorldRotation);
 	
-	ECS_Component::Serialize(writer);
+	Component::Serialize(writer);
 }
 
 void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -288,7 +288,7 @@ void ECS_TransformComponent::Deserialize(JsonReader const* reader, Serialization
 
 	reader->ReadDouble("world_rotation", m_WorldRotation);
 
-	ECS_Component::Deserialize(reader, context);
+	Component::Deserialize(reader, context);
 }
 
 void ECS_TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
@@ -323,7 +323,7 @@ void TransformSystem::SetSignature(Coordinator* const pRegistry)
 	pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
-void TransformSystem::RecursivelyUpdateHierarchy(std::shared_ptr<ECS_TransformComponent> transformComponent) const
+void TransformSystem::RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const
 {
 	//if (!transformComponent->HasChanged())
 	//{

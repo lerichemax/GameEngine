@@ -33,9 +33,7 @@ public:
 protected:
 	friend class Scene;
 
-	void Initialize() override;
-	void Update() override {};
-	ColliderComponent* Clone() const override = 0;
+	void Initialize();
 		
 	virtual void CheckOverlap(ColliderComponent* pOther) = 0;
 	void CallOverlapFunctions(bool isOverlapping, ColliderComponent* other);

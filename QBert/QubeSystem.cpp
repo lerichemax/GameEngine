@@ -1,11 +1,11 @@
 #include "PCH.h"
-#include "Qube.h"
+#include "QubeSystem.h"
 
-#include "QBertScene.h"
+#include "QubeComponent.h"
+
 #include "QBert.h"
 #include "ColoredDisk.h"
 #include "SlickSam.h"
-#include "Pyramid.h"
 #include "Texture2D.h"
 
 #include "TextureRendererComponent.h"
@@ -14,30 +14,23 @@
 #include "ResourceManager.h"
 #include "GameManager.h"
 
-EventHandler<Qube> Qube::OnAnyQubeFlipped{};
+#include "Coordinator.h"
 
-Qube::Qube()
-	:m_pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
-	m_pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
-	m_pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png")),
-	m_pCharacter(nullptr),
-	m_CharacterPos(),
-	m_QubeLevel{Level::Level1},
-	m_bIsFlipped(false),
-	m_bIsLastRow(false),
-	m_bIsSideColumn(false),
-	m_JumpCounter()
+EventHandler<QubeSystem> QubeSystem::OnAnyQubeFlipped{};
+
+void QubeSystem::Initialize(ComponentManager* const pCompManager)
 {
-}
+	for (Entity entity : m_Entities)
+	{
+		auto* const pTextureRenderer = pCompManager->GetComponent<TextureRendererComponent>(entity);
+		auto* const pQube = pCompManager->GetComponent<QubeComponent>(entity);
+		auto* const pTransform = pCompManager->GetComponent<ECS_TransformComponent>(entity);
 
-void Qube::Initialize()
-{
-	//m_pScene = dynamic_cast<QBertScene*>(m_pGameObject->GetParentScene());
+		pTextureRenderer->m_pTexture = pQube->m_pDefaultText;
 
-	GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
-
-	m_CharacterPos.x = GetGameObject()->GetTransform()->GetPosition().x + GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture->GetWidth() / 4;
-	m_CharacterPos.y = GetGameObject()->GetTransform()->GetPosition().y - GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture->GetHeight() / 5;
+		pQube->m_CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->m_pTexture->GetWidth() / 4;
+		pQube->m_CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->m_pTexture->GetHeight() / 5;
+	}
 
 	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
 	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
@@ -46,11 +39,11 @@ void Qube::Initialize()
 	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
-void Qube::Start()
+void QubeSystem::Start(ComponentManager* const pCompManager)
 {
 }
 
-void Qube::Update()
+void QubeSystem::Update(ComponentManager* const pCompManager)
 {
 	/*if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
 	{
@@ -59,51 +52,37 @@ void Qube::Update()
 	}*/
 }
 
-void Qube::SetTexture(std::shared_ptr<Texture2D> pText)
+void QubeSystem::HandleQBertLanding()
 {
-	m_pIntermediateTexture = pText;
-	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIntermediateTexture);
+	//switch (m_QubeLevel)
+	//{
+	//case Level::Level1:
+	//	Flip();
+	//	break;
+	//case Level::Level2:
+	//	if (m_JumpCounter < 1)
+	//	{
+	//		GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pIntermediateTexture;
+	//		m_JumpCounter++;
+	//	}
+	//	else 
+	//	{
+	//		Flip();
+	//	}
+	//	break;
+	//case Level::Level3:
+	//	if (IsFlipped())
+	//	{
+	//		UnFlip();
+	//	}
+	//	else {
+	//		Flip();
+	//	}
+	//	break;
+	//}
 }
 
-void Qube::HandleQBertLanding()
-{
-	switch (m_QubeLevel)
-	{
-	case Level::Level1:
-		Flip();
-		break;
-	case Level::Level2:
-		if (m_JumpCounter < 1)
-		{
-			GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pIntermediateTexture;
-			m_JumpCounter++;
-		}
-		else 
-		{
-			Flip();
-		}
-		break;
-	case Level::Level3:
-		if (IsFlipped())
-		{
-			UnFlip();
-		}
-		else {
-			Flip();
-		}
-		break;
-	}
-}
-
-void Qube::AddConnection(ConnectionDirection dir, std::shared_ptr<Qube> pConnection)
-{
-	if (dir != ConnectionDirection::null)
-	{
-		m_pConnections[static_cast<int>(dir)] = pConnection;
-	}
-}
-
-void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pConnection)
+void QubeSystem::AddEscheresqueRightConnection(ConnectionDirection dir, QubeSystem* const pConnection)
 {
 	/*if (dir != ConnectionDirection::null)
 	{
@@ -111,7 +90,7 @@ void Qube::AddEscheresqueRightConnection(ConnectionDirection dir, Qube* const pC
 	}*/	
 }
 
-void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pConnection)
+void QubeSystem::AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSystem* const pConnection)
 {
 	/*if (dir != ConnectionDirection::null)
 	{
@@ -119,7 +98,7 @@ void Qube::AddEscheresqueLeftConnection(ConnectionDirection dir, Qube* const pCo
 	}*/
 }
 
-void Qube::AddConnectionToDisk()
+void QubeSystem::AddConnectionToDisk()
 {
 	//auto const pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
 	//pDisk->GetComponent<ColoredDisk>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
@@ -147,16 +126,17 @@ void Qube::AddConnectionToDisk()
 	Debugger::GetInstance().Log("Disk spawned");
 }
 
-bool Qube::HasConnection(ConnectionDirection dir) const
+bool QubeSystem::HasConnection(ConnectionDirection dir) const
 {
-	if (dir == ConnectionDirection::null)
-	{
-		return false;
-	}
-	return m_pConnections[static_cast<int>(dir)] != nullptr;
+	//if (dir == ConnectionDirection::null)
+	//{
+	//	return false;
+	//}
+	//return m_pConnections[static_cast<int>(dir)] != nullptr;
+	return true;
 }
 
-bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
+bool QubeSystem::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
 	/*if (escheresqueRight)
 	{
@@ -169,7 +149,7 @@ bool Qube::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRig
 	return true;
 }
 
-std::shared_ptr<Qube> Qube::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
+QubeSystem* const QubeSystem::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
 {
 
 	//if (escheresqueRight)
@@ -183,12 +163,12 @@ std::shared_ptr<Qube> Qube::GetEscheresqueConnection(ConnectionDirection dir, bo
 	return nullptr;
 }
 
-void Qube::QBertJump(QBert* pQbert)
+void QubeSystem::QBertJump(QBert* pQbert)
 {
-	if (!m_bIsFlipped)
-	{
-		pQbert->EarnPoints(POINTS_FOR_FLIP);
-	}
+	//if (!m_bIsFlipped)
+	//{
+	//	pQbert->EarnPoints(POINTS_FOR_FLIP);
+	//}
 	
 	//switch (m_pScene->GetLevel())
 	//{
@@ -236,30 +216,30 @@ void Qube::QBertJump(QBert* pQbert)
 	
 }
 
-void Qube::Flip()
+void QubeSystem::Flip()
 {
-	if (!m_bIsFlipped)
-	{
-		GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pFlippedTexture;
-		m_bIsFlipped = true;
-		m_JumpCounter++;
-		OnAnyQubeFlipped.Notify();
-	}
+	//if (!m_bIsFlipped)
+	//{
+	//	GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pFlippedTexture;
+	//	m_bIsFlipped = true;
+	//	m_JumpCounter++;
+	//	OnAnyQubeFlipped.Notify();
+	//}
 }
 
-void Qube::UnFlip()
+void QubeSystem::UnFlip()
 {
-	m_bIsFlipped = false;
-	GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
-	m_JumpCounter=0;
+	//m_bIsFlipped = false;
+	//GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
+	//m_JumpCounter=0;
 }
 
-void Qube::Reset(Level level)
+void QubeSystem::Reset(Level level)
 {
-	m_bIsFlipped = false;
-	m_JumpCounter = 0;
-	m_pCharacter = nullptr;
-	m_QubeLevel = level;
+	//m_bIsFlipped = false;
+	//m_JumpCounter = 0;
+	//m_pCharacter = nullptr;
+	//m_QubeLevel = level;
 	
 	//if (m_pGameObject->HasChildren())
 	//{
@@ -270,32 +250,40 @@ void Qube::Reset(Level level)
 	//}
 	//m_pDiskConnection = nullptr;
 	
-	GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
+	//GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
 }
 
-ColoredDisk* Qube::GetConnectedDisk() const
+ColoredDisk* QubeSystem::GetConnectedDisk() const
 {
 	//return m_pDiskConnection;
 	return nullptr;
 }
 
-void Qube::CharacterJumpIn(Character* pCharacter)
+void QubeSystem::CharacterJumpIn(Character* pCharacter)
 {
-	m_pCharacter = pCharacter;
-	if (typeid(*pCharacter) == typeid(SlickSam) && (m_bIsFlipped || m_JumpCounter > 0))
-	{
-		UnFlip();
-	}
+	//m_pCharacter = pCharacter;
+	//if (typeid(*pCharacter) == typeid(SlickSam) && (m_bIsFlipped || m_JumpCounter > 0))
+	//{
+	//	UnFlip();
+	//}
 }
 
-void Qube::CharacterJumpOut()
+void QubeSystem::CharacterJumpOut()
 {
-	m_pCharacter = nullptr;
+	//m_pCharacter = nullptr;
 }
 
-void Qube::Serialize(StreamWriter& writer) const
+void QubeSystem::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(Qube).name());
+	writer.WriteString("type", typeid(QubeSystem).name());
+}
 
-	BehaviourComponent::Serialize(writer);
+void QubeSystem::SetSignature(Coordinator* const pRegistry)
+{
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<QubeComponent>());
+	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(pRegistry->GetComponentType<TextureRendererComponent>());
+
+	pRegistry->SetSystemSignature<QubeSystem>(signature);
 }

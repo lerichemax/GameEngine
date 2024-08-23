@@ -8,7 +8,17 @@
 #include "BehaviourSystem.h"
 #include "TransformComponent.h"
 
-inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale)
+#define SAFE_DELETE(ptr) \
+	if (ptr != nullptr) \
+	{\
+		delete(ptr);\
+		ptr = nullptr;\
+	}\
+
+#define IS_VALID(ptr) (ptr != nullptr) \
+
+
+inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale) //make part of transform
 {
 	auto identityMatrix = glm::mat3(1.0f);
 
@@ -29,16 +39,6 @@ inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::ve
 	return  trans * rotation * scaling;
 }
 
-template <typename T>
-inline void SafeDelete(T& pToDelete)
-{
-	if (pToDelete != nullptr)
-	{
-		delete(pToDelete);
-		pToDelete = nullptr;
-	}
-}
-
 inline glm::vec2 TransformPoint(glm::vec2 const& point, glm::mat3x3 const& mat)
 {
 	glm::vec3 toTransform{ point.x, point.y, 1 };
@@ -51,18 +51,24 @@ inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
 	return mat * toTransform;
 }
 
-inline std::shared_ptr<GameObject> Instantiate(std::string const& name)
+inline GameObject* const Instantiate(std::string const& name)
 {
 	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name);
 }
 
-inline std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location)
+inline GameObject* const Instantiate(std::string const& name, glm::vec2 const& location)
 {
 	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name, location);
 }
 
 template <ComponentDerived T>
-inline std::shared_ptr<T> FindComponentOfType()
+inline T* const FindComponentOfType()
 {
 	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
+}
+
+template <SystemDerived T>
+inline T* const GetSystem()
+{
+	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->GetSystem<T>();
 }

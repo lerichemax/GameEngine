@@ -32,16 +32,16 @@ void ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderCompone
 		if (std::find(m_pOverlappingColliders.begin(), m_pOverlappingColliders.end(), pOther)
 			!= m_pOverlappingColliders.end() && m_bIsTrigger && m_OnTriggerStay)
 		{
-			m_OnTriggerStay(m_pGameObject, pOther->GetGameObject());
+			m_OnTriggerStay(GetGameObject(), pOther->GetGameObject());
 		}
 		else if (m_OnTriggerEnter && m_bIsTrigger)
 		{
-			m_OnTriggerEnter(m_pGameObject, pOther->GetGameObject());
+			m_OnTriggerEnter(GetGameObject(), pOther->GetGameObject());
 			m_pOverlappingColliders.emplace_back(pOther);
 		}
 		else if (m_OnCollision && !m_bIsTrigger)
 		{
-			m_OnCollision(m_pGameObject, pOther->GetGameObject());
+			m_OnCollision(GetGameObject(), pOther->GetGameObject());
 		}
 	}
 	else if (std::find(m_pOverlappingColliders.begin(), m_pOverlappingColliders.end(), pOther)
@@ -49,7 +49,7 @@ void ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderCompone
 	{
 		if (m_OnTriggerExit)
 		{
-			m_OnTriggerExit(m_pGameObject, pOther->GetGameObject());
+			m_OnTriggerExit(GetGameObject(), pOther->GetGameObject());
 		}
 		m_pOverlappingColliders.erase(std::remove(m_pOverlappingColliders.begin(),
 			m_pOverlappingColliders.end(), pOther));

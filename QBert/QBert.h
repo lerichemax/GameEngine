@@ -3,8 +3,8 @@
 
 
 struct AudioComponent;
-struct ECS_CharacterLives;
-class ECS_CharacterPoint;
+struct CharacterLives;
+class CharacterPoint;
 class RendererComponent;
 class QBert final : public Character
 {
@@ -16,12 +16,12 @@ public:
 	
 	void EarnPoints(int points);
 	void JumpOffDisk();
-	void Reset(bool fullReset, std::shared_ptr<Qube> pTargetQube);
+	void Reset(bool fullReset, QubeSystem* pTargetQube);
 	void SetCanMove() { m_bCanMove = true; }
 	void SetPlayerNbr(int nbr) { m_PlayerNbr = nbr; }
 	int GetPlayerNbr() const { return m_PlayerNbr; }
 	void Swear()const;
-	void SetAudioComponents(std::shared_ptr<AudioComponent> jump, std::shared_ptr<AudioComponent> fall, std::shared_ptr<AudioComponent> swear);
+	void SetAudioComponents(AudioComponent* const jump, AudioComponent* const fall, AudioComponent* const swear);
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -40,13 +40,13 @@ protected:
 	void SetDirectionTextures(ConnectionDirection dir) override;
 
 private:
-	std::shared_ptr<ECS_CharacterPoint> m_pPoints;
-	std::shared_ptr<ECS_CharacterLives> m_pLives;
-	std::shared_ptr<RendererComponent> m_pHurtTex;
+	CharacterPoint* m_pPoints;
+	CharacterLives* m_pLives;
+	RendererComponent* m_pHurtTex;
 
-	std::shared_ptr<AudioComponent> m_pJumpSound;
-	std::shared_ptr<AudioComponent> m_pFallSound;
-	std::shared_ptr<AudioComponent> m_pSwearSound;
+	AudioComponent* m_pJumpSound;
+	AudioComponent* m_pFallSound;
+	AudioComponent* m_pSwearSound;
 	
 	int m_PlayerNbr;
 

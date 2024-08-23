@@ -27,7 +27,7 @@ ComponentManager* const Coordinator::GetComponentManager() const
 	return m_pComponentManager.get();
 }
 
-void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, std::shared_ptr<Coordinator> pOther)
+void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, Coordinator* const pOther)
 {
 	if (pOther->m_pEntityManager->HasATag(originEntity))
 	{
@@ -43,30 +43,30 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 		auto arrayIndex = reader->ReadArrayIndex(i);
 		ComponentType type = m_pComponentManager->DeserializeAndAddComponent(entity, arrayIndex.get(), context);
 		signature.set(type, true);
-
-		//to refactor
-		bool exception = false;
-		arrayIndex->ReadBool("behaviour", exception);
-		if (exception)
-		{
-			signature.set(m_pComponentManager->GetComponentType<BehaviourComponent>(), true);
-		}
-		arrayIndex->ReadBool("renderer", exception);
-		if (exception)
-		{
-			signature.set(m_pComponentManager->GetComponentType<RendererComponent>(), true);
-		}
 	}
 	
 	m_pEntityManager->SetSignature(entity, signature);
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
+System* const Coordinator::DeserializeSystem(JsonReader const* reader, SerializationMap& context)
+{
+	std::string systemName;
+	reader->ReadString("type", systemName);
+
+	auto* const pSystem = Factory<System>::GetInstance().Create(systemName);
+
+	m_pSystemManager->ForceAddSystem(systemName, pSystem);
+	pSystem->SetSignature(this);
+
+	return pSystem;
+}
+
 void Coordinator::SetEntityActive(Entity entity, bool isActive)
 {
 	auto components = m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));
 
-	for (std::shared_ptr<ECS_Component> comp : components)
+	for (Component* const comp : components)
 	{
 		comp->SetActive(isActive);
 	}
@@ -114,7 +114,7 @@ std::vector<Entity> Coordinator::GetEntityHierarchy(Entity entity) const
 	return m_pEntityManager->GetEntityHierarchy(entity);
 }
 
-std::vector<std::shared_ptr<ECS_Component>> Coordinator::GetComponents(Entity entity)
+std::vector<Component*> Coordinator::GetComponents(Entity entity)
 {
 	return m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));
 }

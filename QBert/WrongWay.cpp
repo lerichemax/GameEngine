@@ -4,7 +4,6 @@
 #include "BoxCollider.h"
 #include "EnemyOnQubeState.h"
 
-#include "Jumper.h"
 #include "GameManager.h"
 #include "JumpingState.h"
 #include "Qube.h"
@@ -71,7 +70,7 @@ void WrongWay::DoMove(ConnectionDirection direction)
 	}
 }
 
-void WrongWay::JumpToQube(std::shared_ptr<Qube> pNextQube)
+void WrongWay::JumpToQube(QubeSystem* const pNextQube)
 {
 	if (pNextQube == nullptr)
 	{

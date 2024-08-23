@@ -8,17 +8,17 @@
 
 void UIManager::Start()
 {
-	FindComponentOfType<ECS_CharacterPoint>()->OnPointsUpdated.Subscribe([this](int points) {
-		m_pP1PointsCounter->m_Text = "P1 Points: " + std::to_string(points);
+	FindComponentOfType<CharacterPoint>()->OnPointsUpdated.Subscribe([this](int points) {
+		m_pP1PointsCounter->SetText("P1 Points: " + std::to_string(points));
 		});
 
-	auto characterLives = FindComponentOfType<ECS_CharacterLives>();
+	auto characterLives = FindComponentOfType<CharacterLives>();
 	characterLives->OnDied.Subscribe([this](int lives) {
-		m_P1LivesCounter->m_Text = "P1 Lives: " + std::to_string(lives);
+		m_P1LivesCounter->SetText("P1 Lives: " + std::to_string(lives));
 		});
 
 	characterLives->OnGameOver.Subscribe([this]() {
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
+		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
 		m_pGameOverMenu->SetActive(true);
 		});
 
@@ -27,27 +27,34 @@ void UIManager::Start()
 		});
 
 	FindComponentOfType<GameManagerBehaviour>()->OnGameEnded.Subscribe([this]() {
-		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->m_Text = "You Win";
+		m_pGameOverMenu->GetComponentInChildren<TextRendererComponent>()->SetText("You Win");
 		m_pGameOverMenu->SetActive(true);
 	});
 }
 
-void UIManager::SetP1PointsCounter(std::shared_ptr<TextRendererComponent> p1Points)
+void UIManager::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(UIManager).name());
+
+	BehaviourComponent::Serialize(writer);
+}
+
+void UIManager::SetP1PointsCounter(TextRendererComponent* const p1Points)
 {
 	m_pP1PointsCounter = p1Points;
 }
 
-void UIManager::SetP1LivesCounter(std::shared_ptr<TextRendererComponent> p1Lives)
+void UIManager::SetP1LivesCounter(TextRendererComponent* const p1Lives)
 {
 	m_P1LivesCounter = p1Lives;
 }
 
-void UIManager::SetPauseMenu(std::shared_ptr<GameObject> pauseMenu)
+void UIManager::SetPauseMenu(GameObject* const pauseMenu)
 {
 	m_pPauseMenu = pauseMenu;
 }
 
-void UIManager::SetGameOverMenu(std::shared_ptr<GameObject> gameOverMenu)
+void UIManager::SetGameOverMenu(GameObject* const gameOverMenu)
 {
 	m_pGameOverMenu = gameOverMenu;
 }

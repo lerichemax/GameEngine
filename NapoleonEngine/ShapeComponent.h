@@ -5,6 +5,9 @@
 #include <concepts>
 #include <memory>
 
+template <typename T>
+concept ShapeDerived = std::derived_from<T, geo::Shape>;
+
 class ShapeComponent final : public RendererComponent
 {
 	friend class ShapeRenderer;
@@ -23,15 +26,15 @@ protected:
 	void Render() override;
 	
 private:
-	std::shared_ptr<geo::Shape> m_pShape = nullptr;
+	geo::Shape* m_pShape = nullptr;
 };
 
 template <ShapeDerived S>
 void ShapeComponent::SetShape(S* const shape)
 {
-	ShapeFactory::GetInstance().RegisterType<S>([]() {
-		return std::make_shared<S>();
+	Factory<geo::Shape>::GetInstance().RegisterType<S>([]() {
+		return new S{};
 		});
 
-	m_pShape.reset(shape);
+	m_pShape = shape;
 }

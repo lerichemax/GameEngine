@@ -14,7 +14,7 @@ void AudioSystem::Update(ComponentManager* const pComponentManager)
 	for (Entity const& entity : m_Entities)
 	{
 		auto audioComps = pComponentManager->GetComponents<AudioComponent>(entity);
-		for (std::shared_ptr<AudioComponent> audio : audioComps)
+		for (AudioComponent* const audio : audioComps)
 		{
 			if (!audio->IsActive())
 			{

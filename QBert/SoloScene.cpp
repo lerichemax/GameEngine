@@ -1,7 +1,8 @@
 #include "PCH.h"
 #include "SoloScene.h"
 
-#include "Pyramid.h"
+#include "PyramidSystem.h"
+
 #include "QBert.h"
 #include "MoveCommand.h"
 
@@ -37,23 +38,23 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-	auto const livesP1 = Instantiate("LivesUI");
-	auto const pointsP1 = Instantiate("PointsUI");
+	//auto const livesP1 = Instantiate("LivesUI");
+	//auto const pointsP1 = Instantiate("PointsUI");
 
-	auto uiManagerObj = CreateGameObject();
-	auto uiManager = uiManagerObj->AddComponent<UIManager>();
-	uiManager->SetP1LivesCounter(livesP1->GetComponent<TextRendererComponent>());
-	uiManager->SetP1PointsCounter(pointsP1->GetComponent<TextRendererComponent>());
+	//auto uiManagerObj = CreateGameObject();
+	//auto uiManager = uiManagerObj->AddComponent<UIManager>();
+	//uiManager->SetP1LivesCounter(livesP1->GetComponent<TextRendererComponent>());
+	//uiManager->SetP1PointsCounter(pointsP1->GetComponent<TextRendererComponent>());
 
-	//Pause Menu
-	m_pPauseMenu = Instantiate("PauseMenu");
-	m_pPauseMenu->SetActive(false);
-	uiManager->SetPauseMenu(m_pPauseMenu);
+	////Pause Menu
+	//auto pauseMenuObject = Instantiate("PauseMenu");
+	//pauseMenuObject->SetActive(false);
+	//uiManager->SetPauseMenu(pauseMenuObject);
 
-	//Game Over menu
-	auto gameOverMenu = Instantiate("GameOverMenu");
-	gameOverMenu->SetActive(false);
-	uiManager->SetGameOverMenu(gameOverMenu);
+	////Game Over menu
+	//auto gameOverMenu = Instantiate("GameOverMenu");
+	//gameOverMenu->SetActive(false);
+	//uiManager->SetGameOverMenu(gameOverMenu);
 
 	//Qbert
 	auto qbertObj = Instantiate("QBert");
@@ -61,18 +62,20 @@ void SoloScene::Initialize()
 	auto qbert = qbertObj->GetComponent<QBert>();
 	qbert->SetPlayerNbr(1);
 
-	livesP1->GetComponent<TextRendererComponent>()->m_Text = "P1 Lives: " + std::to_string(qbertObj->GetComponent<ECS_CharacterLives>()->GetNbrLives());
+	//livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
 	
-	auto const pyramidObj = Instantiate("Pyramid");
-	auto pyramid = pyramidObj->GetComponent<Pyramid>();
+	Instantiate("Pyramid");
+	AddSystem<PyramidSystem>();
+
+	//auto pyramid = pyramidObj->GetComponent<Pyramid>();
 	//m_pPyramid->SetQBert(qbert);
 	
 	//game manager
-	auto gameManagerObj = CreateGameObject();
-	auto gameManager = gameManagerObj->AddComponent<GameManagerBehaviour>();
+	//auto gameManagerObj = CreateGameObject();
+	//auto gameManager = gameManagerObj->AddComponent<GameManagerBehaviour>();
 
-	auto resumeBtn = FindTagInChildren(m_pPauseMenu, "ResumeBtn");
-	resumeBtn->GetComponent<ECS_ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ gameManager });
+	//auto resumeBtn = FindTagInChildren(pauseMenuObject, "ResumeBtn");
+	//resumeBtn->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ gameManager });
 
 //	auto* enemyManagerObj = new GameObject{};
 //	auto* pWWm = new WrongWayManager{2, 7};
@@ -89,11 +92,7 @@ void SoloScene::Initialize()
 //	m_pEnemyManagers.push_back(pCm);
 //	
 //	AddObject(enemyManagerObj);
-//
-//	//game over menu
-//	m_pGameOverMenu = pPrefabManager.Instantiate("GameOverMenu");
-//	AddObject(m_pGameOverMenu);
-//	
+	
 //	//Replay
 //	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
 //	pBtn = pBtnObject->GetComponent<ButtonComponent>();
@@ -148,25 +147,8 @@ void SoloScene::ResetScene(Level newLevel)
 		pManager->Reset();
 	}
 
-	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	//m_pQbert->Reset(false, m_pPyramid->GetTop());
 	SetIsPaused(false);
-}
-
-void SoloScene::ResetGame()
-{
-	//m_Level = Level::Level1;
-	//m_pPyramid->Reset();
-	//
-	//for (EnemyManager* pManager : m_pEnemyManagers)
-	//{
-	//	pManager->Reset();
-	//	pManager->ResetTimer();
-	//}
-	//
-	//m_pQbert->Reset(true, m_pPyramid->GetTop());
-	//SetIsPaused(false);
-	//m_pPauseMenu->SetActive(false);
-	//m_pGameOverMenu->SetActive(false);
 }
 
 void SoloScene::DeclareInput() 

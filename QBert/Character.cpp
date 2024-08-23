@@ -3,7 +3,7 @@
 
 #include "CharacterState.h"
 #include "CoilyCharacterController.h"
-#include "Jumper.h"
+
 #include "Qube.h"
 #include "OnQubeState.h"
 #include "JumpingState.h"
@@ -14,7 +14,7 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 
-Character::Character(std::shared_ptr<Qube> pStart, CharacterType type)
+Character::Character(QubeSystem* const pStart, CharacterType type)
 	: m_pCurrentQube(pStart),
 	m_pJumper(nullptr),
 	m_pState(nullptr),
@@ -40,7 +40,7 @@ Character::Character(Character const& other)
 
 Character::~Character()
 {
-	SafeDelete(m_pState);
+	SAFE_DELETE(m_pState);
 }
 
 void Character::Start()
@@ -56,7 +56,7 @@ void Character::Update()
 	//SwitchState(newState);
 }
 
-void Character::SetCurrentQube(std::shared_ptr<Qube> pTargetQube)
+void Character::SetCurrentQube(QubeSystem* const pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{
@@ -86,7 +86,7 @@ void Character::MoveToCurrentQube()
 	}
 }
 
-void Character::JumpToQube(std::shared_ptr<Qube> pTargetQube)
+void Character::JumpToQube(QubeSystem* const pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{
@@ -94,7 +94,7 @@ void Character::JumpToQube(std::shared_ptr<Qube> pTargetQube)
 	}
 
 	m_pCurrentQube = pTargetQube;
-	m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
+	//m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
 }
 
 void Character::SwitchToIdleTex() const
@@ -122,7 +122,7 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	SetLayerToBackGround();
 	
 	m_pCurrentQube->CharacterJumpOut();
-	m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
+	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
 }
 
 void Character::Move(ConnectionDirection direction)
@@ -150,7 +150,7 @@ void Character::SwitchState(CharacterState* pState)
 		if (m_pState != nullptr)
 		{
 			m_pState->Exit();
-			SafeDelete(m_pState);
+			SAFE_DELETE(m_pState);
 		}
 		m_pState = pState;
 		m_pState->Enter();

@@ -6,7 +6,6 @@
 #include "Shapes.h"
 
 
-struct TextRendererComponent;
 class SwitchTextColor final : public Command
 {
 public:

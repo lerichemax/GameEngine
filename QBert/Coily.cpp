@@ -43,7 +43,7 @@ void Coily::Initialize()
 
 void Coily::DoMove(ConnectionDirection direction)
 {
-	if (m_pController != nullptr && !m_pController->IsEnable() &&
+	if (m_pController != nullptr /*&& !m_pController->IsEnable()*/ &&
 		!m_pCurrentQube->HasConnection(direction))
 	{
 		FallSound();
@@ -53,7 +53,7 @@ void Coily::DoMove(ConnectionDirection direction)
 	}
 
 	Enemy::DoMove(direction);
-	if (m_pController != nullptr && !m_pController->IsEnable())
+	if (m_pController != nullptr /*&& !m_pController->IsEnable()*/)
 	{
 		SwitchState(new JumpingState(this, m_pJumper));
 	}
@@ -84,7 +84,7 @@ void Coily::MeetCharacter(Character* pOther)
 
 void Coily::DoDie()
 {
-	if (m_pController != nullptr && m_pController->IsEnable())
+	if (m_pController != nullptr/* && m_pController->IsEnable()*/)
 	{
 		Enemy::DoDie();
 		//GetGameObject()->Notify(static_cast<int>(GameEvent::CoilyDies));

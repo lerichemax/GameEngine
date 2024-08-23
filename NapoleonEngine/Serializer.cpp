@@ -50,15 +50,6 @@ SerializationMap::SerializationMap()
 	m_Refs.insert(std::make_pair(- 1, nullptr));
 }
 
-int SerializationMap::GetId(std::shared_ptr<void> pRef) const
-{
-	auto it = std::find_if(m_Refs.begin(), m_Refs.end(), [&pRef](auto const& pair) {
-		return pair.second == pRef;
-		});
-
-	return it->first;
-}
-
 IContextSerializable::IContextSerializable()
 {
 	m_Id = Id++;

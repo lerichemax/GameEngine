@@ -81,7 +81,7 @@ void GameManager::Notify(GameObject* object, int event)
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
 			Debugger::GetInstance().Log("GAME OVER");
-			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->m_Text = "Game Over";
+			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
 			Timer::GetInstance().SetTimeScale(0);
 			m_pGameOver->SetActive(true);
 			m_NbrDeadPlayers = 0;
@@ -146,7 +146,7 @@ void GameManagerBehaviour::Start()
 {
 	m_Level = Level::Level1;
 
-	m_pPyramid = FindComponentOfType<Pyramid>();
+	m_pPyramid = FindComponentOfType<PyramidSystem>();
 	m_pQbert = FindComponentOfType<QBert>();
 
 	if (m_pPyramid != nullptr)
@@ -156,17 +156,23 @@ void GameManagerBehaviour::Start()
 			});
 	}
 
-	m_pQbert->GetGameObject()->GetComponent<ECS_CharacterLives>()->OnGameOver.Subscribe([this]() {
-		Timer::GetInstance().SetTimeScale(0);
-		});
+	if (m_pQbert != nullptr)
+	{
+		m_pQbert->GetGameObject()->GetComponent<CharacterLives>()->OnGameOver.Subscribe([this]() {
+			Timer::GetInstance().SetTimeScale(0);
+			});
+	}
 
-	InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
-	new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
+	//InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
+	//new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
 }
 
 void GameManagerBehaviour::Update()
 {
-	InputManager::GetInstance().HandleInput(SDLK_p, GetGameObject());
+	if (InputManager::GetInstance().IsUp(SDL_SCANCODE_P))
+	{
+		TogglePause();
+	}
 }
 
 void GameManagerBehaviour::Serialize(StreamWriter& writer) const

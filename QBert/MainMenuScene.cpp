@@ -21,7 +21,7 @@ void MainMenuScene::Initialize()
 {
 	m_BackgroundColor = { 0, 77, 153, 1 };
 
-	std::shared_ptr<GameObject> titleObject = CreateGameObject();
+	GameObject* const titleObject = CreateGameObject();
 	auto rendererComp = titleObject->AddComponent<TextureRendererComponent>();
 	rendererComp->m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
 	rendererComp->m_Layer = 10;
@@ -29,14 +29,14 @@ void MainMenuScene::Initialize()
 	titleObject->GetTransform()->Translate(300, 50);
 	titleObject->GetTransform()->Scale(0.8f);
 
-	std::shared_ptr<GameObject> soloBtn = CreateGameObject();
+	GameObject* const soloBtn = CreateGameObject();
 
 	auto txt = soloBtn->AddComponent<TextRendererComponent>();
-	txt->m_Text = "Solo";
-	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
+	txt->SetText("Solo");
+	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
 	soloBtn->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 
-	auto btn = soloBtn->AddComponent<ECS_ButtonComponent>();
+	auto btn = soloBtn->AddComponent<ButtonComponent>();
 	btn->m_Dimensions = { 70,30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
@@ -47,12 +47,12 @@ void MainMenuScene::Initialize()
 	auto coopBtn = CreateGameObject();
 
 	txt = coopBtn->AddComponent<TextRendererComponent>();
-	txt->m_Text = "Co-op";
-	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
+	txt->SetText("Co-op");
+	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
 
 	coopBtn->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 
-	btn = coopBtn->AddComponent<ECS_ButtonComponent>();
+	btn = coopBtn->AddComponent<ButtonComponent>();
 	btn->m_Dimensions = { 80, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
@@ -63,12 +63,12 @@ void MainMenuScene::Initialize()
 	auto vsBtn = CreateGameObject();
 	
 	txt = vsBtn->AddComponent<TextRendererComponent>();
-	txt->m_Text = "Versus";
-	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
+	txt->SetText("Versus");
+	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
 
 	vsBtn->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 
-	btn = vsBtn->AddComponent<ECS_ButtonComponent>();
+	btn = vsBtn->AddComponent<ButtonComponent>();
 	btn->m_Dimensions = { 92, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
@@ -79,12 +79,12 @@ void MainMenuScene::Initialize()
 	auto quitBtn = CreateGameObject();
 
 	txt = quitBtn->AddComponent<TextRendererComponent>();
-	txt->m_Text = "Quit";
-	txt->m_pFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28);
+	txt->SetText("Quit");
+	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
 
 	quitBtn->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 
-	btn = quitBtn->AddComponent<ECS_ButtonComponent>();
+	btn = quitBtn->AddComponent<ButtonComponent>();
 	btn->m_Dimensions = { 70, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });

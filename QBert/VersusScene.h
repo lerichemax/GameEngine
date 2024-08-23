@@ -1,15 +1,13 @@
 #pragma once
 #include "QBertScene.h"
 
-struct TextRendererComponent;
+class TextRendererComponent;
 class Coily;
 class VersusScene final : public QBertScene
 {
 public:
 	VersusScene();
 
-
-	void ResetGame() override;
 	void ResetScene(Level newLevel) override;
 
 private:

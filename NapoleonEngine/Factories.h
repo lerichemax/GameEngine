@@ -6,73 +6,36 @@
 #include <unordered_map>
 #include <string>
 
-//make one class ?
 
-class ComponentManager;
-struct ECS_Component;
-class ComponentFactory final : public Singleton<ComponentFactory>
+template <class D, class B>
+concept Derived = std::derived_from<D, B>;
+
+template <class T, typename... params>
+class Factory final : public Singleton<Factory<T, params...>>
 {
-	using Creator = std::function<std::shared_ptr<ECS_Component>(ComponentManager* const compManager)>;
+	using Creator = std::function<T*(params...)>;
 
 public:
-	template <ComponentDerived T> void RegisterType(Creator creator);
-	std::shared_ptr<ECS_Component> Create(std::string const& typeName, ComponentManager* const compManager);
+	template <Derived<T> D> 
+	void RegisterType(Creator creator)
+	{
+		std::string typeName{ typeid(D).name() };
+		m_Creators[typeName] = creator;
+	}
+
+	T* Create(std::string const& typeName, params... parameters)
+	{
+		if (typeName.empty())
+		{
+			return nullptr;
+		}
+		std::string errorMsg{ typeName + " not registered for creation" };
+
+		assert(m_Creators.find(typeName) != m_Creators.end() && errorMsg.c_str());
+
+		return m_Creators.at(typeName)(parameters...);
+	}
 
 private:
 	std::unordered_map<std::string, Creator> m_Creators;
 };
-
-template <ComponentDerived T>
-void ComponentFactory::RegisterType(Creator creator)
-{
-	std::string typeName{ typeid(T).name() };
-	m_Creators[typeName] = creator;
-}
-
-class Command;
-
-template<typename T>
-concept CommandDerived = std::derived_from<T, Command>;
-
-class CommandFactory final : public Singleton<CommandFactory>
-{
-	using CommandCreator = std::function<std::shared_ptr<Command>()>;
-
-public:
-	template <CommandDerived T> void RegisterType(CommandCreator creator);
-	std::shared_ptr<Command> Create(std::string const& typeName);
-
-private:
-	std::unordered_map<std::string, CommandCreator> m_Creators;
-};
-
-template <CommandDerived T>
-void CommandFactory::RegisterType(CommandCreator creator)
-{
-	std::string typeName{ typeid(T).name() };
-	m_Creators[typeName] = creator;
-}
-
-struct geo::Shape;
-
-template <typename T>
-concept ShapeDerived = std::derived_from<T, geo::Shape>;
-
-class ShapeFactory final : public Singleton<ShapeFactory>
-{
-	using ShapeCreator = std::function<std::shared_ptr<geo::Shape>()>;
-
-public:
-	template <ShapeDerived T> void RegisterType(ShapeCreator creator);
-	std::shared_ptr<geo::Shape> Create(std::string const& typeName);
-
-private:
-	std::unordered_map<std::string, ShapeCreator> m_Creators;
-};
-
-template <ShapeDerived T>
-void ShapeFactory::RegisterType(ShapeCreator creator)
-{
-	std::string typeName{ typeid(T).name() };
-	m_Creators[typeName] = creator;
-}

@@ -18,7 +18,7 @@ public:
 		
 	std::shared_ptr<Prefab> CreatePrefab();
 	void SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string const& name);
-	std::shared_ptr<Prefab> InstantiatePrefab(std::string const& name, Scene* const targetScene) const;
+	void InstantiatePrefab(std::string const& name, Scene* const targetScene) const;
 
 private:
 	friend class Singleton<PrefabsManager>;

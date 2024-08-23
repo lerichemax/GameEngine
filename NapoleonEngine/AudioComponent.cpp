@@ -26,7 +26,7 @@ void AudioComponent::Serialize(StreamWriter& writer) const
 	writer.WriteBool("loop", m_Loop);
 	writer.WriteBool("play", m_Play);
 
-	ECS_Component::Serialize(writer);
+	Component::Serialize(writer);
 }
 
 void AudioComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -39,5 +39,5 @@ void AudioComponent::Deserialize(JsonReader const* reader, SerializationMap& con
 	reader->ReadBool("loop", m_Loop);
 	reader->ReadBool("play", m_Play);
 
-	ECS_Component::Deserialize(reader, context);
+	Component::Deserialize(reader, context);
 }

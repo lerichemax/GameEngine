@@ -22,16 +22,19 @@ class UiSystem;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
+	template <SystemDerived T> friend T* const GetSystem();
 
 public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
 
-	virtual std::shared_ptr<GameObject> CreateGameObject();
+	virtual GameObject* const CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
-	std::shared_ptr<GameObject> FindTagInChildren(std::shared_ptr<GameObject> pObj, std::string const& tag) const; //returns the first one found
-	std::vector<std::shared_ptr<GameObject>> GetChildrenWithTag(std::shared_ptr<GameObject> pObj, std::string const& tag) const;
+	GameObject* const FindTagInChildren(GameObject* const pObj, std::string const& tag) const; //returns the first one found
+	std::vector<GameObject*> GetChildrenWithTag(GameObject* const pObj, std::string const& tag) const;
+
+	template <typename T> void AddSystem();
 
 	void Serialize(StreamWriter& writer) const override;
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
@@ -40,16 +43,23 @@ public:
 protected:
 	BaseScene();
 
-	std::shared_ptr<Coordinator> m_pRegistry;
+	std::unique_ptr<Coordinator> m_pRegistry;
 
 	std::string m_Name;
-	std::vector<std::shared_ptr<GameObject>> m_pObjects;
+	std::vector<std::unique_ptr<GameObject>> m_pObjects{};
+	std::vector<System*> m_pSystems;
 
-	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
+	GameObject* const CreateGameObjectNoTransform();
 
 private:
-	std::shared_ptr<GameObject> GetGameObjectWithEntity(Entity entity) const;
+	GameObject* const GetGameObjectWithEntity(Entity entity) const;
 };
+
+template <typename T> 
+void BaseScene::AddSystem()
+{
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
+}
 
 class Prefab : public BaseScene
 {
@@ -58,16 +68,16 @@ class Prefab : public BaseScene
 public:
 	explicit Prefab();
 
-	std::shared_ptr<GameObject> CreateGameObject() override;
-	std::shared_ptr<GameObject> GetRoot() const;
+	GameObject* const CreateGameObject() override;
+	GameObject* const GetRoot() const;
 
-	bool IsRoot(std::shared_ptr<GameObject> pObject) const;
+	bool IsRoot(GameObject* pObject) const;
 
 protected:
 	void SetName(std::string const& name);
 
 private:
-	std::shared_ptr<GameObject> m_pRootObject;
+	GameObject* const m_pRootObject;
 };
 
 class ShapeRenderer;
@@ -85,8 +95,8 @@ public:
 	bool IsActive() const { return m_bIsActive; }
 
 protected:
-	void SetActiveCamera(std::shared_ptr<GameObject> pGameObject);
-	std::shared_ptr<GameObject> GetCameraObject() const;
+	void SetActiveCamera(GameObject* const pGameObject);
+	GameObject* const GetCameraObject() const;
 
 	Color m_BackgroundColor{ 0,0,0,0 };
 
@@ -95,25 +105,25 @@ private:
 	friend ColliderComponent::~ColliderComponent();
 	friend class SceneManager;
 	friend class NapoleonEngine;
-	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
-	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	template <ComponentDerived T> friend std::shared_ptr<T> FindComponentOfType();
+	friend GameObject* const Instantiate(std::string const& name);
+	friend GameObject* const Instantiate(std::string const& name, glm::vec2 const& location);
+	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
 		
 	std::vector<ColliderComponent*> m_pColliders;
 		
-	std::shared_ptr<TextRendererSystem> m_pTextRenderer;
-	std::shared_ptr<LayeredRendererSystem> m_pLayeredRenderer;
-	std::shared_ptr<ShapeRenderer> m_pShapeRenderer;
-	std::shared_ptr<TransformSystem> m_pTransformSystem;
-	std::shared_ptr<AudioSystem> m_pAudio;
-	std::shared_ptr<CameraSystem> m_pCamera;
-	std::shared_ptr<BehaviourSystem> m_pBehaviours;
-	std::shared_ptr<UiSystem> m_pUi;
+	TextRendererSystem* m_pTextRenderer;
+	LayeredRendererSystem* m_pLayeredRenderer;
+	ShapeRenderer* m_pShapeRenderer;
+	TransformSystem* m_pTransformSystem;
+	AudioSystem* m_pAudio;
+	CameraSystem* m_pCamera;
+	BehaviourSystem* m_pBehaviours;
+	UiSystem* m_pUi;
 
-	std::shared_ptr<GameObject> m_pCameraObject;
+	GameObject* m_pCameraObject;
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -126,6 +136,6 @@ private:
 	void Refresh();
 	void CleanUpScene();
 	void CheckCollidersCollision();
-	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
-	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
+	GameObject* const InstantiatePrefab(std::string const& name);
+	GameObject* const InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };

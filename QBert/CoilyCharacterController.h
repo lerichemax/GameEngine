@@ -2,21 +2,20 @@
 #include "EnemyCharacterController.h"
 
 class Coily;
-class Pyramid;
+class PyramidSystem;
 class CoilyCharacterController final : public EnemyCharacterController
 {
 public:
 	CoilyCharacterController();
-	CoilyCharacterController* Clone() const override { return new CoilyCharacterController{ *this }; }
 	CoilyCharacterController(CoilyCharacterController&& other) = delete;
 	CoilyCharacterController& operator=(CoilyCharacterController const& rhs) = delete;
 	CoilyCharacterController& operator=(CoilyCharacterController&& rhs) = delete;
 	virtual ~CoilyCharacterController() = default;
 	
-	void Initialize() override;
+	void Initialize();
 
 	void SetIdle(bool isIdle);
-	void SetPyramid(Pyramid* pPyramid) { m_pPyramid = pPyramid; }
+	void SetPyramid(PyramidSystem* pPyramid) { m_pPyramid = pPyramid; }
 	void FindQBert();
 protected:
 	ConnectionDirection ChooseDirection() override;
@@ -30,7 +29,7 @@ private:
 	int m_CurrentlyInQueue;
 	
 	Coily* m_pCoilyCharacter;
-	Pyramid* m_pPyramid;
+	PyramidSystem* m_pPyramid;
 	
 	bool m_bIsIdle;
 

@@ -6,7 +6,7 @@
 #include "GameManager.h"
 #include "Timer.h"
 
-PauseGameCommand::PauseGameCommand(std::shared_ptr<GameManagerBehaviour> pGameManager)
+PauseGameCommand::PauseGameCommand(GameManagerBehaviour* const pGameManager)
 	:m_pGameManager(pGameManager)
 {
 }

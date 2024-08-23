@@ -174,25 +174,25 @@ void CoopScene::ResetScene(Level newLevel)
 	m_pQbertP2->GetGameObject()->SetActive(true);
 }
 
-void CoopScene::ResetGame()
-{
-	m_Level = Level::Level1;
-	//m_pPyramid->Reset();
-
-	for (EnemyManager* pManager : m_pEnemyManagers)
-	{
-		pManager->Reset();
-		pManager->ResetTimer();
-	}
-	
-	m_pQbert->GetGameObject()->SetActive(true);
-	m_pQbertP2->GetGameObject()->SetActive(true);
-	//m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
-	//m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
-	SetIsPaused(false);
-	m_pPauseMenu->SetActive(false);
-	m_pGameOverMenu->SetActive(false);
-}
+//void CoopScene::ResetGame()
+//{
+//	m_Level = Level::Level1;
+//	//m_pPyramid->Reset();
+//
+//	for (EnemyManager* pManager : m_pEnemyManagers)
+//	{
+//		pManager->Reset();
+//		pManager->ResetTimer();
+//	}
+//	
+//	m_pQbert->GetGameObject()->SetActive(true);
+//	m_pQbertP2->GetGameObject()->SetActive(true);
+//	//m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
+//	//m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
+//	SetIsPaused(false);
+//	m_pPauseMenu->SetActive(false);
+//	m_pGameOverMenu->SetActive(false);
+//}
 
 void CoopScene::DeclareInput()
 {

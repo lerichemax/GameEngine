@@ -167,16 +167,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CharacterController.cpp" />
-    <ClCompile Include="CharacterMovement.cpp" />
+    <ClCompile Include="CharacterControllerComponent.cpp" />
+    <ClCompile Include="CharacterControllerSystem.cpp" />
+    <ClCompile Include="CharacterMovementSystem.cpp" />
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="CoilyManager.cpp" />
     <ClCompile Include="CoilyOnQubeState.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyOnQubeState.cpp" />
     <ClCompile Include="FallingState.cpp" />
+    <ClCompile Include="JumpComponent.cpp" />
     <ClCompile Include="JumpingState.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="OnQubeState.cpp" />
+    <ClCompile Include="PyramidComponent.cpp" />
+    <ClCompile Include="QubeComponent.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ReloadSceneCommand.cpp" />
     <ClCompile Include="SlickSamManager.cpp" />
@@ -191,17 +196,17 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyCharacterController.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="JumperSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="PauseGameCommand.cpp" />
     <ClCompile Include="CharacterLives.cpp" />
-    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="PyramidSystem.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertScene.cpp" />
-    <ClCompile Include="Qube.cpp" />
+    <ClCompile Include="QubeSystem.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -212,16 +217,21 @@
     <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharacterController.h" />
-    <ClInclude Include="CharacterMovement.h" />
+    <ClInclude Include="CharacterControllerComponent.h" />
+    <ClInclude Include="CharacterControllerSystem.h" />
+    <ClInclude Include="CharacterMovementSystem.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CoilyManager.h" />
     <ClInclude Include="CoilyOnQubeState.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyOnQubeState.h" />
     <ClInclude Include="FallingState.h" />
+    <ClInclude Include="JumpComponent.h" />
     <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="OnQubeState.h" />
+    <ClInclude Include="PyramidComponent.h" />
+    <ClInclude Include="QubeComponent.h" />
     <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ReloadSceneCommand.h" />
     <ClInclude Include="SlickSamManager.h" />
@@ -236,16 +246,16 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyCharacterController.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Jumper.h" />
+    <ClInclude Include="JumperSystem.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PauseGameCommand.h" />
     <ClInclude Include="CharacterLives.h" />
-    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="PyramidSystem.h" />
     <ClInclude Include="QBert.h" />
     <ClInclude Include="QBertScene.h" />
-    <ClInclude Include="Qube.h" />
+    <ClInclude Include="QubeSystem.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
     <ClInclude Include="UIManager.h" />

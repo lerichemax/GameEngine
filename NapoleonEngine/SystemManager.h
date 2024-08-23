@@ -15,33 +15,35 @@ class Coordinator;
 class SystemManager
 {
 public:
-	template <SystemDerived T> std::shared_ptr<T> RegisterSystem(Coordinator* const pRegistry);
+	template <SystemDerived T> T* const RegisterSystem(Coordinator* const pRegistry);
 	template <SystemDerived T> void SetSignature(Signature signature);
 	template <SystemDerived T> void UpdateSignature(Signature signature);
 	template <SystemDerived T> Signature const& GetSystemSignature() const;
 	template <SystemDerived T> void AssignEntitiesToSystem(std::vector<Entity> const& entities) const;
+	template <SystemDerived T> T* const GetSystem() const;
 
 	void EntityDestroyed(Entity entity);
 	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
+
+	System* const ForceAddSystem(std::string name, System* system);
 
 private:
 	friend class Coordinator;
 
 	std::unordered_map<std::string, Signature> m_Signatures;
-	std::unordered_map<std::string, std::shared_ptr<System>> m_Systems;
+	std::unordered_map<std::string, std::unique_ptr<System>> m_Systems;
 };
 
 template <SystemDerived T>
-std::shared_ptr<T> SystemManager::RegisterSystem(Coordinator* const pRegistry)
+T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
 {
 	const char* typeName = typeid(T).name();
 
 	assert(m_Systems.find(typeName) == m_Systems.end() && "Trying to register a system more than once");
 
-	m_Systems.insert(std::make_pair(typeName, nullptr));
-	auto pSystem = std::make_shared<T>();
+	auto pSystem = new T{};
+	m_Systems.insert(std::make_pair(typeName, std::unique_ptr<T>(pSystem)));
 	pSystem->SetSignature(pRegistry);
-	m_Systems.at(typeName) = pSystem;
 
 	return pSystem;
 }
@@ -93,7 +95,7 @@ void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) 
 
 	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
 
-	std::shared_ptr<System> pSystem = m_Systems.at(typeName);
+	System* const pSystem = m_Systems.at(typeName).get();
 
 	if (pSystem == nullptr)
 	{
@@ -104,4 +106,19 @@ void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) 
 	{
 		pSystem->m_Entities.insert(entity);
 	}
+}
+
+template <SystemDerived T>
+T* const SystemManager::GetSystem() const
+{
+	const char* typeName = typeid(T).name();
+
+	auto systemIt = m_Systems.find(typeName);
+
+	if (systemIt != m_Systems.end())
+	{
+		return static_cast<T*>(systemIt->second.get());
+	}
+
+	return nullptr;
 }

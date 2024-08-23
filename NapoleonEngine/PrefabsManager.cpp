@@ -22,7 +22,7 @@ public:
 
 	std::shared_ptr<Prefab> CreatePrefab();
 	void SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string const& name);
-	std::shared_ptr<Prefab> InstantiatePrefab(std::string const& name, Scene* const targetScene) const;
+	void InstantiatePrefab(std::string const& name, Scene* const targetScene) const;
 
 private:
 	std::map<std::string, std::unique_ptr<rapidjson::Document>> m_Prefabs;
@@ -57,19 +57,15 @@ void PrefabsManager::PrefabsManagerImpl::SavePrefab(std::shared_ptr<Prefab> pPre
 	m_Prefabs.insert({ name, SerializerServiceLocator::GetSerializerService().Serialize(*pPrefab) });
 }
 
-std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
+void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
 {
-	auto pPrefab = std::make_shared<Prefab>();
-
 	if (m_Prefabs.find(name) == m_Prefabs.end())
 	{
 		Debugger::GetInstance().LogWarning("A prefab with the name " + name + " doesn't exists");
-		return nullptr;
+		return;
 	}
 
 	SerializerServiceLocator::GetDeserializerService().DeserializePrefabIntoScene(m_Prefabs.at(name).get(), targetScene);
-
-	return pPrefab;
 }
 
 PrefabsManager::PrefabsManager()
@@ -93,7 +89,7 @@ void PrefabsManager::SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string con
 }
 
 
-std::shared_ptr<Prefab> PrefabsManager::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
+void PrefabsManager::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
 {
-	return m_pImpl->InstantiatePrefab(name, targetScene);
+	m_pImpl->InstantiatePrefab(name, targetScene);
 }

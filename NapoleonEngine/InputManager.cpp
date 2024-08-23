@@ -7,7 +7,7 @@
 
 InputAction::~InputAction()
 {
-	SafeDelete(pCommand);
+	SAFE_DELETE(pCommand);
 }
 
 class InputManager::InputManagerImpl final
@@ -82,11 +82,11 @@ InputManager::InputManagerImpl::~InputManagerImpl()
 {
 	for (InputAction* action : m_pActions)
 	{
-		SafeDelete(action);
+		SAFE_DELETE(action);
 	}
 	m_pActions.clear();
 
-	SafeDelete(m_pPreviousKeyboardState);
+	SAFE_DELETE(m_pPreviousKeyboardState);
 }
 
 bool InputManager::InputManagerImpl::ProcessInput()

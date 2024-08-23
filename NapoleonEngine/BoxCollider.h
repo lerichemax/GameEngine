@@ -16,9 +16,8 @@ public:
 	geo::Rectangle const& GetRectangle() const { return *m_pRectangle; }
 	
 protected:
-	void Initialize() override;
-	void Update() override;
-	BoxCollider* Clone() const override { return new BoxCollider(*this); }
+	void Initialize();
+	void Update();
 		
 	void CheckOverlap(ColliderComponent* pOther) override;
 

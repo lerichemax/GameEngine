@@ -21,6 +21,8 @@
 #include "TransformComponent.h"
 #include "TextureRendererComponent.h"
 
+#include "FPSCounterSystem.h"
+
 #include "FPSCounter.h"
 #include "Scene.h"
 
@@ -78,13 +80,14 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
 	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
-	txtRenderer->m_Text = "FPS";
-	txtRenderer->m_pFont = font;
+	txtRenderer->SetText("FPS");
+	txtRenderer->SetFont(font);
 	
-
 	fpsCounterObject->AddComponent<FPSCounter>();
 	fpsCounterObject->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
+
+	fpsCounterPrefab->AddSystem<FPSCounterSystem>();
 
 	PrefabsManager::GetInstance().SavePrefab(fpsCounterPrefab, "FPSCounter");
 
@@ -94,7 +97,6 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 
 	cameraObject->AddComponent<ECS_CameraComponent>();
 	PrefabsManager::GetInstance().SavePrefab(cameraPrefab, "Camera");
-
 
 	//game specific prefab
 	CreatePrefabs();

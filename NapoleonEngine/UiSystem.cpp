@@ -11,7 +11,7 @@ void UiSystem::Update(ComponentManager* const pComponentManager)
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto btn = pComponentManager->GetComponent<ECS_ButtonComponent>(entity);
+		auto btn = pComponentManager->GetComponent<ButtonComponent>(entity);
 
 		if (!btn->IsActive())
 		{
@@ -67,7 +67,7 @@ void UiSystem::SetSignature(Coordinator* const pRegistry)
 {
 	Signature signature;
 	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_ButtonComponent>());
+	signature.set(pRegistry->GetComponentType<ButtonComponent>());
 
 	pRegistry->SetSystemSignature<UiSystem>(signature);
 }
