@@ -3,11 +3,10 @@
 
 #include "GameManager.h"
 #include "WrongWay.h"
-#include "Pyramid.h"
 
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
-#include "Qube.h"
+
 #include "Timer.h"
 #include "TransformComponent.h"
 

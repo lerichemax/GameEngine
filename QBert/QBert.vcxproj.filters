@@ -141,6 +141,12 @@
     <ClCompile Include="QubeComponent.cpp">
       <Filter>GameScripts\Components</Filter>
     </ClCompile>
+    <ClCompile Include="QBertSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -280,6 +286,12 @@
       <Filter>GameScripts\Components</Filter>
     </ClInclude>
     <ClInclude Include="QubeComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterComponent.h">
       <Filter>GameScripts\Components</Filter>
     </ClInclude>
   </ItemGroup>

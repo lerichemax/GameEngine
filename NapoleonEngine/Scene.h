@@ -5,6 +5,7 @@
 #include "Entity.h"
 
 #include <memory>
+#include <unordered_set>
 
 class SceneRenderer;
 class RendererComponent;
@@ -34,8 +35,6 @@ public:
 	GameObject* const FindTagInChildren(GameObject* const pObj, std::string const& tag) const; //returns the first one found
 	std::vector<GameObject*> GetChildrenWithTag(GameObject* const pObj, std::string const& tag) const;
 
-	template <typename T> void AddSystem();
-
 	void Serialize(StreamWriter& writer) const override;
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -47,19 +46,12 @@ protected:
 
 	std::string m_Name;
 	std::vector<std::unique_ptr<GameObject>> m_pObjects{};
-	std::vector<System*> m_pSystems;
 
 	GameObject* const CreateGameObjectNoTransform();
 
 private:
 	GameObject* const GetGameObjectWithEntity(Entity entity) const;
 };
-
-template <typename T> 
-void BaseScene::AddSystem()
-{
-	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
-}
 
 class Prefab : public BaseScene
 {
@@ -72,13 +64,27 @@ public:
 	GameObject* const GetRoot() const;
 
 	bool IsRoot(GameObject* pObject) const;
+	template <SystemDerived T> void AddRequiredSystem();
+
+	void Serialize(StreamWriter& writer) const override;
 
 protected:
 	void SetName(std::string const& name);
 
 private:
 	GameObject* const m_pRootObject;
+	std::unordered_set<std::string> m_RequiredSystems;
 };
+
+template <SystemDerived T> 
+void Prefab::AddRequiredSystem() 
+{
+	std::string typeName = typeid(T).name();
+
+	assert(m_RequiredSystems.find(typeName) == m_RequiredSystems.end() && std::string(typeName + " already added as required.").c_str());
+
+	m_RequiredSystems.insert(typeName);
+}
 
 class ShapeRenderer;
 class Scene : public BaseScene
@@ -93,6 +99,9 @@ public:
 		
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
+
+	template <typename T> void AddSystem();
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
 	void SetActiveCamera(GameObject* const pGameObject);
@@ -124,6 +133,7 @@ private:
 	UiSystem* m_pUi;
 
 	GameObject* m_pCameraObject;
+	std::vector<System*> m_pSystems;
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -139,3 +149,9 @@ private:
 	GameObject* const InstantiatePrefab(std::string const& name);
 	GameObject* const InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
+
+template <typename T>
+void Scene::AddSystem()
+{
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
+}

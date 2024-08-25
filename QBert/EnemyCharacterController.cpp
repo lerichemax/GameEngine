@@ -3,7 +3,6 @@
 
 #include "Character.h"
 #include "Enemy.h"
-#include "Qube.h"
 
 #include "GameObject.h"
 #include "Timer.h"
@@ -35,17 +34,17 @@ ConnectionDirection EnemyCharacterController::ChooseDirection()
 
 	auto dir = static_cast<ConnectionDirection>(random);
 
-	if (!m_pEnemyCharacter->GetCurrentQube()->HasConnection(dir))
-	{
-		if (dir == ConnectionDirection::downLeft)
-		{
-			dir = ConnectionDirection::downRight;
-		}
-		else if (dir == ConnectionDirection::downRight)
-		{
-			dir = ConnectionDirection::downLeft;
-		}
-	}
+	//if (!m_pEnemyCharacter->GetCurrentQube()->HasConnection(dir))
+	//{
+	//	if (dir == ConnectionDirection::downLeft)
+	//	{
+	//		dir = ConnectionDirection::downRight;
+	//	}
+	//	else if (dir == ConnectionDirection::downRight)
+	//	{
+	//		dir = ConnectionDirection::downLeft;
+	//	}
+	//}
 
 	return dir;
 }

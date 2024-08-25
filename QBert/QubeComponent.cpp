@@ -4,9 +4,9 @@
 #include "ResourceManager.h"
 
 QubeComponent::QubeComponent()
-	:m_pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
-	m_pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
-	m_pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png"))
+	:pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
+	pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
+	pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png"))
 
 {
 

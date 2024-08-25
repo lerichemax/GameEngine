@@ -22,11 +22,6 @@ void Coordinator::DestroyEntity(Entity entity)
 	m_pSystemManager->EntityDestroyed(entity);
 }
 
-ComponentManager* const Coordinator::GetComponentManager() const
-{
-	return m_pComponentManager.get();
-}
-
 void Coordinator::TransferTags(Entity originEntity, Entity destinationEntity, Coordinator* const pOther)
 {
 	if (pOther->m_pEntityManager->HasATag(originEntity))
@@ -49,15 +44,13 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
-System* const Coordinator::DeserializeSystem(JsonReader const* reader, SerializationMap& context)
+System* const Coordinator::AddSystemFromName(std::string const& typeName)
 {
-	std::string systemName;
-	reader->ReadString("type", systemName);
+	auto* const pSystem = Factory<System>::GetInstance().Create(typeName);
 
-	auto* const pSystem = Factory<System>::GetInstance().Create(systemName);
-
-	m_pSystemManager->ForceAddSystem(systemName, pSystem);
+	m_pSystemManager->ForceAddSystem(typeName, pSystem);
 	pSystem->SetSignature(this);
+	pSystem->m_pCompManager = m_pComponentManager.get();
 
 	return pSystem;
 }

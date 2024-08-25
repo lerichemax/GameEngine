@@ -1,9 +1,8 @@
 #pragma once
 #include "Command.h"
-#include "Qube.h"
 
 class CharacterMovement;
-
+enum class ConnectionDirection;
 class MoveCommand final : public Command
 {
 public:

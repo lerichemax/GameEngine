@@ -20,58 +20,65 @@
 
 #include "ColoredDisk.h"
 
-void PyramidSystem::Initialize(ComponentManager* const pCompManager)
+void PyramidSystem::Initialize()
 {
-	for (Entity entity : m_Entities)
+	assert(!m_Entities.empty() && "Pyramid System : No entities matching Pyramid system signature.");
+
+	Entity pyramidEntity = *m_Entities.begin();
+	
+	glm::vec2 startPos{ 0,0 };
+	glm::vec2 lastPos{ startPos };
+
+	auto* const pPyramidComp = m_pCompManager->GetComponent<PyramidComponent>(pyramidEntity);
+	auto* const pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(pyramidEntity);
+
+	//spawn qubes
+	for (unsigned int i = pPyramidComp->MAX_WIDTH; i != 0; i--)
 	{
-		glm::vec2 startPos{ 0,0 };
-		glm::vec2 lastPos{ startPos };
-
-		auto* const pPyramidComp = pCompManager->GetComponent<PyramidComponent>(entity);
-		auto* const pTransform = pCompManager->GetComponent<ECS_TransformComponent>(entity);
-
-		//spawn qubes
-		for (unsigned int i = pPyramidComp->MAX_WIDTH; i != 0; i--)
+		lastPos = startPos;
+		for (unsigned int j = 0; j < i; j++)
 		{
-			lastPos = startPos;
-			for (unsigned int j = 0; j < i; j++)
+			GameObject* pQubeObj = Instantiate("Qube", pTransform->GetPosition() + lastPos);
+			pPyramidComp->GetGameObject()->AddChild(pQubeObj);
+			pPyramidComp->m_Qubes.push_back(pQubeObj->GetEntity());
+
+			auto pQube = pQubeObj->GetComponent<QubeComponent>();
+
+			if (i == pPyramidComp->MAX_WIDTH)
 			{
-				GameObject* pQubeObj = Instantiate("Qube", pTransform->GetPosition() + lastPos);
-				pPyramidComp->GetGameObject()->AddChild(pQubeObj);
-				pPyramidComp->m_Qubes.push_back(pQubeObj->GetEntity());
-
-				auto pQube = pPyramidComp->GetGameObject()->GetComponent<QubeComponent>();
-
-				if (i == pPyramidComp->MAX_WIDTH)
-				{
-					pQube->m_bIsLastRow = true;
-				}
-				if (j == 0 || j == i - 1)
-				{
-					pQube->m_bIsSideColumn = true;
-				}
-
-				lastPos.x += pQubeObj->GetComponent<TextureRendererComponent>()->m_pTexture->GetWidth() * pQubeObj->GetTransform()->GetScale().x;
+				pQube->bIsLastRow = true;
 			}
-			auto* const pTextureRenderer = pCompManager->GetComponent<TextureRendererComponent>(pPyramidComp->m_Qubes.back());
-			startPos.x += pTextureRenderer->m_pTexture->GetWidth() * 0.85f; // magic numbers
-			startPos.y -= pTextureRenderer->m_pTexture->GetHeight() * pCompManager->GetComponent<ECS_TransformComponent>(pPyramidComp->m_Qubes.back())->GetScale().y * 0.75f; // magic number
+			if (j == 0 || j == i - 1)
+			{
+				pQube->bIsSideColumn = true;
+			}
+
+			lastPos.x += pQube->pDefaultText->GetWidth() * pQubeObj->GetTransform()->GetScale().x;
 		}
-		std::reverse(pPyramidComp->m_Qubes.begin(), pPyramidComp->m_Qubes.end());
-
-		CreateConnections(pPyramidComp->m_Qubes, pCompManager);
-		CreateEscheresqueLeftConnections();
-		CreateEscheresqueRightConnections();
-
-		QubeSystem::OnAnyQubeFlipped.Subscribe([this, entity, pCompManager]() {
-			CheckAllQubesFlipped(entity, pCompManager);
-			});
+		auto* const pQube = m_pCompManager->GetComponent<QubeComponent>(pPyramidComp->m_Qubes.back());
+		startPos.x += pQube->pDefaultText->GetWidth() * 0.85f; // magic numbers
+		startPos.y -= pQube->pDefaultText->GetHeight() * m_pCompManager->GetComponent<ECS_TransformComponent>(pPyramidComp->m_Qubes.back())->GetScale().y * 0.75f; // magic number
 	}
+	std::reverse(pPyramidComp->m_Qubes.begin(), pPyramidComp->m_Qubes.end());
+
+	CreateConnections(pPyramidComp->m_Qubes);
+	CreateEscheresqueLeftConnections();
+	CreateEscheresqueRightConnections();
+
+	QubeSystem::OnAnyQubeFlipped.Subscribe([this, pyramidEntity]() {
+		CheckAllQubesFlipped(pyramidEntity);
+	});
 }
 
-void PyramidSystem::Update(ComponentManager* const pCompManager)
+void PyramidSystem::Update()
 {
 	//DiskSpawnerTimer();
+}
+
+Entity PyramidSystem::GetTop() const
+{ 
+	auto pPyramidComp = m_pCompManager->GetComponent<PyramidComponent>(*m_Entities.begin());
+	return pPyramidComp->m_Qubes.front(); 
 }
 
 void PyramidSystem::DiskSpawnerTimer()
@@ -93,7 +100,7 @@ void PyramidSystem::DiskSpawnerTimer()
 	//}
 }
 
-void PyramidSystem::CreateConnections(std::vector<Entity> const& qubes, ComponentManager* const pCompManager)
+void PyramidSystem::CreateConnections(std::vector<Entity> const& qubes)
 {
 	unsigned int leftChild{};
 	unsigned int rightChild{};
@@ -119,13 +126,13 @@ void PyramidSystem::CreateConnections(std::vector<Entity> const& qubes, Componen
 		
 		if (leftChild < qubes.size())
 		{
-			pCompManager->GetComponent<QubeComponent>(qubes[i])->m_pConnections[static_cast<int>(ConnectionDirection::downLeft)] = qubes[leftChild];
-			pCompManager->GetComponent<QubeComponent>(qubes[leftChild])->m_pConnections[static_cast<int>(ConnectionDirection::upRight)] = qubes[i];
+			m_pCompManager->GetComponent<QubeComponent>(qubes[i])->Connections[static_cast<int>(ConnectionDirection::downLeft)] = qubes[leftChild];
+			m_pCompManager->GetComponent<QubeComponent>(qubes[leftChild])->Connections[static_cast<int>(ConnectionDirection::upRight)] = qubes[i];
 		}
 		if (rightChild < qubes.size())
 		{
-			pCompManager->GetComponent<QubeComponent>(qubes[i])->m_pConnections[static_cast<int>(ConnectionDirection::downRight)] = qubes[rightChild];
-			pCompManager->GetComponent<QubeComponent>(qubes[rightChild])->m_pConnections[static_cast<int>(ConnectionDirection::upLeft)] = qubes[i];
+			m_pCompManager->GetComponent<QubeComponent>(qubes[i])->Connections[static_cast<int>(ConnectionDirection::downRight)] = qubes[rightChild];
+			m_pCompManager->GetComponent<QubeComponent>(qubes[rightChild])->Connections[static_cast<int>(ConnectionDirection::upLeft)] = qubes[i];
 		}
 	}
 }
@@ -182,12 +189,12 @@ void PyramidSystem::CreateEscheresqueLeftConnections()
 	//}
 }
 
-void PyramidSystem::CheckAllQubesFlipped(Entity entity, ComponentManager* const pCompManager) const
+void PyramidSystem::CheckAllQubesFlipped(Entity entity) const
 {
-	auto* const pPyramidComp = pCompManager->GetComponent<PyramidComponent>(entity);
+	auto* const pPyramidComp = m_pCompManager->GetComponent<PyramidComponent>(entity);
 	for (auto qube : pPyramidComp->m_Qubes)
 	{	
-		if (!pCompManager->GetComponent<QubeComponent>(qube)->m_bIsFlipped)
+		if (!m_pCompManager->GetComponent<QubeComponent>(qube)->bIsFlipped)
 		{
 			return;
 		}

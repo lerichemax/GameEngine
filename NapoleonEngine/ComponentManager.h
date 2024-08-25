@@ -89,20 +89,7 @@ void ComponentManager::RemoveComponent(Entity entity)
 template<ComponentDerived T>
 T* const ComponentManager::GetComponent(Entity entity)
 {
-	for (auto const& compArray : m_ComponentArrays)
-	{
-		Component* data = compArray.second->GetBaseData(entity);
-		if (data != nullptr)
-		{
-			T* castedData = dynamic_cast<T*>(data);
-			if (castedData != nullptr)
-			{
-				return castedData;
-			}
-		}
-	}
-
-	return nullptr;
+	return GetComponentArray<T>()->GetData(entity);
 }
 
 template<ComponentDerived T>

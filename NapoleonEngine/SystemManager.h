@@ -43,7 +43,6 @@ T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
 
 	auto pSystem = new T{};
 	m_Systems.insert(std::make_pair(typeName, std::unique_ptr<T>(pSystem)));
-	pSystem->SetSignature(pRegistry);
 
 	return pSystem;
 }

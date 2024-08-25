@@ -2,6 +2,8 @@
 #include "SoloScene.h"
 
 #include "PyramidSystem.h"
+#include "QBertSystem.h"
+#include "QubeSystem.h"
 
 #include "QBert.h"
 #include "MoveCommand.h"
@@ -56,16 +58,20 @@ void SoloScene::Initialize()
 	//gameOverMenu->SetActive(false);
 	//uiManager->SetGameOverMenu(gameOverMenu);
 
-	//Qbert
-	auto qbertObj = Instantiate("QBert");
-	qbertObj->GetComponent<ECS_TransformComponent>()->Translate(150, 150);
-	auto qbert = qbertObj->GetComponent<QBert>();
-	qbert->SetPlayerNbr(1);
 
-	//livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
-	
+	//pyramid
 	Instantiate("Pyramid");
 	AddSystem<PyramidSystem>();
+	AddSystem<QubeSystem>();
+
+	//Qbert
+	Instantiate("QBert");
+	//auto qbert = qbertObj->GetComponent<QBert>();
+	//qbert->SetPlayerNbr(1);
+
+	AddSystem<QBertSystem>();
+
+	//livesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(qbertObj->GetComponent<CharacterLives>()->GetNbrLives()));
 
 	//auto pyramid = pyramidObj->GetComponent<Pyramid>();
 	//m_pPyramid->SetQBert(qbert);

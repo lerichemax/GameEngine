@@ -1,4 +1,5 @@
 #pragma once
+#include "Component.h"
 
 enum class ConnectionDirection
 {
@@ -20,29 +21,29 @@ struct QubeComponent : public Component
 
 	//Pyramid* m_pPyramid;
 
-	Entity m_pConnections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
+	Entity Connections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
 	//Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
 	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
 
 	//ColoredDisk* m_pDiskConnection;
 
-	Texture2D* const m_pDefaultText;
-	Texture2D* const m_pIntermediateTexture;
-	Texture2D* const m_pFlippedTexture;
+	Texture2D* const pDefaultText;
+	Texture2D* const pIntermediateTexture;
+	Texture2D* const pFlippedTexture;
 
 	//Character* m_pCharacter;
 
-	glm::vec2 m_CharacterPos{};
+	glm::vec2 CharacterPos{};
 	//glm::vec2 m_EscheresqueLeftPos;
 	//glm::vec2 m_EscheresqueRightPos;
 
-	Level m_QubeLevel{ Level::Level1 };
+	Level QubeLevel{ };
 
-	bool m_bIsFlipped{};
-	bool m_bIsLastRow{};
-	bool m_bIsSideColumn{};
+	bool bIsFlipped{};
+	bool bIsLastRow{};
+	bool bIsSideColumn{};
 
-	unsigned int m_JumpCounter{};
+	unsigned int JumpCounter{};
 
 	void Serialize(StreamWriter& writer) const override;
 };

@@ -6,7 +6,6 @@
 
 #include "GameManager.h"
 #include "JumpingState.h"
-#include "Qube.h"
 #include "EnemyCharacterController.h"
 
 #include "GameObject.h"
@@ -58,16 +57,16 @@ void WrongWay::Initialize()
 
 void WrongWay::DoMove(ConnectionDirection direction)
 {
-	if (m_pCurrentQube->HasEscheresqueConnection(direction, m_bEscheresqueRight))
-	{
-		auto pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
+	//if (m_pCurrentQube->HasEscheresqueConnection(direction, m_bEscheresqueRight))
+	//{
+	//	auto pNextQube = m_pCurrentQube->GetEscheresqueConnection(direction, m_bEscheresqueRight);
 
-		JumpToQube(pNextQube);
-	}
-	else
-	{
-		JumpToDeath(direction);
-	}
+	//	JumpToQube(pNextQube);
+	//}
+	//else
+	//{
+	//	JumpToDeath(direction);
+	//}
 }
 
 void WrongWay::JumpToQube(QubeSystem* const pNextQube)

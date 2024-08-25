@@ -18,18 +18,18 @@
 
 EventHandler<QubeSystem> QubeSystem::OnAnyQubeFlipped{};
 
-void QubeSystem::Initialize(ComponentManager* const pCompManager)
+void QubeSystem::Initialize()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pTextureRenderer = pCompManager->GetComponent<TextureRendererComponent>(entity);
-		auto* const pQube = pCompManager->GetComponent<QubeComponent>(entity);
-		auto* const pTransform = pCompManager->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pTextureRenderer = m_pCompManager->GetComponent<TextureRendererComponent>(entity);
+		auto* const pQube = m_pCompManager->GetComponent<QubeComponent>(entity);
+		auto* const pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
 
-		pTextureRenderer->m_pTexture = pQube->m_pDefaultText;
+		pTextureRenderer->m_pTexture = pQube->pDefaultText;
 
-		pQube->m_CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->m_pTexture->GetWidth() / 4;
-		pQube->m_CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->m_pTexture->GetHeight() / 5;
+		pQube->CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->m_pTexture->GetWidth() / 4;
+		pQube->CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->m_pTexture->GetHeight() / 5;
 	}
 
 	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
@@ -39,11 +39,11 @@ void QubeSystem::Initialize(ComponentManager* const pCompManager)
 	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
-void QubeSystem::Start(ComponentManager* const pCompManager)
+void QubeSystem::Start()
 {
 }
 
-void QubeSystem::Update(ComponentManager* const pCompManager)
+void QubeSystem::Update()
 {
 	/*if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
 	{

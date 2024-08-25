@@ -37,7 +37,6 @@ protected:
 	void LandOnQube() override;
 	void DoDie() override;
 	void DoMove(ConnectionDirection direction) override;
-	void SetDirectionTextures(ConnectionDirection dir) override;
 
 private:
 	CharacterPoint* m_pPoints;

@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "CharacterMovementSystem.h"
 
-#include "Qube.h"
+#include "QubeComponent.h"
 
 #include "TextureRendererComponent.h"
 #include "MovementComponent.h"
@@ -24,26 +24,26 @@ void CharacterMovementSystem::Start()
 	}
 }
 
-void CharacterMovementSystem::Update(ComponentManager* const pComponentManager)
+void CharacterMovementSystem::Update()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pMoveComp = pComponentManager->GetComponent<MovementComponent>(entity);
-		auto* const pRenderer = pComponentManager->GetComponent<TextureRendererComponent>(entity);
+		auto* const pMoveComp = m_pCompManager->GetComponent<MovementComponent>(entity);
+		auto* const pRenderer = m_pCompManager->GetComponent<TextureRendererComponent>(entity);
 
-		if (!pMoveComp->IsActive() || !pMoveComp->m_CanMove)
+		if (!pMoveComp->IsActive() || !pMoveComp->CanMove)
 		{
 			continue;
 		}
 
 		Move(pRenderer, pMoveComp);
-		pMoveComp->m_CurentDirection = ConnectionDirection::null;
+		pMoveComp->CurentDirection = ConnectionDirection::null;
 	}
 }
 
 void CharacterMovementSystem::Move(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp)
 {
-	if (pMoveComp->m_CurentDirection == ConnectionDirection::null)
+	if (pMoveComp->CurentDirection == ConnectionDirection::null)
 	{
 		return;
 	}
@@ -168,19 +168,19 @@ void CharacterMovementSystem::SetIdleTexture(TextureRendererComponent* const pRe
 		return;
 	}
 
-	switch (pMoveComp->m_CurentDirection)
+	switch (pMoveComp->CurentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureIdleDownLeft);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownLeft);
 		break;
 	case ConnectionDirection::downRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureIdleDownRight);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownRight);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureIdleUpLeft);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpLeft);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureIdleUpRight);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpRight);
 		break;
 	}
 }
@@ -192,19 +192,19 @@ void CharacterMovementSystem::SetJumpTexture(TextureRendererComponent* const pRe
 		return;
 	}
 
-	switch (pMoveComp->m_CurentDirection)
+	switch (pMoveComp->CurentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureJumpDownLeft);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownLeft);
 		break;
 	case ConnectionDirection::downRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureJumpDownRight);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownRight);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureJumpUpLeft);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpLeft);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->m_TextureJumpUpRight);
+		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpRight);
 		break;
 	}
 }

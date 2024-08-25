@@ -104,33 +104,12 @@ void BaseScene::Serialize(StreamWriter& writer) const
 	}
 	writer.EndArray();
 
-	writer.StartArray("systems");
-	{
-		for (auto* const pSystem : m_pSystems)
-		{
-			writer.StartArrayObject();
-			pSystem->Serialize(writer);
-			writer.EndObject();
-		}
-	}
-	writer.EndArray();
-
 	writer.EndObject();
 }
 
 void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	auto prefab = reader->ReadObject("Prefab");
-
-	auto systems = prefab->ReadArray("systems");
-
-	for (SizeType i = 0; i < systems->GetArraySize(); i++)
-	{
-		auto sys = systems->ReadArrayIndex(i);
-		m_pSystems.push_back(m_pRegistry->DeserializeSystem(sys.get(), context));
-	}
-
-	auto objects = prefab->ReadArray("gameobjects");
+	auto objects = reader->ReadArray("gameobjects");
 
 	for (SizeType i = 0; i < objects->GetArraySize(); i++)
 	{
@@ -205,6 +184,20 @@ bool Prefab::IsRoot(GameObject* const pObject) const
 	return pObject->GetEntity() == m_pRootObject->GetEntity();
 }
 
+void Prefab::Serialize(StreamWriter& writer) const
+{
+	BaseScene::Serialize(writer);
+
+	writer.StartArray("systems");
+	{
+		for (std::string const& system : m_RequiredSystems)
+		{
+			writer.WriteStringNoKey(system);
+		}
+	}
+	writer.EndArray();
+}
+
 void Prefab::SetName(std::string const& name)
 {
 	m_Name = name;
@@ -265,12 +258,12 @@ void Scene::OnLoad()
 
 	for (System* const pSystem : m_pSystems)
 	{
-		pSystem->Initialize(m_pRegistry->GetComponentManager());
+		pSystem->Initialize();
 	}
 
 	for (System* const pSystem : m_pSystems)
 	{
-		pSystem->Start(m_pRegistry->GetComponentManager());
+		pSystem->Start();
 	}
 
 	Renderer::GetInstance().SetBackgroundColor(m_BackgroundColor);
@@ -282,17 +275,17 @@ void Scene::Update()
 
 	for (auto* const pSystem : m_pSystems )
 	{
-		pSystem->Update(m_pRegistry->GetComponentManager());
+		pSystem->Update();
 	}
 
-	m_pTransformSystem->Update(m_pRegistry->GetComponentManager()); // move to update systems above ? 
-	m_pUi->Update(m_pRegistry->GetComponentManager());
+	m_pTransformSystem->Update(); // move to update systems above ? 
+	m_pUi->Update();
 
 	CheckCollidersCollision();
 	
 	Refresh();
 
-	m_pAudio->Update(m_pRegistry->GetComponentManager());
+	m_pAudio->Update();
 }
 
 void Scene::Render() const
@@ -302,17 +295,31 @@ void Scene::Render() const
 		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
 	}
 
-	m_pTextRenderer->Update(m_pRegistry->GetComponentManager());
+	m_pTextRenderer->Update();
 
 	glPushMatrix();
 	{	
-		m_pCamera->Update(m_pRegistry->GetComponentManager());
-		m_pLayeredRenderer->Update(m_pRegistry->GetComponentManager());
+		m_pCamera->Update();
+		m_pLayeredRenderer->Update();
 		//m_pShapeRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
+}
 
-	
+void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	auto prefab = reader->ReadObject("Prefab");
+
+	auto systems = prefab->ReadArray("systems");
+	if (IS_VALID(systems))
+	{
+		for (SizeType i = 0; i < systems->GetArraySize(); i++)
+		{
+			m_pSystems.push_back(m_pRegistry->AddSystemFromName(prefab->ReadArrayIndexAsString(i)));
+		}
+	}
+
+	BaseScene::Deserialize(prefab.get(), context);
 }
 
 void Scene::Refresh()
@@ -368,11 +375,6 @@ GameObject* const Scene::InstantiatePrefab(std::string const& name)
 
 	if (m_pObjects.size() > index)
 	{
-		for (Entity child : m_pRegistry->GetEntityHierarchy(m_pObjects[index]->m_Entity))
-		{
-			m_pBehaviours->Initialize(child, m_pRegistry->GetComponentManager());
-		}
-
 		return m_pObjects[index].get();
 	}
 
@@ -388,10 +390,6 @@ GameObject* const Scene::InstantiatePrefab(std::string const& name, glm::vec2 co
 	if (m_pObjects.size() > index)
 	{
 		m_pObjects[index]->GetTransform()->Translate(location);
-		for (Entity child : m_pRegistry->GetEntityHierarchy(m_pObjects[index]->m_Entity))
-		{
-			m_pBehaviours->Initialize(child, m_pRegistry->GetComponentManager());
-		}
 
 		return m_pObjects[index].get();
 	}

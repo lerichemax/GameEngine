@@ -5,16 +5,17 @@
 #include "glm/glm.hpp"
 
 
-class Subject;
 class Character;
 class ColoredDisk;
 class QBertScene;
 class PyramidSystem;
 class QBert;
+enum class ConnectionDirection;
+enum class Level;
 class QubeSystem final : public System 
 {
 public:
-	QubeSystem();
+	QubeSystem() = default;
 	~QubeSystem() = default;
 
 	static EventHandler<QubeSystem> OnAnyQubeFlipped;
@@ -48,9 +49,9 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 
 protected:
-	void Initialize(ComponentManager* const pCompManager) override;
-	void Start(ComponentManager* const pCompManager) override;
-	void Update(ComponentManager* const pCompManager) override;
+	void Initialize() override;
+	void Start() override;
+	void Update() override;
 
 private:
 

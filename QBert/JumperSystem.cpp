@@ -5,12 +5,12 @@
 
 #include "Timer.h"
 
-void JumperSystem::Update(ComponentManager* const pComponentManager)
+void JumperSystem::Update()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pJumpComp = pComponentManager->GetComponent<JumpComponent>(entity);
-		auto* const pTransform = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pJumpComp = m_pCompManager->GetComponent<JumpComponent>(entity);
+		auto* const pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
 
 		if (!pJumpComp->m_bIsFalling && (pJumpComp->m_bIsJumping || pJumpComp->m_bJumpDown))
 		{

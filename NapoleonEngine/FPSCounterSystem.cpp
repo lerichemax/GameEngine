@@ -6,17 +6,17 @@
 
 #include "Timer.h"
 
-void FPSCounterSystem::Update(ComponentManager* const pComponentManager)
+void FPSCounterSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto* const fpsCounter = pComponentManager->GetComponent<FPSCounter>(entity);
+		auto* const fpsCounter = m_pCompManager->GetComponent<FPSCounter>(entity);
 
 		if (fpsCounter != nullptr && fpsCounter->IsActive())
 		{
 			fpsCounter->m_FPS = Timer::GetInstance().GetFPS();
 
-			auto* const text = pComponentManager->GetComponent<TextRendererComponent>(entity);
+			auto* const text = m_pCompManager->GetComponent<TextRendererComponent>(entity);
 
 			if (text != nullptr && text->IsActive())
 			{

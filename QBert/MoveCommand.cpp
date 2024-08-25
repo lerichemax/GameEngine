@@ -3,6 +3,7 @@
 
 #include "CharacterState.h"
 #include "GameObject.h"
+#include "QubeComponent.h"
 
 MoveCommand::MoveCommand(ConnectionDirection dir)
 	:m_MoveDirection{ dir }

@@ -1,27 +1,28 @@
 #pragma once
 #include "Component.h"
 
-#include "Qube.h"
-
+enum class ConnectionDirection;
 struct MovementComponent : public Component
 {
-	bool m_CanMove{ true };
+	MovementComponent();
 
-	QubeSystem* m_pCurrentQube{ nullptr };
+	bool CanMove{ true };
+
+	//QubeSystem* m_pCurrentQube{ nullptr };
 	//TextureRendererComponent* m_pRenderer{ nullptr };
 	//Jumper* m_pJumper{ nullptr };
 
-	std::string m_TextureIdleDownRight;
-	std::string m_TextureIdleDownLeft;
-	std::string m_TextureIdleUpRight;
-	std::string m_TextureIdleUpLeft;
+	std::string TextureIdleDownRight;
+	std::string TextureIdleDownLeft;
+	std::string TextureIdleUpRight;
+	std::string TextureIdleUpLeft;
 
-	std::string m_TextureJumpDownRight;
-	std::string m_TextureJumpDownLeft;
-	std::string m_TextureJumpUpRight;
-	std::string m_TextureJumpUpLeft;
+	std::string TextureJumpDownRight;
+	std::string TextureJumpDownLeft;
+	std::string TextureJumpUpRight;
+	std::string TextureJumpUpLeft;
 
-	ConnectionDirection m_CurentDirection{ ConnectionDirection::null};
+	ConnectionDirection CurentDirection;
 
 	void SetTextureIdleNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);
 	void SetTextureJumpNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);

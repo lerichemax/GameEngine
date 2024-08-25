@@ -4,13 +4,15 @@
 #include "CharacterControllerSystem.h"
 #include "CharacterMovementSystem.h"
 #include "JumperSystem.h"
-#include "PyramidComponent.h"
+#include "QubeSystem.h"
+#include "PyramidSystem.h"
 
 #include "CharacterControllerComponent.h"
+#include "CharacterComponent.h"
 #include "MovementComponent.h"
 #include "JumpComponent.h"
 #include "QubeComponent.h"
-
+#include "PyramidComponent.h"
 
 #include "Coily.h"
 #include "CoopScene.h"
@@ -117,8 +119,8 @@ void MainGame::CreatePrefabs() const
 	auto fallSoundPtr = qbert->AddComponent<AudioComponent>();
 	fallSoundPtr->SetAudioClip("Sounds/fall.mp3");
 
-	auto qBertComp = qbert->AddComponent<QBert>();
-	qBertComp->SetAudioComponents(jumpSoundPtr, fallSoundPtr, swearSoundPtr);
+	/*auto qBertComp = */qbert->AddComponent<CharacterComponent>();
+	//qBertComp->SetAudioComponents(jumpSoundPtr, fallSoundPtr, swearSoundPtr);
 
 	qbert->AddComponent<CharacterControllerComponent>();
 	auto characterMovement = qbert->AddComponent<MovementComponent>();
@@ -142,9 +144,9 @@ void MainGame::CreatePrefabs() const
 	hurtTextObj->GetTransform()->Translate(10, -20);
 	qbert->GetTransform()->Scale(1.5f);
 
-	qbertPrefab->AddSystem<CharacterControllerSystem>();
-	qbertPrefab->AddSystem<CharacterMovementSystem>();
-	qbertPrefab->AddSystem<JumperSystem>();
+	qbertPrefab->AddRequiredSystem<CharacterControllerSystem>();
+	qbertPrefab->AddRequiredSystem<CharacterMovementSystem>();
+	qbertPrefab->AddRequiredSystem<JumperSystem>();
 
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
@@ -154,9 +156,9 @@ void MainGame::CreatePrefabs() const
 	auto qubePf = pPrefabManager.CreatePrefab();
 	auto qubeObject = qubePf->GetRoot();
 	qubeObject->GetTransform()->Scale(1.75f);
-	qubeObject->AddComponent<TextureRendererComponent>()->m_Layer = 2;
-
 	qubeObject->AddComponent<QubeComponent>();
+	qubeObject->AddComponent<TextureRendererComponent>()->m_Layer = 2;
+	qubePf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
 	//Pyramid
@@ -165,7 +167,8 @@ void MainGame::CreatePrefabs() const
 	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->Translate(250.f, 400.f);
 	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
-	pyramidObject->AddComponent<PyramidSystem>();
+	pyramidObject->AddComponent<PyramidComponent>();
+	pyramidPf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	////Ugg + WrongWay

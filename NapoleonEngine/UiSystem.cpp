@@ -7,18 +7,18 @@
 #include "ButtonComponent.h"
 #include "TransformComponent.h"
 
-void UiSystem::Update(ComponentManager* const pComponentManager)
+void UiSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto btn = pComponentManager->GetComponent<ButtonComponent>(entity);
+		auto btn = m_pCompManager->GetComponent<ButtonComponent>(entity);
 
 		if (!btn->IsActive())
 		{
 			continue;
 		}
 
-		auto transform = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+		auto transform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
 
 		if (btn->m_bVisualize)
 		{

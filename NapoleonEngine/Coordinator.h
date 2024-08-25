@@ -18,8 +18,6 @@ public:
 	Entity CreateEntity();
 	void DestroyEntity(Entity entity);
 
-	ComponentManager* const GetComponentManager() const;
-
 	template <ComponentDerived T> T* const AddComponent(Entity entity);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> T* const GetComponent(Entity entity) const;
@@ -45,7 +43,7 @@ public:
 	void TransferTags(Entity originEntity, Entity destinationEntity, Coordinator* const pOther);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
-	System* const DeserializeSystem(JsonReader const* reader, SerializationMap& context);
+	System* const AddSystemFromName(std::string const& typeName);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
@@ -161,6 +159,9 @@ template <SystemDerived T>
 T* const Coordinator::RegisterSystem()
 {
 	auto pSystem = m_pSystemManager->RegisterSystem<T>(this);
+	pSystem->m_pCompManager = m_pComponentManager.get();
+	pSystem->SetSignature(this);
+
 	OnSystemSignatureChanged<T>(m_pSystemManager->GetSystemSignature<T>());
 
 	Factory<System>::GetInstance().RegisterType<T>([]() {

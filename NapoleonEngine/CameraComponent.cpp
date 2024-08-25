@@ -69,10 +69,10 @@ void ECS_CameraComponent::Deserialize(JsonReader const* reader, SerializationMap
 	m_Height = height;
 }
 
-void CameraSystem::Update(ComponentManager* const pComponentManager)
+void CameraSystem::Update()
 {
-	auto transformComp = pComponentManager->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
-	auto cameraComp = pComponentManager->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
+	auto transformComp = m_pCompManager->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
+	auto cameraComp = m_pCompManager->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
 
 	if (!transformComp->IsActive() || !cameraComp->IsActive())
 	{

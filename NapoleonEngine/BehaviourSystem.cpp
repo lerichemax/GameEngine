@@ -2,23 +2,18 @@
 #include "BehaviourSystem.h"
 #include "BehaviourComponent.h"
 
-void BehaviourSystem::Initialize(Entity entity, ComponentManager* const pComponentManager)
+void BehaviourSystem::Initialize()
 {
-	auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
 
-	for (auto behaviour : behaviours)
-	{
-		behaviour->Initialize();
-	}
 }
 
-void BehaviourSystem::Update(ComponentManager* const pComponentManager)
+void BehaviourSystem::Update()
 {
-	UpdateToBeStartedVector(pComponentManager);
+	UpdateToBeStartedVector(m_pCompManager);
 
 	for (Entity const& entity : m_Entities)
 	{
-		auto behaviours = pComponentManager->GetComponents<BehaviourComponent>(entity);
+		auto behaviours = m_pCompManager->GetComponents<BehaviourComponent>(entity);
 
 		for (auto behaviour : behaviours)
 		{

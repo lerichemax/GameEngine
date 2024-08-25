@@ -4,7 +4,6 @@
 #include <chrono>
 #include <thread>
 
-#include "Qube.h"
 #include "ColoredDisk.h"
 #include "Coily.h"
 #include "SlickSam.h"
@@ -13,7 +12,6 @@
 #include "CharacterLives.h"
 #include "JumpingState.h"
 #include "FallingState.h"
-#include "Pyramid.h"
 
 #include "GameObject.h"
 #include "ResourceManager.h"
@@ -62,7 +60,7 @@ void QBert::Initialize()
 
 void QBert::Start()
 {
-	auto pyramid = FindComponentOfType<PyramidSystem>();
+	//auto pyramid = FindComponentOfType<PyramidSystem>();
 	//auto pMover = GetGameObject()->GetComponent<CharacterMovement>();
 	//pMover->SetCurrentQube(pyramid->GetTop());
 
@@ -70,13 +68,13 @@ void QBert::Start()
 	//	m_pJumpSound->Play();
 	//	});
 
-	pyramid->OnAllQubesFlipped.Subscribe([this](int points) {
-		EarnPoints(points);
-		});
+	//pyramid->OnAllQubesFlipped.Subscribe([this](int points) {
+	//	EarnPoints(points);
+	//	});
 
-	QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
-		EarnPoints(QubeSystem::POINTS_FOR_FLIP);
-		});
+	//QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
+	//	EarnPoints(QubeSystem::POINTS_FOR_FLIP);
+	//	});
 
 	//auto jumper = GetGameObject()->GetComponent<Jumper>();
 	//jumper->OnJumpedToDeath.Subscribe([this]() {
@@ -251,35 +249,5 @@ void QBert::MeetCharacter(Character* pOther)
 
 void QBert::LandOnQube()
 {
-	m_pCurrentQube->QBertJump(this);
-}
-
-void QBert::SetDirectionTextures(ConnectionDirection dir)
-{
-	if (m_FacingDirection == dir)
-	{
-		return;
-	}
-
-	m_FacingDirection = dir;
-
-	//switch (dir)
-	//{
-	//case ConnectionDirection::downLeft:
-	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Qube.png");
-	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
-	//	break;
-	//case ConnectionDirection::downRight:
-	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownRight_Qube.png");
-	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownRight_Jump.png");
-	//	break;
-	//case ConnectionDirection::upLeft:
-	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpLeft_Qube.png");
-	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpLeft_Jump.png");
-	//	break;
-	//case ConnectionDirection::upRight:
-	//	m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpRight_Qube.png");
-	//	m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_UpRight_Jump.png");
-	//	break;
-	//}
+	//m_pCurrentQube->QBertJump(this);
 }

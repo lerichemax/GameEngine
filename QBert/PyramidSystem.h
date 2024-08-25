@@ -14,14 +14,13 @@ class ColoredDisk;
 class ComponentManager;
 class PyramidSystem final : public System
 {
-
 public:
 	PyramidSystem() = default;
 	~PyramidSystem() = default;
 
 	EventHandler<PyramidSystem, int> OnAllQubesFlipped{};
 	
-	//QubeSystem* GetTop() const { return m_pQubes.front(); }
+	Entity GetTop() const; 
 	//QubeSystem* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
 	//QubeSystem* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	//QubeSystem* GetQube(int index) const { return m_pQubes[index]; }
@@ -40,12 +39,11 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 
 protected:
-	void Update(ComponentManager* const pCompManager);
+	void Initialize();
+	void Update();
 
 private:
-	void Initialize(ComponentManager* const pCompManager);
-	
-	void CreateConnections(std::vector<Entity> const& qubes, ComponentManager* const pCompManager);
+	void CreateConnections(std::vector<Entity> const& qubes);
 	void CreateEscheresqueRightConnections();
 	void CreateEscheresqueLeftConnections();
 	
@@ -56,5 +54,5 @@ private:
 	int GetQBertIndex() const;
 	
 	void DiskSpawnerTimer();
-	void CheckAllQubesFlipped(Entity entity, ComponentManager* const pCompManager) const;
+	void CheckAllQubesFlipped(Entity entity) const;
 };

@@ -18,11 +18,12 @@ public:
 	virtual void SetSignature(Coordinator* const pRegistry) = 0;
 
 protected:
+	ComponentManager* m_pCompManager;
 	std::set<Entity> m_Entities;
 
-	virtual void Initialize(ComponentManager* const pCompManager) {};
-	virtual void Start(ComponentManager* const pCompManager) {};
-	virtual void Update(ComponentManager* const pCompManager) {};
+	virtual void Initialize() {};
+	virtual void Start() {};
+	virtual void Update() {};
 
 	void Serialize(StreamWriter& writer) const {};
 	void Deserialize(JsonReader const* reader, SerializationMap& context) {}

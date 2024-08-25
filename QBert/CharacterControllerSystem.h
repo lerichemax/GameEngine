@@ -10,7 +10,7 @@ public:
 
 protected:
 	void Start();
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	void Serialize(StreamWriter& writer) const override;
 

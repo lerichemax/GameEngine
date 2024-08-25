@@ -9,11 +9,11 @@
 #include <thread>
 
 
-void AudioSystem::Update(ComponentManager* const pComponentManager)
+void AudioSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto audioComps = pComponentManager->GetComponents<AudioComponent>(entity);
+		auto audioComps = m_pCompManager->GetComponents<AudioComponent>(entity);
 		for (AudioComponent* const audio : audioComps)
 		{
 			if (!audio->IsActive())

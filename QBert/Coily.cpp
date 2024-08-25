@@ -2,7 +2,6 @@
 #include "Coily.h"
 
 #include "CoilyCharacterController.h"
-#include "Qube.h"
 
 #include "GameObject.h"
 #include "QBert.h"
@@ -43,14 +42,14 @@ void Coily::Initialize()
 
 void Coily::DoMove(ConnectionDirection direction)
 {
-	if (m_pController != nullptr /*&& !m_pController->IsEnable()*/ &&
-		!m_pCurrentQube->HasConnection(direction))
-	{
-		FallSound();
-		JumpToDeath(direction);
-		SwitchState(new FallingState(this, m_pJumper));
-		return;
-	}
+	//if (m_pController != nullptr /*&& !m_pController->IsEnable()*/ &&
+	//	!m_pCurrentQube->HasConnection(direction))
+	//{
+	//	FallSound();
+	//	JumpToDeath(direction);
+	//	SwitchState(new FallingState(this, m_pJumper));
+	//	return;
+	//}
 
 	Enemy::DoMove(direction);
 	if (m_pController != nullptr /*&& !m_pController->IsEnable()*/)

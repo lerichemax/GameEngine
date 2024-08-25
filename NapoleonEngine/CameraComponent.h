@@ -46,7 +46,7 @@ class Coordinator;
 class CameraSystem : public System
 {
 public:
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	bool TrySetMainCamera(GameObject* const pGameObject);
 

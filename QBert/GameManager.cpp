@@ -20,7 +20,7 @@
 
 #include "CoilyManager.h"
 #include "ColoredDisk.h"
-#include "Pyramid.h"
+#include "PyramidSystem.h"
 #include "WrongWayManager.h"
 #include "SlickSamManager.h"
 
@@ -146,15 +146,15 @@ void GameManagerBehaviour::Start()
 {
 	m_Level = Level::Level1;
 
-	m_pPyramid = FindComponentOfType<PyramidSystem>();
+	//m_pPyramid = FindComponentOfType<PyramidSystem>();
 	m_pQbert = FindComponentOfType<QBert>();
 
-	if (m_pPyramid != nullptr)
-	{
-		m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
-			HandleEndGame();
-			});
-	}
+	//if (m_pPyramid != nullptr)
+	//{
+	//	m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+	//		HandleEndGame();
+	//		});
+	//}
 
 	if (m_pQbert != nullptr)
 	{
@@ -193,7 +193,7 @@ void GameManagerBehaviour::TogglePause()
 void GameManagerBehaviour::ResetGame()
 {
 	m_pPyramid->Reset(m_Level);
-	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	//m_pQbert->Reset(false, m_pPyramid->GetTop());
 }
 
 void GameManagerBehaviour::HandleEndGame()

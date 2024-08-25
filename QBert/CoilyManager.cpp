@@ -3,12 +3,10 @@
 
 #include "GameManager.h"
 #include "Coily.h"
-#include "Pyramid.h"
 #include "CoilyCharacterController.h"
 
 #include "ObserverManager.h"
 #include "PrefabsManager.h"
-#include "Qube.h"
 #include "Timer.h"
 #include "TransformComponent.h"
 

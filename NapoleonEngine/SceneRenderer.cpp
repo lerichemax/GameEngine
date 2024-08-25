@@ -39,15 +39,15 @@ void SceneRenderer::RemoveFromGroup(RendererComponent* pRenderer, Layer layer)
 	currentGroup.erase(std::find(currentGroup.begin(), currentGroup.end(), pRenderer));
 }
 
-void LayeredRendererSystem::Update(ComponentManager* const pComponentManager)
+void LayeredRendererSystem::Update()
 {
-	std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [&pComponentManager](Entity a, Entity b) {
-		return pComponentManager->GetComponent<TextureRendererComponent>(a)->m_Layer < pComponentManager->GetComponent<TextureRendererComponent>(b)->m_Layer;
+	std::sort(m_EntityPerLayer.begin(), m_EntityPerLayer.end(), [this](Entity a, Entity b) {
+		return m_pCompManager->GetComponent<TextureRendererComponent>(a)->m_Layer < m_pCompManager->GetComponent<TextureRendererComponent>(b)->m_Layer;
 		});
 
 	for (Entity const& entity : m_EntityPerLayer)
 	{
-		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity);
+		auto renderComp = m_pCompManager->GetComponent<TextureRendererComponent>(entity);
 
 		if (!renderComp->IsActive())
 		{
@@ -72,18 +72,18 @@ void LayeredRendererSystem::AddEntity(Entity entity)
 	m_EntityPerLayer.push_back(entity);
 }
 
-void TextRendererSystem::Update(ComponentManager* const pComponentManager)
+void TextRendererSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto textRenderComp = pComponentManager->GetComponent<TextRendererComponent>(entity);
+		auto textRenderComp = m_pCompManager->GetComponent<TextRendererComponent>(entity);
 
 		if (!textRenderComp->IsActive() || !textRenderComp-> m_NeedsUpdate)
 		{
 			continue;
 		}
 
-		auto renderComp = pComponentManager->GetComponent<TextureRendererComponent>(entity); //log if absent (also when adding)
+		auto renderComp = m_pCompManager->GetComponent<TextureRendererComponent>(entity); //log if absent (also when adding)
 
 		renderComp->m_pTexture = ResourceManager::GetInstance().GetTextTexture(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(),
 			textRenderComp->m_TextColor, textRenderComp->m_TextId);

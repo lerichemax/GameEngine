@@ -5,8 +5,8 @@
 class BehaviourSystem final : public System
 {
 public:
-	void Initialize(Entity entity, ComponentManager* const pComponentManager);
-	void Update(ComponentManager* const pComponentManager) override;
+	void Initialize();
+	void Update() override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
 

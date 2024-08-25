@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="CharacterControllerComponent.cpp" />
     <ClCompile Include="CharacterControllerSystem.cpp" />
     <ClCompile Include="CharacterMovementSystem.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="OnQubeState.cpp" />
     <ClCompile Include="PyramidComponent.cpp" />
+    <ClCompile Include="QBertSystem.cpp" />
     <ClCompile Include="QubeComponent.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ReloadSceneCommand.cpp" />
@@ -217,6 +219,7 @@
     <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterControllerComponent.h" />
     <ClInclude Include="CharacterControllerSystem.h" />
     <ClInclude Include="CharacterMovementSystem.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="OnQubeState.h" />
     <ClInclude Include="PyramidComponent.h" />
+    <ClInclude Include="QBertSystem.h" />
     <ClInclude Include="QubeComponent.h" />
     <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ReloadSceneCommand.h" />

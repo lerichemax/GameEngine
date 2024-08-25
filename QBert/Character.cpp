@@ -1,10 +1,11 @@
 #include "PCH.h"
 #include "Character.h"
 
+#include "QubeComponent.h"
+
 #include "CharacterState.h"
 #include "CoilyCharacterController.h"
 
-#include "Qube.h"
 #include "OnQubeState.h"
 #include "JumpingState.h"
 #include "FallingState.h"
@@ -74,16 +75,16 @@ void Character::MoveToCurrentQube()
 		return;
 	}
 
-	if (m_pCurrentQube->HasCharacter() && m_pCurrentQube->GetCharacter() != this)
-	{
-		MeetCharacter(m_pCurrentQube->GetCharacter());
-	}
+	//if (m_pCurrentQube->HasCharacter() && m_pCurrentQube->GetCharacter() != this)
+	//{
+	//	MeetCharacter(m_pCurrentQube->GetCharacter());
+	//}
 
-	if (GetGameObject()->IsActive())
-	{
-		m_pCurrentQube->CharacterJumpIn(this);
-		GetGameObject()->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
-	}
+	//if (GetGameObject()->IsActive())
+	//{
+	//	m_pCurrentQube->CharacterJumpIn(this);
+	//	GetGameObject()->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+	//}
 }
 
 void Character::JumpToQube(QubeSystem* const pTargetQube)
@@ -121,7 +122,7 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	
 	SetLayerToBackGround();
 	
-	m_pCurrentQube->CharacterJumpOut();
+	//m_pCurrentQube->CharacterJumpOut();
 	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
 }
 
@@ -137,10 +138,10 @@ void Character::Die()
 
 void Character::SetLayerToBackGround()
 {
-	if (!m_pCurrentQube->IsLastRow())
-	{
-		//m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
-	}
+	//if (!m_pCurrentQube->IsLastRow())
+	//{
+	//	//m_pGameObject->GetComponent<RendererComponent>()->ChangeLayer(Layer::preBacground);
+	//}
 }
 
 void Character::SwitchState(CharacterState* pState)

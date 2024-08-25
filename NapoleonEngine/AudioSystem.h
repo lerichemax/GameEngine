@@ -20,7 +20,7 @@ public:
 	AudioSystem& operator=(AudioSystem const& rhs) = delete;
 	AudioSystem& operator=(AudioSystem&& rhs) = delete;
 
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
 };

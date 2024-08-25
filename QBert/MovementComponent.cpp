@@ -1,35 +1,42 @@
 #include "PCH.h"
 #include "MovementComponent.h"
+#include "QubeComponent.h"
+
+MovementComponent::MovementComponent()
+	:CurentDirection{ConnectionDirection::null}
+{
+
+}
 
 void MovementComponent::SetTextureIdleNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft)
 {
-	m_TextureIdleDownRight = downRight;
-	m_TextureIdleDownLeft = downLeft;
-	m_TextureIdleUpRight = upRight;
-	m_TextureIdleUpLeft = upLeft;
+	TextureIdleDownRight = downRight;
+	TextureIdleDownLeft = downLeft;
+	TextureIdleUpRight = upRight;
+	TextureIdleUpLeft = upLeft;
 }
 
 void MovementComponent::SetTextureJumpNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft)
 {
-	m_TextureJumpDownRight = downRight;
-	m_TextureJumpDownLeft = downLeft;
-	m_TextureJumpUpRight = upRight;
-	m_TextureJumpUpLeft = upLeft;
+	TextureJumpDownRight = downRight;
+	TextureJumpDownLeft = downLeft;
+	TextureJumpUpRight = upRight;
+	TextureJumpUpLeft = upLeft;
 }
 
 void MovementComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("type", typeid(MovementComponent).name());
 
-	writer.WriteString("textIdleDownRight", m_TextureIdleDownRight);
-	writer.WriteString("textIdleDownLeft", m_TextureIdleDownLeft);
-	writer.WriteString("textIdleUpRight", m_TextureIdleUpRight);
-	writer.WriteString("textIdleUpLeft", m_TextureIdleUpLeft);
+	writer.WriteString("textIdleDownRight", TextureIdleDownRight);
+	writer.WriteString("textIdleDownLeft", TextureIdleDownLeft);
+	writer.WriteString("textIdleUpRight", TextureIdleUpRight);
+	writer.WriteString("textIdleUpLeft", TextureIdleUpLeft);
 
-	writer.WriteString("textJumpDownRight", m_TextureJumpDownRight);
-	writer.WriteString("textJumpDownLeft", m_TextureJumpDownLeft);
-	writer.WriteString("textJumpUpRight", m_TextureJumpUpRight);
-	writer.WriteString("textJumpUpLeft", m_TextureJumpUpLeft);
+	writer.WriteString("textJumpDownRight", TextureJumpDownRight);
+	writer.WriteString("textJumpDownLeft", TextureJumpDownLeft);
+	writer.WriteString("textJumpUpRight", TextureJumpUpRight);
+	writer.WriteString("textJumpUpLeft", TextureJumpUpLeft);
 
 	Component::Serialize(writer);
 }
@@ -38,13 +45,13 @@ void MovementComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 {
 	Component::Deserialize(reader, context);
 
-	reader->ReadString("textIdleDownRight", m_TextureIdleDownRight);
-	reader->ReadString("textIdleDownLeft", m_TextureIdleDownLeft);
-	reader->ReadString("textIdleUpRight", m_TextureIdleUpRight);
-	reader->ReadString("textIdleUpLeft", m_TextureIdleUpLeft);
+	reader->ReadString("textIdleDownRight", TextureIdleDownRight);
+	reader->ReadString("textIdleDownLeft", TextureIdleDownLeft);
+	reader->ReadString("textIdleUpRight", TextureIdleUpRight);
+	reader->ReadString("textIdleUpLeft", TextureIdleUpLeft);
 
-	reader->ReadString("textJumpDownRight", m_TextureJumpDownRight);
-	reader->ReadString("textJumpDownLeft", m_TextureJumpDownLeft);
-	reader->ReadString("textJumpUpRight", m_TextureJumpUpRight);
-	reader->ReadString("textJumpUpLeft", m_TextureJumpUpLeft);
+	reader->ReadString("textJumpDownRight", TextureJumpDownRight);
+	reader->ReadString("textJumpDownLeft", TextureJumpDownLeft);
+	reader->ReadString("textJumpUpRight", TextureJumpUpRight);
+	reader->ReadString("textJumpUpLeft", TextureJumpUpLeft);
 }

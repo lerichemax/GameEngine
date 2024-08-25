@@ -116,7 +116,7 @@ private:
 class Coordinator;
 class TransformSystem : public System {
 public:
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
 

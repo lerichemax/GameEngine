@@ -298,11 +298,11 @@ void ECS_TransformComponent::RestoreContext(JsonReader const* reader, Serializat
 	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
 }
 
-void TransformSystem::Update(ComponentManager* const pComponentManager)
+void TransformSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto transComp = pComponentManager->GetComponent<ECS_TransformComponent>(entity);
+		auto transComp = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
 
 		if (!transComp->IsActive())
 		{

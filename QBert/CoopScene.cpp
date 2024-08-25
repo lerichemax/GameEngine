@@ -7,7 +7,6 @@
 #include "CharacterLives.h"
 #include "InputManager.h"
 #include "MoveCommand.h"
-#include "Pyramid.h"
 #include "PrefabsManager.h"
 #include "QBert.h"
 #include "TextRendererComponent.h"

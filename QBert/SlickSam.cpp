@@ -7,7 +7,6 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 #include "ResourceManager.h"
-#include "Qube.h"
 
 int SlickSam::m_NbrInstances{};
 

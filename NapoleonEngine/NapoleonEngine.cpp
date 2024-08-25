@@ -87,7 +87,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	fpsCounterObject->AddComponent<TextureRendererComponent>()->m_Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
 
-	fpsCounterPrefab->AddSystem<FPSCounterSystem>();
+	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
 
 	PrefabsManager::GetInstance().SavePrefab(fpsCounterPrefab, "FPSCounter");
 

@@ -2,11 +2,11 @@
 #include "ShapeRenderer.h"
 #include "ShapeComponent.h"
 
-void ShapeRenderer::Update(ComponentManager* const pComponentManager)
+void ShapeRenderer::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto shape = pComponentManager->GetComponent<ShapeComponent>(entity);
+		auto shape = m_pCompManager->GetComponent<ShapeComponent>(entity);
 
 		if (shape != nullptr && shape->IsActive())
 		{

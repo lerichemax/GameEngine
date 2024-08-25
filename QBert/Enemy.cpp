@@ -1,6 +1,5 @@
 #include "PCH.h"
 #include "Enemy.h"
-#include "Qube.h"
 
 #include "GameObject.h"
 #include "QBert.h"
@@ -19,31 +18,31 @@ void Enemy::DoMove(ConnectionDirection direction)
 {
 	SetDirectionTextures(direction);
 	
-	if (m_pCurrentQube->HasConnection(direction))
-	{
-		/*auto* const pNextQube = m_pCurrentQube->GetConnection(direction);
-		if (pNextQube->HasCharacter())
-		{
-			if (pNextQube->GetCharacter()->GetType() != CharacterType::player)
-			{
-				return;
-			}
-		}
-		
-		m_pCurrentQube->CharacterJumpOut();
-		JumpToQube(pNextQube);*/
-	}
-	else
-	{
-		JumpToDeath(direction);
-	}
+	//if (m_pCurrentQube->HasConnection(direction))
+	//{
+	//	/*auto* const pNextQube = m_pCurrentQube->GetConnection(direction);
+	//	if (pNextQube->HasCharacter())
+	//	{
+	//		if (pNextQube->GetCharacter()->GetType() != CharacterType::player)
+	//		{
+	//			return;
+	//		}
+	//	}
+	//	
+	//	m_pCurrentQube->CharacterJumpOut();
+	//	JumpToQube(pNextQube);*/
+	//}
+	//else
+	//{
+	//	JumpToDeath(direction);
+	//}
 }
 
 void Enemy::DoDie()
 {
-	if (m_pCurrentQube)
-	{
-		m_pCurrentQube->CharacterJumpOut();
-	}
+	//if (m_pCurrentQube)
+	//{
+	//	m_pCurrentQube->CharacterJumpOut();
+	//}
 	GetGameObject()->Destroy();
 }

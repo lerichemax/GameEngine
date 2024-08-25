@@ -23,7 +23,7 @@ public:
 	void SetSignature(Coordinator* const pRegistry) override;
 
 protected:
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 private:
 	void UpdateJump(JumpComponent* const pJump, ECS_TransformComponent* const pTransform);

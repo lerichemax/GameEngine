@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "VersusScene.h"
 
-#include "ButtonComponent.h"
-#include "Pyramid.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
 #include "Coily.h"
@@ -179,8 +177,8 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 	//m_pQbert->Reset(false, m_pPyramid->GetTop());
 	
 	m_pCoilyPlayer->Transform(false);
-	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
+	//m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 }
 

@@ -3,8 +3,6 @@
 
 #include "GameManager.h"
 #include "SlickSam.h"
-#include "Pyramid.h"
-#include "Qube.h"
 #include "TransformComponent.h"
 
 #include "ObserverManager.h"

@@ -6,10 +6,8 @@ class UIManager : public BehaviourComponent
 {
 public:
 	UIManager() = default;
-	~UIManager()
-	{
+	~UIManager() = default;
 
-	}
 	void Start() override;
 
 	void Serialize(StreamWriter& writer) const override;

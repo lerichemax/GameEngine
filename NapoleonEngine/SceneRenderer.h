@@ -26,7 +26,7 @@ private:
 class TextRendererSystem : public System
 {
 public:
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
 };
@@ -34,7 +34,7 @@ public:
 class LayeredRendererSystem : public System
 {
 public:
-	void Update(ComponentManager* const pComponentManager) override;
+	void Update() override;
 
 	void SetSignature(Coordinator* const pRegistry) override;
 
