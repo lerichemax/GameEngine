@@ -1,14 +1,16 @@
 #include "PCH.h"
 #include "QubeSystem.h"
+#include "JumperSystem.h"
 
 #include "QubeComponent.h"
+#include "MovementComponent.h"
 
 #include "QBert.h"
 #include "ColoredDisk.h"
 #include "SlickSam.h"
 #include "Texture2D.h"
 
-#include "TextureRendererComponent.h"
+#include "RendererComponent.h"
 #include "GameObject.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
@@ -22,14 +24,14 @@ void QubeSystem::Initialize()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pTextureRenderer = m_pCompManager->GetComponent<TextureRendererComponent>(entity);
-		auto* const pQube = m_pCompManager->GetComponent<QubeComponent>(entity);
-		auto* const pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pTextureRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
+		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
 
-		pTextureRenderer->m_pTexture = pQube->pDefaultText;
+		pTextureRenderer->pTexture = pQube->pDefaultText;
 
-		pQube->CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->m_pTexture->GetWidth() / 4;
-		pQube->CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->m_pTexture->GetHeight() / 5;
+		pQube->CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->pTexture->GetWidth() / 4;
+		pQube->CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->pTexture->GetHeight() / 5;
 	}
 
 	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
@@ -41,6 +43,20 @@ void QubeSystem::Initialize()
 
 void QubeSystem::Start()
 {
+	auto* const pJumpSystem = GetSystem<JumperSystem>();
+
+	if (pJumpSystem != nullptr)
+	{
+		pJumpSystem->OnJumpLanded.Subscribe([this](Entity entity) {
+			
+			if (m_pRegistry->HasTag(entity, "QBert"))
+			{
+				auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+				HandleQBertLanding(pMoveComp->CurrentQube);
+			}
+		});
+	}
 }
 
 void QubeSystem::Update()
@@ -52,34 +68,37 @@ void QubeSystem::Update()
 	}*/
 }
 
-void QubeSystem::HandleQBertLanding()
+void QubeSystem::HandleQBertLanding(Entity qubeEntity)
 {
-	//switch (m_QubeLevel)
-	//{
-	//case Level::Level1:
-	//	Flip();
-	//	break;
-	//case Level::Level2:
-	//	if (m_JumpCounter < 1)
-	//	{
-	//		GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pIntermediateTexture;
-	//		m_JumpCounter++;
-	//	}
-	//	else 
-	//	{
-	//		Flip();
-	//	}
-	//	break;
-	//case Level::Level3:
-	//	if (IsFlipped())
-	//	{
-	//		UnFlip();
-	//	}
-	//	else {
-	//		Flip();
-	//	}
-	//	break;
-	//}
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
+	switch (pQube->QubeLevel)
+	{
+	case Level::Level1:
+		Flip(qubeEntity);
+		break;
+	case Level::Level2:
+		if (pQube->JumpCounter < 1)
+		{
+			auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(qubeEntity);
+
+			pRenderer->pTexture = pQube->pIntermediateTexture;
+			pQube->JumpCounter++;
+		}
+		else 
+		{
+			Flip(qubeEntity);
+		}
+		break;
+	case Level::Level3:
+		if (pQube->bIsFlipped)
+		{
+			UnFlip(qubeEntity);
+		}
+		else {
+			Flip(qubeEntity);
+		}
+		break;
+	}
 }
 
 void QubeSystem::AddEscheresqueRightConnection(ConnectionDirection dir, QubeSystem* const pConnection)
@@ -216,30 +235,38 @@ void QubeSystem::QBertJump(QBert* pQbert)
 	
 }
 
-void QubeSystem::Flip()
+void QubeSystem::Flip(Entity qubeEntity)
 {
-	//if (!m_bIsFlipped)
-	//{
-	//	GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pFlippedTexture;
-	//	m_bIsFlipped = true;
-	//	m_JumpCounter++;
-	//	OnAnyQubeFlipped.Notify();
-	//}
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
+	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(qubeEntity);
+
+	if (!pQube->bIsFlipped)
+	{
+		pRenderer->pTexture = pQube->pFlippedTexture;
+		pQube->bIsFlipped = true;
+		pQube->JumpCounter++;
+		OnAnyQubeFlipped.Notify();
+	}
 }
 
-void QubeSystem::UnFlip()
+void QubeSystem::UnFlip(Entity qubeEntity)
 {
-	//m_bIsFlipped = false;
-	//GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
-	//m_JumpCounter=0;
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
+	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(qubeEntity);
+
+	pQube->bIsFlipped = false;
+	pRenderer->pTexture = pQube->pDefaultText;
+	pQube->JumpCounter=0;
 }
 
-void QubeSystem::Reset(Level level)
+void QubeSystem::Reset(Level level, Entity entity)
 {
-	//m_bIsFlipped = false;
-	//m_JumpCounter = 0;
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
+
+	pQube->bIsFlipped = false;
+	pQube->JumpCounter = 0;
 	//m_pCharacter = nullptr;
-	//m_QubeLevel = level;
+	pQube->QubeLevel = level;
 	
 	//if (m_pGameObject->HasChildren())
 	//{
@@ -249,8 +276,10 @@ void QubeSystem::Reset(Level level)
 	//	}
 	//}
 	//m_pDiskConnection = nullptr;
+
+	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 	
-	//GetGameObject()->GetComponent<TextureRendererComponent>()->m_pTexture = m_pDefaultText;
+	pRenderer->pTexture = pQube->pDefaultText;
 }
 
 ColoredDisk* QubeSystem::GetConnectedDisk() const
@@ -275,15 +304,15 @@ void QubeSystem::CharacterJumpOut()
 
 void QubeSystem::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(QubeSystem).name());
+	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(QubeSystem)).hash_code()));
 }
 
-void QubeSystem::SetSignature(Coordinator* const pRegistry)
+void QubeSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<QubeComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<TextureRendererComponent>());
+	signature.set(m_pRegistry->GetComponentType<QubeComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
 
-	pRegistry->SetSystemSignature<QubeSystem>(signature);
+	m_pRegistry->SetSystemSignature<QubeSystem>(signature);
 }

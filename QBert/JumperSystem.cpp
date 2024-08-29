@@ -9,22 +9,23 @@ void JumperSystem::Update()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pJumpComp = m_pCompManager->GetComponent<JumpComponent>(entity);
-		auto* const pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pJumpComp = m_pRegistry->GetComponent<JumpComponent>(entity);
 
 		if (!pJumpComp->m_bIsFalling && (pJumpComp->m_bIsJumping || pJumpComp->m_bJumpDown))
 		{
-			UpdateJump(pJumpComp, pTransform);
+			UpdateJump(entity);
 		}
 		else if (pJumpComp->m_bIsFalling)
 		{
-			UpdateFall(pJumpComp, pTransform);
+			UpdateFall(entity);
 		}
 	}
 }
 
-void JumperSystem::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos, JumpComponent* const pJump)
+void JumperSystem::Jump(Entity entity, glm::vec2 const& startPos, glm::vec2 const& targetPos)
 {
+	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
+
 	pJump->m_bIsJumping = true;
 	pJump->m_bJumpDown = false;
 
@@ -55,8 +56,10 @@ void JumperSystem::Jump(glm::vec2 const& startPos, glm::vec2 const& targetPos, J
 	//}
 }
 
-void JumperSystem::JumpToDeath(glm::vec2 const& startPos, float xDist, JumpComponent* const pJump)
+void JumperSystem::JumpToDeath(Entity entity, glm::vec2 const& startPos, float xDist)
 {
+	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
+
 	pJump->m_bIsJumping = true;
 	pJump->m_bJumpDown = false;
 	pJump->m_bIsFalling = true;
@@ -68,8 +71,11 @@ void JumperSystem::JumpToDeath(glm::vec2 const& startPos, float xDist, JumpCompo
 	OnJumpedToDeath.Notify();
 }
 
-void JumperSystem::UpdateJump(JumpComponent* const pJump, ECS_TransformComponent* const pTransform)
+void JumperSystem::UpdateJump(Entity entity)
 {
+	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+
 	auto const pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
@@ -94,12 +100,15 @@ void JumperSystem::UpdateJump(JumpComponent* const pJump, ECS_TransformComponent
 	{
 		pJump->m_bIsJumping = false;
 		pJump->m_bJumpDown = false;
-		OnJumpLanded.Notify();
+		OnJumpLanded.Notify(entity);
 	}
 }
 
-void JumperSystem::UpdateFall(JumpComponent* const pJump, ECS_TransformComponent* const pTransform)
+void JumperSystem::UpdateFall(Entity entity)
 {
+	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+
 	auto pos = pTransform->GetPosition();
 	glm::vec2 dir{};
 
@@ -113,7 +122,7 @@ void JumperSystem::UpdateFall(JumpComponent* const pJump, ECS_TransformComponent
 		pJump->m_FallTime += Timer::GetInstance().GetDeltaTime();
 		if (pJump->m_FallTime >= pJump->FALL_TIME)
 		{
-			OnFell.Notify();
+			OnFell.Notify(entity);
 			pJump->m_bIsFalling = false;
 			pJump->m_bIsJumping = false;
 			pJump->m_bJumpDown = false;
@@ -133,14 +142,14 @@ void JumperSystem::UpdateFall(JumpComponent* const pJump, ECS_TransformComponent
 
 void JumperSystem::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(JumperSystem).name());
+	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(JumperSystem)).hash_code()));
 }
 
-void JumperSystem::SetSignature(Coordinator* const pRegistry)
+void JumperSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<JumpComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<JumpComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
 
-	pRegistry->SetSystemSignature<JumperSystem>(signature);
+	m_pRegistry->SetSystemSignature<JumperSystem>(signature);
 }

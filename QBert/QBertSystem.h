@@ -5,8 +5,13 @@ class Coordinator;
 class QBertSystem : public System 
 {
 public:
-	 void SetSignature(Coordinator* const pRegistry) override;
+	 void SetSignature() override;
+
+	 void Serialize(StreamWriter& writer) const override;
+
+	 void Reset(bool fullReset, Entity targetQubeEntity);
 
 protected:
 	void Start() override;
+
 };

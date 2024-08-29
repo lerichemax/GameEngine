@@ -2,33 +2,95 @@
 
 #include "QBertSystem.h"
 #include "PyramidSystem.h"
+#include "CharacterMovementSystem.h"
+#include "JumperSystem.h"
 
+#include "AudioComponent.h"
 #include "CharacterControllerComponent.h"
-#include "CharacterComponent.h"
+#include "QbertComponent.h"
 #include "QubeComponent.h"
+#include "MovementComponent.h"
+#include "RendererComponent.h"
+#include "CharacterLives.h"
+#include "CharacterPoint.h"
 
 #include "Coordinator.h"
 
-void QBertSystem::SetSignature(Coordinator* const pRegistry)
+void QBertSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<CharacterControllerComponent>());
-	signature.set(pRegistry->GetComponentType<CharacterComponent>());
+	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());
+	signature.set(m_pRegistry->GetComponentType<QbertComponent>());
+	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
 
-	pRegistry->SetSystemSignature<QBertSystem>(signature);
+	m_pRegistry->SetSystemSignature<QBertSystem>(signature);
 }
 
+void QBertSystem::Serialize(StreamWriter& writer) const
+{
+	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(QBertSystem)).hash_code()));
+}
 
 void QBertSystem::Start()
 {
-	for (Entity entity : m_Entities)
+	Entity entity = *m_Entities.begin();
+
+	auto* const pMoveComponent = m_pRegistry->GetComponent<MovementComponent>(entity);
+	pMoveComponent->CurrentQube = GetSystem<PyramidSystem>()->GetTop();
+
+	auto pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComponent->CurrentQube);
+
+	auto pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	pTransform->Translate(pQube->CharacterPos);
+
+	auto* const pMoveSystem = GetSystem<CharacterMovementSystem>();
+
+	pMoveSystem->OnMoveStarted.Subscribe([this, entity]() {
+		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
+		pQbert->pJumpSound->Play();
+	});
+
+	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
+
+	pJumper->OnJumpedToDeath.Subscribe([this, entity]() {
+		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
+		pQbert->pFallSound->Play();
+
+		m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 1;
+		});
+
+	pJumper->OnFell.Subscribe([this](Entity entity) {
+		auto* const pLives = m_pRegistry->GetComponent<CharacterLives>(entity);
+		if (IS_VALID(pLives))
+		{
+			pLives->Die();
+			Reset(false, m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube);
+		}
+	});
+}
+
+void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
+{
+	Entity entity = *m_Entities.begin();
+
+	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+	pMovement->CurrentQube = targetQubeEntity;
+
+	m_pRegistry->GetSystem<CharacterMovementSystem>()->MoveToCurrentQube(entity);
+
+	m_pRegistry->SetEntityActive(entity, true);
+	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 8;
+
+	if (!fullReset)
 	{
-		auto pCharacter = m_pCompManager->GetComponent<CharacterComponent>(entity);
-		pCharacter->CurrentQube = GetSystem<PyramidSystem>()->GetTop();
-
-		auto pQube = m_pCompManager->GetComponent<QubeComponent>(pCharacter->CurrentQube);
-
-		auto pTransform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
-		pTransform->Translate(pQube->CharacterPos);
+		return;
 	}
+	//SwitchState(new OnQubeState(this, m_pJumper));
+
+	auto* const pLives = m_pRegistry->GetComponent<CharacterLives>(entity);
+	auto* const pPoints = m_pRegistry->GetComponent<CharacterPoint>(entity);
+	pLives->Reset();
+	pPoints->Reset();
+
 }

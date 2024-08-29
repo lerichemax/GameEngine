@@ -3,7 +3,7 @@
 
 void JumpComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(JumpComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(JumpComponent)).hash_code()));
 
 	Component::Serialize(writer);
 }

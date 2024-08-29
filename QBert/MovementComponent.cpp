@@ -3,7 +3,7 @@
 #include "QubeComponent.h"
 
 MovementComponent::MovementComponent()
-	:CurentDirection{ConnectionDirection::null}
+	:CurrentDirection{ConnectionDirection::null}
 {
 
 }
@@ -26,7 +26,7 @@ void MovementComponent::SetTextureJumpNames(std::string const& downRight, std::s
 
 void MovementComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(MovementComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(MovementComponent)).hash_code()));
 
 	writer.WriteString("textIdleDownRight", TextureIdleDownRight);
 	writer.WriteString("textIdleDownLeft", TextureIdleDownLeft);

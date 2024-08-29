@@ -71,8 +71,8 @@ void ECS_CameraComponent::Deserialize(JsonReader const* reader, SerializationMap
 
 void CameraSystem::Update()
 {
-	auto transformComp = m_pCompManager->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
-	auto cameraComp = m_pCompManager->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
+	auto transformComp = m_pRegistry->GetComponent<ECS_TransformComponent>(m_MainCameraEntity);
+	auto cameraComp = m_pRegistry->GetComponent<ECS_CameraComponent>(m_MainCameraEntity);
 
 	if (!transformComp->IsActive() || !cameraComp->IsActive())
 	{
@@ -99,11 +99,11 @@ bool CameraSystem::TrySetMainCamera(GameObject* const pGameObject)
 	return true;
 }
 
-void CameraSystem::SetSignature(Coordinator* const pRegistry)
+void CameraSystem::SetSignature()
 {
 	Signature signature{};
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ECS_CameraComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_CameraComponent>());
 
-	pRegistry->SetSystemSignature<CameraSystem>(signature);
+	m_pRegistry->SetSystemSignature<CameraSystem>(signature);
 }

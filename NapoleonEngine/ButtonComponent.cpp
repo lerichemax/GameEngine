@@ -19,7 +19,7 @@ ButtonComponent::ButtonComponent()
 
 void ButtonComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(ButtonComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ButtonComponent)).hash_code()));
 	writer.WriteBool("visualize", m_bVisualize);
 	writer.StartObject("dimension");
 	{
@@ -63,13 +63,13 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 	dimensionObject->ReadDouble("x", m_Dimensions.x);
 	dimensionObject->ReadDouble("y", m_Dimensions.y);
 
-	std::string type;
-
 	auto onclickReader = reader->ReadObject("onClick");
 	if (onclickReader != nullptr && onclickReader->IsValid())
 	{
-		onclickReader->ReadString("type", type);
-		m_pOnClick = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(type)));
+		int64_t type;
+		onclickReader->ReadInt64("type", type);
+
+		m_pOnClick = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
 
 		if (m_pOnClick != nullptr)
 		{
@@ -81,8 +81,10 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 	auto onSelectReader = reader->ReadObject("onSelect");
 	if (onSelectReader != nullptr && onSelectReader->IsValid())
 	{
-		onSelectReader->ReadString("type", type);
-		m_pOnSelect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(type)));
+		int64_t type;
+		onSelectReader->ReadInt64("type", type);
+
+		m_pOnSelect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
 		if (m_pOnSelect != nullptr)
 		{
 			m_pOnSelect->Deserialize(onSelectReader.get(), context);
@@ -93,8 +95,10 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 	auto onDeselectReader = reader->ReadObject("onDeselect");
 	if (onDeselectReader != nullptr && onDeselectReader->IsValid())
 	{
-		onDeselectReader->ReadString("type", type);
-		m_pOnDeselect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(type)));
+		int64_t type;
+		onDeselectReader->ReadInt64("type", type);
+
+		m_pOnDeselect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
 		if (m_pOnDeselect != nullptr)
 		{
 			m_pOnDeselect->Deserialize(onDeselectReader.get(), context);

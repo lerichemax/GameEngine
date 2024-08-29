@@ -229,7 +229,7 @@ bool ECS_TransformComponent::HasChanged() const
 
 void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(ECS_TransformComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ECS_TransformComponent)).hash_code()));
 	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
 	writer.StartObject("position");
 	{
@@ -268,25 +268,27 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 
 void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	auto posObject = reader->ReadObject("position");
-	posObject->ReadDouble("x", m_Position.x);
-	posObject->ReadDouble("y", m_Position.y);
+	std::string x{ "x" };
+	std::string y{ "y" };
+	auto posObject = reader->ReadObject(std::string{ "position" });
+	posObject->ReadDouble(x, m_Position.x);
+	posObject->ReadDouble(y, m_Position.y);
 
-	auto rotObject = reader->ReadObject("scale");
-	rotObject->ReadDouble("x", m_Scale.x);
-	rotObject->ReadDouble("y", m_Scale.y);
+	auto rotObject = reader->ReadObject(std::string{ "scale" });
+	rotObject->ReadDouble(x, m_Scale.x);
+	rotObject->ReadDouble(y, m_Scale.y);
 
-	reader->ReadDouble("rotation", m_Rotation);
+	reader->ReadDouble(std::string{ "rotation" }, m_Rotation);
 
-	auto worlPosObject = reader->ReadObject("world_position");
-	worlPosObject->ReadDouble("x", m_WorldPosition.x);
-	worlPosObject->ReadDouble("y", m_WorldPosition.y);
+	auto worlPosObject = reader->ReadObject(std::string{ "world_position" });
+	worlPosObject->ReadDouble(x, m_WorldPosition.x);
+	worlPosObject->ReadDouble(y, m_WorldPosition.y);
 
-	auto scaleObject = reader->ReadObject("world_scale");
-	scaleObject->ReadDouble("x", m_WorldScale.x);
-	scaleObject->ReadDouble("y", m_WorldScale.y);
+	auto scaleObject = reader->ReadObject(std::string{ "world_scale" });
+	scaleObject->ReadDouble(x, m_WorldScale.x);
+	scaleObject->ReadDouble(y, m_WorldScale.y);
 
-	reader->ReadDouble("world_rotation", m_WorldRotation);
+	reader->ReadDouble(std::string{ "world_rotation" }, m_WorldRotation);
 
 	Component::Deserialize(reader, context);
 }
@@ -294,7 +296,7 @@ void ECS_TransformComponent::Deserialize(JsonReader const* reader, Serialization
 void ECS_TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
 	int parent = -1;
-	reader->ReadInt("parent", parent);
+	reader->ReadInt(std::string{ "parent" }, parent);
 	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
 }
 
@@ -302,7 +304,7 @@ void TransformSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto transComp = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
+		auto transComp = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
 
 		if (!transComp->IsActive())
 		{
@@ -315,12 +317,12 @@ void TransformSystem::Update()
 	}
 }
 
-void TransformSystem::SetSignature(Coordinator* const pRegistry)
+void TransformSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
 
-	pRegistry->SetSystemSignature<TransformSystem>(signature);
+	m_pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
 void TransformSystem::RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const

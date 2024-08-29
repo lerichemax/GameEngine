@@ -3,12 +3,12 @@
 
 
 class GameObject;
-class GameManagerBehaviour;
+class GameManagerSystem;
 class PauseGameCommand final : public Command
 {
 public:
 	PauseGameCommand() = default;
-	PauseGameCommand(GameManagerBehaviour* const pGameManager);
+	PauseGameCommand(GameManagerSystem* const pGameManager);
 
 	PauseGameCommand(PauseGameCommand const& other) = delete;
 	PauseGameCommand(PauseGameCommand&& other) = delete;
@@ -24,5 +24,5 @@ public:
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
 private:
-	GameManagerBehaviour* m_pGameManager;
+	GameManagerSystem* m_pGameManager;
 };

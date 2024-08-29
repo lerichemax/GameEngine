@@ -17,9 +17,20 @@ void StreamWriter::WriteInt(std::string const& key, int value)
 	m_BufferWriter.Int(value);
 }
 
+void StreamWriter::WriteInt64(std::string const& key, int64_t value)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.Int64(value);
+}
+
 void StreamWriter::WriteIntNoKey(int value)
 {
 	m_BufferWriter.Int(value);
+}
+
+void StreamWriter::WriteIntNoKey(int64_t value)
+{
+	m_BufferWriter.Int64(value);
 }
 
 void StreamWriter::WriteBool(std::string const& key, bool value)
@@ -81,7 +92,6 @@ void StreamWriter::EndArray()
 JsonReader::JsonReader(Value* value)
 	:m_JsonValue{ value }
 {
-
 }
 
 void JsonReader::ReadInt(std::string const& attribute, int& value) const
@@ -91,6 +101,17 @@ void JsonReader::ReadInt(std::string const& attribute, int& value) const
 	if (attributeReader != nullptr)
 	{
 		value = attributeReader->m_JsonValue->GetInt();
+	}
+
+}
+
+void JsonReader::ReadInt64(std::string const& attribute, int64_t& value) const
+{
+	auto attributeReader = ReadAttribute(attribute);
+
+	if (attributeReader != nullptr)
+	{
+		value = attributeReader->m_JsonValue->GetInt64();
 	}
 }
 void JsonReader::ReadString(std::string const& attribute, std::string& value) const
@@ -146,7 +167,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute)
 			return attributeReader;
 		}
 
-		Debugger::GetInstance().LogWarning("No object found for key " + attribute);
+		Debugger::GetInstance().LogWarning(std::string{ "No object found for key " + attribute });
 	}
 	
 	return nullptr;
@@ -162,7 +183,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadArray(std::string const& attribute) 
 		{
 			return attributeReader;
 		}
-		Debugger::GetInstance().LogWarning("No array found for key " + attribute);
+		Debugger::GetInstance().LogWarning(std::string{ "No array found for key " + attribute });
 	}
 
 	return nullptr;
@@ -175,7 +196,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 		return std::unique_ptr<JsonReader>(new JsonReader{ &(*m_JsonValue)[index]});
 	}
 
-	Debugger::GetInstance().LogWarning("This Json object is not an array");
+	Debugger::GetInstance().LogWarning(std::string{ "This Json object is not an array" });
 	return nullptr;
 }
 
@@ -204,6 +225,16 @@ int JsonReader::ReadArrayIndexAsInt(SizeType index) const
 	return -1;
 }
 
+int64_t JsonReader::ReadArrayIndexAsInt64(SizeType index) const
+{
+	if (m_JsonValue->IsArray())
+	{
+		return (*m_JsonValue)[index].GetInt64();
+	}
+
+	return -1;
+}
+
 SizeType JsonReader::GetArraySize() const
 {
 	if (m_JsonValue->IsArray())
@@ -223,13 +254,13 @@ std::unique_ptr<JsonReader> JsonReader::ReadAttribute(std::string const& attribu
 {
 	if (m_JsonValue->ObjectEmpty())
 	{
-		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > Nothing to read");
+		Debugger::GetInstance().LogWarning(std::string{ "JsonReader::ReadAttribute - > Nothing to read" });
 		return nullptr;
 	}
 
 	if (!m_JsonValue->HasMember(attribute.c_str()))
 	{
-		Debugger::GetInstance().LogWarning("JsonReader::ReadAttribute - > attribute " + attribute + " not found in current Json object");
+		Debugger::GetInstance().LogWarning(std::string{ "JsonReader::ReadAttribute - > attribute " + attribute + " not found in current Json object" });
 		return nullptr;
 	}
 

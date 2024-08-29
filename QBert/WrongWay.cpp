@@ -83,7 +83,7 @@ void WrongWay::JumpToQube(QubeSystem* const pNextQube)
 
 void WrongWay::DoDie()
 {
-	GetGameObject()->Destroy();
+	//GetGameObject()->Destroy();
 	//GetGameObject()->Notify(static_cast<int>(GameEvent::WrongWayDies));
 }
 

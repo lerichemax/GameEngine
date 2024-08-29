@@ -10,7 +10,7 @@ void ReloadSceneCommand::Execute(GameObject* const gObject)
 
 void ReloadSceneCommand::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(ReloadSceneCommand).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ReloadSceneCommand)).hash_code()));
 
 	Command::Serialize(writer);
 }

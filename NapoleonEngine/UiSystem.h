@@ -7,5 +7,5 @@ class UiSystem : public System
 public:
 	void Update() override;
 
-	void SetSignature(Coordinator* const pRegistry) override;
+	void SetSignature() override;
 };

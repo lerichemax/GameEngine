@@ -239,12 +239,6 @@
     <ClInclude Include="AudioSystem.h">
       <Filter>Audio</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviourComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="UiSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -285,15 +279,6 @@
     <ClInclude Include="Event.h">
       <Filter>Observers</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeRenderer.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRendererComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FPSCounterSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -321,9 +306,6 @@
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="NapoleonEngine.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PCH.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
@@ -411,9 +393,6 @@
     <ClCompile Include="AudioSystem.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviourSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="UiSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
@@ -444,17 +423,11 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeRenderer.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="ShapeComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureRendererComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="FPSCounterSystem.cpp">
       <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

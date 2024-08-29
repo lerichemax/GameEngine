@@ -1,6 +1,9 @@
 #include "PCH.h"
 #include "SerializerServiceLocator.h"
 
+#include "Serializer.h"
+#include "Deserializer.h"
+
 Serializer* SerializerServiceLocator::m_pSerializer = nullptr;
 Deserializer* SerializerServiceLocator::m_pDeserializer = nullptr;
 
@@ -19,3 +22,9 @@ void SerializerServiceLocator::RegisterDeserializer(Deserializer* pDeserializer)
 		m_pDeserializer = pDeserializer;
 	}
 };
+
+void SerializerServiceLocator::CleanUp()
+{
+	SAFE_DELETE(m_pSerializer);
+	SAFE_DELETE(m_pDeserializer);
+}

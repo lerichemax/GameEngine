@@ -46,4 +46,7 @@ struct QubeComponent : public Component
 	unsigned int JumpCounter{};
 
 	void Serialize(StreamWriter& writer) const override;
+
+	bool HasConnection(ConnectionDirection direction) const;
+	Entity GetConnection(ConnectionDirection direction) const;
 };

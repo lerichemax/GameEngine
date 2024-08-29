@@ -63,7 +63,7 @@ void Point::Draw(SDL_Renderer* pRenderer) const
 
 void Point::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(Point).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Point)).hash_code()));
 	writer.StartObject("position");
 	{
 		writer.WriteDouble("x", pos.x);
@@ -137,7 +137,7 @@ void Rectangle::Fill(SDL_Renderer* pRenderer) const
 
 void Rectangle::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(Rectangle).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Rectangle)).hash_code()));
 
 	writer.StartObject("position");
 	{
@@ -274,7 +274,7 @@ void Line::Draw(SDL_Renderer* pRenderer) const
 
 void Line::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(Line).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Line)).hash_code()));
 	writer.StartObject("startPos");
 	{
 		writer.WriteDouble("x", startPos.x);
@@ -335,7 +335,7 @@ void Circle::Draw(SDL_Renderer* pRenderer) const
 
 void Circle::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(Circle).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Circle)).hash_code()));
 	writer.StartObject("center");
 	{
 		writer.WriteDouble("x", center.x);

@@ -1,14 +1,11 @@
 #pragma once
-#include "QBertScene.h"
+#include "Scene.h"
 
-class SoloScene final : public QBertScene
+class SoloScene final : public Scene
 {
 public:
 	SoloScene();
-	
-	void ResetScene(Level newLevel) override;
 
-private:
+protected:
 	void Initialize() override;
-	void DeclareInput();
 };

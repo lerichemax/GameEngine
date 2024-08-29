@@ -30,14 +30,14 @@ Coily::Coily(Coily const& other)
 
 void Coily::Initialize()
 {
-	if (GetGameObject()->HasComponent<CoilyCharacterController>())
-	{
-		//m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
-	}
+	//if (GetGameObject()->HasComponent<CoilyCharacterController>())
+	//{
+	//	//m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
+	//}
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Big.png");
-	Enemy::Initialize();
+	//Enemy::Initialize();
 }
 
 void Coily::DoMove(ConnectionDirection direction)

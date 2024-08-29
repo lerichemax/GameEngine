@@ -11,14 +11,14 @@ void UiSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto btn = m_pCompManager->GetComponent<ButtonComponent>(entity);
+		auto btn = m_pRegistry->GetComponent<ButtonComponent>(entity);
 
 		if (!btn->IsActive())
 		{
 			continue;
 		}
 
-		auto transform = m_pCompManager->GetComponent<ECS_TransformComponent>(entity);
+		auto transform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
 
 		if (btn->m_bVisualize)
 		{
@@ -63,11 +63,11 @@ void UiSystem::Update()
 	}
 }
 
-void UiSystem::SetSignature(Coordinator* const pRegistry)
+void UiSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<ECS_TransformComponent>());
-	signature.set(pRegistry->GetComponentType<ButtonComponent>());
+	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<ButtonComponent>());
 
-	pRegistry->SetSystemSignature<UiSystem>(signature);
+	m_pRegistry->SetSystemSignature<UiSystem>(signature);
 }

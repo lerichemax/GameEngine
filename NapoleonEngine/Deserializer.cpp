@@ -36,7 +36,7 @@ std::unique_ptr<JsonReader> Deserializer::ReadFile(std::string const& filename)
 
 std::unique_ptr<JsonReader> Deserializer::ReadDocument(Document* const document)
 {
-	return std::make_unique<JsonReader>(JsonReader{ document });
+	return std::unique_ptr<JsonReader>(new JsonReader{ document });
 }
 
 void Deserializer::DeserializePrefabIntoScene(Document* const document, Scene* const targetScene)

@@ -1,5 +1,5 @@
 #pragma once
 
-using Entity = uint32_t;
+using Entity = int32_t;
 
 #define MAX_ENTITIES 500

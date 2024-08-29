@@ -4,7 +4,7 @@
 
 #include <set>
 
-class ComponentManager;
+class Coordinator;
 class System : public IContextSerializable
 {
 	friend class Coordinator;
@@ -15,10 +15,8 @@ class System : public IContextSerializable
 public:
 	virtual ~System() = default;
 
-	virtual void SetSignature(Coordinator* const pRegistry) = 0;
-
 protected:
-	ComponentManager* m_pCompManager;
+	Coordinator* m_pRegistry;
 	std::set<Entity> m_Entities;
 
 	virtual void Initialize() {};
@@ -29,6 +27,8 @@ protected:
 	void Deserialize(JsonReader const* reader, SerializationMap& context) {}
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) {};
+
+	virtual void SetSignature() = 0;
 
 	virtual void AddEntity(Entity entity);
 

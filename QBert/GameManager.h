@@ -1,7 +1,7 @@
 #pragma once
 #include "Observer.h"
 
-#include "BehaviourComponent.h"
+#include "System.h"
 #include "Event.h"
 
 enum class GameEvent
@@ -33,6 +33,7 @@ class WrongWayManager;
 class QBert;
 class CharacterPoint;
 struct CharacterLives;
+class QBertSystem;
 class GameManager final : public Observer
 {
 public:
@@ -63,24 +64,26 @@ private:
 	void UpdatePointsText(CharacterPoint* pPoints, int playerNbr);
 };
 
-class GameManagerBehaviour : public BehaviourComponent // cahnge name later
+class GameManagerSystem : public System // cahnge name later
 {
 public:
-	GameManagerBehaviour();
+	GameManagerSystem();
 
 	void Serialize(StreamWriter& writer) const override;
 
 	void TogglePause();
 
-	EventHandler<GameManagerBehaviour, bool> OnGamePaused;
-	EventHandler<GameManagerBehaviour> OnGameEnded;
+	void SetSignature() override;
+
+	EventHandler<GameManagerSystem, bool> OnGamePaused;
+	EventHandler<GameManagerSystem> OnGameEnded;
 
 protected:
 	void Start() override;
 	void Update() override;
 
 private:
-	QBert* m_pQbert;
+	QBertSystem* m_pQbert;
 	PyramidSystem* m_pPyramid;
 
 	Level m_Level;

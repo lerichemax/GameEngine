@@ -6,7 +6,7 @@
 #include "GameManager.h"
 #include "Timer.h"
 
-PauseGameCommand::PauseGameCommand(GameManagerBehaviour* const pGameManager)
+PauseGameCommand::PauseGameCommand(GameManagerSystem* const pGameManager)
 	:m_pGameManager(pGameManager)
 {
 }
@@ -18,7 +18,8 @@ void PauseGameCommand::Execute(GameObject* const gObject)
 
 void PauseGameCommand::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(PauseGameCommand).name());
+
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(PauseGameCommand)).hash_code()));
 	writer.WriteInt("gameManager", m_pGameManager->GetId());
 	Command::Serialize(writer);
 }
@@ -32,5 +33,5 @@ void PauseGameCommand::RestoreContext(JsonReader const* reader, SerializationMap
 {
 	int id{-1};
 	reader->ReadInt("gameManager", id);
-	m_pGameManager =  context.GetRef<GameManagerBehaviour>(id);
+	m_pGameManager =  context.GetRef<GameManagerSystem>(id);
 }

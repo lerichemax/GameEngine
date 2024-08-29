@@ -1,7 +1,5 @@
 #include "PCH.h"
 #include "Coordinator.h"
-#include "BehaviourComponent.h"
-#include "RendererComponent.h"
 
 Coordinator::Coordinator()
 	:m_pComponentManager{std::make_unique<ComponentManager>()},
@@ -44,15 +42,22 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
-System* const Coordinator::AddSystemFromName(std::string const& typeName)
+System* const Coordinator::AddSystemFromHash(size_t type)
 {
-	auto* const pSystem = Factory<System>::GetInstance().Create(typeName);
+	auto* const pSystem = Factory<System>::GetInstance().Create(type);
 
-	m_pSystemManager->ForceAddSystem(typeName, pSystem);
-	pSystem->SetSignature(this);
-	pSystem->m_pCompManager = m_pComponentManager.get();
-
-	return pSystem;
+	if (m_pSystemManager->ForceAddSystem(type, pSystem))
+	{
+		System* const pAddedSystem = m_pSystemManager->GetSystemFromType(type);
+		pAddedSystem->m_pRegistry = this;
+		pAddedSystem->SetSignature();
+		return pAddedSystem;
+	}
+	else
+	{
+		delete pSystem;
+		return nullptr;
+	}
 }
 
 void Coordinator::SetEntityActive(Entity entity, bool isActive)
@@ -107,7 +112,7 @@ std::vector<Entity> Coordinator::GetEntityHierarchy(Entity entity) const
 	return m_pEntityManager->GetEntityHierarchy(entity);
 }
 
-std::vector<Component*> Coordinator::GetComponents(Entity entity)
+std::vector<Component*> Coordinator::GetEntityComponents(Entity entity)
 {
 	return m_pComponentManager->GetComponentsForSignature(entity, m_pEntityManager->GetSignature(entity));
 }

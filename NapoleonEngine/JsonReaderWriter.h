@@ -14,7 +14,9 @@ public:
 	StreamWriter(StringBuffer& buffer);
 
 	void WriteInt(std::string const& key, int value);
+	void WriteInt64(std::string const& key, int64_t value);
 	void WriteIntNoKey(int value);
+	void WriteIntNoKey(int64_t value);
 	void WriteBool(std::string const& key, bool value);
 	void WriteString(std::string const& key, std::string const& value);
 	void WriteStringNoKey(std::string const& value);
@@ -36,6 +38,7 @@ public:
 	explicit JsonReader(Value* value);
 
 	void ReadInt(std::string const& attribute, int&	value) const;
+	void ReadInt64(std::string const& attribute, int64_t&	value) const;
 	void ReadString(std::string const& attribute, std::string& value) const;
 	void ReadBool(std::string const& attribute, bool& value) const;
 	void ReadDouble(std::string const& attribute, float& value) const;
@@ -46,6 +49,7 @@ public:
 	std::unique_ptr<JsonReader> ReadArrayIndex(size_t index) const;
 	std::string ReadArrayIndexAsString(SizeType index) const;
 	int ReadArrayIndexAsInt(SizeType index) const;
+	int64_t ReadArrayIndexAsInt64(SizeType index) const;
 	SizeType GetArraySize() const;
 	bool IsValid() const;
 

@@ -16,7 +16,7 @@ class QubeSystem;
 class CharacterState;
 enum class ConnectionDirection;
 enum class CharacterStateType;
-class Character : public BehaviourComponent
+class Character 
 {
 public:
 	explicit Character(QubeSystem* const pStart, CharacterType type);
@@ -27,7 +27,7 @@ public:
 	
 	virtual ~Character();
 	
-	void Update() override; 
+	void Update(); 
 	
 	QubeSystem* const GetCurrentQube() const { return m_pCurrentQube; }
 	CharacterType GetType() const { return m_Type; }
@@ -54,7 +54,7 @@ protected:
 	CharacterType m_Type;
 	ConnectionDirection m_FacingDirection;
 	
-	void Start() override;
+	void Start();
 	virtual void DoMove(ConnectionDirection direction) = 0;
 	virtual void DoDie() = 0;
 	virtual void MeetCharacter(Character* pOther) = 0; // Find itself on the same cube as another character

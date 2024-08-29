@@ -11,22 +11,22 @@ class CharacterMovementSystem : public System
 public:
 	EventHandler<CharacterMovementSystem> OnMoveStarted;
 
-	void Move(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp);
-	//void SetCurrentQube(Qube* const pQube);
+	void Move(Entity entity);
+	void MoveToCurrentQube(Entity entity);
 	//Qube* const GetCurrentQube() const;
 
-	void SetSignature(Coordinator* const pRegistry) override;
+	void SetSignature() override;
 	void Serialize(StreamWriter& writer) const override;
+
 
 protected:
 	void Start();
 	void Update() override;
 
 private:
-	void JumpToCurrentQube();
-	void MoveToCurrentQube();
-	void SetIdleTexture(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp);
-	void SetJumpTexture(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp);
+	void JumpToCurrentQube(Entity entity);
+	void SetIdleTexture(Entity entity);
+	void SetJumpTexture(Entity entity);
 
 	JumperSystem* m_pJumper;
 };

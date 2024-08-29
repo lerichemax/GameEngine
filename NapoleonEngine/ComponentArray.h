@@ -1,11 +1,10 @@
 #pragma once
 #include "Entity.h"
 #include "Component.h"
-#include "BehaviourComponent.h"
-
 
 #include <unordered_map>
 #include <concepts>
+#include <typeindex>
 
 class IComponentArray
 {
@@ -72,7 +71,8 @@ T* const ComponentArray<T>::InsertData(Entity entity)
 
 	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end() && static_cast<Component*>(pComponent)->IsUnique())
 	{
-		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " is unique and can't be added twice to Entity " + std::to_string(entity));
+		Debugger::GetInstance().LogWarning(std::string{ "Component  is unique and can't be added twice to Entity " + std::to_string(entity) });
+		delete pComponent;
 		return nullptr;
 	}
 
@@ -113,7 +113,7 @@ Component* const ComponentArray<T>::GetBaseData(Entity entity)
 {
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		Debugger::GetInstance().LogWarning(std::string{ "Component  not found for entity " } + std::to_string(entity));
 		return nullptr;
 	}
 

@@ -50,7 +50,7 @@ public:
 
 	bool TrySetMainCamera(GameObject* const pGameObject);
 
-	void SetSignature(Coordinator* const pRegistry) override;
+	void SetSignature() override;
 
 private:
 	friend class Scene;

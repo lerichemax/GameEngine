@@ -19,7 +19,7 @@ public:
 	void FallSound() const;
 
 protected:
-	void Initialize() override;
+	void Initialize() ;
 	
 	void SetDirectionTextures(ConnectionDirection dir) override;
 	void MoveToCurrentQube() override;

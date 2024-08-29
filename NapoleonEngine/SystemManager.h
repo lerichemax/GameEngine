@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <memory>
 #include <concepts>
+#include <typeindex>
 
 template <typename T>
 concept SystemDerived = std::derived_from<T, System>;
@@ -25,24 +26,29 @@ public:
 	void EntityDestroyed(Entity entity);
 	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
 
-	System* const ForceAddSystem(std::string name, System* system);
-
 private:
 	friend class Coordinator;
 
-	std::unordered_map<std::string, Signature> m_Signatures;
-	std::unordered_map<std::string, std::unique_ptr<System>> m_Systems;
+	std::unordered_map<size_t, Signature> m_Signatures;
+	std::unordered_map<size_t, std::unique_ptr<System>> m_Systems;
+
+	bool ForceAddSystem(size_t type, System* system);
+	System* const GetSystemFromType(size_t type) const;
 };
 
 template <SystemDerived T>
 T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
 {
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	assert(m_Systems.find(typeName) == m_Systems.end() && "Trying to register a system more than once");
+	if (m_Systems.find(type) != m_Systems.end())
+	{
+		Debugger::GetInstance().LogWarning( "System with hash code " + std::to_string(type) + " already registered");
+		return nullptr;
+	}
 
 	auto pSystem = new T{};
-	m_Systems.insert(std::make_pair(typeName, std::unique_ptr<T>(pSystem)));
+	m_Systems.insert(std::make_pair(type, std::unique_ptr<T>(pSystem)));
 
 	return pSystem;
 }
@@ -50,37 +56,37 @@ T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
 template <SystemDerived T>
 void SystemManager::SetSignature(Signature signature)
 {
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
+	assert(m_Systems.find(type) != m_Systems.end() && "Trying to use a system not registered yet");
 
-	m_Signatures[typeName] = signature;
+	m_Signatures[type] = signature;
 }
 
 template <SystemDerived T>
 void SystemManager::UpdateSignature(Signature signature)
 {
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	if (m_Systems.find(typeName) == m_Systems.end())
+	if (m_Systems.find(type) == m_Systems.end())
 	{
 		//TODO : LOG
 		RegisterSystem<T>(signature);
 	}
 	else
 	{
-		m_Signatures.at(typeName) = signature;
+		m_Signatures.at(type) = signature;
 	}
 }
 
 template <SystemDerived T>
 Signature const& SystemManager::GetSystemSignature() const
 {
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
+	assert(m_Systems.find(type) != m_Systems.end() && "Trying to use a system not registered yet");
 
-	return m_Signatures.at(typeName);
+	return m_Signatures.at(type);
 }
 
 template <SystemDerived T>
@@ -90,11 +96,11 @@ void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) 
 	{
 		return;
 	}
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	assert(m_Systems.find(typeName) != m_Systems.end() && "Trying to use a system not registered yet");
+	assert(m_Systems.find(type) != m_Systems.end() && "Trying to use a system not registered yet");
 
-	System* const pSystem = m_Systems.at(typeName).get();
+	System* const pSystem = m_Systems.at(type).get();
 
 	if (pSystem == nullptr)
 	{
@@ -110,9 +116,9 @@ void SystemManager::AssignEntitiesToSystem(std::vector<Entity> const& entities) 
 template <SystemDerived T>
 T* const SystemManager::GetSystem() const
 {
-	const char* typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	auto systemIt = m_Systems.find(typeName);
+	auto systemIt = m_Systems.find(type);
 
 	if (systemIt != m_Systems.end())
 	{

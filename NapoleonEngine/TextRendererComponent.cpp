@@ -47,7 +47,7 @@ void TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 
 void TextRendererComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(TextRendererComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TextRendererComponent)).hash_code()));
 	writer.WriteInt("txtId", m_TextId);
 	writer.WriteString("txt", m_Text);
 	Color color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };

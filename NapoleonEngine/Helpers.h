@@ -5,7 +5,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "BehaviourSystem.h"
 #include "TransformComponent.h"
 
 #define SAFE_DELETE(ptr) \

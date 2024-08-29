@@ -5,7 +5,7 @@
 struct AudioComponent;
 struct CharacterLives;
 class CharacterPoint;
-class RendererComponent;
+struct RendererComponent;
 class QBert final : public Character
 {
 public:
@@ -23,15 +23,15 @@ public:
 	void Swear()const;
 	void SetAudioComponents(AudioComponent* const jump, AudioComponent* const fall, AudioComponent* const swear);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const ;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) ;
 
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void RestoreContext(JsonReader const* reader, SerializationMap const& context) ;
 
 protected:
-	void Initialize() override;
-	void Start() override;
-	void Update() override;
+	void Initialize() ;
+	void Start() ;
+	void Update() ;
 
 	void MeetCharacter(Character* pOther) override;
 	void LandOnQube() override;

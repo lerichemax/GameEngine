@@ -7,9 +7,7 @@
 #include "TransformComponent.h"
 #include "AudioSystem.h"
 #include "System.h"
-#include "BehaviourSystem.h"
 #include "UiSystem.h"
-#include "ShapeRenderer.h"
 
 #include "PrefabsManager.h"
 
@@ -40,6 +38,7 @@ BaseScene::BaseScene(const std::string& name)
 BaseScene::~BaseScene()
 {
 	m_pObjects.clear();
+	m_pRegistry.reset();
 }
 
 GameObject* const BaseScene::CreateGameObject()
@@ -90,7 +89,6 @@ std::vector<GameObject*> BaseScene::GetChildrenWithTag(GameObject* const pObj, s
 
 void BaseScene::Serialize(StreamWriter& writer) const
 {
-	writer.StartObject("Prefab");
 	writer.WriteString("name", m_Name);
 
 	writer.StartArray("gameobjects");
@@ -103,8 +101,6 @@ void BaseScene::Serialize(StreamWriter& writer) const
 		}
 	}
 	writer.EndArray();
-
-	writer.EndObject();
 }
 
 void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -116,7 +112,7 @@ void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
 		auto pNewObject = CreateGameObjectNoTransform();
 		int entity;
 		auto go = objects->ReadArrayIndex(i);
-		go->ReadInt("Entity", entity);
+		go->ReadInt(std::string{ "Entity" }, entity);
 		context.Add(entity, pNewObject);
 		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
 	}
@@ -186,16 +182,20 @@ bool Prefab::IsRoot(GameObject* const pObject) const
 
 void Prefab::Serialize(StreamWriter& writer) const
 {
+	writer.StartObject("Prefab");
+
 	BaseScene::Serialize(writer);
 
 	writer.StartArray("systems");
 	{
-		for (std::string const& system : m_RequiredSystems)
+		for (size_t system : m_RequiredSystems)
 		{
-			writer.WriteStringNoKey(system);
+			writer.WriteIntNoKey(static_cast<int64>(system));
 		}
 	}
 	writer.EndArray();
+
+	writer.EndObject();
 }
 
 void Prefab::SetName(std::string const& name)
@@ -214,7 +214,6 @@ Scene::Scene(const std::string& name)
 	m_pAudio(nullptr),
 	m_pTextRenderer(nullptr),
 	m_pLayeredRenderer(nullptr),
-	m_pBehaviours(nullptr),
 	m_pUi(nullptr),
 	m_pCamera(nullptr),
 	m_bIsActive(false),
@@ -230,7 +229,7 @@ Scene::~Scene()
 void Scene::CleanUpScene()
 {
 	m_pObjects.clear();
-	m_pRegistry.reset();
+	m_pSystems.clear();
 }
 
 void Scene::OnLoad()
@@ -242,7 +241,6 @@ void Scene::OnLoad()
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
 	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
 	//m_pShapeRenderer = m_pRegistry->RegisterSystem<ShapeRenderer>();
-	m_pBehaviours = m_pRegistry->RegisterSystem<BehaviourSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
 	m_pCamera = m_pRegistry->RegisterSystem<CameraSystem>();
 
@@ -256,9 +254,14 @@ void Scene::OnLoad()
 	DeclareInput();
 	Initialize();
 
-	for (System* const pSystem : m_pSystems)
+	size_t nbrSystems = m_pSystems.size();
+	size_t counter = 0;
+
+	while (counter < nbrSystems)
 	{
-		pSystem->Initialize();
+		m_pSystems[counter]->Initialize();
+		counter++;
+		nbrSystems = m_pSystems.size();
 	}
 
 	for (System* const pSystem : m_pSystems)
@@ -309,13 +312,17 @@ void Scene::Render() const
 void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	auto prefab = reader->ReadObject("Prefab");
-
 	auto systems = prefab->ReadArray("systems");
+
 	if (IS_VALID(systems))
 	{
 		for (SizeType i = 0; i < systems->GetArraySize(); i++)
 		{
-			m_pSystems.push_back(m_pRegistry->AddSystemFromName(prefab->ReadArrayIndexAsString(i)));
+			System* const pAddedSystem = m_pRegistry->AddSystemFromHash(static_cast<size_t>(systems->ReadArrayIndexAsInt64(i)));
+			if (pAddedSystem != nullptr)
+			{
+				m_pSystems.push_back(pAddedSystem);
+			}
 		}
 	}
 

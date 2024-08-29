@@ -76,10 +76,10 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 
 void GameObject::Serialize(StreamWriter& writer) const
 { 
-	writer.WriteInt("Entity", m_Entity);
-	writer.WriteString("Tag", GetTag());
-	writer.StartArray("components");
-	auto components = m_pRegistry->GetComponents(m_Entity);
+	writer.WriteInt(std::string{ "Entity" }, m_Entity);
+	writer.WriteString(std::string{ "Tag" }, GetTag());
+	writer.StartArray(std::string{ "components" });
+	auto components = m_pRegistry->GetEntityComponents(m_Entity);
 
 	for (Component* const pComp : components)
 	{
@@ -90,7 +90,7 @@ void GameObject::Serialize(StreamWriter& writer) const
 	writer.EndArray();
 
 	auto children = m_pRegistry->GetChildren(m_Entity);
-	writer.StartArray("children");
+	writer.StartArray(std::string{ "children" });
 	for (Entity entity : children)
 	{
 		writer.WriteIntNoKey(static_cast<int>(entity));
@@ -100,17 +100,17 @@ void GameObject::Serialize(StreamWriter& writer) const
 
 void GameObject::Deserialize(JsonReader const* reader, SerializationMap& context)
 { 
-	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray("components").get(), context);
+	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray(std::string{ "components" }).get(), context);
 
 	std::string tag;
-	reader->ReadString("Tag", tag);
+	reader->ReadString(std::string{ "Tag" }, tag);
 	SetTag(tag);
 }
 
 void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	auto jsonComponents = reader->ReadArray("components");
-	auto components = m_pRegistry->GetComponents(m_Entity);
+	auto jsonComponents = reader->ReadArray(std::string{ "components" });
+	auto components = m_pRegistry->GetEntityComponents(m_Entity);
 
 	for (size_t i = 0; i < components.size(); i++)
 	{
@@ -118,7 +118,7 @@ void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const
 		components[i]->m_pGameObject = this;
 	}
 
-	auto children = reader->ReadArray("children");
+	auto children = reader->ReadArray(std::string{ "children" });
 	if (children != nullptr && children->IsValid())
 	{
 		for (SizeType i = 0; i < children->GetArraySize(); i++)

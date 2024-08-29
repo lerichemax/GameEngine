@@ -182,6 +182,7 @@
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="OnQubeState.cpp" />
     <ClCompile Include="PyramidComponent.cpp" />
+    <ClCompile Include="QbertComponent.cpp" />
     <ClCompile Include="QBertSystem.cpp" />
     <ClCompile Include="QubeComponent.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UiManagerComponent.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
@@ -234,6 +236,7 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="OnQubeState.h" />
     <ClInclude Include="PyramidComponent.h" />
+    <ClInclude Include="QbertComponent.h" />
     <ClInclude Include="QBertSystem.h" />
     <ClInclude Include="QubeComponent.h" />
     <ClInclude Include="QuitGameCommand.h" />
@@ -263,6 +266,7 @@
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UiManagerComponent.h" />
     <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />

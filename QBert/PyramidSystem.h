@@ -16,7 +16,7 @@ class PyramidSystem final : public System
 {
 public:
 	PyramidSystem() = default;
-	~PyramidSystem() = default;
+	~PyramidSystem();
 
 	EventHandler<PyramidSystem, int> OnAllQubesFlipped{};
 	
@@ -25,21 +25,22 @@ public:
 	//QubeSystem* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	//QubeSystem* GetQube(int index) const { return m_pQubes[index]; }
 	int GetQubeIndex(QubeSystem* const pQube) const;
-	//int GetNbrDisks()const { return m_NbrDisksSpawned; }
+	//int GetNbrDisks()const { return NbrDisksSpawned; }
 	//std::vector<QubeSystem*> const& GetQubes() const { return m_pQubes; }
 	
 	void Reset(Level level);
 	void PartialReset();
-	//void DiskUsed(){ m_NbrDisksSpawned--; }
+	//void DiskUsed(){ NbrDisksSpawned--; }
 	//void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
 	bool FindNextQubeToQbert(QubeSystem* const pStartingQube, ConnectionDirection* directions, unsigned int size) const; //used by coily to move to qbert
 	//QBert* GetQBert()const { return m_pQBert; }
 
 	void Serialize(StreamWriter& writer) const override;
-	void SetSignature(Coordinator* const pRegistry) override;
+	void SetSignature() override;
 
 protected:
 	void Initialize();
+	void Start();
 	void Update();
 
 private:
@@ -54,5 +55,5 @@ private:
 	int GetQBertIndex() const;
 	
 	void DiskSpawnerTimer();
-	void CheckAllQubesFlipped(Entity entity) const;
+	void CheckAllQubesFlipped() const;
 };

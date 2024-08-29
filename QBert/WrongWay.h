@@ -11,7 +11,7 @@ public:
 	WrongWay& operator=(WrongWay&&) = delete;
 	~WrongWay() = default;
 	
-	void Initialize() override;
+	void Initialize() ;
 	void DoMove(ConnectionDirection direction) override;
 	void MoveToCurrentQube() override{};
 	void JumpToQube(QubeSystem* const pNextQube) override;

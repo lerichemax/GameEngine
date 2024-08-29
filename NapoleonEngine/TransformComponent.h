@@ -118,7 +118,7 @@ class TransformSystem : public System {
 public:
 	void Update() override;
 
-	void SetSignature(Coordinator* const pRegistry) override;
+	void SetSignature() override;
 
 private:
 	void RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const;

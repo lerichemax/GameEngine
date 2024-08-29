@@ -6,9 +6,10 @@ struct MovementComponent : public Component
 {
 	MovementComponent();
 
-	bool CanMove{ true };
+	bool bCanMove{ true };
 
-	//QubeSystem* m_pCurrentQube{ nullptr };
+	Entity CurrentQube;
+
 	//TextureRendererComponent* m_pRenderer{ nullptr };
 	//Jumper* m_pJumper{ nullptr };
 
@@ -22,7 +23,7 @@ struct MovementComponent : public Component
 	std::string TextureJumpUpRight;
 	std::string TextureJumpUpLeft;
 
-	ConnectionDirection CurentDirection;
+	ConnectionDirection CurrentDirection;
 
 	void SetTextureIdleNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);
 	void SetTextureJumpNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);

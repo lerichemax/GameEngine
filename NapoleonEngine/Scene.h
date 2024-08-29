@@ -8,16 +8,13 @@
 #include <unordered_set>
 
 class SceneRenderer;
-class RendererComponent;
 class GameObject;
-class CameraComponent;
 class CameraSystem;
 class TransformSystem;
 class LayeredRendererSystem;
 class TextRendererSystem;
 class System;
 class AudioSystem;
-class BehaviourSystem;
 class UiSystem;
 
 class BaseScene : public IContextSerializable
@@ -73,17 +70,18 @@ protected:
 
 private:
 	GameObject* const m_pRootObject;
-	std::unordered_set<std::string> m_RequiredSystems;
+	std::unordered_set<size_t> m_RequiredSystems;
 };
 
 template <SystemDerived T> 
 void Prefab::AddRequiredSystem() 
 {
-	std::string typeName = typeid(T).name();
+	size_t type = std::type_index(typeid(T)).hash_code();
 
-	assert(m_RequiredSystems.find(typeName) == m_RequiredSystems.end() && std::string(typeName + " already added as required.").c_str());
+	assert(m_RequiredSystems.find(type) == m_RequiredSystems.end() && std::string("System with Hash " + std::to_string(type) + " already added as required.").c_str());
 
-	m_RequiredSystems.insert(typeName);
+	m_pRegistry->RegisterSystem<T>();
+	m_RequiredSystems.insert(type);
 }
 
 class ShapeRenderer;
@@ -100,7 +98,7 @@ public:
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
 
-	template <typename T> void AddSystem();
+	template <typename T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
@@ -125,11 +123,9 @@ private:
 		
 	TextRendererSystem* m_pTextRenderer;
 	LayeredRendererSystem* m_pLayeredRenderer;
-	ShapeRenderer* m_pShapeRenderer;
 	TransformSystem* m_pTransformSystem;
 	AudioSystem* m_pAudio;
 	CameraSystem* m_pCamera;
-	BehaviourSystem* m_pBehaviours;
 	UiSystem* m_pUi;
 
 	GameObject* m_pCameraObject;
@@ -151,7 +147,9 @@ private:
 };
 
 template <typename T>
-void Scene::AddSystem()
+T* const Scene::AddSystem()
 {
-	m_pSystems.push_back(m_pRegistry->RegisterSystem<T>());
+	auto* const pNewSystem = m_pRegistry->RegisterSystem<T>();
+	m_pSystems.push_back(pNewSystem);
+	return pNewSystem;
 }

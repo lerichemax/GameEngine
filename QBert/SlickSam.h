@@ -23,7 +23,7 @@ private:
 
 	bool m_bIsSam;
 	
-	void Initialize() override;
+	void Initialize();
 	void SetTexture();
 
 	SlickSam(SlickSam const& other);

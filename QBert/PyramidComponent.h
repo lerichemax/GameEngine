@@ -7,11 +7,11 @@ struct PyramidComponent : public Component
 	unsigned int const MAX_NBR_DISKS{ 4 };
 	float const DISK_SPAWNING_INTERVAL{ 7.f };
 
-	unsigned int m_NbrDisksSpawned;
+	unsigned int NbrDisksSpawned;
 
-	float m_DiskSpawnTimer;
+	float DiskSpawnTimer;
 
-	std::vector<Entity> m_Qubes;
+	std::vector<Entity> Qubes;
 
 	void Serialize(StreamWriter& writer) const override;
 };

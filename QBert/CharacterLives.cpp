@@ -26,7 +26,7 @@ void CharacterLives::Reset()
 
 void CharacterLives::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(CharacterLives).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(CharacterLives)).hash_code()));
 	writer.WriteInt("lives", m_NbrLives);
 	
 	Component::Serialize(writer);

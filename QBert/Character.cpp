@@ -173,7 +173,7 @@ void Character::SwitchState(CharacterStateType type)
 			SwitchState(new OnQubeState(this, m_pJumper));
 			break;
 		case CharacterType::coily:
-			if (GetGameObject()->HasComponent<CoilyCharacterController>())
+			if (true /*GetGameObject()->HasComponent<CoilyCharacterController>()*/)
 			{
 
 				//SwitchState(new CoilyOnQubeState(this, m_pJumper, 

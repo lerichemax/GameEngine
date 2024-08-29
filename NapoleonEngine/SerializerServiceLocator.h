@@ -5,6 +5,8 @@ class Deserializer;
 
 class SerializerServiceLocator final
 {
+	friend class NapoleonEngine;
+
 public:
 	static Serializer& GetSerializerService() { return *m_pSerializer; }
 	static Deserializer& GetDeserializerService() { return *m_pDeserializer; }
@@ -15,4 +17,6 @@ public:
 private:
 	static Serializer* m_pSerializer;
 	static Deserializer* m_pDeserializer;
+
+	static void CleanUp();
 };

@@ -1,9 +1,10 @@
 #include "PCH.h"
 #include "CharacterMovementSystem.h"
+#include "QubeSystem.h"
 
 #include "QubeComponent.h"
 
-#include "TextureRendererComponent.h"
+#include "RendererComponent.h"
 #include "MovementComponent.h"
 #include "JumpComponent.h"
 
@@ -18,8 +19,8 @@ void CharacterMovementSystem::Start()
 
 	if (m_pJumper != nullptr)
 	{
-		m_pJumper->OnJumpLanded.Subscribe([this](){
-			JumpToCurrentQube();
+		m_pJumper->OnJumpLanded.Subscribe([this](Entity entity){
+			JumpToCurrentQube(entity);
 			});
 	}
 }
@@ -28,22 +29,24 @@ void CharacterMovementSystem::Update()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pMoveComp = m_pCompManager->GetComponent<MovementComponent>(entity);
-		auto* const pRenderer = m_pCompManager->GetComponent<TextureRendererComponent>(entity);
+		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
-		if (!pMoveComp->IsActive() || !pMoveComp->CanMove)
+		if (!pMoveComp->IsActive() || !pMoveComp->bCanMove)
 		{
+			pMoveComp->CurrentDirection = ConnectionDirection::null;
 			continue;
 		}
 
-		Move(pRenderer, pMoveComp);
-		pMoveComp->CurentDirection = ConnectionDirection::null;
+		Move(entity);
+		pMoveComp->CurrentDirection = ConnectionDirection::null;
 	}
 }
 
-void CharacterMovementSystem::Move(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp)
+void CharacterMovementSystem::Move(Entity entity)
 {
-	if (pMoveComp->CurentDirection == ConnectionDirection::null)
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+	if (pMoveComp->CurrentDirection == ConnectionDirection::null)
 	{
 		return;
 	}
@@ -56,33 +59,38 @@ void CharacterMovementSystem::Move(TextureRendererComponent* const pRenderer, Mo
 	//	return;
 	//}
 
-	//SetDirectionTextures(direction);
-	//
-	//if (m_pCurrentQube->HasConnection(m_CurentDirection))
-	//{
-	//	SetJumpTexture(pRenderer, pMoveComp);
-	//	OnMoveStarted.Notify();
-	//	m_pCurrentQube->CharacterJumpOut();
-	//	m_pCurrentQube = m_pCurrentQube->GetConnection(m_CurentDirection);
-	//	m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
-	//	p_MoveComp->m_CanMove = false;
-	//	//SwitchState(new JumpingState(this, m_pJumper));
-	//}
-	//else
-	//{
-	//	float dist{};
-	//	if (m_CurentDirection == ConnectionDirection::downLeft || m_CurentDirection == ConnectionDirection::upLeft)
-	//	{
-	//		dist = -25.f;
-	//	}
-	//	else if (m_CurentDirection == ConnectionDirection::downRight || m_CurentDirection == ConnectionDirection::upRight)
-	//	{
-	//		dist = 25.f;
-	//	}
+	auto* pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+	pMoveComp->bCanMove = false;
+	SetJumpTexture(entity);
 
-	//	m_pCurrentQube->CharacterJumpOut();
-	//	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
-	//}
+	if (pCurrentQube->HasConnection(pMoveComp->CurrentDirection)) //does the current cube have a connection
+	{
+		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		OnMoveStarted.Notify();
+		//pCurrentQube->CharacterJumpOut();
+		pMoveComp->CurrentQube = pCurrentQube->GetConnection(pMoveComp->CurrentDirection);
+		pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+
+		m_pJumper->Jump(entity, pTransform->GetPosition(), pCurrentQube->CharacterPos);
+		
+		//SwitchState(new JumpingState(this, m_pJumper));
+	}
+	else
+	{
+		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		float dist{};
+		if (pMoveComp->CurrentDirection == ConnectionDirection::downLeft || pMoveComp->CurrentDirection == ConnectionDirection::upLeft)
+		{
+			dist = -25.f;
+		}
+		else if (pMoveComp->CurrentDirection == ConnectionDirection::downRight || pMoveComp->CurrentDirection == ConnectionDirection::upRight)
+		{
+			dist = 25.f;
+		}
+
+		//pCurrentQube->CharacterJumpOut();
+		m_pJumper->JumpToDeath(entity, pTransform->GetPosition(), dist);
+	}
 	//else if(m_pCurrentQube->HasConnectionToDisk())
 	//{
 	//	SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
@@ -110,37 +118,38 @@ void CharacterMovementSystem::Move(TextureRendererComponent* const pRenderer, Mo
 //	return nullptr;
 //}
 
-void CharacterMovementSystem::SetSignature(Coordinator* const pRegistry)
+void CharacterMovementSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<TextureRendererComponent>());
-	signature.set(pRegistry->GetComponentType<MovementComponent>());
-	signature.set(pRegistry->GetComponentType<JumpComponent>());
+	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
+	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
+	signature.set(m_pRegistry->GetComponentType<JumpComponent>());
 
-	pRegistry->SetSystemSignature<CharacterMovementSystem>(signature);
+	m_pRegistry->SetSystemSignature<CharacterMovementSystem>(signature);
 }
 
 void CharacterMovementSystem::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(CharacterMovementSystem).name());
+	writer.WriteInt64("type", static_cast<int>(std::type_index(typeid(CharacterMovementSystem)).hash_code()));
 }
 
-void CharacterMovementSystem::JumpToCurrentQube()
+void CharacterMovementSystem::JumpToCurrentQube(Entity entity)
 {
-	//if (m_pCurrentQube == nullptr)
-	//{
-	//	return;
-	//}
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
-	MoveToCurrentQube();
+	MoveToCurrentQube(entity);
 
 	//temp ?
 	//m_pCurrentQube->HandleQBertLanding();
-	//m_CanMove = true;
+	pMoveComp->bCanMove = true;
 }
 
-void CharacterMovementSystem::MoveToCurrentQube()
+void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 {
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+
 	//if (m_pCurrentQube == nullptr)
 	//{
 	//	return;
@@ -154,57 +163,63 @@ void CharacterMovementSystem::MoveToCurrentQube()
 	//if (GetGameObject()->IsActive())
 	//{
 	//	//m_pCurrentQube->CharacterJumpIn(this);
-	//	GetGameObject()->GetTransform()->Translate(m_pCurrentQube->GetCharacterPos());
+	pTransform->Translate(pQube->CharacterPos);
 	//}
 
-	//SetIdleTexture();
-	//m_CanMove = true;
+	SetIdleTexture(entity);
+	pMoveComp->bCanMove = true;
 }
 
-void CharacterMovementSystem::SetIdleTexture(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp)
+void CharacterMovementSystem::SetIdleTexture(Entity entity)
 {
+	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+
 	if (pRenderer == nullptr)
 	{
 		return;
 	}
 
-	switch (pMoveComp->CurentDirection)
+	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownLeft);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownLeft);
 		break;
 	case ConnectionDirection::downRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownRight);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownRight);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpLeft);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpLeft);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpRight);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpRight);
 		break;
 	}
 }
 
-void CharacterMovementSystem::SetJumpTexture(TextureRendererComponent* const pRenderer, MovementComponent* const pMoveComp)
+void CharacterMovementSystem::SetJumpTexture(Entity entity)
 {
+	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+
 	if (pRenderer == nullptr)
 	{
 		return;
 	}
 
-	switch (pMoveComp->CurentDirection)
+	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownLeft);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownLeft);
 		break;
 	case ConnectionDirection::downRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownRight);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownRight);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpLeft);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpLeft);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->m_pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpRight);
+		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpRight);
 		break;
 	}
 }

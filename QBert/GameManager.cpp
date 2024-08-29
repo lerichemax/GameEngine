@@ -2,7 +2,7 @@
 #include "GameManager.h"
 
 #include "EnemyManager.h"
-#include "QBert.h"
+#include "QBertSystem.h"
 #include "Coily.h"
 #include "SlickSam.h"
 #include "WrongWay.h"
@@ -137,28 +137,29 @@ void GameManager::UpdatePointsText(CharacterPoint* pPoint, int playerNbr)
 	}
 }
 
-GameManagerBehaviour::GameManagerBehaviour()
+GameManagerSystem::GameManagerSystem()
 	:m_IsPaused{false}
 {
 }
 
-void GameManagerBehaviour::Start()
+void GameManagerSystem::Start()
 {
 	m_Level = Level::Level1;
 
-	//m_pPyramid = FindComponentOfType<PyramidSystem>();
-	m_pQbert = FindComponentOfType<QBert>();
+	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
+	m_pQbert = m_pRegistry->GetSystem<QBertSystem>();
 
-	//if (m_pPyramid != nullptr)
-	//{
-	//	m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
-	//		HandleEndGame();
-	//		});
-	//}
-
-	if (m_pQbert != nullptr)
+	if (m_pPyramid != nullptr)
 	{
-		m_pQbert->GetGameObject()->GetComponent<CharacterLives>()->OnGameOver.Subscribe([this]() {
+		m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+			HandleEndGame();
+			});
+	}
+
+	auto* const pLives = FindComponentOfType<CharacterLives>();
+	if (IS_VALID(pLives))
+	{
+		pLives->OnGameOver.Subscribe([this]() {
 			Timer::GetInstance().SetTimeScale(0);
 			});
 	}
@@ -167,7 +168,7 @@ void GameManagerBehaviour::Start()
 	//new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
 }
 
-void GameManagerBehaviour::Update()
+void GameManagerSystem::Update()
 {
 	if (InputManager::GetInstance().IsUp(SDL_SCANCODE_P))
 	{
@@ -175,14 +176,21 @@ void GameManagerBehaviour::Update()
 	}
 }
 
-void GameManagerBehaviour::Serialize(StreamWriter& writer) const
+void GameManagerSystem::SetSignature()
 {
-	writer.WriteString("type", typeid(GameManagerBehaviour).name());
+	Signature signature{};
 
-	BehaviourComponent::Serialize(writer);
+	m_pRegistry->SetSystemSignature<GameManagerSystem>(signature);
 }
 
-void GameManagerBehaviour::TogglePause()
+void GameManagerSystem::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("type", typeid(GameManagerSystem).name());
+
+	System::Serialize(writer);
+}
+
+void GameManagerSystem::TogglePause()
 {
 	Timer::GetInstance().SetTimeScale(m_IsPaused ? 1.f : 0.f);
 
@@ -190,13 +198,13 @@ void GameManagerBehaviour::TogglePause()
 	OnGamePaused.Notify(m_IsPaused);
 }
 
-void GameManagerBehaviour::ResetGame()
+void GameManagerSystem::ResetGame()
 {
 	m_pPyramid->Reset(m_Level);
-	//m_pQbert->Reset(false, m_pPyramid->GetTop());
+	m_pQbert->Reset(false, m_pPyramid->GetTop());
 }
 
-void GameManagerBehaviour::HandleEndGame()
+void GameManagerSystem::HandleEndGame()
 {
 	switch (m_Level)
 	{
@@ -213,6 +221,7 @@ void GameManagerBehaviour::HandleEndGame()
 	case Level::Level3:
 		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
 		OnGameEnded.Notify();
+		Timer::GetInstance().SetTimeScale(0.f);
 		break;
 	default:
 		break;

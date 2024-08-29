@@ -1,27 +1,18 @@
 #pragma once
-#include "BehaviourComponent.h"
+#include "System.h"
 
 class TextRendererComponent;
-class UIManager : public BehaviourComponent
+class UIManagerSystem : public System
 {
 public:
-	UIManager() = default;
-	~UIManager() = default;
-
-	void Start() override;
+	UIManagerSystem() = default;
+	~UIManagerSystem() = default;
 
 	void Serialize(StreamWriter& writer) const override;
 
-	void SetP1PointsCounter(TextRendererComponent* const p1Points);
-	void SetP1LivesCounter(TextRendererComponent* const p1Lives);
+	void SetSignature() override;
 
-	void SetPauseMenu(GameObject* const pauseMenu);
-	void SetGameOverMenu(GameObject* const gameOverMenu);
+protected:
+	void Start() override;
 
-private:
-	TextRendererComponent* m_pP1PointsCounter;
-	TextRendererComponent* m_P1LivesCounter;
-
-	GameObject* m_pPauseMenu;
-	GameObject* m_pGameOverMenu;
 };

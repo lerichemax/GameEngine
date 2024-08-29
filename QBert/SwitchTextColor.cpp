@@ -23,7 +23,7 @@ void SwitchTextColor::Execute(GameObject* const gObject)
 
 void SwitchTextColor::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(SwitchTextColor).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(SwitchTextColor)).hash_code()));
 	writer.StartObject("color");
 	m_TargetColor.Serialize(writer);
 	writer.EndObject();

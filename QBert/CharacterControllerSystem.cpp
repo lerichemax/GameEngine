@@ -18,44 +18,44 @@ void CharacterControllerSystem::Update()
 {
 	for (Entity entity : m_Entities)
 	{
-		auto* const pCharacterControl = m_pCompManager->GetComponent<CharacterControllerComponent>(entity);
+		auto* const pCharacterControl = m_pRegistry->GetComponent<CharacterControllerComponent>(entity);
 
 		if (!pCharacterControl->IsActive() || pCharacterControl->m_BlockInput)
 		{
 			continue;
 		}
 
-		auto* const pCharacterMovement = m_pCompManager->GetComponent<MovementComponent>(entity);
+		auto* const pCharacterMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
 
 		if (InputManager::GetInstance().IsUp(SDL_SCANCODE_D))
 		{
-			pCharacterMovement->CurentDirection = ConnectionDirection::downRight;
+			pCharacterMovement->CurrentDirection = ConnectionDirection::downRight;
 		}
 		else if (InputManager::GetInstance().IsUp(SDL_SCANCODE_S))
 		{
-			pCharacterMovement->CurentDirection = ConnectionDirection::downLeft;
+			pCharacterMovement->CurrentDirection = ConnectionDirection::downLeft;
 		} 
-		else if (InputManager::GetInstance().IsUp(SDL_SCANCODE_Q))
+		else if (InputManager::GetInstance().IsUp(SDL_SCANCODE_A)) // fix azerty
 		{
-			pCharacterMovement->CurentDirection = ConnectionDirection::upLeft;
+			pCharacterMovement->CurrentDirection = ConnectionDirection::upLeft;
 		}
-		else if (InputManager::GetInstance().IsUp(SDL_SCANCODE_Z))
+		else if (InputManager::GetInstance().IsUp(SDL_SCANCODE_W)) // fix azerty
 		{
-			pCharacterMovement->CurentDirection = ConnectionDirection::upRight;
+			pCharacterMovement->CurrentDirection = ConnectionDirection::upRight;
 		}
 	}
 }
 
 void CharacterControllerSystem::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(CharacterControllerSystem).name());
+	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CharacterControllerSystem)).hash_code()));
 }
 
-void CharacterControllerSystem::SetSignature(Coordinator* const pRegistry)
+void CharacterControllerSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(pRegistry->GetComponentType<CharacterControllerComponent>());
-	signature.set(pRegistry->GetComponentType<MovementComponent>());
+	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());
+	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
 
-	pRegistry->SetSystemSignature<CharacterControllerSystem>(signature);
+	m_pRegistry->SetSystemSignature<CharacterControllerSystem>(signature);
 }

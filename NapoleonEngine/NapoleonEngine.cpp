@@ -19,7 +19,7 @@
 #include "TextRendererComponent.h"
 #include "CameraComponent.h"
 #include "TransformComponent.h"
-#include "TextureRendererComponent.h"
+#include "RendererComponent.h"
 
 #include "FPSCounterSystem.h"
 
@@ -82,9 +82,10 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
 	txtRenderer->SetText("FPS");
 	txtRenderer->SetFont(font);
+	txtRenderer->SetTextColor(0, 255, 0);
 	
 	fpsCounterObject->AddComponent<FPSCounter>();
-	fpsCounterObject->AddComponent<TextureRendererComponent>()->m_Layer = 10;
+	fpsCounterObject->AddComponent<RendererComponent>()->Layer = 10;
 	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
 
 	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
@@ -129,6 +130,9 @@ void NapoleonEngine::Cleanup()
 	m_pEngine = nullptr;
 	
 	SDL_Quit();
+
+	SerializerServiceLocator::CleanUp();
+	ComponentManager::CleanUp();
 }
 
 void NapoleonEngine::Run()

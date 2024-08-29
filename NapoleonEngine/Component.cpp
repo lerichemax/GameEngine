@@ -25,23 +25,23 @@ void Component::SetActive(bool isActive)
 
 void Component::Serialize(StreamWriter& writer) const
 {
-	writer.WriteBool("IsActive", m_IsActive);
-	writer.WriteBool("IsUnique", m_IsUnique);
-	writer.WriteInt("ID", m_Id);
-	writer.WriteInt("gameobject", m_pGameObject->GetEntity());
+	writer.WriteBool(std::string{ "IsActive" }, m_IsActive);
+	writer.WriteBool(std::string{ "IsUnique" }, m_IsUnique);
+	writer.WriteInt(std::string{ "ID" }, m_Id);
+	writer.WriteInt(std::string{ "gameobject" }, m_pGameObject->GetEntity());
 }
 
 void Component::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadBool("IsActive", m_IsActive);
-	reader->ReadBool("IsUnique", m_IsUnique);
-	reader->ReadInt("ID", m_Id);
+	reader->ReadBool(std::string{ "IsActive" }, m_IsActive);
+	reader->ReadBool(std::string{ "IsUnique" }, m_IsUnique);
+	reader->ReadInt(std::string{ "ID" }, m_Id);
 }
 
 void Component::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
 	int id = -1;
-	reader->ReadInt("gameobject", id);
+	reader->ReadInt(std::string{ "gameobject" }, id);
 
 	m_pGameObject = context.GetRef<GameObject>(id);
 }

@@ -26,6 +26,8 @@ public:
 
 	static bool IsEntityValid(Entity entity);
 
+	static const Entity NULL_ENTITY = -1;
+
 private:
 	friend class Coordinator;
 
@@ -33,7 +35,7 @@ private:
 	std::array<Signature, MAX_ENTITIES> m_Signatures;
 	std::unordered_map<Entity, std::unordered_set<Entity>> m_EntitiesHierarchy{};
 	std::unordered_map<Entity, std::string> m_EntityToTag{};
-	uint32_t m_LivingEntitiesCount{};
+	int32_t m_LivingEntitiesCount{};
 
 	//bool HasChild(Entity entity, Entity child) const;
 	//bool CheckHierarchyForExistingChild(Entity child);

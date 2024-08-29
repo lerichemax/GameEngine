@@ -4,8 +4,6 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "SystemManager.h"
-#include "BehaviourComponent.h"
-#include "RendererComponent.h"
 
 #include <memory>
 
@@ -21,6 +19,7 @@ public:
 	template <ComponentDerived T> T* const AddComponent(Entity entity);
 	template <ComponentDerived T> void RemoveComponent(Entity entity);
 	template <ComponentDerived T> T* const GetComponent(Entity entity) const;
+	template<ComponentDerived T> std::vector<T*> GetComponents(Entity entity) const;
 	template <ComponentDerived T> T* const FindComponentOfType() const;
 	template <ComponentDerived T> T* const GetComponentInChildren(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
@@ -31,7 +30,7 @@ public:
 
 	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
 	std::vector<Entity> GetEntityHierarchy(Entity entity) const;
-	std::vector<Component*> GetComponents(Entity entity);
+	std::vector<Component*> GetEntityComponents(Entity entity);
 	
 	void SetEntityActive(Entity entity, bool isActive);
 	void SetEntityHierarchyActive(Entity entity, bool isActive);
@@ -43,7 +42,7 @@ public:
 	void TransferTags(Entity originEntity, Entity destinationEntity, Coordinator* const pOther);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
-	System* const AddSystemFromName(std::string const& typeName);
+	System* const AddSystemFromHash(size_t type);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
@@ -69,44 +68,6 @@ T* const Coordinator::AddComponent(Entity entity)
 	return comp;
 }
 
-//template <BehaviourDerived T> 
-//T* const Coordinator::AddComponent(Entity entity)
-//{
-//	T* const comp = m_pComponentManager->AddComponent<T>(entity);
-//	m_pComponentManager->RegisterComponent<BehaviourComponent>();
-//	m_pComponentManager->m_ComponentArrays[typeid(BehaviourComponent).name()]->ForceInsertData(m_pComponentManager->GetComponentShared<T>(entity), entity);
-//
-//	Signature signature = m_pEntityManager->GetSignature(entity);
-//	signature.set(m_pComponentManager->GetComponentType<BehaviourComponent>(), true);
-//
-//	signature.set(m_pComponentManager->GetComponentType<T>(), true);
-//
-//	m_pEntityManager->SetSignature(entity, signature);
-//
-//	m_pSystemManager->EntitySignatureChanged(entity, signature);
-//
-//	return comp;
-//}
-//
-//template <RendererDerived T>
-//T* const Coordinator::AddComponent(Entity entity)
-//{
-//	T* const comp = m_pComponentManager->AddComponent<T>(entity);
-//	m_pComponentManager->RegisterComponent<RendererComponent>();
-//	m_pComponentManager->m_ComponentArrays[typeid(RendererComponent).name()]->ForceInsertData(m_pComponentManager->GetComponentShared<T>(entity), entity);
-//
-//	Signature signature = m_pEntityManager->GetSignature(entity);
-//	signature.set(m_pComponentManager->GetComponentType<RendererComponent>(), true);
-//
-//	signature.set(m_pComponentManager->GetComponentType<T>(), true);
-//
-//	m_pEntityManager->SetSignature(entity, signature);
-//
-//	m_pSystemManager->EntitySignatureChanged(entity, signature);
-//
-//	return comp;
-//}
-
 template <ComponentDerived T>
 void Coordinator::RemoveComponent(Entity entity)
 {
@@ -123,6 +84,12 @@ template <ComponentDerived T>
 T* const Coordinator::GetComponent(Entity entity) const
 {
 	return m_pComponentManager->GetComponent<T>(entity);
+}
+
+template<ComponentDerived T> 
+std::vector<T*> Coordinator::GetComponents(Entity entity) const
+{
+	return m_pComponentManager->GetComponents<T>(entity);
 }
 
 template <ComponentDerived T> 
@@ -159,8 +126,8 @@ template <SystemDerived T>
 T* const Coordinator::RegisterSystem()
 {
 	auto pSystem = m_pSystemManager->RegisterSystem<T>(this);
-	pSystem->m_pCompManager = m_pComponentManager.get();
-	pSystem->SetSignature(this);
+	pSystem->m_pRegistry = this;
+	pSystem->SetSignature();
 
 	OnSystemSignatureChanged<T>(m_pSystemManager->GetSystemSignature<T>());
 

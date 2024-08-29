@@ -3,7 +3,7 @@
 
 void CharacterComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString("type", typeid(CharacterComponent).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(CharacterComponent)).hash_code()));
 
 	Component::Serialize(writer);
 }

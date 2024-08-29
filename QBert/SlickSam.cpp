@@ -26,7 +26,7 @@ SlickSam::SlickSam(SlickSam const& other)
 
 void SlickSam::Initialize()
 {
-	Enemy::Initialize();
+	//Enemy::Initialize();
 	SetTexture();
 }
 

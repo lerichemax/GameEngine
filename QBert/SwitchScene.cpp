@@ -18,7 +18,7 @@ void SwitchScene::Serialize(StreamWriter& writer) const
 {
 	Command::Serialize(writer);
 
-	writer.WriteString("type", typeid(SwitchScene).name());
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(SwitchScene)).hash_code()));
 	writer.WriteString("sceneName", m_TargetSceneName);
 }
 

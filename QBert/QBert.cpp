@@ -38,8 +38,8 @@ QBert::QBert()
 
 void QBert::Initialize()
 {
-	m_pPoints = GetGameObject()->GetComponent<CharacterPoint>();
-	m_pLives = GetGameObject()->GetComponent<CharacterLives>();
+	//m_pPoints = GetGameObject()->GetComponent<CharacterPoint>();
+	//m_pLives = GetGameObject()->GetComponent<CharacterLives>();
 	
 	//m_pGameObject->GetComponent<BoxCollider>()->SetIsTrigger(true);
 	//m_pGameObject->GetComponent<BoxCollider>()->SetOnTriggerEnter([this](GameObject*, GameObject* pOther)
@@ -52,10 +52,10 @@ void QBert::Initialize()
 	
 	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
 	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
-	m_pHurtTex = GetGameObject()->GetComponentInChildren<RendererComponent>();
+	//m_pHurtTex = GetGameObject()->GetComponentInChildren<RendererComponent>();
 	m_pHurtTex->SetActive(false);
 
-	Character::Initialize();
+	//Character::Initialize();
 }
 
 void QBert::Start()
@@ -144,7 +144,7 @@ void QBert::Serialize(StreamWriter& writer) const
 	writer.WriteInt("fallId", m_pFallSound->GetId());
 	writer.WriteInt("swearId", m_pSwearSound->GetId());
 
-	Character::Serialize(writer);
+	//Character::Serialize(writer);
 }
 
 void QBert::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -214,8 +214,8 @@ void QBert::JumpOffDisk()
 void QBert::Reset(bool fullReset, QubeSystem* const pTargetQube)
 {
 	//GetGameObject()->GetComponent<CharacterMovement>()->SetCurrentQube(pTargetQube);
-	GetGameObject()->SetActive(true, false);
-	GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 8;
+	//GetGameObject()->SetActive(true, false);
+	//GetGameObject()->GetComponent<RendererComponent>()->m_Layer = 8;
 
 	if (!fullReset)
 	{
