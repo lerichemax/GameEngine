@@ -3,7 +3,7 @@
 #include "QubeSystem.h"
 
 #include "QubeComponent.h"
-
+#include "DiskComponent.h"
 #include "RendererComponent.h"
 #include "MovementComponent.h"
 #include "JumpComponent.h"
@@ -51,14 +51,6 @@ void CharacterMovementSystem::Move(Entity entity)
 		return;
 	}
 
-	//if (!m_pCurrentQube->HasConnection(direction) && !m_pCurrentQube->HasConnectionToDisk())
-	//{
-	//	JumpToDeath(direction);
-	//	SwitchState(new FallingState(this, m_pJumper));
-	//	SoundServiceLocator::GetService().Play(m_FallSoundID, 50);
-	//	return;
-	//}
-
 	auto* pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 	pMoveComp->bCanMove = false;
 	SetJumpTexture(entity);
@@ -67,13 +59,25 @@ void CharacterMovementSystem::Move(Entity entity)
 	{
 		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
 		OnMoveStarted.Notify();
-		//pCurrentQube->CharacterJumpOut();
+
 		pMoveComp->CurrentQube = pCurrentQube->GetConnection(pMoveComp->CurrentDirection);
 		pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
-		m_pJumper->Jump(entity, pTransform->GetPosition(), pCurrentQube->CharacterPos);
-		
-		//SwitchState(new JumpingState(this, m_pJumper));
+		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
+	}
+	else if (pCurrentQube->ConnectionToDisk != EntityManager::NULL_ENTITY)
+	{
+		OnMoveStarted.Notify();
+		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
+		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk);
+		auto* const pDiskTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(pCurrentQube->ConnectionToDisk);
+		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+
+		pDisk->bHasQbert = true;
+		pTransform->Translate(pDiskTransform->GetLocation());
+		pTransform->SetParent(pDiskTransform);
+
+		pMoveComp->CurrentQube = EntityManager::NULL_ENTITY;
 	}
 	else
 	{
@@ -89,17 +93,8 @@ void CharacterMovementSystem::Move(Entity entity)
 		}
 
 		//pCurrentQube->CharacterJumpOut();
-		m_pJumper->JumpToDeath(entity, pTransform->GetPosition(), dist);
+		m_pJumper->JumpToDeath(entity, pTransform->GetLocation(), dist);
 	}
-	//else if(m_pCurrentQube->HasConnectionToDisk())
-	//{
-	//	SoundServiceLocator::GetService().Play(m_JumpSoundID, 50);
-	//	//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
-	//	m_pCurrentQube->GetConnectedDisk()->ReceivePlayer(this);
-	//	m_pCurrentQube->CharacterJumpOut();
-	//	m_pCurrentQube = nullptr;
-	//	m_bCanMove = false;
-	//}
 }
 
 //void CharacterMovementSystem::SetCurrentQube(Qube* const pQube)

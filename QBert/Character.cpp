@@ -95,7 +95,7 @@ void Character::JumpToQube(QubeSystem* const pTargetQube)
 	}
 
 	m_pCurrentQube = pTargetQube;
-	//m_pJumper->Jump(GetGameObject()->GetTransform()->GetPosition(), m_pCurrentQube->GetCharacterPos());
+	//m_pJumper->Jump(GetGameObject()->GetTransform()->GetLocation(), m_pCurrentQube->GetCharacterPos());
 }
 
 void Character::SwitchToIdleTex() const
@@ -123,7 +123,7 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	SetLayerToBackGround();
 	
 	//m_pCurrentQube->CharacterJumpOut();
-	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetPosition(), dist);
+	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetLocation(), dist);
 }
 
 void Character::Move(ConnectionDirection direction)

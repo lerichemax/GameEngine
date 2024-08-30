@@ -28,7 +28,7 @@ void CameraComponent::Initialize()
 
 void CameraComponent::Transform() const
 {
-	glm::vec2 const pos = GetGameObject()->GetTransform()->GetPosition();
+	glm::vec2 const pos = GetGameObject()->GetTransform()->GetLocation();
 	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
@@ -43,7 +43,7 @@ glm::mat3x3 CameraComponent::GetCameraMatrix() const
 {
 	auto const trans = GetGameObject()->GetTransform();
 
-	return BuildTransformMatrix(trans->GetPosition(), trans->GetRotation(),
+	return BuildTransformMatrix(trans->GetLocation(), trans->GetRotation(),
 		trans->GetScale());
 }
 
@@ -79,7 +79,7 @@ void CameraSystem::Update()
 		return;
 	}
 
-	glm::vec2 const pos = transformComp->GetPosition();
+	glm::vec2 const pos = transformComp->GetLocation();
 	glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y, 0);

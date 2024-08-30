@@ -65,7 +65,7 @@ void TextRendererComponent::Deserialize(JsonReader const* reader, SerializationM
 	reader->ReadString("txt", m_Text);
 	auto colorObject = reader->ReadObject("color");
 	Color color{ 0,0,0,0 };
-	color.Deserialize(reader);
+	color.Deserialize(colorObject.get());
 	m_TextColor = SDL_Color{ color.R, color.G, color.B, color.A };
 
 	std::string fontName;

@@ -4,6 +4,7 @@
 #include "PyramidSystem.h"
 #include "QBertSystem.h"
 #include "QubeSystem.h"
+#include "DiskSystem.h"
 
 #include "UiManagerComponent.h"
 
@@ -64,6 +65,7 @@ void SoloScene::Initialize()
 
 	//pyramid
 	Instantiate("Pyramid");
+	AddSystem<DiskSystem>();
 
 	//Qbert
 	auto* const pQbertObj = Instantiate("QBert");

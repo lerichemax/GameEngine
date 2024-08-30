@@ -22,12 +22,12 @@ void UiSystem::Update()
 
 		if (btn->m_bVisualize)
 		{
-			Debugger::GetInstance().DrawDebugRectangle(transform->GetPosition(),
+			Debugger::GetInstance().DrawDebugRectangle(transform->GetLocation(),
 				static_cast<unsigned int>(btn->m_Dimensions.x), static_cast<unsigned int>(btn->m_Dimensions.y),
 				Color{ 255,0,0,1 });
 		}
 		glm::vec2 const mousePos = InputManager::GetInstance().GetMousePosition();
-		glm::vec2 const pos = transform->GetPosition();
+		glm::vec2 const pos = transform->GetLocation();
 
 		if (mousePos.x >= pos.x && mousePos.x <= pos.x + btn->m_Dimensions.x &&
 			mousePos.y >= pos.y && mousePos.y <= pos.y + btn->m_Dimensions.y)

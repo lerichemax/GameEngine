@@ -25,7 +25,7 @@ struct QubeComponent : public Component
 	//Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
 	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
 
-	//ColoredDisk* m_pDiskConnection;
+	Entity ConnectionToDisk;
 
 	Texture2D* const pDefaultText;
 	Texture2D* const pIntermediateTexture;

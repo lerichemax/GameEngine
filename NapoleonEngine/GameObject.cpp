@@ -137,6 +137,10 @@ void GameObject::SetActive(bool active, bool includeChildren)
 	{
 		m_pRegistry->SetEntityHierarchyActive(m_Entity, active);
 	}
+	else
+	{
+		m_pRegistry->SetEntityActive(m_Entity, active);
+	}
 }
 
 bool GameObject::IsActive() const

@@ -1,9 +1,12 @@
 #include "PCH.h"
 #include "PyramidSystem.h"
 #include "QubeSystem.h"
+#include "DiskSystem.h"
 
 #include "PyramidComponent.h"
 #include "QubeComponent.h"
+#include "DiskComponent.h"
+#include "MovementComponent.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -17,8 +20,6 @@
 #include "Texture2D.h"
 
 #include <list>
-
-#include "ColoredDisk.h"
 
 void PyramidSystem::Initialize()
 {
@@ -38,7 +39,7 @@ void PyramidSystem::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			GameObject* pQubeObj = Instantiate("Qube", pTransform->GetPosition() + lastPos);
+			GameObject* pQubeObj = Instantiate("Qube", pTransform->GetLocation() + lastPos);
 			pPyramidComp->GetGameObject()->AddChild(pQubeObj);
 			pPyramidComp->Qubes.push_back(pQubeObj->GetEntity());
 
@@ -64,12 +65,29 @@ void PyramidSystem::Initialize()
 	CreateConnections(pPyramidComp->Qubes);
 	CreateEscheresqueLeftConnections();
 	CreateEscheresqueRightConnections();
+
+	for (size_t i = 0; i < pPyramidComp->MAX_NBR_DISKS; i++)
+	{
+		auto* const pDiskObj = Instantiate("Disk");
+
+		auto* const pDisk = pDiskObj->GetComponent<DiskComponent>();
+		pDisk->TargetPosition = m_pRegistry->GetComponent<ECS_TransformComponent>(GetTop())->GetLocation();
+		pDisk->TargetPosition.y += pDisk->OFFSET;
+
+		pDiskObj->SetActive(false, true);
+	}
 }
 
 void PyramidSystem::Start()
 {
+	m_pDiskSystem = GetSystem<DiskSystem>();
+
 	QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
 		CheckAllQubesFlipped();
+		});
+
+	GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
+		m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin())->NbrDisksSpawned--;
 		});
 }
 
@@ -80,7 +98,7 @@ PyramidSystem::~PyramidSystem()
 
 void PyramidSystem::Update()
 {
-	//DiskSpawnerTimer();
+	DiskSpawnerTimer();
 }
 
 Entity PyramidSystem::GetTop() const
@@ -91,21 +109,23 @@ Entity PyramidSystem::GetTop() const
 
 void PyramidSystem::DiskSpawnerTimer()
 {
-	//Spawn Disks
-	//if (NbrDisksSpawned < MAX_NBR_DISKS)
-	//{
-	//	if (m_DiskSpawnTimer < DISK_SPAWNING_INTERVAL)
-	//	{
-	//		m_DiskSpawnTimer += Timer::GetInstance().GetDeltaTime();
+	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 
-	//	}
-	//	else
-	//	{
-	//		m_pQubes[FindOutsideQubeIndex()]->AddConnectionToDisk();
-	//		m_DiskSpawnTimer = 0;
-	//		NbrDisksSpawned++;
-	//	}
-	//}
+	//Spawn Disks
+	if (pPyramidComp->NbrDisksSpawned < pPyramidComp->MAX_NBR_DISKS)
+	{
+		if (pPyramidComp->DiskSpawnTimer < pPyramidComp->DISK_SPAWNING_INTERVAL)
+		{
+			pPyramidComp->DiskSpawnTimer += Timer::GetInstance().GetDeltaTime();
+
+		}
+		else
+		{
+			m_pDiskSystem->SpawnDisk(pPyramidComp->Qubes[FindOutsideQubeIndex(pPyramidComp)]);
+			pPyramidComp->DiskSpawnTimer = 0;
+			pPyramidComp->NbrDisksSpawned++;
+		}
+	}
 }
 
 void PyramidSystem::CreateConnections(std::vector<Entity> const& qubes)
@@ -209,7 +229,7 @@ void PyramidSystem::CheckAllQubesFlipped() const
 			return;
 		}
 	}
-	OnAllQubesFlipped.Notify(/*NbrDisksSpawned **/ ColoredDisk::GetPoints());
+	OnAllQubesFlipped.Notify(pPyramidComp->NbrDisksSpawned * DiskComponent::POINTS);
 }
 
 void PyramidSystem::Reset(Level level)
@@ -234,29 +254,25 @@ void PyramidSystem::PartialReset()
 	//}
 }
 
-unsigned int PyramidSystem::FindOutsideQubeIndex() const
+unsigned int PyramidSystem::FindOutsideQubeIndex(PyramidComponent* const pPyramid) const
 {
 	unsigned int randomIndex{};
 
-	//do
-	//{
-	//	randomIndex = rand() % m_pQubes.size();
-	//}
-	//while (!IsOutsideOfPyramid(m_pQubes[randomIndex]) && !m_pQubes[randomIndex]->HasConnectionToDisk());
+	do
+	{
+		randomIndex = rand() % pPyramid->Qubes.size();
+	} while (!IsOutsideOfPyramid(pPyramid->Qubes[randomIndex], pPyramid) 
+		|| m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[randomIndex])->ConnectionToDisk != EntityManager::NULL_ENTITY);
 	
 	return randomIndex;
 }
 
-bool PyramidSystem::IsOutsideOfPyramid(QubeSystem* const pQube) const
+bool PyramidSystem::IsOutsideOfPyramid(Entity qubeEntity, PyramidComponent* const pPyramid) const
 {
-	/*return (pQube->GetConnection(ConnectionDirection::upLeft) == nullptr || pQube->GetConnection(ConnectionDirection::upRight) == nullptr)
-		&& !IsTop(pQube);*/
-	return true;
-}
+	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
 
-bool PyramidSystem::IsTop(QubeSystem* const pQube) const
-{
-	return true;// pQube == m_pQubes.front();
+	return ((pQube->GetConnection(ConnectionDirection::upLeft) == EntityManager::NULL_ENTITY || pQube->GetConnection(ConnectionDirection::upRight) == EntityManager::NULL_ENTITY)
+		&& qubeEntity != pPyramid->Qubes.front());
 }
 
 bool PyramidSystem::FindNextQubeToQbert(QubeSystem* const pStartingQube, ConnectionDirection* directions, unsigned int size) const

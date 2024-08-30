@@ -6,7 +6,6 @@
 #include "MovementComponent.h"
 
 #include "QBert.h"
-#include "ColoredDisk.h"
 #include "SlickSam.h"
 #include "Texture2D.h"
 
@@ -30,15 +29,15 @@ void QubeSystem::Initialize()
 
 		pTextureRenderer->pTexture = pQube->pDefaultText;
 
-		pQube->CharacterPos.x = pTransform->GetPosition().x + pTextureRenderer->pTexture->GetWidth() / 4;
-		pQube->CharacterPos.y = pTransform->GetPosition().y - pTextureRenderer->pTexture->GetHeight() / 5;
+		pQube->CharacterPos.x = pTransform->GetLocation().x + pTextureRenderer->pTexture->GetWidth() / 4;
+		pQube->CharacterPos.y = pTransform->GetLocation().y - pTextureRenderer->pTexture->GetHeight() / 5;
 	}
 
-	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
-	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldLocation().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
+	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldLocation().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 
-	//m_EscheresqueLeftPos.x = GetGameObject()->GetECSTransform()->GetWorldPosition().x - GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
-	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldPosition().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
+	//m_EscheresqueLeftPos.x = GetGameObject()->GetECSTransform()->GetWorldLocation().x - GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
+	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldLocation().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
 void QubeSystem::Start()
@@ -115,34 +114,6 @@ void QubeSystem::AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSyste
 	{
 		m_pEscheresqueLeftConnections[static_cast<int>(dir)] = pConnection;
 	}*/
-}
-
-void QubeSystem::AddConnectionToDisk()
-{
-	//auto const pDisk = PrefabsManager::GetInstance().Instantiate("Disk");
-	//pDisk->GetComponent<ColoredDisk>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
-
-	//m_pGameObject->AddChild(pDisk);
-	//auto const parentPos = m_pGameObject->GetTransform()->GetWorldPosition();
-	if (!HasConnection(ConnectionDirection::upLeft))
-	{
-		/*pDisk->GetECSTransform()->SetWorldPosition(parentPos.x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth()/2,
-			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);*/
-		/*pDisk->GetECSTransform()->Translate(parentPos.x - m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth()/2,
-			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);*/
-	}
-	else
-	{
-		/*pDisk->GetECSTransform()->SetWorldPosition(
-			parentPos.x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth(),
-			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);*/
-		/*pDisk->GetECSTransform()->Translate(
-			parentPos.x + m_pGameObject->GetComponent<RendererComponent>()->GetTextureWidth(),
-			parentPos.y - m_pGameObject->GetComponent<RendererComponent>()->GetTextureHeight()/3);*/
-	}
-	
-	//m_pDiskConnection = pDisk->GetComponent<ColoredDisk>();
-	Debugger::GetInstance().Log("Disk spawned");
 }
 
 bool QubeSystem::HasConnection(ConnectionDirection dir) const
@@ -282,7 +253,7 @@ void QubeSystem::Reset(Level level, Entity entity)
 	pRenderer->pTexture = pQube->pDefaultText;
 }
 
-ColoredDisk* QubeSystem::GetConnectedDisk() const
+DiskSystem* QubeSystem::GetConnectedDisk() const
 {
 	//return m_pDiskConnection;
 	return nullptr;

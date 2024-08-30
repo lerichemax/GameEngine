@@ -19,7 +19,6 @@
 
 
 #include "CoilyManager.h"
-#include "ColoredDisk.h"
 #include "PyramidSystem.h"
 #include "WrongWayManager.h"
 #include "SlickSamManager.h"
@@ -106,7 +105,7 @@ void GameManager::Notify(GameObject* object, int event)
 	//	break;
 	case GameEvent::PyramidCompleted:
 		//auto const pPyramid = object->GetComponent<Pyramid>();
-		//pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * ColoredDisk::GetPoints());
+		//pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * DiskSystem::GetPoints());
 		break;
 	}
 }

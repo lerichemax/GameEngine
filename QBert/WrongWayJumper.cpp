@@ -34,7 +34,7 @@ WrongWayJumper::WrongWayJumper()
 //void WrongWayJumper::UpdateFall()
 //{
 //	auto pTransform = GetGameObject()->GetTransform();
-//	auto pos = pTransform->GetPosition();
+//	auto pos = pTransform->GetLocation();
 //	glm::vec2 dir{};
 //
 //	if (!m_bJumpDown)
@@ -62,7 +62,7 @@ WrongWayJumper::WrongWayJumper()
 //
 //	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
 //
-//	if (glm::length(pTransform->GetPosition() - m_Halfway) <= 2.f)
+//	if (glm::length(pTransform->GetLocation() - m_Halfway) <= 2.f)
 //	{
 //		m_bJumpDown = true;
 //	}

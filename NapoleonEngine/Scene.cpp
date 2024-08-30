@@ -264,9 +264,13 @@ void Scene::OnLoad()
 		nbrSystems = m_pSystems.size();
 	}
 
-	for (System* const pSystem : m_pSystems)
+	nbrSystems = m_pSystems.size();
+	counter = 0;
+	while (counter < nbrSystems)
 	{
-		pSystem->Start();
+		m_pSystems[counter]->Start();
+		counter++;
+		nbrSystems = m_pSystems.size();
 	}
 
 	Renderer::GetInstance().SetBackgroundColor(m_BackgroundColor);

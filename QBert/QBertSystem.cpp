@@ -4,6 +4,7 @@
 #include "PyramidSystem.h"
 #include "CharacterMovementSystem.h"
 #include "JumperSystem.h"
+#include "DiskSystem.h"
 
 #include "AudioComponent.h"
 #include "CharacterControllerComponent.h"
@@ -67,6 +68,17 @@ void QBertSystem::Start()
 			Reset(false, m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube);
 		}
 	});
+
+	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
+		auto* pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pMove = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+		pTransform->SetParent(nullptr);
+		pMove->CurrentQube = m_pRegistry->GetSystem<PyramidSystem>()->GetTop();
+		pMove->bCanMove = true;
+
+		pTransform->Translate(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
+		});
 }
 
 void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)

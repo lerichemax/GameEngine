@@ -95,12 +95,12 @@ void Renderer::RenderTexture(const Texture2D& texture, TransformComponent const&
 {
 	glPushMatrix();
 	{
-		glTranslatef(pTransform.GetWorldPosition().x , pTransform.GetWorldPosition().y , 0);
+		glTranslatef(pTransform.GetWorldLocation().x , pTransform.GetWorldLocation().y , 0);
 		glRotatef(pTransform.GetRotation(), 0, 0, 1);
 		glScalef(pTransform.GetScale().x, pTransform.GetScale().y, 0);
-		glTranslatef(-pTransform.GetWorldPosition().x , -pTransform.GetWorldPosition().y , 0);
+		glTranslatef(-pTransform.GetWorldLocation().x , -pTransform.GetWorldLocation().y , 0);
 		
-		RenderTexture(texture, pTransform.GetWorldPosition().x, pTransform.GetWorldPosition().y);
+		RenderTexture(texture, pTransform.GetWorldLocation().x, pTransform.GetWorldLocation().y);
 	}
 	glPopMatrix();
 }
@@ -109,12 +109,12 @@ void Renderer::RenderTexture(const Texture2D& texture, ECS_TransformComponent co
 {
 	glPushMatrix();
 	{
-		glTranslatef(pTransform.m_WorldPosition.x, pTransform.m_WorldPosition.y, 0);
+		glTranslatef(pTransform.m_WorldLocation.x, pTransform.m_WorldLocation.y, 0);
 		glRotatef(pTransform.m_WorldRotation, 0, 0, 1);
 		glScalef(pTransform.m_WorldScale.x, pTransform.m_WorldScale.y, 0);
-		glTranslatef(-pTransform.m_WorldPosition.x, -pTransform.m_WorldPosition.y, 0);
+		glTranslatef(-pTransform.m_WorldLocation.x, -pTransform.m_WorldLocation.y, 0);
 
-		RenderTexture(texture, pTransform.m_WorldPosition.x, pTransform.m_WorldPosition.y);
+		RenderTexture(texture, pTransform.m_WorldLocation.x, pTransform.m_WorldLocation.y);
 	}
 	glPopMatrix();
 }

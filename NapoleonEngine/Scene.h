@@ -98,7 +98,7 @@ public:
 	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
 
-	template <typename T> T* const AddSystem();
+	template <SystemDerived T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
@@ -146,7 +146,7 @@ private:
 	GameObject* const InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
-template <typename T>
+template <SystemDerived T>
 T* const Scene::AddSystem()
 {
 	auto* const pNewSystem = m_pRegistry->RegisterSystem<T>();

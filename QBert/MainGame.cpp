@@ -7,6 +7,7 @@
 #include "QubeSystem.h"
 #include "PyramidSystem.h"
 #include "QBertSystem.h"
+#include "DiskSystem.h"
 
 #include "CharacterControllerComponent.h"
 #include "CharacterComponent.h"
@@ -15,13 +16,11 @@
 #include "QubeComponent.h"
 #include "PyramidComponent.h"
 #include "QbertComponent.h"
+#include "DiskComponent.h"
 
 #include "Coily.h"
 #include "CoopScene.h"
-#include "ColoredDisk.h"
 #include "MainMenuScene.h"
-
-#include "QBert.h"
 
 #include "VersusScene.h"
 #include "SlickSam.h"
@@ -37,7 +36,7 @@
 #include "ReloadSceneCommand.h"
 #include "SwitchTextColor.h"
 #include "SwitchScene.h"
-#include "QBert.h"
+
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
@@ -170,7 +169,6 @@ void MainGame::CreatePrefabs() const
 	auto pyramidPf = pPrefabManager.CreatePrefab();
 	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->Translate(250.f, 400.f);
-	//pyramid->AddComponent(new Pyramid{ (unsigned int)levelWidth});
 	pyramidObject->AddComponent<PyramidComponent>();
 	pyramidPf->AddRequiredSystem<PyramidSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
@@ -216,17 +214,19 @@ void MainGame::CreatePrefabs() const
 	////slickSamObject->AddComponent(new Jumper{});
 	//slickSamObject->GetTransform()->Scale(1.5f);
 
-	////ColoredDisk
-	//auto diskPf = pPrefabManager.CreatePrefab("Disk");
-	//auto diskObject = diskPf->CreateGameObject();
+	//DiskSystem
+	auto pDiskPf = pPrefabManager.CreatePrefab();
+	auto pDiskObject = pDiskPf->GetRoot();
 
-	////diskObject->AddComponent(new ColoredDisk{ });
-	//ECS_RendererComponent diskRenderer;
-	//diskRenderer.m_Layer = Layer::middleground;
-	//diskRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
+	pDiskObject->AddComponent<DiskComponent>();
+	auto* const pDiskRenderer = pDiskObject->AddComponent<RendererComponent>();
+	pDiskRenderer->Layer = 7;
+	pDiskRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
 
-	//diskObject->AddComponent<ECS_RendererComponent>(diskRenderer);
-	//diskObject->GetTransform()->Scale(2);
+	pDiskObject->GetTransform()->Scale(2);
+
+	pDiskPf->AddRequiredSystem<DiskSystem>();
+	pPrefabManager.SavePrefab(pDiskPf, "Disk");
 
 	//Pause Menu
 	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);

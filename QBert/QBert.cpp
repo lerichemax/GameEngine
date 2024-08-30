@@ -4,7 +4,6 @@
 #include <chrono>
 #include <thread>
 
-#include "ColoredDisk.h"
 #include "Coily.h"
 #include "SlickSam.h"
 #include "WrongWay.h"
@@ -169,7 +168,6 @@ void QBert::EarnPoints(int points)
 
 void QBert::DoMove(ConnectionDirection direction)
 {
-	printf("move \n");
 	if (!m_bCanMove)
 	{
 		return;

@@ -77,7 +77,7 @@ void WrongWay::JumpToQube(QubeSystem* const pNextQube)
 	}
 
 	m_pCurrentQube = pNextQube;
-	//m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldPosition(),
+	//m_pJumper->Jump(m_pGameObject->GetTransform()->GetWorldLocation(),
 	//	m_bEscheresqueRight ? m_pCurrentQube->GetEscheresqueRightPos() : m_pCurrentQube->GetEscheresqueLeftPos());
 }
 

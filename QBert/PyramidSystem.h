@@ -9,9 +9,10 @@ class EnemyManager;
 class QubeSystem;
 enum class Level;
 enum class ConnectionDirection;
-class QBert;
-class ColoredDisk;
+
+class DiskSystem;
 class ComponentManager;
+struct PyramidComponent;
 class PyramidSystem final : public System
 {
 public:
@@ -44,14 +45,15 @@ protected:
 	void Update();
 
 private:
+	DiskSystem* m_pDiskSystem;
+
 	void CreateConnections(std::vector<Entity> const& qubes);
 	void CreateEscheresqueRightConnections();
 	void CreateEscheresqueLeftConnections();
 	
-	bool IsOutsideOfPyramid(QubeSystem* const pQube) const;
-	bool IsTop(QubeSystem* const pQube) const;
+	bool IsOutsideOfPyramid(Entity QubeEntity, PyramidComponent* const pPyramid) const;
 	
-	unsigned int FindOutsideQubeIndex() const;
+	unsigned int FindOutsideQubeIndex(PyramidComponent* const pPyramid) const;
 	int GetQBertIndex() const;
 	
 	void DiskSpawnerTimer();

@@ -9,7 +9,7 @@
     <ClCompile Include="QBertScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="ColoredDisk.cpp">
+    <ClCompile Include="DiskSystem.cpp">
       <Filter>GameScripts\Components\Environment</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
@@ -153,6 +153,9 @@
     <ClCompile Include="QBert.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
+    <ClCompile Include="DiskComponent.cpp">
+      <Filter>GameScripts\Components\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -162,7 +165,7 @@
     <ClInclude Include="QBertScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="ColoredDisk.h">
+    <ClInclude Include="DiskSystem.h">
       <Filter>GameScripts\Components\Environment</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
@@ -305,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="QBert.h">
       <Filter>GameScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskComponent.h">
+      <Filter>GameScripts\Components\Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

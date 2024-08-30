@@ -6,7 +6,7 @@
 
 
 class Character;
-class ColoredDisk;
+class DiskSystem;
 class QBertScene;
 class PyramidSystem;
 class QBert;
@@ -25,7 +25,7 @@ public:
 	
 	//QubeSystem* const GetConnection(ConnectionDirection dir) const { return m_pConnections[(int)dir]; }
 	QubeSystem* const GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
-	ColoredDisk* GetConnectedDisk() const;
+	DiskSystem* GetConnectedDisk() const;
 	
 	bool HasConnection(ConnectionDirection dir) const;
 	bool HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const;
@@ -39,7 +39,6 @@ public:
 	void AddEscheresqueRightConnection(ConnectionDirection dir, QubeSystem* const pConnection);
 	void AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSystem* const pConnection);
 	
-	void AddConnectionToDisk();
 	void QBertJump(QBert* pQube);
 	void Reset(Level level, Entity entity);
 	void CharacterJumpIn(Character* pCharacter);
