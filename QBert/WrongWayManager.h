@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyManager.h"
 
-class WrongWayManager final : public EnemyManager
+class WrongWayManager final : public EnemySpawnerSystem
 {
 public:
 	explicit WrongWayManager(int maxNbr, float spawnInterval);

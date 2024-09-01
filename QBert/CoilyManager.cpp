@@ -12,13 +12,13 @@
 
 
 CoilyManager::CoilyManager(int maxNbr, float spawnInterval)
-	:EnemyManager(maxNbr, spawnInterval)
+	:EnemySpawnerSystem(maxNbr, spawnInterval)
 {
 
 }
 
 CoilyManager::CoilyManager(CoilyManager const& other)
-	: EnemyManager(other)
+	: EnemySpawnerSystem(other)
 {
 
 }

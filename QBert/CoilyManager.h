@@ -2,7 +2,7 @@
 #include "EnemyManager.h"
 
 class Coily;
-class CoilyManager final : public EnemyManager
+class CoilyManager final : public EnemySpawnerSystem
 {
 public:
 	explicit CoilyManager(int maxNbr, float spawnInterval);

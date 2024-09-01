@@ -1,7 +1,7 @@
 #pragma once
-#include "EnemyManager.h"
+#include "EnemyManagerSystem.h"
 
-class SlickSamManager final : public EnemyManager
+class SlickSamManager final : public EnemySpawnerSystem
 {
 public:
 	explicit SlickSamManager(int maxNbr, float spawnInterval);

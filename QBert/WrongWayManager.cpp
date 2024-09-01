@@ -12,13 +12,13 @@
 
 
 WrongWayManager::WrongWayManager(int maxNbr, float spawnInterval)
-	:EnemyManager(maxNbr, spawnInterval)
+	:EnemySpawnerSystem(maxNbr, spawnInterval)
 {
 
 }
 
 WrongWayManager::WrongWayManager(WrongWayManager const& other)
-	: EnemyManager(other)
+	: EnemySpawnerSystem(other)
 {
 
 }

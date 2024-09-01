@@ -201,18 +201,18 @@ void MainGame::CreatePrefabs() const
 	//coilyObject->GetTransform()->Scale(1.5f);
 
 
-	////SlickSam
-	//auto slickSamPf = pPrefabManager.CreatePrefab("SlickSam");
-	//auto slickSamObject = slickSamPf->CreateGameObject();
+	//SlickSam
+	auto pSlickSamPf = pPrefabManager.CreatePrefab();
+	auto pSlickSamObject = pSlickSamPf->GetRoot();
 
-	//ECS_RendererComponent slickSamRenderer;
-	//slickSamRenderer.m_Layer = Layer::middleground;
+	pSlickSamObject->AddComponent<RendererComponent>()->Layer;
 
-	//slickSamObject->AddComponent<ECS_RendererComponent>(slickSamRenderer);
-	////slickSamObject->AddComponent(new SlickSam{});
-	////slickSamObject->AddComponent(new EnemyCharacterController{});
-	////slickSamObject->AddComponent(new Jumper{});
-	//slickSamObject->GetTransform()->Scale(1.5f);
+	//slickSamObject->AddComponent(new SlickSam{});
+	//slickSamObject->AddComponent(new EnemyCharacterController{});
+	pSlickSamObject->AddComponent<Jumper>();
+	pSlickSamObject->GetTransform()->Scale(1.5f);
+
+	pPrefabManager.SavePrefab(pSlickSamPf, "SlickSam");
 
 	//DiskSystem
 	auto pDiskPf = pPrefabManager.CreatePrefab();

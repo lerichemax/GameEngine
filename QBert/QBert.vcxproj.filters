@@ -63,7 +63,7 @@
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
+    <ClCompile Include="EnemySpawnerSystem.cpp">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="SlickSamManager.cpp">
@@ -156,6 +156,9 @@
     <ClCompile Include="DiskComponent.cpp">
       <Filter>GameScripts\Components\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="EnemySpawnerComponent.cpp">
+      <Filter>GameScripts\Components\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -219,7 +222,7 @@
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
+    <ClInclude Include="EnemySpawnerSystem.h">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="SlickSamManager.h">
@@ -312,6 +315,9 @@
     <ClInclude Include="DiskComponent.h">
       <Filter>GameScripts\Components\Environment</Filter>
     </ClInclude>
+    <ClInclude Include="EnemySpawnerComponent.h">
+      <Filter>GameScripts\Components\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -352,6 +358,9 @@
     </Filter>
     <Filter Include="GameScripts\Systems\Managers\EnemyManagers">
       <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Components\Enemies">
+      <UniqueIdentifier>{ba9c93e8-a04d-4582-ab82-17fa60766f4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

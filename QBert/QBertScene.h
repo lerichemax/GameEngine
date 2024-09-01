@@ -3,7 +3,7 @@
 
 class QBert;
 class PyramidSystem;
-class EnemyManager;
+class EnemySpawnerSystem;
 class QBertScene : public Scene
 {
 public:
@@ -28,7 +28,7 @@ protected:
 	Level m_Level;
 	QBert* m_pQbert;
 	PyramidSystem* m_pPyramid;
-	std::vector<EnemyManager*> m_pEnemyManagers;
+	std::vector<EnemySpawnerSystem*> m_pEnemyManagers;
 	
 private:
 	bool m_bIsPaused;

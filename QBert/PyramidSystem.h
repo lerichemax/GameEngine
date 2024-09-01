@@ -5,7 +5,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-class EnemyManager;
+class EnemySpawnerSystem;
 class QubeSystem;
 enum class Level;
 enum class ConnectionDirection;

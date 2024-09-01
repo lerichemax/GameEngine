@@ -11,13 +11,13 @@
 
 
 SlickSamManager::SlickSamManager(int maxNbr, float spawnInterval)
-	:EnemyManager(maxNbr, spawnInterval)
+	:EnemySpawnerSystem(maxNbr, spawnInterval)
 {
 	
 }
 
 SlickSamManager::SlickSamManager(SlickSamManager const& other)
-	:EnemyManager(other)
+	:EnemySpawnerSystem(other)
 {
 	
 }

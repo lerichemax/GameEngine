@@ -175,7 +175,8 @@
     <ClCompile Include="CoilyManager.cpp" />
     <ClCompile Include="CoilyOnQubeState.cpp" />
     <ClCompile Include="DiskComponent.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemySpawnerComponent.cpp" />
+    <ClCompile Include="EnemySpawnerSystem.cpp" />
     <ClCompile Include="EnemyOnQubeState.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
@@ -230,8 +231,9 @@
     <ClInclude Include="CoilyManager.h" />
     <ClInclude Include="CoilyOnQubeState.h" />
     <ClInclude Include="DiskComponent.h" />
-    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemySpawnerSystem.h" />
     <ClInclude Include="EnemyOnQubeState.h" />
+    <ClInclude Include="EnemySpawnerComponent.h" />
     <ClInclude Include="FallingState.h" />
     <ClInclude Include="JumpComponent.h" />
     <ClInclude Include="JumpingState.h" />

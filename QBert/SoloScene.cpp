@@ -5,8 +5,10 @@
 #include "QBertSystem.h"
 #include "QubeSystem.h"
 #include "DiskSystem.h"
+#include "EnemySpawnerSystem.h"
 
 #include "UiManagerComponent.h"
+#include "EnemySpawnerComponent.h"
 
 #include "QBert.h"
 #include "MoveCommand.h"
@@ -93,6 +95,14 @@ void SoloScene::Initialize()
 //	m_pEnemyManagers.push_back(pCm);
 //	
 //	AddObject(enemyManagerObj);
+
+	auto* const pSlickSamSpawnerObj = CreateGameObject();
+	auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
+	pSpawnerComp->MaxEnemies = 2;
+	pSpawnerComp->SpawnInterval = 7;
+	pSpawnerComp->EnemyToSpawn = "SlickSam";
+
+	AddSystem<EnemySpawnerSystem>();
 	
 //	//Replay
 //	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");

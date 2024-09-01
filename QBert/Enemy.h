@@ -15,7 +15,7 @@ public:
 	
 	int GetPointsForKill()const { return POINTS_FOR_KILL; }
 protected:
-	friend class EnemyManager;
+	friend class EnemySpawnerSystem;
 	
 	unsigned int const POINTS_FOR_KILL;
 
