@@ -167,6 +167,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AiControllerComponent.cpp" />
+    <ClCompile Include="AiControllerSystem.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="CharacterControllerComponent.cpp" />
     <ClCompile Include="CharacterControllerSystem.cpp" />
@@ -223,6 +225,8 @@
     <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiControllerComponent.h" />
+    <ClInclude Include="AiControllerSystem.h" />
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterControllerComponent.h" />
     <ClInclude Include="CharacterControllerSystem.h" />

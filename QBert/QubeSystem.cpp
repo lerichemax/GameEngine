@@ -25,7 +25,7 @@ void QubeSystem::Initialize()
 	{
 		auto* const pTextureRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
-		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 		pTextureRenderer->pTexture = pQube->pDefaultText;
 
@@ -48,10 +48,13 @@ void QubeSystem::Start()
 	{
 		pJumpSystem->OnJumpLanded.Subscribe([this](Entity entity) {
 			
+			auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+			auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+
+			pQube->bIsOccupied = true;
+
 			if (m_pRegistry->HasTag(entity, "QBert"))
 			{
-				auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
-
 				HandleQBertLanding(pMoveComp->CurrentQube);
 			}
 		});
@@ -282,7 +285,7 @@ void QubeSystem::SetSignature()
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<QubeComponent>());
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
 
 	m_pRegistry->SetSystemSignature<QubeSystem>(signature);

@@ -22,6 +22,7 @@ public:
 	EventHandler<PyramidSystem, int> OnAllQubesFlipped{};
 	
 	Entity GetTop() const; 
+	Entity GetRandomTopQube() const;
 	//QubeSystem* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
 	//QubeSystem* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	//QubeSystem* GetQube(int index) const { return m_pQubes[index]; }

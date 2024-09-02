@@ -108,9 +108,6 @@
     <ClCompile Include="VersusGameManager.cpp">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterControllerComponent.cpp">
-      <Filter>GameScripts\Components</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterControllerSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
@@ -141,12 +138,6 @@
     <ClCompile Include="QBertSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterComponent.cpp">
-      <Filter>GameScripts\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertComponent.cpp">
-      <Filter>GameScripts\Components</Filter>
-    </ClCompile>
     <ClCompile Include="UiManagerComponent.cpp">
       <Filter>GameScripts\Components</Filter>
     </ClCompile>
@@ -157,8 +148,21 @@
       <Filter>GameScripts\Components\Environment</Filter>
     </ClCompile>
     <ClCompile Include="EnemySpawnerComponent.cpp">
-      <Filter>GameScripts\Components\Enemies</Filter>
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterComponent.cpp">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControllerComponent.cpp">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertComponent.cpp">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="AiControllerComponent.cpp">
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="AiControllerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -267,9 +271,6 @@
     <ClInclude Include="VersusGameManager.h">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterControllerComponent.h">
-      <Filter>GameScripts\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterControllerSystem.h">
       <Filter>GameScripts\Systems</Filter>
     </ClInclude>
@@ -300,12 +301,6 @@
     <ClInclude Include="QBertSystem.h">
       <Filter>GameScripts\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterComponent.h">
-      <Filter>GameScripts\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertComponent.h">
-      <Filter>GameScripts\Components</Filter>
-    </ClInclude>
     <ClInclude Include="UiManagerComponent.h">
       <Filter>GameScripts\Components</Filter>
     </ClInclude>
@@ -316,8 +311,21 @@
       <Filter>GameScripts\Components\Environment</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawnerComponent.h">
-      <Filter>GameScripts\Components\Enemies</Filter>
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterComponent.h">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControllerComponent.h">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertComponent.h">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="AiControllerComponent.h">
+      <Filter>GameScripts\Components\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="AiControllerSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -359,7 +367,10 @@
     <Filter Include="GameScripts\Systems\Managers\EnemyManagers">
       <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameScripts\Components\Enemies">
+    <Filter Include="GameScripts\Components\Characters">
+      <UniqueIdentifier>{d4ca26f8-6bae-44e4-8a80-121d8c449db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Components\Characters\Enemies">
       <UniqueIdentifier>{ba9c93e8-a04d-4582-ab82-17fa60766f4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

@@ -4,14 +4,23 @@
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
+#include "QubeComponent.h"
 
-#include "Enemy.h"
-#include "PrefabsManager.h"
 #include "Timer.h"
 
 void EnemySpawnerSystem::Start()
 {
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
+
+	for (Entity entity : m_Entities)
+	{
+		auto* const pSpawner = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
+
+		for (Entity enemyEntity : pSpawner->SpawnedEnemies)
+		{
+			m_pRegistry->SetEntityActive(enemyEntity, false);
+		}
+	}
 }
 
 void EnemySpawnerSystem::Update()
@@ -36,35 +45,46 @@ void EnemySpawnerSystem::Update()
 	}
 }
 
-void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp)
+void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 {
-	auto* const pEnemyObj = Instantiate(pSpawnerComp->EnemyToSpawn);
+	Entity qubeEntity = m_pPyramid->GetRandomTopQube();
 
-	int const random{ rand() % 2 + 1 };
+	if (qubeEntity == EntityManager::NULL_ENTITY)
+	{
+		return;
+	}
 
-	auto* const pMoveComp = pEnemyObj->GetComponent<MovementComponent>();
+	Entity enemyEntity = pSpawnerComp->SpawnedEnemies[pSpawnerComp->NbrEnemies];
+	m_pRegistry->SetEntityActive(enemyEntity, true);
 
-	//pSlickSam->GetComponent<SlickSam>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
-	//pSlickSam->GetECSTransform()->SetWorldPosition(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
-	//pSlickSam->GetECSTransform()->Translate(pSlickSam->GetComponent<SlickSam>()->GetCurrentQube()->GetCharacterPos());
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
+	
+	pMoveComp->CurrentQube = qubeEntity;
 
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(enemyEntity);
+	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+	pCurrentQube->bIsOccupied = true;
+
+	pTransform->Translate(pCurrentQube->CharacterPos);
+
+	m_pRegistry->SetEntityActive(enemyEntity, true);
 }
 
-void EnemySpawnerSystem::EnemyDied(Enemy* pEnemy)
-{
-	//if (!m_pEnemies.empty())
-	//{
-	//	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
-	//	{
-	//		if (m_pEnemies[i] == pEnemy)
-	//		{
-	//			m_pEnemies[i] = nullptr;
-	//			break;
-	//		}
-	//	}
-	//}
-	//m_NbrEnemies--;
-}
+//void EnemySpawnerSystem::EnemyDied(Enemy* pEnemy)
+//{
+//	//if (!m_pEnemies.empty())
+//	//{
+//	//	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
+//	//	{
+//	//		if (m_pEnemies[i] == pEnemy)
+//	//		{
+//	//			m_pEnemies[i] = nullptr;
+//	//			break;
+//	//		}
+//	//	}
+//	//}
+//	//m_NbrEnemies--;
+//}
 
 void EnemySpawnerSystem::Reset()
 {

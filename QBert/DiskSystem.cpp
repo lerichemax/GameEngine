@@ -23,7 +23,7 @@ void DiskSystem::Update()
 
 		if (!pDiskComp->bHasReachedTop)
 		{
-			auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+			auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 			glm::vec2 distance{ pDiskComp->TargetPosition - pTransform->GetLocation() };
 			glm::vec2 direction{ glm::normalize(distance) };
@@ -58,7 +58,7 @@ void DiskSystem::Update()
 void DiskSystem::SpawnDisk(Entity qubeEntity)
 {
 	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
-	auto* const pQubeTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(qubeEntity);
+	auto* const pQubeTransform = m_pRegistry->GetComponent<TransformComponent>(qubeEntity);
 	auto* const pQubeRenderer = m_pRegistry->GetComponent<RendererComponent>(qubeEntity);
 
 	Entity diskEntity = *std::find_if(m_Entities.begin(), m_Entities.end(), [this](Entity entity) {
@@ -72,7 +72,7 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 
 	auto const parentPos = pQubeTransform->GetLocation();
 
-	auto* const pDiskTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(diskEntity);
+	auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(diskEntity);
 	if (!pQube->HasConnection(ConnectionDirection::upLeft))
 	{
 		pDiskTransform->Translate(parentPos.x - pQubeRenderer->pTexture->GetWidth() / 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);

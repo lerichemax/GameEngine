@@ -41,7 +41,7 @@ void QBertSystem::Start()
 
 	auto pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComponent->CurrentQube);
 
-	auto pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	auto pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 	pTransform->Translate(pQube->CharacterPos);
 
 	auto* const pMoveSystem = GetSystem<CharacterMovementSystem>();
@@ -70,7 +70,7 @@ void QBertSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
-		auto* pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 		auto* const pMove = m_pRegistry->GetComponent<MovementComponent>(entity);
 
 		pTransform->SetParent(nullptr);

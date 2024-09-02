@@ -52,12 +52,14 @@ void CharacterMovementSystem::Move(Entity entity)
 	}
 
 	auto* pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+	pCurrentQube->bIsOccupied = false;
+
 	pMoveComp->bCanMove = false;
 	SetJumpTexture(entity);
 
 	if (pCurrentQube->HasConnection(pMoveComp->CurrentDirection)) //does the current cube have a connection
 	{
-		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 		OnMoveStarted.Notify();
 
 		pMoveComp->CurrentQube = pCurrentQube->GetConnection(pMoveComp->CurrentDirection);
@@ -70,8 +72,8 @@ void CharacterMovementSystem::Move(Entity entity)
 		OnMoveStarted.Notify();
 		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
 		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk);
-		auto* const pDiskTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(pCurrentQube->ConnectionToDisk);
-		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(pCurrentQube->ConnectionToDisk);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 		pDisk->bHasQbert = true;
 		pTransform->Translate(pDiskTransform->GetLocation());
@@ -81,7 +83,7 @@ void CharacterMovementSystem::Move(Entity entity)
 	}
 	else
 	{
-		auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 		float dist{};
 		if (pMoveComp->CurrentDirection == ConnectionDirection::downLeft || pMoveComp->CurrentDirection == ConnectionDirection::upLeft)
 		{
@@ -142,7 +144,7 @@ void CharacterMovementSystem::JumpToCurrentQube(Entity entity)
 void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 {
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
-	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
 	//if (m_pCurrentQube == nullptr)
@@ -178,16 +180,16 @@ void CharacterMovementSystem::SetIdleTexture(Entity entity)
 	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownLeft);
+		 ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleDownLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::downRight:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleDownRight);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleDownRight, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpLeft);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleUpLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureIdleUpRight);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleUpRight, pRenderer->pTexture);
 		break;
 	}
 }
@@ -205,16 +207,16 @@ void CharacterMovementSystem::SetJumpTexture(Entity entity)
 	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownLeft);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpDownLeft, pRenderer->pTexture);
 		break;
-	case ConnectionDirection::downRight:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpDownRight);
+	case ConnectionDirection::downRight:	
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpDownRight, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upLeft:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpLeft);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpUpLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upRight:
-		pRenderer->pTexture = ResourceManager::GetInstance().GetTexture(pMoveComp->TextureJumpUpRight);
+		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpUpRight, pRenderer->pTexture);
 		break;
 	}
 }

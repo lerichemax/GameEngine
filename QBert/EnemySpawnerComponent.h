@@ -6,11 +6,11 @@ struct EnemySpawnerComponent : public Component
 	unsigned int MaxEnemies;
 	float SpawnInterval;
 
-	std::string EnemyToSpawn;
-
 	unsigned int NbrEnemies;
 
 	float EnemySpawnTimer;
+
+	std::vector<Entity> SpawnedEnemies;
 
 	void Serialize(StreamWriter& writer) const override;
 };

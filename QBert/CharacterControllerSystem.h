@@ -13,7 +13,4 @@ protected:
 	void Update() override;
 
 	void Serialize(StreamWriter& writer) const override;
-
-//private:
-//	CharacterMovementSystem* m_pCharacterMover;
 };

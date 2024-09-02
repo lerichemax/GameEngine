@@ -11,17 +11,6 @@
 #include "TransformComponent.h"
 
 
-WrongWayManager::WrongWayManager(int maxNbr, float spawnInterval)
-	:EnemySpawnerSystem(maxNbr, spawnInterval)
-{
-
-}
-
-WrongWayManager::WrongWayManager(WrongWayManager const& other)
-	: EnemySpawnerSystem(other)
-{
-
-}
 void WrongWayManager::Spawn()
 {
 	int const random{ rand() % 2 };

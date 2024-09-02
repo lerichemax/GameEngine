@@ -1,19 +1,13 @@
 #pragma once
-#include "EnemyManagerSystem.h"
+#include "EnemySpawnerSystem.h"
 
 class SlickSamManager final : public EnemySpawnerSystem
 {
 public:
-	explicit SlickSamManager(int maxNbr, float spawnInterval);
-	
-	SlickSamManager(SlickSamManager&& other) = delete;
-	SlickSamManager& operator=(SlickSamManager const& rhs) = delete;
-	SlickSamManager& operator=(SlickSamManager&& rhs) = delete;
+	SlickSamManager() = default;
 	~SlickSamManager() = default;
 
 protected:
-	void Spawn() override;
+	void Spawn();
 
-private:
-	SlickSamManager(SlickSamManager const& other);
 };

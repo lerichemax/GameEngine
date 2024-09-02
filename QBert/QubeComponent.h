@@ -19,8 +19,6 @@ struct QubeComponent : public Component
 	int static const MAX_NBR_CONNECTION{ 4 };
 	static int const POINTS_FOR_FLIP{ 25 };
 
-	//Pyramid* m_pPyramid;
-
 	Entity Connections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
 	//Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
 	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
@@ -31,8 +29,6 @@ struct QubeComponent : public Component
 	Texture2D* const pIntermediateTexture;
 	Texture2D* const pFlippedTexture;
 
-	//Character* m_pCharacter;
-
 	glm::vec2 CharacterPos{};
 	//glm::vec2 m_EscheresqueLeftPos;
 	//glm::vec2 m_EscheresqueRightPos;
@@ -42,6 +38,7 @@ struct QubeComponent : public Component
 	bool bIsFlipped{};
 	bool bIsLastRow{};
 	bool bIsSideColumn{};
+	bool bIsOccupied{};
 
 	unsigned int JumpCounter{};
 

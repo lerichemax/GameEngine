@@ -17,6 +17,7 @@
 #include "PyramidComponent.h"
 #include "QbertComponent.h"
 #include "DiskComponent.h"
+#include "AiControllerComponent.h"
 
 #include "Coily.h"
 #include "CoopScene.h"
@@ -124,10 +125,10 @@ void MainGame::CreatePrefabs() const
 
 
 	pQbertObj->AddComponent<CharacterControllerComponent>();
-	auto characterMovement = pQbertObj->AddComponent<MovementComponent>();
-	characterMovement->SetTextureIdleNames("Textures/QBert/QBert1_DownRight_Qube.png", "Textures/QBert/QBert1_DownLeft_Qube.png",
+	auto* const pCharacterMovement = pQbertObj->AddComponent<MovementComponent>();
+	pCharacterMovement->SetTextureIdleNames("Textures/QBert/QBert1_DownRight_Qube.png", "Textures/QBert/QBert1_DownLeft_Qube.png",
 		"Textures/QBert/QBert1_UpRight_Qube.png", "Textures/QBert/QBert1_UpLeft_Qube.png");
-	characterMovement->SetTextureJumpNames("Textures/QBert/QBert1_DownRight_Jump.png", "Textures/QBert/QBert1_DownLeft_Jump.png",
+	pCharacterMovement->SetTextureJumpNames("Textures/QBert/QBert1_DownRight_Jump.png", "Textures/QBert/QBert1_DownLeft_Jump.png",
 		"Textures/QBert/QBert1_UpRight_Jump.png", "Textures/QBert/QBert1_UpLeft_Jump.png");
 
 	pQbertObj->AddComponent<CharacterLives>();
@@ -205,14 +206,26 @@ void MainGame::CreatePrefabs() const
 	auto pSlickSamPf = pPrefabManager.CreatePrefab();
 	auto pSlickSamObject = pSlickSamPf->GetRoot();
 
-	pSlickSamObject->AddComponent<RendererComponent>()->Layer;
-
+	auto* const pSlickSamRenderer = pSlickSamObject->AddComponent<RendererComponent>();
+	pSlickSamRenderer->Layer = 7;
+	pSlickSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
 	//slickSamObject->AddComponent(new SlickSam{});
 	//slickSamObject->AddComponent(new EnemyCharacterController{});
-	pSlickSamObject->AddComponent<Jumper>();
+	auto* const pMover = pSlickSamObject->AddComponent<MovementComponent>();
+	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Slick_Down_Right.png", "Textures/Enemies/SlickSam/Slick_Down_Left.png","", "");
+	pMover->SetTextureJumpNames("", "","Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left");
+
+	pSlickSamObject->AddComponent<JumpComponent>();
+	pSlickSamObject->AddComponent<AiControllerComponent>();
 	pSlickSamObject->GetTransform()->Scale(1.5f);
 
-	pPrefabManager.SavePrefab(pSlickSamPf, "SlickSam");
+	pPrefabManager.SavePrefab(pSlickSamPf, "Slick");
+
+	pSlickSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Right.png");
+	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Sam_Down_Right.png", "Textures/Enemies/SlickSam/Sam_Down_Left.png", "", "");
+	pMover->SetTextureJumpNames("", "", "Textures/Enemies/SlickSam/Sam_Up_Right.png", "Textures/Enemies/SlickSam/Sam_Up_Left");
+
+	pPrefabManager.SavePrefab(pSlickSamPf, "Sam");
 
 	//DiskSystem
 	auto pDiskPf = pPrefabManager.CreatePrefab();

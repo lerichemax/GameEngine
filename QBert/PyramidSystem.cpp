@@ -31,7 +31,7 @@ void PyramidSystem::Initialize()
 	glm::vec2 lastPos{ startPos };
 
 	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(pyramidEntity);
-	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(pyramidEntity);
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(pyramidEntity);
 
 	//spawn qubes
 	for (unsigned int i = pPyramidComp->MAX_WIDTH; i != 0; i--)
@@ -58,7 +58,7 @@ void PyramidSystem::Initialize()
 		}
 		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes.back());
 		startPos.x += pQube->pDefaultText->GetWidth() * 0.85f; // magic numbers
-		startPos.y -= pQube->pDefaultText->GetHeight() * m_pRegistry->GetComponent<ECS_TransformComponent>(pPyramidComp->Qubes.back())->GetScale().y * 0.75f; // magic number
+		startPos.y -= pQube->pDefaultText->GetHeight() * m_pRegistry->GetComponent<TransformComponent>(pPyramidComp->Qubes.back())->GetScale().y * 0.75f; // magic number
 	}
 	std::reverse(pPyramidComp->Qubes.begin(), pPyramidComp->Qubes.end());
 
@@ -71,7 +71,7 @@ void PyramidSystem::Initialize()
 		auto* const pDiskObj = Instantiate("Disk");
 
 		auto* const pDisk = pDiskObj->GetComponent<DiskComponent>();
-		pDisk->TargetPosition = m_pRegistry->GetComponent<ECS_TransformComponent>(GetTop())->GetLocation();
+		pDisk->TargetPosition = m_pRegistry->GetComponent<TransformComponent>(GetTop())->GetLocation();
 		pDisk->TargetPosition.y += pDisk->OFFSET;
 
 		pDiskObj->SetActive(false, true);
@@ -105,6 +105,34 @@ Entity PyramidSystem::GetTop() const
 { 
 	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 	return pPyramidComp->Qubes.front(); 
+}
+
+Entity PyramidSystem::GetRandomTopQube() const
+{
+	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	int random{ rand() % 2 + 1 };
+
+	auto* pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
+
+	if (pQube->bIsOccupied)
+	{
+		if (random % 2 == 0)
+		{
+			random--;
+		}
+		else
+		{
+			random++;
+		}
+		pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
+
+		if (pQube->bIsOccupied)
+		{
+			return EntityManager::NULL_ENTITY;
+		}
+	}
+
+	return pPyramidComp->Qubes[random];
 }
 
 void PyramidSystem::DiskSpawnerTimer()
@@ -371,7 +399,7 @@ void PyramidSystem::SetSignature()
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<PyramidComponent>());
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 
 	m_pRegistry->SetSystemSignature<PyramidSystem>(signature);
 }

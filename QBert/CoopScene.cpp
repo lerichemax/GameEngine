@@ -10,7 +10,6 @@
 #include "PrefabsManager.h"
 #include "QBert.h"
 #include "TextRendererComponent.h"
-#include "EnemyManager.h"
 #include "CoilyManager.h"
 #include "SlickSamManager.h"
 #include "WrongWayManager.h"

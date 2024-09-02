@@ -11,18 +11,6 @@
 #include "TransformComponent.h"
 
 
-CoilyManager::CoilyManager(int maxNbr, float spawnInterval)
-	:EnemySpawnerSystem(maxNbr, spawnInterval)
-{
-
-}
-
-CoilyManager::CoilyManager(CoilyManager const& other)
-	: EnemySpawnerSystem(other)
-{
-
-}
-
 void CoilyManager::Spawn()
 {
 	//int const random{ rand() % 2 + 1 };
@@ -42,11 +30,11 @@ void CoilyManager::Spawn()
 
 void CoilyManager::SetIdle(bool isIdle)
 {
-	for (size_t i{}; i < MAX_ENEMY_OF_TYPE;++i)
-	{
-		if (m_pEnemies[i] != nullptr && isIdle)
-		{
-			//m_pEnemies[i]->GetGameObject()->GetComponent<CoilyCharacterController>()->SetIdle(isIdle);
-		}
-	}
+	//for (size_t i{}; i < MAX_ENEMY_OF_TYPE;++i)
+	//{
+	//	if (m_pEnemies[i] != nullptr && isIdle)
+	//	{
+	//		//m_pEnemies[i]->GetGameObject()->GetComponent<CoilyCharacterController>()->SetIdle(isIdle);
+	//	}
+	//}
 }

@@ -74,7 +74,7 @@ void JumperSystem::JumpToDeath(Entity entity, glm::vec2 const& startPos, float x
 void JumperSystem::UpdateJump(Entity entity)
 {
 	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
-	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 	auto const pos = pTransform->GetLocation();
 	glm::vec2 dir{};
@@ -107,7 +107,7 @@ void JumperSystem::UpdateJump(Entity entity)
 void JumperSystem::UpdateFall(Entity entity)
 {
 	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
-	auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 	auto pos = pTransform->GetLocation();
 	glm::vec2 dir{};
@@ -149,7 +149,7 @@ void JumperSystem::SetSignature()
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<JumpComponent>());
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 
 	m_pRegistry->SetSystemSignature<JumperSystem>(signature);
 }

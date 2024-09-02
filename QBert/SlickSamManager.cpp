@@ -9,18 +9,6 @@
 #include "PrefabsManager.h"
 #include "Timer.h"
 
-
-SlickSamManager::SlickSamManager(int maxNbr, float spawnInterval)
-	:EnemySpawnerSystem(maxNbr, spawnInterval)
-{
-	
-}
-
-SlickSamManager::SlickSamManager(SlickSamManager const& other)
-	:EnemySpawnerSystem(other)
-{
-	
-}
 void SlickSamManager::Spawn()
 {
 	//int const random{ rand() % 2 + 1 };

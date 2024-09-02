@@ -94,5 +94,5 @@ void MainMenuScene::Initialize()
 
 	Instantiate("FPSCounter");
 
-	GetCameraObject()->GetComponent<ECS_TransformComponent>()->Translate(450, 300);
+	GetCameraObject()->GetComponent<TransformComponent>()->Translate(450, 300);
 }

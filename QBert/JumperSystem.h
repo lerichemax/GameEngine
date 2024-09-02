@@ -5,7 +5,7 @@
 
 class ComponentManager;
 struct JumpComponent;
-class ECS_TransformComponent;
+class TransformComponent;
 class JumperSystem : public System
 {
 public:

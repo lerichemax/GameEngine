@@ -1,13 +1,13 @@
 #pragma once
 #include "Component.h"
 
+struct EnemySpawnerComponent;
 class PyramidSystem;
 class EnemySpawnerSystem : public System
 {
 public:
 	EnemySpawnerSystem() = default;
 
-	void EnemyDied(Enemy* pEnemy);
 	void Reset();
 	void ResetTimer();
 
@@ -18,7 +18,7 @@ protected:
 	void Start() override;
 	void Update() override;
 	
-	void Spawn(EnemySpawnerComponent* const pSpawnerComp);
+	void Spawn(EnemySpawnerComponent* const pSpawnerComp) const;
 
 private:
 	PyramidSystem* m_pPyramid;
