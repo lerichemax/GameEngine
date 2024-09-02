@@ -9,7 +9,7 @@
 class Subject;
 class Observer;
 class TransformComponent;
-class ECS_TransformComponent;
+class TransformComponent;
 class Scene;
 class GameObject final : public IContextSerializable
 {
@@ -26,7 +26,7 @@ public:
 	template <class T> T* const GetComponentInChildren() const;
 	template <class T> void RemoveComponent();
 		
-	ECS_TransformComponent* const GetTransform() const;
+	TransformComponent* const GetTransform() const;
 
 	template <typename T> T* const AddComponent();
 

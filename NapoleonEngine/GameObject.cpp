@@ -41,9 +41,9 @@ void GameObject::Refresh()
 	//}
 }
 
-ECS_TransformComponent* const GameObject::GetTransform() const
+TransformComponent* const GameObject::GetTransform() const
 { 
-	return GetComponent<ECS_TransformComponent>(); 
+	return GetComponent<TransformComponent>(); 
 }
 
 void GameObject::AddChild(GameObject* const pChild)

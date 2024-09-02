@@ -4,146 +4,146 @@
 #include "GameObject.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 
-TransformComponent::TransformComponent()
-	:m_Location(),
-	m_Scale(1, 1),
-	m_Rotation(),
-	m_World(),
-	m_WorldLocation(),
-	m_WorldScale(),
-	m_WorldRotation()
-{
-	
-}
+//TransformComponent::TransformComponent()
+//	:m_Location(),
+//	m_Scale(1, 1),
+//	m_Rotation(),
+//	m_World(),
+//	m_WorldLocation(),
+//	m_WorldScale(),
+//	m_WorldRotation()
+//{
+//	
+//}
+//
+//
+//TransformComponent::TransformComponent(float x, float y)
+//	:m_Location{x,y},
+//	m_Scale(1, 1),
+//	m_Rotation(),
+//	m_World(),
+//	m_WorldLocation(),
+//	m_WorldScale(),
+//	m_WorldRotation()
+//	
+//{
+//}
+//
+//void TransformComponent::Initialize()
+//{
+//	Update();
+//}
+//
+//void TransformComponent::Update()
+//{
+//	//std::shared_ptr<GameObject> pParent = m_pGameObject->GetParent();
+//	//if (pParent != nullptr)
+//	//{
+//	//	/*auto const parentWorld = pParent->GetECSTransform()->m_WorldLocation;
+//	//	m_WorldLocation = parentWorld + m_Location;
+//	//	m_WorldRotation = pParent->GetECSTransform()->m_WorldRotation + m_Rotation;
+//	//	m_WorldScale = pParent->GetECSTransform()->m_WorldScale * m_Scale;*/
+//	//}
+//	//else
+//	//{
+//	//	m_WorldLocation = m_Location;
+//	//	m_WorldRotation = m_Rotation;
+//	//	m_WorldScale = m_Scale;
+//	//}
+//
+//	//m_World = BuildTransformMatrix(m_WorldLocation, m_WorldRotation, m_WorldScale);
+//}
+//
+//void TransformComponent::Translate(const float x, const float y)
+//{
+//	m_Location.x = x;
+//	m_Location.y = y;
+//}
+//
+//void TransformComponent::Translate(glm::vec2 const& pos)
+//{
+//	m_Location = pos;
+//}
+//
+//void TransformComponent::SetWorldPosition(float x, float y)
+//{
+//	SetWorldPosition(glm::vec2{ x,y });
+//}
+//
+//void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
+//{
+//	//auto const parentObj = m_pGameObject->GetParent();
+//	//if (parentObj == nullptr)
+//	//{
+//		Translate(worldPos);
+//	//}
+//	//else
+//	//{
+//	//	auto const parentWorld = parentObj->GetTransform()->GetWorldLocation();
+//
+//	//	auto const pos = worldPos - parentWorld;
+//
+//	//	Translate(pos);
+//	//}
+//}
+//
+//void TransformComponent::Scale(float x, float y)
+//{
+//	m_Scale.x = x;
+//	m_Scale.y = y;
+//}
+//
+//void TransformComponent::Scale(glm::vec2 const& scale)
+//{
+//	m_Scale.x = scale.x;
+//	m_Scale.y = scale.y;
+//}
+//
+//void TransformComponent::Scale(float uniformScale)
+//{
+//	m_Scale.x = uniformScale;
+//	m_Scale.y = uniformScale;
+//}
+//
+//TransformComponent& TransformComponent::operator=(TransformComponent const& rhs)
+//{
+//	m_Location.x = rhs.m_Location.x;
+//	m_Location.y = rhs.m_Location.y;
+//
+//	m_WorldLocation.x = rhs.m_WorldLocation.x;
+//	m_WorldLocation.y = rhs.m_WorldLocation.y;
+//
+//	m_Scale.x = rhs.m_Scale.x;
+//	m_Scale.y = rhs.m_Scale.y;
+//
+//	m_Rotation = rhs.m_Rotation;
+//
+//	m_WorldRotation = rhs.m_WorldRotation;
+//	m_WorldScale = rhs.m_WorldScale;
+//
+//	m_World = rhs.m_World;
+//	
+//	return *this;
+//}
+//
+//void TransformComponent::Rotate(float rot)
+//{
+//	m_Rotation = rot;
+//}
 
-
-TransformComponent::TransformComponent(float x, float y)
-	:m_Location{x,y},
-	m_Scale(1, 1),
-	m_Rotation(),
-	m_World(),
-	m_WorldLocation(),
-	m_WorldScale(),
-	m_WorldRotation()
-	
-{
-}
-
-void TransformComponent::Initialize()
-{
-	Update();
-}
-
-void TransformComponent::Update()
-{
-	//std::shared_ptr<GameObject> pParent = m_pGameObject->GetParent();
-	//if (pParent != nullptr)
-	//{
-	//	/*auto const parentWorld = pParent->GetECSTransform()->m_WorldLocation;
-	//	m_WorldLocation = parentWorld + m_Location;
-	//	m_WorldRotation = pParent->GetECSTransform()->m_WorldRotation + m_Rotation;
-	//	m_WorldScale = pParent->GetECSTransform()->m_WorldScale * m_Scale;*/
-	//}
-	//else
-	//{
-	//	m_WorldLocation = m_Location;
-	//	m_WorldRotation = m_Rotation;
-	//	m_WorldScale = m_Scale;
-	//}
-
-	//m_World = BuildTransformMatrix(m_WorldLocation, m_WorldRotation, m_WorldScale);
-}
-
-void TransformComponent::Translate(const float x, const float y)
-{
-	m_Location.x = x;
-	m_Location.y = y;
-}
-
-void TransformComponent::Translate(glm::vec2 const& pos)
-{
-	m_Location = pos;
-}
-
-void TransformComponent::SetWorldPosition(float x, float y)
-{
-	SetWorldPosition(glm::vec2{ x,y });
-}
-
-void TransformComponent::SetWorldPosition(glm::vec2 const& worldPos)
-{
-	//auto const parentObj = m_pGameObject->GetParent();
-	//if (parentObj == nullptr)
-	//{
-		Translate(worldPos);
-	//}
-	//else
-	//{
-	//	auto const parentWorld = parentObj->GetTransform()->GetWorldLocation();
-
-	//	auto const pos = worldPos - parentWorld;
-
-	//	Translate(pos);
-	//}
-}
-
-void TransformComponent::Scale(float x, float y)
-{
-	m_Scale.x = x;
-	m_Scale.y = y;
-}
-
-void TransformComponent::Scale(glm::vec2 const& scale)
-{
-	m_Scale.x = scale.x;
-	m_Scale.y = scale.y;
-}
-
-void TransformComponent::Scale(float uniformScale)
-{
-	m_Scale.x = uniformScale;
-	m_Scale.y = uniformScale;
-}
-
-TransformComponent& TransformComponent::operator=(TransformComponent const& rhs)
-{
-	m_Location.x = rhs.m_Location.x;
-	m_Location.y = rhs.m_Location.y;
-
-	m_WorldLocation.x = rhs.m_WorldLocation.x;
-	m_WorldLocation.y = rhs.m_WorldLocation.y;
-
-	m_Scale.x = rhs.m_Scale.x;
-	m_Scale.y = rhs.m_Scale.y;
-
-	m_Rotation = rhs.m_Rotation;
-
-	m_WorldRotation = rhs.m_WorldRotation;
-	m_WorldScale = rhs.m_WorldScale;
-
-	m_World = rhs.m_World;
-	
-	return *this;
-}
-
-void TransformComponent::Rotate(float rot)
-{
-	m_Rotation = rot;
-}
-
-//void ECS_TransformComponent::SetLocation(vec2 const& loc)
+//void TransformComponent::SetLocation(vec2 const& loc)
 //{
 //	m_OldPosition = m_Location;
 //
 //	m_Location = loc;
 //}
 //
-//void ECS_TransformComponent::SetLocation(float x, float y)
+//void TransformComponent::SetLocation(float x, float y)
 //{
 //
 //}
 //
-void ECS_TransformComponent::SetLocalLocation(vec2 const& loc)
+void TransformComponent::SetLocalLocation(vec2 const& loc)
 {
 	m_Location = loc;
 
@@ -157,12 +157,12 @@ void ECS_TransformComponent::SetLocalLocation(vec2 const& loc)
 	}
 }
 
-//void ECS_TransformComponent::SetLocalLocation(float x, float y)
+//void TransformComponent::SetLocalLocation(float x, float y)
 //{
 //
 //}
 
-void ECS_TransformComponent::Translate(vec2 const& translation)
+void TransformComponent::Translate(vec2 const& translation)
 {
 	m_OldPosition = m_WorldLocation;
 
@@ -177,12 +177,12 @@ void ECS_TransformComponent::Translate(vec2 const& translation)
 	}
 }
 
-void ECS_TransformComponent::Translate(float x, float y)
+void TransformComponent::Translate(float x, float y)
 {
 	Translate(vec2{ x,y });
 }
 
-void ECS_TransformComponent::Scale(vec2 const& scale)
+void TransformComponent::Scale(vec2 const& scale)
 {
 	m_OldScale = m_WorldScale;
 
@@ -198,12 +198,12 @@ void ECS_TransformComponent::Scale(vec2 const& scale)
 	}
 }
 
-void ECS_TransformComponent::Scale(float scale)
+void TransformComponent::Scale(float scale)
 {
 	Scale({ scale, scale });
 }
 
-void ECS_TransformComponent::Rotate(float rotation)
+void TransformComponent::Rotate(float rotation)
 {
 	m_OldRotation = m_WorldRotation;
 	m_WorldRotation = rotation;
@@ -214,7 +214,7 @@ void ECS_TransformComponent::Rotate(float rotation)
 	} 
 }
 
-void ECS_TransformComponent::SetParent(ECS_TransformComponent* const pParent)
+void TransformComponent::SetParent(TransformComponent* const pParent)
 {
 	m_pParent = pParent;
 	Translate(m_WorldLocation);
@@ -222,14 +222,14 @@ void ECS_TransformComponent::SetParent(ECS_TransformComponent* const pParent)
 	Scale(m_WorldScale);
 }
 
-bool ECS_TransformComponent::HasChanged() const
+bool TransformComponent::HasChanged() const
 {
 	return m_Location != m_OldPosition || m_Scale != m_OldScale || m_Rotation != m_OldRotation;
 }
 
-void ECS_TransformComponent::Serialize(StreamWriter& writer) const
+void TransformComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ECS_TransformComponent)).hash_code()));
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TransformComponent)).hash_code()));
 	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
 	writer.StartObject("position");
 	{
@@ -266,7 +266,7 @@ void ECS_TransformComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void ECS_TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
 	std::string x{ "x" };
 	std::string y{ "y" };
@@ -293,18 +293,18 @@ void ECS_TransformComponent::Deserialize(JsonReader const* reader, Serialization
 	Component::Deserialize(reader, context);
 }
 
-void ECS_TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
 	int parent = -1;
 	reader->ReadInt(std::string{ "parent" }, parent);
-	m_pParent = context.GetRef<ECS_TransformComponent>(parent);
+	m_pParent = context.GetRef<TransformComponent>(parent);
 }
 
 void TransformSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto transComp = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto transComp = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 		if (!transComp->IsActive())
 		{
@@ -320,12 +320,12 @@ void TransformSystem::Update()
 void TransformSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 
 	m_pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
-void TransformSystem::RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const
+void TransformSystem::RecursivelyUpdateHierarchy(TransformComponent* const transformComponent) const
 {
 	//if (!transformComponent->HasChanged())
 	//{

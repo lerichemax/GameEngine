@@ -18,7 +18,7 @@ void UiSystem::Update()
 			continue;
 		}
 
-		auto transform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+		auto transform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 		if (btn->m_bVisualize)
 		{
@@ -66,7 +66,7 @@ void UiSystem::Update()
 void UiSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 	signature.set(m_pRegistry->GetComponentType<ButtonComponent>());
 
 	m_pRegistry->SetSystemSignature<UiSystem>(signature);

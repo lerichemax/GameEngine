@@ -20,7 +20,9 @@ public:
 	void Init(const std::string& data);
 		
 	Texture2D* const GetTexture(const std::string& file);
+	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(_TTF_Font*, const char* txt, SDL_Color color, int id);
+
 	Font* const GetFont(const std::string& file, unsigned int size);
 	ID GetEffect(const std::string& file);
 	SoundEffect* const GetEffectById(ID id) const;

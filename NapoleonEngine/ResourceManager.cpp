@@ -30,6 +30,7 @@ public:
 	void Init(const std::string& data);
 
 	Texture2D* const GetTexture(const std::string& file);
+	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color color, int id);
 
 	Font* const GetFont(const std::string& file, unsigned int size);
@@ -47,6 +48,7 @@ private:
 	std::map<ID, std::unique_ptr<SoundEffect>> m_pEffects;
 
 	Texture2D* const LoadTexture(const std::string& file);
+	Texture2D* const SafeLoadTexture(const std::string& file);
 	Font* const LoadFont(const std::string& file, unsigned int size);
 	SoundEffect* const LoadEffect(const std::string& file);
 };
@@ -102,6 +104,18 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 	auto const texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
+		return nullptr;
+	}
+
+	return m_pTextures.insert(std::make_pair(file, std::unique_ptr<Texture2D>(new Texture2D{ texture, file }))).first->second.get();
+}
+
+Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std::string& file)
+{
+	const auto fullPath = m_DataPath + file;
+	auto const texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	if (texture == nullptr)
+	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
 
@@ -114,7 +128,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	{
 		try
 		{
-			return LoadTexture(file);
+			return SafeLoadTexture(file);
 
 		}
 		catch (std::runtime_error const& error)
@@ -124,6 +138,23 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	}
 
 	return m_pTextures.at(file).get();
+}
+
+bool ResourceManager::ResourceManagerImpl::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
+{
+	if (m_pTextures.find(fileName) == m_pTextures.end())
+	{
+		Texture2D* pTempText = LoadTexture(fileName);
+		if (pTempText != nullptr)
+		{
+			pTexture = pTempText; 
+			return true;
+		}
+		return false;
+	}
+
+	pTexture = m_pTextures.at(fileName).get();
+	return true;
 }
 
 Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color color, int id)
@@ -227,6 +258,11 @@ void ResourceManager::Init(const std::string& dataPath)
 Texture2D* const ResourceManager::GetTexture(const std::string& file)
 {
 	return m_pImpl->GetTexture(file);
+}
+
+bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
+{
+	return m_pImpl->TryGetTexture(fileName, pTexture);
 }
 
 Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color color, int id)

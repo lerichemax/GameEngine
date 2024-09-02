@@ -45,7 +45,7 @@ GameObject* const BaseScene::CreateGameObject()
 {
 	auto newObject = std::unique_ptr<GameObject>(new GameObject{ m_pRegistry.get()});
 	
-	newObject->AddComponent<ECS_TransformComponent>();
+	newObject->AddComponent<TransformComponent>();
 
 	m_pObjects.push_back(std::move(newObject));
 

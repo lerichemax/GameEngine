@@ -29,7 +29,7 @@ void LayeredRendererSystem::Update()
 		
 		if (renderComp->pTexture != nullptr)
 		{
-			auto* const pTransform = m_pRegistry->GetComponent<ECS_TransformComponent>(entity);
+			auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 			Renderer::GetInstance().RenderTexture(*renderComp->pTexture, *pTransform); //remove singleton ?
 		}
 
@@ -43,7 +43,7 @@ void LayeredRendererSystem::Update()
 void LayeredRendererSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
 
 	m_pRegistry->SetSystemSignature<LayeredRendererSystem>(signature);
@@ -78,7 +78,7 @@ void TextRendererSystem::Update()
 void TextRendererSystem::SetSignature()
 {
 	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ECS_TransformComponent>());
+	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
 	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
 	signature.set(m_pRegistry->GetComponentType<TextRendererComponent>());
 

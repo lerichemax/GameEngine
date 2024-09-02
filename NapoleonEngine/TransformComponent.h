@@ -9,55 +9,53 @@
 #include "System.h"
 #include "Scene.h"
 
-class TransformComponent final : public Component
-{
-public:
-	TransformComponent();
-	TransformComponent(float x, float y);
-		
-	TransformComponent(TransformComponent&& other) = delete;
-	TransformComponent& operator=(TransformComponent const& rhs);
-	TransformComponent& operator=(TransformComponent&& rhs) = delete;
-	~TransformComponent() = default;
+//class TransformComponent final : public Component
+//{
+//public:
+//	TransformComponent();
+//	TransformComponent(float x, float y);
+//		
+//	TransformComponent(TransformComponent&& other) = delete;
+//	TransformComponent& operator=(TransformComponent const& rhs);
+//	TransformComponent& operator=(TransformComponent&& rhs) = delete;
+//	~TransformComponent() = default;
+//
+//	const glm::vec2& GetLocation() const { return m_Location; }
+//	const glm::vec2& GetWorldLocation() const { return m_WorldLocation; }
+//	const glm::vec2& GetScale() const { return m_Scale; }
+//	const glm::vec2& GetWorldScale() const { return m_WorldScale; }
+//	float GetRotation() const { return m_Rotation; }
+//	float GetWorldRotation() const { return m_WorldRotation; }
+//		
+//	void Translate(float x, float y);
+//	void Translate(glm::vec2 const& pos);
+//	void Scale(float x, float y);
+//	void Scale(glm::vec2 const& scale);
+//	void Scale(float uniformScale);
+//	void Rotate(float rot);
+//
+//	void SetWorldPosition(glm::vec2 const& worldPos);
+//	void SetWorldPosition(float x, float y);
+//		
+//	glm::mat3x3 GetWorldMatrix() const { return m_World; }
+//	glm::mat3x3 GetWorldToLocalMatrix() const {return glm::inverse(m_World); }
+//	
+//private:
+//	glm::vec2 m_Location;
+//	glm::vec2 m_Scale;
+//	float m_Rotation;
+//
+//	glm::mat3x3 m_World;
+//	glm::vec2 m_WorldLocation;
+//	glm::vec2 m_WorldScale;
+//	float m_WorldRotation;
+//		
+//	void Initialize();
+//	void Update();
+//};
 
-	const glm::vec2& GetLocation() const { return m_Location; }
-	const glm::vec2& GetWorldLocation() const { return m_WorldLocation; }
-	const glm::vec2& GetScale() const { return m_Scale; }
-	const glm::vec2& GetWorldScale() const { return m_WorldScale; }
-	float GetRotation() const { return m_Rotation; }
-	float GetWorldRotation() const { return m_WorldRotation; }
-		
-	void Translate(float x, float y);
-	void Translate(glm::vec2 const& pos);
-	void Scale(float x, float y);
-	void Scale(glm::vec2 const& scale);
-	void Scale(float uniformScale);
-	void Rotate(float rot);
 
-	void SetWorldPosition(glm::vec2 const& worldPos);
-	void SetWorldPosition(float x, float y);
-		
-	glm::mat3x3 GetWorldMatrix() const { return m_World; }
-	glm::mat3x3 GetWorldToLocalMatrix() const {return glm::inverse(m_World); }
-	
-private:
-	glm::vec2 m_Location;
-	glm::vec2 m_Scale;
-	float m_Rotation;
-
-	glm::mat3x3 m_World;
-	glm::vec2 m_WorldLocation;
-	glm::vec2 m_WorldScale;
-	float m_WorldRotation;
-		
-	void Initialize();
-	void Update();
-};
-
-//WIP
-//To test
-//TODO : make loc/rot/sca world and store another local
-class ECS_TransformComponent final: public Component
+class TransformComponent final: public Component
 {
 	friend class TransformSystem;
 	friend class GameObject;
@@ -65,8 +63,8 @@ class ECS_TransformComponent final: public Component
 	friend class Scene;
 
 public:
-	ECS_TransformComponent() : Component(true) {}
-	~ECS_TransformComponent()
+	TransformComponent() : Component(true) {}
+	~TransformComponent()
 	{
 
 	}
@@ -87,7 +85,7 @@ public:
 	float GetRotation() const { return m_WorldRotation; }
 	float GetLocalRotation() const { return m_Rotation; }
 
-	void SetParent(ECS_TransformComponent* const pParent);
+	void SetParent(TransformComponent* const pParent);
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
@@ -103,7 +101,7 @@ private:
 	glm::vec2 m_WorldScale{ 1.f, 1.f };
 	float m_WorldRotation{};
 
-	ECS_TransformComponent* m_pParent;
+	TransformComponent* m_pParent;
 
 	glm::vec2 m_OldPosition{};
 	glm::vec2 m_OldScale{ 1.f, 1.f };
@@ -121,5 +119,5 @@ public:
 	void SetSignature() override;
 
 private:
-	void RecursivelyUpdateHierarchy(ECS_TransformComponent* const transformComponent) const;
+	void RecursivelyUpdateHierarchy(TransformComponent* const transformComponent) const;
 };
