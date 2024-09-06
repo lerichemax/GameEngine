@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 
+enum class EnemyType;
 struct EnemySpawnerComponent : public Component
 {
 	unsigned int MaxEnemies;
@@ -9,6 +10,8 @@ struct EnemySpawnerComponent : public Component
 	unsigned int NbrEnemies;
 
 	float EnemySpawnTimer;
+
+	EnemyType Type;
 
 	std::vector<Entity> SpawnedEnemies;
 

@@ -9,6 +9,7 @@
 
 #include "UiManagerComponent.h"
 #include "EnemySpawnerComponent.h"
+#include "AiControllerComponent.h"
 
 #include "QBert.h"
 #include "MoveCommand.h"
@@ -100,6 +101,7 @@ void SoloScene::Initialize()
 	auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 7;
+	pSpawnerComp->Type = EnemyType::SlickSam;
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 

@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "EnemySpawnerSystem.h"
 #include "PyramidSystem.h"
+#include "JumperSystem.h"
+#include "AiControllerComponent.h"
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
@@ -21,6 +23,21 @@ void EnemySpawnerSystem::Start()
 			m_pRegistry->SetEntityActive(enemyEntity, false);
 		}
 	}
+
+	m_pRegistry->GetSystem<JumperSystem>()->OnJumpedToDeath.Subscribe([this](Entity entity) {
+		if (!m_pRegistry->HasTag(entity, ENEMY_TAG)) 
+		{
+			return;
+		}
+
+		auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+
+		auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pEnemy](Entity managedEntity) {
+			return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pEnemy->Type;
+			});
+
+		m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
+	});
 }
 
 void EnemySpawnerSystem::Update()
@@ -60,6 +77,7 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
 	
 	pMoveComp->CurrentQube = qubeEntity;
+	pMoveComp->bCanMove = true;
 
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(enemyEntity);
 	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);

@@ -63,9 +63,6 @@
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawnerSystem.cpp">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClCompile>
     <ClCompile Include="SlickSamManager.cpp">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClCompile>
@@ -163,6 +160,9 @@
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="AiControllerSystem.cpp" />
+    <ClCompile Include="EnemySpawnerSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -225,9 +225,6 @@
     </ClInclude>
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawnerSystem.h">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="SlickSamManager.h">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
@@ -322,10 +319,13 @@
     <ClInclude Include="QbertComponent.h">
       <Filter>GameScripts\Components\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="AiControllerComponent.h">
-      <Filter>GameScripts\Components\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="AiControllerSystem.h" />
+    <ClInclude Include="AiControllerComponent.h">
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawnerSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

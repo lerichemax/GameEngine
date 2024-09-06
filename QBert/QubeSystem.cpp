@@ -4,6 +4,7 @@
 
 #include "QubeComponent.h"
 #include "MovementComponent.h"
+#include "QbertComponent.h"
 
 #include "QBert.h"
 #include "SlickSam.h"
@@ -53,7 +54,7 @@ void QubeSystem::Start()
 
 			pQube->bIsOccupied = true;
 
-			if (m_pRegistry->HasTag(entity, "QBert"))
+			if (m_pRegistry->HasTag(entity, QBERT_TAG))
 			{
 				HandleQBertLanding(pMoveComp->CurrentQube);
 			}

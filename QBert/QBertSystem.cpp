@@ -46,14 +46,23 @@ void QBertSystem::Start()
 
 	auto* const pMoveSystem = GetSystem<CharacterMovementSystem>();
 
-	pMoveSystem->OnMoveStarted.Subscribe([this, entity]() {
+	pMoveSystem->OnMoveStarted.Subscribe([this](Entity entity) {
+		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			return;
+		}
 		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
 		pQbert->pJumpSound->Play();
 	});
 
 	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
 
-	pJumper->OnJumpedToDeath.Subscribe([this, entity]() {
+	pJumper->OnJumpedToDeath.Subscribe([this](Entity entity) {
+		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			return;
+		}
+
 		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
 		pQbert->pFallSound->Play();
 

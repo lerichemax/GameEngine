@@ -68,7 +68,7 @@ void JumperSystem::JumpToDeath(Entity entity, glm::vec2 const& startPos, float x
 	pJump->m_Halfway = startPos;
 	pJump->m_Halfway.x += xDist;
 	pJump->m_Halfway.y -= pJump->JUMP_MAX_HEIGHT *2;
-	OnJumpedToDeath.Notify();
+	OnJumpedToDeath.Notify(entity);
 }
 
 void JumperSystem::UpdateJump(Entity entity)

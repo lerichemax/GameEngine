@@ -9,7 +9,7 @@ struct MovementComponent;
 class CharacterMovementSystem : public System
 {
 public:
-	EventHandler<CharacterMovementSystem> OnMoveStarted;
+	EventHandler<CharacterMovementSystem, Entity> OnMoveStarted;
 
 	void Move(Entity entity);
 	void MoveToCurrentQube(Entity entity);
@@ -17,7 +17,6 @@ public:
 
 	void SetSignature() override;
 	void Serialize(StreamWriter& writer) const override;
-
 
 protected:
 	void Start();
