@@ -188,19 +188,25 @@ void MainGame::CreatePrefabs() const
 	////wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
 	//wrongWayObject->GetTransform()->Scale(2.f);
 
-	////Coily prefab
-	//auto coilyPrefab = pPrefabManager.CreatePrefab("Coily");
-	//auto coilyObject = coilyPrefab->CreateGameObject();
+	//Coily prefab
+	auto pCoilyPrefab = pPrefabManager.CreatePrefab();
+	auto pCoilyObject = pCoilyPrefab->CreateGameObject();
 
-	//ECS_RendererComponent coilyRenderer;
-	//coilyRenderer.m_Layer = Layer::middleground;
-	//coilyRenderer.m_pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	auto* const pCoilyRenderer = pCoilyObject->AddComponent<RendererComponent>();
 
-	//coilyObject->AddComponent<ECS_RendererComponent>(coilyRenderer);
-	////coilyPrefab->AddComponent(new Coily{snakeFallId});
-	////coilyPrefab->AddComponent(new CoilyCharacterController{});
-	////coilyPrefab->AddComponent(new Jumper{});
-	//coilyObject->GetTransform()->Scale(1.5f);
+	pCoilyRenderer->Layer = 7;
+	pCoilyRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+
+	//coilyPrefab->AddComponent(new Coily{snakeFallId});
+	//coilyPrefab->AddComponent(new CoilyCharacterController{});
+	//coilyPrefab->AddComponent(new Jumper{});
+	pCoilyObject->AddComponent<JumpComponent>();
+	pCoilyObject->AddComponent<MovementComponent>();
+	pCoilyObject->AddComponent<AiControllerComponent>()->Type = EnemyType::Coily;
+	pCoilyObject->SetTag(ENEMY_TAG);
+	pCoilyObject->GetTransform()->Scale(1.5f);
+
+	pPrefabManager.SavePrefab(pCoilyPrefab, "Coily");
 
 
 	//SlickSam

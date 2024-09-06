@@ -78,6 +78,8 @@ void CharacterMovementSystem::Move(Entity entity)
 		pTransform->SetParent(pDiskTransform);
 
 		pMoveComp->CurrentQube = EntityManager::NULL_ENTITY;
+
+		OnJumpedOnDisk.Notify(entity);
 	}
 	else
 	{

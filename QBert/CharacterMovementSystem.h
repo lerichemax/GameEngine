@@ -10,6 +10,7 @@ class CharacterMovementSystem : public System
 {
 public:
 	EventHandler<CharacterMovementSystem, Entity> OnMoveStarted;
+	EventHandler<CharacterMovementSystem, Entity> OnJumpedOnDisk;
 
 	void Move(Entity entity);
 	void MoveToCurrentQube(Entity entity);

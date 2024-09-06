@@ -3,6 +3,7 @@
 #include "PyramidSystem.h"
 #include "JumperSystem.h"
 #include "AiControllerComponent.h"
+#include "CharacterMovementSystem.h"
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
@@ -38,6 +39,10 @@ void EnemySpawnerSystem::Start()
 
 		m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
 	});
+
+	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity entity) {
+		Reset();
+		});
 }
 
 void EnemySpawnerSystem::Update()
@@ -56,7 +61,6 @@ void EnemySpawnerSystem::Update()
 			{
 				Spawn(pSpawnerComp);
 				pSpawnerComp->EnemySpawnTimer = 0;
-				pSpawnerComp->NbrEnemies++;
 			}
 		}
 	}
@@ -86,6 +90,23 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	pTransform->Translate(pCurrentQube->CharacterPos);
 
 	m_pRegistry->SetEntityActive(enemyEntity, true);
+
+	pSpawnerComp->NbrEnemies++;
+}
+
+void EnemySpawnerSystem::Reset()
+{
+	for (Entity entity : m_Entities)
+	{
+		auto* const pSpawnerComp = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
+
+		for (Entity enemyEntity : pSpawnerComp->SpawnedEnemies)
+		{
+			m_pRegistry->SetEntityActive(enemyEntity, false);
+			pSpawnerComp->EnemySpawnTimer = 0;
+			pSpawnerComp->NbrEnemies = 0;
+		}
+	}
 }
 
 //void EnemySpawnerSystem::EnemyDied(Enemy* pEnemy)
@@ -103,21 +124,6 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 //	//}
 //	//m_NbrEnemies--;
 //}
-
-void EnemySpawnerSystem::Reset()
-{
-	//if (!m_pEnemies.empty())
-	//{
-	//	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
-	//	{
-	//		if (m_pEnemies[i] != nullptr)
-	//		{
-	//			m_pEnemies[i]->Die();
-	//		}
-	//	}
-	//}
-	//m_NbrEnemies = 0;
-}
 
 void EnemySpawnerSystem::ResetTimer()
 {

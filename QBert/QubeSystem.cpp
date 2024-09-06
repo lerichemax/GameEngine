@@ -5,6 +5,7 @@
 #include "QubeComponent.h"
 #include "MovementComponent.h"
 #include "QbertComponent.h"
+#include "AiControllerComponent.h"
 
 #include "QBert.h"
 #include "SlickSam.h"
@@ -57,6 +58,15 @@ void QubeSystem::Start()
 			if (m_pRegistry->HasTag(entity, QBERT_TAG))
 			{
 				HandleQBertLanding(pMoveComp->CurrentQube);
+			}
+
+			if (m_pRegistry->HasTag(entity, ENEMY_TAG))
+			{
+				auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+				if (pEnemy->Type == EnemyType::SlickSam && pQube->bIsFlipped)
+				{
+					UnFlip(pMoveComp->CurrentQube);
+				}
 			}
 		});
 	}
@@ -155,59 +165,6 @@ QubeSystem* const QubeSystem::GetEscheresqueConnection(ConnectionDirection dir, 
 	//	return m_pEscheresqueLeftConnections[static_cast<int>(dir)];
 	//}
 	return nullptr;
-}
-
-void QubeSystem::QBertJump(QBert* pQbert)
-{
-	//if (!m_bIsFlipped)
-	//{
-	//	pQbert->EarnPoints(POINTS_FOR_FLIP);
-	//}
-	
-	//switch (m_pScene->GetLevel())
-	//{
-	//case QBertScene::Level::Level1:
-	//	Flip();
-	//	if (m_pPyramid->AreAllQubesFlipped())
-	//	{
-	//		Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
-	//		m_pScene->ResetScene(QBertScene::Level::Level2);
-	//	}
-	//	break;
-	//case QBertScene::Level::Level2:
-	//	if (m_JumpCounter == 0)
-	//	{
-	//		IntermediateFlip();
-	//		return;
-	//	}
-	//	else if (m_JumpCounter == 1)
-	//	{
-	//		Flip();
-	//		if (m_pPyramid->AreAllQubesFlipped())
-	//		{
-	//			Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
-	//			m_pScene->ResetScene(QBertScene::Level::Level3);
-	//		}
-	//	}
-	//	break;
-	//case QBertScene::Level::Level3:
-	//	if (m_bIsFlipped)
-	//	{
-	//		UnFlip();
-	//	}
-	//	else
-	//	{
-	//		Flip();
-	//	}
-	//	
-	//	if (m_pPyramid->AreAllQubesFlipped())
-	//	{
-	//		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
-	//		m_pScene->EndGame(true);
-	//	}
-	//	break;
-	//}
-	
 }
 
 void QubeSystem::Flip(Entity qubeEntity)

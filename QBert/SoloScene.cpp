@@ -97,13 +97,13 @@ void SoloScene::Initialize()
 //	
 //	AddObject(enemyManagerObj);
 
-	auto* const pSlickSamSpawnerObj = CreateGameObject();
-	auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
-	pSpawnerComp->MaxEnemies = 2;
-	pSpawnerComp->SpawnInterval = 7;
-	pSpawnerComp->Type = EnemyType::SlickSam;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
+	//auto* const pSlickSamSpawnerObj = CreateGameObject();
+	//auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
+	//pSpawnerComp->MaxEnemies = 2;
+	//pSpawnerComp->SpawnInterval = 7;
+	//pSpawnerComp->Type = EnemyType::SlickSam;
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	AddSystem<EnemySpawnerSystem>();
 	

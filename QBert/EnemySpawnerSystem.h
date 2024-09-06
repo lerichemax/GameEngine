@@ -8,7 +8,6 @@ class EnemySpawnerSystem : public System
 public:
 	EnemySpawnerSystem() = default;
 
-	void Reset();
 	void ResetTimer();
 
 	void SetSignature() override;
@@ -22,4 +21,6 @@ protected:
 
 private:
 	PyramidSystem* m_pPyramid;
+
+	void Reset();
 };
