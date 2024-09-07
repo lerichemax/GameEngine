@@ -26,5 +26,4 @@ protected:
 	virtual ConnectionDirection ChooseDirection();
 
 	EnemyCharacterController(EnemyCharacterController const& other);
-
 };

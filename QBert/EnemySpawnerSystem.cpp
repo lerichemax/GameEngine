@@ -1,6 +1,9 @@
 #include "PCH.h"
 #include "EnemySpawnerSystem.h"
 #include "PyramidSystem.h"
+#include "JumperSystem.h"
+#include "AiControllerComponent.h"
+#include "CharacterMovementSystem.h"
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
@@ -21,6 +24,25 @@ void EnemySpawnerSystem::Start()
 			m_pRegistry->SetEntityActive(enemyEntity, false);
 		}
 	}
+
+	m_pRegistry->GetSystem<JumperSystem>()->OnJumpedToDeath.Subscribe([this](Entity entity) {
+		if (!m_pRegistry->HasTag(entity, ENEMY_TAG)) 
+		{
+			return;
+		}
+
+		auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+
+		auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pEnemy](Entity managedEntity) {
+			return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pEnemy->Type;
+			});
+
+		m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
+	});
+
+	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity entity) {
+		Reset();
+		});
 }
 
 void EnemySpawnerSystem::Update()
@@ -39,7 +61,6 @@ void EnemySpawnerSystem::Update()
 			{
 				Spawn(pSpawnerComp);
 				pSpawnerComp->EnemySpawnTimer = 0;
-				pSpawnerComp->NbrEnemies++;
 			}
 		}
 	}
@@ -60,6 +81,7 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
 	
 	pMoveComp->CurrentQube = qubeEntity;
+	pMoveComp->bCanMove = true;
 
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(enemyEntity);
 	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
@@ -68,6 +90,23 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	pTransform->Translate(pCurrentQube->CharacterPos);
 
 	m_pRegistry->SetEntityActive(enemyEntity, true);
+
+	pSpawnerComp->NbrEnemies++;
+}
+
+void EnemySpawnerSystem::Reset()
+{
+	for (Entity entity : m_Entities)
+	{
+		auto* const pSpawnerComp = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
+
+		for (Entity enemyEntity : pSpawnerComp->SpawnedEnemies)
+		{
+			m_pRegistry->SetEntityActive(enemyEntity, false);
+			pSpawnerComp->EnemySpawnTimer = 0;
+			pSpawnerComp->NbrEnemies = 0;
+		}
+	}
 }
 
 //void EnemySpawnerSystem::EnemyDied(Enemy* pEnemy)
@@ -85,21 +124,6 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 //	//}
 //	//m_NbrEnemies--;
 //}
-
-void EnemySpawnerSystem::Reset()
-{
-	//if (!m_pEnemies.empty())
-	//{
-	//	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
-	//	{
-	//		if (m_pEnemies[i] != nullptr)
-	//		{
-	//			m_pEnemies[i]->Die();
-	//		}
-	//	}
-	//}
-	//m_NbrEnemies = 0;
-}
 
 void EnemySpawnerSystem::ResetTimer()
 {

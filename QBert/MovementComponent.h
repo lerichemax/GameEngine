@@ -10,9 +10,6 @@ struct MovementComponent : public Component
 
 	Entity CurrentQube;
 
-	//TextureRendererComponent* m_pRenderer{ nullptr };
-	//Jumper* m_pJumper{ nullptr };
-
 	std::string TextureIdleDownRight;
 	std::string TextureIdleDownLeft;
 	std::string TextureIdleUpRight;

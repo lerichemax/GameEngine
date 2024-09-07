@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#define QBERT_TAG "Qbert"
+
 struct AudioComponent;
 struct QbertComponent : public Component
 {

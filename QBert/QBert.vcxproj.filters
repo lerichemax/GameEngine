@@ -9,9 +9,6 @@
     <ClCompile Include="QBertScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="DiskSystem.cpp">
-      <Filter>GameScripts\Components\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawnerSystem.cpp">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClCompile>
     <ClCompile Include="SlickSamManager.cpp">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
@@ -144,9 +138,6 @@
     <ClCompile Include="QBert.cpp">
       <Filter>GameScripts</Filter>
     </ClCompile>
-    <ClCompile Include="DiskComponent.cpp">
-      <Filter>GameScripts\Components\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySpawnerComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
@@ -163,6 +154,15 @@
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="AiControllerSystem.cpp" />
+    <ClCompile Include="EnemySpawnerSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskComponent.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -171,9 +171,6 @@
     </ClInclude>
     <ClInclude Include="QBertScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="DiskSystem.h">
-      <Filter>GameScripts\Components\Environment</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>GameScripts\Characters</Filter>
@@ -225,9 +222,6 @@
     </ClInclude>
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawnerSystem.h">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
     </ClInclude>
     <ClInclude Include="SlickSamManager.h">
       <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
@@ -307,9 +301,6 @@
     <ClInclude Include="QBert.h">
       <Filter>GameScripts</Filter>
     </ClInclude>
-    <ClInclude Include="DiskComponent.h">
-      <Filter>GameScripts\Components\Environment</Filter>
-    </ClInclude>
     <ClInclude Include="EnemySpawnerComponent.h">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClInclude>
@@ -322,10 +313,19 @@
     <ClInclude Include="QbertComponent.h">
       <Filter>GameScripts\Components\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="AiControllerComponent.h">
-      <Filter>GameScripts\Components\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="AiControllerSystem.h" />
+    <ClInclude Include="AiControllerComponent.h">
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawnerSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskSystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskComponent.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -357,9 +357,6 @@
     </Filter>
     <Filter Include="GameScripts\Systems">
       <UniqueIdentifier>{40c92dc8-2fb3-4dc1-b44c-d342f19fc9b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameScripts\Components\Environment">
-      <UniqueIdentifier>{f6a2b0ca-a904-4d57-848b-7599a588426c}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameScripts\Systems\Managers">
       <UniqueIdentifier>{ce08548e-336f-44fa-b4b3-7942baf66b4f}</UniqueIdentifier>

@@ -3,7 +3,8 @@
 #include "QubeComponent.h"
 
 MovementComponent::MovementComponent()
-	:CurrentDirection{ConnectionDirection::null}
+	:CurrentDirection{ConnectionDirection::null},
+	CurrentQube(EntityManager::NULL_ENTITY)
 {
 
 }

@@ -13,7 +13,7 @@ public:
 
 	EventHandler<JumperSystem, Entity> OnJumpLanded;
 	EventHandler<JumperSystem, Entity> OnFell;
-	EventHandler<JumperSystem> OnJumpedToDeath;
+	EventHandler<JumperSystem, Entity> OnJumpedToDeath;
 
 	virtual void Jump(Entity entity, glm::vec2 const& startPos, glm::vec2 const& targetPos);
 	void JumpToDeath(Entity entity, glm::vec2 const& startPos, float xDist);

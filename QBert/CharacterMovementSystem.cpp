@@ -33,12 +33,10 @@ void CharacterMovementSystem::Update()
 
 		if (!pMoveComp->IsActive() || !pMoveComp->bCanMove)
 		{
-			pMoveComp->CurrentDirection = ConnectionDirection::null;
 			continue;
 		}
 
 		Move(entity);
-		pMoveComp->CurrentDirection = ConnectionDirection::null;
 	}
 }
 
@@ -60,7 +58,7 @@ void CharacterMovementSystem::Move(Entity entity)
 	if (pCurrentQube->HasConnection(pMoveComp->CurrentDirection)) //does the current cube have a connection
 	{
 		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-		OnMoveStarted.Notify();
+		OnMoveStarted.Notify(entity);
 
 		pMoveComp->CurrentQube = pCurrentQube->GetConnection(pMoveComp->CurrentDirection);
 		pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
@@ -69,7 +67,7 @@ void CharacterMovementSystem::Move(Entity entity)
 	}
 	else if (pCurrentQube->ConnectionToDisk != EntityManager::NULL_ENTITY)
 	{
-		OnMoveStarted.Notify();
+		OnMoveStarted.Notify(entity);
 		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
 		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk);
 		auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(pCurrentQube->ConnectionToDisk);
@@ -80,6 +78,8 @@ void CharacterMovementSystem::Move(Entity entity)
 		pTransform->SetParent(pDiskTransform);
 
 		pMoveComp->CurrentQube = EntityManager::NULL_ENTITY;
+
+		OnJumpedOnDisk.Notify(entity);
 	}
 	else
 	{
@@ -135,9 +135,6 @@ void CharacterMovementSystem::JumpToCurrentQube(Entity entity)
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
 	MoveToCurrentQube(entity);
-
-	//temp ?
-	//m_pCurrentQube->HandleQBertLanding();
 	pMoveComp->bCanMove = true;
 }
 
@@ -164,6 +161,7 @@ void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 	//}
 
 	SetIdleTexture(entity);
+	pMoveComp->CurrentDirection = ConnectionDirection::null;
 	pMoveComp->bCanMove = true;
 }
 

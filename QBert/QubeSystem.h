@@ -39,7 +39,6 @@ public:
 	void AddEscheresqueRightConnection(ConnectionDirection dir, QubeSystem* const pConnection);
 	void AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSystem* const pConnection);
 	
-	void QBertJump(QBert* pQube);
 	void Reset(Level level, Entity entity);
 	void CharacterJumpIn(Character* pCharacter);
 	void CharacterJumpOut();
