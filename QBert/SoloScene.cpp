@@ -97,6 +97,10 @@ void SoloScene::Initialize()
 //	
 //	AddObject(enemyManagerObj);
 
+	//ENEMIES SPAWNERS
+	AddSystem<EnemySpawnerSystem>();
+	
+	// Slick Sam
 	//auto* const pSlickSamSpawnerObj = CreateGameObject();
 	//auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
 	//pSpawnerComp->MaxEnemies = 2;
@@ -105,32 +109,15 @@ void SoloScene::Initialize()
 	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
 	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
-	AddSystem<EnemySpawnerSystem>();
-	
-//	//Replay
-//	pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
-//	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
-//	//Back to main
-//	pBtnObject = m_pGameOverMenu->FindTagInChildren("BackToMainBtn");
-//	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
-//	//quit
-//	pBtnObject = m_pGameOverMenu->FindTagInChildren("QuitBtn");
-//	pBtn = pBtnObject->GetComponent<ButtonComponent>();
-//	pTextComp = pBtnObject->GetComponent<TextRendererComponent>();
-//	pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
-//	pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
-//	pBtn->SetOnClickFunction(new QuitGameCommand{  });
-//
-//	m_pGameOverMenu->SetActive(false);
-//
+	//	Coily
+	auto* const pCoilySpawnerObj = CreateGameObject();
+	auto* pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
+	pSpawnerComp->MaxEnemies = 1;
+	pSpawnerComp->SpawnInterval = 10;
+	pSpawnerComp->Type = EnemyType::Coily;
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
+
+
 //	auto const pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
 //nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSSm, m_pGameOverMenu };
 //

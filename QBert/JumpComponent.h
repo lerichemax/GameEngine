@@ -8,14 +8,14 @@ struct JumpComponent : public Component
 	const float FALL_SPEED{ 500.f };
 	const float FALL_TIME{ 1.f };
 
-	bool m_bJumpDown;
-	bool m_bIsJumping;
-	bool m_bIsFalling;
+	bool bJumpDown;
+	bool bIsJumping;
+	bool bIsFalling;
 
-	float m_FallTime;
+	float FallTime;
 
-	glm::vec2 m_TargetPos;
-	glm::vec2 m_Halfway;
+	glm::vec2 TargetPos;
+	glm::vec2 Halfway;
 
 	void Serialize(StreamWriter& writer) const override;
 };

@@ -53,10 +53,10 @@ void GameManager::Notify(GameObject* object, int event)
 			
 		//UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
 
-		if (m_pCManager !=nullptr) m_pCManager->Reset();
-		if (m_pWWManager != nullptr) m_pWWManager->Reset();
-		if (m_pSSManager != nullptr) m_pSSManager->Reset();
-			
+		//if (m_pCManager !=nullptr) m_pCManager->Reset();
+		//if (m_pWWManager != nullptr) m_pWWManager->Reset();
+		//if (m_pSSManager != nullptr) m_pSSManager->Reset();
+		//	
 		//pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
 		//pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 		//pPlayer->SetCanMove();

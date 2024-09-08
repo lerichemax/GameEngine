@@ -160,16 +160,6 @@ void CoopScene::Initialize()
 
 void CoopScene::ResetScene(Level newLevel)
 {
-	m_Level = newLevel;
-	//m_pPyramid->Reset();
-	for (EnemySpawnerSystem* pManager : m_pEnemyManagers)
-	{
-		pManager->Reset();
-	}
-	//m_pQbert->Reset(false, m_pPyramid->GetEscheresqueLeftTop());
-	//m_pQbert->GetGameObject()->SetActive(true);
-	//m_pQbertP2->Reset(false, m_pPyramid->GetEscheresqueRightTop());
-	//m_pQbertP2->GetGameObject()->SetActive(true);
 }
 
 //void CoopScene::ResetGame()

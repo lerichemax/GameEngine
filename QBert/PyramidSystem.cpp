@@ -410,15 +410,15 @@ int PyramidSystem::GetQBertIndex() const
 	//return GetQubeIndex(m_pQBert->GetCurrentQube());
 }
 
-int PyramidSystem::GetQubeIndex(QubeSystem* const pQube) const
+int PyramidSystem::GetQubeIndex(Entity qubeEntity) const
 {
-	//for (int i{}; i < static_cast<int>(m_pQubes.size()); i++)
-	//{
-	//	if (m_pQubes[i] == pQube)
-	//	{
-	//		return i;
-	//	}
-	//}
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 
-	return -1;
+	for (int i{}; i < static_cast<int>(pPyramidComp->Qubes.size()); i++)
+	{
+		if (pPyramidComp->Qubes[i] == qubeEntity)
+		{
+			return i;
+		}
+	}
 }

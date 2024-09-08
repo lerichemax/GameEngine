@@ -24,9 +24,9 @@ private:
 	friend class CoilyOnQubeState;
 	unsigned int static const MOVEMENT_QUEUE_SIZE{ 3 };
 	
-	ConnectionDirection m_MovementQueue[MOVEMENT_QUEUE_SIZE];
+	ConnectionDirection MovementQueue[MOVEMENT_QUEUE_SIZE];
 	
-	int m_CurrentlyInQueue;
+	int CurrentlyInQueue;
 	
 	Coily* m_pCoilyCharacter;
 	PyramidSystem* m_pPyramid;

@@ -174,8 +174,10 @@
     <ClCompile Include="CharacterControllerSystem.cpp" />
     <ClCompile Include="CharacterMovementSystem.cpp" />
     <ClCompile Include="CharacterState.cpp" />
+    <ClCompile Include="CoilyComponent.cpp" />
     <ClCompile Include="CoilyManager.cpp" />
     <ClCompile Include="CoilyOnQubeState.cpp" />
+    <ClCompile Include="CoilySystem.cpp" />
     <ClCompile Include="DiskComponent.cpp" />
     <ClCompile Include="EnemySpawnerComponent.cpp" />
     <ClCompile Include="EnemySpawnerSystem.cpp" />
@@ -232,8 +234,10 @@
     <ClInclude Include="CharacterControllerSystem.h" />
     <ClInclude Include="CharacterMovementSystem.h" />
     <ClInclude Include="CharacterState.h" />
+    <ClInclude Include="CoilyComponent.h" />
     <ClInclude Include="CoilyManager.h" />
     <ClInclude Include="CoilyOnQubeState.h" />
+    <ClInclude Include="CoilySystem.h" />
     <ClInclude Include="DiskComponent.h" />
     <ClInclude Include="EnemySpawnerSystem.h" />
     <ClInclude Include="EnemyOnQubeState.h" />

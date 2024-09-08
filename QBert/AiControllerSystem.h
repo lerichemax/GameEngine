@@ -3,7 +3,7 @@
 
 enum class ConnectionDirection;
 struct MovementComponent;
-class AiControllerSystem final : public System {
+class AiControllerSystem : public System {
 
 public:
 	AiControllerSystem() = default;
@@ -14,6 +14,5 @@ public:
 protected:
 	void Update() override;
 
-private:
-	void ChooseRandomDirection(MovementComponent* const pMover) const;
+	virtual void ChooseDirection(MovementComponent* const pMover) const;
 };

@@ -44,7 +44,7 @@ CharacterState* CoilyOnQubeState::Update(GameObject* pObject)
 			return nullptr;
 		}
 
-		if (m_pCharController->m_CurrentlyInQueue != 0)
+		if (m_pCharController->CurrentlyInQueue != 0)
 		{
 			auto const direction = m_pCharController->ChooseDirection();
 			//auto qube = m_pCharacter->GetCurrentQube();

@@ -190,21 +190,26 @@ void MainGame::CreatePrefabs() const
 
 	//Coily prefab
 	auto pCoilyPrefab = pPrefabManager.CreatePrefab();
-	auto pCoilyObject = pCoilyPrefab->CreateGameObject();
+	auto pCoilyObject = pCoilyPrefab->GetRoot();
 
 	auto* const pCoilyRenderer = pCoilyObject->AddComponent<RendererComponent>();
 
 	pCoilyRenderer->Layer = 7;
 	pCoilyRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 
+	auto* pMover = pCoilyObject->AddComponent<MovementComponent>();
+	pMover->SetTextureIdleNames("Textures/Enemies/Coily/Coily_Egg_Small.png", "Textures/Enemies/Coily/Coily_Egg_Small.png", "", "");
+	pMover->SetTextureJumpNames("Textures/Enemies/Coily/Coily_Egg_Big.png", "Textures/Enemies/Coily/Coily_Egg_Big.png", "", "");
+
 	//coilyPrefab->AddComponent(new Coily{snakeFallId});
 	//coilyPrefab->AddComponent(new CoilyCharacterController{});
 	//coilyPrefab->AddComponent(new Jumper{});
 	pCoilyObject->AddComponent<JumpComponent>();
-	pCoilyObject->AddComponent<MovementComponent>();
 	pCoilyObject->AddComponent<AiControllerComponent>()->Type = EnemyType::Coily;
 	pCoilyObject->SetTag(ENEMY_TAG);
 	pCoilyObject->GetTransform()->Scale(1.5f);
+
+	pCoilyPrefab->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pCoilyPrefab, "Coily");
 
@@ -218,12 +223,11 @@ void MainGame::CreatePrefabs() const
 	pSlickRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
 	//slickSamObject->AddComponent(new SlickSam{});
 	//slickSamObject->AddComponent(new EnemyCharacterController{});
-	auto* const pMover = pSlickObject->AddComponent<MovementComponent>();
+	pMover = pSlickObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Slick_Down_Right.png", "Textures/Enemies/SlickSam/Slick_Down_Left.png","", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left","", "");
 
 	pSlickObject->AddComponent<JumpComponent>();
-	pSlickObject->AddComponent<MovementComponent>();
 	pSlickObject->AddComponent<AiControllerComponent>()->Type = EnemyType::SlickSam;
 	pSlickObject->GetTransform()->Scale(1.5f);
 	pSlickObject->SetTag(ENEMY_TAG);
@@ -239,6 +243,8 @@ void MainGame::CreatePrefabs() const
 	pSamRenderer->Layer = 7;
 	pSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
 	pSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Right.png");
+
+	pMover = pSamObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Sam_Down_Right.png", "Textures/Enemies/SlickSam/Sam_Down_Left.png", "", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Sam_Up_Right.png", "Textures/Enemies/SlickSam/Sam_Up_Left", "", "");
 

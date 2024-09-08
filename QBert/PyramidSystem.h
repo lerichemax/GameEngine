@@ -26,7 +26,7 @@ public:
 	//QubeSystem* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
 	//QubeSystem* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
 	//QubeSystem* GetQube(int index) const { return m_pQubes[index]; }
-	int GetQubeIndex(QubeSystem* const pQube) const;
+	int GetQubeIndex(Entity qubeEntity) const;
 	//int GetNbrDisks()const { return NbrDisksSpawned; }
 	//std::vector<QubeSystem*> const& GetQubes() const { return m_pQubes; }
 	

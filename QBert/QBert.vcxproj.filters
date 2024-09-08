@@ -153,7 +153,6 @@
     <ClCompile Include="AiControllerComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="AiControllerSystem.cpp" />
     <ClCompile Include="EnemySpawnerSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
@@ -162,6 +161,15 @@
     </ClCompile>
     <ClCompile Include="DiskComponent.cpp">
       <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyComponent.cpp">
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="AiControllerSystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilySystem.cpp">
+      <Filter>GameScripts\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,7 +321,6 @@
     <ClInclude Include="QbertComponent.h">
       <Filter>GameScripts\Components\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="AiControllerSystem.h" />
     <ClInclude Include="AiControllerComponent.h">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClInclude>
@@ -325,6 +332,15 @@
     </ClInclude>
     <ClInclude Include="DiskComponent.h">
       <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyComponent.h">
+      <Filter>GameScripts\Components\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilySystem.h">
+      <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AiControllerSystem.h">
+      <Filter>GameScripts\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

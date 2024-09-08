@@ -11,8 +11,8 @@
 
 CoilyCharacterController::CoilyCharacterController()
 	: EnemyCharacterController(),
-	m_MovementQueue{},
-	m_CurrentlyInQueue(0),
+	MovementQueue{},
+	CurrentlyInQueue(0),
 	m_pCoilyCharacter(nullptr),
 	m_pPyramid(nullptr),
 	m_bIsIdle(false)
@@ -22,15 +22,15 @@ CoilyCharacterController::CoilyCharacterController()
 
 CoilyCharacterController::CoilyCharacterController(CoilyCharacterController const& other)
 	:EnemyCharacterController(other),
-	m_MovementQueue{},
-	m_CurrentlyInQueue(other.m_CurrentlyInQueue),
+	MovementQueue{},
+	CurrentlyInQueue(other.CurrentlyInQueue),
 	m_pCoilyCharacter(other.m_pCoilyCharacter),
 	m_pPyramid(other.m_pPyramid),
 	m_bIsIdle(other.m_bIsIdle)
 {
 	for (unsigned int i{}; i< MOVEMENT_QUEUE_SIZE; i++)
 	{
-		m_MovementQueue[i] = other.m_MovementQueue[i];
+		MovementQueue[i] = other.MovementQueue[i];
 	}
 }
 
@@ -79,8 +79,8 @@ ConnectionDirection CoilyCharacterController::ChooseDirection()
 	}
 
 	
-	auto const dirToReturn = m_MovementQueue[MOVEMENT_QUEUE_SIZE - m_CurrentlyInQueue];
-	m_CurrentlyInQueue--;
+	auto const dirToReturn = MovementQueue[MOVEMENT_QUEUE_SIZE - CurrentlyInQueue];
+	CurrentlyInQueue--;
 	
 
 	return  dirToReturn;

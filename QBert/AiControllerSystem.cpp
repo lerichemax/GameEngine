@@ -43,13 +43,13 @@ void AiControllerSystem::Update()
 		}
 		else 
 		{
-			ChooseRandomDirection(pMoveComp);
+			ChooseDirection(pMoveComp);
 			pAiControllerComp->MoveTimer = 0;
 		}
 	}
 }
 
-void AiControllerSystem::ChooseRandomDirection(MovementComponent* const pMover) const
+void AiControllerSystem::ChooseDirection(MovementComponent* const pMover) const
 {
 	int random = rand() % 2 + 1; //down left or down right
 

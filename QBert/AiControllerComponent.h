@@ -7,7 +7,8 @@ enum class EnemyType
 {
 	SlickSam,
 	Coily,
-	WrongWay
+	WrongWay, 
+	MAX
 };
 
 
@@ -23,4 +24,5 @@ struct AiControllerComponent : public Component
 
 
 	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 };
