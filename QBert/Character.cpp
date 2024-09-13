@@ -15,7 +15,7 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 
-Character::Character(QubeSystem* const pStart, CharacterType type)
+Characters::Characters(QubeSystem* const pStart, CharacterType type)
 	: m_pCurrentQube(pStart),
 	m_pJumper(nullptr),
 	m_pState(nullptr),
@@ -27,7 +27,7 @@ Character::Character(QubeSystem* const pStart, CharacterType type)
 {
 }
 
-Character::Character(Character const& other)
+Characters::Characters(Characters const& other)
 	:m_pCurrentQube(other.m_pCurrentQube),
 	m_Type(other.m_Type),
 	m_pJumper(nullptr),
@@ -39,25 +39,25 @@ Character::Character(Character const& other)
 }
 
 
-Character::~Character()
+Characters::~Characters()
 {
 	SAFE_DELETE(m_pState);
 }
 
-void Character::Start()
+void Characters::Start()
 {
 	//m_pJumper = m_pGameObject->GetComponent<Jumper>();
 	SwitchState(CharacterStateType::onQube);
 	MoveToCurrentQube();
 }
 
-void Character::Update()
+void Characters::Update()
 {
 	//auto newState = m_pState->Update(m_pGameObject);
 	//SwitchState(newState);
 }
 
-void Character::SetCurrentQube(QubeSystem* const pTargetQube)
+void Characters::SetCurrentQube(QubeSystem* const pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{
@@ -68,7 +68,7 @@ void Character::SetCurrentQube(QubeSystem* const pTargetQube)
 	MoveToCurrentQube();
 }
 
-void Character::MoveToCurrentQube()
+void Characters::MoveToCurrentQube()
 {
 	if (m_pCurrentQube == nullptr)
 	{
@@ -87,7 +87,7 @@ void Character::MoveToCurrentQube()
 	//}
 }
 
-void Character::JumpToQube(QubeSystem* const pTargetQube)
+void Characters::JumpToQube(QubeSystem* const pTargetQube)
 {
 	if (pTargetQube == nullptr)
 	{
@@ -98,17 +98,17 @@ void Character::JumpToQube(QubeSystem* const pTargetQube)
 	//m_pJumper->Jump(GetGameObject()->GetTransform()->GetLocation(), m_pCurrentQube->GetCharacterPos());
 }
 
-void Character::SwitchToIdleTex() const
+void Characters::SwitchToIdleTex() const
 {
 	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pIdleText);
 }
 
-void Character::SwitchToJumpTex() const
+void Characters::SwitchToJumpTex() const
 {
 	//m_pGameObject->GetComponent<RendererComponent>()->SetTexture(m_pJumpText);
 }
 
-void Character::JumpToDeath(ConnectionDirection dir)
+void Characters::JumpToDeath(ConnectionDirection dir)
 {
 	float dist{};
 	if (dir == ConnectionDirection::downLeft || dir == ConnectionDirection::upLeft)
@@ -126,17 +126,17 @@ void Character::JumpToDeath(ConnectionDirection dir)
 	//m_pJumper->JumpToDeath(GetGameObject()->GetTransform()->GetLocation(), dist);
 }
 
-void Character::Move(ConnectionDirection direction)
+void Characters::Move(ConnectionDirection direction)
 {
 	DoMove(direction);
 }
 
-void Character::Die()
+void Characters::Die()
 {
 	DoDie();
 }
 
-void Character::SetLayerToBackGround()
+void Characters::SetLayerToBackGround()
 {
 	//if (!m_pCurrentQube->IsLastRow())
 	//{
@@ -144,7 +144,7 @@ void Character::SetLayerToBackGround()
 	//}
 }
 
-void Character::SwitchState(CharacterState* pState)
+void Characters::SwitchState(CharacterState* pState)
 {
 	if (pState != nullptr)
 	{
@@ -158,7 +158,7 @@ void Character::SwitchState(CharacterState* pState)
 	}
 }
 
-void Character::SwitchState(CharacterStateType type)
+void Characters::SwitchState(CharacterStateType type)
 {
 	if (m_pState != nullptr && m_pState->GetType() == type)
 	{

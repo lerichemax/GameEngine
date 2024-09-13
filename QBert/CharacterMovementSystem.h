@@ -11,10 +11,10 @@ class CharacterMovementSystem : public System
 public:
 	EventHandler<CharacterMovementSystem, Entity> OnMoveStarted;
 	EventHandler<CharacterMovementSystem, Entity> OnJumpedOnDisk;
+	EventHandler<CharacterMovementSystem, Entity, std::unordered_set<Entity> const&> OnMeetCharacter;
 
 	void Move(Entity entity);
 	void MoveToCurrentQube(Entity entity);
-	//Qube* const GetCurrentQube() const;
 
 	void SetSignature() override;
 	void Serialize(StreamWriter& writer) const override;
@@ -24,7 +24,6 @@ protected:
 	void Update() override;
 
 private:
-	void JumpToCurrentQube(Entity entity);
 	void SetIdleTexture(Entity entity);
 	void SetJumpTexture(Entity entity);
 

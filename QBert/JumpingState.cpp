@@ -8,7 +8,7 @@
 
 #include "GameObject.h"
 
-JumpingState::JumpingState(Character* pChar, Jumper* pJumper)
+JumpingState::JumpingState(Characters* pChar, Jumper* pJumper)
 	:CharacterState(pChar, pJumper, CharacterStateType::jumping)
 {
 	

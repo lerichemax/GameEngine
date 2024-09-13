@@ -2,12 +2,15 @@
 #include "EnemySpawnerSystem.h"
 #include "PyramidSystem.h"
 #include "JumperSystem.h"
-#include "AiControllerComponent.h"
 #include "CharacterMovementSystem.h"
+#include "LivesSystem.h"
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
 #include "QubeComponent.h"
+#include "CharacterLives.h"
+#include "AiControllerComponent.h"
+#include "QbertComponent.h"
 
 #include "Timer.h"
 
@@ -25,24 +28,46 @@ void EnemySpawnerSystem::Start()
 		}
 	}
 
-	m_pRegistry->GetSystem<JumperSystem>()->OnJumpedToDeath.Subscribe([this](Entity entity) {
+	m_pRegistry->GetSystem<JumperSystem>()->OnFell.Subscribe([this](Entity entity) {
 		if (!m_pRegistry->HasTag(entity, ENEMY_TAG)) 
 		{
 			return;
 		}
 
-		auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
-
-		auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pEnemy](Entity managedEntity) {
-			return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pEnemy->Type;
-			});
-
-		m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
+		m_pRegistry->GetComponent<CharacterLives>(entity)->Die();
 	});
 
 	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity entity) {
 		Reset();
-		});
+	});
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			for (Entity entity : m_Entities)
+			{
+				auto* const pSpawner = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
+
+				for (Entity enemyEntity : pSpawner->SpawnedEnemies)
+				{
+					m_pRegistry->SetEntityActive(enemyEntity, false);
+				}
+				pSpawner->NbrEnemies = 0;
+				pSpawner->EnemySpawnTimer = 0;
+			}
+		}
+		else 
+		{
+			auto* const pAiController = m_pRegistry->GetComponent<AiControllerComponent>(deadEntity);
+			auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pAiController](Entity managedEntity) {
+				return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pAiController->Type;
+				});
+
+			m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
+			m_pRegistry->SetEntityActive(deadEntity, false);
+
+		}
+	});
 }
 
 void EnemySpawnerSystem::Update()
@@ -70,14 +95,14 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 {
 	Entity qubeEntity = m_pPyramid->GetRandomTopQube();
 
-	if (qubeEntity == EntityManager::NULL_ENTITY)
+	if (qubeEntity == NULL_ENTITY)
 	{
 		return;
 	}
 
 	Entity enemyEntity = pSpawnerComp->SpawnedEnemies[pSpawnerComp->NbrEnemies];
-	m_pRegistry->SetEntityActive(enemyEntity, true);
 
+	m_pRegistry->GetComponent<CharacterLives>(enemyEntity)->Reset();
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
 	
 	pMoveComp->CurrentQube = qubeEntity;
@@ -85,11 +110,12 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(enemyEntity);
 	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
-	pCurrentQube->bIsOccupied = true;
+	pCurrentQube->Characters.insert(enemyEntity);
 
 	pTransform->Translate(pCurrentQube->CharacterPos);
 
 	m_pRegistry->SetEntityActive(enemyEntity, true);
+	OnEnemySpawned.Notify(enemyEntity);
 
 	pSpawnerComp->NbrEnemies++;
 }

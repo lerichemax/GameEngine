@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "SlickSamManager.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "SlickSam.h"
 #include "TransformComponent.h"
 

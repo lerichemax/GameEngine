@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "CoilyManager.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "Coily.h"
 #include "CoilyCharacterController.h"
 

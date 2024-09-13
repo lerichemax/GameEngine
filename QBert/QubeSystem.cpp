@@ -1,21 +1,22 @@
 #include "PCH.h"
 #include "QubeSystem.h"
 #include "JumperSystem.h"
+#include "LivesSystem.h"
+#include "GameManagerSystem.h"
 
 #include "QubeComponent.h"
 #include "MovementComponent.h"
 #include "QbertComponent.h"
 #include "AiControllerComponent.h"
+#include "RendererComponent.h"
 
-#include "QBert.h"
-#include "SlickSam.h"
 #include "Texture2D.h"
 
-#include "RendererComponent.h"
+
 #include "GameObject.h"
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
-#include "GameManager.h"
+
 
 #include "Coordinator.h"
 
@@ -44,41 +45,37 @@ void QubeSystem::Initialize()
 
 void QubeSystem::Start()
 {
-	auto* const pJumpSystem = GetSystem<JumperSystem>();
+	m_pRegistry->GetSystem<JumperSystem>()->OnJumpLanded.Subscribe([this](Entity entity) {
 
-	if (pJumpSystem != nullptr)
-	{
-		pJumpSystem->OnJumpLanded.Subscribe([this](Entity entity) {
-			
-			auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
-			auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
+		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
-			pQube->bIsOccupied = true;
+		pQube->Characters.insert(entity);
 
-			if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			HandleQBertLanding(pMoveComp->CurrentQube);
+		}
+
+		if (m_pRegistry->HasTag(entity, ENEMY_TAG))
+		{
+			auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+			if (pEnemy->Type == EnemyType::SlickSam && pQube->bIsFlipped)
 			{
-				HandleQBertLanding(pMoveComp->CurrentQube);
+				UnFlip(pMoveComp->CurrentQube);
 			}
+		}
+	});
 
-			if (m_pRegistry->HasTag(entity, ENEMY_TAG))
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			for (Entity entity : m_Entities)
 			{
-				auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
-				if (pEnemy->Type == EnemyType::SlickSam && pQube->bIsFlipped)
-				{
-					UnFlip(pMoveComp->CurrentQube);
-				}
+				m_pRegistry->GetComponent<QubeComponent>(entity)->Characters.clear();
 			}
-		});
-	}
-}
-
-void QubeSystem::Update()
-{
-	/*if (m_pDiskConnection != nullptr && m_pDiskConnection->HasQBert())
-	{
-		m_pDiskConnection = nullptr;
-		m_pPyramid->DiskUsed();
-	}*/
+		}
+	});
 }
 
 void QubeSystem::HandleQBertLanding(Entity qubeEntity)
@@ -220,7 +217,7 @@ DiskSystem* QubeSystem::GetConnectedDisk() const
 	return nullptr;
 }
 
-void QubeSystem::CharacterJumpIn(Character* pCharacter)
+void QubeSystem::CharacterJumpIn(Characters* pCharacter)
 {
 	//m_pCharacter = pCharacter;
 	//if (typeid(*pCharacter) == typeid(SlickSam) && (m_bIsFlipped || m_JumpCounter > 0))

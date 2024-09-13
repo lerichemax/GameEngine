@@ -4,7 +4,7 @@
 class FallingState final : public CharacterState
 {
 public:
-	explicit FallingState(Character* pChar, Jumper* pJumper);
+	explicit FallingState(Characters* pChar, Jumper* pJumper);
 	~FallingState() = default;
 
 	CharacterState* Update(GameObject* pObject) override;

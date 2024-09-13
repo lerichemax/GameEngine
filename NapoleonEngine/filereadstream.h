@@ -33,7 +33,7 @@ RAPIDJSON_NAMESPACE_BEGIN
 */
 class FileReadStream {
 public:
-    typedef char Ch;    //!< Character type (byte).
+    typedef char Ch;    //!< Characters type (byte).
 
     //! Constructor.
     /*!

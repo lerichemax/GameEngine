@@ -68,7 +68,7 @@ public:
 #endif
 
     //! Set custom indentation.
-    /*! \param indentChar       Character for indentation. Must be whitespace character (' ', '\\t', '\\n', '\\r').
+    /*! \param indentChar       Characters for indentation. Must be whitespace character (' ', '\\t', '\\n', '\\r').
         \param indentCharCount  Number of indent characters for each indentation level.
         \note The default indentation is 4 spaces.
     */

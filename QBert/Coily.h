@@ -25,7 +25,7 @@ protected:
 	void MoveToCurrentQube() override;
 	void DoDie() override;
 	void DoMove(ConnectionDirection direction) override;
-	void MeetCharacter(Character* pOther) override;
+	void MeetCharacter(Characters* pOther) override;
 
 private:
 	bool m_bIsTransformed;

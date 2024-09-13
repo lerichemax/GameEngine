@@ -1,26 +1,16 @@
 #include "PCH.h"
-#include "GameManager.h"
-
+#include "GameManagerSystem.h"
 #include "QBertSystem.h"
-#include "Coily.h"
-#include "SlickSam.h"
-#include "WrongWay.h"
-#include "CharacterPoint.h"
-#include "CharacterLives.h"
-#include "InputManager.h"
-
-#include "PauseGameCommand.h"
+#include "PyramidSystem.h"
+#include "LivesSystem.h"
 
 #include "TextRendererComponent.h"
 #include "RendererComponent.h"
+#include "CharacterPoint.h"
+#include "CharacterLives.h"
+
 #include "Timer.h"
-
-
-
-#include "CoilyManager.h"
-#include "PyramidSystem.h"
-#include "WrongWayManager.h"
-#include "SlickSamManager.h"
+#include "InputManager.h"
 
 #include <algorithm>
 
@@ -86,13 +76,13 @@ void GameManager::Notify(GameObject* object, int event)
 		}
 		break;
 	}
-	case GameEvent::JumpOnDisk:
-		if (m_pCManager != nullptr) m_pCManager->SetIdle(true);
-		
-		break;
-	case GameEvent::JumpOffDisk:
-		if (m_pCManager != nullptr) m_pCManager->SetIdle(false);
-		break;
+	//case GameEvent::JumpOnDisk:
+	//	if (m_pCManager != nullptr) m_pCManager->SetIdle(true);
+	//	
+	//	break;
+	//case GameEvent::JumpOffDisk:
+	//	if (m_pCManager != nullptr) m_pCManager->SetIdle(false);
+	//	break;
 	//case GameEvent::CoilyDies:
 	//	if (m_pCManager != nullptr) m_pCManager->EnemyDied(object->GetComponent<Coily>());
 	//	break;
@@ -154,13 +144,9 @@ void GameManagerSystem::Start()
 			});
 	}
 
-	auto* const pLives = FindComponentOfType<CharacterLives>();
-	if (IS_VALID(pLives))
-	{
-		pLives->OnGameOver.Subscribe([this]() {
-			Timer::GetInstance().SetTimeScale(0);
-			});
-	}
+	m_pRegistry->GetSystem<LivesSystem>()->OnGameOver.Subscribe([this]() {
+		Timer::GetInstance().SetTimeScale(0);
+	});
 
 	//InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
 	//new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });

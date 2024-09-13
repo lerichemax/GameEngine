@@ -18,9 +18,9 @@ struct AiControllerComponent : public Component
 	float const MOVE_INTERVAL{ 0.5f };
 	float MoveTimer;
 
-	EnemyType Type;
+	int PointsForKill;
 
-	Command* pAiCommand;
+	EnemyType Type;
 
 
 	void Serialize(StreamWriter& writer) const override;

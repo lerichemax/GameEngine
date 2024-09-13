@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "SlickSam.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "QBert.h"
 
 #include "GameObject.h"
@@ -59,7 +59,7 @@ void SlickSam::DoDie()
 	//GetGameObject()->Notify(static_cast<int>(GameEvent::SlickSamDies));
 }
 
-void SlickSam::MeetCharacter(Character* pOther)
+void SlickSam::MeetCharacter(Characters* pOther)
 {
 	if (pOther->GetType() == CharacterType::player)
 	{

@@ -24,6 +24,7 @@ struct QubeComponent : public Component
 	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
 
 	Entity ConnectionToDisk;
+	std::unordered_set<Entity> Characters;
 
 	Texture2D* const pDefaultText;
 	Texture2D* const pIntermediateTexture;
@@ -38,7 +39,6 @@ struct QubeComponent : public Component
 	bool bIsFlipped{};
 	bool bIsLastRow{};
 	bool bIsSideColumn{};
-	bool bIsOccupied{};
 
 	unsigned int JumpCounter{};
 

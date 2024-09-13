@@ -25,6 +25,12 @@ void AiControllerSystem::Update()
 	for (Entity entity : m_Entities)
 	{
 		auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+
+		if (pAiControllerComp->Type == EnemyType::Coily) // clumsy
+		{
+			continue;
+		}
+
 		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
 		if (!pAiControllerComp->IsActive())
@@ -32,20 +38,25 @@ void AiControllerSystem::Update()
 			continue;
 		}
 
-		if (!pMoveComp->bCanMove)
-		{
-			continue;
-		}
+		HandleAi(pMoveComp, pAiControllerComp);
+	}
+}
 
-		if (pAiControllerComp->MoveTimer < pAiControllerComp->MOVE_INTERVAL)
-		{
-			pAiControllerComp->MoveTimer += Timer::GetInstance().GetDeltaTime();
-		}
-		else 
-		{
-			ChooseDirection(pMoveComp);
-			pAiControllerComp->MoveTimer = 0;
-		}
+void AiControllerSystem::HandleAi(MovementComponent* const pMovement, AiControllerComponent* const pController)
+{
+	if (!pMovement->bCanMove)
+	{
+		return;
+	}
+
+	if (pController->MoveTimer < pController->MOVE_INTERVAL)
+	{
+		pController->MoveTimer += Timer::GetInstance().GetDeltaTime();
+	}
+	else
+	{
+		ChooseDirection(pMovement);
+		pController->MoveTimer = 0;
 	}
 }
 
@@ -60,8 +71,9 @@ void AiControllerSystem::ChooseDirection(MovementComponent* const pMover) const
 	if (!IS_VALID(pQube))
 	{
 		pMover->CurrentDirection = ConnectionDirection::null;
+		return;
 	}
-
+	
 	if (!pQube->HasConnection(dir))
 	{
 		if (dir == ConnectionDirection::downLeft)

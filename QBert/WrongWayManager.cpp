@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "WrongWayManager.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "WrongWay.h"
 
 #include "ObserverManager.h"

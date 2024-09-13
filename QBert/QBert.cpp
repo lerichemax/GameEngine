@@ -16,13 +16,13 @@
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 #include "BoxCollider.h"
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "OnQubeState.h"
 #include "VersusGameManager.h"
 #include "AudioComponent.h"
 
 QBert::QBert()
-	:Character(nullptr, CharacterType::player),
+	:Characters(nullptr, CharacterType::player),
 	m_pPoints(nullptr),
 	m_pLives(nullptr),
 	m_pHurtTex{ nullptr },
@@ -54,7 +54,7 @@ void QBert::Initialize()
 	//m_pHurtTex = GetGameObject()->GetComponentInChildren<RendererComponent>();
 	m_pHurtTex->SetActive(false);
 
-	//Character::Initialize();
+	//Characters::Initialize();
 }
 
 void QBert::Start()
@@ -99,7 +99,7 @@ void QBert::Update()
 			m_bWillSleep = false;
 		}
 	}
-	Character::Update();
+	Characters::Update();
 }
 void QBert::DoDie()
 {
@@ -143,7 +143,7 @@ void QBert::Serialize(StreamWriter& writer) const
 	writer.WriteInt("fallId", m_pFallSound->GetId());
 	writer.WriteInt("swearId", m_pSwearSound->GetId());
 
-	//Character::Serialize(writer);
+	//Characters::Serialize(writer);
 }
 
 void QBert::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -229,7 +229,7 @@ void QBert::Reset(bool fullReset, QubeSystem* const pTargetQube)
 	//GetGameObject()->Notify(static_cast<int>(GameEvent::IncreasePoints));
 }
 
-void QBert::MeetCharacter(Character* pOther) 
+void QBert::MeetCharacter(Characters* pOther) 
 {
 	if (pOther->GetType() == CharacterType::coily && static_cast<Coily*>(pOther)->IsTransformed() || 
 		pOther->GetType() == CharacterType::wrongWay)

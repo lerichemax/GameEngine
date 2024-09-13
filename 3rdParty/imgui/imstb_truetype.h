@@ -112,7 +112,7 @@
 //           stbtt_MakeCodepointBitmap()          -- renders into bitmap you provide
 //           stbtt_GetCodepointBitmapBox()        -- how big the bitmap must be
 //
-//   Character advance/positioning
+//   Characters advance/positioning
 //           stbtt_GetCodepointHMetrics()
 //           stbtt_GetFontVMetrics()
 //           stbtt_GetFontVMetricsOS2()

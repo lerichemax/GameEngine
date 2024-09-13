@@ -6,35 +6,28 @@
 #include "QubeSystem.h"
 #include "DiskSystem.h"
 #include "EnemySpawnerSystem.h"
+#include "UIManagerSystem.h"
+#include "GameManagerSystem.h"
 
 #include "UiManagerComponent.h"
 #include "EnemySpawnerComponent.h"
 #include "AiControllerComponent.h"
-
-#include "QBert.h"
-#include "MoveCommand.h"
-
-#include "PauseGameCommand.h"
-#include "GameManager.h"
-#include "SlickSamManager.h"
-#include "WrongWayManager.h"
-#include "CoilyManager.h"
-#include "ResourceManager.h"
-#include "InputManager.h"
 #include "CameraComponent.h"
-#include "ObserverManager.h"
-#include "PrefabsManager.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
 #include "CharacterLives.h"
-#include "UiSystem.h"
-#include "UIManager.h"
 
-#include "JsonReaderWriter.h"
+#include "PauseGameCommand.h"
 #include "QuitGameCommand.h"
 #include "ReloadSceneCommand.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
+
+#include "ResourceManager.h"
+#include "InputManager.h"
+#include "ObserverManager.h"
+#include "PrefabsManager.h"
+#include "JsonReaderWriter.h"
 #include "Timer.h"
 
 #include "../3rdParty/imgui/imgui.h"
@@ -73,7 +66,7 @@ void SoloScene::Initialize()
 	//Qbert
 	auto* const pQbertObj = Instantiate("QBert");
 
-	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pRegistry->GetComponent<CharacterLives>(pQbertObj->GetEntity())->GetNbrLives()));
+	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pRegistry->GetComponent<CharacterLives>(pQbertObj->GetEntity())->NbrLives));
 	
 	//game manager
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
@@ -101,17 +94,17 @@ void SoloScene::Initialize()
 	AddSystem<EnemySpawnerSystem>();
 	
 	// Slick Sam
-	//auto* const pSlickSamSpawnerObj = CreateGameObject();
-	//auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
-	//pSpawnerComp->MaxEnemies = 2;
-	//pSpawnerComp->SpawnInterval = 7;
-	//pSpawnerComp->Type = EnemyType::SlickSam;
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
+	auto* const pSlickSamSpawnerObj = CreateGameObject();
+	auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
+	pSpawnerComp->MaxEnemies = 2;
+	pSpawnerComp->SpawnInterval = 7;
+	pSpawnerComp->Type = EnemyType::SlickSam;
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	//	Coily
 	auto* const pCoilySpawnerObj = CreateGameObject();
-	auto* pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
+	pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 1;
 	pSpawnerComp->SpawnInterval = 10;
 	pSpawnerComp->Type = EnemyType::Coily;

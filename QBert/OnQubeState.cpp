@@ -5,7 +5,7 @@
 
 #include "GameObject.h"
 
-OnQubeState::OnQubeState(Character* pChar, Jumper* pJumper)
+OnQubeState::OnQubeState(Characters* pChar, Jumper* pJumper)
 	:CharacterState(pChar, pJumper, CharacterStateType::onQube)
 {
 }

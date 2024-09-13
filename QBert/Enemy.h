@@ -1,7 +1,7 @@
 #pragma once
 #include "Character.h"
 
-class Enemy : public Character
+class Enemy : public Characters
 {
 public:
 	explicit Enemy(int pointsForKill, CharacterType type);
@@ -20,7 +20,7 @@ protected:
 	unsigned int const POINTS_FOR_KILL;
 
 	
-	void MeetCharacter(Character* ) override {}
+	void MeetCharacter(Characters* ) override {}
 	void SetDirectionTextures(ConnectionDirection) override {}
 	void DoMove(ConnectionDirection direction) override;
 	void DoDie() override;

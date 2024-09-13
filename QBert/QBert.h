@@ -6,7 +6,7 @@ struct AudioComponent;
 struct CharacterLives;
 class CharacterPoint;
 struct RendererComponent;
-class QBert final : public Character
+class QBert final : public Characters
 {
 public:
 	QBert();
@@ -33,7 +33,7 @@ protected:
 	void Start() ;
 	void Update() ;
 
-	void MeetCharacter(Character* pOther) override;
+	void MeetCharacter(Characters* pOther) override;
 	void LandOnQube() override;
 	void DoDie() override;
 	void DoMove(ConnectionDirection direction) override;

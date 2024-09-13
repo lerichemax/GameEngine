@@ -2,21 +2,22 @@
 #include "PyramidSystem.h"
 #include "QubeSystem.h"
 #include "DiskSystem.h"
+#include "LivesSystem.h"
+#include "GameManagerSystem.h"
 
 #include "PyramidComponent.h"
 #include "QubeComponent.h"
 #include "DiskComponent.h"
 #include "MovementComponent.h"
-
-#include "GameObject.h"
+#include "CharacterLives.h"
 #include "TransformComponent.h"
 #include "RendererComponent.h"
-#include "ObserverManager.h"
-#include "Timer.h"
-#include "PrefabsManager.h"
-#include "GameManager.h"
+#include "QbertComponent.h"
 
-#include "QBert.h"
+#include "GameObject.h"
+
+#include "PrefabsManager.h"
+#include "Timer.h"
 #include "Texture2D.h"
 
 #include <list>
@@ -80,15 +81,24 @@ void PyramidSystem::Initialize()
 
 void PyramidSystem::Start()
 {
-	m_pDiskSystem = GetSystem<DiskSystem>();
+	m_pDiskSystem = m_pRegistry->GetSystem<DiskSystem>();
 
 	QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
 		CheckAllQubesFlipped();
 		});
 
-	GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
+	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
 		m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin())->NbrDisksSpawned--;
 		});
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
+		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+			pPyramid->DiskSpawnTimer = 0;
+			pPyramid->NbrDisksSpawned = 0;
+		}
+	});
 }
 
 PyramidSystem::~PyramidSystem()
@@ -114,7 +124,7 @@ Entity PyramidSystem::GetRandomTopQube() const
 
 	auto* pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
 
-	if (pQube->bIsOccupied)
+	if (!pQube->Characters.empty())
 	{
 		if (random % 2 == 0)
 		{
@@ -126,9 +136,9 @@ Entity PyramidSystem::GetRandomTopQube() const
 		}
 		pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
 
-		if (pQube->bIsOccupied)
+		if (!pQube->Characters.empty())
 		{
-			return EntityManager::NULL_ENTITY;
+			return NULL_ENTITY;
 		}
 	}
 
@@ -290,7 +300,7 @@ unsigned int PyramidSystem::FindOutsideQubeIndex(PyramidComponent* const pPyrami
 	{
 		randomIndex = rand() % pPyramid->Qubes.size();
 	} while (!IsOutsideOfPyramid(pPyramid->Qubes[randomIndex], pPyramid) 
-		|| m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[randomIndex])->ConnectionToDisk != EntityManager::NULL_ENTITY);
+		|| m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[randomIndex])->ConnectionToDisk != NULL_ENTITY);
 	
 	return randomIndex;
 }
@@ -299,95 +309,94 @@ bool PyramidSystem::IsOutsideOfPyramid(Entity qubeEntity, PyramidComponent* cons
 {
 	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
 
-	return ((pQube->GetConnection(ConnectionDirection::upLeft) == EntityManager::NULL_ENTITY || pQube->GetConnection(ConnectionDirection::upRight) == EntityManager::NULL_ENTITY)
+	return ((pQube->GetConnection(ConnectionDirection::upLeft) == NULL_ENTITY || pQube->GetConnection(ConnectionDirection::upRight) == NULL_ENTITY)
 		&& qubeEntity != pPyramid->Qubes.front());
 }
 
-bool PyramidSystem::FindNextQubeToQbert(QubeSystem* const pStartingQube, ConnectionDirection* directions, unsigned int size) const
+bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, ConnectionDirection* directionsArray, size_t arraySize) const
 {
-	return true;
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	int const currentIdx = GetQubeIndex(startingQube);
+	int const targetIdx = GetQubeIndex(targetQube);
+
+	if (targetIdx == -1)
+	{
+		return false;
+	}
 	
-	//int const currentIdx = GetQubeIndex(pStartingQube);
-	//int const targetIdx = GetQBertIndex();
+	bool* pVisited = new bool[pPyramidComp->Qubes.size()];
+	
+	//at each index, stores the previous qube and the connection to it
+	std::pair<int,int>* pPredecessors = new std::pair<int, int>[pPyramidComp->Qubes.size()]; //first qube idx, second connection idx
 
-	//if (targetIdx == -1)
-	//{
-	//	return false;
-	//}
-	//
-	//auto* visited = new bool[m_pQubes.size()];
-	//
-	////at each index, stores the previous qube and the connection to it
-	//std::pair<int,int>* predecessors = new std::pair<int, int>[m_pQubes.size()]; //first qube idx, second connection idx
+	//fill both array
+	std::fill_n(pVisited, pPyramidComp->Qubes.size(), false);
+	std::fill_n(pPredecessors, pPyramidComp->Qubes.size(), std::make_pair(-1, -1));
 
-	////fill both array
-	//std::fill_n(visited, m_pQubes.size(), false);
-	//std::fill_n(predecessors, m_pQubes.size(), std::make_pair(-1, -1));
+	//Breadth first search to fill the pPredecessors array
+	std::list<int> queue{};
+	queue.push_back(currentIdx);
+	pVisited[currentIdx] = true;
+	while (!queue.empty())
+	{
+		int const q = queue.front();
+		queue.pop_front();
+		auto const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[q]);
+		bool doBreak{ false };
+		
+		for (int i{}; i < 4; i++)
+		{
+			if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
+			{
+				int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
+				if (!pVisited[nextIdx])
+				{
+					pVisited[nextIdx] = true;
+					pPredecessors[nextIdx].first = q;
+					pPredecessors[nextIdx].second = i;
+					queue.push_back(nextIdx);
 
-	////Breadth first search to fill the predecessors array
-	//std::list<int> queue{};
-	//queue.push_back(currentIdx);
-	//visited[currentIdx] = true;
-	//while (!queue.empty())
-	//{
-	//	//int const q = queue.front();
-	//	queue.pop_front();
-	//	//auto const pQube = GetQube(q);
-	//	bool doBreak{ false };
-	//	
-	//	for (int i{}; i < 4; i++)
-	//	{
-	//		/*if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
-	//		{
-	//			int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
-	//			if (!visited[nextIdx])
-	//			{
-	//				visited[nextIdx] = true;
-	//				predecessors[nextIdx].first = q;
-	//				predecessors[nextIdx].second = i;
-	//				queue.push_back(nextIdx);
+					if (nextIdx == targetIdx)
+					{
+						doBreak = true;
+					}
+				}
+			}
+		}
+		if (doBreak)
+		{
+			break;
+		}
+	}
 
-	//				if (nextIdx == targetIdx)
-	//				{
-	//					doBreak = true;
-	//				}
-	//			}
-	//		}*/
-	//	}
-	//	if (doBreak)
-	//	{
-	//		break;
-	//	}
-	//}
+	//Use the pPredecessors array to find the shortest 
+	std::vector<std::pair<int,int>> path;
+	int crawl = targetIdx;
+	path.push_back(std::make_pair(crawl, -1));
+	while (pPredecessors[crawl].first != -1)
+	{
+		path.back().second = pPredecessors[crawl].second;
+		path.push_back(pPredecessors[crawl]);
+		crawl = pPredecessors[crawl].first;
+	}
 
-	////Use the predecessors array to find the shortest 
-	//std::vector<std::pair<int,int>> path;
-	//int crawl = targetIdx;
-	//path.push_back(std::make_pair(crawl, -1));
-	//while (predecessors[crawl].first != -1)
-	//{
-	//	path.back().second = predecessors[crawl].second;
-	//	path.push_back(predecessors[crawl]);
-	//	crawl = predecessors[crawl].first;
-	//}
+	delete[] pVisited;
+	delete[] pPredecessors;
 
-	//delete[] visited;
-	//delete[] predecessors;
-
-	//size_t const pathSize = path.size();
-	//
-	//for (size_t i{1}; i <= size;i++)
-	//{
-	//	if (i < pathSize)
-	//	{
-	//		directions[i - 1] = static_cast<ConnectionDirection>(path[pathSize - i].second);
-	//	}
-	//	else
-	//	{
-	//		directions[i - 1] = ConnectionDirection::null;
-	//	}
-	//}
-	//return true;
+	size_t const pathSize = path.size();
+	
+	for (size_t i{1}; i <= arraySize;i++)
+	{
+		if (i < pathSize)
+		{
+			directionsArray[i - 1] = static_cast<ConnectionDirection>(path[pathSize - i].second);
+		}
+		else
+		{
+			directionsArray[i - 1] = ConnectionDirection::null;
+		}
+	}
+	return true;
 }
 
 void PyramidSystem::Serialize(StreamWriter& writer) const
@@ -404,12 +413,6 @@ void PyramidSystem::SetSignature()
 	m_pRegistry->SetSystemSignature<PyramidSystem>(signature);
 }
 
-int PyramidSystem::GetQBertIndex() const
-{
-	return 0;
-	//return GetQubeIndex(m_pQBert->GetCurrentQube());
-}
-
 int PyramidSystem::GetQubeIndex(Entity qubeEntity) const
 {
 	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
@@ -421,4 +424,6 @@ int PyramidSystem::GetQubeIndex(Entity qubeEntity) const
 			return i;
 		}
 	}
+
+	return -1;
 }

@@ -1,11 +1,13 @@
 #include "PCH.h"
-#include "UIManager.h"
-#include "GameManager.h"
+#include "UIManagerSystem.h"
+#include "GameManagerSystem.h"
+#include "LivesSystem.h"
 
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
 #include "TextRendererComponent.h"
 #include "UiManagerComponent.h"
+#include "QbertComponent.h"
 
 void UIManagerSystem::Start()
 {
@@ -18,22 +20,29 @@ void UIManagerSystem::Start()
 		pText->SetText("P1 Points: " + std::to_string(points));
 		});
 
-	auto characterLives = FindComponentOfType<CharacterLives>();
-	characterLives->OnDied.Subscribe([this, entity](int lives) {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
-		auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->LivesCounterTextEntity);
+	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
 
-		pText->SetText("P1 Lives: " + std::to_string(lives));
-		});
+	pLivesSystem->OnDied.Subscribe([this, entity](Entity deadEntity, int lives) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+			auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->LivesCounterTextEntity);
 
-	characterLives->OnGameOver.Subscribe([this, entity]() {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
-		auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
+			pText->SetText("P1 Lives: " + std::to_string(lives));
+		}
+	});
 
-		pText->SetText("Game Over");
+	pLivesSystem->OnGameOver.Subscribe([this, entity]() {
+		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+			auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
 
-		m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
-		});
+			pText->SetText("Game Over");
+
+			m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
+		}
+	});
 
 	auto* const pGameManager = m_pRegistry->GetSystem<GameManagerSystem>();
 

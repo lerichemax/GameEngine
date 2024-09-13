@@ -89,9 +89,9 @@ class GenericRegexSearch;
     - \c ^a     At the beginning
     - \c a$     At the end
     - \c .      Any character
-    - \c [abc]  Character classes
-    - \c [a-c]  Character class range
-    - \c [a-z0-9_] Character class combination
+    - \c [abc]  Characters classes
+    - \c [a-c]  Characters class range
+    - \c [a-z0-9_] Characters class combination
     - \c [^abc] Negated character classes
     - \c [^a-c] Negated character class range
     - \c [\b]   Backspace (U+0008)

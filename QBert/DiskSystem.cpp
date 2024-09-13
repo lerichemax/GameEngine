@@ -1,15 +1,28 @@
 #include "PCH.h"
 #include "DiskSystem.h"
+#include "LivesSystem.h"
 
 #include "DiskComponent.h"
 #include "QubeComponent.h"
 #include "RendererComponent.h"
-
-#include "GameObject.h"
 #include "TransformComponent.h"
-#include "Timer.h"
+#include "QbertComponent.h"
 
+#include "Timer.h"
 #include "Texture2D.h"
+
+void DiskSystem::Start()
+{
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			for (Entity entity : m_Entities)
+			{
+				m_pRegistry->SetEntityActive(entity, false);
+			}
+		}
+	});
+}
 
 void DiskSystem::Update()
 {

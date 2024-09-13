@@ -4,7 +4,7 @@
 
 MovementComponent::MovementComponent()
 	:CurrentDirection{ConnectionDirection::null},
-	CurrentQube(EntityManager::NULL_ENTITY)
+	CurrentQube(NULL_ENTITY)
 {
 
 }

@@ -79,7 +79,7 @@ template <typename ValueType, typename Allocator = CrtAllocator>
 class GenericPointer {
 public:
     typedef typename ValueType::EncodingType EncodingType;  //!< Encoding type from Value
-    typedef typename ValueType::Ch Ch;                      //!< Character type from Value
+    typedef typename ValueType::Ch Ch;                      //!< Characters type from Value
 
     //! A token is the basic units of internal representation.
     /*!

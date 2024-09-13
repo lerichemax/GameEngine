@@ -96,7 +96,7 @@ void CoilyCharacterController::FindQBert()
 		{
 			/*bool result{};
 
-			result = m_pPyramid->FindNextQubeToQbert(m_pCoilyCharacter->GetCurrentQube(), m_MovementQueue, MOVEMENT_QUEUE_SIZE);
+			result = m_pPyramid->TryFindPathTo(m_pCoilyCharacter->GetCurrentQube(), m_MovementQueue, MOVEMENT_QUEUE_SIZE);
 
 			if (result)
 			{

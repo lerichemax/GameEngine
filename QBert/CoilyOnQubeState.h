@@ -6,7 +6,7 @@ class CoilyCharacterController;
 class CoilyOnQubeState final : public EnemyOnQubeState
 {
 public:
-	explicit CoilyOnQubeState(Character* pChar, Jumper* pJumper, CoilyCharacterController* pCharCont);
+	explicit CoilyOnQubeState(Characters* pChar, Jumper* pJumper, CoilyCharacterController* pCharCont);
 	CharacterState* Update(GameObject* pObject) override;
 
 private:

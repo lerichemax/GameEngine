@@ -6,11 +6,11 @@
 #include "GameObject.h"
 
 QubeComponent::QubeComponent()
-	:Connections{ EntityManager::NULL_ENTITY, EntityManager::NULL_ENTITY, EntityManager::NULL_ENTITY, EntityManager::NULL_ENTITY },
+	:Connections{ NULL_ENTITY, NULL_ENTITY, NULL_ENTITY, NULL_ENTITY },
 	pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
 	pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
 	pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png")),
-	ConnectionToDisk{ EntityManager::NULL_ENTITY }
+	ConnectionToDisk{ NULL_ENTITY }
 
 {
 

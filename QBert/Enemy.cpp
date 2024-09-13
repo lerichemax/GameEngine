@@ -5,12 +5,12 @@
 #include "QBert.h"
 
 Enemy::Enemy(int pointsForKill, CharacterType type)
-	:Character(nullptr, type),
+	:Characters(nullptr, type),
 	POINTS_FOR_KILL(pointsForKill)
 {}
 
 Enemy::Enemy(Enemy const& other)
-	:Character(other),
+	:Characters(other),
 	POINTS_FOR_KILL(other.POINTS_FOR_KILL)
 {}
 

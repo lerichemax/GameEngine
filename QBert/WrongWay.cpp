@@ -4,7 +4,7 @@
 #include "BoxCollider.h"
 #include "EnemyOnQubeState.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "JumpingState.h"
 #include "EnemyCharacterController.h"
 

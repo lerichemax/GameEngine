@@ -8,7 +8,7 @@
 
 #include "GameObject.h"
 
-FallingState::FallingState(Character* pChar, Jumper* pJumper)
+FallingState::FallingState(Characters* pChar, Jumper* pJumper)
 	:CharacterState(pChar, pJumper, CharacterStateType::falling)
 {
 	

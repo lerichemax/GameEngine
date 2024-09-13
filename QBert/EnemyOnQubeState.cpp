@@ -9,7 +9,7 @@
 #include "Timer.h"
 #include "WrongWay.h"
 
-EnemyOnQubeState::EnemyOnQubeState(Character* pChar, Jumper* pJumper, EnemyCharacterController* pCharCont)
+EnemyOnQubeState::EnemyOnQubeState(Characters* pChar, Jumper* pJumper, EnemyCharacterController* pCharCont)
 	:OnQubeState(pChar, pJumper),
 	m_pCharController(pCharCont)
 {

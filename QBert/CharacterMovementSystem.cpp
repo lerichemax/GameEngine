@@ -15,12 +15,12 @@
 
 void CharacterMovementSystem::Start()
 {
-	m_pJumper = GetSystem<JumperSystem>();
+	m_pJumper = m_pRegistry->GetSystem<JumperSystem>();
 
 	if (m_pJumper != nullptr)
 	{
 		m_pJumper->OnJumpLanded.Subscribe([this](Entity entity){
-			JumpToCurrentQube(entity);
+			MoveToCurrentQube(entity);
 			});
 	}
 }
@@ -50,7 +50,7 @@ void CharacterMovementSystem::Move(Entity entity)
 	}
 
 	auto* pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
-	pCurrentQube->bIsOccupied = false;
+	pCurrentQube->Characters.erase(entity);
 
 	pMoveComp->bCanMove = false;
 	SetJumpTexture(entity);
@@ -65,10 +65,10 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
 	}
-	else if (pCurrentQube->ConnectionToDisk != EntityManager::NULL_ENTITY)
+	else if (pCurrentQube->ConnectionToDisk != NULL_ENTITY)
 	{
 		OnMoveStarted.Notify(entity);
-		//m_pGameObject->GetComponent<BoxCollider>()->SetEnable(false);
+
 		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk);
 		auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(pCurrentQube->ConnectionToDisk);
 		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
@@ -77,7 +77,7 @@ void CharacterMovementSystem::Move(Entity entity)
 		pTransform->Translate(pDiskTransform->GetLocation());
 		pTransform->SetParent(pDiskTransform);
 
-		pMoveComp->CurrentQube = EntityManager::NULL_ENTITY;
+		pMoveComp->CurrentQube = NULL_ENTITY;
 
 		OnJumpedOnDisk.Notify(entity);
 	}
@@ -94,26 +94,9 @@ void CharacterMovementSystem::Move(Entity entity)
 			dist = 25.f;
 		}
 
-		//pCurrentQube->CharacterJumpOut();
 		m_pJumper->JumpToDeath(entity, pTransform->GetLocation(), dist);
 	}
 }
-
-//void CharacterMovementSystem::SetCurrentQube(Qube* const pQube)
-//{
-//	if (pQube != nullptr)
-//	{
-//		//m_pCurrentQube = pQube;
-//	}
-//	
-//	MoveToCurrentQube();
-//}
-//
-//Qube* const CharacterMovementSystem::GetCurrentQube() const
-//{
-//	//return m_pCurrentQube;
-//	return nullptr;
-//}
 
 void CharacterMovementSystem::SetSignature()
 {
@@ -130,37 +113,23 @@ void CharacterMovementSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int>(std::type_index(typeid(CharacterMovementSystem)).hash_code()));
 }
 
-void CharacterMovementSystem::JumpToCurrentQube(Entity entity)
-{
-	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
-
-	MoveToCurrentQube(entity);
-	pMoveComp->bCanMove = true;
-}
-
 void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 {
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 	auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
-	//if (m_pCurrentQube == nullptr)
-	//{
-	//	return;
-	//}
+	assert(IS_VALID(pQube) && "pQube is invalid");
 
-	//if (m_pCurrentQube->HasCharacter() && m_pCurrentQube->GetCharacter() != this)
-	//{
-	//	MeetCharacter(m_pCurrentQube->GetCharacter());
-	//}
+	if (!pQube->Characters.empty() && pQube->Characters.find(entity) == pQube->Characters.end())
+	{
+		OnMeetCharacter.Notify(entity, pQube->Characters);
+	}
 
-	//if (GetGameObject()->IsActive())
-	//{
-	//	//m_pCurrentQube->CharacterJumpIn(this);
 	pTransform->Translate(pQube->CharacterPos);
-	//}
 
 	SetIdleTexture(entity);
+
 	pMoveComp->CurrentDirection = ConnectionDirection::null;
 	pMoveComp->bCanMove = true;
 }

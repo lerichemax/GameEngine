@@ -32,10 +32,7 @@ public:
 	
 	void Reset(Level level);
 	void PartialReset();
-	//void DiskUsed(){ NbrDisksSpawned--; }
-	//void SetQBert(QBert* pQbert) { m_pQBert = pQbert; }
-	bool FindNextQubeToQbert(QubeSystem* const pStartingQube, ConnectionDirection* directions, unsigned int size) const; //used by coily to move to qbert
-	//QBert* GetQBert()const { return m_pQBert; }
+	bool TryFindPathTo(Entity startingQube, Entity targetQube, ConnectionDirection* directionsArray, size_t arraySize) const; //used by coily to move to qbert
 
 	void Serialize(StreamWriter& writer) const override;
 	void SetSignature() override;

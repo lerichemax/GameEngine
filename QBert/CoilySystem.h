@@ -12,12 +12,18 @@ public:
 
 protected:
 	void Start() override;
+	void Update() override;
 	void ChooseDirection(MovementComponent* const pMover) const override;
 
+
 private:
-	PyramidSystem* m_pPyramid;
+	PyramidSystem* m_pPyramid{};
 
-	Entity m_Qbert;
+	Entity m_Qbert{};
 
+	void HandleJumpToDeath(Entity coilyEntity);
 	void HandleCoilyTransform(Entity entity);
+	void CheckForReset(Entity entity);
+	void ResetCoily(Entity entity);
+	void SearchForQbert(Entity entity);
 };

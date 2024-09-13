@@ -2,39 +2,42 @@
 #include "CharacterLives.h"
 
 CharacterLives::CharacterLives()
-	:Component(true),
-	m_NbrLives(MAX_LIVES)
+	:Component(true)
 {
 
+}
+
+void CharacterLives::Init(int nbrLives)
+{
+	MaxLives = nbrLives;
+	NbrLives = MaxLives;
 }
 
 void CharacterLives::Die()
 {
-	m_NbrLives--;
-	OnDied.Notify(m_NbrLives);
-
-	if (m_NbrLives <= 0)
-	{
-		OnGameOver.Notify();
-	}
+	NbrLives--;
+	bIsDead = true;
 }
 
 void CharacterLives::Reset()
 {
-	m_NbrLives = MAX_LIVES;
+	NbrLives = MaxLives;
+	bIsDead = false;
 }
 
 void CharacterLives::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(CharacterLives)).hash_code()));
-	writer.WriteInt("lives", m_NbrLives);
+	writer.WriteInt("lives", NbrLives);
+	writer.WriteInt("maxLives", MaxLives);
 	
 	Component::Serialize(writer);
 }
 
 void CharacterLives::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadInt("lives", m_NbrLives);
+	reader->ReadInt("lives", NbrLives);
+	reader->ReadInt("maxLives", MaxLives);
 
 	Component::Deserialize(reader, context);
 }

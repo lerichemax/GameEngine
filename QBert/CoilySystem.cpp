@@ -2,30 +2,102 @@
 #include "CoilySystem.h"
 #include "JumperSystem.h"
 #include "PyramidSystem.h"
+#include "EnemySpawnerSystem.h"
+#include "CharacterLives.h"
+#include "LivesSystem.h"
 
 #include "AiControllerComponent.h"
 #include "JumpComponent.h"
 #include "MovementComponent.h"
 #include "CoilyComponent.h"
 #include "QbertComponent.h"
+#include "AudioComponent.h"
+#include "QubeComponent.h"
+#include "RendererComponent.h"
+
+#include <thread>
 
 void CoilySystem::Start()
 {
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
 	m_Qbert = FindComponentOfType<QbertComponent>()->GetGameObject()->GetEntity();
 
-	m_pRegistry->GetSystem<JumperSystem>()->OnJumpedToDeath.Subscribe([this](Entity entity) {
+	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
+	pJumper->OnJumpedToDeath.Subscribe([this](Entity entity) {
 		if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
 		{
 			return;
 		}
-		auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
+		HandleJumpToDeath(entity);
+	});
 
-		if (pEnemy->Type == EnemyType::Coily)
+	pJumper->OnJumpLanded.Subscribe([this](Entity entity) {
+		if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
 		{
-			HandleCoilyTransform(entity);
+			return;
+		}
+		auto* const pEnemy = m_pRegistry->GetComponent<CoilyComponent>(entity);
+		if (IS_VALID(pEnemy))
+		{
+			SearchForQbert(entity);
 		}
 	});
+
+	m_pRegistry->GetSystem<EnemySpawnerSystem>()->OnEnemySpawned.Subscribe([this](Entity entity) {
+		auto* const pEnemy = m_pRegistry->GetComponent<CoilyComponent>(entity);
+		if (IS_VALID(pEnemy))
+		{
+			pEnemy->SetActive(false);
+		}
+	});
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
+		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			CheckForReset(*m_Entities.begin());
+		}
+	});
+}
+
+void CoilySystem::Update()
+{
+	if (m_Entities.empty())
+	{
+		return;
+	}
+
+	Entity coilyEntity = *m_Entities.begin();
+
+	auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity);
+	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
+
+	if (pCoily->IsActive() || (pAiControllerComp->IsActive() && !pCoily->IsActive()))
+	{
+		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(coilyEntity);
+
+		HandleAi(pMoveComp, pAiControllerComp);
+	}
+}
+
+void CoilySystem::HandleJumpToDeath(Entity coilyEntity)
+{
+	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
+
+	if (!IS_VALID(pCoily))
+	{
+		return;
+	}
+
+	if (!pCoily->IsActive())
+	{
+		HandleCoilyTransform(coilyEntity);
+		SearchForQbert(coilyEntity);
+	}
+	else
+	{
+		m_pRegistry->GetComponent<AudioComponent>(coilyEntity)->Play();
+		m_pRegistry->GetComponent<RendererComponent>(coilyEntity)->Layer = 1;
+	}
 }
 
 void CoilySystem::HandleCoilyTransform(Entity entity)
@@ -47,17 +119,64 @@ void CoilySystem::HandleCoilyTransform(Entity entity)
 		"Textures/Enemies/Coily/Coily_Big_UpRight.png", 
 		"Textures/Enemies/Coily/Coily_Big_DownLeft.png");
 
-	m_pRegistry->AddComponent<CoilyComponent>(entity);
+	pMovement->bCanMove = true;
+	pMovement->CurrentDirection = ConnectionDirection::null;
+
+	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(true);
+	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(false);
+}
+
+void CoilySystem::CheckForReset(Entity entity)
+{
+	if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
+	{
+		return;
+	}
+
+	ResetCoily(entity);
+}
+
+void CoilySystem::ResetCoily(Entity entity)
+{
+	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+	pMovement->SetTextureIdleNames("Textures/Enemies/Coily/Coily_Egg_Small.png", "Textures/Enemies/Coily/Coily_Egg_Small.png", "", "");
+	pMovement->SetTextureJumpNames("Textures/Enemies/Coily/Coily_Egg_Big.png", "Textures/Enemies/Coily/Coily_Egg_Big.png", "", "");
+
+	pMovement->bCanMove = true;
+
+	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(false);
+	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 7;
+}
+void CoilySystem::SearchForQbert(Entity entity)
+{
+	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
+	auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(entity);
+	std::thread t1([this, pCoily, pMover]
+		{
+			auto* const pQbertMoveComp = m_pRegistry->GetComponent<MovementComponent>(m_Qbert);
+
+			bool result{};
+
+			result = m_pPyramid->TryFindPathTo(pMover->CurrentQube, pQbertMoveComp->CurrentQube, pCoily->MovementQueue, pCoily->MOVEMENT_QUEUE_SIZE);
+
+			if (result)
+			{
+				pCoily->CurrentlyInQueue = pCoily->MOVEMENT_QUEUE_SIZE;
+			}
+		});
+	t1.join();
 }
 
 void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 {
+	if (!m_pRegistry->GetComponent<CoilyComponent>(*m_Entities.begin())->IsActive())
+	{
+		AiControllerSystem::ChooseDirection(pMover);
+		return;
+	}
+
 	Entity coilyEntity = *m_Entities.begin();
-
-	//auto* const pQbertMoveComp = m_pRegistry->GetComponent<MovementComponent>(m_Qbert);
-
-	//int const currentIdx = m_pPyramid->GetQubeIndex(pMover->CurrentQube);
-	//int const targetIdx = m_pPyramid->GetQubeIndex(pQbertMoveComp->CurrentQube);
 
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
 	

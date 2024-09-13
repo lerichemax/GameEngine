@@ -6,9 +6,13 @@
 struct AudioComponent;
 struct QbertComponent : public Component
 {
-	AudioComponent* pJumpSound;
-	AudioComponent* pFallSound;
-	AudioComponent* pSwearSound;
+	AudioComponent* pJumpSound{};
+	AudioComponent* pFallSound{};
+	AudioComponent* pSwearSound{};
+
+	float const MAX_RESET_TIME{ 0.75f };
+	float ResetTimer{};
+	bool bOnResetCoolDown{};
 
 	void Serialize(StreamWriter& writer) const override;
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;

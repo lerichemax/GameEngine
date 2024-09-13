@@ -10,7 +10,7 @@
 #include "FallingState.h"
 #include "JumpingState.h"
 
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "VersusGameManager.h"
 
 Coily::Coily(unsigned int fallSoundId)
@@ -64,7 +64,7 @@ void Coily::FallSound() const
 }
 
 
-void Coily::MeetCharacter(Character* pOther)
+void Coily::MeetCharacter(Characters* pOther)
 {
 	if (!m_bIsTransformed)
 	{

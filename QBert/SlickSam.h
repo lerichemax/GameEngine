@@ -14,7 +14,7 @@ public:
 	~SlickSam() override;
 	
 protected:
-	void MeetCharacter(Character* pOther) override;
+	void MeetCharacter(Characters* pOther) override;
 	void DoDie() override;
 	void SetDirectionTextures(ConnectionDirection dir) override;
 

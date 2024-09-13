@@ -169,7 +169,6 @@
   <ItemGroup>
     <ClCompile Include="AiControllerComponent.cpp" />
     <ClCompile Include="AiControllerSystem.cpp" />
-    <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="CharacterControllerComponent.cpp" />
     <ClCompile Include="CharacterControllerSystem.cpp" />
     <ClCompile Include="CharacterMovementSystem.cpp" />
@@ -185,6 +184,7 @@
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
     <ClCompile Include="JumpingState.cpp" />
+    <ClCompile Include="LivesSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="OnQubeState.cpp" />
     <ClCompile Include="PyramidComponent.cpp" />
@@ -204,7 +204,7 @@
     <ClCompile Include="CoopScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyCharacterController.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameManagerSystem.cpp" />
     <ClCompile Include="JumperSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -218,7 +218,7 @@
     <ClCompile Include="QubeSystem.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="SoloScene.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIManagerSystem.cpp" />
     <ClCompile Include="UiManagerComponent.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
@@ -229,7 +229,6 @@
   <ItemGroup>
     <ClInclude Include="AiControllerComponent.h" />
     <ClInclude Include="AiControllerSystem.h" />
-    <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterControllerComponent.h" />
     <ClInclude Include="CharacterControllerSystem.h" />
     <ClInclude Include="CharacterMovementSystem.h" />
@@ -245,6 +244,7 @@
     <ClInclude Include="FallingState.h" />
     <ClInclude Include="JumpComponent.h" />
     <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="LivesSystem.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="OnQubeState.h" />
     <ClInclude Include="PyramidComponent.h" />
@@ -264,7 +264,7 @@
     <ClInclude Include="CoopScene.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyCharacterController.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameManagerSystem.h" />
     <ClInclude Include="JumperSystem.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MainMenuScene.h" />
@@ -277,7 +277,7 @@
     <ClInclude Include="QubeSystem.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="SoloScene.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIManagerSystem.h" />
     <ClInclude Include="UiManagerComponent.h" />
     <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />

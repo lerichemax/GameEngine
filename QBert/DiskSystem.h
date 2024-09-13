@@ -19,5 +19,6 @@ public:
 	void Serialize(StreamWriter& writer) const override;
 
 protected:
+	void Start() override;
 	void Update() override;
 };

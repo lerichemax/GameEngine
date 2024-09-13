@@ -9,7 +9,7 @@
 #include "Timer.h"
 
 
-CoilyOnQubeState::CoilyOnQubeState(Character* pChar, Jumper* pJumper, CoilyCharacterController* pCharCont)
+CoilyOnQubeState::CoilyOnQubeState(Characters* pChar, Jumper* pJumper, CoilyCharacterController* pCharCont)
 	:EnemyOnQubeState(pChar, pJumper, pCharCont),
 	m_pCharController(pCharCont)
 {

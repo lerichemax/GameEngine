@@ -33,7 +33,7 @@ RAPIDJSON_NAMESPACE_BEGIN
 
 \code
 concept Stream {
-    typename Ch;    //!< Character type of the stream.
+    typename Ch;    //!< Characters type of the stream.
 
     //! Read the current character from stream without moving the read cursor.
     Ch Peek() const;

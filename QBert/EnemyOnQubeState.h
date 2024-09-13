@@ -6,7 +6,7 @@ class EnemyCharacterController;
 class EnemyOnQubeState : public OnQubeState
 {
 public:
-	explicit EnemyOnQubeState(Character* pChar, Jumper* pJumper, EnemyCharacterController* m_pCharCont);
+	explicit EnemyOnQubeState(Characters* pChar, Jumper* pJumper, EnemyCharacterController* m_pCharCont);
 	CharacterState* Update(GameObject* pObject) override;
 
 private:

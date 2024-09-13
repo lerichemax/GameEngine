@@ -16,16 +16,16 @@ class QubeSystem;
 class CharacterState;
 enum class ConnectionDirection;
 enum class CharacterStateType;
-class Character 
+class Characters 
 {
 public:
-	explicit Character(QubeSystem* const pStart, CharacterType type);
-	explicit Character() = default;
-	Character(Character&& other) = delete;
-	Character& operator=(Character const& rhs) = delete;
-	Character& operator=(Character&& rhs) = delete;
+	explicit Characters(QubeSystem* const pStart, CharacterType type);
+	explicit Characters() = default;
+	Characters(Characters&& other) = delete;
+	Characters& operator=(Characters const& rhs) = delete;
+	Characters& operator=(Characters&& rhs) = delete;
 	
-	virtual ~Character();
+	virtual ~Characters();
 	
 	void Update(); 
 	
@@ -57,7 +57,7 @@ protected:
 	void Start();
 	virtual void DoMove(ConnectionDirection direction) = 0;
 	virtual void DoDie() = 0;
-	virtual void MeetCharacter(Character* pOther) = 0; // Find itself on the same cube as another character
+	virtual void MeetCharacter(Characters* pOther) = 0; // Find itself on the same cube as another character
 	virtual void SetDirectionTextures(ConnectionDirection dir) = 0;
 	virtual void JumpToQube(QubeSystem* const pTargetQube);
 	virtual void MoveToCurrentQube();
@@ -69,5 +69,5 @@ protected:
 	void SwitchState(CharacterState* pState);
 	void SwitchState(CharacterStateType type);
 	
-	Character(Character const& other);
+	Characters(Characters const& other);
 };

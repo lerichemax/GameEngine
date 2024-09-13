@@ -3,9 +3,6 @@
 
 #include "Event.h"
 
-class ComponentManager;
-struct JumpComponent;
-class TransformComponent;
 class JumperSystem : public System
 {
 public:

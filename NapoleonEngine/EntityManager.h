@@ -26,8 +26,6 @@ public:
 
 	static bool IsEntityValid(Entity entity);
 
-	static const Entity NULL_ENTITY = -1;
-
 private:
 	friend class Coordinator;
 

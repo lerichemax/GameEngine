@@ -9,9 +9,13 @@
 #include "QBertSystem.h"
 #include "DiskSystem.h"
 #include "AiControllerSystem.h"
+#include "CoilySystem.h"
+#include "LivesSystem.h"
 
+#include "AudioComponent.h"
+#include "TextRendererComponent.h"
+#include "ButtonComponent.h"
 #include "CharacterControllerComponent.h"
-#include "CharacterComponent.h"
 #include "MovementComponent.h"
 #include "JumpComponent.h"
 #include "QubeComponent.h"
@@ -19,14 +23,13 @@
 #include "QbertComponent.h"
 #include "DiskComponent.h"
 #include "AiControllerComponent.h"
+#include "CoilyComponent.h"
 
-#include "Coily.h"
 #include "CoopScene.h"
 #include "MainMenuScene.h"
-
 #include "VersusScene.h"
-#include "SlickSam.h"
 #include "SoloScene.h"
+
 #include "WrongWay.h"
 #include "WrongWayJumper.h"
 #include "EnemyCharacterController.h"
@@ -39,17 +42,14 @@
 #include "SwitchTextColor.h"
 #include "SwitchScene.h"
 
-
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
-#include "TextRendererComponent.h"
+
 #include "InputManager.h"
 #include "JsonReaderWriter.h"
 #include "Shapes.h"
 #include "BoxCollider.h"
-#include "ButtonComponent.h"
 
-#include "AudioComponent.h"
 
 MainGame::MainGame()
 	:NapoleonEngine()
@@ -59,7 +59,6 @@ MainGame::MainGame()
 
 void MainGame::InitGame() const
 {	
-	//SceneManager::GetInstance().AddScene(new TestScene{});
 	SceneManager::GetInstance().AddScene(new MainMenuScene{});
 	SceneManager::GetInstance().AddScene(new SoloScene{});
 	//SceneManager::GetInstance().AddScene(new CoopScene{});
@@ -72,8 +71,6 @@ void MainGame::CreatePrefabs() const
 	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
 
 	auto& pPrefabManager = PrefabsManager::GetInstance();
-
-	//*auto snakeFallId = */ss->AddEffect("Data/Sounds/snake-fall.mp3");
 
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
@@ -132,7 +129,7 @@ void MainGame::CreatePrefabs() const
 	pCharacterMovement->SetTextureJumpNames("Textures/QBert/QBert1_DownRight_Jump.png", "Textures/QBert/QBert1_DownLeft_Jump.png",
 		"Textures/QBert/QBert1_UpRight_Jump.png", "Textures/QBert/QBert1_UpLeft_Jump.png");
 
-	pQbertObj->AddComponent<CharacterLives>();
+	pQbertObj->AddComponent<CharacterLives>()->Init(3);
 	pQbertObj->AddComponent<CharacterPoint>();
 	pQbertObj->AddComponent<JumpComponent>();
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
@@ -144,7 +141,7 @@ void MainGame::CreatePrefabs() const
 	hurtRenderer->SetActive(false);
 
 	pQbertObj->AddChild(hurtTextObj);
-	hurtTextObj->GetTransform()->Translate(10, -20);
+	hurtTextObj->GetTransform()->Translate(-10, -34);
 	pQbertObj->GetTransform()->Scale(1.5f);
 	pQbertObj->SetTag(QBERT_TAG);
 
@@ -152,6 +149,7 @@ void MainGame::CreatePrefabs() const
 	qbertPrefab->AddRequiredSystem<CharacterMovementSystem>();
 	qbertPrefab->AddRequiredSystem<JumperSystem>();
 	qbertPrefab->AddRequiredSystem<QBertSystem>();
+	qbertPrefab->AddRequiredSystem<LivesSystem>();
 
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
@@ -201,18 +199,22 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureIdleNames("Textures/Enemies/Coily/Coily_Egg_Small.png", "Textures/Enemies/Coily/Coily_Egg_Small.png", "", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/Coily/Coily_Egg_Big.png", "Textures/Enemies/Coily/Coily_Egg_Big.png", "", "");
 
-	//coilyPrefab->AddComponent(new Coily{snakeFallId});
-	//coilyPrefab->AddComponent(new CoilyCharacterController{});
-	//coilyPrefab->AddComponent(new Jumper{});
 	pCoilyObject->AddComponent<JumpComponent>();
-	pCoilyObject->AddComponent<AiControllerComponent>()->Type = EnemyType::Coily;
+	pCoilyObject->AddComponent<CharacterLives>()->Init(1);
+
+	auto* pAiController = pCoilyObject->AddComponent<AiControllerComponent>();
+	pAiController->Type = EnemyType::Coily;
+	pAiController->PointsForKill = 500;
+
+	pCoilyObject->AddComponent<CoilyComponent>();
+	pCoilyObject->AddComponent<AudioComponent>()->SetAudioClip("Sounds/snake-fall.mp3");
 	pCoilyObject->SetTag(ENEMY_TAG);
 	pCoilyObject->GetTransform()->Scale(1.5f);
 
+	pCoilyPrefab->AddRequiredSystem<CoilySystem>();
 	pCoilyPrefab->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pCoilyPrefab, "Coily");
-
 
 	//SlickSam
 	auto pSlickPf = pPrefabManager.CreatePrefab(); //slick
@@ -228,7 +230,12 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left","", "");
 
 	pSlickObject->AddComponent<JumpComponent>();
-	pSlickObject->AddComponent<AiControllerComponent>()->Type = EnemyType::SlickSam;
+	pSlickObject->AddComponent<CharacterLives>()->Init(1);
+
+	pAiController = pSlickObject->AddComponent<AiControllerComponent>();
+	pAiController->Type = EnemyType::SlickSam;
+	pAiController->PointsForKill = 300;
+
 	pSlickObject->GetTransform()->Scale(1.5f);
 	pSlickObject->SetTag(ENEMY_TAG);
 
@@ -249,8 +256,12 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Sam_Up_Right.png", "Textures/Enemies/SlickSam/Sam_Up_Left", "", "");
 
 	pSamObject->AddComponent<JumpComponent>();
-	pSamObject->AddComponent<MovementComponent>();
-	pSamObject->AddComponent<AiControllerComponent>()->Type = EnemyType::SlickSam;
+	pSamObject->AddComponent<CharacterLives>()->Init(1);
+
+	pAiController = pSamObject->AddComponent<AiControllerComponent>();
+	pAiController->Type = EnemyType::SlickSam;
+	pAiController->PointsForKill = 300;
+
 	pSamObject->GetTransform()->Scale(1.5f);
 	pSamObject->SetTag(ENEMY_TAG);
 

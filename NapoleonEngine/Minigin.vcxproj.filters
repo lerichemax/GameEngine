@@ -116,7 +116,6 @@
     </ClInclude>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundInterface.h">
       <Filter>Audio</Filter>
     </ClInclude>
@@ -138,11 +137,9 @@
     <ClInclude Include="PrefabsManager.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="Debugger.h" />
     <ClInclude Include="FPSCounter.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Shapes.h" />
     <ClInclude Include="ColliderComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -254,7 +251,6 @@
     <ClInclude Include="SerializerServiceLocator.h">
       <Filter>Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="Factories.h" />
     <ClInclude Include="Component.h">
       <Filter>ECS\Components\Base</Filter>
     </ClInclude>
@@ -281,6 +277,18 @@
     </ClInclude>
     <ClInclude Include="FPSCounterSystem.h">
       <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Factories.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,11 +365,9 @@
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="FPSCounter.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -427,6 +433,12 @@
       <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="PCH.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

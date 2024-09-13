@@ -16,6 +16,8 @@
 
 #define IS_VALID(ptr) (ptr != nullptr) \
 
+#define NULL_ENTITY -1
+
 
 inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale) //make part of transform
 {
@@ -64,10 +66,4 @@ template <ComponentDerived T>
 inline T* const FindComponentOfType()
 {
 	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
-}
-
-template <SystemDerived T>
-inline T* const GetSystem()
-{
-	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->GetSystem<T>();
 }

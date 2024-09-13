@@ -13,7 +13,7 @@
 #include "CoilyManager.h"
 #include "SlickSamManager.h"
 #include "WrongWayManager.h"
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "ObserverManager.h"
 #include "PauseGameCommand.h"
 #include "QuitGameCommand.h"

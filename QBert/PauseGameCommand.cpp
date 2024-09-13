@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "InputManager.h"
-#include "GameManager.h"
+#include "GameManagerSystem.h"
 #include "Timer.h"
 
 PauseGameCommand::PauseGameCommand(GameManagerSystem* const pGameManager)

@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#include "Event.h"
+
 struct EnemySpawnerComponent;
 class PyramidSystem;
 class EnemySpawnerSystem : public System
@@ -12,6 +14,8 @@ public:
 
 	void SetSignature() override;
 	void Serialize(StreamWriter& writer) const override;
+
+	EventHandler<EnemySpawnerSystem, Entity> OnEnemySpawned;
 
 protected:
 	void Start() override;

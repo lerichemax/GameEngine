@@ -5,7 +5,7 @@
 #include "glm/glm.hpp"
 
 
-class Character;
+class Characters;
 class DiskSystem;
 class QBertScene;
 class PyramidSystem;
@@ -40,7 +40,7 @@ public:
 	void AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSystem* const pConnection);
 	
 	void Reset(Level level, Entity entity);
-	void CharacterJumpIn(Character* pCharacter);
+	void CharacterJumpIn(Characters* pCharacter);
 	void CharacterJumpOut();
 
 	void Serialize(StreamWriter& writer) const override;
@@ -49,7 +49,6 @@ public:
 protected:
 	void Initialize() override;
 	void Start() override;
-	void Update() override;
 
 private:
 	void Flip(Entity qubeEntity);

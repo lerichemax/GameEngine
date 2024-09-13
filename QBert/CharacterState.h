@@ -8,7 +8,7 @@ class OnQubeState;
 class JumpingState;
 class FallingState;
 class Jumper;
-class Character;
+class Characters;
 
 enum class CharacterStateType // enum to avoid using typeid
 {
@@ -21,7 +21,7 @@ class CharacterState : public State
 {
 public:
 
-	explicit CharacterState(Character* pChar, Jumper* pJumper, CharacterStateType type);
+	explicit CharacterState(Characters* pChar, Jumper* pJumper, CharacterStateType type);
 	virtual ~CharacterState() = default;
 	
 	
@@ -33,7 +33,7 @@ public:
 
 protected:
 	Jumper* m_pJumperComp;
-	Character* m_pCharacter;
+	Characters* m_pCharacter;
 
 private:
 	CharacterStateType m_Type;

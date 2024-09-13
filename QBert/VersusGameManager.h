@@ -16,7 +16,7 @@ enum class VersusGameEvent
 
 class QBert;
 class Coily;
-class Character;
+class Characters;
 class PyramidSystem;
 class CharacterPoint;
 class VersusGameManager final : public Observer

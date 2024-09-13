@@ -5,6 +5,7 @@ void AiControllerComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(AiControllerComponent)).hash_code()));
 	writer.WriteInt("enemyType", static_cast<int>(Type));
+	writer.WriteInt("points", PointsForKill);
 
 	Component::Serialize(writer);
 }
@@ -18,6 +19,8 @@ void AiControllerComponent::Deserialize(JsonReader const* reader, SerializationM
 	{
 		Type = static_cast<EnemyType>(type);
 	}
+
+	reader->ReadInt("points", PointsForKill);
 
 	Component::Deserialize(reader, context);
 }

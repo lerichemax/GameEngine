@@ -30,6 +30,16 @@ void EventHandler<T, Types...>::Notify(Types... args) const
 template<class T, typename... Types>
 void EventHandler<T, Types...>::Subscribe(Subscriber func)
 {
+	auto subscriberIterator = std::find_if(m_Subscribers.begin(), m_Subscribers.end(), [&func](Subscriber const& sub) {
+		return sub.target_type() == func.target_type() && sub.target<void(Types...)>() == func.target<void(Types...)>();
+		});
+
+	if (subscriberIterator != m_Subscribers.end())
+	{
+		Debugger::GetInstance().Log("Subscriber already registered"); 
+		return;
+	}
+
 	m_Subscribers.push_back(func);
 }
 
