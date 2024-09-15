@@ -341,6 +341,12 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 	{
 		int const q = queue.front();
 		queue.pop_front();
+
+		if (q == -1)
+		{
+			return false;
+		}
+
 		auto const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[q]);
 		bool doBreak{ false };
 		

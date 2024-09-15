@@ -4,6 +4,7 @@
 #include "JumperSystem.h"
 #include "CharacterMovementSystem.h"
 #include "LivesSystem.h"
+#include "DiskSystem.h"
 
 #include "EnemySpawnerComponent.h"
 #include "MovementComponent.h"
@@ -11,6 +12,7 @@
 #include "CharacterLives.h"
 #include "AiControllerComponent.h"
 #include "QbertComponent.h"
+#include "JumpComponent.h"
 
 #include "Timer.h"
 
@@ -37,8 +39,12 @@ void EnemySpawnerSystem::Start()
 		m_pRegistry->GetComponent<CharacterLives>(entity)->Die();
 	});
 
-	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity entity) {
-		Reset();
+	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity diskEntity) {
+		bIsPaused = true;
+	});
+
+	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity diskEntity) {
+		bIsPaused = false;
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
@@ -63,15 +69,22 @@ void EnemySpawnerSystem::Start()
 				return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pAiController->Type;
 				});
 
+			m_pRegistry->GetComponent<JumpComponent>(deadEntity)->Reset();
+
+
 			m_pRegistry->GetComponent<EnemySpawnerComponent>(*entityIt)->NbrEnemies--;
 			m_pRegistry->SetEntityActive(deadEntity, false);
-
 		}
 	});
 }
 
 void EnemySpawnerSystem::Update()
 {
+	if (bIsPaused)
+	{
+		return;
+	}
+
 	for (Entity entity : m_Entities)
 	{
 		auto* const pSpawnerComp = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);

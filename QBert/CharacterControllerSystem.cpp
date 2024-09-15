@@ -9,11 +9,6 @@
 
 #include "InputManager.h"
 
-void CharacterControllerSystem::Start()
-{
-	//m_pCharacterMover = GetSystem<CharacterMovementSystem>();
-}
-
 void CharacterControllerSystem::Update()
 {
 	for (Entity entity : m_Entities)

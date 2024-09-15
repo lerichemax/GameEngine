@@ -26,5 +26,7 @@ protected:
 private:
 	PyramidSystem* m_pPyramid;
 
+	bool bIsPaused;
+
 	void Reset();
 };

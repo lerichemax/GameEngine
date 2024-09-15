@@ -102,10 +102,7 @@ void CoilySystem::HandleJumpToDeath(Entity coilyEntity)
 
 void CoilySystem::HandleCoilyTransform(Entity entity)
 {
-	auto* const pJumper = m_pRegistry->GetComponent<JumpComponent>(entity);
-	pJumper->bIsFalling = false;
-	pJumper->bIsJumping = false;
-	pJumper->bJumpDown = false;
+	m_pRegistry->GetComponent<JumpComponent>(entity)->Reset();
 	
 	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
 
@@ -151,6 +148,12 @@ void CoilySystem::ResetCoily(Entity entity)
 void CoilySystem::SearchForQbert(Entity entity)
 {
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
+
+	if (pCoily->CurrentlyInQueue == 0)
+	{
+		return;
+	}
+	
 	auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(entity);
 	std::thread t1([this, pCoily, pMover]
 		{
@@ -182,6 +185,11 @@ void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 	
 	pMover->CurrentDirection = pCoily->MovementQueue[pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue];
 	pCoily->CurrentlyInQueue--;
+
+	if (pCoily->CurrentlyInQueue == 0)
+	{
+
+	}
 
 }
 

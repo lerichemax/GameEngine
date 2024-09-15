@@ -7,3 +7,10 @@ void JumpComponent::Serialize(StreamWriter& writer) const
 
 	Component::Serialize(writer);
 }
+
+void JumpComponent::Reset()
+{
+	bJumpDown = false;
+	bIsJumping = false;
+	bIsFalling = false;
+}

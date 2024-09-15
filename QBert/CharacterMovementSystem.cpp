@@ -1,16 +1,16 @@
 #include "PCH.h"
 #include "CharacterMovementSystem.h"
 #include "QubeSystem.h"
+#include "JumperSystem.h"
 
 #include "QubeComponent.h"
 #include "DiskComponent.h"
 #include "RendererComponent.h"
 #include "MovementComponent.h"
 #include "JumpComponent.h"
+#include "AiControllerComponent.h"
 
 #include "ResourceManager.h"
-#include "JumperSystem.h"
-
 #include "Coordinator.h"
 
 void CharacterMovementSystem::Start()
@@ -65,7 +65,7 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
 	}
-	else if (pCurrentQube->ConnectionToDisk != NULL_ENTITY)
+	else if (pCurrentQube->ConnectionToDisk != NULL_ENTITY && !m_pRegistry->HasTag(entity, ENEMY_TAG))
 	{
 		OnMoveStarted.Notify(entity);
 

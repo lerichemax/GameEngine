@@ -18,4 +18,6 @@ struct JumpComponent : public Component
 	glm::vec2 Halfway;
 
 	void Serialize(StreamWriter& writer) const override;
+
+	void Reset();
 };

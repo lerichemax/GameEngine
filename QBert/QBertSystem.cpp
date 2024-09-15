@@ -63,7 +63,7 @@ void QBertSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
-		JumpOffDisk(diskEntity);
+		JumpOffDisk(entity);
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int lives) {
@@ -213,6 +213,7 @@ void QBertSystem::JumpOffDisk(Entity qbertEntity)
 	pTransform->SetParent(nullptr);
 	pMove->CurrentQube = m_pRegistry->GetSystem<PyramidSystem>()->GetTop();
 	pMove->bCanMove = true;
+	pMove->CurrentDirection = ConnectionDirection::null;
 
 	pTransform->Translate(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
 }

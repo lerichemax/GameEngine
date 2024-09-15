@@ -9,7 +9,6 @@ public:
 	void SetSignature() override;
 
 protected:
-	void Start();
 	void Update() override;
 
 	void Serialize(StreamWriter& writer) const override;
