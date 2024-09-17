@@ -94,17 +94,17 @@ void SoloScene::Initialize()
 	AddSystem<EnemySpawnerSystem>();
 	
 	// Slick Sam
-	auto* const pSlickSamSpawnerObj = CreateGameObject();
-	auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
-	pSpawnerComp->MaxEnemies = 2;
-	pSpawnerComp->SpawnInterval = 7;
-	pSpawnerComp->Type = EnemyType::SlickSam;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
+	//auto* const pSlickSamSpawnerObj = CreateGameObject();
+	//auto* pSpawnerComp = pSlickSamSpawnerObj->AddComponent<EnemySpawnerComponent>();
+	//pSpawnerComp->MaxEnemies = 2;
+	//pSpawnerComp->SpawnInterval = 7;
+	//pSpawnerComp->Type = EnemyType::SlickSam;
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	//	Coily
 	auto* const pCoilySpawnerObj = CreateGameObject();
-	pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
+	auto* pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 1;
 	pSpawnerComp->SpawnInterval = 10;
 	pSpawnerComp->Type = EnemyType::Coily;

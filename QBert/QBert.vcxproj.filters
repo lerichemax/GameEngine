@@ -87,12 +87,6 @@
     <ClCompile Include="CoilyOnQubeState.cpp">
       <Filter>GameScripts\Characters\States</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterLives.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterPoint.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="UIManagerSystem.cpp">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClCompile>
@@ -138,17 +132,8 @@
     <ClCompile Include="AiControllerComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawnerSystem.cpp">
-      <Filter>GameScripts\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="CoilyComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="AiControllerSystem.cpp">
-      <Filter>GameScripts\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilySystem.cpp">
-      <Filter>GameScripts\Systems</Filter>
     </ClCompile>
     <ClCompile Include="PyramidSystem.cpp">
       <Filter>GameScripts\Systems\Environment</Filter>
@@ -170,6 +155,21 @@
     </ClCompile>
     <ClCompile Include="LivesSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="AiControllerSystem.cpp">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilySystem.cpp">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawnerSystem.cpp">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterLives.cpp">
+      <Filter>GameScripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterPoint.cpp">
+      <Filter>GameScripts\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,12 +258,6 @@
     <ClInclude Include="CoilyOnQubeState.h">
       <Filter>GameScripts\Characters\States</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterLives.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterPoint.h">
-      <Filter>GameScripts</Filter>
-    </ClInclude>
     <ClInclude Include="UIManagerSystem.h">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClInclude>
@@ -309,17 +303,8 @@
     <ClInclude Include="AiControllerComponent.h">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawnerSystem.h">
-      <Filter>GameScripts\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="CoilyComponent.h">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="CoilySystem.h">
-      <Filter>GameScripts\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="AiControllerSystem.h">
-      <Filter>GameScripts\Systems</Filter>
     </ClInclude>
     <ClInclude Include="PyramidSystem.h">
       <Filter>GameScripts\Systems\Environment</Filter>
@@ -341,6 +326,21 @@
     </ClInclude>
     <ClInclude Include="LivesSystem.h">
       <Filter>GameScripts\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AiControllerSystem.h">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilySystem.h">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawnerSystem.h">
+      <Filter>GameScripts\Systems\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterPoint.h">
+      <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterLives.h">
+      <Filter>GameScripts\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +365,6 @@
     <Filter Include="GameScripts\Characters\States">
       <UniqueIdentifier>{3c0620e3-e2f0-45bb-bc9a-fa52b160d00e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Systems">
-      <UniqueIdentifier>{47507f06-e6d4-4cb1-ac69-316db98f5ff0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScripts\Components">
       <UniqueIdentifier>{c4cf47e3-cbeb-4834-93da-dcf393c74f40}</UniqueIdentifier>
     </Filter>
@@ -391,6 +388,9 @@
     </Filter>
     <Filter Include="GameScripts\Components\Environment">
       <UniqueIdentifier>{ee670440-7694-4985-aaae-dc5e6dd3ccc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Systems\Enemies">
+      <UniqueIdentifier>{51b3806b-0107-4060-a176-9c5da6e2be04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

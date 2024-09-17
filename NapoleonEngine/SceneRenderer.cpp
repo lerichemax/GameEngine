@@ -61,7 +61,7 @@ void TextRendererSystem::Update()
 	{
 		auto textRenderComp = m_pRegistry->GetComponent<TextRendererComponent>(entity);
 
-		if (!textRenderComp->IsActive() || !textRenderComp-> m_NeedsUpdate)
+		if (!textRenderComp->IsActive() || !textRenderComp->m_NeedsUpdate)
 		{
 			continue;
 		}

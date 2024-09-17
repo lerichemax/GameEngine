@@ -37,7 +37,7 @@ void CoilySystem::Start()
 			return;
 		}
 		auto* const pEnemy = m_pRegistry->GetComponent<CoilyComponent>(entity);
-		if (IS_VALID(pEnemy))
+		if (IS_VALID(pEnemy) && pEnemy->IsActive())
 		{
 			SearchForQbert(entity);
 		}
@@ -52,7 +52,8 @@ void CoilySystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
-		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
+		if (IS_VALID(pCoily))
 		{
 			CheckForReset(*m_Entities.begin());
 		}
@@ -149,7 +150,7 @@ void CoilySystem::SearchForQbert(Entity entity)
 {
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
 
-	if (pCoily->CurrentlyInQueue == 0)
+	if (pCoily->CurrentlyInQueue != 0)
 	{
 		return;
 	}
@@ -185,12 +186,6 @@ void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 	
 	pMover->CurrentDirection = pCoily->MovementQueue[pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue];
 	pCoily->CurrentlyInQueue--;
-
-	if (pCoily->CurrentlyInQueue == 0)
-	{
-
-	}
-
 }
 
 void CoilySystem::Serialize(StreamWriter& writer) const

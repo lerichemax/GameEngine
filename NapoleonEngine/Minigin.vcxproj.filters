@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Base">
-      <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{b3b4e3fa-b8e7-4da6-a4e7-8db23c8e7399}</UniqueIdentifier>
     </Filter>
@@ -52,6 +49,9 @@
     <Filter Include="ECS\Entity">
       <UniqueIdentifier>{2d999d6e-183c-4cd3-9f31-a40d0ab78038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RendererComponent.h">
@@ -76,7 +76,7 @@
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="NapoleonEngine.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Rendering</Filter>
@@ -126,7 +126,7 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="PCH.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ObserverManager.h">
       <Filter>Managers</Filter>
@@ -153,7 +153,7 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="allocators.h">
       <Filter>rapidjson</Filter>
@@ -225,7 +225,7 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Helpers.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Coordinator.h">
       <Filter>ECS</Filter>
@@ -279,16 +279,22 @@
       <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Debugger.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Factories.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Shapes.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptingSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptComponent.h">
+      <Filter>ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,7 +320,7 @@
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="NapoleonEngine.cpp">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Rendering</Filter>
@@ -381,7 +387,7 @@
       <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Subject.cpp">
@@ -433,13 +439,19 @@
       <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="PCH.cpp">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Debugger.cpp">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Shapes.cpp">
-      <Filter>Base</Filter>
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptingSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptComponent.cpp">
+      <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

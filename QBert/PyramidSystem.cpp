@@ -13,6 +13,7 @@
 #include "TransformComponent.h"
 #include "RendererComponent.h"
 #include "QbertComponent.h"
+#include "TextRendererComponent.h"
 
 #include "GameObject.h"
 
@@ -56,6 +57,7 @@ void PyramidSystem::Initialize()
 			}
 
 			lastPos.x += pQube->pDefaultText->GetWidth() * pQubeObj->GetTransform()->GetScale().x;
+			pQubeObj->GetComponentInChildren<TextRendererComponent>()->SetText(std::to_string(pQubeObj->GetEntity()));
 		}
 		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes.back());
 		startPos.x += pQube->pDefaultText->GetWidth() * 0.85f; // magic numbers

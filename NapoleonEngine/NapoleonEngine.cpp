@@ -26,10 +26,8 @@
 #include "FPSCounter.h"
 #include "Scene.h"
 
-
 class ObserverManager;
 
-using namespace std;
 bool NapoleonEngine::m_bQuit = false;
 NapoleonEngine* NapoleonEngine::m_pEngine = nullptr;
 
@@ -150,7 +148,6 @@ void NapoleonEngine::Run()
 			Timer::GetInstance().Update();
 			
 			m_bQuit = !input.ProcessInput();
-			
 			sceneManager.Update();	
 			
 			renderer.Render();

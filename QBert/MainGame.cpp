@@ -11,6 +11,7 @@
 #include "AiControllerSystem.h"
 #include "CoilySystem.h"
 #include "LivesSystem.h"
+#include "ScriptingSystem.h"
 
 #include "AudioComponent.h"
 #include "TextRendererComponent.h"
@@ -24,6 +25,7 @@
 #include "DiskComponent.h"
 #include "AiControllerComponent.h"
 #include "CoilyComponent.h"
+#include "ScriptComponent.h"
 
 #include "CoopScene.h"
 #include "MainMenuScene.h"
@@ -132,6 +134,7 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->AddComponent<CharacterLives>()->Init(3);
 	pQbertObj->AddComponent<CharacterPoint>();
 	pQbertObj->AddComponent<JumpComponent>();
+	//pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "./Data/Scripts/main.lua";
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 
@@ -150,6 +153,7 @@ void MainGame::CreatePrefabs() const
 	qbertPrefab->AddRequiredSystem<JumperSystem>();
 	qbertPrefab->AddRequiredSystem<QBertSystem>();
 	qbertPrefab->AddRequiredSystem<LivesSystem>();
+	//qbertPrefab->AddRequiredSystem<ScriptingSystem>();
 
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
@@ -161,6 +165,14 @@ void MainGame::CreatePrefabs() const
 	qubeObject->GetTransform()->Scale(1.75f);
 	qubeObject->AddComponent<QubeComponent>();
 	qubeObject->AddComponent<RendererComponent>()->Layer = 2;
+
+	auto* pDebugObj = qubePf->CreateGameObject();
+	auto* const pDebugTxt = pDebugObj->AddComponent<TextRendererComponent>();
+	pDebugTxt->SetTextColor(255, 0, 0);
+	pDebugTxt->SetFont(font);
+
+	pDebugObj->AddComponent<RendererComponent>();
+
 	qubePf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
