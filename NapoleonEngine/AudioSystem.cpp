@@ -33,7 +33,7 @@ void AudioSystem::Update()
 	}
 }
 
-void AudioSystem::SetSignature()
+void AudioSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<AudioComponent>());

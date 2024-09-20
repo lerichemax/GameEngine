@@ -48,7 +48,6 @@ void TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 void TextRendererComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TextRendererComponent)).hash_code()));
-	writer.WriteInt("txtId", m_TextId);
 	writer.WriteString("txt", m_Text);
 	Color color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };
 	writer.StartObject("color");
@@ -61,7 +60,6 @@ void TextRendererComponent::Serialize(StreamWriter& writer) const
 
 void TextRendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadInt("txtId", m_TextId);
 	reader->ReadString("txt", m_Text);
 	auto colorObject = reader->ReadObject("color");
 	Color color{ 0,0,0,0 };

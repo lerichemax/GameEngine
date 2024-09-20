@@ -4,7 +4,7 @@
 class FPSCounterSystem : public System
 {
 public:
-	void SetSignature() override;
+	void SetSignature() const override;
 
 protected:
 	void Update() override;

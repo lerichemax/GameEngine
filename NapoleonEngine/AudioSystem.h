@@ -22,5 +22,5 @@ public:
 
 	void Update() override;
 
-	void SetSignature() override;
+	void SetSignature() const override;
 };

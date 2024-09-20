@@ -28,7 +28,7 @@ void LivesSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(LivesSystem)).hash_code()));
 }
 
-void LivesSystem::SetSignature()
+void LivesSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<CharacterLives>());

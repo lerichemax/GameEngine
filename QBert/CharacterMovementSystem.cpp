@@ -9,6 +9,7 @@
 #include "MovementComponent.h"
 #include "JumpComponent.h"
 #include "AiControllerComponent.h"
+#include "QbertComponent.h"
 
 #include "ResourceManager.h"
 #include "Coordinator.h"
@@ -20,7 +21,10 @@ void CharacterMovementSystem::Start()
 	if (m_pJumper != nullptr)
 	{
 		m_pJumper->OnJumpLanded.Subscribe([this](Entity entity){
-			MoveToCurrentQube(entity);
+			auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
+			pMoveComp->bCanMove = true;
+			SetIdleTexture(entity);
+			pMoveComp->CurrentDirection = ConnectionDirection::null;
 			});
 	}
 }
@@ -44,6 +48,8 @@ void CharacterMovementSystem::Move(Entity entity)
 {
 	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
+	MoveToCurrentQube(entity);
+
 	if (pMoveComp->CurrentDirection == ConnectionDirection::null)
 	{
 		return;
@@ -65,13 +71,15 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
 	}
-	else if (pCurrentQube->ConnectionToDisk != NULL_ENTITY && !m_pRegistry->HasTag(entity, ENEMY_TAG))
+	else if (pCurrentQube->ConnectionToDisk->Direction != ConnectionDirection::null && !m_pRegistry->HasTag(entity, ENEMY_TAG))
 	{
 		OnMoveStarted.Notify(entity);
 
-		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk);
-		auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(pCurrentQube->ConnectionToDisk);
+		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(pCurrentQube->ConnectionToDisk->Disk);
+		auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(pCurrentQube->ConnectionToDisk->Disk);
 		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
+
+		m_pRegistry->GetComponent<QbertComponent>(entity)->Disk = pCurrentQube->ConnectionToDisk->Disk;
 
 		pDisk->bHasQbert = true;
 		pTransform->Translate(pDiskTransform->GetLocation());
@@ -98,7 +106,7 @@ void CharacterMovementSystem::Move(Entity entity)
 	}
 }
 
-void CharacterMovementSystem::SetSignature()
+void CharacterMovementSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
@@ -121,17 +129,13 @@ void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 
 	assert(IS_VALID(pQube) && "pQube is invalid");
 
-	if (!pQube->Characters.empty() && pQube->Characters.find(entity) == pQube->Characters.end())
+	if (pQube->Characters.size() > 1)
 	{
+		pMoveComp->bCanMove = false;
 		OnMeetCharacter.Notify(entity, pQube->Characters);
 	}
 
 	pTransform->Translate(pQube->CharacterPos);
-
-	SetIdleTexture(entity);
-
-	pMoveComp->CurrentDirection = ConnectionDirection::null;
-	pMoveComp->bCanMove = true;
 }
 
 void CharacterMovementSystem::SetIdleTexture(Entity entity)

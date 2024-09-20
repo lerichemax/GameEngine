@@ -99,7 +99,7 @@ bool CameraSystem::TrySetMainCamera(GameObject* const pGameObject)
 	return true;
 }
 
-void CameraSystem::SetSignature()
+void CameraSystem::SetSignature() const
 {
 	Signature signature{};
 	signature.set(m_pRegistry->GetComponentType<TransformComponent>());

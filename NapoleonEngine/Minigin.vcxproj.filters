@@ -131,9 +131,6 @@
     <ClInclude Include="ObserverManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="SceneRenderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="PrefabsManager.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
@@ -296,6 +293,15 @@
     <ClInclude Include="ScriptComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="LayeredRendererSystem.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendererSystem.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -364,9 +370,6 @@
     </ClCompile>
     <ClCompile Include="ObserverManager.cpp">
       <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneRenderer.cpp">
-      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
@@ -453,5 +456,28 @@
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LayeredRendererSystem.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendererSystem.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ComponentManager.inl">
+      <Filter>ECS\Components\Base</Filter>
+    </None>
+    <None Include="ComponentArray.inl">
+      <Filter>ECS\Components\Base</Filter>
+    </None>
+    <None Include="SystemManager.inl">
+      <Filter>ECS\Systems\Base</Filter>
+    </None>
+    <None Include="Coordinator.inl">
+      <Filter>ECS</Filter>
+    </None>
   </ItemGroup>
 </Project>

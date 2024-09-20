@@ -45,7 +45,7 @@ void ScriptingSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(ScriptingSystem)).hash_code()));
 }
 
-void ScriptingSystem::SetSignature()
+void ScriptingSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<ScriptComponent>());

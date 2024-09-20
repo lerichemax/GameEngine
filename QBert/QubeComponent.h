@@ -10,11 +10,18 @@ enum class ConnectionDirection
 	null
 };
 
+struct DiskConnection 
+{
+	Entity Disk{NULL_ENTITY};
+	ConnectionDirection Direction{ ConnectionDirection::null };
+};
+
 enum class Level;
 
 struct QubeComponent : public Component
 {
 	QubeComponent();
+	~QubeComponent();
 
 	int static const MAX_NBR_CONNECTION{ 4 };
 	static int const POINTS_FOR_FLIP{ 25 };
@@ -23,7 +30,8 @@ struct QubeComponent : public Component
 	//Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
 	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
 
-	Entity ConnectionToDisk;
+	DiskConnection* ConnectionToDisk;
+
 	std::unordered_set<Entity> Characters;
 
 	Texture2D* const pDefaultText;
@@ -45,5 +53,6 @@ struct QubeComponent : public Component
 	void Serialize(StreamWriter& writer) const override;
 
 	bool HasConnection(ConnectionDirection direction) const;
+	bool HasConnectionToDisk() const;
 	Entity GetConnection(ConnectionDirection direction) const;
 };

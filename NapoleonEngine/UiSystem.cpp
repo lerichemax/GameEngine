@@ -63,7 +63,7 @@ void UiSystem::Update()
 	}
 }
 
-void UiSystem::SetSignature()
+void UiSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<TransformComponent>());

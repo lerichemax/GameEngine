@@ -106,7 +106,7 @@ void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
 	pMovement->CurrentQube = targetQubeEntity;
 	pMovement->bCanMove = true;
 
-	m_pRegistry->GetSystem<CharacterMovementSystem>()->MoveToCurrentQube(entity);
+	//m_pRegistry->GetSystem<CharacterMovementSystem>()->MoveToCurrentQube(entity);
 
 	m_pRegistry->SetEntityActive(entity, true);
 	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 8;
@@ -121,7 +121,6 @@ void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
 	auto* const pPoints = m_pRegistry->GetComponent<CharacterPoint>(entity);
 	pLives->Reset();
 	pPoints->Reset();
-
 }
 
 void QBertSystem::OnJumped(Entity qbertEntity)
@@ -176,6 +175,7 @@ void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_se
 				pQBert->pSwearSound->Play();
 				pQBert->bOnResetCoolDown = true;
 
+				OnQBertEncounteredEnemy.Notify();
 			}
 			break;
 		case EnemyType::SlickSam:
@@ -218,7 +218,7 @@ void QBertSystem::JumpOffDisk(Entity qbertEntity)
 	pTransform->Translate(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
 }
 
-void QBertSystem::SetSignature()
+void QBertSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());

@@ -33,15 +33,12 @@ void UIManagerSystem::Start()
 	});
 
 	pLivesSystem->OnGameOver.Subscribe([this, entity]() {
-		if (m_pRegistry->HasTag(entity, QBERT_TAG))
-		{
-			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
-			auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
+		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+		auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
 
-			pText->SetText("Game Over");
+		pText->SetText("Game Over");
 
-			m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
-		}
+		m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
 	});
 
 	auto* const pGameManager = m_pRegistry->GetSystem<GameManagerSystem>();
@@ -62,7 +59,7 @@ void UIManagerSystem::Start()
 	});
 }
 
-void UIManagerSystem::SetSignature() 
+void UIManagerSystem::SetSignature() const
 {
 	Signature signature{};
 	signature.set(m_pRegistry->GetComponentType<UiManagerComponent>());

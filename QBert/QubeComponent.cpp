@@ -10,11 +10,15 @@ QubeComponent::QubeComponent()
 	pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
 	pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
 	pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png")),
-	ConnectionToDisk{ NULL_ENTITY }
-
+	ConnectionToDisk{ new DiskConnection{} }
 {
-
 }
+
+QubeComponent::~QubeComponent()
+{
+	SAFE_DELETE(ConnectionToDisk);
+}
+
 void QubeComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(QubeComponent)).hash_code()));
@@ -24,7 +28,12 @@ void QubeComponent::Serialize(StreamWriter& writer) const
 
 bool QubeComponent::HasConnection(ConnectionDirection direction) const
 {
-	return Connections[static_cast<int>(direction)] != -1;
+	return Connections[static_cast<int>(direction)] != NULL_ENTITY;
+}
+
+bool QubeComponent::HasConnectionToDisk() const
+{
+	return ConnectionToDisk->Disk != NULL_ENTITY && ConnectionToDisk->Direction != ConnectionDirection::null;
 }
 
 Entity QubeComponent::GetConnection(ConnectionDirection direction) const
@@ -34,5 +43,5 @@ Entity QubeComponent::GetConnection(ConnectionDirection direction) const
 		return Connections[static_cast<int>(direction)];
 	}
 
-	return -1;
+	return NULL_ENTITY;
 }

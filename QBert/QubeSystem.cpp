@@ -72,7 +72,16 @@ void QubeSystem::Start()
 		{
 			for (Entity entity : m_Entities)
 			{
-				m_pRegistry->GetComponent<QubeComponent>(entity)->Characters.clear();
+				auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
+				if (pQube->Characters.contains(deadEntity))
+				{
+					pQube->Characters.clear();
+					pQube->Characters.insert(deadEntity);
+				}
+				else
+				{
+					pQube->Characters.clear();
+				}
 			}
 		}
 	});
@@ -236,7 +245,7 @@ void QubeSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(QubeSystem)).hash_code()));
 }
 
-void QubeSystem::SetSignature()
+void QubeSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<QubeComponent>());

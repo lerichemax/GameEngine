@@ -2,6 +2,11 @@
 #include "QbertComponent.h"
 #include "AudioComponent.h"
 
+QbertComponent::QbertComponent()
+	:Disk{NULL_ENTITY}
+{
+}
+
 void QbertComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(QbertComponent)).hash_code()));

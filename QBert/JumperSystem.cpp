@@ -150,7 +150,7 @@ void JumperSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(JumperSystem)).hash_code()));
 }
 
-void JumperSystem::SetSignature()
+void JumperSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<JumpComponent>());

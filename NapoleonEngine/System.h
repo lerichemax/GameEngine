@@ -28,7 +28,7 @@ protected:
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) {};
 
-	virtual void SetSignature() = 0;
+	virtual void SetSignature() const = 0;
 
 	virtual void AddEntity(Entity entity);
 

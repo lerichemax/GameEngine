@@ -17,7 +17,7 @@ public:
 
 	void Serialize(StreamWriter& writer) const override;
 
-	void SetSignature() override;
+	void SetSignature() const override;
 
 protected:
 	void Update() override;

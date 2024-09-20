@@ -1,11 +1,14 @@
 #pragma once
 #include "System.h"
+#include "Event.h"
 
 class Coordinator;
 class QBertSystem : public System 
 {
 public:
-	 void SetSignature() override;
+	EventHandler<QBertSystem> OnQBertEncounteredEnemy;
+
+	 void SetSignature() const override;
 
 	 void Serialize(StreamWriter& writer) const override;
 

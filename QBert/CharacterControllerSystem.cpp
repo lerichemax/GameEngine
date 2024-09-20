@@ -46,7 +46,7 @@ void CharacterControllerSystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CharacterControllerSystem)).hash_code()));
 }
 
-void CharacterControllerSystem::SetSignature()
+void CharacterControllerSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());

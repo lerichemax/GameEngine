@@ -109,15 +109,3 @@ private:
 
 	bool HasChanged() const;
 };
-
-
-class Coordinator;
-class TransformSystem : public System {
-public:
-	void Update() override;
-
-	void SetSignature() override;
-
-private:
-	void RecursivelyUpdateHierarchy(TransformComponent* const transformComponent) const;
-};

@@ -169,7 +169,7 @@ void EnemySpawnerSystem::ResetTimer()
 	//m_EnemySpawnTimer = 0;
 }
 
-void EnemySpawnerSystem::SetSignature()
+void EnemySpawnerSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<EnemySpawnerComponent>());

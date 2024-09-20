@@ -168,10 +168,10 @@ void MainGame::CreatePrefabs() const
 
 	auto* pDebugObj = qubePf->CreateGameObject();
 	auto* const pDebugTxt = pDebugObj->AddComponent<TextRendererComponent>();
-	pDebugTxt->SetTextColor(255, 0, 0);
+	pDebugTxt->SetTextColor(255, 255, 255);
 	pDebugTxt->SetFont(font);
 
-	pDebugObj->AddComponent<RendererComponent>();
+	pDebugObj->AddComponent<RendererComponent>()->Layer = 10;
 
 	qubePf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");

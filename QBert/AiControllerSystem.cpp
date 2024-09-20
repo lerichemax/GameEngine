@@ -1,5 +1,7 @@
 #include "PCH.h"
 #include "AiControllerSystem.h"
+#include "QBertSystem.h"
+#include "LivesSystem.h"
 
 #include "AiControllerComponent.h"
 #include "MovementComponent.h"
@@ -7,21 +9,23 @@
 
 #include "Timer.h"
 
-void AiControllerSystem::Serialize(StreamWriter& writer) const
+void AiControllerSystem::Start()
 {
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(AiControllerSystem)).hash_code()));
-}
+	m_pRegistry->GetSystem<QBertSystem>()->OnQBertEncounteredEnemy.Subscribe([this]() {
+		m_bIsPaused = true;
+		});
 
-void AiControllerSystem::SetSignature()
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<AiControllerComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-	m_pRegistry->SetSystemSignature<AiControllerSystem>(signature);
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int lives) {
+		m_bIsPaused = false;
+		});
 }
 
 void AiControllerSystem::Update()
 {
+	if (m_bIsPaused)
+	{
+		return;
+	}
 	for (Entity entity : m_Entities)
 	{
 		auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(entity);
@@ -87,4 +91,17 @@ void AiControllerSystem::ChooseDirection(MovementComponent* const pMover) const
 	}
 
 	pMover->CurrentDirection = dir;
+}
+
+void AiControllerSystem::Serialize(StreamWriter& writer) const
+{
+	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(AiControllerSystem)).hash_code()));
+}
+
+void AiControllerSystem::SetSignature() const
+{
+	Signature signature;
+	signature.set(m_pRegistry->GetComponentType<AiControllerComponent>());
+	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
+	m_pRegistry->SetSystemSignature<AiControllerSystem>(signature);
 }

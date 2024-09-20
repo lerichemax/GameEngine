@@ -5,6 +5,8 @@
 #include "EnemySpawnerSystem.h"
 #include "CharacterLives.h"
 #include "LivesSystem.h"
+#include "DiskSystem.h"
+#include "CharacterMovementSystem.h"
 
 #include "AiControllerComponent.h"
 #include "JumpComponent.h"
@@ -14,6 +16,7 @@
 #include "AudioComponent.h"
 #include "QubeComponent.h"
 #include "RendererComponent.h"
+#include "DiskComponent.h"
 
 #include <thread>
 
@@ -53,11 +56,15 @@ void CoilySystem::Start()
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
 		auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
-		if (IS_VALID(pCoily))
+		if (IS_VALID(pCoily) || m_pRegistry->HasTag(entity, QBERT_TAG))
 		{
-			CheckForReset(*m_Entities.begin());
+			ResetCoily(*m_Entities.begin());
 		}
 	});
+
+	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
+		SearchForQbert(*m_Entities.begin());
+		});
 }
 
 void CoilySystem::Update()
@@ -124,16 +131,6 @@ void CoilySystem::HandleCoilyTransform(Entity entity)
 	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(false);
 }
 
-void CoilySystem::CheckForReset(Entity entity)
-{
-	if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
-	{
-		return;
-	}
-
-	ResetCoily(entity);
-}
-
 void CoilySystem::ResetCoily(Entity entity)
 {
 	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
@@ -143,7 +140,10 @@ void CoilySystem::ResetCoily(Entity entity)
 
 	pMovement->bCanMove = true;
 
-	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(false);
+	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
+	pCoily->CurrentlyInQueue = 0;
+	pCoily->SetActive(false);
+
 	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 7;
 }
 void CoilySystem::SearchForQbert(Entity entity)
@@ -156,15 +156,29 @@ void CoilySystem::SearchForQbert(Entity entity)
 	}
 	
 	auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(entity);
-	std::thread t1([this, pCoily, pMover]
+	std::thread t1([this, entity, pCoily, pMover]
 		{
+			Entity targetEntity = NULL_ENTITY;
+
 			auto* const pQbertMoveComp = m_pRegistry->GetComponent<MovementComponent>(m_Qbert);
 
-			bool result{};
+			if (pQbertMoveComp->CurrentQube != NULL_ENTITY)
+			{
+				targetEntity = pQbertMoveComp->CurrentQube;
+			}
+			else
+			{
+				auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(m_Qbert);
 
-			result = m_pPyramid->TryFindPathTo(pMover->CurrentQube, pQbertMoveComp->CurrentQube, pCoily->MovementQueue, pCoily->MOVEMENT_QUEUE_SIZE);
+				targetEntity = pQbert->Disk;
+			}
 
-			if (result)
+			if (pMover->CurrentQube == pQbertMoveComp->CurrentQube)
+			{
+				return;
+			}
+
+			if (m_pPyramid->TryFindPathTo(pMover->CurrentQube, targetEntity, pCoily->MovementQueue, pCoily->MOVEMENT_QUEUE_SIZE))
 			{
 				pCoily->CurrentlyInQueue = pCoily->MOVEMENT_QUEUE_SIZE;
 			}
@@ -184,6 +198,12 @@ void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
 	
+	if (pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue == pCoily->MOVEMENT_QUEUE_SIZE)
+	{
+		pMover->CurrentDirection = ConnectionDirection::null;
+		return;
+	}
+
 	pMover->CurrentDirection = pCoily->MovementQueue[pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue];
 	pCoily->CurrentlyInQueue--;
 }
@@ -193,7 +213,7 @@ void CoilySystem::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CoilySystem)).hash_code()));
 }
 
-void CoilySystem::SetSignature()
+void CoilySystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<AiControllerComponent>());

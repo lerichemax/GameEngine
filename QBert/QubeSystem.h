@@ -44,7 +44,7 @@ public:
 	void CharacterJumpOut();
 
 	void Serialize(StreamWriter& writer) const override;
-	void SetSignature() override;
+	void SetSignature() const override;
 
 protected:
 	void Initialize() override;

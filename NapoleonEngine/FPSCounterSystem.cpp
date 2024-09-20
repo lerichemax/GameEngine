@@ -26,7 +26,7 @@ void FPSCounterSystem::Update()
 	}
 }
 
-void FPSCounterSystem::SetSignature()
+void FPSCounterSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<FPSCounter>());

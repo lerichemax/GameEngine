@@ -13,10 +13,7 @@ public:
 	EventHandler<CharacterMovementSystem, Entity> OnJumpedOnDisk;
 	EventHandler<CharacterMovementSystem, Entity, std::unordered_set<Entity> const&> OnMeetCharacter;
 
-	void Move(Entity entity);
-	void MoveToCurrentQube(Entity entity);
-
-	void SetSignature() override;
+	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;
 
 protected:
@@ -26,6 +23,8 @@ protected:
 private:
 	void SetIdleTexture(Entity entity);
 	void SetJumpTexture(Entity entity);
+	void MoveToCurrentQube(Entity entity);
+	void Move(Entity entity);
 
 	JumperSystem* m_pJumper;
 };

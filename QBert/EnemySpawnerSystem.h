@@ -12,7 +12,7 @@ public:
 
 	void ResetTimer();
 
-	void SetSignature() override;
+	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;
 
 	EventHandler<EnemySpawnerSystem, Entity> OnEnemySpawned;

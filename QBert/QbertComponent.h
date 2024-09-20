@@ -6,12 +6,17 @@
 struct AudioComponent;
 struct QbertComponent : public Component
 {
+	QbertComponent();
+
 	AudioComponent* pJumpSound{};
 	AudioComponent* pFallSound{};
 	AudioComponent* pSwearSound{};
 
 	float const MAX_RESET_TIME{ 0.75f };
 	float ResetTimer{};
+
+	Entity Disk;
+
 	bool bOnResetCoolDown{};
 
 	void Serialize(StreamWriter& writer) const override;

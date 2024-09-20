@@ -160,7 +160,7 @@ void GameManagerSystem::Update()
 	}
 }
 
-void GameManagerSystem::SetSignature()
+void GameManagerSystem::SetSignature() const
 {
 	Signature signature{};
 

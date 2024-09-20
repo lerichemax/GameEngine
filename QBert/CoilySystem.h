@@ -7,7 +7,7 @@ class CoilySystem final : public AiControllerSystem {
 public:
 	CoilySystem() = default;
 
-	void SetSignature() override;
+	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;
 
 protected:
@@ -23,7 +23,6 @@ private:
 
 	void HandleJumpToDeath(Entity coilyEntity);
 	void HandleCoilyTransform(Entity entity);
-	void CheckForReset(Entity entity);
 	void ResetCoily(Entity entity);
 	void SearchForQbert(Entity entity);
 };

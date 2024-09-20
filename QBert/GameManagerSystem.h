@@ -73,7 +73,7 @@ public:
 
 	void TogglePause();
 
-	void SetSignature() override;
+	void SetSignature() const override;
 
 	EventHandler<GameManagerSystem, bool> OnGamePaused;
 	EventHandler<GameManagerSystem> OnGameEnded;

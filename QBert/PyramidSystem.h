@@ -35,7 +35,7 @@ public:
 	bool TryFindPathTo(Entity startingQube, Entity targetQube, ConnectionDirection* directionsArray, size_t arraySize) const; //used by coily to move to qbert
 
 	void Serialize(StreamWriter& writer) const override;
-	void SetSignature() override;
+	void SetSignature() const override;
 
 protected:
 	void Initialize();

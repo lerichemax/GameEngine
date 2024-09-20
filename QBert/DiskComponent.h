@@ -10,11 +10,13 @@ struct DiskComponent : public Component
 	static int const POINTS{ 50 };
 
 	glm::vec2 TargetPosition;
-	//QBert* m_pQbert;
-	bool bHasQbert;
-	bool bHasReachedTop;
+	
+	Entity LinkedQube;
+
 	float DropTimer;
 
+	bool bHasQbert;
+	bool bHasReachedTop;
 
 	void Serialize(StreamWriter& writer) const override;
 };

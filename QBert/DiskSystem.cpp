@@ -79,9 +79,9 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 		return !pDisk->IsActive();
 		});
 
-	m_pRegistry->SetEntityHierarchyActive(diskEntity, true);
+	m_pRegistry->GetComponent<DiskComponent>(diskEntity)->LinkedQube = qubeEntity;
 
-	//pDisk->GetComponent<DiskSystem>()->SetPyramidTop(m_pGameObject->GetParent()->GetComponent<Pyramid>()->GetTop());
+	m_pRegistry->SetEntityHierarchyActive(diskEntity, true);
 
 	auto const parentPos = pQubeTransform->GetLocation();
 
@@ -89,17 +89,19 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 	if (!pQube->HasConnection(ConnectionDirection::upLeft))
 	{
 		pDiskTransform->Translate(parentPos.x - pQubeRenderer->pTexture->GetWidth() / 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
+		pQube->ConnectionToDisk->Direction = ConnectionDirection::upRight;
 	}
 	else
 	{
 		pDiskTransform->Translate(parentPos.x + pQubeRenderer->pTexture->GetWidth() * 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
+		pQube->ConnectionToDisk->Direction = ConnectionDirection::upLeft;
 	}
 
-	pQube->ConnectionToDisk = diskEntity;
+	pQube->ConnectionToDisk->Disk = diskEntity;
 	Debugger::GetInstance().Log("Disk spawned");
 }
 
-void DiskSystem::SetSignature()
+void DiskSystem::SetSignature() const
 {
 	Signature signature;
 	signature.set(m_pRegistry->GetComponentType<DiskComponent>());
