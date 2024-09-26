@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 
+enum class MovementMode;
 enum class ConnectionDirection
 {
 	upRight,
@@ -17,6 +18,7 @@ struct DiskConnection
 };
 
 enum class Level;
+enum class EnemyType;
 
 struct QubeComponent : public Component
 {
@@ -27,8 +29,8 @@ struct QubeComponent : public Component
 	static int const POINTS_FOR_FLIP{ 25 };
 
 	Entity Connections[MAX_NBR_CONNECTION]; //0 :up-right, 1 : down-right, 2 : down -left, 3 : up- left
-	//Qube* m_pEscheresqueRightConnections[MAX_NBR_CONNECTION];
-	//Qube* m_pEscheresqueLeftConnections[MAX_NBR_CONNECTION];
+	Entity EscheresqueRightConnections[MAX_NBR_CONNECTION];
+	Entity EscheresqueLeftConnections[MAX_NBR_CONNECTION];
 
 	DiskConnection* ConnectionToDisk;
 
@@ -39,8 +41,8 @@ struct QubeComponent : public Component
 	Texture2D* const pFlippedTexture;
 
 	glm::vec2 CharacterPos{};
-	//glm::vec2 m_EscheresqueLeftPos;
-	//glm::vec2 m_EscheresqueRightPos;
+	glm::vec2 EscheresqueLeftPos{};
+	glm::vec2 EscheresqueRightPos{};
 
 	Level QubeLevel{ };
 
@@ -53,6 +55,9 @@ struct QubeComponent : public Component
 	void Serialize(StreamWriter& writer) const override;
 
 	bool HasConnection(ConnectionDirection direction) const;
+	bool HasConnectionForMovementMode(MovementMode mode, ConnectionDirection direction) const;
 	bool HasConnectionToDisk() const;
 	Entity GetConnection(ConnectionDirection direction) const;
+	Entity GetConnectionForMovementMode(MovementMode mode, ConnectionDirection direction) const;
+	glm::vec2 const& GetEnemyTopPosition(MovementMode mode) const;
 };

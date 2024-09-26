@@ -63,8 +63,11 @@ void CoilySystem::Start()
 	});
 
 	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
-		SearchForQbert(*m_Entities.begin());
-		});
+		if (m_pRegistry->GetComponent<CoilyComponent>(*m_Entities.begin())->IsActive())
+		{
+			SearchForQbert(*m_Entities.begin());
+		}
+	});
 }
 
 void CoilySystem::Update()
@@ -75,16 +78,18 @@ void CoilySystem::Update()
 	}
 
 	Entity coilyEntity = *m_Entities.begin();
-
-	auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity);
+	
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
 
-	if (pCoily->IsActive() || (pAiControllerComp->IsActive() && !pCoily->IsActive()))
+	if (pCoily->IsActive())
 	{
-		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(coilyEntity);
-
-		HandleAi(pMoveComp, pAiControllerComp);
+		SearchForQbert(coilyEntity);
 	}
+
+	auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity);
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(coilyEntity);
+
+	HandleAi(pMoveComp, pAiControllerComp);
 }
 
 void CoilySystem::HandleJumpToDeath(Entity coilyEntity)

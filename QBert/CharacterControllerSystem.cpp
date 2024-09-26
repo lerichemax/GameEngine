@@ -21,6 +21,11 @@ void CharacterControllerSystem::Update()
 		}
 
 		auto* const pCharacterMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
+		
+		if (!pCharacterMovement->bCanMove)
+		{
+			return;
+		}
 
 		if (InputManager::GetInstance().IsUp(SDL_SCANCODE_D))
 		{

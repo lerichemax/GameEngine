@@ -1,6 +1,13 @@
 #pragma once
 #include "Component.h"
 
+enum class MovementMode
+{
+	Normal,
+	EscheresqueRight,
+	EscheresqueLeft
+};
+
 enum class ConnectionDirection;
 struct MovementComponent : public Component
 {
@@ -21,6 +28,7 @@ struct MovementComponent : public Component
 	std::string TextureJumpUpLeft;
 
 	ConnectionDirection CurrentDirection;
+	MovementMode Mode;
 
 	void SetTextureIdleNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);
 	void SetTextureJumpNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);

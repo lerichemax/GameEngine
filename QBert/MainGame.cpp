@@ -130,10 +130,11 @@ void MainGame::CreatePrefabs() const
 		"Textures/QBert/QBert1_UpRight_Qube.png", "Textures/QBert/QBert1_UpLeft_Qube.png");
 	pCharacterMovement->SetTextureJumpNames("Textures/QBert/QBert1_DownRight_Jump.png", "Textures/QBert/QBert1_DownLeft_Jump.png",
 		"Textures/QBert/QBert1_UpRight_Jump.png", "Textures/QBert/QBert1_UpLeft_Jump.png");
+	pCharacterMovement->Mode = MovementMode::Normal;
 
 	pQbertObj->AddComponent<CharacterLives>()->Init(3);
 	pQbertObj->AddComponent<CharacterPoint>();
-	pQbertObj->AddComponent<JumpComponent>();
+	pQbertObj->AddComponent<JumpComponent>()->Direction = {0, -1};
 	//pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "./Data/Scripts/main.lua";
 	//qbert->AddComponent(new BoxCollider{ 24,24 });
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
@@ -166,13 +167,6 @@ void MainGame::CreatePrefabs() const
 	qubeObject->AddComponent<QubeComponent>();
 	qubeObject->AddComponent<RendererComponent>()->Layer = 2;
 
-	auto* pDebugObj = qubePf->CreateGameObject();
-	auto* const pDebugTxt = pDebugObj->AddComponent<TextRendererComponent>();
-	pDebugTxt->SetTextColor(255, 255, 255);
-	pDebugTxt->SetFont(font);
-
-	pDebugObj->AddComponent<RendererComponent>()->Layer = 10;
-
 	qubePf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
@@ -185,12 +179,55 @@ void MainGame::CreatePrefabs() const
 	pyramidPf->AddRequiredSystem<PyramidSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
-	////Ugg + WrongWay
-	//auto wrongWayPrefab = pPrefabManager.CreatePrefab("WrongWay");
-	//auto wrongWayObject = wrongWayPrefab->CreateGameObject();
-	////wrongWayPrefab->AddComponent(new WrongWay{ true });
-	//ECS_RendererComponent wrongWayRenderer;
-	//wrongWayRenderer.m_Layer = Layer::middleground;
+	//Ugg + WrongWay
+	auto pUggPrefab = pPrefabManager.CreatePrefab();
+	auto pUggobject = pUggPrefab->GetRoot();
+	auto* const pUggRenderer = pUggobject->AddComponent<RendererComponent>();
+	pUggRenderer->Layer = 7;
+
+	auto* pMover = pUggobject->AddComponent<MovementComponent>();
+	pMover->SetTextureIdleNames("Textures/Enemies/WrongWay/Ugg_Right.png", "Textures/Enemies/WrongWay/Ugg_left.png", "", "");
+	pMover->SetTextureJumpNames("Textures/Enemies/WrongWay/Ugg_Right.png", "Textures/Enemies/WrongWay/Ugg_left.png", "", "");
+	pMover->Mode = MovementMode::EscheresqueLeft;
+
+	pUggobject->AddComponent<JumpComponent>()->Direction = { -1, 0 };;
+	pUggobject->AddComponent<CharacterLives>()->Init(1);
+
+	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
+	pAiController->Type = EnemyType::WrongWay;
+	pAiController->PointsForKill = 0;
+
+	pUggobject->SetTag(ENEMY_TAG);
+	pUggobject->GetTransform()->Scale(1.5f);
+
+	pUggPrefab->AddRequiredSystem<AiControllerSystem>();
+
+	pPrefabManager.SavePrefab(pUggPrefab, "Ugg");
+
+
+	auto pWrongWayPrefab = pPrefabManager.CreatePrefab();
+	auto pWrongWayObject = pWrongWayPrefab->GetRoot();
+	auto* const pWrongWayRenderer = pWrongWayObject->AddComponent<RendererComponent>();
+	pWrongWayRenderer->Layer = 7;
+
+	pMover = pWrongWayObject->AddComponent<MovementComponent>();
+	pMover->SetTextureIdleNames("Textures/Enemies/WrongWay/WrongWay_Right.png", "Textures/Enemies/WrongWay/WrongWay_left.png", "", "");
+	pMover->SetTextureJumpNames("Textures/Enemies/WrongWay/WrongWay_Right.png", "Textures/Enemies/WrongWay/WrongWay_left.png", "", "");
+	pMover->Mode = MovementMode::EscheresqueRight;
+
+	pWrongWayObject->AddComponent<JumpComponent>()->Direction = { 1, 0 };
+	pWrongWayObject->AddComponent<CharacterLives>()->Init(1);
+
+	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
+	pAiController->Type = EnemyType::WrongWay;
+	pAiController->PointsForKill = 0;
+
+	pWrongWayObject->SetTag(ENEMY_TAG);
+	pWrongWayObject->GetTransform()->Scale(1.5f);
+
+	pWrongWayPrefab->AddRequiredSystem<AiControllerSystem>();
+
+	pPrefabManager.SavePrefab(pWrongWayPrefab, "WrongWay");
 
 	//wrongWayObject->AddComponent<ECS_RendererComponent>(wrongWayRenderer);
 	////wrongWayPrefab->AddComponent(new WrongWayJumper{});
@@ -207,14 +244,15 @@ void MainGame::CreatePrefabs() const
 	pCoilyRenderer->Layer = 7;
 	pCoilyRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 
-	auto* pMover = pCoilyObject->AddComponent<MovementComponent>();
+	pMover = pCoilyObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/Coily/Coily_Egg_Small.png", "Textures/Enemies/Coily/Coily_Egg_Small.png", "", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/Coily/Coily_Egg_Big.png", "Textures/Enemies/Coily/Coily_Egg_Big.png", "", "");
+	pMover->Mode = MovementMode::Normal;
 
-	pCoilyObject->AddComponent<JumpComponent>();
+	pCoilyObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
 	pCoilyObject->AddComponent<CharacterLives>()->Init(1);
 
-	auto* pAiController = pCoilyObject->AddComponent<AiControllerComponent>();
+	pAiController = pCoilyObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::Coily;
 	pAiController->PointsForKill = 500;
 
@@ -235,13 +273,12 @@ void MainGame::CreatePrefabs() const
 	auto* const pSlickRenderer = pSlickObject->AddComponent<RendererComponent>();
 	pSlickRenderer->Layer = 7;
 	pSlickRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
-	//slickSamObject->AddComponent(new SlickSam{});
-	//slickSamObject->AddComponent(new EnemyCharacterController{});
 	pMover = pSlickObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Slick_Down_Right.png", "Textures/Enemies/SlickSam/Slick_Down_Left.png","", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left","", "");
+	pMover->Mode = MovementMode::Normal;
 
-	pSlickObject->AddComponent<JumpComponent>();
+	pSlickObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
 	pSlickObject->AddComponent<CharacterLives>()->Init(1);
 
 	pAiController = pSlickObject->AddComponent<AiControllerComponent>();
@@ -266,8 +303,9 @@ void MainGame::CreatePrefabs() const
 	pMover = pSamObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Sam_Down_Right.png", "Textures/Enemies/SlickSam/Sam_Down_Left.png", "", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Sam_Up_Right.png", "Textures/Enemies/SlickSam/Sam_Up_Left", "", "");
+	pMover->Mode = MovementMode::Normal;
 
-	pSamObject->AddComponent<JumpComponent>();
+	pSamObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
 	pSamObject->AddComponent<CharacterLives>()->Init(1);
 
 	pAiController = pSamObject->AddComponent<AiControllerComponent>();

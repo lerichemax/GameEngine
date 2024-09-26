@@ -103,13 +103,22 @@ void SoloScene::Initialize()
 	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	//	Coily
-	auto* const pCoilySpawnerObj = CreateGameObject();
-	auto* pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
-	pSpawnerComp->MaxEnemies = 1;
-	pSpawnerComp->SpawnInterval = 10;
-	pSpawnerComp->Type = EnemyType::Coily;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
+	//auto* const pCoilySpawnerObj = CreateGameObject();
+	//auto* pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
+	//pSpawnerComp->MaxEnemies = 1;
+	//pSpawnerComp->SpawnInterval = 10;
+	//pSpawnerComp->Type = EnemyType::Coily;
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
 
+	//	Ugg
+	auto* const pUggObject = CreateGameObject();
+	auto* pSpawnerComp = pUggObject->AddComponent<EnemySpawnerComponent>();
+	pSpawnerComp->MaxEnemies = 2;
+	pSpawnerComp->SpawnInterval = 7;
+	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
+	
 
 //	auto const pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
 //nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSSm, m_pGameOverMenu };

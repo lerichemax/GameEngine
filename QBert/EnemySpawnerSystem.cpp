@@ -106,18 +106,14 @@ void EnemySpawnerSystem::Update()
 
 void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 {
-	Entity qubeEntity = m_pPyramid->GetRandomTopQube();
-
-	if (qubeEntity == NULL_ENTITY)
-	{
-		return;
-	}
-
 	Entity enemyEntity = pSpawnerComp->SpawnedEnemies[pSpawnerComp->NbrEnemies];
 
 	m_pRegistry->GetComponent<CharacterLives>(enemyEntity)->Reset();
-	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
 	
+	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(enemyEntity);
+
+	Entity qubeEntity = m_pPyramid->GetSpawnQube(pMoveComp->Mode);
+
 	pMoveComp->CurrentQube = qubeEntity;
 	pMoveComp->bCanMove = true;
 
@@ -125,7 +121,7 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 	pCurrentQube->Characters.insert(enemyEntity);
 
-	pTransform->Translate(pCurrentQube->CharacterPos);
+	pTransform->Translate(pCurrentQube->GetEnemyTopPosition(pMoveComp->Mode));
 
 	m_pRegistry->SetEntityActive(enemyEntity, true);
 	OnEnemySpawned.Notify(enemyEntity);
@@ -146,27 +142,6 @@ void EnemySpawnerSystem::Reset()
 			pSpawnerComp->NbrEnemies = 0;
 		}
 	}
-}
-
-//void EnemySpawnerSystem::EnemyDied(Enemy* pEnemy)
-//{
-//	//if (!m_pEnemies.empty())
-//	//{
-//	//	for (size_t i{}; i < MAX_ENEMY_OF_TYPE; i++)
-//	//	{
-//	//		if (m_pEnemies[i] == pEnemy)
-//	//		{
-//	//			m_pEnemies[i] = nullptr;
-//	//			break;
-//	//		}
-//	//	}
-//	//}
-//	//m_NbrEnemies--;
-//}
-
-void EnemySpawnerSystem::ResetTimer()
-{
-	//m_EnemySpawnTimer = 0;
 }
 
 void EnemySpawnerSystem::SetSignature() const

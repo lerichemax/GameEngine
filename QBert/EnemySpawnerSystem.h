@@ -10,8 +10,6 @@ class EnemySpawnerSystem : public System
 public:
 	EnemySpawnerSystem() = default;
 
-	void ResetTimer();
-
 	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;
 

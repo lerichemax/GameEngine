@@ -105,6 +105,7 @@ void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
 
 	pMovement->CurrentQube = targetQubeEntity;
 	pMovement->bCanMove = true;
+	pMovement->CurrentDirection = ConnectionDirection::null;
 
 	//m_pRegistry->GetSystem<CharacterMovementSystem>()->MoveToCurrentQube(entity);
 
@@ -132,6 +133,14 @@ void QBertSystem::OnJumped(Entity qbertEntity)
 void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_set<Entity> const& qubeCharacterEntities)
 {
 	Entity qbertEntity = *m_Entities.begin();
+
+	auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
+
+	if (!pMover->bCanMove)
+	{
+		return;
+	}
+
 	std::vector<Entity> enemies{};
 
 	if (characterEntity == qbertEntity)

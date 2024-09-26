@@ -34,13 +34,13 @@ void QubeSystem::Initialize()
 
 		pQube->CharacterPos.x = pTransform->GetLocation().x + pTextureRenderer->pTexture->GetWidth() / 4;
 		pQube->CharacterPos.y = pTransform->GetLocation().y - pTextureRenderer->pTexture->GetHeight() / 5;
+
+		pQube->EscheresqueRightPos.x = pTransform->GetLocation().x + pTextureRenderer->pTexture->GetWidth() * (3.f / 5.f);
+		pQube->EscheresqueRightPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight() / 2;
+		
+		pQube->EscheresqueLeftPos.x = pTransform->GetLocation().x - pTextureRenderer->pTexture->GetWidth() / 5.f;
+		pQube->EscheresqueLeftPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight() / 2;
 	}
-
-	//m_EscheresqueRightPos.x = GetGameObject()->GetECSTransform()->GetWorldLocation().x + GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() * (3.f/5.f);
-	//m_EscheresqueRightPos.y = GetGameObject()->GetECSTransform()->GetWorldLocation().y + GetGameObject()->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
-
-	//m_EscheresqueLeftPos.x = GetGameObject()->GetECSTransform()->GetWorldLocation().x - GetGameObject()->GetComponent<RendererComponent>()->GetTextureWidth() /5.f;
-	//m_EscheresqueLeftPos.y = GetGameObject()->GetECSTransform()->GetWorldLocation().y + v->GetComponent<RendererComponent>()->GetTextureHeight() / 2;
 }
 
 void QubeSystem::Start()
@@ -120,58 +120,6 @@ void QubeSystem::HandleQBertLanding(Entity qubeEntity)
 	}
 }
 
-void QubeSystem::AddEscheresqueRightConnection(ConnectionDirection dir, QubeSystem* const pConnection)
-{
-	/*if (dir != ConnectionDirection::null)
-	{
-		m_pEscheresqueRightConnections[static_cast<int>(dir)] = pConnection;
-	}*/	
-}
-
-void QubeSystem::AddEscheresqueLeftConnection(ConnectionDirection dir, QubeSystem* const pConnection)
-{
-	/*if (dir != ConnectionDirection::null)
-	{
-		m_pEscheresqueLeftConnections[static_cast<int>(dir)] = pConnection;
-	}*/
-}
-
-bool QubeSystem::HasConnection(ConnectionDirection dir) const
-{
-	//if (dir == ConnectionDirection::null)
-	//{
-	//	return false;
-	//}
-	//return m_pConnections[static_cast<int>(dir)] != nullptr;
-	return true;
-}
-
-bool QubeSystem::HasEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
-{
-	/*if (escheresqueRight)
-	{
-		return m_pEscheresqueRightConnections[static_cast<int>(dir)] != nullptr;
-	}
-	else
-	{
-		return m_pEscheresqueLeftConnections[static_cast<int>(dir)] != nullptr;
-	}*/
-	return true;
-}
-
-QubeSystem* const QubeSystem::GetEscheresqueConnection(ConnectionDirection dir, bool escheresqueRight) const
-{
-
-	//if (escheresqueRight)
-	//{
-	//	return m_pEscheresqueRightConnections[static_cast<int>(dir)];
-	//}
-	//else
-	//{
-	//	return m_pEscheresqueLeftConnections[static_cast<int>(dir)];
-	//}
-	return nullptr;
-}
 
 void QubeSystem::Flip(Entity qubeEntity)
 {
@@ -203,41 +151,11 @@ void QubeSystem::Reset(Level level, Entity entity)
 
 	pQube->bIsFlipped = false;
 	pQube->JumpCounter = 0;
-	//m_pCharacter = nullptr;
 	pQube->QubeLevel = level;
-	
-	//if (m_pGameObject->HasChildren())
-	//{
-	//	for(auto pChild : m_pGameObject->GetChildren())
-	//	{
-	//		pChild->Destroy();
-	//	}
-	//}
-	//m_pDiskConnection = nullptr;
 
 	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 	
 	pRenderer->pTexture = pQube->pDefaultText;
-}
-
-DiskSystem* QubeSystem::GetConnectedDisk() const
-{
-	//return m_pDiskConnection;
-	return nullptr;
-}
-
-void QubeSystem::CharacterJumpIn(Characters* pCharacter)
-{
-	//m_pCharacter = pCharacter;
-	//if (typeid(*pCharacter) == typeid(SlickSam) && (m_bIsFlipped || m_JumpCounter > 0))
-	//{
-	//	UnFlip();
-	//}
-}
-
-void QubeSystem::CharacterJumpOut()
-{
-	//m_pCharacter = nullptr;
 }
 
 void QubeSystem::Serialize(StreamWriter& writer) const

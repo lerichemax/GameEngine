@@ -2,6 +2,8 @@
 #include "JumperSystem.h"
 
 #include "JumpComponent.h"
+#include "AiControllerComponent.h"
+#include "QbertComponent.h"
 
 #include "Timer.h"
 
@@ -35,30 +37,21 @@ void JumperSystem::Jump(Entity entity, glm::vec2 const& startPos, glm::vec2 cons
 	pJump->bJumpDown = false;
 
 	pJump->TargetPos = targetPos;
-	pJump->Halfway = startPos;
+
+	glm::vec2 const jumpDir = targetPos - startPos;
+	float const jumpDist = glm::length(jumpDir);
+	auto const dirNorm = glm::normalize(jumpDir);
+
+	pJump->Halfway = startPos + (dirNorm * (jumpDist / 2));
 	
-	//if (GetGameObject()->HasComponent<WrongWay>() )
-	//{
-	//	glm::vec2 const jumpDir = targetPos - startPos;
-	//	float const jumpDist = glm::length(jumpDir);
-	//	auto const dirNorm = glm::normalize(jumpDir);
-	//	
-	//	m_Halfway += (dirNorm * (jumpDist/2));
-	//	
-	//	m_Halfway.x  += 50;
-	//}
-	//else
-	//{
-		pJump->Halfway.x += (targetPos.x - startPos.x) * 0.25f;
-		if (targetPos.y < startPos.y)
-		{
-			pJump->Halfway.y -= pJump->JUMP_MAX_HEIGHT * 2;
-		}
-		else
-		{
-			pJump->Halfway.y -= pJump->JUMP_MAX_HEIGHT;
-		}
-	//}
+	if (targetPos.y < startPos.y)
+	{
+		pJump->Halfway += pJump->Direction * pJump->JUMP_MAX_HEIGHT;
+	}
+	else
+	{
+		pJump->Halfway += pJump->Direction * (pJump->JUMP_MAX_HEIGHT * 2);
+	}
 }
 
 void JumperSystem::JumpToDeath(Entity entity, glm::vec2 const& startPos, float xDist)
@@ -72,7 +65,7 @@ void JumperSystem::JumpToDeath(Entity entity, glm::vec2 const& startPos, float x
 	pJump->FallTime = 0;
 	pJump->Halfway = startPos;
 	pJump->Halfway.x += xDist;
-	pJump->Halfway.y -= pJump->JUMP_MAX_HEIGHT *2;
+	pJump->Halfway += pJump->Direction * (pJump->JUMP_MAX_HEIGHT * 2.f);
 	OnJumpedToDeath.Notify(entity);
 }
 
@@ -115,15 +108,22 @@ void JumperSystem::UpdateFall(Entity entity)
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
 	auto pos = pTransform->GetLocation();
-	glm::vec2 dir{};
 
 	if (!pJump->bJumpDown)
 	{
-		dir = pJump->Halfway - pos;
+		glm::vec2 dir = pJump->Halfway - pos;
+		dir = glm::normalize(dir);
+
+		pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+
+		if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
+		{
+			pJump->bJumpDown = true;
+		}
 	}
 	else
 	{
-		pTransform->Translate(pos.x, pos.y += pJump->FALL_SPEED * Timer::GetInstance().GetDeltaTime());
+		pTransform->Translate(pos - pJump->Direction * (pJump->FALL_SPEED * Timer::GetInstance().GetDeltaTime()));
 		pJump->FallTime += Timer::GetInstance().GetDeltaTime();
 		if (pJump->FallTime >= pJump->FALL_TIME)
 		{
@@ -133,15 +133,6 @@ void JumperSystem::UpdateFall(Entity entity)
 			pJump->bJumpDown = false;
 		}
 		return;
-	}
-
-	dir = glm::normalize(dir);
-
-	pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
-
-	if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
-	{
-		pJump->bJumpDown = true;
 	}
 }
 

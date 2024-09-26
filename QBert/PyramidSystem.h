@@ -2,14 +2,13 @@
 #include "System.h"
 #include "Event.h"
 
-#include <vector>
-#include <glm/glm.hpp>
+enum class Level;
+enum class ConnectionDirection;
+enum class EnemyType;
+enum class MovementMode;
 
 class EnemySpawnerSystem;
 class QubeSystem;
-enum class Level;
-enum class ConnectionDirection;
-
 class DiskSystem;
 class ComponentManager;
 struct PyramidComponent;
@@ -23,12 +22,8 @@ public:
 	
 	Entity GetTop() const; 
 	Entity GetRandomTopQube() const;
-	//QubeSystem* GetEscheresqueLeftTop() const { return m_pQubes.back(); }
-	//QubeSystem* GetEscheresqueRightTop() const { return m_pQubes[m_pQubes.size() - MAX_WIDTH]; }
-	//QubeSystem* GetQube(int index) const { return m_pQubes[index]; }
+	Entity GetSpawnQube(MovementMode mode) const;
 	int GetQubeIndex(Entity qubeEntity) const;
-	//int GetNbrDisks()const { return NbrDisksSpawned; }
-	//std::vector<QubeSystem*> const& GetQubes() const { return m_pQubes; }
 	
 	void Reset(Level level);
 	void PartialReset();
@@ -46,13 +41,15 @@ private:
 	DiskSystem* m_pDiskSystem;
 
 	void CreateConnections(std::vector<Entity> const& qubes);
-	void CreateEscheresqueRightConnections();
-	void CreateEscheresqueLeftConnections();
+	void CreateEscheresqueRightConnections(PyramidComponent* const pPyramid);
+	void CreateEscheresqueLeftConnections(PyramidComponent* const pPyramid);
 	
 	bool IsOutsideOfPyramid(Entity QubeEntity, PyramidComponent* const pPyramid) const;
 	
 	unsigned int FindOutsideQubeIndex(PyramidComponent* const pPyramid) const;
-	int GetQBertIndex() const;
+
+	Entity GetEscheresqueLeftTop() const;
+	Entity GetEscheresqueRightTop() const;
 	
 	void DiskSpawnerTimer();
 	void CheckAllQubesFlipped() const;

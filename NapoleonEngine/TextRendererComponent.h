@@ -34,7 +34,7 @@ private:
 	Font* m_pFont{};
 	SDL_Color m_TextColor{ 255,255,255,255 };
 
-	bool m_NeedsUpdate;
+	bool m_NeedsUpdate{};
 
 	static EventHandler<TextRendererComponent, int> OnAnyDestroyed;
 };

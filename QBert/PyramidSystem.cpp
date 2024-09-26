@@ -15,6 +15,7 @@
 #include "RendererComponent.h"
 #include "QbertComponent.h"
 #include "TextRendererComponent.h"
+#include "AiControllerComponent.h"
 
 #include "GameObject.h"
 
@@ -66,13 +67,8 @@ void PyramidSystem::Initialize()
 	std::reverse(pPyramidComp->Qubes.begin(), pPyramidComp->Qubes.end());
 
 	CreateConnections(pPyramidComp->Qubes);
-	CreateEscheresqueLeftConnections();
-	CreateEscheresqueRightConnections();
-
-	for (Entity entity : pPyramidComp->Qubes)
-	{
-		m_pRegistry->GetComponentInChildren<TextRendererComponent>(entity)->SetText(std::string(std::to_string(entity) + ", " + std::to_string(GetQubeIndex(entity))));
-	}
+	CreateEscheresqueLeftConnections(pPyramidComp);
+	CreateEscheresqueRightConnections(pPyramidComp);
 
 	for (size_t i = 0; i < pPyramidComp->MAX_NBR_DISKS; i++)
 	{
@@ -92,22 +88,11 @@ void PyramidSystem::Start()
 
 	QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
 		CheckAllQubesFlipped();
-		});
-
-	m_pDiskSystem->OnDiskReachedTop.Subscribe([this](Entity entity) {
-		m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin())->NbrDisksSpawned--;
-		});
-
-	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
-		if (m_pRegistry->HasTag(entity, QBERT_TAG))
-		{
-			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
-			pPyramid->DiskSpawnTimer = 0;
-			pPyramid->NbrDisksSpawned = 0;
-		}
 	});
 
-	m_pRegistry->GetSystem<CharacterMovementSystem>()->OnJumpedOnDisk.Subscribe([this](Entity diskEntity) {
+	m_pDiskSystem->OnDiskReachedTop.Subscribe([this](Entity diskEntity) {
+		m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin())->NbrDisksSpawned--;
+
 		auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 
 		Entity qubeEntity = *std::find_if(pPyramid->Qubes.begin(), pPyramid->Qubes.end(), [this, diskEntity](Entity qubeEntity) {
@@ -117,7 +102,16 @@ void PyramidSystem::Start()
 		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(qubeEntity);
 		pQube->ConnectionToDisk->Direction = ConnectionDirection::null;
 		pQube->ConnectionToDisk->Disk = NULL_ENTITY;
-		});
+	});
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
+		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		{
+			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+			pPyramid->DiskSpawnTimer = 0;
+			pPyramid->NbrDisksSpawned = 0;
+		}
+	});
 }
 
 PyramidSystem::~PyramidSystem()
@@ -138,7 +132,7 @@ Entity PyramidSystem::GetTop() const
 
 Entity PyramidSystem::GetRandomTopQube() const
 {
-	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 	int random{ rand() % 2 + 1 };
 
 	auto* pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
@@ -162,6 +156,38 @@ Entity PyramidSystem::GetRandomTopQube() const
 	}
 
 	return pPyramidComp->Qubes[random];
+}
+
+Entity PyramidSystem::GetSpawnQube(MovementMode mode) const
+{
+	switch (mode)
+	{
+	case MovementMode::Normal:
+		return GetRandomTopQube();
+		break;
+	case MovementMode::EscheresqueLeft:
+		return GetEscheresqueLeftTop();
+		break;
+	case MovementMode::EscheresqueRight:
+		return GetEscheresqueRightTop();
+		break;
+	}
+
+	return false;
+}
+
+Entity PyramidSystem::GetEscheresqueLeftTop() const
+{ 
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+
+	return pPyramidComp->Qubes.back();
+}
+
+Entity PyramidSystem::GetEscheresqueRightTop() const
+{ 
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+
+	return pPyramidComp->Qubes[pPyramidComp->Qubes.size() - pPyramidComp->MAX_WIDTH];
 }
 
 void PyramidSystem::DiskSpawnerTimer()
@@ -222,56 +248,66 @@ void PyramidSystem::CreateConnections(std::vector<Entity> const& qubes)
 	}
 }
 
-void PyramidSystem::CreateEscheresqueRightConnections()
+void PyramidSystem::CreateEscheresqueRightConnections(PyramidComponent* const pPyramid)
 {
-	//unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - MAX_WIDTH;
-	//int nextlineStartIdx{};
+	unsigned int idx = static_cast<unsigned int>(pPyramid->Qubes.size()) - pPyramid->MAX_WIDTH;
+	int nextlineStartIdx{};
 
-	//for (unsigned int i = MAX_WIDTH; i != 0; i--)
-	//{
-	//	for (unsigned int j = 0; j < i; j++)
-	//	{
-	//		if (j == 0)
-	//		{
-	//			nextlineStartIdx = idx - (i - 1);
-	//		}
-	//		if (j != i - 1)
-	//		{
-	//			//m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downLeft, m_pQubes[idx - (i - 1)]);
-	//			//m_pQubes[idx]->AddEscheresqueRightConnection(ConnectionDirection::downRight, m_pQubes[idx + 1]);
-	//			if (j != 0)
-	//			{
-	//				//m_pQubes[idx - (i - 1)]->AddEscheresqueRightConnection(ConnectionDirection::upRight, m_pQubes[idx]);
-	//				//m_pQubes[idx + 1]->AddEscheresqueRightConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
-	//			}
-	//		}
-	//		idx++;
-	//	}
-	//	idx = nextlineStartIdx;
-	//}
+	for (unsigned int i = pPyramid->MAX_WIDTH; i != 0; i--)
+	{
+		for (unsigned int j = 0; j < i; j++)
+		{
+			if (j == 0)
+			{
+				nextlineStartIdx = idx - (i - 1);
+			}
+			if (j != i - 1)
+			{
+				m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueRightConnections[static_cast<int>(ConnectionDirection::downLeft)] 
+					= pPyramid->Qubes[idx - (i - 1)];
+				m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueRightConnections[static_cast<int>(ConnectionDirection::downRight)] 
+					= pPyramid->Qubes[idx + 1];
+
+				if (j != 0)
+				{
+					m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx - (i - 1)])->EscheresqueRightConnections[static_cast<int>(ConnectionDirection::upRight)] 
+						= pPyramid->Qubes[idx];
+					m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx + 1])->EscheresqueRightConnections[static_cast<int>(ConnectionDirection::upLeft)] 
+						= pPyramid->Qubes[idx];
+				}
+			}
+			idx++;
+		}
+		idx = nextlineStartIdx;
+	}
 }
 
-void PyramidSystem::CreateEscheresqueLeftConnections()
+void PyramidSystem::CreateEscheresqueLeftConnections(PyramidComponent* const pPyramid)
 {
-	//unsigned int idx = static_cast<unsigned int>(m_pQubes.size()) - 1;
-	//
-	//for (unsigned int i = MAX_WIDTH; i != 0; i--)
-	//{
-	//	for (unsigned int j = 0; j < i; j++)
-	//	{
-	//		if (j != i - 1)
-	//		{
-	//			//m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downLeft, m_pQubes[idx - 1]);
-	//			//m_pQubes[idx]->AddEscheresqueLeftConnection(ConnectionDirection::downRight, m_pQubes[idx - i]);
-	//			if (j!=0)
-	//			{
-	//				//m_pQubes[idx - 1]->AddEscheresqueLeftConnection(ConnectionDirection::upRight, m_pQubes[idx]);
-	//				//m_pQubes[idx - i]->AddEscheresqueLeftConnection(ConnectionDirection::upLeft, m_pQubes[idx]);
-	//			}
-	//		}
-	//		idx--;
-	//	}
-	//}
+	unsigned int idx = static_cast<unsigned int>(pPyramid->Qubes.size()) - 1;
+	
+	for (unsigned int i = pPyramid->MAX_WIDTH; i != 0; i--)
+	{
+		for (unsigned int j = 0; j < i; j++)
+		{
+			if (j != i - 1)
+			{
+				m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueLeftConnections[static_cast<int>(ConnectionDirection::downLeft)] 
+					= pPyramid->Qubes[idx - 1];
+				m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueLeftConnections[static_cast<int>(ConnectionDirection::downRight)] 
+					= pPyramid->Qubes[idx - i];
+
+				if (j != 0)
+				{
+					m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueLeftConnections[static_cast<int>(ConnectionDirection::upRight)] 
+						= pPyramid->Qubes[idx];
+					m_pRegistry->GetComponent<QubeComponent>(pPyramid->Qubes[idx])->EscheresqueLeftConnections[static_cast<int>(ConnectionDirection::upLeft)] 
+						= pPyramid->Qubes[idx];
+				}
+			}
+			idx--;
+		}
+	}
 }
 
 void PyramidSystem::CheckAllQubesFlipped() const
@@ -337,11 +373,11 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 	int const currentIdx = GetQubeIndex(startingQube);
 	int targetIdx = GetQubeIndex(targetQube);
-	bool bTargetOnQube = false;
+	bool bTargetOnDisk = false;
 
 	if (targetIdx == -1)
 	{
-		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(targetIdx);
+		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(targetQube);
 		if (IS_VALID(pDisk))
 		{
 			targetIdx = GetQubeIndex(pDisk->LinkedQube);
@@ -349,7 +385,7 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 			{
 				return false;
 			}
-			bTargetOnQube = true;
+			bTargetOnDisk = true;
 		}
 	}
 	
@@ -364,52 +400,60 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 
 	std::vector<std::pair<int, int>> path;
 
-	//Breadth first search to fill the pPredecessors array
-	std::list<int> queue{};
-	queue.push_back(currentIdx);
-	pVisited[currentIdx] = true;
-	while (!queue.empty())
+	if (currentIdx == targetIdx && bTargetOnDisk)
 	{
-		int const q = queue.front();
-		queue.pop_front();
-
-		if (q == -1)
+		auto* const pTargetqube = m_pRegistry->GetComponent<QubeComponent>(m_pRegistry->GetComponent<DiskComponent>(targetQube)->LinkedQube);
+		path.push_back(std::make_pair(-1, static_cast<int>(pTargetqube->ConnectionToDisk->Direction)));
+	}
+	else
+	{
+		//Breadth first search to fill the pPredecessors array
+		std::list<int> queue{};
+		queue.push_back(currentIdx);
+		pVisited[currentIdx] = true;
+		while (!queue.empty())
 		{
-			return false;
-		}
+			int const q = queue.front();
+			queue.pop_front();
 
-		auto const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[q]);
-		bool doBreak{ false };
-		
-		for (int i{}; i < 4; i++)
-		{
-			if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
+			if (q == -1)
 			{
-				int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
-				if (!pVisited[nextIdx])
-				{
-					pVisited[nextIdx] = true;
-					pPredecessors[nextIdx].first = q;
-					pPredecessors[nextIdx].second = i;
-					queue.push_back(nextIdx);
+				return false;
+			}
 
-					if (nextIdx == targetIdx)
+			auto const pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[q]);
+			bool doBreak{ false };
+
+			for (int i{}; i < 4; i++)
+			{
+				if (pQube->HasConnection(static_cast<ConnectionDirection>(i)))
+				{
+					int nextIdx = GetQubeIndex(pQube->GetConnection(static_cast<ConnectionDirection>(i)));
+					if (!pVisited[nextIdx])
 					{
-						if (bTargetOnQube)
+						pVisited[nextIdx] = true;
+						pPredecessors[nextIdx].first = q;
+						pPredecessors[nextIdx].second = i;
+						queue.push_back(nextIdx);
+
+						if (nextIdx == targetIdx)
 						{
-							auto* const pTargetqube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[targetIdx]);
-							path.push_back(std::make_pair(-1, static_cast<int>(pTargetqube->ConnectionToDisk->Direction)));
+							if (bTargetOnDisk)
+							{
+								auto* const pTargetqube = m_pRegistry->GetComponent<QubeComponent>(m_pRegistry->GetComponent<DiskComponent>(targetQube)->LinkedQube);
+								path.push_back(std::make_pair(-1, static_cast<int>(pTargetqube->ConnectionToDisk->Direction)));
+							}
+
+							doBreak = true;
+							break;
 						}
-						
-						doBreak = true;
-						break;
 					}
 				}
 			}
-		}
-		if (doBreak)
-		{
-			break;
+			if (doBreak)
+			{
+				break;
+			}
 		}
 	}
 
@@ -436,6 +480,11 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 	{
 		if (i <= pathSize)
 		{
+			if (path[pathSize - i].second == -1)
+			{
+				continue;
+			}
+
 			directionsArray[i - 1] = static_cast<ConnectionDirection>(path[pathSize - i].second);
 		}
 		else

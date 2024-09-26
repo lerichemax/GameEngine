@@ -89,12 +89,12 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 	if (!pQube->HasConnection(ConnectionDirection::upLeft))
 	{
 		pDiskTransform->Translate(parentPos.x - pQubeRenderer->pTexture->GetWidth() / 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
-		pQube->ConnectionToDisk->Direction = ConnectionDirection::upRight;
+		pQube->ConnectionToDisk->Direction = ConnectionDirection::upLeft;
 	}
 	else
 	{
 		pDiskTransform->Translate(parentPos.x + pQubeRenderer->pTexture->GetWidth() * 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
-		pQube->ConnectionToDisk->Direction = ConnectionDirection::upLeft;
+		pQube->ConnectionToDisk->Direction = ConnectionDirection::upRight;
 	}
 
 	pQube->ConnectionToDisk->Disk = diskEntity;

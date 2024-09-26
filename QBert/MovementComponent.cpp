@@ -39,6 +39,8 @@ void MovementComponent::Serialize(StreamWriter& writer) const
 	writer.WriteString("textJumpUpRight", TextureJumpUpRight);
 	writer.WriteString("textJumpUpLeft", TextureJumpUpLeft);
 
+	writer.WriteInt("mode", static_cast<int>(Mode));
+
 	Component::Serialize(writer);
 }
 
@@ -55,4 +57,8 @@ void MovementComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 	reader->ReadString("textJumpDownLeft", TextureJumpDownLeft);
 	reader->ReadString("textJumpUpRight", TextureJumpUpRight);
 	reader->ReadString("textJumpUpLeft", TextureJumpUpLeft);
+
+	int tempMode{};
+	reader->ReadInt("mode", tempMode);
+	Mode = static_cast<MovementMode>(tempMode);
 }

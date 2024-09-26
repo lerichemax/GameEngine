@@ -61,12 +61,12 @@ void CharacterMovementSystem::Move(Entity entity)
 	pMoveComp->bCanMove = false;
 	SetJumpTexture(entity);
 
-	if (pCurrentQube->HasConnection(pMoveComp->CurrentDirection)) //does the current cube have a connection
+	if (pCurrentQube->HasConnectionForMovementMode(pMoveComp->Mode, pMoveComp->CurrentDirection)) //does the current cube have a connection
 	{
 		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 		OnMoveStarted.Notify(entity);
 
-		pMoveComp->CurrentQube = pCurrentQube->GetConnection(pMoveComp->CurrentDirection);
+		pMoveComp->CurrentQube = pCurrentQube->GetConnectionForMovementMode(pMoveComp->Mode, pMoveComp->CurrentDirection);
 		pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
 		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
@@ -87,7 +87,7 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		pMoveComp->CurrentQube = NULL_ENTITY;
 
-		OnJumpedOnDisk.Notify(entity);
+		OnJumpedOnDisk.Notify(pCurrentQube->ConnectionToDisk->Disk);
 	}
 	else
 	{
@@ -131,7 +131,6 @@ void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 
 	if (pQube->Characters.size() > 1)
 	{
-		pMoveComp->bCanMove = false;
 		OnMeetCharacter.Notify(entity, pQube->Characters);
 	}
 
