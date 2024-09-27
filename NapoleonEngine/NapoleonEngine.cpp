@@ -7,7 +7,6 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "Renderer.h"
 #include "Timer.h"
@@ -49,21 +48,21 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 	{
 		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
 		errorMsg += Mix_GetError ();
-		Debugger::GetInstance().LogError(errorMsg);
+		Debugger::Get().LogError(errorMsg);
 		return;
 	}
 	
-	Renderer::GetInstance().Init(width, height, name);
+	Renderer::Get().Init(width, height, name);
 	
 	std::srand(unsigned int(time(nullptr)));
 
 	try
 	{
-		ResourceManager::GetInstance().Init("./Data/");
+		ResourceManager::Get().Init("./Data/");
 	}
 	catch (std::runtime_error const& error)
 	{
-		Debugger::GetInstance().LogError(error.what());
+		Debugger::Get().LogError(error.what());
 	}
 
 	SerializerServiceLocator::RegisterSerializer(new Serializer{});
@@ -73,9 +72,9 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 {
 	//Fps counter prefab
-	auto fpsCounterPrefab = PrefabsManager::GetInstance().CreatePrefab();
+	auto fpsCounterPrefab = PrefabsManager::Get().CreatePrefab();
 	auto fpsCounterObject = fpsCounterPrefab->GetRoot();
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
 
 	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
 	txtRenderer->SetText("FPS");
@@ -88,14 +87,14 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 
 	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
 
-	PrefabsManager::GetInstance().SavePrefab(fpsCounterPrefab, "FPSCounter");
+	PrefabsManager::Get().SavePrefab(fpsCounterPrefab, "FPSCounter");
 
 	//Camera prefab
-	auto cameraPrefab = PrefabsManager::GetInstance().CreatePrefab();
+	auto cameraPrefab = PrefabsManager::Get().CreatePrefab();
 	auto cameraObject = cameraPrefab->GetRoot();
 
 	cameraObject->AddComponent<ECS_CameraComponent>();
-	PrefabsManager::GetInstance().SavePrefab(cameraPrefab, "Camera");
+	PrefabsManager::Get().SavePrefab(cameraPrefab, "Camera");
 
 	//game specific prefab
 	CreatePrefabs();
@@ -137,22 +136,22 @@ void NapoleonEngine::Run()
 {
 	CreateBasePrefabs();
 	InitGame();
-	SceneManager::GetInstance().Initialize();
+	SceneManager::Get().Initialize();
 	{
-		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
+		auto& renderer = Renderer::Get();
+		auto& sceneManager = SceneManager::Get();
+		auto& input = InputManager::Get();
 	
 		while (!m_bQuit)
 		{
-			Timer::GetInstance().Update();
+			Timer::Get().Update();
 			
 			m_bQuit = !input.ProcessInput();
 			sceneManager.Update();	
 			
 			renderer.Render();
 
-			Timer::GetInstance().Sleep();
+			Timer::Get().Sleep();
 		}
 	}
 

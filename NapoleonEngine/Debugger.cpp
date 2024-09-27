@@ -51,7 +51,7 @@ void Debugger::DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness , Col
 	}
 	else
 	{
-		m_DebugRectangles.push_back(geo::Rectangle(pos, thickness, thickness, color));
+		m_DebugRectangles.push_back(geo::Rectangle(pos, thickness, thickness, color, true));
 	}
 }
 
@@ -69,22 +69,22 @@ void Debugger::Render()
 {
 	for (Line const& line : m_DebugLines)
 	{
-		Renderer::GetInstance().RenderShape(line);
+		Renderer::Get().RenderShape(line);
 	}
 
 	for (geo::Rectangle const& rect : m_DebugRectangles)
 	{
-		Renderer::GetInstance().RenderShape(rect);
+		Renderer::Get().RenderShape(rect);
 	}
 
 	for (Circle const& circle : m_DebugCircles)
 	{
-		Renderer::GetInstance().RenderShape(circle);
+		Renderer::Get().RenderShape(circle);
 	}
 
 	for (Point const& point : m_DebugPoints)
 	{
-		Renderer::GetInstance().RenderShape(point);
+		Renderer::Get().RenderShape(point);
 	}
 
 	m_DebugLines.clear();

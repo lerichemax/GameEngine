@@ -22,43 +22,39 @@ void UiSystem::Update()
 
 		if (btn->m_bVisualize)
 		{
-			Debugger::GetInstance().DrawDebugRectangle(transform->GetLocation(),
+			Debugger::Get().DrawDebugRectangle(transform->GetLocation(),
 				static_cast<unsigned int>(btn->m_Dimensions.x), static_cast<unsigned int>(btn->m_Dimensions.y),
 				Color{ 255,0,0,1 });
 		}
-		glm::vec2 const mousePos = InputManager::GetInstance().GetMousePosition();
+		glm::vec2 const mousePos = InputManager::Get().GetMousePosition();
 		glm::vec2 const pos = transform->GetLocation();
 
 		if (mousePos.x >= pos.x && mousePos.x <= pos.x + btn->m_Dimensions.x &&
 			mousePos.y >= pos.y && mousePos.y <= pos.y + btn->m_Dimensions.y)
 		{
-			if (!btn->m_IsSelected && btn->m_pOnSelect)
+			if (!btn->m_bIsSelected && btn->m_pOnSelect)
 			{
 				btn->m_pOnSelect->Execute(btn->GetGameObject());
 			}
-			btn->OnSelect.Notify();
-
-			btn->m_IsSelected = true;
+			btn->Select();
 		}
 		else
 		{
-			if (btn->m_IsSelected && btn->m_pOnDeselect)
+			if (btn->m_bIsSelected && btn->m_pOnDeselect)
 			{
 				btn->m_pOnDeselect->Execute(btn->GetGameObject());
 			}
-			btn->OnDeselect.Notify();
-
-			btn->m_IsSelected = false;
+			btn->Deselect();
 		}
 
-		if (InputManager::GetInstance().IsLMBPressed())
+		if (InputManager::Get().IsLMBPressed())
 		{
-			if (btn->m_IsSelected && btn->m_pOnClick)
+			if (btn->m_bIsSelected && btn->m_pOnClick)
 			{
 				btn->m_pOnClick->Execute(btn->GetGameObject());
 			}
 
-			btn->OnClick.Notify();
+			btn->Click();
 		}
 	}
 }

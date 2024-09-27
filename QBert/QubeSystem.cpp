@@ -35,11 +35,11 @@ void QubeSystem::Initialize()
 		pQube->CharacterPos.x = pTransform->GetLocation().x + pTextureRenderer->pTexture->GetWidth() / 4;
 		pQube->CharacterPos.y = pTransform->GetLocation().y - pTextureRenderer->pTexture->GetHeight() / 5;
 
-		pQube->EscheresqueRightPos.x = pTransform->GetLocation().x + pTextureRenderer->pTexture->GetWidth() * (3.f / 5.f);
-		pQube->EscheresqueRightPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight() / 2;
+		pQube->EscheresqueRightPos.x = pTransform->GetLocation().x + (pTextureRenderer->pTexture->GetWidth() * 1.4f);
+		pQube->EscheresqueRightPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight();
 		
-		pQube->EscheresqueLeftPos.x = pTransform->GetLocation().x - pTextureRenderer->pTexture->GetWidth() / 5.f;
-		pQube->EscheresqueLeftPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight() / 2;
+		pQube->EscheresqueLeftPos.x = pTransform->GetLocation().x + (pTextureRenderer->pTexture->GetWidth() / 5.f);
+		pQube->EscheresqueLeftPos.y = pTransform->GetLocation().y + pTextureRenderer->pTexture->GetHeight();
 	}
 }
 

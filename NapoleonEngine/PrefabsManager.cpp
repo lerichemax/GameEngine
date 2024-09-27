@@ -50,7 +50,7 @@ void PrefabsManager::PrefabsManagerImpl::SavePrefab(std::shared_ptr<Prefab> pPre
 {
 	if (m_Prefabs.find(name) != m_Prefabs.end())
 	{
-		Debugger::GetInstance().LogWarning("A prefab with the name " + name + " already exists");
+		Debugger::Get().LogWarning("A prefab with the name " + name + " already exists");
 		return;
 	}
 	pPrefab->SetName(name);
@@ -61,7 +61,7 @@ void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& na
 {
 	if (m_Prefabs.find(name) == m_Prefabs.end())
 	{
-		Debugger::GetInstance().LogWarning("A prefab with the name " + name + " doesn't exists");
+		Debugger::Get().LogWarning("A prefab with the name " + name + " doesn't exists");
 		return;
 	}
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "Observer.h"
 
 #include "System.h"
 #include "Event.h"
@@ -34,7 +33,7 @@ class QBert;
 class CharacterPoint;
 struct CharacterLives;
 class QBertSystem;
-class GameManager final : public Observer
+class GameManager final
 {
 public:
 	GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points, 
@@ -42,7 +41,7 @@ public:
 		CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
 	~GameManager() = default;
-	void Notify(GameObject* object, int event) override;
+	void Notify(GameObject* object, int event);
 	void SetNbrPlayers(unsigned int nbr) { m_NbrPlayers = nbr; }
 
 private:

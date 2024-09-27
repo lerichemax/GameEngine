@@ -9,7 +9,7 @@
 ButtonComponent::ButtonComponent()
 	:Component(true),
 	m_Dimensions(100, 50), //by default
-	m_IsSelected(false),
+	m_bIsSelected(false),
 	m_bVisualize(false),
 	m_pOnClick(nullptr),
 	m_pOnSelect(nullptr),
@@ -69,7 +69,7 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 		int64_t type;
 		onclickReader->ReadInt64("type", type);
 
-		m_pOnClick = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
+		m_pOnClick = std::unique_ptr<Command>(std::move(Factory<Command>::Get().Create(static_cast<size_t>(type))));
 
 		if (m_pOnClick != nullptr)
 		{
@@ -84,7 +84,7 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 		int64_t type;
 		onSelectReader->ReadInt64("type", type);
 
-		m_pOnSelect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
+		m_pOnSelect = std::unique_ptr<Command>(std::move(Factory<Command>::Get().Create(static_cast<size_t>(type))));
 		if (m_pOnSelect != nullptr)
 		{
 			m_pOnSelect->Deserialize(onSelectReader.get(), context);
@@ -98,7 +98,7 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 		int64_t type;
 		onDeselectReader->ReadInt64("type", type);
 
-		m_pOnDeselect = std::unique_ptr<Command>(std::move(Factory<Command>::GetInstance().Create(static_cast<size_t>(type))));
+		m_pOnDeselect = std::unique_ptr<Command>(std::move(Factory<Command>::Get().Create(static_cast<size_t>(type))));
 		if (m_pOnDeselect != nullptr)
 		{
 			m_pOnDeselect->Deserialize(onDeselectReader.get(), context);
@@ -129,4 +129,21 @@ void ButtonComponent::RestoreContext(JsonReader const* reader, SerializationMap 
 	{
 		m_pOnDeselect->RestoreContext(onDeselectReader.get(), context);
 	}
+}
+
+void ButtonComponent::Select()
+{
+	m_bIsSelected = true;
+	OnSelect.Notify();
+}
+
+void ButtonComponent::Deselect()
+{
+	m_bIsSelected = false;
+	OnDeselect.Notify();
+}
+
+void ButtonComponent::Click()
+{
+	OnClick.Notify();
 }

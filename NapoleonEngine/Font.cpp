@@ -12,7 +12,7 @@ Font::Font(const std::string& fullPath, unsigned int size)
 	m_Font = TTF_OpenFont(fullPath.c_str(), size);
 	if (m_Font == nullptr) 
 	{
-		Debugger::GetInstance().LogError(std::string("Failed to load font: ") + SDL_GetError());
+		Debugger::Get().LogError(std::string("Failed to load font: ") + SDL_GetError());
 	}
 }
 

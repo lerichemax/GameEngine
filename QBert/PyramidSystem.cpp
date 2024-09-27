@@ -199,7 +199,7 @@ void PyramidSystem::DiskSpawnerTimer()
 	{
 		if (pPyramidComp->DiskSpawnTimer < pPyramidComp->DISK_SPAWNING_INTERVAL)
 		{
-			pPyramidComp->DiskSpawnTimer += Timer::GetInstance().GetDeltaTime();
+			pPyramidComp->DiskSpawnTimer += Timer::Get().GetDeltaTime();
 
 		}
 		else

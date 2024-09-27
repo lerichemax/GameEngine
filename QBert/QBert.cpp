@@ -49,8 +49,8 @@ void QBert::Initialize()
 	//		}
 	//	});
 	
-	//m_pIdleText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
-	//m_pJumpText = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
+	//m_pIdleText = ResourceManager::Get().GetTexture("Textures/QBert/QBert"+std::to_string(m_PlayerNbr)+"_DownLeft_Qube.png");
+	//m_pJumpText = ResourceManager::Get().GetTexture("Textures/QBert/QBert" + std::to_string(m_PlayerNbr) + "_DownLeft_Jump.png");
 	//m_pHurtTex = GetGameObject()->GetComponentInChildren<RendererComponent>();
 	m_pHurtTex->SetActive(false);
 

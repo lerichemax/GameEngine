@@ -23,7 +23,7 @@ void AudioSystem::Update()
 
 			if (audio->m_Play)
 			{
-				ResourceManager::GetInstance().GetEffectById(audio->m_AudioId)->Play(audio->m_Volume);
+				ResourceManager::Get().GetEffectById(audio->m_AudioId)->Play(audio->m_Volume);
 				if (!audio->m_Loop)
 				{
 					audio->m_Play = false;

@@ -23,7 +23,7 @@ void MainMenuScene::Initialize()
 
 	GameObject* const titleObject = CreateGameObject();
 	auto rendererComp = titleObject->AddComponent<RendererComponent>();
-	rendererComp->pTexture = ResourceManager::GetInstance().GetTexture("Textures/UI/Title.png");
+	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/UI/Title.png");
 	rendererComp->Layer = 10;
 
 	titleObject->GetTransform()->Translate(300, 50);
@@ -33,7 +33,7 @@ void MainMenuScene::Initialize()
 
 	auto txt = soloBtn->AddComponent<TextRendererComponent>();
 	txt->SetText("Solo");
-	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
+	txt->SetFont(ResourceManager::Get().GetFont("Fonts/Lingua.otf", 28));
 	soloBtn->AddComponent<RendererComponent>()->Layer = 10;
 
 	auto btn = soloBtn->AddComponent<ButtonComponent>();
@@ -48,7 +48,7 @@ void MainMenuScene::Initialize()
 
 	txt = coopBtn->AddComponent<TextRendererComponent>();
 	txt->SetText("Co-op");
-	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
+	txt->SetFont(ResourceManager::Get().GetFont("Fonts/Lingua.otf", 28));
 
 	coopBtn->AddComponent<RendererComponent>()->Layer = 10;
 
@@ -64,7 +64,7 @@ void MainMenuScene::Initialize()
 	
 	txt = vsBtn->AddComponent<TextRendererComponent>();
 	txt->SetText("Versus");
-	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
+	txt->SetFont(ResourceManager::Get().GetFont("Fonts/Lingua.otf", 28));
 
 	vsBtn->AddComponent<RendererComponent>()->Layer = 10;
 
@@ -80,7 +80,7 @@ void MainMenuScene::Initialize()
 
 	txt = quitBtn->AddComponent<TextRendererComponent>();
 	txt->SetText("Quit");
-	txt->SetFont(ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 28));
+	txt->SetFont(ResourceManager::Get().GetFont("Fonts/Lingua.otf", 28));
 
 	quitBtn->AddComponent<RendererComponent>()->Layer = 10;
 

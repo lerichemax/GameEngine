@@ -9,5 +9,5 @@ public:
 
 	void Enter() override;
 
-	CharacterState* Update(GameObject* pObject) override;
+	CharacterState* Update(GameObject* pObject) ;
 };

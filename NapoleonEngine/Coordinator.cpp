@@ -44,7 +44,7 @@ void Coordinator::DeserializeComponents(Entity entity, JsonReader const* reader 
 
 System* const Coordinator::AddSystemFromHash(size_t type)
 {
-	auto* const pSystem = Factory<System>::GetInstance().Create(type);
+	auto* const pSystem = Factory<System>::Get().Create(type);
 
 	if (m_pSystemManager->ForceAddSystem(type, pSystem))
 	{

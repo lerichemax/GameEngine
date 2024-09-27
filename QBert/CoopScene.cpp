@@ -14,7 +14,6 @@
 #include "SlickSamManager.h"
 #include "WrongWayManager.h"
 #include "GameManagerSystem.h"
-#include "ObserverManager.h"
 #include "PauseGameCommand.h"
 #include "QuitGameCommand.h"
 #include "ReloadSceneCommand.h"
@@ -31,8 +30,8 @@ CoopScene::CoopScene()
 
 void CoopScene::Initialize()
 {
-	//auto& pPrefabManager = PrefabsManager::GetInstance();
-	//AddObject(PrefabsManager::GetInstance().Instantiate("FPSCounter"));
+	//auto& pPrefabManager = PrefabsManager::Get();
+	//AddObject(PrefabsManager::Get().Instantiate("FPSCounter"));
 
 	//auto const livesP1 = pPrefabManager.Instantiate("LivesUI");
 	//AddObject(livesP1);
@@ -78,12 +77,12 @@ void CoopScene::Initialize()
 	//pBtn->SetOnClickFunction(new QuitGameCommand{  });
 	//m_pPauseMenu->SetActive(false);
 
-	//auto qbert1 = PrefabsManager::GetInstance().Instantiate("QBert");
+	//auto qbert1 = PrefabsManager::Get().Instantiate("QBert");
 	////m_pQbert = qbert1->GetComponent<QBert>();
 	//m_pQbert->SetPlayerNbr(1);
 	//AddObject(qbert1);
 	//
-	//auto qbert2 = PrefabsManager::GetInstance().Instantiate("QBert");
+	//auto qbert2 = PrefabsManager::Get().Instantiate("QBert");
 	////m_pQbertP2 = qbert2->GetComponent<QBert>();
 	//m_pQbertP2->SetPlayerNbr(2);
 	//AddObject(qbert2);
@@ -93,7 +92,7 @@ void CoopScene::Initialize()
 	//livesP2->GetComponent<TextRendererComponent>()->SetText("P2 Lives: " + 
 	//	std::to_string(qbert2->GetComponent<CharacterLives>()->GetNbrLives()));
 	//
-	//auto pyramid = PrefabsManager::GetInstance().Instantiate("Pyramid");
+	//auto pyramid = PrefabsManager::Get().Instantiate("Pyramid");
 	////m_pPyramid = pyramid->GetComponent<Pyramid>();
 	//AddObject(pyramid);
 
@@ -143,7 +142,7 @@ void CoopScene::Initialize()
 	////pointsP2->GetComponent<TextRendererComponent>(), livesP1->GetComponent<TextRendererComponent>(),
 	////	livesP2->GetComponent<TextRendererComponent>(), nullptr, pWWm, pSSm, m_pGameOverMenu };
 	////pGameManager->SetNbrPlayers(2);
-	////ObserverManager::GetInstance().AddObserver(pGameManager);
+	////ObserverManager::Get().AddObserver(pGameManager);
 	////pWWm->SetGameManager(pGameManager);
 	////pSSm->SetGameManager(pGameManager);
 	////
@@ -185,58 +184,58 @@ void CoopScene::ResetScene(Level newLevel)
 void CoopScene::DeclareInput()
 {
 	////Player1
-	//InputManager::GetInstance().AddInputAction(8, new InputAction(SDLK_w, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(8, new InputAction(SDLK_w, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	//InputManager::GetInstance().AddInputAction(9, new InputAction{ SDLK_d , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(9, new InputAction{ SDLK_d , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(10, new InputAction{ SDLK_s , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(10, new InputAction{ SDLK_s , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(11, new InputAction{ SDLK_a , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(11, new InputAction{ SDLK_a , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
-	//InputManager::GetInstance().AddInputAction(12,
+	//InputManager::Get().AddInputAction(12,
 	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	//InputManager::GetInstance().AddInputAction(13,
+	//InputManager::Get().AddInputAction(13,
 	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(14,
+	//InputManager::Get().AddInputAction(14,
 	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(15,
+	//InputManager::Get().AddInputAction(15,
 	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 
 	////Player2
-	//InputManager::GetInstance().AddInputAction(16, new InputAction(SDLK_UP, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(16, new InputAction(SDLK_UP, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pQbertP2)));
-	//InputManager::GetInstance().AddInputAction(17, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(17, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbertP2) });
-	//InputManager::GetInstance().AddInputAction(18, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(18, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2) });
-	//InputManager::GetInstance().AddInputAction(19, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(19, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2) });
 
-	//InputManager::GetInstance().AddInputAction(20,
+	//InputManager::Get().AddInputAction(20,
 	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 	//		new MoveCommand(ConnectionDirection::upRight, m_pQbertP2), PlayerNbr::Two));
-	//InputManager::GetInstance().AddInputAction(21,
+	//InputManager::Get().AddInputAction(21,
 	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbertP2), PlayerNbr::Two });
-	//InputManager::GetInstance().AddInputAction(22,
+	//InputManager::Get().AddInputAction(22,
 	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbertP2), PlayerNbr::Two });
-	//InputManager::GetInstance().AddInputAction(23,
+	//InputManager::Get().AddInputAction(23,
 	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbertP2), PlayerNbr::Two });
 
-	//InputManager::GetInstance().AddInputAction(102, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(102, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
 	//	new PauseGameCommand(this, m_pPauseMenu) });
 
-	//InputManager::GetInstance().AddInputAction(103, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(103, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 	//
-	//InputManager::GetInstance().AddInputAction(104, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(104, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
 
 }

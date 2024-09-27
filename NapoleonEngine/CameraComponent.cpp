@@ -22,8 +22,8 @@ CameraComponent::CameraComponent(CameraComponent const& other)
 
 void CameraComponent::Initialize()
 {
-	m_Width = Renderer::GetInstance().GetWindowWidth();
-	m_Height = Renderer::GetInstance().GetWindowHeight();
+	m_Width = Renderer::Get().GetWindowWidth();
+	m_Height = Renderer::Get().GetWindowHeight();
 }
 
 void CameraComponent::Transform() const
@@ -48,8 +48,8 @@ glm::mat3x3 CameraComponent::GetCameraMatrix() const
 }
 
 ECS_CameraComponent::ECS_CameraComponent()
-	:m_Width(Renderer::GetInstance().GetWindowWidth()),
-	m_Height(Renderer::GetInstance().GetWindowHeight())
+	:m_Width(Renderer::Get().GetWindowWidth()),
+	m_Height(Renderer::Get().GetWindowHeight())
 {
 }
 
@@ -91,7 +91,7 @@ bool CameraSystem::TrySetMainCamera(GameObject* const pGameObject)
 	
 	if (entityIt == m_Entities.end())
 	{
-		Debugger::GetInstance().LogWarning("This entity has no camera component");
+		Debugger::Get().LogWarning("This entity has no camera component");
 		return false;
 	}
 

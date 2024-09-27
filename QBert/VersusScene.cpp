@@ -8,7 +8,6 @@
 #include "Command.h"
 #include "InputManager.h"
 #include "MoveCommand.h"
-#include "ObserverManager.h"
 #include "PauseGameCommand.h"
 #include "QBert.h"
 #include "VersusGameManager.h"
@@ -33,7 +32,7 @@ VersusScene::VersusScene()
 
 void VersusScene::Initialize()
 {
-	//auto const& pPrefabManager = PrefabsManager::GetInstance();
+	//auto const& pPrefabManager = PrefabsManager::Get();
 	//
 	//AddObject(pPrefabManager.Instantiate("FPSCounter"));
 
@@ -76,7 +75,7 @@ void VersusScene::Initialize()
 
 	//m_pPauseMenu->SetActive(false);
 
-	//auto const fontBig = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 24);
+	//auto const fontBig = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 24);
 	//
 	//auto* const roundTxt = new GameObject{};
 	//roundTxt->GetECSTransform()->Translate(400.f, 60.f);
@@ -135,7 +134,7 @@ void VersusScene::Initialize()
 	//auto const pGameManager = new VersusGameManager{ m_pRoundText, m_pTextP1, m_pTextP2,
 	//	qbertObj->GetComponent<CharacterPoint>(), coilyObj->GetComponent<CharacterPoint>(), m_pPyramid,
 	//	m_pGameOverMenu, 3 };
-	//ObserverManager::GetInstance().AddObserver(pGameManager);
+	//ObserverManager::Get().AddObserver(pGameManager);
 	//
 	//qbertObj->AddObserver(pGameManager);
 	//coilyObj->AddObserver(pGameManager);
@@ -185,57 +184,57 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 void VersusScene::DeclareInput()
 {
 	//Player1
-	//InputManager::GetInstance().AddInputAction(24, new InputAction(SDLK_w, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(24, new InputAction(SDLK_w, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	//InputManager::GetInstance().AddInputAction(25, new InputAction{ SDLK_d , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(25, new InputAction{ SDLK_d , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(26, new InputAction{ SDLK_s , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(26, new InputAction{ SDLK_s , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(27, new InputAction{ SDLK_a , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(27, new InputAction{ SDLK_a , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
-	//InputManager::GetInstance().AddInputAction(28,
+	//InputManager::Get().AddInputAction(28,
 	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	//InputManager::GetInstance().AddInputAction(29,
+	//InputManager::Get().AddInputAction(29,
 	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(30,
+	//InputManager::Get().AddInputAction(30,
 	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(31,
+	//InputManager::Get().AddInputAction(31,
 	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 
 	////Player2
-	//InputManager::GetInstance().AddInputAction(32, new InputAction(SDLK_UP, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(32, new InputAction(SDLK_UP, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer)));
-	//InputManager::GetInstance().AddInputAction(33, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(33, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer) });
-	//InputManager::GetInstance().AddInputAction(34, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(34, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer) });
-	//InputManager::GetInstance().AddInputAction(35, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(35, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer) });
 
-	//InputManager::GetInstance().AddInputAction(36,
+	//InputManager::Get().AddInputAction(36,
 	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 	//		new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer), PlayerNbr::Two));
-	//InputManager::GetInstance().AddInputAction(37,
+	//InputManager::Get().AddInputAction(37,
 	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer), PlayerNbr::Two });
-	//InputManager::GetInstance().AddInputAction(38,
+	//InputManager::Get().AddInputAction(38,
 	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer), PlayerNbr::Two });
-	//InputManager::GetInstance().AddInputAction(39,
+	//InputManager::Get().AddInputAction(39,
 	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer), PlayerNbr::Two });
 
-	//InputManager::GetInstance().AddInputAction(105, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(105, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
 	//new PauseGameCommand(this, m_pPauseMenu) });
 
-	//InputManager::GetInstance().AddInputAction(106, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(106, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 
-	//InputManager::GetInstance().AddInputAction(107, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(107, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
 }

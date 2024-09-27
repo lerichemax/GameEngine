@@ -7,5 +7,5 @@ public:
 	explicit OnQubeState(Characters* pChar, Jumper* pJumper);
 	~OnQubeState() = default;
 
-	void Enter() override;
+	void Enter();
 };

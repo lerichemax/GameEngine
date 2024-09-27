@@ -64,7 +64,7 @@ void VersusGameManager::Notify(GameObject* object, int event)
 	//case VersusGameEvent::GameOver:
 	//	m_CurrentRound = 1;
 	//	m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 2 wins");
-	//	Timer::GetInstance().SetTimeScale(0);
+	//	Timer::Get().SetTimeScale(0);
 	//	m_pGameOver->SetActive(true);
 	//	
 	//	break;
@@ -94,14 +94,14 @@ void VersusGameManager::CheckVictory() const
 	//if (m_pP1->GetPoints() == 3)
 	//{
 	//	m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 1 wins");
-	//	Timer::GetInstance().SetTimeScale(0);
+	//	Timer::Get().SetTimeScale(0);
 	//	m_pGameOver->SetActive(true);
 	//}
 
 	//if (m_pP2->GetPoints() == 3)
 	//{
 	//	m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Player 2 wins");
-	//	Timer::GetInstance().SetTimeScale(0);
+	//	Timer::Get().SetTimeScale(0);
 	//	m_pGameOver->SetActive(true);
 	//}
 }

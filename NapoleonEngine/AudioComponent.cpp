@@ -15,7 +15,7 @@ void AudioComponent::Play()
 
 void AudioComponent::SetAudioClip(std::string const& clipLocation)
 {
-	m_AudioId = ResourceManager::GetInstance().GetEffect(clipLocation);
+	m_AudioId = ResourceManager::Get().GetEffect(clipLocation);
 }
 
 void AudioComponent::Serialize(StreamWriter& writer) const

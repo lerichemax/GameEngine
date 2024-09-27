@@ -40,7 +40,7 @@ CharacterState* CoilyOnQubeState::Update(GameObject* pObject)
 	{
 		if (m_pCharController->m_MoveTimer < m_pCharController->MOVE_MAX_TIME)
 		{
-			m_pCharController->m_MoveTimer += Timer::GetInstance().GetDeltaTime();
+			m_pCharController->m_MoveTimer += Timer::Get().GetDeltaTime();
 			return nullptr;
 		}
 

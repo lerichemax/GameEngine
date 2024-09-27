@@ -93,7 +93,7 @@ void EnemySpawnerSystem::Update()
 		{
 			if (pSpawnerComp->EnemySpawnTimer < pSpawnerComp->SpawnInterval)
 			{
-				pSpawnerComp->EnemySpawnTimer += Timer::GetInstance().GetDeltaTime();
+				pSpawnerComp->EnemySpawnTimer += Timer::Get().GetDeltaTime();
 			}
 			else
 			{

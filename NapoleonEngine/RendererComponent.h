@@ -29,7 +29,7 @@ private:
 template <ShapeDerived S>
 void RendererComponent::SetShape(S* const shape)
 {
-	Factory<geo::Shape>::GetInstance().RegisterType<S>([]() {
+	Factory<geo::Shape>::Get().RegisterType<S>([]() {
 		return new S{};
 		});
 

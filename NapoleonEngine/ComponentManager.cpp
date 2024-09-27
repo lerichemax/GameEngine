@@ -50,7 +50,7 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 
 	size_t hash = static_cast<size_t>(typeInt);
 
-	auto pComp = Factory<Component, ComponentManager* const>::GetInstance().Create(hash, this);
+	auto pComp = Factory<Component, ComponentManager* const>::Get().Create(hash, this);
 
 	assert(pComp != nullptr && "Failed to construct object from type");
 

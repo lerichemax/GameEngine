@@ -41,7 +41,7 @@ void DiskSystem::Update()
 			glm::vec2 distance{ pDiskComp->TargetPosition - pTransform->GetLocation() };
 			glm::vec2 direction{ glm::normalize(distance) };
 
-			direction *= (pDiskComp->MOVE_SPEED * Timer::GetInstance().GetDeltaTime());
+			direction *= (pDiskComp->MOVE_SPEED * Timer::Get().GetDeltaTime());
 			pTransform->Translate(pTransform->GetLocation() + direction);
 
 			distance = pDiskComp->TargetPosition - pTransform->GetLocation();
@@ -54,7 +54,7 @@ void DiskSystem::Update()
 		{
 			if (pDiskComp->DropTimer < pDiskComp->DROP_MAX_TIME)
 			{
-				pDiskComp->DropTimer += Timer::GetInstance().GetDeltaTime();
+				pDiskComp->DropTimer += Timer::Get().GetDeltaTime();
 			}
 			else
 			{
@@ -98,7 +98,7 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 	}
 
 	pQube->ConnectionToDisk->Disk = diskEntity;
-	Debugger::GetInstance().Log("Disk spawned");
+	Debugger::Get().Log("Disk spawned");
 }
 
 void DiskSystem::SetSignature() const

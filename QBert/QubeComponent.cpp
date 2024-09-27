@@ -11,9 +11,9 @@ QubeComponent::QubeComponent()
 	:Connections{ NULL_ENTITY, NULL_ENTITY, NULL_ENTITY, NULL_ENTITY },
 	EscheresqueRightConnections{ NULL_ENTITY, NULL_ENTITY, NULL_ENTITY, NULL_ENTITY },
 	EscheresqueLeftConnections{ NULL_ENTITY, NULL_ENTITY, NULL_ENTITY, NULL_ENTITY },
-	pDefaultText(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube.png")),
-	pIntermediateTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Intermediate.png")),
-	pFlippedTexture(ResourceManager::GetInstance().GetTexture("Textures/Qube/Qube_Flipped.png")),
+	pDefaultText(ResourceManager::Get().GetTexture("Textures/Qube/Qube.png")),
+	pIntermediateTexture(ResourceManager::Get().GetTexture("Textures/Qube/Qube_Intermediate.png")),
+	pFlippedTexture(ResourceManager::Get().GetTexture("Textures/Qube/Qube_Flipped.png")),
 	ConnectionToDisk{ new DiskConnection{} }
 {
 }

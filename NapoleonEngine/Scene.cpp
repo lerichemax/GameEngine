@@ -66,7 +66,7 @@ GameObject* const BaseScene::FindTagInChildren(GameObject* const pObj, std::stri
 		}
 	}
 
-	Debugger::GetInstance().LogWarning("No GameObject found with tag " + tag);
+	Debugger::Get().LogWarning("No GameObject found with tag " + tag);
 	return nullptr;
 }
 
@@ -236,7 +236,7 @@ void Scene::CleanUpScene()
 
 void Scene::OnLoad()
 {
-	Timer::GetInstance().SetTimeScale(1);
+	Timer::Get().SetTimeScale(1);
 	m_pRegistry = std::make_unique<Coordinator>();
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
@@ -275,7 +275,7 @@ void Scene::OnLoad()
 		nbrSystems = m_pSystems.size();
 	}
 
-	Renderer::GetInstance().SetBackgroundColor(m_BackgroundColor);
+	Renderer::Get().SetBackgroundColor(m_BackgroundColor);
 }
 
 void Scene::Update()
@@ -301,7 +301,7 @@ void Scene::Render() const
 {
 	if (!EntityManager::IsEntityValid(m_pCamera->m_MainCameraEntity))
 	{
-		Debugger::GetInstance().LogError("Scene::Render - > no camera currently active");
+		Debugger::Get().LogError("Scene::Render - > no camera currently active");
 	}
 
 	m_pTextRenderer->Update();
@@ -384,7 +384,7 @@ GameObject* const Scene::InstantiatePrefab(std::string const& name)
 {
 	size_t index = m_pObjects.size();
 
-	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
+	PrefabsManager::Get().InstantiatePrefab(name, this);
 
 	if (m_pObjects.size() > index)
 	{
@@ -398,7 +398,7 @@ GameObject* const Scene::InstantiatePrefab(std::string const& name, glm::vec2 co
 {
 	size_t index = m_pObjects.size();
 
-	PrefabsManager::GetInstance().InstantiatePrefab(name, this);
+	PrefabsManager::Get().InstantiatePrefab(name, this);
 
 	if (m_pObjects.size() > index)
 	{

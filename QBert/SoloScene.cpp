@@ -25,7 +25,6 @@
 
 #include "ResourceManager.h"
 #include "InputManager.h"
-#include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "JsonReaderWriter.h"
 #include "Timer.h"
@@ -114,7 +113,7 @@ void SoloScene::Initialize()
 	auto* const pUggObject = CreateGameObject();
 	auto* pSpawnerComp = pUggObject->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 2;
-	pSpawnerComp->SpawnInterval = 7;
+	pSpawnerComp->SpawnInterval = 6;
 	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
@@ -123,7 +122,7 @@ void SoloScene::Initialize()
 //	auto const pGameManager = new GameManager{ pointsP1->GetComponent<TextRendererComponent>(),
 //nullptr, livesP1->GetComponent<TextRendererComponent>(), nullptr, pCm, pWWm, pSSm, m_pGameOverMenu };
 //
-//	ObserverManager::GetInstance().AddObserver(pGameManager);
+//	ObserverManager::Get().AddObserver(pGameManager);
 //	qbertObj->AddObserver(pGameManager);
 //	pWWm->SetGameManager(pGameManager);
 //	pSSm->SetGameManager(pGameManager);
@@ -142,31 +141,31 @@ void SoloScene::Initialize()
 
 //void SoloScene::DeclareInput() 
 //{
-	//InputManager::GetInstance().AddInputAction(0, new InputAction(SDLK_z, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(0, new InputAction(SDLK_z, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	//InputManager::GetInstance().AddInputAction(1, new InputAction{ SDLK_d , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(1, new InputAction{ SDLK_d , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(2, new InputAction{ SDLK_s , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(2, new InputAction{ SDLK_s , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	//InputManager::GetInstance().AddInputAction(3, new InputAction{ SDLK_q , KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(3, new InputAction{ SDLK_q , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
 
-	//InputManager::GetInstance().AddInputAction(4,
+	//InputManager::Get().AddInputAction(4,
 	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
 	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	//InputManager::GetInstance().AddInputAction(5,
+	//InputManager::Get().AddInputAction(5,
 	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(6,
+	//InputManager::Get().AddInputAction(6,
 	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	//InputManager::GetInstance().AddInputAction(7,
+	//InputManager::Get().AddInputAction(7,
 	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
 	//
-	//InputManager::GetInstance().AddInputAction(100, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(100, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
 	//	new PauseGameCommand(this, m_pPauseMenu) });
 
-	//InputManager::GetInstance().AddInputAction(101, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
+	//InputManager::Get().AddInputAction(101, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
 //}

@@ -7,5 +7,5 @@ public:
 	explicit FallingState(Characters* pChar, Jumper* pJumper);
 	~FallingState() = default;
 
-	CharacterState* Update(GameObject* pObject) override;
+	CharacterState* Update(GameObject* pObject);
 };

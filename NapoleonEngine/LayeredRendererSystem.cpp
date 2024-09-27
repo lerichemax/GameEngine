@@ -21,12 +21,12 @@ void LayeredRendererSystem::Update()
 		if (renderComp->pTexture != nullptr)
 		{
 			auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-			Renderer::GetInstance().RenderTexture(*renderComp->pTexture, *pTransform); //remove singleton ?
+			Renderer::Get().RenderTexture(*renderComp->pTexture, *pTransform); //remove singleton ?
 		}
 
 		if (renderComp->pShape != nullptr)
 		{
-			Renderer::GetInstance().RenderShape(*renderComp->pShape);
+			Renderer::Get().RenderShape(*renderComp->pShape);
 		}
 	}
 }

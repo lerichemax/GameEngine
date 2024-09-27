@@ -5,14 +5,13 @@
 #include "SlickSam.h"
 #include "TransformComponent.h"
 
-#include "ObserverManager.h"
 #include "PrefabsManager.h"
 #include "Timer.h"
 
 void SlickSamManager::Spawn()
 {
 	//int const random{ rand() % 2 + 1 };
-	//GameObject* pSlickSam = PrefabsManager::GetInstance().Instantiate("SlickSam");
+	//GameObject* pSlickSam = PrefabsManager::Get().Instantiate("SlickSam");
 
 	//m_pPyramid->GetGameObject()->AddChild(pSlickSam);
 

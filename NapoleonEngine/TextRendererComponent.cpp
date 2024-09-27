@@ -72,7 +72,7 @@ void TextRendererComponent::Deserialize(JsonReader const* reader, SerializationM
 	int size;
 	reader->ReadInt("fontSize", size);
 
-	m_pFont = ResourceManager::GetInstance().GetFont(fontName, size);
+	m_pFont = ResourceManager::Get().GetFont(fontName, size);
 
 	m_NeedsUpdate = true;
 

@@ -68,9 +68,9 @@ void GameManager::Notify(GameObject* object, int event)
 		m_NbrDeadPlayers++;
 		if (m_NbrDeadPlayers >= m_NbrPlayers)
 		{
-			Debugger::GetInstance().Log("GAME OVER");
+			Debugger::Get().Log("GAME OVER");
 			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
-			Timer::GetInstance().SetTimeScale(0);
+			Timer::Get().SetTimeScale(0);
 			m_pGameOver->SetActive(true);
 			m_NbrDeadPlayers = 0;
 		}
@@ -145,16 +145,16 @@ void GameManagerSystem::Start()
 	}
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnGameOver.Subscribe([this]() {
-		Timer::GetInstance().SetTimeScale(0);
+		Timer::Get().SetTimeScale(0);
 	});
 
-	//InputManager::GetInstance().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
+	//InputManager::Get().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
 	//new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
 }
 
 void GameManagerSystem::Update()
 {
-	if (InputManager::GetInstance().IsUp(SDL_SCANCODE_P))
+	if (InputManager::Get().IsUp(SDL_SCANCODE_P))
 	{
 		TogglePause();
 	}
@@ -176,7 +176,7 @@ void GameManagerSystem::Serialize(StreamWriter& writer) const
 
 void GameManagerSystem::TogglePause()
 {
-	Timer::GetInstance().SetTimeScale(m_IsPaused ? 1.f : 0.f);
+	Timer::Get().SetTimeScale(m_IsPaused ? 1.f : 0.f);
 
 	m_IsPaused = !m_IsPaused;
 	OnGamePaused.Notify(m_IsPaused);
@@ -193,19 +193,19 @@ void GameManagerSystem::HandleEndGame()
 	switch (m_Level)
 	{
 	case Level::Level1:
-		Debugger::GetInstance().Log("YOU FINISHED LEVEL 1!");
+		Debugger::Get().Log("YOU FINISHED LEVEL 1!");
 		m_Level = Level::Level2;
 		ResetGame();
 		break;
 	case Level::Level2:
-		Debugger::GetInstance().Log("YOU FINISHED LEVEL 2!");
+		Debugger::Get().Log("YOU FINISHED LEVEL 2!");
 		m_Level = Level::Level3;
 		ResetGame();
 		break;
 	case Level::Level3:
-		Debugger::GetInstance().Log("YOU FINISHED LEVEL 3!");
+		Debugger::Get().Log("YOU FINISHED LEVEL 3!");
 		OnGameEnded.Notify();
-		Timer::GetInstance().SetTimeScale(0.f);
+		Timer::Get().SetTimeScale(0.f);
 		break;
 	default:
 		break;

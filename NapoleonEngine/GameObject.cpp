@@ -1,11 +1,7 @@
 #include "PCH.h"
 #include "GameObject.h"
-#include "RendererComponent.h"
-#include "Subject.h"
 
 #include <algorithm>
-
-#include "Scene.h"
 
 GameObject::GameObject(Coordinator* const pRegistry)
 	:m_pRegistry(pRegistry), 
@@ -28,19 +24,6 @@ GameObject::~GameObject()
 	m_pRegistry->DestroyEntity(m_Entity);
 }
 
-void GameObject::Refresh()
-{
-	
-	//for (auto& pChild : m_pChildren)
-	//{
-	//	pChild->Refresh();
-	//	if (pChild->m_bIsDestroyed)
-	//	{
-	//		SafeDelete(pChild);
-	//	}
-	//}
-}
-
 TransformComponent* const GameObject::GetTransform() const
 { 
 	return GetComponent<TransformComponent>(); 
@@ -48,13 +31,8 @@ TransformComponent* const GameObject::GetTransform() const
 
 void GameObject::AddChild(GameObject* const pChild)
 {
-	//m_pChildren.push_back(pChild); //remove ?
-	//pChild->m_pParent = std::shared_ptr<GameObject>(this); //remove ?
-
 	pChild->GetTransform()->SetParent(GetTransform());
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
-
-	//pChild->m_pScene = m_pScene; //remove ?
 }
 
 void GameObject::SetTag(std::string const& tag, bool applyToChildren)
@@ -145,7 +123,7 @@ void GameObject::SetActive(bool active, bool includeChildren)
 
 bool GameObject::IsActive() const
 {
-	return m_bIsActive;//&& m_pScene->IsActive();
+	return m_bIsActive;
 }
 
 std::string GameObject::GetTag() const

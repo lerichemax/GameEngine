@@ -5,7 +5,7 @@
 
 void ReloadSceneCommand::Execute(GameObject* const gObject)
 {
-	SceneManager::GetInstance().ReloadCurrentScene();
+	SceneManager::Get().ReloadCurrentScene();
 }
 
 void ReloadSceneCommand::Serialize(StreamWriter& writer) const

@@ -90,7 +90,7 @@ void CoilyCharacterController::FindQBert()
 {
 	if (m_pPyramid == nullptr)
 	{
-		Debugger::GetInstance().LogError("Variable m_pPyramid of CoilyCharacterController is undefined");
+		Debugger::Get().LogError("Variable m_pPyramid of CoilyCharacterController is undefined");
 	}
 	std::thread t1([this]
 		{

@@ -5,7 +5,7 @@
 #include "Coily.h"
 #include "CoilyCharacterController.h"
 
-#include "ObserverManager.h"
+
 #include "PrefabsManager.h"
 #include "Timer.h"
 #include "TransformComponent.h"
@@ -14,7 +14,7 @@
 void CoilyManager::Spawn()
 {
 	//int const random{ rand() % 2 + 1 };
-	//GameObject* pCoily = PrefabsManager::GetInstance().Instantiate("Coily");
+	//GameObject* pCoily = PrefabsManager::Get().Instantiate("Coily");
 	//m_pPyramid->GetGameObject()->AddChild(pCoily);
 	//pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 	//pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);

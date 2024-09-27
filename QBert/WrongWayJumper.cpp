@@ -47,10 +47,10 @@ WrongWayJumper::WrongWayJumper()
 //		{
 //			//pTransform->SetWorldPosition(
 //			//	pos.x += (m_pGameObject->GetComponent<WrongWay>()->IsEscheresqueRight() ? -FALL_SPEED : FALL_SPEED) 
-//			//	* Timer::GetInstance().GetDeltaTime(), pos.y );
+//			//	* Timer::Get().GetDeltaTime(), pos.y );
 //		}
 //		
-//		m_FallTime += Timer::GetInstance().GetDeltaTime();
+//		m_FallTime += Timer::Get().GetDeltaTime();
 //		//if (m_FallTime >= FALL_TIME)
 //		//{
 //		//	
@@ -60,7 +60,7 @@ WrongWayJumper::WrongWayJumper()
 //
 //	dir = glm::normalize(dir);
 //
-//	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+//	pTransform->Translate(pos + dir * JUMP_SPEED * Timer::Get().GetDeltaTime());
 //
 //	if (glm::length(pTransform->GetLocation() - m_Halfway) <= 2.f)
 //	{

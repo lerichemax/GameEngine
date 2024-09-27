@@ -61,18 +61,18 @@ MainGame::MainGame()
 
 void MainGame::InitGame() const
 {	
-	SceneManager::GetInstance().AddScene(new MainMenuScene{});
-	SceneManager::GetInstance().AddScene(new SoloScene{});
-	//SceneManager::GetInstance().AddScene(new CoopScene{});
-	//SceneManager::GetInstance().AddScene(new VersusScene{});
-	SceneManager::GetInstance().LoadScene("MainMenuScene");
+	SceneManager::Get().AddScene(new MainMenuScene{});
+	SceneManager::Get().AddScene(new SoloScene{});
+	//SceneManager::Get().AddScene(new CoopScene{});
+	//SceneManager::Get().AddScene(new VersusScene{});
+	SceneManager::Get().LoadScene("MainMenuScene");
 }
 
 void MainGame::CreatePrefabs() const
 {
-	auto const font = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 15);
+	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
 
-	auto& pPrefabManager = PrefabsManager::GetInstance();
+	auto& pPrefabManager = PrefabsManager::Get();
 
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
@@ -107,7 +107,7 @@ void MainGame::CreatePrefabs() const
 
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
 	rendererComp->Layer = 8;
-	rendererComp->pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
+	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
 	auto* const jumpSoundPtr = pQbertObj->AddComponent<AudioComponent>();
 	jumpSoundPtr->SetAudioClip("Sounds/jump.mp3");
@@ -140,7 +140,7 @@ void MainGame::CreatePrefabs() const
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 
 	auto hurtRenderer = hurtTextObj->AddComponent<RendererComponent>();
-	hurtRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/QBert/HurtText.png");
+	hurtRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/HurtText.png");
 	hurtRenderer->Layer = 8;
 	hurtRenderer->SetActive(false);
 
@@ -184,6 +184,7 @@ void MainGame::CreatePrefabs() const
 	auto pUggobject = pUggPrefab->GetRoot();
 	auto* const pUggRenderer = pUggobject->AddComponent<RendererComponent>();
 	pUggRenderer->Layer = 7;
+	pUggRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/WrongWay/Ugg_Right.png");
 
 	auto* pMover = pUggobject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/WrongWay/Ugg_Right.png", "Textures/Enemies/WrongWay/Ugg_left.png", "", "");
@@ -209,6 +210,7 @@ void MainGame::CreatePrefabs() const
 	auto pWrongWayObject = pWrongWayPrefab->GetRoot();
 	auto* const pWrongWayRenderer = pWrongWayObject->AddComponent<RendererComponent>();
 	pWrongWayRenderer->Layer = 7;
+	pWrongWayRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/WrongWay/WrongWay_Right.png");
 
 	pMover = pWrongWayObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/WrongWay/WrongWay_Right.png", "Textures/Enemies/WrongWay/WrongWay_left.png", "", "");
@@ -242,7 +244,7 @@ void MainGame::CreatePrefabs() const
 	auto* const pCoilyRenderer = pCoilyObject->AddComponent<RendererComponent>();
 
 	pCoilyRenderer->Layer = 7;
-	pCoilyRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
+	pCoilyRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/Coily/Coily_Egg_Small.png");
 
 	pMover = pCoilyObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/Coily/Coily_Egg_Small.png", "Textures/Enemies/Coily/Coily_Egg_Small.png", "", "");
@@ -272,7 +274,7 @@ void MainGame::CreatePrefabs() const
 
 	auto* const pSlickRenderer = pSlickObject->AddComponent<RendererComponent>();
 	pSlickRenderer->Layer = 7;
-	pSlickRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
+	pSlickRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
 	pMover = pSlickObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Slick_Down_Right.png", "Textures/Enemies/SlickSam/Slick_Down_Left.png","", "");
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left","", "");
@@ -297,8 +299,8 @@ void MainGame::CreatePrefabs() const
 
 	auto* const pSamRenderer = pSamObject->AddComponent<RendererComponent>();
 	pSamRenderer->Layer = 7;
-	pSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
-	pSamRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Right.png");
+	pSamRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/SlickSam/Slick_Down_Right.png");
+	pSamRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/SlickSam/Sam_Down_Right.png");
 
 	pMover = pSamObject->AddComponent<MovementComponent>();
 	pMover->SetTextureIdleNames("Textures/Enemies/SlickSam/Sam_Down_Right.png", "Textures/Enemies/SlickSam/Sam_Down_Left.png", "", "");
@@ -326,7 +328,7 @@ void MainGame::CreatePrefabs() const
 	pDiskObject->AddComponent<DiskComponent>();
 	auto* const pDiskRenderer = pDiskObject->AddComponent<RendererComponent>();
 	pDiskRenderer->Layer = 7;
-	pDiskRenderer->pTexture = ResourceManager::GetInstance().GetTexture("Textures/Disk.png");
+	pDiskRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Disk.png");
 
 	pDiskObject->GetTransform()->Scale(2);
 
@@ -334,13 +336,13 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(pDiskPf, "Disk");
 
 	//Pause Menu
-	auto const biggerFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 42);
-	auto const lessBigFont = ResourceManager::GetInstance().GetFont("Fonts/Lingua.otf", 30);
+	auto const biggerFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 42);
+	auto const lessBigFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 30);
 	auto menuPrefab = pPrefabManager.CreatePrefab();
 	auto menuObj = menuPrefab->GetRoot();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 127}, true} );
+	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 127}, true} );
 	pShapeRenderer->Layer = 10;
 
 	auto textObject = menuPrefab->CreateGameObject();
@@ -413,7 +415,7 @@ void MainGame::CreatePrefabs() const
 	menuObj = quitMenuPrefab->GetRoot();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::GetInstance().GetWindowWidth(), Renderer::GetInstance().GetWindowHeight(), Color{0,0,0, 255}, true });
+	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 255}, true });
 	pShapeRenderer->Layer = 10;
 
 	textObject = quitMenuPrefab->CreateGameObject();

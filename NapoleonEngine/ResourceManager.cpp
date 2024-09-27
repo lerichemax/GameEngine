@@ -101,7 +101,7 @@ void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
 Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
-	auto const texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	auto const texture = IMG_LoadTexture(Renderer::Get().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
 		return nullptr;
@@ -113,7 +113,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
-	auto const texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	auto const texture = IMG_LoadTexture(Renderer::Get().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
@@ -133,7 +133,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 		}
 		catch (std::runtime_error const& error)
 		{
-			Debugger::GetInstance().LogError(error.what());
+			Debugger::Get().LogError(error.what());
 		}
 	}
 
@@ -164,7 +164,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto const texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+	auto const texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
@@ -207,7 +207,7 @@ ID ResourceManager::ResourceManagerImpl::GetEffect(const std::string& file)
 		}
 		catch (std::runtime_error const& error)
 		{
-			Debugger::GetInstance().LogError(error.what());
+			Debugger::Get().LogError(error.what());
 		}
 	}
 

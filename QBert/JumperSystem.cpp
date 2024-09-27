@@ -88,7 +88,7 @@ void JumperSystem::UpdateJump(Entity entity)
 
 	dir = glm::normalize(dir);
 
-	pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+	pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
 
 	if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 	{
@@ -114,7 +114,7 @@ void JumperSystem::UpdateFall(Entity entity)
 		glm::vec2 dir = pJump->Halfway - pos;
 		dir = glm::normalize(dir);
 
-		pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::GetInstance().GetDeltaTime());
+		pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
 
 		if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 		{
@@ -123,8 +123,8 @@ void JumperSystem::UpdateFall(Entity entity)
 	}
 	else
 	{
-		pTransform->Translate(pos - pJump->Direction * (pJump->FALL_SPEED * Timer::GetInstance().GetDeltaTime()));
-		pJump->FallTime += Timer::GetInstance().GetDeltaTime();
+		pTransform->Translate(pos - pJump->Direction * (pJump->FALL_SPEED * Timer::Get().GetDeltaTime()));
+		pJump->FallTime += Timer::Get().GetDeltaTime();
 		if (pJump->FallTime >= pJump->FALL_TIME)
 		{
 			OnFell.Notify(entity);

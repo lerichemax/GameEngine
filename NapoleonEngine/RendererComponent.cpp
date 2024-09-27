@@ -36,7 +36,7 @@ void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 	reader->ReadString("filepath", filename);
 	if (!filename.empty())
 	{
-		pTexture = ResourceManager::GetInstance().GetTexture(filename);
+		pTexture = ResourceManager::Get().GetTexture(filename);
 	}
 
 	auto shapeObj = reader->ReadObject("Shape");
@@ -46,7 +46,7 @@ void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 		int64_t type;
 		shapeObj->ReadInt64("type", type);
 
-		pShape = Factory<geo::Shape>::GetInstance().Create(static_cast<size_t>(type));
+		pShape = Factory<geo::Shape>::Get().Create(static_cast<size_t>(type));
 		if (pShape != nullptr)
 		{
 			pShape->Deserialize(shapeObj.get());

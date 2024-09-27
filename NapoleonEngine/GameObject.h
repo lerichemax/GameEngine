@@ -4,13 +4,7 @@
 #include "Coordinator.h"
 #include "Serializer.h"
 
-#include <vector>
-
-class Subject;
-class Observer;
 class TransformComponent;
-class TransformComponent;
-class Scene;
 class GameObject final : public IContextSerializable
 {
 	friend class Scene;
@@ -21,10 +15,8 @@ public:
 	GameObject& operator=(const GameObject& other) = delete;
 	GameObject& operator=(GameObject&& other) = delete;
 
-	template <class T> bool HasComponent() const;
 	template<class T> T* const GetComponent() const;
 	template <class T> T* const GetComponentInChildren() const;
-	template <class T> void RemoveComponent();
 		
 	TransformComponent* const GetTransform() const;
 
@@ -59,8 +51,7 @@ private:
 		
 	bool m_bIsActive;
 	bool m_bIsDestroyed;
-		
-	void Refresh();
+
 };
 template <typename T>
 T* const GameObject::AddComponent()
@@ -82,28 +73,4 @@ template <class T>
 T* const GameObject::GetComponentInChildren() const
 {
 	return m_pRegistry->GetComponentInChildren<T>(m_Entity);
-}
-
-template <class T>
-bool  GameObject::HasComponent() const
-{
-	//auto const& type = typeid(T);
-
-	//for (Component* pObjectComp : m_pComponents)
-	//{
-	//	if (typeid(*pObjectComp) == type)
-	//	{
-	//		return true;
-	//	}
-	//}
-	return false;
-}
-
-template <class T>
-void GameObject::RemoveComponent()
-{
-	//T* pComp = GetComponent<T>();
-
-	//m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComp), m_pComponents.end());
-	//delete pComp;
 }

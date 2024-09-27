@@ -1,5 +1,5 @@
 #pragma once
-#include "Observer.h"
+
 
 
 class TextRendererComponent;
@@ -19,13 +19,13 @@ class Coily;
 class Characters;
 class PyramidSystem;
 class CharacterPoint;
-class VersusGameManager final : public Observer
+class VersusGameManager final 
 {
 public:
 	VersusGameManager(TextRendererComponent* pRoundText, TextRendererComponent* pText1,
 		TextRendererComponent* pText2, CharacterPoint* pP1, CharacterPoint* pP2, PyramidSystem* pPyramid, 
 		GameObject* pGameOver, unsigned int nbrRounds);
-	void Notify(GameObject* object, int event) override;
+	void Notify(GameObject* object, int event);
 
 private:
 	TextRendererComponent* m_pRoundText;

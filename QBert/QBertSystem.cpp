@@ -92,7 +92,7 @@ void QBertSystem::Update()
 		}
 		else 
 		{
-			pQbert->ResetTimer += Timer::GetInstance().GetDeltaTime();
+			pQbert->ResetTimer += Timer::Get().GetDeltaTime();
 		}
 	}
 }

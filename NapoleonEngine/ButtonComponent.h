@@ -40,13 +40,17 @@ private:
 	std::unique_ptr<Command> m_pOnSelect{};
 	std::unique_ptr<Command> m_pOnDeselect{};
 
-	bool m_IsSelected;
+	bool m_bIsSelected;
+
+	void Select();
+	void Deselect();
+	void Click();
 };
 
 template<CommandDerived T> 
 void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
 {
-	Factory<Command>::GetInstance().RegisterType<T>([]() {
+	Factory<Command>::Get().RegisterType<T>([]() {
 		return new T{};
 		});
 
@@ -56,7 +60,7 @@ void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
 template<CommandDerived T> 
 void ButtonComponent::SetOnSelectFunction(T* func)
 {
-	Factory<Command>::GetInstance().RegisterType<T>([]() {
+	Factory<Command>::Get().RegisterType<T>([]() {
 		return new T{};
 		});
 	m_pOnSelect.reset(func);
@@ -65,7 +69,7 @@ void ButtonComponent::SetOnSelectFunction(T* func)
 template<CommandDerived T> 
 void ButtonComponent::SetOnDeselectFunction(T* func)
 {
-	Factory<Command>::GetInstance().RegisterType<T>([]() {
+	Factory<Command>::Get().RegisterType<T>([]() {
 		return new T{};
 		});
 	m_pOnDeselect.reset(func);

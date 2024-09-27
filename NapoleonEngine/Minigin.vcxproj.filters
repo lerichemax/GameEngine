@@ -7,14 +7,8 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{e982279b-fa55-4db3-b618-9c2bd15871cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Observers">
-      <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{0fe6aa5f-1a96-4194-a580-c9fc24be3fd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="State">
-      <UniqueIdentifier>{95b56b6a-7f95-4312-be6d-7421267bb049}</UniqueIdentifier>
     </Filter>
     <Filter Include="Prefabs">
       <UniqueIdentifier>{d6f9c765-012c-4870-b324-7d94db18c2b5}</UniqueIdentifier>
@@ -52,6 +46,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observer">
+      <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RendererComponent.h">
@@ -72,9 +69,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="NapoleonEngine.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -86,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>State</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imconfig.h">
       <Filter>imgui</Filter>
@@ -127,9 +118,6 @@
     </ClInclude>
     <ClInclude Include="PCH.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ObserverManager.h">
-      <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="PrefabsManager.h">
       <Filter>Prefabs</Filter>
@@ -215,9 +203,6 @@
     <ClInclude Include="writer.h">
       <Filter>rapidjson</Filter>
     </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -270,7 +255,7 @@
       <Filter>ECS\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Observers</Filter>
+      <Filter>Observer</Filter>
     </ClInclude>
     <ClInclude Include="FPSCounterSystem.h">
       <Filter>ECS\Systems</Filter>
@@ -322,9 +307,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
     <ClCompile Include="NapoleonEngine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -336,9 +318,6 @@
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>State</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
       <Filter>imgui</Filter>
@@ -368,9 +347,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="ObserverManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
@@ -393,9 +369,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="Subject.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>

@@ -289,8 +289,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="NapoleonEngine.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="ObserverManager.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="PrefabsManager.h" />
     <ClInclude Include="Renderer.h" />
@@ -301,10 +299,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundInterface.h" />
-    <ClInclude Include="State.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="stringbuffer.h" />
-    <ClInclude Include="Subject.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="targetver.h" />
@@ -393,8 +389,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="NapoleonEngine.cpp" />
-    <ClCompile Include="ObserverManager.cpp" />
-    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PrefabsManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
@@ -402,8 +396,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TextRendererComponent.cpp" />

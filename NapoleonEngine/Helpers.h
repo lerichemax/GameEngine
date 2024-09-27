@@ -54,16 +54,16 @@ inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
 
 inline GameObject* const Instantiate(std::string const& name)
 {
-	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name);
+	return SceneManager::Get().GetActiveScene()->InstantiatePrefab(name);
 }
 
 inline GameObject* const Instantiate(std::string const& name, glm::vec2 const& location)
 {
-	return SceneManager::GetInstance().GetActiveScene()->InstantiatePrefab(name, location);
+	return SceneManager::Get().GetActiveScene()->InstantiatePrefab(name, location);
 }
 
 template <ComponentDerived T>
 inline T* const FindComponentOfType()
 {
-	return SceneManager::GetInstance().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
+	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
 }

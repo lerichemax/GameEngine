@@ -8,7 +8,7 @@ T* const ComponentArray<T>::InsertData(Entity entity)
 
 	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end() && static_cast<Component*>(pComponent)->IsUnique())
 	{
-		Debugger::GetInstance().LogWarning(std::string{ "Component  is unique and can't be added twice to Entity " + std::to_string(entity) });
+		Debugger::Get().LogWarning(std::string{ "Component  is unique and can't be added twice to Entity " + std::to_string(entity) });
 		delete pComponent;
 		return nullptr;
 	}
@@ -50,7 +50,7 @@ Component* const ComponentArray<T>::GetBaseData(Entity entity)
 {
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		Debugger::GetInstance().LogWarning(std::string{ "Component  not found for entity " } + std::to_string(entity));
+		Debugger::Get().LogWarning(std::string{ "Component  not found for entity " } + std::to_string(entity));
 		return nullptr;
 	}
 
@@ -82,7 +82,7 @@ T* const ComponentArray<T>::GetData(Entity entity)
 
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		//Debugger::GetInstance().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
+		//Debugger::Get().LogWarning("Component " + std::string(typeid(T).name()) + " not found for entity " + std::to_string(entity));
 		return nullptr;
 	}
 

@@ -1,7 +1,4 @@
 #pragma once
-#include "State.h"
-
-
 
 class GameObject;
 class OnQubeState;
@@ -17,7 +14,7 @@ enum class CharacterStateType // enum to avoid using typeid
 	falling
 };
 
-class CharacterState : public State
+class CharacterState 
 {
 public:
 
@@ -25,11 +22,11 @@ public:
 	virtual ~CharacterState() = default;
 	
 	
-	virtual void Enter() override{};
-	virtual void Exit() override{};
+	virtual void Enter() {};
+	virtual void Exit() {};
 
 	CharacterStateType GetType()const { return m_Type; }
-	CharacterState* Update(GameObject*) override { return nullptr; }
+	CharacterState* Update(GameObject*)  { return nullptr; }
 
 protected:
 	Jumper* m_pJumperComp;
@@ -39,5 +36,5 @@ private:
 	CharacterStateType m_Type;
 	
 	
-	void HandleInput(GameObject* ) override {};
+	void HandleInput(GameObject* ) {};
 };

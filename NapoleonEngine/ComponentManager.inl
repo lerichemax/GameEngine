@@ -10,7 +10,7 @@ void ComponentManager::RegisterComponent()
 	{
 		m_ComponentTypes.insert(std::make_pair(typeHash, m_NextComponentType++));
 
-		Factory<Component, ComponentManager* const>::GetInstance().RegisterType<T>([](ComponentManager* const compManager) {
+		Factory<Component, ComponentManager* const>::Get().RegisterType<T>([](ComponentManager* const compManager) {
 			T* t = new T{};
 
 			size_t compTypeHash{ std::type_index(typeid(T)).hash_code() };

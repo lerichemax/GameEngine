@@ -15,7 +15,7 @@ template <typename T>
 class Singleton : public SingletonWrapper
 {
 public:
-	static T& GetInstance()
+	static T& Get()
 	{
 		if (m_pInstance == nullptr)
 		{

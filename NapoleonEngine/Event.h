@@ -4,7 +4,6 @@ template<class T, typename... Types>
 class EventHandler final
 {
 	friend T;
-	friend class UiSystem;
 	using Subscriber = std::function<void(Types...)>;
 
 public:
@@ -36,7 +35,7 @@ void EventHandler<T, Types...>::Subscribe(Subscriber func)
 
 	if (subscriberIterator != m_Subscribers.end())
 	{
-		Debugger::GetInstance().Log("Subscriber already registered"); 
+		Debugger::Get().Log("Subscriber already registered"); 
 		return;
 	}
 

@@ -48,9 +48,9 @@ void Renderer::Render()
 	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
 
-	SceneManager::GetInstance().Render();
+	SceneManager::Get().Render();
 
-	Debugger::GetInstance().Render();
+	Debugger::Get().Render();
 
 	SDL_RenderPresent(m_pRenderer);
 }

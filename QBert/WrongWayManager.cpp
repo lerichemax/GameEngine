@@ -4,7 +4,6 @@
 #include "GameManagerSystem.h"
 #include "WrongWay.h"
 
-#include "ObserverManager.h"
 #include "PrefabsManager.h"
 
 #include "Timer.h"
@@ -15,7 +14,7 @@ void WrongWayManager::Spawn()
 {
 	int const random{ rand() % 2 };
 
-	//GameObject* pWrongWay = PrefabsManager::GetInstance().Instantiate("WrongWay");
+	//GameObject* pWrongWay = PrefabsManager::Get().Instantiate("WrongWay");
 	//auto pWWComp = pWrongWay->GetComponent<WrongWay>();
 	if (random == 0)
 	{

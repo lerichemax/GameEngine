@@ -8,7 +8,7 @@ T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
 
 	if (m_Systems.find(type) != m_Systems.end())
 	{
-		Debugger::GetInstance().LogWarning("System with hash code " + std::to_string(type) + " already registered");
+		Debugger::Get().LogWarning("System with hash code " + std::to_string(type) + " already registered");
 		return nullptr;
 	}
 

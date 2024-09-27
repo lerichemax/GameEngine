@@ -82,6 +82,6 @@ void SerializationMap::Add(int id, T* pRef)
 	}
 	else
 	{
-		//Debugger::GetInstance().LogWarning("ID alrady added to the context");
+		//Debugger::Get().LogWarning("ID alrady added to the context");
 	}
 }

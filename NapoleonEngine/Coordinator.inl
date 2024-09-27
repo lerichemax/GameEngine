@@ -80,7 +80,7 @@ T* const Coordinator::RegisterSystem()
 
 	OnSystemSignatureChanged<T>(m_pSystemManager->GetSystemSignature<T>());
 
-	Factory<System>::GetInstance().RegisterType<T>([]() {
+	Factory<System>::Get().RegisterType<T>([]() {
 		return new T{};
 		});
 

@@ -69,7 +69,7 @@ void CharacterMovementSystem::Move(Entity entity)
 		pMoveComp->CurrentQube = pCurrentQube->GetConnectionForMovementMode(pMoveComp->Mode, pMoveComp->CurrentDirection);
 		pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 
-		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->CharacterPos);
+		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->GetEnemyTopPosition(pMoveComp->Mode));
 	}
 	else if (pCurrentQube->ConnectionToDisk->Direction != ConnectionDirection::null && !m_pRegistry->HasTag(entity, ENEMY_TAG))
 	{
@@ -134,7 +134,7 @@ void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 		OnMeetCharacter.Notify(entity, pQube->Characters);
 	}
 
-	pTransform->Translate(pQube->CharacterPos);
+	pTransform->Translate(pQube->GetEnemyTopPosition(pMoveComp->Mode));
 }
 
 void CharacterMovementSystem::SetIdleTexture(Entity entity)
@@ -150,16 +150,16 @@ void CharacterMovementSystem::SetIdleTexture(Entity entity)
 	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		 ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleDownLeft, pRenderer->pTexture);
+		 ResourceManager::Get().TryGetTexture(pMoveComp->TextureIdleDownLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::downRight:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleDownRight, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureIdleDownRight, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upLeft:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleUpLeft, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureIdleUpLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upRight:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureIdleUpRight, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureIdleUpRight, pRenderer->pTexture);
 		break;
 	}
 }
@@ -177,16 +177,16 @@ void CharacterMovementSystem::SetJumpTexture(Entity entity)
 	switch (pMoveComp->CurrentDirection)
 	{
 	case ConnectionDirection::downLeft:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpDownLeft, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureJumpDownLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::downRight:	
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpDownRight, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureJumpDownRight, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upLeft:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpUpLeft, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureJumpUpLeft, pRenderer->pTexture);
 		break;
 	case ConnectionDirection::upRight:
-		ResourceManager::GetInstance().TryGetTexture(pMoveComp->TextureJumpUpRight, pRenderer->pTexture);
+		ResourceManager::Get().TryGetTexture(pMoveComp->TextureJumpUpRight, pRenderer->pTexture);
 		break;
 	}
 }
