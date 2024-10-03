@@ -6,7 +6,7 @@ void {{CLASS_NAME}}::Serialize(StreamWriter& writer) const
 	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid({{CLASS_NAME}})).hash_code()));
 }
 
-void {{CLASS_NAME}}::SetSignature()
+void {{CLASS_NAME}}::SetSignature() const
 {
 	Signature signature;
 

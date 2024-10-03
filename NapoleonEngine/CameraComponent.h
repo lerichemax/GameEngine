@@ -12,7 +12,7 @@ public:
 	CameraComponent& operator=(CameraComponent&& rhs) = delete;
 	~CameraComponent() = default;
 		
-	glm::vec2 TransformIntoCameraSpace(glm::vec2 const pos);
+	glm::vec2 TransformIntoCameraSpace(glm::vec2 const Pos);
 	glm::mat3x3 GetCameraMatrix() const;
 	
 protected:

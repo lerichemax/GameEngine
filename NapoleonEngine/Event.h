@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 template<class T, typename... Types>
 class EventHandler final

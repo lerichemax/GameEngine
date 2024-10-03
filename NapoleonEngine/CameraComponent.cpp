@@ -28,15 +28,15 @@ void CameraComponent::Initialize()
 
 void CameraComponent::Transform() const
 {
-	glm::vec2 const pos = GetGameObject()->GetTransform()->GetLocation();
-	glm::vec2 const upLeft{ pos.x - m_Width/2 , pos.y - m_Height /2 };
+	glm::vec2 const Pos = GetGameObject()->GetTransform()->GetLocation();
+	glm::vec2 const upLeft{ Pos.x - m_Width/2 , Pos.y - m_Height /2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y,0);
 }
 
-glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const pos)
+glm::vec2 CameraComponent::TransformIntoCameraSpace(glm::vec2 const Pos)
 {
-	return TransformPoint(pos, GetCameraMatrix());
+	return TransformPoint(Pos, GetCameraMatrix());
 }
 
 glm::mat3x3 CameraComponent::GetCameraMatrix() const
@@ -62,11 +62,11 @@ void ECS_CameraComponent::Serialize(StreamWriter& writer) const
 
 void ECS_CameraComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	int width, height;
-	reader->ReadInt("width", width);
-	reader->ReadInt("height", height);
-	m_Width = width;
-	m_Height = height;
+	int Width, Height;
+	reader->ReadInt("width", Width);
+	reader->ReadInt("height", Height);
+	m_Width = Width;
+	m_Height = Height;
 }
 
 void CameraSystem::Update()
@@ -79,8 +79,8 @@ void CameraSystem::Update()
 		return;
 	}
 
-	glm::vec2 const pos = transformComp->GetLocation();
-	glm::vec2 const upLeft{ pos.x - cameraComp->m_Width / 2 , pos.y - cameraComp->m_Height / 2 };
+	glm::vec2 const Pos = transformComp->GetLocation();
+	glm::vec2 const upLeft{ Pos.x - cameraComp->m_Width / 2 , Pos.y - cameraComp->m_Height / 2 };
 
 	glTranslatef(-upLeft.x, -upLeft.y, 0);
 }

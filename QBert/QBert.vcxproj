@@ -221,7 +221,6 @@
     <ClCompile Include="PauseGameCommand.cpp" />
     <ClCompile Include="CharacterLives.cpp" />
     <ClCompile Include="PyramidSystem.cpp" />
-    <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertScene.cpp" />
     <ClCompile Include="QubeSystem.cpp" />
     <ClCompile Include="SlickSam.cpp" />
@@ -231,7 +230,6 @@
     <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
     <ClCompile Include="WrongWay.cpp" />
-    <ClCompile Include="WrongWayJumper.cpp" />
     <ClCompile Include="WrongWayManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -280,7 +278,6 @@
     <ClInclude Include="PauseGameCommand.h" />
     <ClInclude Include="CharacterLives.h" />
     <ClInclude Include="PyramidSystem.h" />
-    <ClInclude Include="QBert.h" />
     <ClInclude Include="QBertScene.h" />
     <ClInclude Include="QubeSystem.h" />
     <ClInclude Include="SlickSam.h" />
@@ -290,7 +287,6 @@
     <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />
     <ClInclude Include="WrongWay.h" />
-    <ClInclude Include="WrongWayJumper.h" />
     <ClInclude Include="WrongWayManager.h" />
   </ItemGroup>
   <ItemGroup>

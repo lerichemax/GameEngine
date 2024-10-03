@@ -5,9 +5,6 @@
 #include <memory>
 
 
-template <typename T>
-concept ShapeDerived = std::derived_from<T, geo::Shape>;
-
 class Texture2D;
 struct RendererComponent : public Component
 {
@@ -20,18 +17,8 @@ public:
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	template <ShapeDerived S> void SetShape(S* const shape);
+	void SetShape(geo::Shape* shape);
 
 private:
-	geo::Shape* pShape = nullptr;
+	std::unique_ptr<geo::Shape> pShape{ nullptr };
 };
-
-template <ShapeDerived S>
-void RendererComponent::SetShape(S* const shape)
-{
-	Factory<geo::Shape>::Get().RegisterType<S>([]() {
-		return new S{};
-		});
-
-	pShape = shape;
-}

@@ -12,6 +12,7 @@
 #include "CoilySystem.h"
 #include "LivesSystem.h"
 #include "ScriptingSystem.h"
+#include "CollisionSystem.h"
 
 #include "AudioComponent.h"
 #include "TextRendererComponent.h"
@@ -26,18 +27,15 @@
 #include "AiControllerComponent.h"
 #include "CoilyComponent.h"
 #include "ScriptComponent.h"
+#include "CharacterLives.h"
+#include "CharacterPoint.h"
+
 
 #include "CoopScene.h"
 #include "MainMenuScene.h"
 #include "VersusScene.h"
 #include "SoloScene.h"
 
-#include "WrongWay.h"
-#include "WrongWayJumper.h"
-#include "EnemyCharacterController.h"
-#include "CoilyCharacterController.h"
-#include "CharacterLives.h"
-#include "CharacterPoint.h"
 #include "QuitGameCommand.h"
 #include "PauseGameCommand.h"
 #include "ReloadSceneCommand.h"
@@ -46,11 +44,9 @@
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
-
 #include "InputManager.h"
-#include "JsonReaderWriter.h"
+
 #include "Shapes.h"
-#include "BoxCollider.h"
 
 
 MainGame::MainGame()
@@ -135,8 +131,12 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->AddComponent<CharacterLives>()->Init(3);
 	pQbertObj->AddComponent<CharacterPoint>();
 	pQbertObj->AddComponent<JumpComponent>()->Direction = {0, -1};
-	//pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "./Data/Scripts/main.lua";
-	//qbert->AddComponent(new BoxCollider{ 24,24 });
+
+	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->bDraw = true;
+	pCollider->bIsTrigger = true;
+
 	auto hurtTextObj = qbertPrefab->CreateGameObject();
 
 	auto hurtRenderer = hurtTextObj->AddComponent<RendererComponent>();
@@ -154,11 +154,10 @@ void MainGame::CreatePrefabs() const
 	qbertPrefab->AddRequiredSystem<JumperSystem>();
 	qbertPrefab->AddRequiredSystem<QBertSystem>();
 	qbertPrefab->AddRequiredSystem<LivesSystem>();
-	//qbertPrefab->AddRequiredSystem<ScriptingSystem>();
+	qbertPrefab->AddRequiredSystem<CollisionSystem>();
 
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
-	//JsonReaderWriter* json = new JsonReaderWriter{ "./Data/Levels.json" };
 
 	//Qube prefab
 	auto qubePf = pPrefabManager.CreatePrefab();
@@ -171,7 +170,6 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
 	//Pyramid
-	//int levelWidth = json->ReadInt("width");
 	auto pyramidPf = pPrefabManager.CreatePrefab();
 	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->Translate(250.f, 400.f);
@@ -191,8 +189,12 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/WrongWay/Ugg_Right.png", "Textures/Enemies/WrongWay/Ugg_left.png", "", "");
 	pMover->Mode = MovementMode::EscheresqueLeft;
 
-	pUggobject->AddComponent<JumpComponent>()->Direction = { -1, 0 };;
+	pUggobject->AddComponent<JumpComponent>()->Direction = { -1, 0 };
 	pUggobject->AddComponent<CharacterLives>()->Init(1);
+
+	pCollider = pUggobject->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->bDraw = true;
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -220,12 +222,16 @@ void MainGame::CreatePrefabs() const
 	pWrongWayObject->AddComponent<JumpComponent>()->Direction = { 1, 0 };
 	pWrongWayObject->AddComponent<CharacterLives>()->Init(1);
 
+	pCollider = pWrongWayObject->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pWrongWayObject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->bDraw = true;
+
 	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
 	pAiController->PointsForKill = 0;
 
 	pWrongWayObject->SetTag(ENEMY_TAG);
-	pWrongWayObject->GetTransform()->Scale(1.5f);
+	pWrongWayObject->GetTransform()->Scale(2.f);
 
 	pWrongWayPrefab->AddRequiredSystem<AiControllerSystem>();
 

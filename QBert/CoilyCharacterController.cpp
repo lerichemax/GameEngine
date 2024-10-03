@@ -4,7 +4,6 @@
 #include <thread>
 
 #include "Coily.h"
-#include "QBert.h"
 
 #include "Timer.h"
 #include "GameObject.h"

@@ -14,7 +14,7 @@ class ISerializable
 {
 public:
 	virtual void Serialize(StreamWriter& writer) const = 0;
-	virtual void Deserialize(JsonReader const* reader) = 0;
+	virtual void Deserialize(JsonReader const* reader) {};
 
 };
 
@@ -33,10 +33,9 @@ private:
 	std::map<int, void*> m_Refs{};
 };
 
-class IContextSerializable
+class IContextSerializable : public ISerializable
 {
 public:
-	virtual void Serialize(StreamWriter& writer) const = 0;
 	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) = 0;
 
 	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) {};

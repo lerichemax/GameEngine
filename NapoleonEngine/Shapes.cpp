@@ -34,42 +34,55 @@ void Color::Deserialize(JsonReader const* reader)
 //Shape
 void geo::Shape::Serialize(StreamWriter& writer) const
 {
-	writer.StartObject("color");
-	{
-		color.Serialize(writer);
-	}
-	writer.EndObject();
+	writer.WriteVector("position", Pos);
+	writer.WriteObject("color", &ShapeColor);
 }
 
 void geo::Shape::Deserialize(JsonReader const* reader)
 {
 	auto colorObj = reader->ReadObject("color");
 
-	color.Deserialize(colorObj.get());
+	ShapeColor.Deserialize(colorObj.get());
+}
+
+bool geo::Shape::IsOverlapping(Shape* const pOther) const
+{
+	switch (pOther->Type)
+	{
+	case ShapeType::Circle:
+		return IsOverlapping(static_cast<Circle*>(pOther));
+	case ShapeType::Rectangle:
+		return IsOverlapping(static_cast<Rectangle*>(pOther));
+	case ShapeType::Other:
+		return false;
+	default:
+		return false;
+	}
 }
 
 //Point
-Point::Point(glm::vec2 const& pos, Color const& col)
-	:Shape(col),
-	pos{ pos }
+Point::Point()
+	:Shape{ ShapeType::Other }
 {
+}
+
+Point::Point(glm::vec2 const& pos, Color const& col)
+	:Shape(ShapeType::Other, pos, col)
+{
+	Factory<geo::Shape>::Get().RegisterType<Point>([]() {
+		return new Point{};
+		});
 }
 
 void Point::Draw(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
-	SDL_RenderDrawPoint(pRenderer, static_cast<int>(pos.x), static_cast<int>(pos.y));
+	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+	SDL_RenderDrawPoint(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y));
 }
 
 void Point::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Point)).hash_code()));
-	writer.StartObject("position");
-	{
-		writer.WriteDouble("x", pos.x);
-		writer.WriteDouble("y", pos.y);
-	}
-	writer.EndObject();
 
 	Shape::Serialize(writer);
 }
@@ -77,48 +90,59 @@ void Point::Serialize(StreamWriter& writer) const
 void Point::Deserialize(JsonReader const* reader)
 {
 	auto posObject = reader->ReadObject("position");
-	posObject->ReadDouble("x", pos.x);
-	posObject->ReadDouble("y", pos.y);
+	posObject->ReadDouble("x", Pos.x);
+	posObject->ReadDouble("y", Pos.y);
 
 	Shape::Deserialize(reader);
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled)
-	:Shape(col),
-	pos{ pos },
-	width{ width },
-	height{ height },
-	isFilled(filled)
+Rectangle::Rectangle()
+	:Shape{ShapeType::Rectangle}
 {
+
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled)
-	:Shape(),
-	pos{pos},
-	width{width},
-	height{height},
-	isFilled(filled)
+Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Height, Color const& col, bool filled)
+	:Shape(ShapeType::Rectangle, pos, col),
+	Width{ Width },
+	Height{ Height },
+	bIsFilled(filled)
 {
-	
+	Factory<geo::Shape>::Get().RegisterType<Rectangle>([]() {
+		return new Rectangle{};
+		});
+}
+
+Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Height, bool filled)
+	:Shape(ShapeType::Rectangle, pos),
+	Width{Width},
+	Height{Height},
+	bIsFilled(filled)
+{
+	Factory<geo::Shape>::Get().RegisterType<Rectangle>([]() {
+		return new Rectangle{};
+		});
 }
 
 
-Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled)
-	:Shape(),
-	pos{x,y},
-	width(width),
-	height(height),
-	isFilled(filled)
+Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int Width, unsigned int Height, bool filled)
+	:Shape(ShapeType::Rectangle, {x, y}),
+	Width(Width),
+	Height(Height),
+	bIsFilled(filled)
 {
+	Factory<geo::Shape>::Get().RegisterType<Rectangle>([]() {
+		return new Rectangle{};
+		});
 }
 
 void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
-	if (!isFilled)
+	if (!bIsFilled)
 	{
-		SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
-		SDL_Rect rect{ static_cast<int>(pos.x), static_cast<int>(pos.y), static_cast<int>(width),
-			static_cast<int>(height) };
+		SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+		SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
+			static_cast<int>(Height) };
 		SDL_RenderDrawRect(pRenderer, &rect);
 	}
 	else
@@ -129,56 +153,55 @@ void Rectangle::Draw(SDL_Renderer* pRenderer) const
 
 void Rectangle::Fill(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, color.A);
-	SDL_Rect rect{ static_cast<int>(pos.x), static_cast<int>(pos.y), static_cast<int>(width),
-		static_cast<int>(height) };
+	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, ShapeColor.A);
+	SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
+		static_cast<int>(Height) };
 	SDL_RenderFillRect(pRenderer, &rect);
+}
+
+bool Rectangle::IsOverlapping(Rectangle* const pRec) const
+{
+	return AreOverlapping(*this, *pRec);
+}
+
+bool Rectangle::IsOverlapping(Circle* const pCircle) const
+{
+	return AreOverlapping(*this, *pCircle);
 }
 
 void Rectangle::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Rectangle)).hash_code()));
 
-	writer.StartObject("position");
-	{
-		writer.WriteDouble("x", pos.x);
-		writer.WriteDouble("y", pos.y);
-	}
-	writer.EndObject();
-
-	writer.WriteInt("width", width);
-	writer.WriteInt("height", height);
-	writer.WriteBool("isFilled", isFilled);
+	writer.WriteInt("width", Width);
+	writer.WriteInt("height", Height);
+	writer.WriteBool("isFilled", bIsFilled);
 
 	Shape::Serialize(writer);
 }
 
 void Rectangle::Deserialize(JsonReader const* reader)
 {
-	auto posObject = reader->ReadObject("position");
-	posObject->ReadDouble("x", pos.x);
-	posObject->ReadDouble("y", pos.y);
-
 	int temp = 0;
 	reader->ReadInt("width", temp);
-	width = static_cast<unsigned int>(temp);
+	Width = static_cast<unsigned int>(temp);
 
 	reader->ReadInt("height", temp);
-	height = static_cast<unsigned int>(temp);
+	Height = static_cast<unsigned int>(temp);
 
-	reader->ReadBool("isFilled", isFilled);
+	reader->ReadBool("isFilled", bIsFilled);
 
 	Shape::Deserialize(reader);
 }
 
 bool geo::AreOverlapping(geo::Rectangle const& rec1, geo::Rectangle const& rec2)
 {
-	if ((rec1.pos.x + rec1.width) < rec2.pos.x || (rec2.pos.x + rec2.width) < rec1.pos.x)
+	if ((rec1.Pos.x + rec1.Width) < rec2.Pos.x || (rec2.Pos.x + rec2.Width) < rec1.Pos.x)
 	{
 		return false;
 	}
 
-	if (rec1.pos.y > (rec2.pos.y + rec2.height) || rec2.pos.y > (rec1.pos.y + rec1.height))
+	if (rec1.Pos.y > (rec2.Pos.y + rec2.Height) || rec2.Pos.y > (rec1.Pos.y + rec1.Height))
 	{
 		return false;
 	}
@@ -188,25 +211,25 @@ bool geo::AreOverlapping(geo::Rectangle const& rec1, geo::Rectangle const& rec2)
 
 bool geo::AreOverlapping(geo::Rectangle const& rec1, Circle const& c2)
 {
-	if (geo::IsPointInRec(c2.center, rec1))
+	if (geo::IsPointInRec(c2.Pos, rec1))
 	{
 		return true;
 	}
-	if (geo::DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x, rec1.pos.y + rec1.height }) <= c2.radius)
+	if (geo::DistPointLine(c2.Pos, rec1.Pos, glm::vec2{ rec1.Pos.x, rec1.Pos.y + rec1.Height }) <= c2.Radius)
 	{
 		return true;
 	}
-	if (geo::DistPointLine(c2.center, rec1.pos, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y }) <= c2.radius)
+	if (geo::DistPointLine(c2.Pos, rec1.Pos, glm::vec2{ rec1.Pos.x + rec1.Width, rec1.Pos.y }) <= c2.Radius)
 	{
 		return true;
 	}
-	if (geo::DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height }, 
-		glm::vec2{ rec1.pos.x, rec1.pos.y + rec1.height }) <= c2.radius)
+	if (geo::DistPointLine(c2.Pos, glm::vec2{ rec1.Pos.x + rec1.Width, rec1.Pos.y + rec1.Height },
+		glm::vec2{ rec1.Pos.x, rec1.Pos.y + rec1.Height }) <= c2.Radius)
 	{
 		return true;
 	}
-	if (geo::DistPointLine(c2.center, glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y + rec1.height },
-		glm::vec2{ rec1.pos.x + rec1.width, rec1.pos.y }) <= c2.radius)
+	if (geo::DistPointLine(c2.Pos, glm::vec2{ rec1.Pos.x + rec1.Width, rec1.Pos.y + rec1.Height },
+		glm::vec2{ rec1.Pos.x + rec1.Width, rec1.Pos.y }) <= c2.Radius)
 	{
 		return true;
 	}
@@ -217,11 +240,11 @@ bool geo::AreOverlapping(geo::Rectangle const& rec1, Circle const& c2)
 bool geo::AreOverlapping(Circle const& c1, Circle const& c2)
 {
 	// squared distance between centers
-	float const xDistance{ c1.center.x - c2.center.x };
-	float const yDistance{ c1.center.y - c2.center.y };
+	float const xDistance{ c1.Pos.x - c2.Pos.x };
+	float const yDistance{ c1.Pos.y - c2.Pos.y };
 	float const squaredDistance{ xDistance * xDistance + yDistance * yDistance };
 
-	float const squaredTouchingDistance { static_cast<float>(c1.radius + c2.radius) * (c1.radius + c2.radius) };
+	float const squaredTouchingDistance { static_cast<float>(c1.Radius + c2.Radius) * (c1.Radius + c2.Radius) };
 	return (squaredDistance < squaredTouchingDistance);
 }
 
@@ -251,43 +274,39 @@ unsigned int geo::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec
 
 bool geo::IsPointInRec(glm::vec2 const& p, geo::Rectangle const& rec)
 {
-	return (p.x >= rec.pos.x &&
-		p.x <= rec.pos.x + rec.width &&
-		p.y >= rec.pos.y &&
-		p.y <= rec.pos.y + rec.height);
+	return (p.x >= rec.Pos.x &&
+		p.x <= rec.Pos.x + rec.Width &&
+		p.y >= rec.Pos.y &&
+		p.y <= rec.Pos.y + rec.Height);
 }
 
 //Line
-Line::Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
-	:Shape(col),
-	startPos(startPos),
-	endPos(endPos)
+Line::Line()
+	:Shape(ShapeType::Other)
 {
+}
+
+Line::Line(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col)
+	:Shape(ShapeType::Other, startPos, col),
+	EndPos(EndPos)
+{
+	Factory<geo::Shape>::Get().RegisterType<Line>([]() {
+		return new Line{};
+		});
 }
 
 void Line::Draw(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
-	SDL_RenderDrawLine(pRenderer, static_cast<int>(startPos.x), static_cast<int>(startPos.y),
-		static_cast<int>(endPos.x), static_cast<int>(endPos.y));
+	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+	SDL_RenderDrawLine(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y),
+		static_cast<int>(EndPos.x), static_cast<int>(EndPos.y));
 }
 
 void Line::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Line)).hash_code()));
-	writer.StartObject("startPos");
-	{
-		writer.WriteDouble("x", startPos.x);
-		writer.WriteDouble("y", startPos.y);
-	}
-	writer.EndObject();
 
-	writer.StartObject("endPos");
-	{
-		writer.WriteDouble("x", endPos.x);
-		writer.WriteDouble("y", endPos.y);
-	}
-	writer.EndObject();
+	writer.WriteVector("endPos", EndPos);
 
 	Shape::Serialize(writer);
 }
@@ -295,68 +314,76 @@ void Line::Serialize(StreamWriter& writer) const
 void Line::Deserialize(JsonReader const* reader)
 {
 	auto posObject = reader->ReadObject("startPos");
-	posObject->ReadDouble("x", startPos.x);
-	posObject->ReadDouble("y", startPos.y);
 
 	posObject = reader->ReadObject("endPos");
-	posObject->ReadDouble("x", endPos.x);
-	posObject->ReadDouble("y", endPos.y);
+	posObject->ReadDouble("x", EndPos.x);
+	posObject->ReadDouble("y", EndPos.y);
 
 	Shape::Deserialize(reader);
 }
 
 // Circle
-Circle::Circle(glm::vec2 const& center, unsigned int radius, Color const& col)
-	:Shape(col),
-	center(center),
-	radius(radius)
-{}
-
-Circle::Circle(glm::vec2 const& center, unsigned int radius)
-	:Shape(),
-	center(center),
-	radius(radius)
+Circle::Circle()
+	:Shape{ShapeType::Circle}
 {
+}
+Circle::Circle(glm::vec2 const& center, unsigned int Radius, Color const& col)
+	:Shape(ShapeType::Circle, center, col),
+	Radius(Radius)
+{
+	Factory<geo::Shape>::Get().RegisterType<Circle>([]() {
+		return new Circle{};
+		});
+}
+
+Circle::Circle(glm::vec2 const& center, unsigned int Radius)
+	:Shape(ShapeType::Circle, center),
+	Radius(Radius)
+{
+
+	Factory<geo::Shape>::Get().RegisterType<Circle>([]() {
+		return new Circle{};
+		});
 }
 
 void Circle::Draw(SDL_Renderer* pRenderer) const
 {
-	float const dAngle{ static_cast<float>(M_PI)/radius };
+	float const dAngle{ static_cast<float>(M_PI)/Radius };
 
-	SDL_SetRenderDrawColor(pRenderer, color.R, color.G, color.B, 255);
+	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
 	
 
 	for (float angle = 0.0; angle < static_cast<float>(2 * M_PI); angle += dAngle)
 	{
-		SDL_RenderDrawPoint(pRenderer, static_cast<int>(center.x + radius * cos(angle)), 
-			static_cast<int>(center.y + radius * sin(angle)));
+		SDL_RenderDrawPoint(pRenderer, static_cast<int>(Pos.x + Radius * cos(angle)), 
+			static_cast<int>(Pos.y + Radius * sin(angle)));
 	}
+}
+
+bool Circle::IsOverlapping(Rectangle* const pRec) const
+{
+	return AreOverlapping(*pRec, *this);
+}
+
+bool Circle::IsOverlapping(Circle* const pCircle) const
+{
+	return AreOverlapping(*this, *pCircle);
 }
 
 void Circle::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Circle)).hash_code()));
-	writer.StartObject("center");
-	{
-		writer.WriteDouble("x", center.x);
-		writer.WriteDouble("y", center.y);
-	}
-	writer.EndObject();
 
-	writer.WriteInt("radius", radius);
+	writer.WriteInt("radius", Radius);
 
 	Shape::Serialize(writer);
 }
 
 void Circle::Deserialize(JsonReader const* reader)
 {
-	auto posObject = reader->ReadObject("center");
-	posObject->ReadDouble("x", center.x);
-	posObject->ReadDouble("y", center.y);
-
 	int temp = 0;
 	reader->ReadInt("width", temp);
-	radius = static_cast<unsigned int>(temp);
+	Radius = static_cast<unsigned int>(temp);
 
 	Shape::Deserialize(reader);
 }

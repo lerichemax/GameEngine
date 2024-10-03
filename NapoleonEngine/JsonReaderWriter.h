@@ -7,6 +7,7 @@
 
 using namespace rapidjson;
 
+class ISerializable;
 class StreamWriter
 {
 	friend class Serializer;
@@ -22,8 +23,11 @@ public:
 	void WriteStringNoKey(std::string const& value);
 	void WriteDouble(std::string const& key, float value);
 	void WriteDouble(std::string const& key, double value);
-	void StartObject(std::string const& name);
-	void StartArrayObject();
+	void WriteVector(std::string const& key, glm::vec2 const& vec);
+	void WriteObject(std::string const& name, ISerializable* const serializableObject);
+	void WriteObject(std::string const& name, ISerializable const* const serializableObject);
+	void WriteObject(ISerializable* const serializableObject);
+	void StartObject();
 	void EndObject();
 	void StartArray(std::string const& name);
 	void EndArray();
@@ -43,6 +47,7 @@ public:
 	void ReadBool(std::string const& attribute, bool& value) const;
 	void ReadDouble(std::string const& attribute, float& value) const;
 	void ReadDouble(std::string const& attribute, double& value) const;
+	void ReadVector(std::string const& attribute, glm::vec2& value) const;
 	std::unique_ptr<JsonReader> ReadObject(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArray(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArrayIndex(SizeType index) const;

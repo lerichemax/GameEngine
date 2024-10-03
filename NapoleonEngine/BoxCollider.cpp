@@ -5,15 +5,11 @@
 #include "GameObject.h"
 #include "Shapes.h"
 
-BoxCollider::BoxCollider(unsigned int width, unsigned int height)
-	:ColliderComponent(Type::Box),
-	m_pRectangle(new geo::Rectangle{ 0,0,width, height })
+BoxCollider::BoxCollider(unsigned int Width, unsigned int Height)
 {
 }
 
 BoxCollider::BoxCollider(BoxCollider const& other)
-	:ColliderComponent(other),
-	m_pRectangle(new geo::Rectangle(other.m_pRectangle->pos, other.m_pRectangle->width, other.m_pRectangle->height))
 {
 	
 }
@@ -25,29 +21,28 @@ BoxCollider::~BoxCollider()
 
 void BoxCollider::Initialize()
 {
-	m_pRectangle->pos = GetGameObject()->GetTransform()->GetLocation();
-	ColliderComponent::Initialize();
+	//m_pRectangle->Pos = GetGameObject()->GetTransform()->GetLocation();
 }
 
 void BoxCollider::Update()
 {
-	m_pRectangle->pos = GetGameObject()->GetTransform()->GetLocation();
+	//m_pRectangle->Pos = GetGameObject()->GetTransform()->GetLocation();
 }
 
 void BoxCollider::CheckOverlap(ColliderComponent* pOther)
 {
-	bool isOverlapping = false;
-	switch (pOther->GetType())
-	{
-	case Type::Box:
-		isOverlapping = IsOverlapping(static_cast<BoxCollider*>(pOther));
-		break;
-	case Type::Circle:
-		isOverlapping = IsOverlapping(static_cast<CircleCollider*>(pOther));
-		break;
-	}
+	//bool isOverlapping = false;
+	//switch (pOther->GetType())
+	//{
+	//case Type::Box:
+	//	isOverlapping = IsOverlapping(static_cast<BoxCollider*>(pOther));
+	//	break;
+	//case Type::Circle:
+	//	isOverlapping = IsOverlapping(static_cast<CircleCollider*>(pOther));
+	//	break;
+	//}
 
-	CallOverlapFunctions(isOverlapping, pOther);
+	//CallOverlapFunctions(isOverlapping, pOther);
 }
 
 bool BoxCollider::IsOverlapping(BoxCollider* pOther) const

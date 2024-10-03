@@ -28,7 +28,7 @@
 //	float GetWorldRotation() const { return m_WorldRotation; }
 //		
 //	void Translate(float x, float y);
-//	void Translate(glm::vec2 const& pos);
+//	void Translate(glm::vec2 const& Pos);
 //	void Scale(float x, float y);
 //	void Scale(glm::vec2 const& scale);
 //	void Scale(float uniformScale);

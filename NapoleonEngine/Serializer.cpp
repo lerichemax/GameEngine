@@ -32,11 +32,7 @@ std::unique_ptr<Document> Serializer::Serialize(IContextSerializable const& seri
 	StringBuffer buffer;
 	StreamWriter writer{ buffer };
 
-	writer.m_BufferWriter.StartObject();
-
-	serializable.Serialize(writer);
-
-	writer.m_BufferWriter.EndObject();
+	writer.WriteObject(const_cast<IContextSerializable*>(&serializable)); //to change
 
 	//std::cout << buffer.GetString() << std::endl;
 

@@ -62,19 +62,35 @@ void StreamWriter::WriteDouble(std::string const& key, double value)
 	m_BufferWriter.Double(value);
 }
 
-void StreamWriter::StartObject(std::string const& name)
+void StreamWriter::WriteVector(std::string const& key, glm::vec2 const& vec)
+{
+	m_BufferWriter.Key(key.c_str());
+	m_BufferWriter.StartObject();
+	WriteDouble("x", vec.x);
+	WriteDouble("y", vec.y);
+	m_BufferWriter.EndObject();
+}
+
+void StreamWriter::WriteObject(std::string const& name, ISerializable* const serializableObject)
 {
 	m_BufferWriter.Key(name.c_str());
 	m_BufferWriter.StartObject();
+	serializableObject->Serialize(*this);
+	m_BufferWriter.EndObject();
 }
 
-void StreamWriter::StartArrayObject()
+void StreamWriter::WriteObject(std::string const& name, ISerializable const* const serializableObject)
+{
+	m_BufferWriter.Key(name.c_str());
+	m_BufferWriter.StartObject();
+	serializableObject->Serialize(*this);
+	m_BufferWriter.EndObject();
+}
+
+void StreamWriter::WriteObject(ISerializable* const serializableObject)
 {
 	m_BufferWriter.StartObject();
-}
-
-void StreamWriter::EndObject()
-{
+	serializableObject->Serialize(*this);
 	m_BufferWriter.EndObject();
 }
 
@@ -153,6 +169,17 @@ void JsonReader::ReadDouble(std::string const& attribute, double& value) const
 	if (attributeReader != nullptr)
 	{
 		value = attributeReader->m_JsonValue->GetDouble();
+	}
+}
+
+void JsonReader::ReadVector(std::string const& attribute, glm::vec2& value) const
+{
+	auto attributeReader = ReadAttribute(attribute);
+
+	if (attributeReader != nullptr)
+	{
+		attributeReader->ReadDouble("x", value.x);
+		attributeReader->ReadDouble("y", value.y);
 	}
 }
 

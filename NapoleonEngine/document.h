@@ -1566,16 +1566,16 @@ public:
     }
 
     //! Remove a member from an object by iterator.
-    /*! \param pos iterator to the member to remove
-        \pre IsObject() == true && \ref MemberBegin() <= \c pos < \ref MemberEnd()
+    /*! \param Pos iterator to the member to remove
+        \pre IsObject() == true && \ref MemberBegin() <= \c Pos < \ref MemberEnd()
         \return Iterator following the removed element.
-            If the iterator \c pos refers to the last element, the \ref MemberEnd() iterator is returned.
+            If the iterator \c Pos refers to the last element, the \ref MemberEnd() iterator is returned.
         \note This function preserves the relative order of the remaining object
             members. If you do not need this, use the more efficient \ref RemoveMember(MemberIterator).
         \note Linear time complexity.
     */
-    MemberIterator EraseMember(ConstMemberIterator pos) {
-        return EraseMember(pos, pos +1);
+    MemberIterator EraseMember(ConstMemberIterator Pos) {
+        return EraseMember(Pos, Pos +1);
     }
 
     //! Remove members in the range [first, last) from an object.
@@ -1595,12 +1595,12 @@ public:
         RAPIDJSON_ASSERT(first <= last);
         RAPIDJSON_ASSERT(last <= MemberEnd());
 
-        MemberIterator pos = MemberBegin() + (first - MemberBegin());
-        for (MemberIterator itr = pos; itr != last; ++itr)
+        MemberIterator Pos = MemberBegin() + (first - MemberBegin());
+        for (MemberIterator itr = Pos; itr != last; ++itr)
             itr->~Member();
-        std::memmove(static_cast<void*>(&*pos), &*last, static_cast<size_t>(MemberEnd() - last) * sizeof(Member));
+        std::memmove(static_cast<void*>(&*Pos), &*last, static_cast<size_t>(MemberEnd() - last) * sizeof(Member));
         data_.o.size -= static_cast<SizeType>(last - first);
-        return pos;
+        return Pos;
     }
 
     //! Erase a member in object by its name.
@@ -1775,13 +1775,13 @@ public:
 
     //! Remove an element of array by iterator.
     /*!
-        \param pos iterator to the element to remove
-        \pre IsArray() == true && \ref Begin() <= \c pos < \ref End()
-        \return Iterator following the removed element. If the iterator pos refers to the last element, the End() iterator is returned.
+        \param Pos iterator to the element to remove
+        \pre IsArray() == true && \ref Begin() <= \c Pos < \ref End()
+        \return Iterator following the removed element. If the iterator Pos refers to the last element, the End() iterator is returned.
         \note Linear time complexity.
     */
-    ValueIterator Erase(ConstValueIterator pos) {
-        return Erase(pos, pos + 1);
+    ValueIterator Erase(ConstValueIterator Pos) {
+        return Erase(Pos, Pos + 1);
     }
 
     //! Remove elements in the range [first, last) of the array.
@@ -1799,12 +1799,12 @@ public:
         RAPIDJSON_ASSERT(first >= Begin());
         RAPIDJSON_ASSERT(first <= last);
         RAPIDJSON_ASSERT(last <= End());
-        ValueIterator pos = Begin() + (first - Begin());
-        for (ValueIterator itr = pos; itr != last; ++itr)
+        ValueIterator Pos = Begin() + (first - Begin());
+        for (ValueIterator itr = Pos; itr != last; ++itr)
             itr->~GenericValue();
-        std::memmove(static_cast<void*>(pos), last, static_cast<size_t>(End() - last) * sizeof(GenericValue));
+        std::memmove(static_cast<void*>(Pos), last, static_cast<size_t>(End() - last) * sizeof(GenericValue));
         data_.a.size -= static_cast<SizeType>(last - first);
-        return pos;
+        return Pos;
     }
 
     Array GetArray() { RAPIDJSON_ASSERT(IsArray()); return Array(*this); }
@@ -2628,7 +2628,7 @@ public:
     GenericArray PushBack(StringRefType value, AllocatorType& allocator) const { value_.PushBack(value, allocator); return *this; }
     template <typename T> RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (const GenericArray&)) PushBack(T value, AllocatorType& allocator) const { value_.PushBack(value, allocator); return *this; }
     GenericArray PopBack() const { value_.PopBack(); return *this; }
-    ValueIterator Erase(ConstValueIterator pos) const { return value_.Erase(pos); }
+    ValueIterator Erase(ConstValueIterator Pos) const { return value_.Erase(Pos); }
     ValueIterator Erase(ConstValueIterator first, ConstValueIterator last) const { return value_.Erase(first, last); }
 
 #if RAPIDJSON_HAS_CXX11_RANGE_FOR
@@ -2712,7 +2712,7 @@ public:
 #endif
     template <typename SourceAllocator> bool RemoveMember(const GenericValue<EncodingType, SourceAllocator>& name) const { return value_.RemoveMember(name); }
     MemberIterator RemoveMember(MemberIterator m) const { return value_.RemoveMember(m); }
-    MemberIterator EraseMember(ConstMemberIterator pos) const { return value_.EraseMember(pos); }
+    MemberIterator EraseMember(ConstMemberIterator Pos) const { return value_.EraseMember(Pos); }
     MemberIterator EraseMember(ConstMemberIterator first, ConstMemberIterator last) const { return value_.EraseMember(first, last); }
     bool EraseMember(const Ch* name) const { return value_.EraseMember(name); }
 #if RAPIDJSON_HAS_STDSTRING

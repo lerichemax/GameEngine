@@ -16,7 +16,7 @@ public:
 protected:
 	NapoleonEngine();
 
-	void Initialize(unsigned int width, unsigned int height, std::string const& name);
+	void Initialize(unsigned int Width, unsigned int Height, std::string const& name);
 	virtual void CreatePrefabs() const = 0;
 
 private:

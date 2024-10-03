@@ -31,7 +31,7 @@ public:
 
 	Texture2D* const GetTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
-	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color color, int id);
+	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color Color, int id);
 
 	Font* const GetFont(const std::string& file, unsigned int size);
 	ID GetEffect(const std::string& file);
@@ -157,9 +157,9 @@ bool ResourceManager::ResourceManagerImpl::TryGetTexture(std::string const& file
 	return true;
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color color, int id)
+Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
-	const auto surf = TTF_RenderText_Blended(pFont, txt, color);
+	const auto surf = TTF_RenderText_Blended(pFont, txt, Color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -265,9 +265,9 @@ bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTe
 	return m_pImpl->TryGetTexture(fileName, pTexture);
 }
 
-Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color color, int id)
+Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
-	return m_pImpl->GetTextTexture(pFont, txt, color, id);
+	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
 }
 
 Font* const ResourceManager::GetFont(const std::string& file, unsigned int size)

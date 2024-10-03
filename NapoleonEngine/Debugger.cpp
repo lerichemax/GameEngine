@@ -6,10 +6,7 @@
 Debugger::Debugger()
 	: Singleton(),
 	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE)),
-	m_DebugLines(),
-	m_DebugRectangles(),
-	m_DebugCircles(),
-	m_DebugPoints()
+	m_Shapes()
 {
 	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
@@ -17,6 +14,13 @@ Debugger::Debugger()
 Debugger::~Debugger()
 {
 	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+	for (geo::Shape* pShape : m_OwnedShapes)
+	{
+		SAFE_DELETE(pShape);
+	}
+
+	m_OwnedShapes.clear();
 }
 
 void Debugger::Log(std::string const& message) const
@@ -38,57 +42,51 @@ void Debugger::LogError(std::string const& message) const
 	NapoleonEngine::Quit();
 }
 
-void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col)
+void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col)
 {
-	m_DebugLines.push_back(Line(startPos, endPos, col));
+	m_OwnedShapes.push_back(new Line(startPos, EndPos, col));
 }
 
-void Debugger::DrawDebugPoint(glm::vec2 const& pos, unsigned int thickness , Color const& color)
+void Debugger::DrawDebugPoint(glm::vec2 const& Pos, unsigned int thickness , Color const& Color)
 {
 	if (thickness == 1 )
 	{
-		m_DebugPoints.push_back(Point(pos, color));
+		m_OwnedShapes.push_back(new Point(Pos, Color));
 	}
 	else
 	{
-		m_DebugRectangles.push_back(geo::Rectangle(pos, thickness, thickness, color, true));
+		m_OwnedShapes.push_back(new geo::Rectangle(Pos, thickness, thickness, Color, true));
 	}
 }
 
 void Debugger::DrawDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
 {
-	m_DebugCircles.push_back(Circle(center, radius, col));
+	m_OwnedShapes.push_back(new Circle(center, radius, col));
 }
 
-void Debugger::DrawDebugRectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& color)
+void Debugger::DrawDebugRectangle(glm::vec2 const& Pos, unsigned int Width, unsigned int Height, Color const& Color)
 {
-	m_DebugRectangles.push_back(geo::Rectangle{ pos, width, height, color });
+	m_OwnedShapes.push_back(new geo::Rectangle{ Pos, Width, Height, Color });
+}
+
+void Debugger::DrawDebugShape(geo::Shape* const pShape)
+{
+	m_Shapes.push_back(pShape);
 }
 
 void Debugger::Render()
 {
-	for (Line const& line : m_DebugLines)
+	for (geo::Shape* pShape : m_Shapes)
 	{
-		Renderer::Get().RenderShape(line);
+		Renderer::Get().RenderShape(*pShape);
+	}
+	
+	for (geo::Shape* pShape : m_OwnedShapes)
+	{
+		Renderer::Get().RenderShape(*pShape);
+		SAFE_DELETE(pShape);
 	}
 
-	for (geo::Rectangle const& rect : m_DebugRectangles)
-	{
-		Renderer::Get().RenderShape(rect);
-	}
-
-	for (Circle const& circle : m_DebugCircles)
-	{
-		Renderer::Get().RenderShape(circle);
-	}
-
-	for (Point const& point : m_DebugPoints)
-	{
-		Renderer::Get().RenderShape(point);
-	}
-
-	m_DebugLines.clear();
-	m_DebugRectangles.clear();
-	m_DebugCircles.clear();
-	m_DebugPoints.clear();
+	m_Shapes.clear();
+	m_OwnedShapes.clear();
 }

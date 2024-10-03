@@ -24,4 +24,5 @@ private:
 	void OnJumpedToDeath(Entity qbertEntity);
 	void OnFell(Entity qbertEntity);
 	void JumpOffDisk(Entity qbertEntity);
+	void GetHurt(Entity qbertEntity);
 };

@@ -273,7 +273,7 @@ typedef struct {
 
 #endif // __STDC_FORMAT_MACROS ]
 
-// 7.8.2 Functions for greatest-width integer types
+// 7.8.2 Functions for greatest-Width integer types
 
 // 7.8.2.1 The imaxabs function
 #define imaxabs _abs64

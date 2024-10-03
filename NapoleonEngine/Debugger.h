@@ -17,10 +17,11 @@ public:
 	void LogWarning(std::string const& message) const;
 	void LogError(std::string const& message) const;
 		
-	void DrawDebugLine(vec2 const& startPoint, vec2 const& endPoint, Color const& color);
-	void DrawDebugPoint(vec2 const& pos, unsigned int thickness, Color const& color);
-	void DrawDebugCircle(vec2 const& center, unsigned int radius, Color const& color);
-	void DrawDebugRectangle(vec2 const& pos, unsigned int witdth, unsigned int height, Color const& color);
+	void DrawDebugLine(vec2 const& startPoint, vec2 const& endPoint, Color const& Color);
+	void DrawDebugPoint(vec2 const& Pos, unsigned int thickness, Color const& Color);
+	void DrawDebugCircle(vec2 const& center, unsigned int radius, Color const& Color);
+	void DrawDebugRectangle(vec2 const& Pos, unsigned int witdth, unsigned int Height, Color const& Color);
+	void DrawDebugShape(geo::Shape* const pShape);
 	
 private:
 	friend class Singleton<Debugger>;
@@ -29,11 +30,9 @@ private:
 	Debugger();
 
 	HANDLE m_ConsoleHandle;
-		
-	std::vector<Line> m_DebugLines;
-	std::vector<geo::Rectangle> m_DebugRectangles;
-	std::vector<geo::Circle> m_DebugCircles;
-	std::vector<Point> m_DebugPoints;
+
+	std::vector<geo::Shape*> m_Shapes;
+	std::vector<geo::Shape*> m_OwnedShapes;
 
 	void Render();
 };

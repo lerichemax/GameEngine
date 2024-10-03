@@ -287,6 +287,9 @@
     <ClInclude Include="TransformSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -436,6 +439,9 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="TransformSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>

@@ -21,38 +21,21 @@ void ButtonComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ButtonComponent)).hash_code()));
 	writer.WriteBool("visualize", m_bVisualize);
-	writer.StartObject("dimension");
-	{
-		writer.WriteDouble("x", m_Dimensions.x);
-		writer.WriteDouble("y", m_Dimensions.y);
-	}
-	writer.EndObject();
+	writer.WriteVector("dimension", m_Dimensions);
 
 	if (m_pOnClick != nullptr)
 	{
-		writer.StartObject("onClick");
-		{
-			m_pOnClick->Serialize(writer);
-		}
-		writer.EndObject();
+		writer.WriteObject("onClick", m_pOnClick.get());
 	}
 	
 	if (m_pOnSelect != nullptr)
 	{
-		writer.StartObject("onSelect");
-		{
-			m_pOnSelect->Serialize(writer);
-		}
-		writer.EndObject();
+		writer.WriteObject("onSelect", m_pOnSelect.get());
 	}
 
 	if (m_pOnDeselect != nullptr)
 	{
-		writer.StartObject("onDeselect");
-		{
-			m_pOnDeselect->Serialize(writer);
-		}
-		writer.EndObject();
+		writer.WriteObject("onDeselect", m_pOnDeselect.get());
 	}
 }
 

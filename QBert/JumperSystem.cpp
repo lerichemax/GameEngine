@@ -74,21 +74,21 @@ void JumperSystem::UpdateJump(Entity entity)
 	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
-	auto const pos = pTransform->GetLocation();
+	auto const Pos = pTransform->GetLocation();
 	glm::vec2 dir{};
 
 	if (!pJump->bJumpDown)
 	{
-		dir = pJump->Halfway - pos;
+		dir = pJump->Halfway - Pos;
 	}
 	else
 	{
-		dir = pJump->TargetPos - pos;
+		dir = pJump->TargetPos - Pos;
 	}
 
 	dir = glm::normalize(dir);
 
-	pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
+	pTransform->Translate(Pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
 
 	if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 	{
@@ -107,14 +107,14 @@ void JumperSystem::UpdateFall(Entity entity)
 	auto* const pJump = m_pRegistry->GetComponent<JumpComponent>(entity);
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
-	auto pos = pTransform->GetLocation();
+	auto Pos = pTransform->GetLocation();
 
 	if (!pJump->bJumpDown)
 	{
-		glm::vec2 dir = pJump->Halfway - pos;
+		glm::vec2 dir = pJump->Halfway - Pos;
 		dir = glm::normalize(dir);
 
-		pTransform->Translate(pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
+		pTransform->Translate(Pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
 
 		if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 		{
@@ -123,7 +123,7 @@ void JumperSystem::UpdateFall(Entity entity)
 	}
 	else
 	{
-		pTransform->Translate(pos - pJump->Direction * (pJump->FALL_SPEED * Timer::Get().GetDeltaTime()));
+		pTransform->Translate(Pos - pJump->Direction * (pJump->FALL_SPEED * Timer::Get().GetDeltaTime()));
 		pJump->FallTime += Timer::Get().GetDeltaTime();
 		if (pJump->FallTime >= pJump->FALL_TIME)
 		{

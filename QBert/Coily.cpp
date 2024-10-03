@@ -4,7 +4,6 @@
 #include "CoilyCharacterController.h"
 
 #include "GameObject.h"
-#include "QBert.h"
 #include "ResourceManager.h"
 #include "RendererComponent.h"
 #include "FallingState.h"
@@ -72,12 +71,12 @@ void Coily::MeetCharacter(Characters* pOther)
 	}
 	else
 	{
-		if (pOther->GetType() == CharacterType::player)
-		{
-			auto qbert = dynamic_cast<QBert*>(pOther);
-			qbert->Swear();
-			qbert->Die();
-		}
+		//if (pOther->GetType() == CharacterType::player)
+		//{
+		//	//auto qbert = dynamic_cast<QBert*>(pOther);
+		//	//qbert->Swear();
+		//	//qbert->Die();
+		//}
 	}
 }
 

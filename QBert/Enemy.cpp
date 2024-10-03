@@ -2,7 +2,6 @@
 #include "Enemy.h"
 
 #include "GameObject.h"
-#include "QBert.h"
 
 Enemy::Enemy(int pointsForKill, CharacterType type)
 	:Characters(nullptr, type),

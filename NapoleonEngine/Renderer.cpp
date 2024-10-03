@@ -27,9 +27,9 @@ Renderer::~Renderer()
 	Destroy();
 }
 
-void Renderer::Init(unsigned int width, unsigned int height, std::string const& name)
+void Renderer::Init(unsigned int Width, unsigned int Height, std::string const& name)
 {
-	CreateSDLWindow(width, height, name);
+	CreateSDLWindow(Width, Height, name);
 
 	m_pRenderer = SDL_CreateRenderer(m_pWindow, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr) 
@@ -81,13 +81,13 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float Width, const float Height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
+	dst.w = static_cast<int>(Width);
+	dst.h = static_cast<int>(Height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
@@ -128,10 +128,10 @@ int Renderer::GetOpenGLDriverIndex()
 	return oglIdx;
 }
 
-void Renderer::CreateSDLWindow(unsigned int width, unsigned int height, std::string const& name)
+void Renderer::CreateSDLWindow(unsigned int Width, unsigned int Height, std::string const& name)
 {
-	m_WindowWidth = width;
-	m_WindowHeight = height;
+	m_WindowWidth = Width;
+	m_WindowHeight = Height;
 	m_pWindow = SDL_CreateWindow(
 		name.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,

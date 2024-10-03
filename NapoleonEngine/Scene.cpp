@@ -4,12 +4,15 @@
 #include "TextRendererSystem.h"
 #include "TransformSystem.h"
 #include "LayeredRendererSystem.h"
-#include "RendererComponent.h"
-#include "TextRendererComponent.h"
-#include "TransformComponent.h"
+#include "CollisionSystem.h"
 #include "AudioSystem.h"
 #include "System.h"
 #include "UiSystem.h"
+
+#include "RendererComponent.h"
+#include "TextRendererComponent.h"
+#include "TransformComponent.h"
+
 
 #include "PrefabsManager.h"
 
@@ -97,9 +100,7 @@ void BaseScene::Serialize(StreamWriter& writer) const
 	{
 		for (auto& pObject : m_pObjects)
 		{
-			writer.StartArrayObject();
-			pObject->Serialize(writer);
-			writer.EndObject();
+			writer.WriteObject(pObject.get());
 		}
 	}
 	writer.EndArray();
@@ -122,8 +123,7 @@ void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
 
 void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	auto prefab = reader->ReadObject("Prefab");
-	auto objects = prefab->ReadArray("gameobjects");
+	auto objects = reader->ReadArray("gameobjects");
 
 	size_t arraySize = objects->GetArraySize();
 
@@ -184,8 +184,6 @@ bool Prefab::IsRoot(GameObject* const pObject) const
 
 void Prefab::Serialize(StreamWriter& writer) const
 {
-	writer.StartObject("Prefab");
-
 	BaseScene::Serialize(writer);
 
 	writer.StartArray("systems");
@@ -196,8 +194,6 @@ void Prefab::Serialize(StreamWriter& writer) const
 		}
 	}
 	writer.EndArray();
-
-	writer.EndObject();
 }
 
 void Prefab::SetName(std::string const& name)
@@ -213,6 +209,7 @@ Scene::Scene(const std::string& name)
 	: BaseScene(name),
 	m_pColliders(),
 	m_pTransformSystem(nullptr),
+	m_pCollisionSystem(nullptr),
 	m_pAudio(nullptr),
 	m_pTextRenderer(nullptr),
 	m_pLayeredRenderer(nullptr),
@@ -239,6 +236,7 @@ void Scene::OnLoad()
 	Timer::Get().SetTimeScale(1);
 	m_pRegistry = std::make_unique<Coordinator>();
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
+	m_pCollisionSystem = m_pRegistry->RegisterSystem<CollisionSystem>();
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
 	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
@@ -280,21 +278,18 @@ void Scene::OnLoad()
 
 void Scene::Update()
 {	
-	//m_pBehaviours->Update(m_pRegistry->GetComponentManager());
-
 	for (auto* const pSystem : m_pSystems )
 	{
 		pSystem->Update();
 	}
 
 	m_pTransformSystem->Update(); // move to update systems above ? 
+	m_pCollisionSystem->Update();
 	m_pUi->Update();
 
-	CheckCollidersCollision();
-	
-	Refresh();
-
 	m_pAudio->Update();
+
+	Refresh();
 }
 
 void Scene::Render() const
@@ -310,15 +305,13 @@ void Scene::Render() const
 	{	
 		m_pCamera->Update();
 		m_pLayeredRenderer->Update();
-		//m_pShapeRenderer->Update(m_pRegistry->GetComponentManager());
 	}
 	glPopMatrix();
 }
 
 void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	auto prefab = reader->ReadObject("Prefab");
-	auto systems = prefab->ReadArray("systems");
+	auto systems = reader->ReadArray("systems");
 
 	if (IS_VALID(systems))
 	{
@@ -332,7 +325,7 @@ void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 		}
 	}
 
-	BaseScene::Deserialize(prefab.get(), context);
+	BaseScene::Deserialize(reader, context);
 }
 
 void Scene::Refresh()
@@ -341,30 +334,6 @@ void Scene::Refresh()
 		{
 			return pGo->m_bIsDestroyed;
 		}),m_pObjects.end());
-}
-
-
-void Scene::CheckCollidersCollision()
-{
-	for(auto pColl : m_pColliders)
-	{
-		if (!pColl->GetGameObject()->IsActive())
-		{
-			continue;
-		}
-		for(auto pOtherColl : m_pColliders)
-		{
-			if (!pOtherColl->GetGameObject()->IsActive())
-			{
-				continue;
-			}
-			if (pColl == pOtherColl)
-			{
-				continue;
-			}
-			pColl->CheckOverlap(pOtherColl);
-		}
-	}
 }
 
 void Scene::SetActiveCamera(GameObject* const pGameObject)

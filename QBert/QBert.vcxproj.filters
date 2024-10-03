@@ -24,9 +24,6 @@
     <ClCompile Include="WrongWay.cpp">
       <Filter>GameScripts\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="WrongWayJumper.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
     <ClCompile Include="UiManagerComponent.cpp">
       <Filter>GameScripts\Components</Filter>
     </ClCompile>
-    <ClCompile Include="QBert.cpp">
-      <Filter>GameScripts</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySpawnerComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
@@ -194,9 +188,6 @@
     </ClInclude>
     <ClInclude Include="WrongWay.h">
       <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="WrongWayJumper.h">
-      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuScene.h">
       <Filter>Scenes</Filter>
@@ -287,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="UiManagerComponent.h">
       <Filter>GameScripts\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="QBert.h">
-      <Filter>GameScripts</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawnerComponent.h">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>

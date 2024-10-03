@@ -16,15 +16,15 @@ class Renderer final : public Singleton<Renderer>
 public:
 	~Renderer();
 
-	void Init(unsigned int width, unsigned int height, std::string const& name);
+	void Init(unsigned int Width, unsigned int Height, std::string const& name);
 	void Render();
 	void Destroy();
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;
-	void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+	void RenderTexture(const Texture2D& texture, float x, float y, float Width, float Height) const;
 	void RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const;
 	void RenderShape(geo::Shape const& pShape) const;
-	void SetBackgroundColor(Color color) { m_BackgroundColor = color; }
+	void SetBackgroundColor(Color Color) { m_BackgroundColor = Color; }
 	void SetBackgroundColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) { SetBackgroundColor(Color{ r,g,b,a }); }
 		
 	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
@@ -47,5 +47,5 @@ private:
 
 	int GetOpenGLDriverIndex();
 
-	void CreateSDLWindow(unsigned int width, unsigned int height, std::string const& name);
+	void CreateSDLWindow(unsigned int Width, unsigned int Height, std::string const& name);
 };

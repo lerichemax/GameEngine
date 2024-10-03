@@ -22,11 +22,11 @@ Texture2D::Texture2D(SDL_Texture* texture, std::string const& filePath)
 }
 void Texture2D::InitTexture()
 {
-	int width{};
-	int height{};
-	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
-	m_Width = static_cast<float>(width);
-	m_Height = static_cast<float>(height);
+	int Width{};
+	int Height{};
+	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &Width, &Height);
+	m_Width = static_cast<float>(Width);
+	m_Height = static_cast<float>(Height);
 }
 
 Texture2D::~Texture2D()

@@ -56,14 +56,15 @@ void GameObject::Serialize(StreamWriter& writer) const
 { 
 	writer.WriteInt(std::string{ "Entity" }, m_Entity);
 	writer.WriteString(std::string{ "Tag" }, GetTag());
-	writer.StartArray(std::string{ "components" });
-	auto components = m_pRegistry->GetEntityComponents(m_Entity);
 
-	for (Component* const pComp : components)
+	writer.StartArray(std::string{ "components" });
 	{
-		writer.StartArrayObject();
-		pComp->Serialize(writer);
-		writer.EndObject();
+		auto components = m_pRegistry->GetEntityComponents(m_Entity);
+
+		for (Component* const pComp : components)
+		{
+			writer.WriteObject(pComp);
+		}
 	}
 	writer.EndArray();
 

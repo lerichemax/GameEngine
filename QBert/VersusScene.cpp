@@ -9,7 +9,6 @@
 #include "InputManager.h"
 #include "MoveCommand.h"
 #include "PauseGameCommand.h"
-#include "QBert.h"
 #include "VersusGameManager.h"
 #include "CameraComponent.h"
 

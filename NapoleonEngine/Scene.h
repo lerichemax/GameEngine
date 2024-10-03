@@ -16,7 +16,7 @@ class TextRendererSystem;
 class System;
 class AudioSystem;
 class UiSystem;
-
+class CollisionSystem;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
@@ -108,8 +108,6 @@ protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
 
 private:
-	friend void ColliderComponent::Initialize();
-	friend ColliderComponent::~ColliderComponent();
 	friend class SceneManager;
 	friend class NapoleonEngine;
 	friend GameObject* const Instantiate(std::string const& name);
@@ -124,6 +122,7 @@ private:
 	TextRendererSystem* m_pTextRenderer;
 	LayeredRendererSystem* m_pLayeredRenderer;
 	TransformSystem* m_pTransformSystem;
+	CollisionSystem* m_pCollisionSystem;
 	AudioSystem* m_pAudio;
 	CameraSystem* m_pCamera;
 	UiSystem* m_pUi;
@@ -141,7 +140,6 @@ private:
 	void OnLoad();
 	void Refresh();
 	void CleanUpScene();
-	void CheckCollidersCollision();
 	GameObject* const InstantiatePrefab(std::string const& name);
 	GameObject* const InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };

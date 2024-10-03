@@ -37,7 +37,7 @@ NapoleonEngine::NapoleonEngine()
 	m_pEngine = this;
 }
 
-void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::string const& name)
+void NapoleonEngine::Initialize(unsigned int Width, unsigned int Height, std::string const& name)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
@@ -52,7 +52,7 @@ void NapoleonEngine::Initialize(unsigned int width, unsigned int height, std::st
 		return;
 	}
 	
-	Renderer::Get().Init(width, height, name);
+	Renderer::Get().Init(Width, Height, name);
 	
 	std::srand(unsigned int(time(nullptr)));
 

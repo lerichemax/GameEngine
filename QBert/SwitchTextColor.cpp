@@ -11,7 +11,7 @@ SwitchTextColor::SwitchTextColor(Color targetColor)
 
 void SwitchTextColor::Execute(GameObject* const gObject)
 {
-	if (gObject != nullptr)
+	if (IS_VALID(gObject))
 	{
 		auto pText = gObject->GetComponent<TextRendererComponent>();
 		if (pText != nullptr)
@@ -24,9 +24,7 @@ void SwitchTextColor::Execute(GameObject* const gObject)
 void SwitchTextColor::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(SwitchTextColor)).hash_code()));
-	writer.StartObject("color");
-	m_TargetColor.Serialize(writer);
-	writer.EndObject();
+	writer.WriteObject("color", &m_TargetColor);
 
 	Command::Serialize(writer);
 }

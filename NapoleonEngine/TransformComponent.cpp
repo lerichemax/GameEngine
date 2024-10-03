@@ -60,9 +60,9 @@
 //	m_Location.y = y;
 //}
 //
-//void TransformComponent::Translate(glm::vec2 const& pos)
+//void TransformComponent::Translate(glm::vec2 const& Pos)
 //{
-//	m_Location = pos;
+//	m_Location = Pos;
 //}
 //
 //void TransformComponent::SetWorldPosition(float x, float y)
@@ -81,9 +81,9 @@
 //	//{
 //	//	auto const parentWorld = parentObj->GetTransform()->GetWorldLocation();
 //
-//	//	auto const pos = worldPos - parentWorld;
+//	//	auto const Pos = worldPos - parentWorld;
 //
-//	//	Translate(pos);
+//	//	Translate(Pos);
 //	//}
 //}
 //
@@ -231,35 +231,14 @@ void TransformComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TransformComponent)).hash_code()));
 	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
-	writer.StartObject("position");
-	{
-		writer.WriteDouble("x", m_Location.x);
-		writer.WriteDouble("y", m_Location.y);
-	}
-	writer.EndObject();
 
-	writer.StartObject("scale");
-	{
-		writer.WriteDouble("x", m_Scale.x);
-		writer.WriteDouble("y", m_Scale.y);
-	}
-	writer.EndObject();
+	writer.WriteVector("position", m_Location);
+	writer.WriteVector("scale", m_Scale);
 
 	writer.WriteDouble("rotation", m_Rotation);
 
-	writer.StartObject("world_position");
-	{
-		writer.WriteDouble("x", m_WorldLocation.x);
-		writer.WriteDouble("y", m_WorldLocation.y);
-	}
-	writer.EndObject();
-
-	writer.StartObject("world_scale");
-	{
-		writer.WriteDouble("x", m_WorldScale.x);
-		writer.WriteDouble("y", m_WorldScale.y);
-	}
-	writer.EndObject();
+	writer.WriteVector("world_position", m_WorldLocation);
+	writer.WriteVector("world_scale", m_WorldScale);
 
 	writer.WriteDouble("world_rotation", m_WorldRotation);
 	
@@ -268,25 +247,13 @@ void TransformComponent::Serialize(StreamWriter& writer) const
 
 void TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	std::string x{ "x" };
-	std::string y{ "y" };
-	auto posObject = reader->ReadObject(std::string{ "position" });
-	posObject->ReadDouble(x, m_Location.x);
-	posObject->ReadDouble(y, m_Location.y);
-
-	auto rotObject = reader->ReadObject(std::string{ "scale" });
-	rotObject->ReadDouble(x, m_Scale.x);
-	rotObject->ReadDouble(y, m_Scale.y);
+	reader->ReadVector("position", m_Location);
+	reader->ReadVector("scale", m_Scale);
 
 	reader->ReadDouble(std::string{ "rotation" }, m_Rotation);
 
-	auto worlPosObject = reader->ReadObject(std::string{ "world_position" });
-	worlPosObject->ReadDouble(x, m_WorldLocation.x);
-	worlPosObject->ReadDouble(y, m_WorldLocation.y);
-
-	auto scaleObject = reader->ReadObject(std::string{ "world_scale" });
-	scaleObject->ReadDouble(x, m_WorldScale.x);
-	scaleObject->ReadDouble(y, m_WorldScale.y);
+	reader->ReadVector("world_position", m_WorldLocation);
+	reader->ReadVector("world_scale", m_WorldScale);
 
 	reader->ReadDouble(std::string{ "world_rotation" }, m_WorldRotation);
 

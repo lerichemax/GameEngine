@@ -1,57 +1,70 @@
 #include "PCH.h"
 #include "ColliderComponent.h"
 
-#include "GameObject.h"
-#include "Scene.h"
-
-ColliderComponent::ColliderComponent(Type type)
-	:m_Type(type),
-	m_pOverlappingColliders(),
-	m_OnTriggerEnter(nullptr),
-	m_OnTriggerStay(nullptr),
-	m_OnTriggerExit(nullptr),
-	m_OnCollision(nullptr),
-	m_bIsTrigger(false)
+void ColliderComponent::SetShape(geo::Shape* pNewShape)
 {
+	assert(pShape == nullptr && "Can't reassign shape (yet)");
+
+	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(pNewShape));
 }
 
-ColliderComponent::~ColliderComponent()
+geo::Shape* const ColliderComponent::GetShape() const
 {
-	//m_pGameObject->GetParentScene()->RemoveCollider(this);
+	return pShape.get();
 }
 
-void ColliderComponent::Initialize()
+void ColliderComponent::TriggerEnter(Entity other)
 {
-	//m_pGameObject->GetParentScene()->m_pColliders.emplace_back(this);
+	OnTriggerEnter.Notify(other);
+	OverlappingColliders.insert(other);
 }
 
-void ColliderComponent::CallOverlapFunctions(bool isOverlapping, ColliderComponent* pOther)
+void ColliderComponent::TriggerExit(Entity other)
 {
-	if (isOverlapping)
+	OnTriggerExit.Notify(other);
+	OverlappingColliders.erase(other);
+}
+
+void ColliderComponent::Collide(Entity other)
+{
+	OnCollision.Notify(other);
+}
+
+void ColliderComponent::Serialize(StreamWriter& writer) const
+{
+	Component::Serialize(writer);
+
+	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ColliderComponent)).hash_code()));
+
+	if (pShape == nullptr)
 	{
-		if (std::find(m_pOverlappingColliders.begin(), m_pOverlappingColliders.end(), pOther)
-			!= m_pOverlappingColliders.end() && m_bIsTrigger && m_OnTriggerStay)
-		{
-			m_OnTriggerStay(GetGameObject(), pOther->GetGameObject());
-		}
-		else if (m_OnTriggerEnter && m_bIsTrigger)
-		{
-			m_OnTriggerEnter(GetGameObject(), pOther->GetGameObject());
-			m_pOverlappingColliders.emplace_back(pOther);
-		}
-		else if (m_OnCollision && !m_bIsTrigger)
-		{
-			m_OnCollision(GetGameObject(), pOther->GetGameObject());
-		}
+		return;
 	}
-	else if (std::find(m_pOverlappingColliders.begin(), m_pOverlappingColliders.end(), pOther)
-		!= m_pOverlappingColliders.end() && !m_bIsTrigger)
+
+	writer.WriteObject("shape", pShape.get());
+	writer.WriteBool("draw", bDraw);
+	writer.WriteBool("trigger", bIsTrigger);
+}
+
+void ColliderComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+{
+	Component::Deserialize(reader, context);
+
+	auto shapeObj = reader->ReadObject("shape");
+
+	if (shapeObj == nullptr)
 	{
-		if (m_OnTriggerExit)
-		{
-			m_OnTriggerExit(GetGameObject(), pOther->GetGameObject());
-		}
-		m_pOverlappingColliders.erase(std::remove(m_pOverlappingColliders.begin(),
-			m_pOverlappingColliders.end(), pOther));
+		return;
 	}
+	int64_t type;
+	shapeObj->ReadInt64("type", type);
+
+	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(static_cast<size_t>(type))));
+	if (pShape != nullptr)
+	{
+		pShape->Deserialize(shapeObj.get());
+	}
+
+	reader->ReadBool("draw", bDraw);
+	reader->ReadBool("trigger", bIsTrigger);
 }

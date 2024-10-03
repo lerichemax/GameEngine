@@ -22,7 +22,6 @@ struct AiControllerComponent : public Component
 
 	EnemyType Type;
 
-
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 };

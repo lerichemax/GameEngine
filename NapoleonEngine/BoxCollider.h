@@ -3,10 +3,10 @@
 
 struct Rectangle;
 class CircleCollider;
-class BoxCollider final : public ColliderComponent
+class BoxCollider final
 {
 public:
-	explicit BoxCollider(unsigned int width, unsigned int height);
+	explicit BoxCollider(unsigned int Width, unsigned int Height);
 
 	BoxCollider(BoxCollider&& other) = delete;
 	BoxCollider& operator=(BoxCollider const& rhs) = delete;
@@ -19,7 +19,7 @@ protected:
 	void Initialize();
 	void Update();
 		
-	void CheckOverlap(ColliderComponent* pOther) override;
+	void CheckOverlap(ColliderComponent* pOther);
 
 private:
 	geo::Rectangle* m_pRectangle;

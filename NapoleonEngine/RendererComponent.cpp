@@ -4,6 +4,11 @@
 
 #include "Texture2D.h"
 
+void RendererComponent::SetShape(geo::Shape* shape)
+{
+	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(shape));
+} 
+
 void RendererComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(RendererComponent)).hash_code()));
@@ -12,14 +17,12 @@ void RendererComponent::Serialize(StreamWriter& writer) const
 
 	if (IS_VALID(pTexture))
 	{
-		pTexture->Serialize(writer);
+		writer.WriteObject("texture", pTexture);
 	}
 
 	if (IS_VALID(pShape))
 	{
-		writer.StartObject("Shape");
-		pShape->Serialize(writer);
-		writer.EndObject();
+		writer.WriteObject("Shape", pShape.get());
 	}
 
 	Component::Serialize(writer);
@@ -32,21 +35,25 @@ void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 
 	Layer = static_cast<uint8_t>(layer);
 
-	std::string filename;
-	reader->ReadString("filepath", filename);
-	if (!filename.empty())
+	auto pTextureReader = reader->ReadObject("texture");
+	if (IS_VALID(pTextureReader))
 	{
-		pTexture = ResourceManager::Get().GetTexture(filename);
+		std::string filename;
+		pTextureReader->ReadString("filepath", filename);
+		if (!filename.empty())
+		{
+			pTexture = ResourceManager::Get().GetTexture(filename);
+		}
 	}
 
 	auto shapeObj = reader->ReadObject("Shape");
 
-	if (shapeObj != nullptr)
+	if (IS_VALID(shapeObj)) //have this handled by shape deserializer ?
 	{
 		int64_t type;
 		shapeObj->ReadInt64("type", type);
 
-		pShape = Factory<geo::Shape>::Get().Create(static_cast<size_t>(type));
+		pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(static_cast<size_t>(type))));
 		if (pShape != nullptr)
 		{
 			pShape->Deserialize(shapeObj.get());

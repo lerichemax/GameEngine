@@ -1,49 +1,36 @@
 #pragma once
-#include <functional>
-
 #include "Component.h"
 
-class GameObject;
+#include "Event.h"
+
+#include <set>
+
+struct geo::Shape;
 class ColliderComponent : public Component
 {
-protected:
-	enum class Type
-	{
-		Box,
-		Circle
-	};
-	Type m_Type;
-	
+	friend class CollisionSystem;
+
+	typedef EventHandler<ColliderComponent, Entity> CollisionEvent;
+
 public:
-	explicit ColliderComponent(Type type);
-	virtual ~ColliderComponent();
-		
-	typedef std::function<void(GameObject* pObject, GameObject* pOtherObject)> CollisionFunction;
+	CollisionEvent OnTriggerEnter;
+	CollisionEvent OnTriggerExit;
+	CollisionEvent OnCollision;
 
-	void SetOnTriggerEnter(CollisionFunction function) { m_OnTriggerEnter = function; }
-	void SetOnTriggerExit(CollisionFunction function) { m_OnTriggerExit = function; }
-	void SetOnTriggerStay(CollisionFunction function) { m_OnTriggerStay = function; }
-	void SetOnCollision(CollisionFunction function) { m_OnCollision = function; }
+	bool bIsTrigger;
+	bool bDraw;
 
-	bool IsTrigger() const { return m_bIsTrigger; }
-	void SetIsTrigger(bool isTrigger) { m_bIsTrigger = isTrigger; }
+	void SetShape(geo::Shape* pNewShape);
+	geo::Shape* const GetShape() const;
 
-	Type GetType() const { return m_Type; }
-	
-protected:
-	friend class Scene;
+	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	void Initialize();
-		
-	virtual void CheckOverlap(ColliderComponent* pOther) = 0;
-	void CallOverlapFunctions(bool isOverlapping, ColliderComponent* other);
-		
-	std::vector<ColliderComponent*> m_pOverlappingColliders;
+private:
+	std::unique_ptr<geo::Shape> pShape{ nullptr };
+	std::set<Entity> OverlappingColliders;
 
-	CollisionFunction m_OnTriggerEnter;
-	CollisionFunction m_OnTriggerStay;
-	CollisionFunction m_OnTriggerExit;
-	CollisionFunction m_OnCollision;
-
-	bool m_bIsTrigger;
+	void TriggerEnter(Entity other);
+	void TriggerExit(Entity other);
+	void Collide(Entity other);
 };

@@ -18,6 +18,7 @@
 #include "AiControllerComponent.h"
 #include "CoilyComponent.h"
 #include "CharacterPoint.h"
+#include "ColliderComponent.h"
 
 #include "Coordinator.h"
 
@@ -77,6 +78,13 @@ void QBertSystem::Start()
 		pQbert->bOnResetCoolDown = false;
 		pQbert->ResetTimer = 0.f;
 	});
+
+	m_pRegistry->GetComponent<ColliderComponent>(entity)->OnTriggerEnter.Subscribe([this, entity](Entity otherEntity) {
+		if (m_pRegistry->HasTag(otherEntity, ENEMY_TAG))
+		{
+			GetHurt(entity);
+		}
+	});
 }
 
 void QBertSystem::Update()
@@ -106,8 +114,6 @@ void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
 	pMovement->CurrentQube = targetQubeEntity;
 	pMovement->bCanMove = true;
 	pMovement->CurrentDirection = ConnectionDirection::null;
-
-	//m_pRegistry->GetSystem<CharacterMovementSystem>()->MoveToCurrentQube(entity);
 
 	m_pRegistry->SetEntityActive(entity, true);
 	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 8;
@@ -195,6 +201,18 @@ void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_se
 			break;
 		}
 	}
+}
+
+void QBertSystem::GetHurt(Entity qbertEntity)
+{
+	m_pRegistry->GetComponentInChildren<RendererComponent>(qbertEntity)->SetActive(true);
+	m_pRegistry->GetComponent<MovementComponent>(qbertEntity)->bCanMove = false;
+
+	auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(qbertEntity);
+	pQBert->pSwearSound->Play();
+	pQBert->bOnResetCoolDown = true;
+
+	OnQBertEncounteredEnemy.Notify();
 }
 
 void QBertSystem::OnJumpedToDeath(Entity qbertEntity)

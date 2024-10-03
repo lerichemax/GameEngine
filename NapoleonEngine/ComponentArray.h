@@ -34,8 +34,8 @@ class ComponentArray<T> : public IComponentArray
 
 public:
 	ComponentArray() = default;
-
 	~ComponentArray() = default;
+
 	T* const InsertData(Entity entity);
 	void RemoveData(Entity entity);
 	Component* const GetBaseData(Entity entity) override;

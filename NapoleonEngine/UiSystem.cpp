@@ -27,10 +27,10 @@ void UiSystem::Update()
 				Color{ 255,0,0,1 });
 		}
 		glm::vec2 const mousePos = InputManager::Get().GetMousePosition();
-		glm::vec2 const pos = transform->GetLocation();
+		glm::vec2 const Pos = transform->GetLocation();
 
-		if (mousePos.x >= pos.x && mousePos.x <= pos.x + btn->m_Dimensions.x &&
-			mousePos.y >= pos.y && mousePos.y <= pos.y + btn->m_Dimensions.y)
+		if (mousePos.x >= Pos.x && mousePos.x <= Pos.x + btn->m_Dimensions.x &&
+			mousePos.y >= Pos.y && mousePos.y <= Pos.y + btn->m_Dimensions.y)
 		{
 			if (!btn->m_bIsSelected && btn->m_pOnSelect)
 			{

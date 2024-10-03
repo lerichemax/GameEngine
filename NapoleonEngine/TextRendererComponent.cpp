@@ -49,10 +49,11 @@ void TextRendererComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TextRendererComponent)).hash_code()));
 	writer.WriteString("txt", m_Text);
-	Color color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };
-	writer.StartObject("color");
-	color.Serialize(writer);
-	writer.EndObject();
+
+	Color Color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };
+
+	writer.WriteObject("color", &Color);
+	writer.WriteObject("font", m_pFont);
 	m_pFont->Serialize(writer);
 
 	Component::Serialize(writer);
@@ -62,15 +63,17 @@ void TextRendererComponent::Deserialize(JsonReader const* reader, SerializationM
 {
 	reader->ReadString("txt", m_Text);
 	auto colorObject = reader->ReadObject("color");
-	Color color{ 0,0,0,0 };
-	color.Deserialize(colorObject.get());
-	m_TextColor = SDL_Color{ color.R, color.G, color.B, color.A };
+	Color Color{ 0,0,0,0 };
+	Color.Deserialize(colorObject.get());
+	m_TextColor = SDL_Color{ Color.R, Color.G, Color.B, Color.A };
+
+	auto pFontreader = reader->ReadObject("font");
 
 	std::string fontName;
-	reader->ReadString("fontName", fontName);
+	pFontreader->ReadString("fontName", fontName);
 
 	int size;
-	reader->ReadInt("fontSize", size);
+	pFontreader->ReadInt("fontSize", size);
 
 	m_pFont = ResourceManager::Get().GetFont(fontName, size);
 

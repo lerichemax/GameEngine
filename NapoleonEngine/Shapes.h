@@ -33,60 +33,71 @@ namespace geo
 		void Serialize(StreamWriter& writer) const override;
 		void Deserialize(JsonReader const* reader) override;
 	};
+	struct Rectangle;
+	struct Circle;
 
 	struct Shape : public ISerializable
 	{
-		Color color;
+	protected:
+		enum class ShapeType {
+			Circle,
+			Rectangle,
+			Other
+		};
+
+		virtual bool IsOverlapping(Rectangle* const pRec) const { return false; }
+		virtual bool IsOverlapping(Circle* const pRec) const { return false; }
+
+	public:
+		Color ShapeColor;
+		glm::vec2 Pos;
 
 		virtual void Draw(SDL_Renderer* pRenderer) const = 0;
 
-		explicit Shape(Color const& col = Color{ 1,1,1 })
-			: color{ col } {}
-
-		virtual Shape* Clone() const = 0;
+		explicit Shape(ShapeType type, glm::vec2 const& pos = glm::vec2{}, Color const& col = Color{ 1,1,1 })
+			: Type{type},
+			Pos{pos},
+			ShapeColor{ col } {}
 
 		virtual ~Shape() = default;
 
 		void Serialize(StreamWriter& writer) const override;
 		void Deserialize(JsonReader const* reader) override;
 
+		bool IsOverlapping(Shape* const other) const;
+
+	private:
+		ShapeType Type;
 	};
 
 	struct Point final : public Shape
 	{
-		glm::vec2 pos;
-
-		explicit Point(glm::vec2 const& pos, Color const& col);
-		Point() = default;
-
-		Point* Clone() const override { return new Point(*this); }
-
-		~Point() = default;
+		Point();
+		explicit Point(glm::vec2 const& Pos, Color const& col);
 
 		void Draw(SDL_Renderer* pRenderer) const override;
 
 		void Serialize(StreamWriter& writer) const override;
 		void Deserialize(JsonReader const* reader) override;
-
 	};
 
 	struct Circle;
 	struct Rectangle final : public Shape
 	{
-		glm::vec2 pos;
-		unsigned int width;
-		unsigned int height;
-		bool isFilled;
+		unsigned int Width;
+		unsigned int Height;
+		bool bIsFilled;
 
+		Rectangle();
 		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, Color const& col, bool filled = false);
 		explicit Rectangle(glm::vec2 const& pos, unsigned int width, unsigned int height, bool filled = false);
 		explicit Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool filled = false);
-		Rectangle() = default;
-
-		Rectangle* Clone() const override { return new Rectangle(*this); }
 
 		void Draw(SDL_Renderer* pRenderer) const override;
 		void Fill(SDL_Renderer* pRenderer) const;
+
+		bool IsOverlapping(Rectangle* const pRec) const override;
+		bool IsOverlapping(Circle* const pRec) const override;
 
 		void Serialize(StreamWriter& writer) const override;
 		void Deserialize(JsonReader const* reader) override;
@@ -94,13 +105,10 @@ namespace geo
 
 	struct Line final : public Shape
 	{
-		glm::vec2 startPos;
-		glm::vec2 endPos;
+		glm::vec2 EndPos;
 
-		explicit Line(glm::vec2 const& startPos, glm::vec2 const& endPos, Color const& col);
-		Line() = default;
-
-		Line* Clone() const override { return new Line(*this); }
+		Line();
+		explicit Line(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col);
 
 		void Draw(SDL_Renderer* pRenderer) const override;
 
@@ -110,16 +118,18 @@ namespace geo
 
 	struct Circle final : public Shape
 	{
-		glm::vec2 center;
-		unsigned int radius;
+		unsigned int Radius;
 
+		Circle();
 		explicit Circle(glm::vec2 const& center, unsigned int radius, Color const& col);
 		explicit Circle(glm::vec2 const& center, unsigned int radius);
-		Circle() = default;
-
-		Circle* Clone() const override { return new Circle(*this); }
 
 		void Draw(SDL_Renderer* pRenderer) const override;
+
+		bool IsOverlapping(Rectangle* const pRec) const override;
+		bool IsOverlapping(Circle* const pRec) const override;
+
+
 		void Serialize(StreamWriter& writer) const override;
 		void Deserialize(JsonReader const* reader) override;
 

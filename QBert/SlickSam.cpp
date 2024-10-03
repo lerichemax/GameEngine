@@ -2,7 +2,6 @@
 #include "SlickSam.h"
 
 #include "GameManagerSystem.h"
-#include "QBert.h"
 
 #include "GameObject.h"
 #include "RendererComponent.h"
@@ -63,7 +62,7 @@ void SlickSam::MeetCharacter(Characters* pOther)
 {
 	if (pOther->GetType() == CharacterType::player)
 	{
-		dynamic_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
+		//dynamic_cast<QBert*>(pOther)->EarnPoints(POINTS_FOR_KILL);
 		DoDie();
 	}
 }

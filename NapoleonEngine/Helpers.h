@@ -19,7 +19,7 @@
 #define NULL_ENTITY -1
 
 
-inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::vec2 const& scale) //make part of transform
+inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& Pos, float rot, glm::vec2 const& scale) //make part of transform
 {
 	auto identityMatrix = glm::mat3(1.0f);
 
@@ -27,7 +27,7 @@ inline glm::mat3x3 BuildTransformMatrix(glm::vec2 const& pos, float rot, glm::ve
 	glm::mat3x3 rotation{};
 	glm::mat3x3 scaling{};
 
-	trans = glm::translate(identityMatrix, pos);
+	trans = glm::translate(identityMatrix, Pos);
 
 #ifdef GLM_FORCE_RADIANS
 	rot = glm::rotate(identityMatrix, glm::radians(m_WorldRotation));
