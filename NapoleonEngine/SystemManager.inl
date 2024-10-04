@@ -2,7 +2,7 @@
 #include "SystemManager.h"
 
 template <SystemDerived T>
-T* const SystemManager::RegisterSystem(Coordinator* const pRegistry)
+T* const SystemManager::RegisterSystem(Registry* const pRegistry)
 {
 	size_t type = std::type_index(typeid(T)).hash_code();
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "System.h"
 
-class Coordinator;
+class Registry;
 class CharacterMovementSystem;
 class CharacterControllerSystem : public System 
 {

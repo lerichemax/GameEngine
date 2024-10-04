@@ -5,6 +5,7 @@
 #include <queue>
 #include <array>
 #include <unordered_set>
+#include <set>
 #include <unordered_map>
 
 class EntityManager
@@ -27,14 +28,12 @@ public:
 	static bool IsEntityValid(Entity entity);
 
 private:
-	friend class Coordinator;
+	friend class Registry;
 
 	std::queue<Entity> m_AvailableEntities;
+	std::set<Entity> m_CreatedEntities;
 	std::array<Signature, MAX_ENTITIES> m_Signatures;
 	std::unordered_map<Entity, std::unordered_set<Entity>> m_EntitiesHierarchy{};
 	std::unordered_map<Entity, std::string> m_EntityToTag{};
 	int32_t m_LivingEntitiesCount{};
-
-	//bool HasChild(Entity entity, Entity child) const;
-	//bool CheckHierarchyForExistingChild(Entity child);
 };

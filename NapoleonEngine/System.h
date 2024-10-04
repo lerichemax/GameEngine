@@ -4,10 +4,10 @@
 
 #include <set>
 
-class Coordinator;
+class Registry;
 class System : public IContextSerializable
 {
-	friend class Coordinator;
+	friend class Registry;
 	friend class SystemManager;
 	friend class Scene;
 	friend class BaseScene;
@@ -16,7 +16,7 @@ public:
 	virtual ~System() = default;
 
 protected:
-	Coordinator* m_pRegistry;
+	Registry* m_pRegistry;
 	std::set<Entity> m_Entities;
 
 	virtual void Initialize() {};

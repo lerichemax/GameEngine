@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "ColliderComponent.h"
-#include "Coordinator.h"
+#include "Registry.h"
 #include "Entity.h"
 
 #include <memory>
@@ -39,10 +39,9 @@ public:
 protected:
 	BaseScene();
 
-	std::unique_ptr<Coordinator> m_pRegistry;
+	std::unique_ptr<Registry> m_pRegistry;
 
 	std::string m_Name;
-	std::vector<std::unique_ptr<GameObject>> m_pObjects{};
 
 	GameObject* const CreateGameObjectNoTransform();
 

@@ -255,7 +255,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Event.h" />
     <ClInclude Include="Factories.h" />
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="Coordinator.h" />
+    <ClInclude Include="Registry.h" />
     <ClInclude Include="cursorstreamwrapper.h" />
     <ClInclude Include="Debugger.h" />
     <ClInclude Include="Deserializer.h" />
@@ -368,7 +368,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
-    <ClCompile Include="Coordinator.cpp" />
+    <ClCompile Include="Registry.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Deserializer.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -411,7 +411,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
   <ItemGroup>
     <None Include="ComponentArray.inl" />
     <None Include="ComponentManager.inl" />
-    <None Include="Coordinator.inl" />
+    <None Include="Registry.inl" />
     <None Include="SystemManager.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -20,7 +20,7 @@
 #include "CharacterPoint.h"
 #include "ColliderComponent.h"
 
-#include "Coordinator.h"
+#include "Registry.h"
 
 void QBertSystem::Start()
 {

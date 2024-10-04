@@ -2,7 +2,7 @@
 #include "AudioSystem.h"
 #include "SoundEffect.h"
 #include "AudioComponent.h"
-#include "Coordinator.h"
+#include "Registry.h"
 #include "ResourceManager.h"	
 
 #include <algorithm>

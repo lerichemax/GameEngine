@@ -27,34 +27,29 @@
 //************************************
 
 BaseScene::BaseScene()
-	: m_pRegistry(std::make_unique<Coordinator>()),
-	m_Name{ },
-	m_pObjects()
+	: m_pRegistry(std::make_unique<Registry>()),
+	m_Name{ }
 {
 }
 
 BaseScene::BaseScene(const std::string& name)
-	: m_pRegistry(std::make_unique<Coordinator>()),
-	m_Name{ name },
-	m_pObjects()
+	: m_pRegistry(std::make_unique<Registry>()),
+	m_Name{ name }
 {
 }
 
 BaseScene::~BaseScene()
 {
-	m_pObjects.clear();
 	m_pRegistry.reset();
 }
 
 GameObject* const BaseScene::CreateGameObject()
 {
-	auto newObject = std::unique_ptr<GameObject>(new GameObject{ m_pRegistry.get()});
+	auto newObject = std::unique_ptr<GameObject>(new GameObject{ m_pRegistry->CreateEntity(), m_pRegistry.get()});
 	
 	newObject->AddComponent<TransformComponent>();
 
-	m_pObjects.push_back(std::move(newObject));
-
-	return m_pObjects.back().get();
+	return newObject.get();
 }
 
 GameObject* const BaseScene::FindTagInChildren(GameObject* const pObj, std::string const& tag) const
@@ -96,59 +91,33 @@ void BaseScene::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("name", m_Name);
 
-	writer.StartArray("gameobjects");
-	{
-		for (auto& pObject : m_pObjects)
-		{
-			writer.WriteObject(pObject.get());
-		}
-	}
-	writer.EndArray();
+	m_pRegistry->SerializeEntities(writer);
 }
 
 void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	auto objects = reader->ReadArray("gameobjects");
-
-	for (SizeType i = 0; i < objects->GetArraySize(); i++)
-	{
-		auto pNewObject = CreateGameObjectNoTransform();
-		int entity;
-		auto go = objects->ReadArrayIndex(i);
-		go->ReadInt(std::string{ "Entity" }, entity);
-		context.Add(entity, pNewObject);
-		pNewObject->Deserialize(objects->ReadArrayIndex(i).get(), context);
-	}
+	m_pRegistry->DeserializeEntities(reader, context);
 }
 
 void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const& context)
 {
-	auto objects = reader->ReadArray("gameobjects");
-
-	size_t arraySize = objects->GetArraySize();
-
-	for (size_t i = 0; i < arraySize; i++)
-	{
-		m_pObjects[m_pObjects.size() - (arraySize - i)]->RestoreContext(objects->ReadArrayIndex(i).get(), context);
-	}
+	m_pRegistry->RestoreEntitiesContext(reader, context);
 }
 
 GameObject* const BaseScene::CreateGameObjectNoTransform()
 {
-	m_pObjects.push_back(std::move(std::unique_ptr<GameObject>(new GameObject{ m_pRegistry.get()})));
-
-	return m_pObjects.back().get();
+	return new GameObject{ m_pRegistry.get()};
 }
 
 GameObject* const BaseScene::GetGameObjectWithEntity(Entity entity) const
 {
-	for (auto& pObj : m_pObjects)
-	{
-		if (pObj->GetEntity() == entity)
-		{
-			return pObj.get();
-		}
-	}
+	//for (auto& pObj : m_pObjects)
+	//{
+	//	if (pObj->GetEntity() == entity)
+	//	{
+	//		return pObj.get();
+	//	}
+	//}
 
 	return nullptr;
 }
@@ -227,14 +196,13 @@ Scene::~Scene()
 
 void Scene::CleanUpScene()
 {
-	m_pObjects.clear();
 	m_pSystems.clear();
 }
 
 void Scene::OnLoad()
 {
 	Timer::Get().SetTimeScale(1);
-	m_pRegistry = std::make_unique<Coordinator>();
+	m_pRegistry = std::make_unique<Registry>();
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
 	m_pCollisionSystem = m_pRegistry->RegisterSystem<CollisionSystem>();
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
@@ -326,14 +294,6 @@ void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 	}
 
 	BaseScene::Deserialize(reader, context);
-}
-
-void Scene::Refresh()
-{
-	m_pObjects.erase(std::remove_if(m_pObjects.begin(), m_pObjects.end(), [](std::unique_ptr<GameObject> const& pGo)
-		{
-			return pGo->m_bIsDestroyed;
-		}),m_pObjects.end());
 }
 
 void Scene::SetActiveCamera(GameObject* const pGameObject)

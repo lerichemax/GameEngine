@@ -1,6 +1,6 @@
 #include "PCH.h"
 #include "UiSystem.h"
-#include "Coordinator.h"
+#include "Registry.h"
 #include "InputManager.h"
 #include "Command.h"
 

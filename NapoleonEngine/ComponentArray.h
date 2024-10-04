@@ -8,7 +8,7 @@
 
 class IComponentArray
 {
-	friend class Coordinator;
+	friend class Registry;
 	friend class ComponentManager;
 
 public:

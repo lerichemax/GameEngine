@@ -10,7 +10,7 @@
 using ID = unsigned int;
 
 class SoundEffect;
-class Coordinator;
+class Registry;
 class AudioSystem : public System
 {
 public:

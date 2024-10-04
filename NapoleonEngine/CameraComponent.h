@@ -42,7 +42,7 @@ public:
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override {};
 };
 
-class Coordinator;
+class Registry;
 class CameraSystem : public System
 {
 public:

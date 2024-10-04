@@ -2,7 +2,7 @@
 #include "System.h"
 #include "Event.h"
 
-class Coordinator;
+class Registry;
 class QBertSystem : public System 
 {
 public:

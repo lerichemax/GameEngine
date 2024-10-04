@@ -29,7 +29,7 @@ public:
 	std::vector<Component*> GetComponentsForSignature(Entity entity, Signature signature);
 
 private:
-	friend class Coordinator;
+	friend class Registry;
 
 	static std::unordered_map<size_t, ComponentType> m_ComponentTypes;
 	std::unordered_map<size_t, std::unique_ptr<IComponentArray>> m_ComponentArrays{};

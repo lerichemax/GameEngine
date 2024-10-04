@@ -18,7 +18,7 @@
 #include "ResourceManager.h"
 
 
-#include "Coordinator.h"
+#include "Registry.h"
 
 EventHandler<QubeSystem> QubeSystem::OnAnyQubeFlipped{};
 

@@ -15,6 +15,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 struct Component : public IContextSerializable
 {
 	template<typename T> friend class ComponentArray;
+	friend class Registry;
 	friend class GameObject;
 
 	Component() = default;
@@ -32,10 +33,10 @@ struct Component : public IContextSerializable
 
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 
-	GameObject* const GetGameObject() const { return m_pGameObject; }
+	Entity GetEntity() const { return m_Entity; }
 
 private:
-	GameObject* m_pGameObject{};
+	Entity m_Entity;
 
 	bool m_IsActive{true};
 	bool m_IsUnique{};

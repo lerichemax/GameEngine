@@ -11,6 +11,7 @@ class ISerializable;
 class StreamWriter
 {
 	friend class Serializer;
+	friend class Registry;
 public:
 	StreamWriter(StringBuffer& buffer);
 
@@ -27,8 +28,6 @@ public:
 	void WriteObject(std::string const& name, ISerializable* const serializableObject);
 	void WriteObject(std::string const& name, ISerializable const* const serializableObject);
 	void WriteObject(ISerializable* const serializableObject);
-	void StartObject();
-	void EndObject();
 	void StartArray(std::string const& name);
 	void EndArray();
 

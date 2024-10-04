@@ -1,11 +1,11 @@
 #pragma once
 #include "Entity.h"
 #include "Component.h"
-#include "Coordinator.h"
+#include "Registry.h"
 #include "Serializer.h"
 
 class TransformComponent;
-class GameObject final : public IContextSerializable
+class GameObject final
 {
 	friend class Scene;
 public:
@@ -33,26 +33,18 @@ public:
 		
 	void SetTag(std::string const& tag, bool applyToChildren = false);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
-
 private:
 	friend class PrefabsManager;
 	friend class BaseScene;
 
-	GameObject(Coordinator* const pRegistry);
+	GameObject(Entity entity, Registry* const pRegistry);
 	GameObject(const GameObject& other);
 
-	Coordinator* m_pRegistry;
+	Registry* m_pRegistry;
 
-	Entity m_Entity;
-		
-	bool m_bIsActive;
-	bool m_bIsDestroyed;
-
+	Entity const m_Entity;
 };
+
 template <typename T>
 T* const GameObject::AddComponent()
 {
@@ -63,6 +55,7 @@ T* const GameObject::AddComponent()
 	}
 	return newComp;
 }
+
 template <class T>
 T* const GameObject::GetComponent() const
 {

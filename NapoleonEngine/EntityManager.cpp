@@ -14,6 +14,7 @@ Entity EntityManager::CreateEntity()
 	assert(m_LivingEntitiesCount < MAX_ENTITIES && "Too many entities in existence");
 
 	Entity id = m_AvailableEntities.front();
+	m_CreatedEntities.insert(id);
 	m_AvailableEntities.pop();
 	m_LivingEntitiesCount++;
 
@@ -31,6 +32,8 @@ void EntityManager::DestroyEntity(Entity entity)
 	m_AvailableEntities.push(entity);
 
 	m_EntitiesHierarchy.erase(entity);
+
+	m_CreatedEntities.erase(entity);
 
 	m_LivingEntitiesCount--;
 }

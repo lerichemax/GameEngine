@@ -1,8 +1,8 @@
 #pragma once
-#include "Coordinator.h"
+#include "Registry.h"
 
 template <ComponentDerived T>
-T* const Coordinator::AddComponent(Entity entity)
+T* const Registry::AddComponent(Entity entity)
 {
 	T* const comp = m_pComponentManager->AddComponent<T>(entity);
 
@@ -18,7 +18,7 @@ T* const Coordinator::AddComponent(Entity entity)
 }
 
 template <ComponentDerived T>
-void Coordinator::RemoveComponent(Entity entity)
+void Registry::RemoveComponent(Entity entity)
 {
 	m_pComponentManager->RemoveComponent<T>(entity);
 
@@ -30,25 +30,25 @@ void Coordinator::RemoveComponent(Entity entity)
 }
 
 template <ComponentDerived T>
-T* const Coordinator::GetComponent(Entity entity) const
+T* const Registry::GetComponent(Entity entity) const
 {
 	return m_pComponentManager->GetComponent<T>(entity);
 }
 
 template<ComponentDerived T>
-std::vector<T*> Coordinator::GetComponents(Entity entity) const
+std::vector<T*> Registry::GetComponents(Entity entity) const
 {
 	return m_pComponentManager->GetComponents<T>(entity);
 }
 
 template <ComponentDerived T>
-T* const Coordinator::FindComponentOfType() const
+T* const Registry::FindComponentOfType() const
 {
 	return m_pComponentManager->FindComponentOfType<T>();
 }
 
 template <ComponentDerived T>
-T* const Coordinator::GetComponentInChildren(Entity entity) const
+T* const Registry::GetComponentInChildren(Entity entity) const
 {
 	T* compToReturn;
 
@@ -66,13 +66,13 @@ T* const Coordinator::GetComponentInChildren(Entity entity) const
 }
 
 template <ComponentDerived T>
-ComponentType Coordinator::GetComponentType() const
+ComponentType Registry::GetComponentType() const
 {
 	return m_pComponentManager->GetComponentType<T>();
 }
 
 template <SystemDerived T>
-T* const Coordinator::RegisterSystem()
+T* const Registry::RegisterSystem()
 {
 	auto pSystem = m_pSystemManager->RegisterSystem<T>(this);
 	pSystem->m_pRegistry = this;
@@ -88,20 +88,20 @@ T* const Coordinator::RegisterSystem()
 }
 
 template <SystemDerived T>
-void Coordinator::SetSystemSignature(Signature signature)
+void Registry::SetSystemSignature(Signature signature)
 {
 	m_pSystemManager->SetSignature<T>(signature);
 	OnSystemSignatureChanged<T>(signature);
 }
 
 template <SystemDerived T>
-T* const Coordinator::GetSystem() const
+T* const Registry::GetSystem() const
 {
 	return m_pSystemManager->GetSystem<T>();
 }
 
 template <SystemDerived T>
-void Coordinator::OnSystemSignatureChanged(Signature const& signature)
+void Registry::OnSystemSignatureChanged(Signature const& signature)
 {
 	std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
 

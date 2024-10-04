@@ -12,11 +12,11 @@ template <typename T>
 concept SystemDerived = std::derived_from<T, System>;
 
 class ComponentManager;
-class Coordinator;
+class Registry;
 class SystemManager
 {
 public:
-	template <SystemDerived T> T* const RegisterSystem(Coordinator* const pRegistry);
+	template <SystemDerived T> T* const RegisterSystem(Registry* const pRegistry);
 	template <SystemDerived T> void SetSignature(Signature signature);
 	template <SystemDerived T> void UpdateSignature(Signature signature);
 	template <SystemDerived T> Signature const& GetSystemSignature() const;
@@ -27,7 +27,7 @@ public:
 	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
 
 private:
-	friend class Coordinator;
+	friend class Registry;
 
 	std::unordered_map<size_t, Signature> m_Signatures;
 	std::unordered_map<size_t, std::unique_ptr<System>> m_Systems;

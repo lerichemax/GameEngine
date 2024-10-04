@@ -209,7 +209,7 @@
     <ClInclude Include="Helpers.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Coordinator.h">
+    <ClInclude Include="Registry.h">
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
@@ -375,7 +375,7 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Coordinator.cpp">
+    <ClCompile Include="Registry.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp">
@@ -455,7 +455,7 @@
     <None Include="SystemManager.inl">
       <Filter>ECS\Systems\Base</Filter>
     </None>
-    <None Include="Coordinator.inl">
+    <None Include="Registry.inl">
       <Filter>ECS</Filter>
     </None>
   </ItemGroup>

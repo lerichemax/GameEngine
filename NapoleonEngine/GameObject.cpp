@@ -3,20 +3,15 @@
 
 #include <algorithm>
 
-GameObject::GameObject(Coordinator* const pRegistry)
-	:m_pRegistry(pRegistry), 
-	m_Entity(pRegistry->CreateEntity()),
-	m_bIsActive(true),
-	m_bIsDestroyed(false)
+GameObject::GameObject(Entity entity, Registry* const pRegistry)
+	:m_pRegistry(pRegistry),
+	m_Entity{entity}
 {
 }
 
 GameObject::GameObject(const GameObject& other)
-	:m_Entity(m_pRegistry->CreateEntity()),
-	m_bIsActive(true),
-	m_bIsDestroyed(false)
+	:m_Entity()
 {
-
 }
 
 GameObject::~GameObject()
@@ -52,66 +47,8 @@ void GameObject::SetTag(std::string const& tag, bool applyToChildren)
 	}
 }
 
-void GameObject::Serialize(StreamWriter& writer) const
-{ 
-	writer.WriteInt(std::string{ "Entity" }, m_Entity);
-	writer.WriteString(std::string{ "Tag" }, GetTag());
-
-	writer.StartArray(std::string{ "components" });
-	{
-		auto components = m_pRegistry->GetEntityComponents(m_Entity);
-
-		for (Component* const pComp : components)
-		{
-			writer.WriteObject(pComp);
-		}
-	}
-	writer.EndArray();
-
-	auto children = m_pRegistry->GetChildren(m_Entity);
-	writer.StartArray(std::string{ "children" });
-	for (Entity entity : children)
-	{
-		writer.WriteIntNoKey(static_cast<int>(entity));
-	}
-	writer.EndArray();
-}
-
-void GameObject::Deserialize(JsonReader const* reader, SerializationMap& context)
-{ 
-	m_pRegistry->DeserializeComponents(m_Entity, reader->ReadArray(std::string{ "components" }).get(), context);
-
-	std::string tag;
-	reader->ReadString(std::string{ "Tag" }, tag);
-	SetTag(tag);
-}
-
-void GameObject::RestoreContext(JsonReader const* reader, SerializationMap const& context)
-{
-	auto jsonComponents = reader->ReadArray(std::string{ "components" });
-	auto components = m_pRegistry->GetEntityComponents(m_Entity);
-
-	for (size_t i = 0; i < components.size(); i++)
-	{
-		components[i]->RestoreContext(jsonComponents->ReadArrayIndex(i).get(), context);
-		components[i]->m_pGameObject = this;
-	}
-
-	auto children = reader->ReadArray(std::string{ "children" });
-	if (children != nullptr && children->IsValid())
-	{
-		for (SizeType i = 0; i < children->GetArraySize(); i++)
-		{
-			int child = children->ReadArrayIndexAsInt(i);
-			m_pRegistry->AddChild(m_Entity, context.GetRef<GameObject>(child)->m_Entity);
-		}
-	}
-}
-
 void GameObject::SetActive(bool active, bool includeChildren)
 {
-	m_bIsActive = active;
-
 	if (includeChildren)
 	{
 		m_pRegistry->SetEntityHierarchyActive(m_Entity, active);
@@ -124,7 +61,7 @@ void GameObject::SetActive(bool active, bool includeChildren)
 
 bool GameObject::IsActive() const
 {
-	return m_bIsActive;
+	return true;// m_pRegistry->;
 }
 
 std::string GameObject::GetTag() const
@@ -134,6 +71,6 @@ std::string GameObject::GetTag() const
 
 void GameObject::Destroy()
 {
-	m_bIsDestroyed = true;
-	m_bIsActive = false;
+	//m_bIsDestroyed = true;
+	//m_bIsActive = false;
 }
