@@ -109,8 +109,8 @@ protected:
 private:
 	friend class SceneManager;
 	friend class NapoleonEngine;
-	friend GameObject* const Instantiate(std::string const& name);
-	friend GameObject* const Instantiate(std::string const& name, glm::vec2 const& location);
+	friend GameObject Instantiate(std::string const& name);
+	friend GameObject Instantiate(std::string const& name, glm::vec2 const& location);
 	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
@@ -139,8 +139,8 @@ private:
 	void OnLoad();
 	void Refresh();
 	void CleanUpScene();
-	GameObject* const InstantiatePrefab(std::string const& name);
-	GameObject* const InstantiatePrefab(std::string const& name, glm::vec2 const& location);
+	GameObject InstantiatePrefab(std::string const& name);
+	GameObject InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
 template <SystemDerived T>

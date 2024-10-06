@@ -39,6 +39,8 @@ public:
 	void SetTag(Entity entity, std::string const& tag);
 	std::string GetTag(Entity entity) const;
 	bool HasTag(Entity entity, std::string const& tag) const;
+	int GetLivingEntitiesCount() const;
+	Entity GetEntityAtIndex(int idx) const;
 
 	void TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther);
 

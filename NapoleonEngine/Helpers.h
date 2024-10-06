@@ -52,12 +52,12 @@ inline glm::vec2 TransformVector(glm::vec2 const& vec, glm::mat3x3 const& mat)
 	return mat * toTransform;
 }
 
-inline GameObject* const Instantiate(std::string const& name)
+inline GameObject Instantiate(std::string const& name)
 {
 	return SceneManager::Get().GetActiveScene()->InstantiatePrefab(name);
 }
 
-inline GameObject* const Instantiate(std::string const& name, glm::vec2 const& location)
+inline GameObject Instantiate(std::string const& name, glm::vec2 const& location)
 {
 	return SceneManager::Get().GetActiveScene()->InstantiatePrefab(name, location);
 }

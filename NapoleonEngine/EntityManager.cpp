@@ -14,7 +14,7 @@ Entity EntityManager::CreateEntity()
 	assert(m_LivingEntitiesCount < MAX_ENTITIES && "Too many entities in existence");
 
 	Entity id = m_AvailableEntities.front();
-	m_CreatedEntities.insert(id);
+	m_CreatedEntities.push_back(id);
 	m_AvailableEntities.pop();
 	m_LivingEntitiesCount++;
 
@@ -33,7 +33,7 @@ void EntityManager::DestroyEntity(Entity entity)
 
 	m_EntitiesHierarchy.erase(entity);
 
-	m_CreatedEntities.erase(entity);
+	m_CreatedEntities.erase(std::remove(m_CreatedEntities.begin(), m_CreatedEntities.end(), entity), m_CreatedEntities.end());
 
 	m_LivingEntitiesCount--;
 }

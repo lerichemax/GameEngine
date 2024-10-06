@@ -106,7 +106,7 @@ void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const&
 
 GameObject* const BaseScene::CreateGameObjectNoTransform()
 {
-	return new GameObject{ m_pRegistry.get()};
+	return new GameObject{ m_pRegistry->CreateEntity(), m_pRegistry.get() };
 }
 
 GameObject* const BaseScene::GetGameObjectWithEntity(Entity entity) const
@@ -309,34 +309,26 @@ GameObject* const Scene::GetCameraObject() const
 	return m_pCameraObject;
 }
 
-GameObject* const Scene::InstantiatePrefab(std::string const& name)
+GameObject Scene::InstantiatePrefab(std::string const& name)
 {
-	size_t index = m_pObjects.size();
+	size_t index = m_pRegistry->GetLivingEntitiesCount();
 
 	PrefabsManager::Get().InstantiatePrefab(name, this);
 
-	if (m_pObjects.size() > index)
-	{
-		return m_pObjects[index].get();
-	}
-
-	return nullptr;
+	return GameObject(m_pRegistry->GetEntityAtIndex(index), m_pRegistry.get());
 }
 
-GameObject* const Scene::InstantiatePrefab(std::string const& name, glm::vec2 const& location)
+GameObject Scene::InstantiatePrefab(std::string const& name, glm::vec2 const& location)
 {
-	size_t index = m_pObjects.size();
+	size_t index = m_pRegistry->GetLivingEntitiesCount();
 
 	PrefabsManager::Get().InstantiatePrefab(name, this);
 
-	if (m_pObjects.size() > index)
-	{
-		m_pObjects[index]->GetTransform()->Translate(location);
+	GameObject newObject{ m_pRegistry->GetEntityAtIndex(index), m_pRegistry.get() };
 
-		return m_pObjects[index].get();
-	}
+	newObject.GetTransform()->Translate(location);
 
-	return nullptr;
+	return newObject;
 }
 
 void Scene::AddCollider(ColliderComponent* pCollider)

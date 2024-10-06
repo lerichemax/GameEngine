@@ -31,7 +31,7 @@ private:
 	friend class Registry;
 
 	std::queue<Entity> m_AvailableEntities;
-	std::set<Entity> m_CreatedEntities;
+	std::vector<Entity> m_CreatedEntities;
 	std::array<Signature, MAX_ENTITIES> m_Signatures;
 	std::unordered_map<Entity, std::unordered_set<Entity>> m_EntitiesHierarchy{};
 	std::unordered_map<Entity, std::string> m_EntityToTag{};

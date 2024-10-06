@@ -192,6 +192,17 @@ bool Registry::HasTag(Entity entity, std::string const& tag) const
 	return m_pEntityManager->HasTag(entity, tag);
 }
 
+int Registry::GetLivingEntitiesCount() const
+{
+	return m_pEntityManager->m_LivingEntitiesCount;
+}
+
+Entity Registry::GetEntityAtIndex(int idx) const
+{
+	assert(idx < m_pEntityManager->m_CreatedEntities.back() && "idx out of range");
+	return m_pEntityManager->m_CreatedEntities[idx];
+}
+
 std::unordered_set<Entity> const& Registry::GetChildren(Entity entity) const
 {
 	return m_pEntityManager->GetChildren(entity);
