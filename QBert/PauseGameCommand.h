@@ -16,7 +16,7 @@ public:
 	PauseGameCommand& operator=(PauseGameCommand&& rhs) = delete;
 	~PauseGameCommand() = default;
 	
-	void Execute(GameObject* const gObject) override;
+	void Execute(GameObject const& gObject) override;
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;

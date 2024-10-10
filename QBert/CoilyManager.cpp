@@ -15,7 +15,7 @@ void CoilyManager::Spawn()
 {
 	//int const random{ rand() % 2 + 1 };
 	//GameObject* pCoily = PrefabsManager::Get().Instantiate("Coily");
-	//m_pPyramid->GetGameObject()->AddChild(pCoily);
+	//m_pPyramid->GetEntity()->AddChild(pCoily);
 	//pCoily->GetComponent<CoilyCharacterController>()->SetPyramid(m_pPyramid);
 	//pCoily->GetComponent<Coily>()->SetCurrentQube(m_pPyramid->GetQubes()[random]);
 	//pCoily->GetECSTransform()->SetWorldPosition(pCoily->GetComponent<Coily>()->GetCurrentQube()->GetCharacterPos());
@@ -34,7 +34,7 @@ void CoilyManager::SetIdle(bool isIdle)
 	//{
 	//	if (m_pEnemies[i] != nullptr && isIdle)
 	//	{
-	//		//m_pEnemies[i]->GetGameObject()->GetComponent<CoilyCharacterController>()->SetIdle(isIdle);
+	//		//m_pEnemies[i]->GetEntity()->GetComponent<CoilyCharacterController>()->SetIdle(isIdle);
 	//	}
 	//}
 }

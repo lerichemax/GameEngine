@@ -13,7 +13,7 @@ public:
 	ReloadSceneCommand& operator=(ReloadSceneCommand&& rhs) = delete;
 	~ReloadSceneCommand() = default;
 
-	void Execute(GameObject* const gObject) override;
+	void Execute(GameObject const& gObject) override;
 
 	void Serialize(StreamWriter& writer) const;
 	void Deserialize(JsonReader const* reader, SerializationMap& context);

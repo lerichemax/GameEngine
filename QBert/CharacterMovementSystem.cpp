@@ -12,7 +12,7 @@
 #include "QbertComponent.h"
 
 #include "ResourceManager.h"
-#include "Coordinator.h"
+#include "Registry.h"
 
 void CharacterMovementSystem::Start()
 {

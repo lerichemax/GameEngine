@@ -35,11 +35,11 @@ void VersusGameManager::Notify(GameObject* object, int event)
 	//	{
 	//		UpdateRound();
 	//		UpdateCharacterPoint(m_pP2);
-	//		m_pTextP2->SetText("P2: " + std::to_string(m_pP2->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
+	//		m_pTextP2->SetText("P2: " + std::to_string(m_pP2->GetEntity()->GetComponent<CharacterPoint>()->GetPoints()));
 	//		auto pPlayer = object->GetComponent<QBert>();
 
 	//		pPlayer->SetCurrentQube(m_pPyramid->GetTop());
-	//		pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+	//		pPlayer->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 	//		pPlayer->SetCanMove();
 	//	}
 	//	break;
@@ -47,17 +47,17 @@ void VersusGameManager::Notify(GameObject* object, int event)
 	//	{
 	//		UpdateRound();
 	//		UpdateCharacterPoint(m_pP1);
-	//		m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
+	//		m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetEntity()->GetComponent<CharacterPoint>()->GetPoints()));
 
 	//		auto pPlayer = object->GetComponent<Coily>();
 	//		pPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	//		pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+	//		pPlayer->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 	//	}
 	//	break;
 	//case VersusGameEvent::PyramidCompleted:
 	//	UpdateRound();
 	//	UpdateCharacterPoint(m_pP1);
-	//	m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetGameObject()->GetComponent<CharacterPoint>()->GetPoints()));
+	//	m_pTextP1->SetText("P1: " + std::to_string(m_pP1->GetEntity()->GetComponent<CharacterPoint>()->GetPoints()));
 	//	
 	//	break;
 	//case VersusGameEvent::GameOver:

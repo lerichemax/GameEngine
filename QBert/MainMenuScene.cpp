@@ -21,28 +21,28 @@ void MainMenuScene::Initialize()
 {
 	m_BackgroundColor = { 0, 77, 153, 1 };
 
-	GameObject* const titleObject = CreateGameObject();
-	auto rendererComp = titleObject->AddComponent<RendererComponent>();
+	auto pTitleObject = CreateGameObject();
+	auto rendererComp = pTitleObject->AddComponent<RendererComponent>();
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/UI/Title.png");
 	rendererComp->Layer = 10;
 
-	titleObject->GetTransform()->Translate(300, 50);
-	titleObject->GetTransform()->Scale(0.8f);
+	pTitleObject->GetTransform()->Translate(300, 50);
+	pTitleObject->GetTransform()->Scale(0.8f);
 
-	GameObject* const soloBtn = CreateGameObject();
+	auto pSoloBtn = CreateGameObject();
 
-	auto txt = soloBtn->AddComponent<TextRendererComponent>();
+	auto txt = pSoloBtn->AddComponent<TextRendererComponent>();
 	txt->SetText("Solo");
 	txt->SetFont(ResourceManager::Get().GetFont("Fonts/Lingua.otf", 28));
-	soloBtn->AddComponent<RendererComponent>()->Layer = 10;
+	pSoloBtn->AddComponent<RendererComponent>()->Layer = 10;
 
-	auto btn = soloBtn->AddComponent<ButtonComponent>();
+	auto btn = pSoloBtn->AddComponent<ButtonComponent>();
 	btn->m_Dimensions = { 70,30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
 
-	soloBtn->GetTransform()->Translate(400, 200);
+	pSoloBtn->GetTransform()->Translate(400, 200);
 
 	auto coopBtn = CreateGameObject();
 

@@ -32,7 +32,7 @@ void WrongWayManager::Spawn()
 	}
 	//AddToArray(pWWComp);
 	
-	//m_pPyramid->GetGameObject()->AddChild(pWrongWay);
+	//m_pPyramid->GetEntity()->AddChild(pWrongWay);
 	//if (m_pObserver != nullptr)
 	//{
 	//	pWrongWay->AddObserver(m_pObserver);

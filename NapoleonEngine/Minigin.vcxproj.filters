@@ -128,12 +128,6 @@
     <ClInclude Include="ColliderComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleCollider.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -290,6 +284,9 @@
     <ClInclude Include="CollisionSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="CameraSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -357,12 +354,6 @@
       <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="ButtonComponent.cpp">
@@ -442,6 +433,9 @@
       <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>

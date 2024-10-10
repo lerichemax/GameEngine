@@ -43,5 +43,5 @@ void Enemy::DoDie()
 	//{
 	//	m_pCurrentQube->CharacterJumpOut();
 	//}
-	//GetGameObject()->Destroy();
+	//GetEntity()->Destroy();
 }

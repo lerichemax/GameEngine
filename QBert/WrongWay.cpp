@@ -1,7 +1,6 @@
 #include "PCH.h"
 #include "WrongWay.h"
 
-#include "BoxCollider.h"
 #include "EnemyOnQubeState.h"
 
 #include "GameManagerSystem.h"
@@ -83,8 +82,8 @@ void WrongWay::JumpToQube(QubeSystem* const pNextQube)
 
 void WrongWay::DoDie()
 {
-	//GetGameObject()->Destroy();
-	//GetGameObject()->Notify(static_cast<int>(GameEvent::WrongWayDies));
+	//GetEntity()->Destroy();
+	//GetEntity()->Notify(static_cast<int>(GameEvent::WrongWayDies));
 }
 
 void WrongWay::SetDirectionTextures(ConnectionDirection dir)

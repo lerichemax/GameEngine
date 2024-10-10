@@ -9,7 +9,7 @@ SwitchScene::SwitchScene(std::string pTargetScene)
 	
 }
 
-void SwitchScene::Execute(GameObject* const gObject)
+void SwitchScene::Execute(GameObject const& gObject)
 {
 	SceneManager::Get().LoadScene(m_TargetSceneName);
 }

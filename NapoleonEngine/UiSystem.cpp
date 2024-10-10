@@ -29,12 +29,14 @@ void UiSystem::Update()
 		glm::vec2 const mousePos = InputManager::Get().GetMousePosition();
 		glm::vec2 const Pos = transform->GetLocation();
 
+		GameObject btnObject{ btn->GetEntity(), m_pRegistry };
+
 		if (mousePos.x >= Pos.x && mousePos.x <= Pos.x + btn->m_Dimensions.x &&
 			mousePos.y >= Pos.y && mousePos.y <= Pos.y + btn->m_Dimensions.y)
 		{
 			if (!btn->m_bIsSelected && btn->m_pOnSelect)
 			{
-				btn->m_pOnSelect->Execute(btn->GetGameObject());
+				btn->m_pOnSelect->Execute(btnObject);
 			}
 			btn->Select();
 		}
@@ -42,7 +44,7 @@ void UiSystem::Update()
 		{
 			if (btn->m_bIsSelected && btn->m_pOnDeselect)
 			{
-				btn->m_pOnDeselect->Execute(btn->GetGameObject());
+				btn->m_pOnDeselect->Execute(btnObject);
 			}
 			btn->Deselect();
 		}
@@ -51,7 +53,7 @@ void UiSystem::Update()
 		{
 			if (btn->m_bIsSelected && btn->m_pOnClick)
 			{
-				btn->m_pOnClick->Execute(btn->GetGameObject());
+				btn->m_pOnClick->Execute(btnObject);
 			}
 
 			btn->Click();

@@ -26,11 +26,8 @@ public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
 
-	virtual GameObject* const CreateGameObject();
+	virtual [[nodiscard]] std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
-
-	GameObject* const FindTagInChildren(GameObject* const pObj, std::string const& tag) const; //returns the first one found
-	std::vector<GameObject*> GetChildrenWithTag(GameObject* const pObj, std::string const& tag) const;
 
 	void Serialize(StreamWriter& writer) const override;
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
@@ -43,10 +40,8 @@ protected:
 
 	std::string m_Name;
 
-	GameObject* const CreateGameObjectNoTransform();
+	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
 
-private:
-	GameObject* const GetGameObjectWithEntity(Entity entity) const;
 };
 
 class Prefab : public BaseScene
@@ -56,10 +51,9 @@ class Prefab : public BaseScene
 public:
 	explicit Prefab();
 
-	GameObject* const CreateGameObject() override;
-	GameObject* const GetRoot() const;
+	std::shared_ptr<GameObject> CreateGameObject() override;
+	std::shared_ptr<GameObject> GetRoot() const;
 
-	bool IsRoot(GameObject* pObject) const;
 	template <SystemDerived T> void AddRequiredSystem();
 
 	void Serialize(StreamWriter& writer) const override;
@@ -68,7 +62,7 @@ protected:
 	void SetName(std::string const& name);
 
 private:
-	GameObject* const m_pRootObject;
+	Entity m_pRootEntity;
 	std::unordered_set<size_t> m_RequiredSystems;
 };
 
@@ -101,16 +95,15 @@ public:
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
-	void SetActiveCamera(GameObject* const pGameObject);
-	GameObject* const GetCameraObject() const;
+	std::shared_ptr<GameObject> GetCameraObject() const;
 
 	Color m_BackgroundColor{ 0,0,0,0 };
 
 private:
 	friend class SceneManager;
 	friend class NapoleonEngine;
-	friend GameObject Instantiate(std::string const& name);
-	friend GameObject Instantiate(std::string const& name, glm::vec2 const& location);
+	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
+	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
 	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
@@ -123,10 +116,10 @@ private:
 	TransformSystem* m_pTransformSystem;
 	CollisionSystem* m_pCollisionSystem;
 	AudioSystem* m_pAudio;
-	CameraSystem* m_pCamera;
+	CameraSystem* m_pCameraSystem;
 	UiSystem* m_pUi;
 
-	GameObject* m_pCameraObject;
+	Entity m_CameraEntity;
 	std::vector<System*> m_pSystems;
 
 	bool m_bIsActive;
@@ -137,10 +130,9 @@ private:
 	virtual void DeclareInput() {};
 		
 	void OnLoad();
-	void Refresh();
 	void CleanUpScene();
-	GameObject InstantiatePrefab(std::string const& name);
-	GameObject InstantiatePrefab(std::string const& name, glm::vec2 const& location);
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
+	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
 template <SystemDerived T>

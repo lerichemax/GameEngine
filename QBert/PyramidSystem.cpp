@@ -43,8 +43,8 @@ void PyramidSystem::Initialize()
 		lastPos = startPos;
 		for (unsigned int j = 0; j < i; j++)
 		{
-			GameObject* pQubeObj = Instantiate("Qube", pTransform->GetLocation() + lastPos);
-			pPyramidComp->GetGameObject()->AddChild(pQubeObj);
+			auto pQubeObj = Instantiate("Qube", pTransform->GetLocation() + lastPos);
+			m_pRegistry->AddChild(pPyramidComp->GetEntity(), pQubeObj->GetEntity());
 			pPyramidComp->Qubes.push_back(pQubeObj->GetEntity());
 
 			auto pQube = pQubeObj->GetComponent<QubeComponent>();
@@ -72,7 +72,7 @@ void PyramidSystem::Initialize()
 
 	for (size_t i = 0; i < pPyramidComp->MAX_NBR_DISKS; i++)
 	{
-		auto* const pDiskObj = Instantiate("Disk");
+		auto pDiskObj = Instantiate("Disk");
 
 		auto* const pDisk = pDiskObj->GetComponent<DiskComponent>();
 		pDisk->TargetPosition = m_pRegistry->GetComponent<TransformComponent>(GetTop())->GetLocation();

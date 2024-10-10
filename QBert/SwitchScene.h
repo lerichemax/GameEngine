@@ -11,7 +11,7 @@ public:
 	SwitchScene(SwitchScene&& other) = delete;
 	SwitchScene& operator=(SwitchScene const& rhs) = delete;
 	SwitchScene& operator=(SwitchScene&& rhs) = delete;
-	void Execute(GameObject* const gObject) override;
+	void Execute(GameObject const& gObject) override;
 
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;

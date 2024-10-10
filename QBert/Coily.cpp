@@ -29,7 +29,7 @@ Coily::Coily(Coily const& other)
 
 void Coily::Initialize()
 {
-	//if (GetGameObject()->HasComponent<CoilyCharacterController>())
+	//if (GetEntity()->HasComponent<CoilyCharacterController>())
 	//{
 	//	//m_pController = m_pGameObject->GetComponent<CoilyCharacterController>();
 	//}
@@ -85,10 +85,10 @@ void Coily::DoDie()
 	if (m_pController != nullptr/* && m_pController->IsEnable()*/)
 	{
 		Enemy::DoDie();
-		//GetGameObject()->Notify(static_cast<int>(GameEvent::CoilyDies));
+		//GetEntity()->Notify(static_cast<int>(GameEvent::CoilyDies));
 	}
 	
-	//GetGameObject()->Notify(static_cast<int>(VersusGameEvent::Player2Died));
+	//GetEntity()->Notify(static_cast<int>(VersusGameEvent::Player2Died));
 }
 
 void Coily::Transform(bool isTransformed)
@@ -96,7 +96,7 @@ void Coily::Transform(bool isTransformed)
 	m_bIsTransformed = isTransformed;
 	if (m_bIsTransformed)
 	{
-		//GetGameObject()->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
+		//GetEntity()->Notify(static_cast<int>(VersusGameEvent::CoilyTransform));
 	}
 	//else
 	//{

@@ -46,6 +46,11 @@ SerializationMap::SerializationMap()
 	m_Refs.insert(std::make_pair(- 1, nullptr));
 }
 
+void SerializationMap::Add(int Id, Entity pRef)
+{
+	m_EntityRefs[Id] = pRef;
+}
+
 IContextSerializable::IContextSerializable()
 {
 	m_Id = Id++;

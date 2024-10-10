@@ -38,11 +38,11 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-	auto const pLivesP1 = Instantiate("LivesUI");
-	auto const pPointsP1 = Instantiate("PointsUI");
+	auto pLivesP1 = Instantiate("LivesUI");
+	auto pPointsP1 = Instantiate("PointsUI");
 
-	auto* const pUiManagerObj = CreateGameObject();
-	auto* const pUiComp = pUiManagerObj->AddComponent<UiManagerComponent>();
+	auto pUiManagerObj = CreateGameObject();
+	auto pUiComp = pUiManagerObj->AddComponent<UiManagerComponent>();
 	pUiComp->LivesCounterTextEntity = pLivesP1->GetEntity();
 	pUiComp->PointsCounterTextEntity = pPointsP1->GetEntity();
 
@@ -63,15 +63,15 @@ void SoloScene::Initialize()
 	AddSystem<DiskSystem>();
 
 	//Qbert
-	auto* const pQbertObj = Instantiate("QBert");
-
-	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(m_pRegistry->GetComponent<CharacterLives>(pQbertObj->GetEntity())->NbrLives));
+	auto pQbertObj = Instantiate("QBert");
 	
+	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(pQbertObj->GetComponent<CharacterLives>()->NbrLives));
+
 	//game manager
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
 
-	auto* const pResumeBtn = FindTagInChildren(pPauseMenuObject, "ResumeBtn");
-	pResumeBtn->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
+	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
+	
 
 //	auto* enemyManagerObj = new GameObject{};
 //	auto* pWWm = new WrongWayManager{2, 7};
@@ -110,8 +110,8 @@ void SoloScene::Initialize()
 	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
 
 	//	Ugg
-	auto* const pUggObject = CreateGameObject();
-	auto* pSpawnerComp = pUggObject->AddComponent<EnemySpawnerComponent>();
+	auto pUggObject = CreateGameObject();
+	auto pSpawnerComp = pUggObject->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 6;
 	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type

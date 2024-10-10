@@ -52,9 +52,9 @@ void Registry::SerializeEntities(StreamWriter& writer)
 
 				auto children = GetChildren(entity);
 				writer.StartArray(std::string{ "children" });
-				for (Entity entity : children)
+				for (Entity child : children)
 				{
-					writer.WriteIntNoKey(static_cast<int>(entity));
+					writer.WriteIntNoKey(static_cast<int>(child));
 				}
 				writer.EndArray();
 			}
@@ -70,17 +70,23 @@ void Registry::DeserializeEntities(JsonReader const* reader, SerializationMap& c
 
 	for (SizeType i = 0; i < objects->GetArraySize(); i++)
 	{
-		Entity newEntity = CreateEntity();
+		Entity newEntity = m_pEntityManager->CreateEntity();
 		int entity;
 		auto serializedEntityReader = objects->ReadArrayIndex(i);
 
-		serializedEntityReader->ReadInt(std::string{ "Entity" }, entity);
-		context.Add(entity, &newEntity);
+		if (m_pEntityManager->m_CreatedEntities.size() > 5)
+		{
+			Entity* entt = &m_pEntityManager->m_CreatedEntities[5];
+			entt = nullptr;
+		}
 
-		DeserializeComponents(newEntity, serializedEntityReader->ReadArray(std::string{ "components" }).get(), context);
+		serializedEntityReader->ReadInt( "Entity" , entity);
+		context.Add(entity, newEntity);
+
+		DeserializeComponents(newEntity, serializedEntityReader->ReadArray( "components" ).get(), context);
 
 		std::string tag;
-		serializedEntityReader->ReadString(std::string{ "Tag" }, tag);
+		serializedEntityReader->ReadString( "Tag" , tag);
 		SetTag(newEntity, tag);
 	}
 }
@@ -93,25 +99,25 @@ void Registry::RestoreEntitiesContext(JsonReader const* reader, SerializationMap
 
 	for (size_t i = 0; i < arraySize; i++)
 	{
-		Entity entity = *(m_pEntityManager->m_CreatedEntities.rbegin() + (m_pEntityManager->m_CreatedEntities.size() - (arraySize - i)));
+		Entity entity = *(m_pEntityManager->m_CreatedEntities.begin() + (m_pEntityManager->m_CreatedEntities.size() - (arraySize - i)));
 
-		auto entityReadObject = entitiesObject->ReadArrayIndex(i).get();
+		auto entityReadObject = entitiesObject->ReadArrayIndex(i);
 
-		auto jsonComponents = entityReadObject->ReadArray(std::string{ "components" });
+		auto jsonComponents = entityReadObject->ReadArray( "components" );
 		auto components = GetEntityComponents(entity);
 
-		for (size_t i = 0; i < components.size(); i++)
+		for (size_t j = 0; j < components.size(); j++)
 		{
-			components[i]->RestoreContext(jsonComponents->ReadArrayIndex(i).get(), context);
-			components[i]->m_Entity = entity; // change for entity
+			components[j]->RestoreContext(jsonComponents->ReadArrayIndex(j).get(), context);
+			components[j]->m_Entity = entity;
 		}
 
-		auto children = reader->ReadArray(std::string{ "children" });
+		auto children = entityReadObject->ReadArray( "children" );
 		if (children != nullptr && children->IsValid())
 		{
-			for (SizeType i = 0; i < children->GetArraySize(); i++)
+			for (SizeType j = 0; j < children->GetArraySize(); j++)
 			{
-				int child = children->ReadArrayIndexAsInt(i);
+				int child = children->ReadArrayIndexAsInt(j);
 				AddChild(entity, *context.GetRef<Entity>(child));
 			}
 		}
@@ -199,7 +205,7 @@ int Registry::GetLivingEntitiesCount() const
 
 Entity Registry::GetEntityAtIndex(int idx) const
 {
-	assert(idx < m_pEntityManager->m_CreatedEntities.back() && "idx out of range");
+	assert(idx < m_pEntityManager->m_LivingEntitiesCount && "idx out of range");
 	return m_pEntityManager->m_CreatedEntities[idx];
 }
 

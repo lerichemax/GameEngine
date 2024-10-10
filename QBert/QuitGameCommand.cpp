@@ -3,7 +3,7 @@
 
 #include "NapoleonEngine.h"
 
-void QuitGameCommand::Execute(GameObject* const gObject)
+void QuitGameCommand::Execute(GameObject const& gObject)
 {
 	NapoleonEngine::Quit();
 }

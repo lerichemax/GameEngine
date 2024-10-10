@@ -9,9 +9,9 @@ MoveCommand::MoveCommand(ConnectionDirection dir)
 	:m_MoveDirection{ dir }
 {}
 
-void MoveCommand::Execute(GameObject* const gObject)
+void MoveCommand::Execute(GameObject const& gObject)
 {
-	if (!gObject->IsActive()/* || m_pCharacter->GetState()->GetType() != CharacterStateType::onQube*/)
+	if (!gObject.IsActive()/* || m_pCharacter->GetState()->GetType() != CharacterStateType::onQube*/)
 	{
 		return;
 	}

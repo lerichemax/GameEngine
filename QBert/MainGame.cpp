@@ -137,15 +137,15 @@ void MainGame::CreatePrefabs() const
 	pCollider->bDraw = true;
 	pCollider->bIsTrigger = true;
 
-	auto hurtTextObj = qbertPrefab->CreateGameObject();
+	auto pHurtTextObj = qbertPrefab->CreateGameObject();
 
-	auto hurtRenderer = hurtTextObj->AddComponent<RendererComponent>();
-	hurtRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/HurtText.png");
-	hurtRenderer->Layer = 8;
-	hurtRenderer->SetActive(false);
+	auto pHurtRenderer = pHurtTextObj->AddComponent<RendererComponent>();
+	pHurtRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/HurtText.png");
+	pHurtRenderer->Layer = 8;
+	pHurtRenderer->SetActive(false);
 
-	pQbertObj->AddChild(hurtTextObj);
-	hurtTextObj->GetTransform()->Translate(-10, -34);
+	pQbertObj->AddChild(pHurtTextObj);
+	pHurtTextObj->GetTransform()->Translate(-10, -34);
 	pQbertObj->GetTransform()->Scale(1.5f);
 	pQbertObj->SetTag(QBERT_TAG);
 

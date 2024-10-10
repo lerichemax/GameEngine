@@ -171,8 +171,8 @@ void CoopScene::ResetScene(Level newLevel)
 //		pManager->ResetTimer();
 //	}
 //	
-//	m_pQbert->GetGameObject()->SetActive(true);
-//	m_pQbertP2->GetGameObject()->SetActive(true);
+//	m_pQbert->GetEntity()->SetActive(true);
+//	m_pQbertP2->GetEntity()->SetActive(true);
 //	//m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
 //	//m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
 //	SetIsPaused(false);

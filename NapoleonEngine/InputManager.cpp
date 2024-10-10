@@ -29,9 +29,9 @@ public:
 	Command* const GetCommand(SDL_KeyCode keyCode) const;
 	Command* const GetCommand(ControllerButton ctrlBtn) const;
 	Command* const GetCommand(MouseButton mousebtn) const;
-	void HandleInput(SDL_KeyCode keyCode, GameObject* const gObject);
-	void HandleInput(ControllerButton ctrlBtn, GameObject* const gObject);
-	void HandleInput(MouseButton mousebtn, GameObject* const gObject);
+	void HandleInput(SDL_KeyCode keyCode, GameObject const& gObject);
+	void HandleInput(ControllerButton ctrlBtn, GameObject const& gObject);
+	void HandleInput(MouseButton mousebtn, GameObject const& gObject);
 
 	glm::vec2 GetMousePosition() const { return m_MousePosition; }
 	bool IsLMBPressed() const { return m_bIsMouseLBtnClicked; }
@@ -175,7 +175,7 @@ Command* const InputManager::InputManagerImpl::GetCommand(MouseButton mousebtn) 
 
 	return nullptr;
 }
-void InputManager::InputManagerImpl::HandleInput(SDL_KeyCode keyCode, GameObject* const gObject)
+void InputManager::InputManagerImpl::HandleInput(SDL_KeyCode keyCode, GameObject const& gObject)
 {
 	auto cmd = GetCommand(keyCode);
 
@@ -184,7 +184,7 @@ void InputManager::InputManagerImpl::HandleInput(SDL_KeyCode keyCode, GameObject
 		cmd->Execute(gObject);
 	}
 }
-void InputManager::InputManagerImpl::HandleInput(ControllerButton ctrlBtn, GameObject* const gObject)
+void InputManager::InputManagerImpl::HandleInput(ControllerButton ctrlBtn, GameObject const& gObject)
 {
 	auto cmd = GetCommand(ctrlBtn);
 
@@ -193,7 +193,7 @@ void InputManager::InputManagerImpl::HandleInput(ControllerButton ctrlBtn, GameO
 		cmd->Execute(gObject);
 	}
 }
-void InputManager::InputManagerImpl::HandleInput(MouseButton mousebtn, GameObject* const gObject)
+void InputManager::InputManagerImpl::HandleInput(MouseButton mousebtn, GameObject const& gObject)
 {
 	auto cmd = GetCommand(mousebtn);
 
@@ -450,17 +450,17 @@ Command* const InputManager::GetCommand(MouseButton mousebtn) const
 	return m_pImpl->GetCommand(mousebtn);
 }
 
-void InputManager::HandleInput(SDL_KeyCode keyCode, GameObject* const gObject)
+void InputManager::HandleInput(SDL_KeyCode keyCode, GameObject const& gObject)
 {
 	m_pImpl->HandleInput(keyCode, gObject);
 }
 
-void InputManager::HandleInput(ControllerButton ctrlBtn, GameObject* const gObject)
+void InputManager::HandleInput(ControllerButton ctrlBtn, GameObject const& gObject)
 {
 	m_pImpl->HandleInput(ctrlBtn, gObject);
 }
 
-void InputManager::HandleInput(MouseButton mousebtn, GameObject* const gObject)
+void InputManager::HandleInput(MouseButton mousebtn, GameObject const& gObject)
 {
 	m_pImpl->HandleInput(mousebtn, gObject);
 }

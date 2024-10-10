@@ -3,7 +3,7 @@
 
 #include "SceneManager.h"
 
-void ReloadSceneCommand::Execute(GameObject* const gObject)
+void ReloadSceneCommand::Execute(GameObject const& gObject)
 {
 	SceneManager::Get().ReloadCurrentScene();
 }

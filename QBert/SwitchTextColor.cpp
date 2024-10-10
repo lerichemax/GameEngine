@@ -9,15 +9,12 @@ SwitchTextColor::SwitchTextColor(Color targetColor)
 	
 }
 
-void SwitchTextColor::Execute(GameObject* const gObject)
+void SwitchTextColor::Execute(GameObject const& gObject)
 {
-	if (IS_VALID(gObject))
+	auto pText = gObject.GetComponent<TextRendererComponent>();
+	if (pText != nullptr)
 	{
-		auto pText = gObject->GetComponent<TextRendererComponent>();
-		if (pText != nullptr)
-		{
-			pText->SetTextColor(m_TargetColor.R, m_TargetColor.G, m_TargetColor.B);
-		}
+		pText->SetTextColor(m_TargetColor.R, m_TargetColor.G, m_TargetColor.B);
 	}
 }
 

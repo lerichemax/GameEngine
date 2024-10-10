@@ -23,7 +23,7 @@
 void CoilySystem::Start()
 {
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
-	m_Qbert = FindComponentOfType<QbertComponent>()->GetGameObject()->GetEntity();
+	m_Qbert = FindComponentOfType<QbertComponent>()->GetEntity();
 
 	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
 	pJumper->OnJumpedToDeath.Subscribe([this](Entity entity) {

@@ -3,20 +3,25 @@
 
 #include <algorithm>
 
+
 GameObject::GameObject(Entity entity, Registry* const pRegistry)
 	:m_pRegistry(pRegistry),
 	m_Entity{entity}
 {
 }
 
-GameObject::GameObject(const GameObject& other)
-	:m_Entity()
+GameObject::GameObject(GameObject&& other)
+	:m_Entity{other.m_Entity},
+	m_pRegistry{other.m_pRegistry}
 {
 }
 
-GameObject::~GameObject()
+GameObject& GameObject::operator=(GameObject&& other)
 {
-	m_pRegistry->DestroyEntity(m_Entity);
+	m_Entity = other.m_Entity;
+	m_pRegistry = other.m_pRegistry;
+
+	return *this;
 }
 
 TransformComponent* const GameObject::GetTransform() const
@@ -28,6 +33,11 @@ void GameObject::AddChild(GameObject* const pChild)
 {
 	pChild->GetTransform()->SetParent(GetTransform());
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
+}
+
+void GameObject::AddChild(std::shared_ptr<GameObject> pChild)
+{
+	AddChild(pChild.get());
 }
 
 void GameObject::SetTag(std::string const& tag, bool applyToChildren)
@@ -67,6 +77,22 @@ bool GameObject::IsActive() const
 std::string GameObject::GetTag() const
 { 
 	return m_pRegistry->GetTag(m_Entity); 
+}
+
+std::shared_ptr<GameObject> GameObject::FindChildrenWithTag(std::string const& tag) const
+{
+	std::unordered_set<Entity> children = m_pRegistry->GetChildren(m_Entity);
+
+	for (Entity child : children)
+	{
+		if (m_pRegistry->HasTag(child, tag))
+		{
+			return std::shared_ptr<GameObject>{new GameObject{ child, m_pRegistry }};
+		}
+	}
+
+	Debugger::Get().LogWarning("No GameObject found with tag " + tag);
+	return nullptr;
 }
 
 void GameObject::Destroy()

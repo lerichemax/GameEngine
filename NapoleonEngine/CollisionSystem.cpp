@@ -51,19 +51,19 @@ void CollisionSystem::Update()
 void CollisionSystem::HandleOverlapping(ColliderComponent* const pCollider, ColliderComponent* const pOtherCollider)
 {
 	bool bWasOverlapping = 
-		std::find(pCollider->OverlappingColliders.begin(), pCollider->OverlappingColliders.end(), pOtherCollider->GetGameObject()->GetEntity()) != pCollider->OverlappingColliders.end();
+		std::find(pCollider->OverlappingColliders.begin(), pCollider->OverlappingColliders.end(), pOtherCollider->GetEntity()) != pCollider->OverlappingColliders.end();
 	
 	if (pCollider->pShape->IsOverlapping(pOtherCollider->GetShape()))
 	{	
 		if (!bWasOverlapping)
 		{
-			pCollider->TriggerEnter(pOtherCollider->GetGameObject()->GetEntity());
-			pCollider->OverlappingColliders.insert(pOtherCollider->GetGameObject()->GetEntity());
+			pCollider->TriggerEnter(pOtherCollider->GetEntity());
+			pCollider->OverlappingColliders.insert(pOtherCollider->GetEntity());
 		}
 	}
 	else if (bWasOverlapping)
 	{
-		pCollider->OverlappingColliders.erase(pOtherCollider->GetGameObject()->GetEntity());
+		pCollider->OverlappingColliders.erase(pOtherCollider->GetEntity());
 	}
 }
 
@@ -73,7 +73,7 @@ void CollisionSystem::HandleCollision(ColliderComponent* const pCollider, Collid
 
 	//	else if (!bWasOverlapping && !pCollider->bIsTrigger)
 	//	{
-	//		pCollider->TriggerExit(pOtherCollider->GetGameObject()->GetEntity());
+	//		pCollider->TriggerExit(pOtherCollider->GetEntity()->GetEntity());
 	//}
 }
 

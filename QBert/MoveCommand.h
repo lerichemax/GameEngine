@@ -15,7 +15,7 @@ public:
 	MoveCommand& operator=(MoveCommand&& rhs) = delete;
 	~MoveCommand() = default;
 
-	void Execute(GameObject* const gObject) override;
+	void Execute(GameObject const& gObject) override;
 
 private:
 	ConnectionDirection m_MoveDirection;

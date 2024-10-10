@@ -48,7 +48,7 @@ void GameManager::Notify(GameObject* object, int event)
 		//if (m_pSSManager != nullptr) m_pSSManager->Reset();
 		//	
 		//pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
-		//pPlayer->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+		//pPlayer->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 		//pPlayer->SetCanMove();
 		
 		break;
@@ -149,7 +149,7 @@ void GameManagerSystem::Start()
 	});
 
 	//InputManager::Get().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
-	//new PauseGameCommand(GetGameObject()->GetComponent<GameManagerBehaviour>()) });
+	//new PauseGameCommand(GetEntity()->GetComponent<GameManagerBehaviour>()) });
 }
 
 void GameManagerSystem::Update()

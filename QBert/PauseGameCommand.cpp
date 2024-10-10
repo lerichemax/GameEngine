@@ -11,7 +11,7 @@ PauseGameCommand::PauseGameCommand(GameManagerSystem* const pGameManager)
 {
 }
 
-void PauseGameCommand::Execute(GameObject* const gObject)
+void PauseGameCommand::Execute(GameObject const& gObject)
 {
 	m_pGameManager->TogglePause();
 }

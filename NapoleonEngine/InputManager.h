@@ -129,9 +129,9 @@ public:
 	Command* const GetCommand(SDL_KeyCode keyCode) const;
 	Command* const GetCommand(ControllerButton ctrlBtn) const;
 	Command* const GetCommand(MouseButton mousebtn) const;
-	void HandleInput(SDL_KeyCode keyCode, GameObject* const gObject);
-	void HandleInput(ControllerButton ctrlBtn, GameObject* const gObject);
-	void HandleInput(MouseButton mousebtn, GameObject* const gObject);
+	void HandleInput(SDL_KeyCode keyCode, GameObject const& gObject);
+	void HandleInput(ControllerButton ctrlBtn, GameObject const& gObject);
+	void HandleInput(MouseButton mousebtn, GameObject const& gObject);
 		
 	glm::vec2 GetMousePosition() const;
 	bool IsLMBPressed() const;

@@ -11,7 +11,7 @@ public:
 	QuitGameCommand& operator=(QuitGameCommand const& rhs) = delete;
 	QuitGameCommand& operator=(QuitGameCommand&& rhs) = delete;
 
-	void Execute(GameObject* const gObject) override;
+	void Execute(GameObject const& gObject) override;
 
 	void Serialize(StreamWriter& writer) const override;
 };

@@ -110,7 +110,7 @@ void VersusScene::Initialize()
 	////Replay
 	//pBtnObject = m_pGameOverMenu->FindTagInChildren("ReplayBtn");
 	//pBtn = pBtnObject->GetComponent<ButtonComponent>();
-	//pTextComp = pBtn->GetGameObject()->GetComponent<TextRendererComponent>();
+	//pTextComp = pBtn->GetEntity()->GetComponent<TextRendererComponent>();
 	//pBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,}, pTextComp });
 	//pBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}, pTextComp });
 	//pBtn->SetOnClickFunction(new ReloadSceneCommand{ this });
@@ -152,14 +152,14 @@ void VersusScene::Initialize()
 //	//m_pPyramid->Reset();
 //	
 //	m_pQbert->Reset(true, m_pPyramid->GetTop());
-//	//m_pQbert->GetGameObject()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
+//	//m_pQbert->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
 //	m_pQbert->SetCanMove();
 //	
 //	m_pCoilyPlayer->Transform(false);
 //	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-//	m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-//	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-//	//m_pCoilyPlayer->GetGameObject()->GetComponent<CharacterPoint>()->Reset();
+//	m_pCoilyPlayer->GetEntity()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+//	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+//	//m_pCoilyPlayer->GetEntity()->GetComponent<CharacterPoint>()->Reset();
 //	
 //	//m_pRoundText->SetText("Round 1");
 //	//m_pTextP1->SetText("P1: 0");
@@ -176,8 +176,8 @@ void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
 	
 	m_pCoilyPlayer->Transform(false);
 	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	//m_pCoilyPlayer->GetGameObject()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-	//m_pCoilyPlayer->GetGameObject()->GetComponent<CoilyCharacterController>()->SetEnable(true);
+	//m_pCoilyPlayer->GetEntity()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 }
 
 void VersusScene::DeclareInput()

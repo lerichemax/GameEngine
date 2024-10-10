@@ -1,10 +1,11 @@
 #pragma once
 
 #include "JsonReaderWriter.h"
-#include "Debugger.h"
 #include "stream.h"
 
 #include "writer.h"
+
+#include "Entity.h"
 
 #include <map>
 
@@ -21,8 +22,11 @@ public:
 class SerializationMap final
 {
 public:
+	void Add(int Id, Entity pRef);
+
 	template <typename T> void Add(int Id, T* pRef);
 	template <typename T> T* GetRef(int id) const;
+	template <> inline Entity* GetRef<Entity>(int id) const;
 
 private:
 	friend class Serializer;
@@ -31,6 +35,8 @@ private:
 	SerializationMap();
 
 	std::map<int, void*> m_Refs{};
+	std::map<int, Entity> m_EntityRefs{};
+
 };
 
 class IContextSerializable : public ISerializable
@@ -71,6 +77,17 @@ T* SerializationMap::GetRef(int id) const
 	return nullptr;
 }
 
+template <>
+Entity* SerializationMap::GetRef<Entity>(int id) const
+{
+	auto it = m_EntityRefs.find(id);
+	if (it != m_EntityRefs.end())
+	{
+		return const_cast<Entity*>(&it->second);
+	}
+	return nullptr;
+}
+
 template <typename T>
 void SerializationMap::Add(int id, T* pRef)
 {
@@ -81,6 +98,6 @@ void SerializationMap::Add(int id, T* pRef)
 	}
 	else
 	{
-		//Debugger::Get().LogWarning("ID alrady added to the context");
+		//Debugger::Get().Log("ID alrady added to the context");
 	}
 }
