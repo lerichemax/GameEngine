@@ -3,11 +3,8 @@
 
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
-#include "Coily.h"
-#include "CoilyCharacterController.h"
 #include "Command.h"
 #include "InputManager.h"
-#include "MoveCommand.h"
 #include "PauseGameCommand.h"
 #include "VersusGameManager.h"
 #include "CameraComponent.h"
@@ -21,11 +18,7 @@
 #include "SwitchTextColor.h"
 
 VersusScene::VersusScene() 
-	:QBertScene("VersusScene"),
-	m_pCoilyPlayer(nullptr),
-	m_pRoundText(nullptr),
-	m_pTextP1(nullptr),
-	m_pTextP2(nullptr)
+	:Scene("VersusScene")
 {
 }
 
@@ -169,19 +162,19 @@ void VersusScene::Initialize()
 //	m_pGameOverMenu->SetActive(false);
 //}
 
-void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
-{
+//void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
+//{
 	//m_pPyramid->Reset();
 	//m_pQbert->Reset(false, m_pPyramid->GetTop());
 	
-	m_pCoilyPlayer->Transform(false);
+	//m_pCoilyPlayer->Transform(false);
 	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
 	//m_pCoilyPlayer->GetEntity()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-}
+//}
 
-void VersusScene::DeclareInput()
-{
+//void VersusScene::DeclareInput()
+//{
 	//Player1
 	//InputManager::Get().AddInputAction(24, new InputAction(SDLK_w, KeyActionState::pressed,
 	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
@@ -236,4 +229,4 @@ void VersusScene::DeclareInput()
 
 	//InputManager::Get().AddInputAction(107, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
 	//new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
-}
+//}

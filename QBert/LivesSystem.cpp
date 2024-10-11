@@ -17,7 +17,7 @@ void LivesSystem::Update()
 
 			if (pLivesComp->NbrLives <= 0 && m_pRegistry->HasTag(entity, QBERT_TAG))
 			{
-				OnGameOver.Notify();
+				OnPlayerDied.Notify();
 			}
 		}
 	}

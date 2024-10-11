@@ -19,6 +19,8 @@ struct QbertComponent : public Component
 
 	bool bOnResetCoolDown{};
 
+	int PlayerNumber;
+
 	void Serialize(StreamWriter& writer) const override;
 	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 };

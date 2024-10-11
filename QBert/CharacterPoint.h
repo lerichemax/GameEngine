@@ -7,7 +7,7 @@ class CharacterPoint final : public Component
 public:
 	CharacterPoint();
 
-	EventHandler<CharacterPoint, int> OnPointsUpdated;
+	EventHandler<CharacterPoint, int, Entity> OnPointsUpdated;
 
 	void AddPoints(int nbrPoint);
 	int GetPoints() const { return m_NbrPoints; }

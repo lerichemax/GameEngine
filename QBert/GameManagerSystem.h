@@ -23,8 +23,13 @@ enum class Level
 	Level3
 };
 
+enum class GameMode {
+	Normal,
+	Coop,
+	Versus
+};
 
-class TextRendererComponent;
+
 class PyramidSystem;
 class CoilyManager;
 class SlickSamManager;
@@ -36,19 +41,12 @@ class QBertSystem;
 class GameManager final
 {
 public:
-	GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points, 
-		TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives, 
-		CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
+	GameManager(CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
 	
-	~GameManager() = default;
 	void Notify(GameObject* object, int event);
 	void SetNbrPlayers(unsigned int nbr) { m_NbrPlayers = nbr; }
 
 private:
-	TextRendererComponent* const m_pP1PointsCounter;
-	TextRendererComponent* const m_P1LivesCounter;
-	TextRendererComponent* const m_pP2PointsCounter;
-	TextRendererComponent* const m_P2LivesCounter;
 
 	CoilyManager* m_pCManager;
 	SlickSamManager* m_pSSManager;
@@ -58,12 +56,9 @@ private:
 	
 	unsigned int m_NbrPlayers;
 	unsigned int m_NbrDeadPlayers;
-	
-	void UpdateLivesText(CharacterLives* pLives, int playerNbr);
-	void UpdatePointsText(CharacterPoint* pPoints, int playerNbr);
 };
 
-class GameManagerSystem : public System // cahnge name later
+class GameManagerSystem : public System
 {
 public:
 	GameManagerSystem();
@@ -72,10 +67,13 @@ public:
 
 	void TogglePause();
 
+	void SetGameMode(GameMode mode);
+
 	void SetSignature() const override;
 
 	EventHandler<GameManagerSystem, bool> OnGamePaused;
 	EventHandler<GameManagerSystem> OnGameEnded;
+	EventHandler<GameManagerSystem> OnGameOver;
 
 protected:
 	void Start() override;
@@ -87,7 +85,11 @@ private:
 
 	Level m_Level;
 
+	GameMode m_GameMode;
+
 	bool m_IsPaused;
+
+	int m_NbrPlayerDead;
 
 	void ResetGame();
 	void HandleEndGame();

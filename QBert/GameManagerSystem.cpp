@@ -14,17 +14,9 @@
 
 #include <algorithm>
 
-//EventHandler<GameManagerBehaviour, bool> GameManagerBehaviour::OnGamePaused{};
-
-GameManager::GameManager(TextRendererComponent* pP1Points, TextRendererComponent* pP2Points,
-                         TextRendererComponent* pP1Lives, TextRendererComponent* pP2Lives,
-                         CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, 
+GameManager::GameManager(CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, 
 						unsigned int nbrPlayers)
-	:m_pP1PointsCounter(pP1Points),
-	m_P1LivesCounter(pP1Lives),
-	m_pP2PointsCounter(pP2Points),
-	m_P2LivesCounter(pP2Lives),
-	m_pCManager(pCm),
+	:m_pCManager(pCm),
 	m_pSSManager(pSSm),
 	m_pWWManager(pWWm),
 	m_pGameOver(pGameOver),
@@ -99,32 +91,6 @@ void GameManager::Notify(GameObject* object, int event)
 	}
 }
 
-void GameManager::UpdateLivesText(CharacterLives* pLives, int playerNbr)
-{
-	switch (playerNbr)
-	{
-	case 1:
-		//m_P1LivesCounter->SetText("P1 Lives: " + std::to_string(pLives->GetNbrLives()));
-		break;
-	case 2:
-		//m_P2LivesCounter->SetText("P2 Lives: " + std::to_string(pLives->GetNbrLives()));
-		break;
-	}
-}
-
-void GameManager::UpdatePointsText(CharacterPoint* pPoint, int playerNbr)
-{
-	switch (playerNbr)
-	{
-	case 1:
-		//m_pP1PointsCounter->SetText("P1 Points: " + std::to_string(pPoint->GetPoints()));
-		break;
-	case 2:
-		//m_pP2PointsCounter->SetText("P2 Points: " + std::to_string(pPoint->GetPoints()));
-		break;
-	}
-}
-
 GameManagerSystem::GameManagerSystem()
 	:m_IsPaused{false}
 {
@@ -137,6 +103,8 @@ void GameManagerSystem::Start()
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
 	m_pQbert = m_pRegistry->GetSystem<QBertSystem>();
 
+	m_pQbert->SetQubes(m_GameMode);
+
 	if (m_pPyramid != nullptr)
 	{
 		m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
@@ -144,17 +112,25 @@ void GameManagerSystem::Start()
 			});
 	}
 
-	m_pRegistry->GetSystem<LivesSystem>()->OnGameOver.Subscribe([this]() {
+	m_pRegistry->GetSystem<LivesSystem>()->OnPlayerDied.Subscribe([this]() {
+		if (m_GameMode == GameMode::Coop)
+		{
+			m_NbrPlayerDead++;
+			if (m_NbrPlayerDead < 2)
+			{
+				return;
+			}
+		}
+
 		Timer::Get().SetTimeScale(0);
+		OnGameOver.Notify();
 	});
 
-	//InputManager::Get().AddInputAction(new InputAction{ SDLK_p , KeyActionState::released,
-	//new PauseGameCommand(GetEntity()->GetComponent<GameManagerBehaviour>()) });
 }
 
 void GameManagerSystem::Update()
 {
-	if (InputManager::Get().IsUp(SDL_SCANCODE_P))
+	if (InputManager::Get().IsUp(SDL_SCANCODE_P) || InputManager::Get().IsUp(SDL_SCANCODE_ESCAPE))
 	{
 		TogglePause();
 	}
@@ -182,10 +158,16 @@ void GameManagerSystem::TogglePause()
 	OnGamePaused.Notify(m_IsPaused);
 }
 
+void GameManagerSystem::SetGameMode(GameMode mode)
+{
+	m_GameMode = mode;
+}
+
 void GameManagerSystem::ResetGame()
 {
 	m_pPyramid->Reset(m_Level);
 	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	m_NbrPlayerDead = 0;
 }
 
 void GameManagerSystem::HandleEndGame()

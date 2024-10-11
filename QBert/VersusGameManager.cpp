@@ -3,8 +3,6 @@
 
 #include "CharacterPoint.h"
 #include "GameObject.h"
-#include "Coily.h"
-#include "CoilyCharacterController.h"
 
 #include "TextRendererComponent.h"
 #include "Timer.h"

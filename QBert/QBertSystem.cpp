@@ -6,6 +6,7 @@
 #include "JumperSystem.h"
 #include "DiskSystem.h"
 #include "LivesSystem.h"
+#include "GameManagerSystem.h"
 
 #include "AudioComponent.h"
 #include "CharacterControllerComponent.h"
@@ -24,16 +25,19 @@
 
 void QBertSystem::Start()
 {
-	Entity entity = *m_Entities.begin();
+	for (Entity entity : m_Entities)
+	{
+		m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
+			JumpOffDisk(entity);
+		});
 
-	auto* const pMoveComponent = m_pRegistry->GetComponent<MovementComponent>(entity);
-	pMoveComponent->CurrentQube = m_pRegistry->GetSystem<PyramidSystem>()->GetTop();
-
-	auto pQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComponent->CurrentQube);
-	pQube->Characters.insert(entity);
-
-	auto pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-	pTransform->Translate(pQube->CharacterPos);
+		m_pRegistry->GetComponent<ColliderComponent>(entity)->OnTriggerEnter.Subscribe([this, entity](Entity otherEntity) {
+			if (m_pRegistry->HasTag(otherEntity, ENEMY_TAG))
+			{
+				GetHurt(entity);
+			}
+		});
+	}
 
 	auto* const pMoveSystem = m_pRegistry->GetSystem<CharacterMovementSystem>();
 
@@ -63,10 +67,6 @@ void QBertSystem::Start()
 		OnFell(entity);
 	});
 
-	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
-		JumpOffDisk(entity);
-	});
-
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int lives) {
 		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
 		{
@@ -78,56 +78,97 @@ void QBertSystem::Start()
 		pQbert->bOnResetCoolDown = false;
 		pQbert->ResetTimer = 0.f;
 	});
-
-	m_pRegistry->GetComponent<ColliderComponent>(entity)->OnTriggerEnter.Subscribe([this, entity](Entity otherEntity) {
-		if (m_pRegistry->HasTag(otherEntity, ENEMY_TAG))
-		{
-			GetHurt(entity);
-		}
-	});
 }
 
 void QBertSystem::Update()
 {
-	Entity entity = *m_Entities.begin();
-	auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
-
-	if (pQbert->bOnResetCoolDown)
+	for (Entity entity : m_Entities)
 	{
-		if (pQbert->ResetTimer >= pQbert->MAX_RESET_TIME)
+		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
+
+		if (pQbert->bOnResetCoolDown)
 		{
-			m_pRegistry->GetComponent<CharacterLives>(entity)->Die();
-		}
-		else 
-		{
-			pQbert->ResetTimer += Timer::Get().GetDeltaTime();
+			if (pQbert->ResetTimer >= pQbert->MAX_RESET_TIME)
+			{
+				m_pRegistry->GetComponent<CharacterLives>(entity)->Die();
+			}
+			else
+			{
+				pQbert->ResetTimer += Timer::Get().GetDeltaTime();
+			}
 		}
 	}
 }
 
 void QBertSystem::Reset(bool fullReset, Entity targetQubeEntity)
 {
-	Entity entity = *m_Entities.begin();
-
-	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
-
-	pMovement->CurrentQube = targetQubeEntity;
-	pMovement->bCanMove = true;
-	pMovement->CurrentDirection = ConnectionDirection::null;
-
-	m_pRegistry->SetEntityActive(entity, true);
-	m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 8;
-	m_pRegistry->GetComponentInChildren<RendererComponent>(entity)->SetActive(false);
-
-	if (!fullReset)
+	for (Entity entity : m_Entities)
 	{
-		return;
+		auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(entity);
+
+		pMovement->CurrentQube = targetQubeEntity;
+		pMovement->bCanMove = true;
+		pMovement->CurrentDirection = ConnectionDirection::null;
+
+		m_pRegistry->SetEntityActive(entity, true);
+		m_pRegistry->GetComponent<RendererComponent>(entity)->Layer = 8;
+		m_pRegistry->GetComponentInChildren<RendererComponent>(entity)->SetActive(false);
+
+		if (!fullReset)
+		{
+			return;
+		}
+
+		auto* const pLives = m_pRegistry->GetComponent<CharacterLives>(entity);
+		auto* const pPoints = m_pRegistry->GetComponent<CharacterPoint>(entity);
+		pLives->Reset();
+		pPoints->Reset();
+	}
+}
+
+void QBertSystem::SetQubes(GameMode mode)
+{
+	auto* const pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
+	switch (mode)
+	{
+	case GameMode::Normal:
+		for (Entity entity : m_Entities)
+		{
+			m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetTop();
+		}
+		break;
+	case GameMode::Coop:
+	{
+		int count = 0; // we assume we only have two players
+		for (Entity entity : m_Entities)
+		{
+			if (count == 0)
+			{
+				m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetSpawnQube(MovementMode::EscheresqueLeft);
+			}
+			else
+			{
+				m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetSpawnQube(MovementMode::EscheresqueRight);
+			}
+
+			count++;
+		}
+		break;
+	}
+	case GameMode::Versus:
+		break;
+	default:
+		break;
 	}
 
-	auto* const pLives = m_pRegistry->GetComponent<CharacterLives>(entity);
-	auto* const pPoints = m_pRegistry->GetComponent<CharacterPoint>(entity);
-	pLives->Reset();
-	pPoints->Reset();
+	for (Entity entity : m_Entities)
+	{
+		auto pQube = m_pRegistry->GetComponent<QubeComponent>(m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube);
+		pQube->Characters.insert(entity);
+
+		auto pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
+		pTransform->Translate(pQube->CharacterPos);
+	}
 }
 
 void QBertSystem::OnJumped(Entity qbertEntity)
@@ -138,67 +179,68 @@ void QBertSystem::OnJumped(Entity qbertEntity)
 
 void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_set<Entity> const& qubeCharacterEntities)
 {
-	Entity qbertEntity = *m_Entities.begin();
-
-	auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
-
-	if (!pMover->bCanMove)
+	for (Entity qbertEntity : m_Entities)
 	{
-		return;
-	}
+		auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
 
-	std::vector<Entity> enemies{};
-
-	if (characterEntity == qbertEntity)
-	{
-		std::copy(qubeCharacterEntities.begin(), qubeCharacterEntities.end(), std::back_inserter(enemies));
-	}
-	else if (qubeCharacterEntities.find(qbertEntity) != qubeCharacterEntities.end())
-	{
-		enemies.push_back(characterEntity);
-		for (Entity entity : qubeCharacterEntities)
-		{
-			if (entity != qbertEntity)
-			{
-				enemies.push_back(entity);
-			}
-		}
-	}
-	else
-	{
-		return;
-	}
-
-	for (Entity enemyEntity : enemies)
-	{
-		auto* const pController = m_pRegistry->GetComponent<AiControllerComponent>(enemyEntity);
-
-		if (!IS_VALID(pController))
+		if (!pMover->bCanMove)
 		{
 			return;
 		}
 
-		switch (pController->Type)
+		std::vector<Entity> enemies{};
+
+		if (characterEntity == qbertEntity)
 		{
-		case EnemyType::Coily:
-			if (m_pRegistry->GetComponent<CoilyComponent>(enemyEntity)->IsActive())
+			std::copy(qubeCharacterEntities.begin(), qubeCharacterEntities.end(), std::back_inserter(enemies));
+		}
+		else if (qubeCharacterEntities.find(qbertEntity) != qubeCharacterEntities.end())
+		{
+			enemies.push_back(characterEntity);
+			for (Entity entity : qubeCharacterEntities)
 			{
-				m_pRegistry->GetComponentInChildren<RendererComponent>(qbertEntity)->SetActive(true);
-				m_pRegistry->GetComponent<MovementComponent>(qbertEntity)->bCanMove = false;
-
-				auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(qbertEntity);
-				pQBert->pSwearSound->Play();
-				pQBert->bOnResetCoolDown = true;
-
-				OnQBertEncounteredEnemy.Notify();
+				if (entity != qbertEntity)
+				{
+					enemies.push_back(entity);
+				}
 			}
-			break;
-		case EnemyType::SlickSam:
-			m_pRegistry->GetComponent<CharacterLives>(enemyEntity)->Die();
-			m_pRegistry->GetComponent<CharacterPoint>(qbertEntity)->AddPoints(pController->PointsForKill);
-			break;
-		default:
-			break;
+		}
+		else
+		{
+			return;
+		}
+
+		for (Entity enemyEntity : enemies)
+		{
+			auto* const pController = m_pRegistry->GetComponent<AiControllerComponent>(enemyEntity);
+
+			if (!IS_VALID(pController))
+			{
+				return;
+			}
+
+			switch (pController->Type)
+			{
+			case EnemyType::Coily:
+				if (m_pRegistry->GetComponent<CoilyComponent>(enemyEntity)->IsActive())
+				{
+					m_pRegistry->GetComponentInChildren<RendererComponent>(qbertEntity)->SetActive(true);
+					m_pRegistry->GetComponent<MovementComponent>(qbertEntity)->bCanMove = false;
+
+					auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(qbertEntity);
+					pQBert->pSwearSound->Play();
+					pQBert->bOnResetCoolDown = true;
+
+					OnQBertEncounteredEnemy.Notify();
+				}
+				break;
+			case EnemyType::SlickSam:
+				m_pRegistry->GetComponent<CharacterLives>(enemyEntity)->Die();
+				m_pRegistry->GetComponent<CharacterPoint>(qbertEntity)->AddPoints(pController->PointsForKill);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

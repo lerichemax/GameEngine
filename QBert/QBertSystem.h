@@ -2,6 +2,7 @@
 #include "System.h"
 #include "Event.h"
 
+enum class GameMode;
 class Registry;
 class QBertSystem : public System 
 {
@@ -13,6 +14,8 @@ public:
 	 void Serialize(StreamWriter& writer) const override;
 
 	 void Reset(bool fullReset, Entity targetQubeEntity);
+
+	 void SetQubes(GameMode mode);
 
 protected:
 	void Start() override;

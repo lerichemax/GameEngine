@@ -1,21 +1,14 @@
 #pragma once
-#include "QBertScene.h"
+#include "Scene.h"
 
 class TextRendererComponent;
 class Coily;
-class VersusScene final : public QBertScene
+class VersusScene final : public Scene
 {
 public:
 	VersusScene();
 
-	void ResetScene(Level newLevel) override;
-
-private:
-	Coily* m_pCoilyPlayer;
-	TextRendererComponent* m_pRoundText;
-	TextRendererComponent* m_pTextP1;
-	TextRendererComponent* m_pTextP2;
+protected:
 
 	void Initialize() override;
-	void DeclareInput()override;
 };

@@ -8,7 +8,7 @@ public:
 	LivesSystem() = default;
 
 	EventHandler<LivesSystem, Entity, int> OnDied;
-	EventHandler<LivesSystem> OnGameOver;
+	EventHandler<LivesSystem> OnPlayerDied;
 
 	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;

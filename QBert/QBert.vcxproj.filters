@@ -3,27 +3,6 @@
   <ItemGroup>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="QBertScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Coily.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="SlickSam.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="WrongWay.cpp">
-      <Filter>GameScripts\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -39,12 +18,6 @@
     <ClCompile Include="VersusScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyCharacterController.cpp">
-      <Filter>GameScripts\AIControllers</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilyCharacterController.cpp">
-      <Filter>GameScripts\AIControllers</Filter>
-    </ClCompile>
     <ClCompile Include="SwitchTextColor.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -56,33 +29,6 @@
     </ClCompile>
     <ClCompile Include="ReloadSceneCommand.cpp">
       <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="SlickSamManager.cpp">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="WrongWayManager.cpp">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilyManager.cpp">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClCompile>
-    <ClCompile Include="OnQubeState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpingState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClCompile>
-    <ClCompile Include="FallingState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyOnQubeState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilyOnQubeState.cpp">
-      <Filter>GameScripts\Characters\States</Filter>
     </ClCompile>
     <ClCompile Include="UIManagerSystem.cpp">
       <Filter>GameScripts\Systems\Managers</Filter>
@@ -168,27 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="QBertScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Coily.h">
-      <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="SlickSam.h">
-      <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="WrongWay.h">
-      <Filter>GameScripts\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenuScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -204,12 +129,6 @@
     <ClInclude Include="VersusScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyCharacterController.h">
-      <Filter>GameScripts\AIControllers</Filter>
-    </ClInclude>
-    <ClInclude Include="CoilyCharacterController.h">
-      <Filter>GameScripts\AIControllers</Filter>
-    </ClInclude>
     <ClInclude Include="SwitchTextColor.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -221,33 +140,6 @@
     </ClInclude>
     <ClInclude Include="ReloadSceneCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="SlickSamManager.h">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="WrongWayManager.h">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CoilyManager.h">
-      <Filter>GameScripts\Systems\Managers\EnemyManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterState.h">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="OnQubeState.h">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpingState.h">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="FallingState.h">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyOnQubeState.h">
-      <Filter>GameScripts\Characters\States</Filter>
-    </ClInclude>
-    <ClInclude Include="CoilyOnQubeState.h">
-      <Filter>GameScripts\Characters\States</Filter>
     </ClInclude>
     <ClInclude Include="UIManagerSystem.h">
       <Filter>GameScripts\Systems\Managers</Filter>
@@ -344,15 +236,6 @@
     <Filter Include="GameScripts">
       <UniqueIdentifier>{7e07bb5e-141e-4c21-9ce5-8eaa303c8c65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameScripts\Characters">
-      <UniqueIdentifier>{3cf96f01-a495-4865-aab3-854843a64230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameScripts\AIControllers">
-      <UniqueIdentifier>{cc14cbc8-d8c9-46ed-b121-99cb91d9b2f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameScripts\Characters\States">
-      <UniqueIdentifier>{3c0620e3-e2f0-45bb-bc9a-fa52b160d00e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScripts\Components">
       <UniqueIdentifier>{c4cf47e3-cbeb-4834-93da-dcf393c74f40}</UniqueIdentifier>
     </Filter>
@@ -361,9 +244,6 @@
     </Filter>
     <Filter Include="GameScripts\Systems\Managers">
       <UniqueIdentifier>{ce08548e-336f-44fa-b4b3-7942baf66b4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameScripts\Systems\Managers\EnemyManagers">
-      <UniqueIdentifier>{2f48b83b-58f0-41b8-a67e-e822cfac4770}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameScripts\Components\Characters">
       <UniqueIdentifier>{d4ca26f8-6bae-44e4-8a80-121d8c449db3}</UniqueIdentifier>

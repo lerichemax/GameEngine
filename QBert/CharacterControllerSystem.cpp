@@ -27,19 +27,19 @@ void CharacterControllerSystem::Update()
 			return;
 		}
 
-		if (InputManager::Get().IsUp(SDL_SCANCODE_D))
+		if (InputManager::Get().IsUp(pCharacterControl->Right))
 		{
 			pCharacterMovement->CurrentDirection = ConnectionDirection::downRight;
 		}
-		else if (InputManager::Get().IsUp(SDL_SCANCODE_S))
+		else if (InputManager::Get().IsUp(pCharacterControl->Down))
 		{
 			pCharacterMovement->CurrentDirection = ConnectionDirection::downLeft;
 		} 
-		else if (InputManager::Get().IsUp(SDL_SCANCODE_A)) // fix azerty
+		else if (InputManager::Get().IsUp(pCharacterControl->Left)) // fix azerty
 		{
 			pCharacterMovement->CurrentDirection = ConnectionDirection::upLeft;
 		}
-		else if (InputManager::Get().IsUp(SDL_SCANCODE_W)) // fix azerty
+		else if (InputManager::Get().IsUp(pCharacterControl->Up)) // fix azerty
 		{
 			pCharacterMovement->CurrentDirection = ConnectionDirection::upRight;
 		}

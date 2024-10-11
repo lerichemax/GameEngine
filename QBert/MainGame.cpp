@@ -59,8 +59,8 @@ void MainGame::InitGame() const
 {	
 	SceneManager::Get().AddScene(new MainMenuScene{});
 	SceneManager::Get().AddScene(new SoloScene{});
-	//SceneManager::Get().AddScene(new CoopScene{});
-	//SceneManager::Get().AddScene(new VersusScene{});
+	SceneManager::Get().AddScene(new CoopScene{});
+	SceneManager::Get().AddScene(new VersusScene{});
 	SceneManager::Get().LoadScene("MainMenuScene");
 }
 
@@ -118,9 +118,14 @@ void MainGame::CreatePrefabs() const
 	pQbertComp->pFallSound = fallSoundPtr;
 	pQbertComp->pSwearSound = swearSoundPtr;
 	pQbertComp->pJumpSound = jumpSoundPtr;
+	pQbertComp->PlayerNumber = 1;
 
+	auto pCharacterController = pQbertObj->AddComponent<CharacterControllerComponent>();
+	pCharacterController->Right = SDL_SCANCODE_D;
+	pCharacterController->Left = SDL_SCANCODE_Q;
+	pCharacterController->Up = SDL_SCANCODE_Z;
+	pCharacterController->Down = SDL_SCANCODE_S;
 
-	pQbertObj->AddComponent<CharacterControllerComponent>();
 	auto* const pCharacterMovement = pQbertObj->AddComponent<MovementComponent>();
 	pCharacterMovement->SetTextureIdleNames("Textures/QBert/QBert1_DownRight_Qube.png", "Textures/QBert/QBert1_DownLeft_Qube.png",
 		"Textures/QBert/QBert1_UpRight_Qube.png", "Textures/QBert/QBert1_UpLeft_Qube.png");
@@ -134,7 +139,6 @@ void MainGame::CreatePrefabs() const
 
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
-	pCollider->bDraw = true;
 	pCollider->bIsTrigger = true;
 
 	auto pHurtTextObj = qbertPrefab->CreateGameObject();
@@ -194,7 +198,6 @@ void MainGame::CreatePrefabs() const
 
 	pCollider = pUggobject->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
-	pCollider->bDraw = true;
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -224,7 +227,6 @@ void MainGame::CreatePrefabs() const
 
 	pCollider = pWrongWayObject->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pWrongWayObject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
-	pCollider->bDraw = true;
 
 	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;

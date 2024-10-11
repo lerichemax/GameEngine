@@ -11,7 +11,7 @@ CharacterPoint::CharacterPoint()
 void CharacterPoint::AddPoints(int nbrPoint)
 { 
 	m_NbrPoints += nbrPoint; 
-	OnPointsUpdated.Notify(m_NbrPoints); 
+	OnPointsUpdated.Notify(m_NbrPoints, GetEntity()); 
 }
 
 void CharacterPoint::Serialize(StreamWriter& writer) const

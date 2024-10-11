@@ -1,18 +1,13 @@
 #pragma once
-#include "QBertScene.h"
 #include "Scene.h"
 
-class CoopScene  final : public QBertScene
+class CoopScene  final : public Scene
 {
 public:
 	CoopScene();
-	
 
-	void ResetScene(Level newLevel) override;
+	//void ResetScene(Level newLevel);
 
-private:
-	QBert* m_pQbertP2;
-
+protected:
 	void Initialize() override;
-	void DeclareInput()  override;
 };
