@@ -4,6 +4,7 @@
 struct CharacterControllerComponent : public Component
 {
 	void Serialize(StreamWriter& writer) const override;
+	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 	bool m_BlockInput = false;
 

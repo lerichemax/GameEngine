@@ -22,6 +22,7 @@ public:
 	template <ComponentDerived T> T* const GetComponent(Entity entity) const;
 	template <ComponentDerived T> std::vector<T*> GetComponents(Entity entity) const;
 	template <ComponentDerived T> T* const FindComponentOfType() const;
+	template <ComponentDerived T> std::vector<T*> const FindComponentsOfType() const;
 	template <ComponentDerived T> T* const GetComponentInChildren(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
 

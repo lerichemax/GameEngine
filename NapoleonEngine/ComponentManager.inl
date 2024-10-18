@@ -72,6 +72,14 @@ T* const ComponentManager::FindComponentOfType()
 	return nullptr;
 }
 
+template<ComponentDerived T>
+std::vector<T*> const ComponentManager::FindComponentsOfType()
+{
+	auto compArray = GetComponentArray<T>();
+
+	return compArray->GetAllData();
+}
+
 
 template <ComponentDerived T>
 ComponentArray<T>* const ComponentManager::GetComponentArray()

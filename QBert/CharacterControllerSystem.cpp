@@ -24,7 +24,7 @@ void CharacterControllerSystem::Update()
 		
 		if (!pCharacterMovement->bCanMove)
 		{
-			return;
+			continue;
 		}
 
 		if (InputManager::Get().IsUp(pCharacterControl->Right))

@@ -13,24 +13,27 @@ void UIManagerSystem::Start()
 {
 	Entity entity = *m_Entities.cbegin();
 
-	FindComponentOfType<CharacterPoint>()->OnPointsUpdated.Subscribe([this, entity](int points, Entity playerEntity) {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+	for (CharacterPoint* pPointComp : m_pRegistry->FindComponentsOfType<CharacterPoint>())
+	{
+		pPointComp->OnPointsUpdated.Subscribe([this, entity](int points, Entity playerEntity) {
+			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
 
-		auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(playerEntity);
+			auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(playerEntity);
 
-		if (pQBert->PlayerNumber == 1)
-		{
-			auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntity);
+			if (pQBert->PlayerNumber == 1)
+			{
+				auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntity);
 
-			pText->SetText("P1 Points: " + std::to_string(points));
-		}
-		else if (pQBert->PlayerNumber == 2 && pUiComp->PointsCounterTextEntityP2 != NULL_ENTITY)
-		{
-			auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntityP2);
+				pText->SetText("P1 Points: " + std::to_string(points));
+			}
+			else if (pQBert->PlayerNumber == 2 && pUiComp->PointsCounterTextEntityP2 != NULL_ENTITY)
+			{
+				auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntityP2);
 
-			pText->SetText("P2 Points: " + std::to_string(points));
-		}
-	});
+				pText->SetText("P2 Points: " + std::to_string(points));
+			}
+		});
+	}
 
 	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
 
@@ -42,7 +45,7 @@ void UIManagerSystem::Start()
 
 		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
 
-		auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(entity);
+		auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(deadEntity);
 
 		if (pQBert->PlayerNumber == 1)
 		{

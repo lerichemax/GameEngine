@@ -107,6 +107,19 @@ std::vector<T*> ComponentArray<T>::GetAllData(Entity entity)
 	return toReturn;
 }
 
+template<ComponentDerived T>
+std::vector<T*> ComponentArray<T>::GetAllData()
+{
+	std::vector<T*> toReturn;
+
+	for (size_t i = 0; i < m_Size; i++)
+	{
+		toReturn.push_back(m_Components[i].get());
+	}
+
+	return toReturn;
+}
+
 
 template<ComponentDerived T>
 void ComponentArray<T>::EntityDestroyed(Entity entity)

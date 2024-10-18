@@ -3,11 +3,13 @@
 #include "QBertSystem.h"
 #include "PyramidSystem.h"
 #include "LivesSystem.h"
+#include "EnemySpawnerSystem.h"
 
 #include "TextRendererComponent.h"
 #include "RendererComponent.h"
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
+#include "QbertComponent.h"
 
 #include "Timer.h"
 #include "InputManager.h"
@@ -103,7 +105,17 @@ void GameManagerSystem::Start()
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
 	m_pQbert = m_pRegistry->GetSystem<QBertSystem>();
 
-	m_pQbert->SetQubes(m_GameMode);
+	m_pQbert->SetStartQubes(m_GameMode);
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			if (m_GameMode == GameMode::Normal)
+			{
+				m_pRegistry->GetSystem<EnemySpawnerSystem>()->Reset();
+			}
+		}
+	});
 
 	if (m_pPyramid != nullptr)
 	{
@@ -166,7 +178,7 @@ void GameManagerSystem::SetGameMode(GameMode mode)
 void GameManagerSystem::ResetGame()
 {
 	m_pPyramid->Reset(m_Level);
-	m_pQbert->Reset(false, m_pPyramid->GetTop());
+	m_pQbert->Reset(m_GameMode);
 	m_NbrPlayerDead = 0;
 }
 

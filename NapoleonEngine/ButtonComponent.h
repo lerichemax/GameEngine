@@ -22,9 +22,9 @@ public:
 	template<CommandDerived T> void SetOnSelectFunction(T* func);
 	template<CommandDerived T> void SetOnDeselectFunction(T* func);
 
-	glm::vec2 m_Dimensions;
+	glm::vec2 Dimensions;
 
-	bool m_bVisualize;
+	bool bVisualize;
 
 	EventHandler<ButtonComponent> OnSelect;
 	EventHandler<ButtonComponent> OnDeselect;

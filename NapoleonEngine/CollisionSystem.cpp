@@ -5,7 +5,7 @@
 
 void CollisionSystem::Update()
 {
-	for (Entity entity : m_Entities) // slow
+	for (Entity entity : m_Entities)
 	{
 		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
 		if (!pCollider->IsActive())
@@ -20,6 +20,15 @@ void CollisionSystem::Update()
 		if (pCollider->bDraw)
 		{
 			Debugger::Get().DrawDebugShape(pCollider->GetShape());
+		}
+	}
+
+	for (Entity entity : m_Entities) // slow ?
+	{
+		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
+		if (!pCollider->IsActive())
+		{
+			continue;
 		}
 
 		for (Entity otherEntity : m_Entities)

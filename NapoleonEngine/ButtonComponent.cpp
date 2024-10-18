@@ -8,9 +8,9 @@
 
 ButtonComponent::ButtonComponent()
 	:Component(true),
-	m_Dimensions(100, 50), //by default
+	Dimensions(100, 50), //by default
 	m_bIsSelected(false),
-	m_bVisualize(false),
+	bVisualize(false),
 	m_pOnClick(nullptr),
 	m_pOnSelect(nullptr),
 	m_pOnDeselect(nullptr)
@@ -20,8 +20,8 @@ ButtonComponent::ButtonComponent()
 void ButtonComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ButtonComponent)).hash_code()));
-	writer.WriteBool("visualize", m_bVisualize);
-	writer.WriteVector("dimension", m_Dimensions);
+	writer.WriteBool("visualize", bVisualize);
+	writer.WriteVector("dimension", Dimensions);
 
 	if (m_pOnClick != nullptr)
 	{
@@ -41,10 +41,10 @@ void ButtonComponent::Serialize(StreamWriter& writer) const
 
 void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	reader->ReadBool("visualize", m_bVisualize);
+	reader->ReadBool("visualize", bVisualize);
 	auto dimensionObject = reader->ReadObject("dimension");
-	dimensionObject->ReadDouble("x", m_Dimensions.x);
-	dimensionObject->ReadDouble("y", m_Dimensions.y);
+	dimensionObject->ReadDouble("x", Dimensions.x);
+	dimensionObject->ReadDouble("y", Dimensions.y);
 
 	auto onclickReader = reader->ReadObject("onClick");
 	if (onclickReader != nullptr && onclickReader->IsValid())

@@ -19,6 +19,8 @@
 
 #include "PauseGameCommand.h"
 
+#include "ResourceManager.h"
+
 
 CoopScene::CoopScene()
 	: Scene("CoopScene")
@@ -52,13 +54,14 @@ void CoopScene::Initialize()
 	pMovementComp->SetTextureJumpNames("Textures/QBert/QBert2_DownRight_Jump.png", "Textures/QBert/QBert2_DownLeft_Jump.png",
 		"Textures/QBert/QBert2_UpRight_Jump.png", "Textures/QBert/QBert2_UpLeft_Jump.png");
 
-	auto pCharacterController = pQbertObj2->AddComponent<CharacterControllerComponent>();
+	auto pCharacterController = pQbertObj2->GetComponent<CharacterControllerComponent>();
 	pCharacterController->Right = SDL_SCANCODE_RIGHT;
 	pCharacterController->Left = SDL_SCANCODE_LEFT;
 	pCharacterController->Up = SDL_SCANCODE_UP;
 	pCharacterController->Down = SDL_SCANCODE_DOWN;
 
 	pQbertObj2->GetComponent<QbertComponent>()->PlayerNumber = 2;
+	pQbertObj2->GetComponent<RendererComponent>()->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert2_DownLeft_Qube.png");
 
 	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(pQbertObj->GetComponent<CharacterLives>()->NbrLives));
 
@@ -97,15 +100,7 @@ void CoopScene::Initialize()
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
-	//	Coily
-	auto pCoilySpawnerObj = CreateGameObject();
-	pSpawnerComp = pCoilySpawnerObj->AddComponent<EnemySpawnerComponent>();
-	pSpawnerComp->MaxEnemies = 1;
-	pSpawnerComp->SpawnInterval = 10;
-	pSpawnerComp->Type = EnemyType::Coily;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
-
-	//	Ugg
+	//	Ugg + wrong way
 	auto pUggObject = CreateGameObject();
 	pSpawnerComp = pUggObject->AddComponent<EnemySpawnerComponent>();
 	pSpawnerComp->MaxEnemies = 2;
@@ -122,23 +117,3 @@ void CoopScene::Initialize()
 	Instantiate("FPSCounter");
 	GetCameraObject()->GetTransform()->Translate(450, 300);
 }
-
-//void CoopScene::ResetGame()
-//{
-//	m_Level = Level::Level1;
-//	//m_pPyramid->Reset();
-//
-//	for (EnemyManager* pManager : m_pEnemyManagers)
-//	{
-//		pManager->Reset();
-//		pManager->ResetTimer();
-//	}
-//	
-//	m_pQbert->GetEntity()->SetActive(true);
-//	m_pQbertP2->GetEntity()->SetActive(true);
-//	//m_pQbert->Reset(true, m_pPyramid->GetEscheresqueLeftTop());
-//	//m_pQbertP2->Reset(true, m_pPyramid->GetEscheresqueRightTop());
-//	SetIsPaused(false);
-//	m_pPauseMenu->SetActive(false);
-//	m_pGameOverMenu->SetActive(false);
-//}

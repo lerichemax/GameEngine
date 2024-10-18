@@ -24,6 +24,7 @@ public:
 	template<ComponentDerived T> T* const GetComponent(Entity entity);
 	template<ComponentDerived T> std::vector<T*> GetComponents(Entity entity);
 	template<ComponentDerived T> T* const FindComponentOfType();
+	template<ComponentDerived T> std::vector<T*> const FindComponentsOfType();
 	
 	void EntityDestroyed(Entity entity);
 	std::vector<Component*> GetComponentsForSignature(Entity entity, Signature signature);

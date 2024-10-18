@@ -20,10 +20,10 @@ void UiSystem::Update()
 
 		auto transform = m_pRegistry->GetComponent<TransformComponent>(entity);
 
-		if (btn->m_bVisualize)
+		if (btn->bVisualize)
 		{
 			Debugger::Get().DrawDebugRectangle(transform->GetLocation(),
-				static_cast<unsigned int>(btn->m_Dimensions.x), static_cast<unsigned int>(btn->m_Dimensions.y),
+				static_cast<unsigned int>(btn->Dimensions.x), static_cast<unsigned int>(btn->Dimensions.y),
 				Color{ 255,0,0,1 });
 		}
 		glm::vec2 const mousePos = InputManager::Get().GetMousePosition();
@@ -31,8 +31,8 @@ void UiSystem::Update()
 
 		GameObject btnObject{ btn->GetEntity(), m_pRegistry };
 
-		if (mousePos.x >= Pos.x && mousePos.x <= Pos.x + btn->m_Dimensions.x &&
-			mousePos.y >= Pos.y && mousePos.y <= Pos.y + btn->m_Dimensions.y)
+		if (mousePos.x >= Pos.x && mousePos.x <= Pos.x + btn->Dimensions.x &&
+			mousePos.y >= Pos.y && mousePos.y <= Pos.y + btn->Dimensions.y)
 		{
 			if (!btn->m_bIsSelected && btn->m_pOnSelect)
 			{

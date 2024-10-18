@@ -13,9 +13,10 @@ public:
 
 	 void Serialize(StreamWriter& writer) const override;
 
-	 void Reset(bool fullReset, Entity targetQubeEntity);
+	 void ResetToCurrentQube(Entity qbertEntity);
+	 void Reset(GameMode gameMode);
 
-	 void SetQubes(GameMode mode);
+	 void SetStartQubes(GameMode mode);
 
 protected:
 	void Start() override;
@@ -28,4 +29,6 @@ private:
 	void OnFell(Entity qbertEntity);
 	void JumpOffDisk(Entity qbertEntity);
 	void GetHurt(Entity qbertEntity);
+
+	void SetToQube(Entity qbertEntity, Entity qubeEntity);
 };

@@ -48,6 +48,12 @@ T* const Registry::FindComponentOfType() const
 }
 
 template <ComponentDerived T>
+std::vector<T*> const Registry::FindComponentsOfType() const
+{
+	return m_pComponentManager->FindComponentsOfType<T>();
+}
+
+template <ComponentDerived T>
 T* const Registry::GetComponentInChildren(Entity entity) const
 {
 	T* compToReturn;

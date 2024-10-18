@@ -18,6 +18,7 @@ void LivesSystem::Update()
 			if (pLivesComp->NbrLives <= 0 && m_pRegistry->HasTag(entity, QBERT_TAG))
 			{
 				OnPlayerDied.Notify();
+				m_pRegistry->SetEntityHierarchyActive(entity, false);
 			}
 		}
 	}

@@ -13,6 +13,8 @@ public:
 	void SetSignature() const override;
 	void Serialize(StreamWriter& writer) const override;
 
+	void Reset();
+
 	EventHandler<EnemySpawnerSystem, Entity> OnEnemySpawned;
 
 protected:
@@ -26,5 +28,4 @@ private:
 
 	bool bIsPaused;
 
-	void Reset();
 };

@@ -20,6 +20,10 @@ void EnemySpawnerSystem::Start()
 {
 	m_pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
 
+	m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+		Reset();
+		});
+
 	for (Entity entity : m_Entities)
 	{
 		auto* const pSpawner = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
@@ -48,21 +52,7 @@ void EnemySpawnerSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
-		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
-		{
-			for (Entity entity : m_Entities)
-			{
-				auto* const pSpawner = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
-
-				for (Entity enemyEntity : pSpawner->SpawnedEnemies)
-				{
-					m_pRegistry->SetEntityActive(enemyEntity, false);
-				}
-				pSpawner->NbrEnemies = 0;
-				pSpawner->EnemySpawnTimer = 0;
-			}
-		}
-		else 
+		if (!m_pRegistry->HasTag(deadEntity, QBERT_TAG))
 		{
 			auto* const pAiController = m_pRegistry->GetComponent<AiControllerComponent>(deadEntity);
 			auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pAiController](Entity managedEntity) {

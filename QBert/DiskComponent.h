@@ -15,7 +15,7 @@ struct DiskComponent : public Component
 
 	float DropTimer;
 
-	bool bHasQbert;
+	Entity QbertEntity{NULL_ENTITY};
 	bool bHasReachedTop;
 
 	void Serialize(StreamWriter& writer) const override;

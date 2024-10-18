@@ -68,20 +68,17 @@ void QubeSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
-		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		for (Entity entity : m_Entities)
 		{
-			for (Entity entity : m_Entities)
+			auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
+			if (pQube->Characters.contains(deadEntity) && m_pRegistry->HasTag(deadEntity, QBERT_TAG))
 			{
-				auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
-				if (pQube->Characters.contains(deadEntity))
-				{
-					pQube->Characters.clear();
-					pQube->Characters.insert(deadEntity);
-				}
-				else
-				{
-					pQube->Characters.clear();
-				}
+				pQube->Characters.clear();
+				pQube->Characters.insert(deadEntity);
+			}
+			else
+			{
+				pQube->Characters.clear();
 			}
 		}
 	});

@@ -30,13 +30,12 @@ void Timer::Update()
 	
 	if (m_TimeScale > 0.f)
 	{
-		m_FPS = int(1 / m_DeltaTime);
+		m_FPS = static_cast<int>(1 / m_DeltaTime);
 	}
 	else
 	{
 		m_FPS = 0;
 	}
-	
 }
 
 void Timer::Sleep()

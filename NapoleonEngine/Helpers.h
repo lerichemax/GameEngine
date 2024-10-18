@@ -67,3 +67,9 @@ inline T* const FindComponentOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
 }
+
+template <ComponentDerived T>
+inline T* const FindComponentsOfType()
+{
+	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentsOfType<T>();
+}

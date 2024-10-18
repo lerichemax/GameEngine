@@ -37,7 +37,7 @@ void MainMenuScene::Initialize()
 	pSoloBtn->AddComponent<RendererComponent>()->Layer = 10;
 
 	auto btn = pSoloBtn->AddComponent<ButtonComponent>();
-	btn->m_Dimensions = { 70,30 };
+	btn->Dimensions = { 70,30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
@@ -53,7 +53,7 @@ void MainMenuScene::Initialize()
 	coopBtn->AddComponent<RendererComponent>()->Layer = 10;
 
 	btn = coopBtn->AddComponent<ButtonComponent>();
-	btn->m_Dimensions = { 80, 30 };
+	btn->Dimensions = { 80, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
@@ -69,7 +69,7 @@ void MainMenuScene::Initialize()
 	vsBtn->AddComponent<RendererComponent>()->Layer = 10;
 
 	btn = vsBtn->AddComponent<ButtonComponent>();
-	btn->m_Dimensions = { 92, 30 };
+	btn->Dimensions = { 92, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
@@ -85,7 +85,7 @@ void MainMenuScene::Initialize()
 	quitBtn->AddComponent<RendererComponent>()->Layer = 10;
 
 	btn = quitBtn->AddComponent<ButtonComponent>();
-	btn->m_Dimensions = { 70, 30 };
+	btn->Dimensions = { 70, 30 };
 	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new QuitGameCommand{  });

@@ -29,7 +29,7 @@ void DiskSystem::Update()
 	for (Entity entity : m_Entities)
 	{
 		auto* const pDiskComp = m_pRegistry->GetComponent<DiskComponent>(entity);
-		if (!pDiskComp->IsActive() || !pDiskComp->bHasQbert)
+		if (!pDiskComp->IsActive() || pDiskComp->QbertEntity == NULL_ENTITY)
 		{
 			continue;
 		}
@@ -60,7 +60,7 @@ void DiskSystem::Update()
 			{
 				OnDiskReachedTop.Notify(entity);
 				m_pRegistry->SetEntityActive(entity, false);
-				pDiskComp->bHasQbert = false;
+				pDiskComp->QbertEntity = NULL_ENTITY;
 				pDiskComp->bHasReachedTop = false;
 				pDiskComp->DropTimer = 0;
 			}

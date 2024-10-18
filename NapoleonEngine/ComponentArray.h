@@ -42,6 +42,7 @@ public:
 	bool TryGetAllBaseData(Entity entity, std::vector<Component*>&) override;
 	T* const GetData(Entity entity);
 	std::vector<T*> GetAllData(Entity entity);
+	std::vector<T*> GetAllData();
 	void EntityDestroyed(Entity entity) override;
 
 protected:

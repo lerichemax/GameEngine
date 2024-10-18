@@ -122,8 +122,8 @@ void MainGame::CreatePrefabs() const
 
 	auto pCharacterController = pQbertObj->AddComponent<CharacterControllerComponent>();
 	pCharacterController->Right = SDL_SCANCODE_D;
-	pCharacterController->Left = SDL_SCANCODE_Q;
-	pCharacterController->Up = SDL_SCANCODE_Z;
+	pCharacterController->Left = SDL_SCANCODE_A;
+	pCharacterController->Up = SDL_SCANCODE_W;
 	pCharacterController->Down = SDL_SCANCODE_S;
 
 	auto* const pCharacterMovement = pQbertObj->AddComponent<MovementComponent>();
@@ -140,6 +140,7 @@ void MainGame::CreatePrefabs() const
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
 	pCollider->bIsTrigger = true;
+	pCollider->bDraw = true;
 
 	auto pHurtTextObj = qbertPrefab->CreateGameObject();
 
@@ -198,6 +199,7 @@ void MainGame::CreatePrefabs() const
 
 	pCollider = pUggobject->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->bDraw = true;
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -209,7 +211,6 @@ void MainGame::CreatePrefabs() const
 	pUggPrefab->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pUggPrefab, "Ugg");
-
 
 	auto pWrongWayPrefab = pPrefabManager.CreatePrefab();
 	auto pWrongWayObject = pWrongWayPrefab->GetRoot();
@@ -227,6 +228,7 @@ void MainGame::CreatePrefabs() const
 
 	pCollider = pWrongWayObject->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pWrongWayObject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->bDraw = true;
 
 	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -238,12 +240,6 @@ void MainGame::CreatePrefabs() const
 	pWrongWayPrefab->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pWrongWayPrefab, "WrongWay");
-
-	//wrongWayObject->AddComponent<ECS_RendererComponent>(wrongWayRenderer);
-	////wrongWayPrefab->AddComponent(new WrongWayJumper{});
-	////wrongWayPrefab->AddComponent(new EnemyCharacterController{});
-	////wrongWayPrefab->AddComponent(new BoxCollider{ 32,32 });
-	//wrongWayObject->GetTransform()->Scale(2.f);
 
 	//Coily prefab
 	auto pCoilyPrefab = pPrefabManager.CreatePrefab();
@@ -259,7 +255,7 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/Coily/Coily_Egg_Big.png", "Textures/Enemies/Coily/Coily_Egg_Big.png", "", "");
 	pMover->Mode = MovementMode::Normal;
 
-	pCoilyObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
+	pCoilyObject->AddComponent<JumpComponent>()->Direction = { 0, -1 };;
 	pCoilyObject->AddComponent<CharacterLives>()->Init(1);
 
 	pAiController = pCoilyObject->AddComponent<AiControllerComponent>();
@@ -288,7 +284,7 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Slick_Up_Right.png", "Textures/Enemies/SlickSam/Slick_Up_Left","", "");
 	pMover->Mode = MovementMode::Normal;
 
-	pSlickObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
+	pSlickObject->AddComponent<JumpComponent>()->Direction = { 0, -1 };
 	pSlickObject->AddComponent<CharacterLives>()->Init(1);
 
 	pAiController = pSlickObject->AddComponent<AiControllerComponent>();
@@ -315,7 +311,7 @@ void MainGame::CreatePrefabs() const
 	pMover->SetTextureJumpNames("Textures/Enemies/SlickSam/Sam_Up_Right.png", "Textures/Enemies/SlickSam/Sam_Up_Left", "", "");
 	pMover->Mode = MovementMode::Normal;
 
-	pSamObject->AddComponent<JumpComponent>()->Direction = { 0, 1 };;
+	pSamObject->AddComponent<JumpComponent>()->Direction = { 0, -1 };
 	pSamObject->AddComponent<CharacterLives>()->Init(1);
 
 	pAiController = pSamObject->AddComponent<AiControllerComponent>();
@@ -371,7 +367,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 
 	auto resumeBtn = btnObj->AddComponent<ButtonComponent>();
-	resumeBtn->m_Dimensions = { 110, 30 };
+	resumeBtn->Dimensions = { 110, 30 };
 	resumeBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 
@@ -388,7 +384,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 
 	auto backBtn = btnObj->AddComponent<ButtonComponent>();
-	backBtn->m_Dimensions = { 110, 30 };
+	backBtn->Dimensions = { 254, 30 };
 	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
@@ -406,7 +402,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 
 	auto quitBtn = btnObj->AddComponent<ButtonComponent>();
-	quitBtn->m_Dimensions = { 65, 30 };
+	quitBtn->Dimensions = { 65, 30 };
 	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
@@ -416,7 +412,6 @@ void MainGame::CreatePrefabs() const
 	btnObj->SetTag("QuitBtn");
 
 	pPrefabManager.SavePrefab(menuPrefab, "PauseMenu");
-
 
 	//Game over menu (opaque)
 	auto quitMenuPrefab = pPrefabManager.CreatePrefab();
@@ -445,7 +440,7 @@ void MainGame::CreatePrefabs() const
 
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 	auto replayBtn = btnObj->AddComponent<ButtonComponent>();
-	replayBtn->m_Dimensions = { 100, 30 };
+	replayBtn->Dimensions = { 100, 30 };
 	replayBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	replayBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	replayBtn->SetOnClickFunction(new ReloadSceneCommand{});
@@ -464,7 +459,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 
 	backBtn = btnObj->AddComponent<ButtonComponent>();
-	backBtn->m_Dimensions = { 260, 30 };
+	backBtn->Dimensions = { 260, 30 };
 	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
@@ -483,7 +478,7 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 
 	quitBtn = btnObj->AddComponent<ButtonComponent>();
-	quitBtn->m_Dimensions = { 65, 30 };
+	quitBtn->Dimensions = { 65, 30 };
 	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
 	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
@@ -493,6 +488,4 @@ void MainGame::CreatePrefabs() const
 	btnObj->SetTag("QuitBtn");
 
 	pPrefabManager.SavePrefab(quitMenuPrefab, "GameOverMenu");
-
-	//delete json;
 }
