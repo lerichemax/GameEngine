@@ -17,6 +17,7 @@
 #include "QubeComponent.h"
 #include "RendererComponent.h"
 #include "DiskComponent.h"
+#include "CharacterControllerComponent.h"
 
 #include <thread>
 
@@ -46,13 +47,17 @@ void CoilySystem::Start()
 		}
 	});
 
-	m_pRegistry->GetSystem<EnemySpawnerSystem>()->OnEnemySpawned.Subscribe([this](Entity entity) {
-		auto* const pEnemy = m_pRegistry->GetComponent<CoilyComponent>(entity);
-		if (IS_VALID(pEnemy))
-		{
-			pEnemy->SetActive(false);
-		}
-	});
+	auto* const pSpawner = m_pRegistry->GetSystem<EnemySpawnerSystem>();
+	if (IS_VALID(pSpawner))
+	{
+		pSpawner->OnEnemySpawned.Subscribe([this](Entity entity) {
+			auto* const pEnemy = m_pRegistry->GetComponent<CoilyComponent>(entity);
+			if (IS_VALID(pEnemy))
+			{
+				pEnemy->SetActive(false);
+			}
+		});
+	}
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
 		auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
@@ -86,10 +91,13 @@ void CoilySystem::Update()
 		SearchForQbert(coilyEntity);
 	}
 
-	auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity);
-	auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(coilyEntity);
+	if (m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity)->IsActive())
+	{
+		auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity);
+		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(coilyEntity);
 
-	HandleAi(pMoveComp, pAiControllerComp);
+		HandleAi(pMoveComp, pAiControllerComp);
+	}
 }
 
 void CoilySystem::HandleJumpToDeath(Entity coilyEntity)
@@ -101,7 +109,9 @@ void CoilySystem::HandleJumpToDeath(Entity coilyEntity)
 		return;
 	}
 
-	if (!pCoily->IsActive())
+	auto* const pController = m_pRegistry->GetComponent<CharacterControllerComponent>(coilyEntity);
+
+	if (!pCoily->IsActive() && (IS_VALID(pController) && !pController->IsActive()))
 	{
 		HandleCoilyTransform(coilyEntity);
 		SearchForQbert(coilyEntity);
@@ -134,6 +144,8 @@ void CoilySystem::HandleCoilyTransform(Entity entity)
 
 	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(true);
 	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(false);
+
+	OnCoilyTransformed.Notify(entity);
 }
 
 void CoilySystem::ResetCoily(Entity entity)

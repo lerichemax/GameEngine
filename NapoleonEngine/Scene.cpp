@@ -156,7 +156,6 @@ void Scene::OnLoad()
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
 	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
-	//m_pShapeRenderer = m_pRegistry->RegisterSystem<ShapeRenderer>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
 	m_pCameraSystem = m_pRegistry->RegisterSystem<CameraSystem>();
 
@@ -169,7 +168,6 @@ void Scene::OnLoad()
 
 	m_bIsActive = true;
 	
-	DeclareInput();
 	Initialize();
 
 	size_t nbrSystems = m_pSystems.size();

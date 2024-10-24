@@ -9,6 +9,7 @@ void CharacterControllerComponent::Serialize(StreamWriter& writer) const
 	writer.WriteInt("left", static_cast<int>(Left));
 	writer.WriteInt("up", static_cast<int>(Up));
 	writer.WriteInt("down", static_cast<int>(Down));
+	writer.WriteInt("playerNbr", PlayerNumber);
 
 	Component::Serialize(writer);
 }
@@ -25,6 +26,8 @@ void CharacterControllerComponent::Deserialize(JsonReader const* reader, Seriali
 	Up = static_cast<SDL_Scancode>(tmpInt);
 	reader->ReadInt("down", tmpInt);
 	Down = static_cast<SDL_Scancode>(tmpInt);
+
+	reader->ReadInt("playerNbr", PlayerNumber);
 
 	Component::Deserialize(reader, context);
 }

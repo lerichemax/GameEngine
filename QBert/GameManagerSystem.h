@@ -1,20 +1,6 @@
 #pragma once
-
 #include "System.h"
 #include "Event.h"
-
-enum class GameEvent
-{
-	PlayerDied,
-	IncreasePoints,
-	JumpOnDisk,
-	JumpOffDisk,
-	GameOver,
-	CoilyDies,
-	SlickSamDies,
-	WrongWayDies,
-	PyramidCompleted
-};
 
 enum class Level
 {
@@ -31,33 +17,9 @@ enum class GameMode {
 
 
 class PyramidSystem;
-class CoilyManager;
-class SlickSamManager;
-class WrongWayManager;
-class QBert;
 class CharacterPoint;
 struct CharacterLives;
 class QBertSystem;
-class GameManager final
-{
-public:
-	GameManager(CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, unsigned int nbrPlayers = 1);
-	
-	void Notify(GameObject* object, int event);
-	void SetNbrPlayers(unsigned int nbr) { m_NbrPlayers = nbr; }
-
-private:
-
-	CoilyManager* m_pCManager;
-	SlickSamManager* m_pSSManager;
-	WrongWayManager* m_pWWManager;
-	
-	GameObject* m_pGameOver;
-	
-	unsigned int m_NbrPlayers;
-	unsigned int m_NbrDeadPlayers;
-};
-
 class GameManagerSystem : public System
 {
 public:
@@ -72,7 +34,7 @@ public:
 	void SetSignature() const override;
 
 	EventHandler<GameManagerSystem, bool> OnGamePaused;
-	EventHandler<GameManagerSystem> OnGameEnded;
+	EventHandler<GameManagerSystem, std::string const&> OnGameEnded;
 	EventHandler<GameManagerSystem> OnGameOver;
 
 protected:
@@ -93,4 +55,7 @@ private:
 
 	void ResetGame();
 	void HandleEndGame();
+	void SubscribeLifeSystem();
+	void HandleEndRound(bool bPlayer1Wins);
+	void ResetVersusCoily(Entity entity);
 };

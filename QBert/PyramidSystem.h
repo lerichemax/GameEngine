@@ -23,6 +23,7 @@ public:
 	Entity GetTop() const; 
 	Entity GetRandomTopQube() const;
 	Entity GetSpawnQube(MovementMode mode) const;
+	Entity GetQubeAtIndex(int index) const;
 	int GetQubeIndex(Entity qubeEntity) const;
 	
 	void Reset(Level level);

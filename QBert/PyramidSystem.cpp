@@ -176,6 +176,20 @@ Entity PyramidSystem::GetSpawnQube(MovementMode mode) const
 	return false;
 }
 
+Entity PyramidSystem::GetQubeAtIndex(int index) const
+{
+	Entity pyramidEntity = *m_Entities.begin();
+
+	auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(pyramidEntity);
+
+	if (pPyramid->Qubes.size() <= index)
+	{
+		return NULL_ENTITY;
+	}
+
+	return pPyramid->Qubes[index];
+}
+
 Entity PyramidSystem::GetEscheresqueLeftTop() const
 { 
 	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());

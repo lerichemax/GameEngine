@@ -127,7 +127,6 @@ private:
 
 	virtual void Initialize() {};
 	void Update();
-	virtual void DeclareInput() {};
 		
 	void OnLoad();
 	void CleanUpScene();

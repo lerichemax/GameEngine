@@ -4,94 +4,24 @@
 #include "PyramidSystem.h"
 #include "LivesSystem.h"
 #include "EnemySpawnerSystem.h"
+#include "CoilySystem.h"
+#include "QubeSystem.h"
 
 #include "TextRendererComponent.h"
 #include "RendererComponent.h"
 #include "CharacterPoint.h"
 #include "CharacterLives.h"
 #include "QbertComponent.h"
+#include "CoilyComponent.h"
+#include "AiControllerComponent.h"
+#include "CharacterControllerComponent.h"
+#include "MovementComponent.h"
+#include "QubeComponent.h"
 
 #include "Timer.h"
 #include "InputManager.h"
 
 #include <algorithm>
-
-GameManager::GameManager(CoilyManager* pCm, WrongWayManager* pWWm, SlickSamManager* pSSm, GameObject* pGameOver, 
-						unsigned int nbrPlayers)
-	:m_pCManager(pCm),
-	m_pSSManager(pSSm),
-	m_pWWManager(pWWm),
-	m_pGameOver(pGameOver),
-	m_NbrPlayers(nbrPlayers),
-	m_NbrDeadPlayers()
-{
-}
-
-void GameManager::Notify(GameObject* object, int event)
-{
-	switch (static_cast<GameEvent>(event))
-	{
-	case GameEvent::PlayerDied:
-	{
-		//auto pPlayer = object->GetComponent<QBert>();
-			
-		//UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
-
-		//if (m_pCManager !=nullptr) m_pCManager->Reset();
-		//if (m_pWWManager != nullptr) m_pWWManager->Reset();
-		//if (m_pSSManager != nullptr) m_pSSManager->Reset();
-		//	
-		//pPlayer->SetCurrentQube(pPlayer->GetCurrentQube());
-		//pPlayer->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
-		//pPlayer->SetCanMove();
-		
-		break;
-	}
-	case GameEvent::IncreasePoints:
-	{
-		//auto const pPlayer = object->GetComponent<QBert>();
-		//UpdatePointsText(object->GetComponent<CharacterPoint>(), pPlayer->GetPlayerNbr());
-	}
-	break;
-	case GameEvent::GameOver:
-	{
-		//auto pPlayer = object->GetComponent<QBert>();
-
-		//UpdateLivesText(object->GetComponent<CharacterLives>(), pPlayer->GetPlayerNbr());
-		object->SetActive(false);
-		m_NbrDeadPlayers++;
-		if (m_NbrDeadPlayers >= m_NbrPlayers)
-		{
-			Debugger::Get().Log("GAME OVER");
-			m_pGameOver->GetComponentInChildren<TextRendererComponent>()->SetText("Game Over");
-			Timer::Get().SetTimeScale(0);
-			m_pGameOver->SetActive(true);
-			m_NbrDeadPlayers = 0;
-		}
-		break;
-	}
-	//case GameEvent::JumpOnDisk:
-	//	if (m_pCManager != nullptr) m_pCManager->SetIdle(true);
-	//	
-	//	break;
-	//case GameEvent::JumpOffDisk:
-	//	if (m_pCManager != nullptr) m_pCManager->SetIdle(false);
-	//	break;
-	//case GameEvent::CoilyDies:
-	//	if (m_pCManager != nullptr) m_pCManager->EnemyDied(object->GetComponent<Coily>());
-	//	break;
-	//case GameEvent::SlickSamDies:
-	//	if (m_pSSManager != nullptr) m_pSSManager->EnemyDied(object->GetComponent<SlickSam>());
-	//	break;
-	//case GameEvent::WrongWayDies:
-	//	if (m_pWWManager != nullptr) m_pWWManagergma->EnemyDied(object->GetComponent<WrongWay>());
-	//	break;
-	case GameEvent::PyramidCompleted:
-		//auto const pPyramid = object->GetComponent<Pyramid>();
-		//pPyramid->GetQBert()->EarnPoints(pPyramid->GetNbrDisks() * DiskSystem::GetPoints());
-		break;
-	}
-}
 
 GameManagerSystem::GameManagerSystem()
 	:m_IsPaused{false}
@@ -107,24 +37,83 @@ void GameManagerSystem::Start()
 
 	m_pQbert->SetStartQubes(m_GameMode);
 
-	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int) {
-		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+	m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+		if (m_GameMode == GameMode::Versus)
 		{
-			if (m_GameMode == GameMode::Normal)
-			{
-				m_pRegistry->GetSystem<EnemySpawnerSystem>()->Reset();
-			}
+			HandleEndRound(true);
 		}
-	});
-
-	if (m_pPyramid != nullptr)
-	{
-		m_pPyramid->OnAllQubesFlipped.Subscribe([this](int) {
+		else
+		{
 			HandleEndGame();
+		}
+		});
+
+
+	SubscribeLifeSystem();
+
+	if (m_GameMode == GameMode::Versus)
+	{
+		m_pRegistry->GetSystem<CoilySystem>()->OnCoilyTransformed.Subscribe([this](Entity coilyEntity) {
+			m_pRegistry->GetComponent<CoilyComponent>(coilyEntity)->SetActive(false);
+			m_pRegistry->GetComponent<AiControllerComponent>(coilyEntity)->SetActive(false);
+			m_pRegistry->GetComponent<CharacterControllerComponent>(coilyEntity)->SetActive(true);
+		});
+
+		Entity coilyEntity = m_pRegistry->FindComponentOfType<CoilyComponent>()->GetEntity();
+		m_pRegistry->GetComponent<MovementComponent>(coilyEntity)->CurrentQube = m_pPyramid->GetQubeAtIndex(2);
+
+		m_pRegistry->GetComponent<CharacterPoint>(coilyEntity)->OnPointsUpdated.Subscribe([this](int points, Entity entity) {
+			if (points >= 3)
+			{
+				OnGameEnded.Notify("Player 2 wins");
+			}
+		});
+
+		Entity qBertEntity = m_pRegistry->FindComponentOfType<QbertComponent>()->GetEntity();
+		m_pRegistry->GetComponent<CharacterPoint>(qBertEntity)->OnPointsUpdated.Subscribe([this](int points, Entity entity) {
+			if (points >= 3)
+			{
+				OnGameEnded.Notify("Player 1 wins");
+			}
 			});
 	}
+	else
+	{
+		QubeSystem::OnAnyQubeFlipped.Subscribe([this]() {
+			m_pQbert->AddPoints(QubeComponent::POINTS_FOR_FLIP);
+			});
+	}
+}
 
-	m_pRegistry->GetSystem<LivesSystem>()->OnPlayerDied.Subscribe([this]() {
+void GameManagerSystem::SubscribeLifeSystem()
+{
+	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
+
+	pLivesSystem->OnDied.Subscribe([this](Entity deadEntity, int) {
+		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		{
+			switch (m_GameMode)
+			{
+			case GameMode::Normal:
+				m_pRegistry->GetSystem<EnemySpawnerSystem>()->Reset();
+				break;
+			case GameMode::Versus:
+				HandleEndRound(false);
+			break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			if (m_GameMode == GameMode::Versus)
+			{
+				HandleEndRound(true);
+			}
+		}
+		});
+
+	pLivesSystem->OnPlayerDied.Subscribe([this](Entity entity) {
 		if (m_GameMode == GameMode::Coop)
 		{
 			m_NbrPlayerDead++;
@@ -135,9 +124,50 @@ void GameManagerSystem::Start()
 		}
 
 		Timer::Get().SetTimeScale(0);
-		OnGameOver.Notify();
-	});
+		if (m_GameMode == GameMode::Versus)
+		{
+			if (m_pRegistry->HasTag(entity, QBERT_TAG))
+			{
+				HandleEndRound(false);
+			}
+			else
+			{
+				HandleEndRound(true);
+			}
+		}
+		else
+		{
+			OnGameOver.Notify();
+		}
+		});
+}
 
+void GameManagerSystem::HandleEndRound(bool bPlayer1Wins)
+{
+	Entity coilyEntity = m_pRegistry->FindComponentOfType<CoilyComponent>()->GetEntity();
+
+	if (bPlayer1Wins)
+	{
+		m_pQbert->AddPoints(1);
+	}
+	else
+	{
+		m_pRegistry->GetComponent<CharacterPoint>(coilyEntity)->AddPoints(1);
+	}
+	
+	ResetGame();
+	ResetVersusCoily(coilyEntity);
+	
+}
+
+void GameManagerSystem::ResetVersusCoily(Entity entity)
+{
+	m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = m_pPyramid->GetQubeAtIndex(2);
+	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(false);
+	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(true);
+	m_pRegistry->GetComponent<CharacterControllerComponent>(entity)->SetActive(false);
+
+	m_pRegistry->GetSystem<CoilySystem>()->ResetCoily(entity);
 }
 
 void GameManagerSystem::Update()
@@ -198,7 +228,7 @@ void GameManagerSystem::HandleEndGame()
 		break;
 	case Level::Level3:
 		Debugger::Get().Log("YOU FINISHED LEVEL 3!");
-		OnGameEnded.Notify();
+		OnGameEnded.Notify("You win");
 		Timer::Get().SetTimeScale(0.f);
 		break;
 	default:

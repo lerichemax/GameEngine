@@ -8,6 +8,8 @@ struct CharacterControllerComponent : public Component
 
 	bool m_BlockInput = false;
 
+	int PlayerNumber;
+
 	SDL_Scancode Right;
 	SDL_Scancode Left;
 	SDL_Scancode Up;

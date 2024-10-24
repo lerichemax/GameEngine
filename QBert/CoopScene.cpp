@@ -60,7 +60,7 @@ void CoopScene::Initialize()
 	pCharacterController->Up = SDL_SCANCODE_UP;
 	pCharacterController->Down = SDL_SCANCODE_DOWN;
 
-	pQbertObj2->GetComponent<QbertComponent>()->PlayerNumber = 2;
+	pQbertObj2->GetComponent<CharacterControllerComponent>()->PlayerNumber = 2;
 	pQbertObj2->GetComponent<RendererComponent>()->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert2_DownLeft_Qube.png");
 
 	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(pQbertObj->GetComponent<CharacterLives>()->NbrLives));
@@ -72,6 +72,7 @@ void CoopScene::Initialize()
 	
 	auto pTextPointsP2 = pPointsP2->GetComponent<TextRendererComponent>();
 	pTextPointsP2->SetTextColor(255, 0, 255);
+	pTextPointsP2->SetText("P2 Points: " + std::to_string(pQbertObj2->GetComponent<CharacterLives>()->NbrLives));
 	pPointsP2->GetTransform()->Translate(20.f, 100.f);
 
 	//Pause Menu

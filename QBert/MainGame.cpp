@@ -118,13 +118,13 @@ void MainGame::CreatePrefabs() const
 	pQbertComp->pFallSound = fallSoundPtr;
 	pQbertComp->pSwearSound = swearSoundPtr;
 	pQbertComp->pJumpSound = jumpSoundPtr;
-	pQbertComp->PlayerNumber = 1;
 
 	auto pCharacterController = pQbertObj->AddComponent<CharacterControllerComponent>();
 	pCharacterController->Right = SDL_SCANCODE_D;
 	pCharacterController->Left = SDL_SCANCODE_A;
 	pCharacterController->Up = SDL_SCANCODE_W;
 	pCharacterController->Down = SDL_SCANCODE_S;
+	pCharacterController->PlayerNumber = 1;
 
 	auto* const pCharacterMovement = pQbertObj->AddComponent<MovementComponent>();
 	pCharacterMovement->SetTextureIdleNames("Textures/QBert/QBert1_DownRight_Qube.png", "Textures/QBert/QBert1_DownLeft_Qube.png",
@@ -140,7 +140,6 @@ void MainGame::CreatePrefabs() const
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
 	pCollider->bIsTrigger = true;
-	pCollider->bDraw = true;
 
 	auto pHurtTextObj = qbertPrefab->CreateGameObject();
 
@@ -198,8 +197,6 @@ void MainGame::CreatePrefabs() const
 	pUggobject->AddComponent<CharacterLives>()->Init(1);
 
 	pCollider = pUggobject->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
-	pCollider->bDraw = true;
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -228,7 +225,6 @@ void MainGame::CreatePrefabs() const
 
 	pCollider = pWrongWayObject->AddComponent<ColliderComponent>();
 	pCollider->SetShape(new geo::Rectangle{ pWrongWayObject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
-	pCollider->bDraw = true;
 
 	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;

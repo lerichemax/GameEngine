@@ -7,7 +7,7 @@
 #include "CharacterLives.h"
 #include "TextRendererComponent.h"
 #include "UiManagerComponent.h"
-#include "QbertComponent.h"
+#include "CharacterControllerComponent.h"
 
 void UIManagerSystem::Start()
 {
@@ -18,15 +18,15 @@ void UIManagerSystem::Start()
 		pPointComp->OnPointsUpdated.Subscribe([this, entity](int points, Entity playerEntity) {
 			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
 
-			auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(playerEntity);
+			auto* const pCharacter = m_pRegistry->GetComponent<CharacterControllerComponent>(playerEntity);
 
-			if (pQBert->PlayerNumber == 1)
+			if (pCharacter->PlayerNumber == 1)
 			{
 				auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntity);
 
 				pText->SetText("P1 Points: " + std::to_string(points));
 			}
-			else if (pQBert->PlayerNumber == 2 && pUiComp->PointsCounterTextEntityP2 != NULL_ENTITY)
+			else if (pCharacter->PlayerNumber == 2 && pUiComp->PointsCounterTextEntityP2 != NULL_ENTITY)
 			{
 				auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->PointsCounterTextEntityP2);
 
@@ -38,22 +38,22 @@ void UIManagerSystem::Start()
 	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
 
 	pLivesSystem->OnDied.Subscribe([this, entity](Entity deadEntity, int lives) {
-		if (!m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		auto* const pCharacter = m_pRegistry->GetComponent<CharacterControllerComponent>(deadEntity);
+
+		if (!IS_VALID(pCharacter))
 		{
 			return;
 		}
 
 		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
 
-		auto* const pQBert = m_pRegistry->GetComponent<QbertComponent>(deadEntity);
-
-		if (pQBert->PlayerNumber == 1)
+		if (pCharacter->PlayerNumber == 1 && pUiComp->LivesCounterTextEntity != NULL_ENTITY)
 		{
 			auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->LivesCounterTextEntity);
 
 			pText->SetText("P1 Lives: " + std::to_string(lives));
 		}
-		else if (pQBert->PlayerNumber == 2 && pUiComp->LivesCounterTextEntityP2 != NULL_ENTITY)
+		else if (pCharacter->PlayerNumber == 2 && pUiComp->LivesCounterTextEntityP2 != NULL_ENTITY)
 		{
 			auto* const pText = m_pRegistry->GetComponent<TextRendererComponent>(pUiComp->LivesCounterTextEntityP2);
 
@@ -73,11 +73,11 @@ void UIManagerSystem::Start()
 		m_pRegistry->SetEntityHierarchyActive(pUiComp->PauseMenuEntity, isPaused);
 		});
 
-	pGameManager->OnGameEnded.Subscribe([this, entity]() {
+	pGameManager->OnGameEnded.Subscribe([this, entity](std::string const& endText) {
 		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
 		auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
 
-		pText->SetText("You Win");
+		pText->SetText(endText);
 
 		m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
 		});

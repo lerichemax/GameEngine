@@ -1,8 +1,6 @@
 #include "PCH.h"
 #include "CharacterPoint.h"
 
-EventHandler<CharacterPoint, int, Entity> CharacterPoint::OnPointsUpdated{};
-
 CharacterPoint::CharacterPoint()
 	:Component(true),
 	m_NbrPoints()

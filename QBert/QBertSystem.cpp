@@ -7,6 +7,7 @@
 #include "DiskSystem.h"
 #include "LivesSystem.h"
 #include "GameManagerSystem.h"
+#include "QubeSystem.h"
 
 #include "AudioComponent.h"
 #include "CharacterControllerComponent.h"
@@ -147,6 +148,10 @@ void QBertSystem::Reset(GameMode gameMode)
 		}
 		break;
 	case GameMode::Versus:
+		for (Entity entity : m_Entities)
+		{
+			SetToQube(entity, pPyramid->GetQubeAtIndex(1));
+		}
 		break;
 	default:
 		break;
@@ -172,7 +177,7 @@ void QBertSystem::SetStartQubes(GameMode mode)
 	switch (mode)
 	{
 	case GameMode::Normal:
-		for (Entity entity : m_Entities)
+		for (Entity entity : m_Entities) //should only be one
 		{
 			m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetTop();
 		}
@@ -196,6 +201,10 @@ void QBertSystem::SetStartQubes(GameMode mode)
 		break;
 	}
 	case GameMode::Versus:
+		for (Entity entity : m_Entities) // should only be one
+		{
+			m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetQubeAtIndex(1);
+		}
 		break;
 	default:
 		break;
@@ -208,6 +217,14 @@ void QBertSystem::SetStartQubes(GameMode mode)
 
 		auto pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
 		pTransform->Translate(pQube->CharacterPos);
+	}
+}
+
+void QBertSystem::AddPoints(int points)
+{
+	for (Entity entity : m_Entities)
+	{
+		m_pRegistry->GetComponent<CharacterPoint>(entity)->AddPoints(points);
 	}
 }
 
@@ -252,11 +269,6 @@ void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_se
 
 		for (Entity enemyEntity : enemies)
 		{
-			if (m_pRegistry->HasTag(enemyEntity, QBERT_TAG))
-			{
-				continue;
-			}
-
 			auto* const pController = m_pRegistry->GetComponent<AiControllerComponent>(enemyEntity);
 
 			if (!IS_VALID(pController))
@@ -270,6 +282,14 @@ void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_se
 				if (m_pRegistry->GetComponent<CoilyComponent>(enemyEntity)->IsActive())
 				{
 					GetHurt(qbertEntity);
+				}
+				else
+				{
+					auto* const pCharacterController = m_pRegistry->GetComponent<CharacterControllerComponent>(enemyEntity);
+					if (IS_VALID(pCharacterController) && pCharacterController->IsActive())
+					{
+						GetHurt(qbertEntity);
+					}
 				}
 				break;
 			case EnemyType::SlickSam:
@@ -300,7 +320,14 @@ void QBertSystem::OnJumpedToDeath(Entity qbertEntity)
 	auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(qbertEntity);
 	pQbert->pFallSound->Play();
 
-	m_pRegistry->GetComponent<RendererComponent>(qbertEntity)->Layer = 1;
+
+	auto* const pMovement = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
+	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMovement->CurrentQube);
+
+	if (!pCurrentQube->bIsLastRow)
+	{
+		m_pRegistry->GetComponent<RendererComponent>(qbertEntity)->Layer = 1;
+	}
 }
 
 void QBertSystem::OnFell(Entity qbertEntity)

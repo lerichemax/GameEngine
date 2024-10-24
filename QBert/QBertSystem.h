@@ -17,6 +17,7 @@ public:
 	 void Reset(GameMode gameMode);
 
 	 void SetStartQubes(GameMode mode);
+	 void AddPoints(int points);
 
 protected:
 	void Start() override;

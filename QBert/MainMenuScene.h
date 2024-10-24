@@ -8,5 +8,4 @@ public:
 
 private:
 	void Initialize() override;
-	void DeclareInput() override{}
 };

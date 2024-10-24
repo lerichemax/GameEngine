@@ -3,6 +3,7 @@
 
 #include "CharacterLives.h"
 #include "QbertComponent.h"
+#include "CharacterControllerComponent.h"
 
 void LivesSystem::Update()
 {
@@ -15,10 +16,14 @@ void LivesSystem::Update()
 			OnDied.Notify(entity, pLivesComp->NbrLives);
 			pLivesComp->bIsDead = false;
 
-			if (pLivesComp->NbrLives <= 0 && m_pRegistry->HasTag(entity, QBERT_TAG))
+			if (pLivesComp->NbrLives <= 0)
 			{
-				OnPlayerDied.Notify();
-				m_pRegistry->SetEntityHierarchyActive(entity, false);
+				auto* const pController = m_pRegistry->GetComponent<CharacterControllerComponent>(entity);
+				if (IS_VALID(pController))
+				{
+					OnPlayerDied.Notify(entity);
+					m_pRegistry->SetEntityHierarchyActive(entity, false);
+				}
 			}
 		}
 	}

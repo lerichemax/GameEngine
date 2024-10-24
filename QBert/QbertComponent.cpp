@@ -13,7 +13,6 @@ void QbertComponent::Serialize(StreamWriter& writer) const
 	writer.WriteInt("jumpId", pJumpSound->GetId());
 	writer.WriteInt("fallId", pFallSound->GetId());
 	writer.WriteInt("swearId", pSwearSound->GetId());
-	writer.WriteInt("playerNbr", PlayerNumber);
 
 	Component::Serialize(writer);
 }
@@ -29,6 +28,4 @@ void QbertComponent::RestoreContext(JsonReader const* reader, SerializationMap c
 	pFallSound = context.GetRef<AudioComponent>(id);
 	reader->ReadInt("swearId", id);
 	pSwearSound = context.GetRef<AudioComponent>(id);
-
-	reader->ReadInt("playerNbr", PlayerNumber);
 }
