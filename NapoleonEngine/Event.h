@@ -36,7 +36,7 @@ void EventHandler<T, Types...>::Subscribe(Subscriber func)
 
 	if (subscriberIterator != m_Subscribers.end())
 	{
-		Debugger::Get().Log("Subscriber already registered"); 
+		LOG_INFO("Subscriber already registered")
 		return;
 	}
 

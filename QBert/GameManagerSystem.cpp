@@ -217,17 +217,17 @@ void GameManagerSystem::HandleEndGame()
 	switch (m_Level)
 	{
 	case Level::Level1:
-		Debugger::Get().Log("YOU FINISHED LEVEL 1!");
+		LOG_INFO("YOU FINISHED LEVEL 1!");
 		m_Level = Level::Level2;
 		ResetGame();
 		break;
 	case Level::Level2:
-		Debugger::Get().Log("YOU FINISHED LEVEL 2!");
+		LOG_INFO("YOU FINISHED LEVEL 2!");
 		m_Level = Level::Level3;
 		ResetGame();
 		break;
 	case Level::Level3:
-		Debugger::Get().Log("YOU FINISHED LEVEL 3!");
+		LOG_INFO("YOU FINISHED LEVEL 3!");
 		OnGameEnded.Notify("You win");
 		Timer::Get().SetTimeScale(0.f);
 		break;

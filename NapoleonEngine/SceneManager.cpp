@@ -86,7 +86,7 @@ void SceneManager::SceneManagerImpl::Render()
 {
 	if (m_pActiveScene == nullptr)
 	{
-		Debugger::Get().LogError("SceneManager::Render - > no scene active");
+		LOG_ERROR("SceneManager::Render - > no scene active");
 		NapoleonEngine::Quit();
 		return;
 	}
@@ -102,7 +102,7 @@ Scene const* SceneManager::SceneManagerImpl::GetScene(std::string const& sceneNa
 	}
 	catch( std::out_of_range const& error)
 	{
-		Debugger::Get().LogError(error.what());
+		LOG_ERROR(error.what());
 	}
 	return nullptr;
 }
@@ -112,7 +112,7 @@ void SceneManager::SceneManagerImpl::LoadScene(std::string const& name)
 	auto scene = m_pScenesMap.at(name);
 	if (scene == nullptr)
 	{
-		Debugger::Get().LogWarning("SceneManager::LoadScene - > Wrong scene name!");
+		LOG_WARNING("SceneManager::LoadScene - > Wrong scene name!");
 		return;
 	}
 	
@@ -129,7 +129,7 @@ Scene* SceneManager::SceneManagerImpl::GetActiveScene() const
 {
 	if (m_pActiveScene == nullptr)
 	{
-		Debugger::Get().LogWarning("SceneManager::GetActiveScene - > no scene active");
+		LOG_WARNING("SceneManager::GetActiveScene - > no scene active");
 		return nullptr;
 	}
 	return m_pActiveScene;
@@ -139,7 +139,7 @@ void SceneManager::SceneManagerImpl::AddScene(Scene* pScene)
 {
 	if (m_pScenesMap.find(pScene->m_Name) != m_pScenesMap.end())
 	{
-		Debugger::Get().LogError("SceneManager::AddScene - > The scene " + pScene->m_Name + " can't be added twice");
+		LOG_ERROR("SceneManager::AddScene - > The scene %s can't be added twice", pScene->GetName().c_str());
 
 	}
 	m_pScenesMap.insert(std::make_pair(pScene->m_Name, pScene));

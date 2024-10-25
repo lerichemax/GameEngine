@@ -215,7 +215,7 @@ void Scene::Render() const
 {
 	if (!EntityManager::IsEntityValid(m_pCameraSystem->m_MainCameraEntity))
 	{
-		Debugger::Get().LogError("Scene::Render - > no camera currently active");
+		LOG_ERROR("Scene::Render - > no camera currently active")
 	}
 
 	m_pTextRenderer->Update();
@@ -269,7 +269,7 @@ std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name, gl
 
 	auto pNewObject = std::shared_ptr<GameObject>(new GameObject{ m_pRegistry->GetEntityAtIndex(index), m_pRegistry.get() });
 
-	pNewObject->GetTransform()->Translate(location);
+	pNewObject->GetTransform()->SetLocation(location);
 
 	return pNewObject;
 }

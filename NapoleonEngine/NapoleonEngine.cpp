@@ -48,7 +48,7 @@ void NapoleonEngine::Initialize(unsigned int Width, unsigned int Height, std::st
 	{
 		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
 		errorMsg += Mix_GetError ();
-		Debugger::Get().LogError(errorMsg);
+		LOG_ERROR(errorMsg.c_str());
 		return;
 	}
 	
@@ -62,7 +62,7 @@ void NapoleonEngine::Initialize(unsigned int Width, unsigned int Height, std::st
 	}
 	catch (std::runtime_error const& error)
 	{
-		Debugger::Get().LogError(error.what());
+		LOG_ERROR(error.what());
 	}
 
 	SerializerServiceLocator::RegisterSerializer(new Serializer{});
@@ -83,7 +83,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	
 	fpsCounterObject->AddComponent<FPSCounter>();
 	fpsCounterObject->AddComponent<RendererComponent>()->Layer = 10;
-	fpsCounterObject->GetTransform()->Translate(20.f, 20.f);
+	fpsCounterObject->GetTransform()->SetLocation(20.f, 20.f);
 
 	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
 

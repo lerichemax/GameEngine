@@ -104,5 +104,5 @@ void SoloScene::Initialize()
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
 	
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->Translate(450, 300);
+	GetCameraObject()->GetTransform()->SetLocation(450, 300);
 }

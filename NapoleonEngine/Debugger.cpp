@@ -8,7 +8,6 @@ Debugger::Debugger()
 	m_ConsoleHandle(GetStdHandle(STD_OUTPUT_HANDLE)),
 	m_Shapes()
 {
-	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
 Debugger::~Debugger()
@@ -23,23 +22,19 @@ Debugger::~Debugger()
 	m_OwnedShapes.clear();
 }
 
-void Debugger::Log(std::string const& message) const
+void Debugger::SetConsoleColor(LogLevel level) const
 {
-	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-	std::cout << message << std::endl;
-}
+	switch (level)
+	{
+	case Info:
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+	case Warning:
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+		break;
+	case Error:
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED );
+	}
 
-void Debugger::LogWarning(std::string const& message) const
-{
-	SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-	std::cout << "WARNING : "<< message << std::endl;
-}
-
-
-void Debugger::LogError(std::string const& message) const
-{
-	MessageBox(0, message.c_str(), "Error!", 0);
-	NapoleonEngine::Quit();
 }
 
 void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col)

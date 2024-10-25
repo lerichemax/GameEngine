@@ -82,7 +82,7 @@ void CharacterMovementSystem::Move(Entity entity)
 		m_pRegistry->GetComponent<QbertComponent>(entity)->Disk = pCurrentQube->ConnectionToDisk->Disk;
 
 		pDisk->QbertEntity = entity;
-		pTransform->Translate(pDiskTransform->GetLocation());
+		pTransform->SetLocation(pDiskTransform->GetLocation());
 		pTransform->SetParent(pDiskTransform);
 
 		pMoveComp->CurrentQube = NULL_ENTITY;
@@ -134,7 +134,7 @@ void CharacterMovementSystem::MoveToCurrentQube(Entity entity)
 		OnMeetCharacter.Notify(entity, pQube->Characters);
 	}
 
-	pTransform->Translate(pQube->GetEnemyTopPosition(pMoveComp->Mode));
+	pTransform->SetLocation(pQube->GetEnemyTopPosition(pMoveComp->Mode));
 }
 
 void CharacterMovementSystem::SetIdleTexture(Entity entity)

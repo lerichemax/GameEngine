@@ -73,7 +73,7 @@ void MainGame::CreatePrefabs() const
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
 	auto livesObj = livesPrefab->GetRoot();
-	livesObj->GetTransform()->Translate(20.f, 40.f);
+	livesObj->GetTransform()->SetLocation(20.f, 40.f);
 
 
 	auto textRenderer = livesObj->AddComponent<TextRendererComponent>();
@@ -88,7 +88,7 @@ void MainGame::CreatePrefabs() const
 	//points
 	auto const pointsrefab = pPrefabManager.CreatePrefab();
 	auto const pointsObj = pointsrefab->GetRoot();
-	pointsObj->GetTransform()->Translate(20.f, 60.f);
+	pointsObj->GetTransform()->SetLocation(20.f, 60.f);
 
 	textRenderer = pointsObj->AddComponent<TextRendererComponent>();
 	textRenderer->SetText("P1 Points: 0 ");
@@ -149,7 +149,7 @@ void MainGame::CreatePrefabs() const
 	pHurtRenderer->SetActive(false);
 
 	pQbertObj->AddChild(pHurtTextObj);
-	pHurtTextObj->GetTransform()->Translate(-10, -34);
+	pHurtTextObj->GetTransform()->SetLocation(-10, -34);
 	pQbertObj->GetTransform()->Scale(1.5f);
 	pQbertObj->SetTag(QBERT_TAG);
 
@@ -176,7 +176,7 @@ void MainGame::CreatePrefabs() const
 	//Pyramid
 	auto pyramidPf = pPrefabManager.CreatePrefab();
 	auto pyramidObject = pyramidPf->GetRoot();
-	pyramidObject->GetTransform()->Translate(250.f, 400.f);
+	pyramidObject->GetTransform()->SetLocation(250.f, 400.f);
 	pyramidObject->AddComponent<PyramidComponent>();
 	pyramidPf->AddRequiredSystem<PyramidSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
@@ -197,6 +197,7 @@ void MainGame::CreatePrefabs() const
 	pUggobject->AddComponent<CharacterLives>()->Init(1);
 
 	pCollider = pUggobject->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -353,7 +354,7 @@ void MainGame::CreatePrefabs() const
 
 	textObject->AddComponent<RendererComponent>()->Layer = 11;
 	menuObj->AddChild(textObject);
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject->GetTransform()->SetLocation(glm::vec2{ 400, 100 });
 
 	auto btnObj = menuPrefab->CreateGameObject();
 	textComp = btnObj->AddComponent<TextRendererComponent>();
@@ -368,7 +369,7 @@ void MainGame::CreatePrefabs() const
 	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->GetTransform()->SetLocation(400, 200);
 	btnObj->SetTag("ResumeBtn");
 
 	//Back to main btn
@@ -386,7 +387,7 @@ void MainGame::CreatePrefabs() const
 	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->GetTransform()->SetLocation(400, 300);
 	btnObj->SetTag("BackToMainBtn");
 
 	//Quit Btn
@@ -404,7 +405,7 @@ void MainGame::CreatePrefabs() const
 	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->GetTransform()->SetLocation(400, 400);
 	btnObj->SetTag("QuitBtn");
 
 	pPrefabManager.SavePrefab(menuPrefab, "PauseMenu");
@@ -424,7 +425,7 @@ void MainGame::CreatePrefabs() const
 	textComp->SetFont(biggerFont);
 
 	textObject->AddComponent<RendererComponent>()->Layer = 11;
-	textObject->GetTransform()->Translate(glm::vec2{ 400, 100 });
+	textObject->GetTransform()->SetLocation(glm::vec2{ 400, 100 });
 
 	menuObj->AddChild(textObject);
 
@@ -442,7 +443,7 @@ void MainGame::CreatePrefabs() const
 	replayBtn->SetOnClickFunction(new ReloadSceneCommand{});
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 200);
+	btnObj->GetTransform()->SetLocation(400, 200);
 	btnObj->SetTag("ReplayBtn");
 
 	//Back to main btn
@@ -461,7 +462,7 @@ void MainGame::CreatePrefabs() const
 	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 300);
+	btnObj->GetTransform()->SetLocation(400, 300);
 	btnObj->SetTag("BackToMainBtn");
 	
 	//Quit Btn
@@ -480,7 +481,7 @@ void MainGame::CreatePrefabs() const
 	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->Translate(400, 400);
+	btnObj->GetTransform()->SetLocation(400, 400);
 	btnObj->SetTag("QuitBtn");
 
 	pPrefabManager.SavePrefab(quitMenuPrefab, "GameOverMenu");

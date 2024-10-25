@@ -42,7 +42,7 @@ void DiskSystem::Update()
 			glm::vec2 direction{ glm::normalize(distance) };
 
 			direction *= (pDiskComp->MOVE_SPEED * Timer::Get().GetDeltaTime());
-			pTransform->Translate(pTransform->GetLocation() + direction);
+			pTransform->SetLocation(pTransform->GetLocation() + direction);
 
 			distance = pDiskComp->TargetPosition - pTransform->GetLocation();
 			if (glm::length(distance) <= 1.f)
@@ -88,17 +88,17 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 	auto* const pDiskTransform = m_pRegistry->GetComponent<TransformComponent>(diskEntity);
 	if (!pQube->HasConnection(ConnectionDirection::upLeft))
 	{
-		pDiskTransform->Translate(parentPos.x - pQubeRenderer->pTexture->GetWidth() / 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
+		pDiskTransform->SetLocation(parentPos.x - pQubeRenderer->pTexture->GetWidth() / 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
 		pQube->ConnectionToDisk->Direction = ConnectionDirection::upLeft;
 	}
 	else
 	{
-		pDiskTransform->Translate(parentPos.x + pQubeRenderer->pTexture->GetWidth() * 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
+		pDiskTransform->SetLocation(parentPos.x + pQubeRenderer->pTexture->GetWidth() * 1.5f, parentPos.y - pQubeRenderer->pTexture->GetHeight() / 1.75f);
 		pQube->ConnectionToDisk->Direction = ConnectionDirection::upRight;
 	}
 
 	pQube->ConnectionToDisk->Disk = diskEntity;
-	Debugger::Get().Log("Disk spawned");
+	LOG_INFO("Disk spawned");
 }
 
 void DiskSystem::SetSignature() const

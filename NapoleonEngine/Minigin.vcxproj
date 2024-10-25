@@ -110,6 +110,8 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +143,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -175,6 +179,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -210,6 +216,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

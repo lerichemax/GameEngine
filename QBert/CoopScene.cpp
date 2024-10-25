@@ -68,12 +68,12 @@ void CoopScene::Initialize()
 	auto pTextLivesP2 = pLivesP2->GetComponent<TextRendererComponent>();
 	pTextLivesP2->SetText("P2 Lives: " + std::to_string(pQbertObj2->GetComponent<CharacterLives>()->NbrLives));
 	pTextLivesP2->SetTextColor(255, 0, 255);
-	pLivesP2->GetTransform()->Translate(20.f, 80.f);
+	pLivesP2->GetTransform()->SetLocation(20.f, 80.f);
 	
 	auto pTextPointsP2 = pPointsP2->GetComponent<TextRendererComponent>();
 	pTextPointsP2->SetTextColor(255, 0, 255);
 	pTextPointsP2->SetText("P2 Points: " + std::to_string(pQbertObj2->GetComponent<CharacterLives>()->NbrLives));
-	pPointsP2->GetTransform()->Translate(20.f, 100.f);
+	pPointsP2->GetTransform()->SetLocation(20.f, 100.f);
 
 	//Pause Menu
 	auto pPauseMenuObject = Instantiate("PauseMenu");
@@ -116,5 +116,5 @@ void CoopScene::Initialize()
 	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
 
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->Translate(450, 300);
+	GetCameraObject()->GetTransform()->SetLocation(450, 300);
 }

@@ -8,7 +8,7 @@ T* const ComponentArray<T>::InsertData(Entity entity)
 
 	if (m_EntityToIndex.find(entity) != m_EntityToIndex.end() && static_cast<Component*>(pComponent)->IsUnique())
 	{
-		Debugger::Get().LogWarning(std::string{ "Component  is unique and can't be added twice to Entity " + std::to_string(entity) });
+		LOG_WARNING("Component  is unique and can't be added twice to Entity %d", entity);
 		delete pComponent;
 		return nullptr;
 	}
@@ -50,7 +50,7 @@ Component* const ComponentArray<T>::GetBaseData(Entity entity)
 {
 	if (m_EntityToIndex.find(entity) == m_EntityToIndex.end())
 	{
-		Debugger::Get().LogWarning(std::string{ "Component  not found for entity " } + std::to_string(entity));
+		LOG_WARNING("Component  not found for entity %d", entity);
 		return nullptr;
 	}
 

@@ -14,7 +14,7 @@ SoundEffect::SoundEffect(std::string const& path)
 	if (m_pMixChunk == nullptr)
 	{
 		std::string errorMsg = "SoundEffect: Failed to load " + path + ",\n SDL_mixer Error: " + Mix_GetError() + '\n';
-		Debugger::Get().LogError(errorMsg);
+		LOG_ERROR("SoundEffect: Failed to load %s\n SDL_mixer Error: %s", path.c_str(), Mix_GetError());
 	}
 	m_AutoIncrementId++;
 	m_Id = m_AutoIncrementId;

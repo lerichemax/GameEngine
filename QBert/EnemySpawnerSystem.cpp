@@ -111,7 +111,7 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 	auto* const pCurrentQube = m_pRegistry->GetComponent<QubeComponent>(pMoveComp->CurrentQube);
 	pCurrentQube->Characters.insert(enemyEntity);
 
-	pTransform->Translate(pCurrentQube->GetEnemyTopPosition(pMoveComp->Mode));
+	pTransform->SetLocation(pCurrentQube->GetEnemyTopPosition(pMoveComp->Mode));
 
 	m_pRegistry->SetEntityActive(enemyEntity, true);
 	OnEnemySpawned.Notify(enemyEntity);

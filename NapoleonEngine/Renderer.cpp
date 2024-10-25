@@ -95,12 +95,16 @@ void Renderer::RenderTexture(const Texture2D& texture, TransformComponent const&
 {
 	glPushMatrix();
 	{
-		glTranslatef(pTransform.m_WorldLocation.x, pTransform.m_WorldLocation.y, 0);
-		glRotatef(pTransform.m_WorldRotation, 0, 0, 1);
-		glScalef(pTransform.m_WorldScale.x, pTransform.m_WorldScale.y, 0);
-		glTranslatef(-pTransform.m_WorldLocation.x, -pTransform.m_WorldLocation.y, 0);
+		glm::vec2 translation = pTransform.GetLocation();
+		float rotation = pTransform.GetRotation();
+		glm::vec2 scale = pTransform.GetScale();
 
-		RenderTexture(texture, pTransform.m_WorldLocation.x, pTransform.m_WorldLocation.y);
+		glTranslatef(translation.x, translation.y, 0);
+		glRotatef(rotation, 0, 0, 1);
+		glScalef(scale.x, scale.y, 0);
+		glTranslatef(-translation.x, -translation.y, 0);
+
+		RenderTexture(texture, translation.x, translation.y);
 	}
 	glPopMatrix();
 }

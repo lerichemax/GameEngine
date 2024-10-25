@@ -32,7 +32,7 @@ bool SystemManager::ForceAddSystem(size_t type, System* system)
 {
 	if (m_Systems.find(type) != m_Systems.end())
 	{
-		Debugger::Get().LogWarning(std::string{ "A System with Hash type " + std::to_string(type) + " already exists" });
+		LOG_WARNING("A System with Hash type %lld already exists", type);
 		return false;
 	}
 

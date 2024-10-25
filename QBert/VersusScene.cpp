@@ -76,10 +76,10 @@ void VersusScene::Initialize()
 	auto pTextPointsP2 = pPointsP2->GetComponent<TextRendererComponent>();
 	pTextPointsP2->SetText("P2 Points: " + std::to_string(pCoilyObj->GetComponent<CharacterPoint>()->GetPoints()));
 	pTextPointsP2->SetTextColor(255, 0, 255);
-	pPointsP2->GetTransform()->Translate(20.f, 100.f);
+	pPointsP2->GetTransform()->SetLocation(20.f, 100.f);
 
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->Translate(450, 300);
+	GetCameraObject()->GetTransform()->SetLocation(450, 300);
 }
 
 //void VersusScene::ResetGame()
@@ -92,7 +92,7 @@ void VersusScene::Initialize()
 //	
 //	m_pCoilyPlayer->Transform(false);
 //	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-//	m_pCoilyPlayer->GetEntity()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+//	m_pCoilyPlayer->GetEntity()->GetTransform()->SetLocation(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 //	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 //	//m_pCoilyPlayer->GetEntity()->GetComponent<CharacterPoint>()->Reset();
 //	
@@ -111,7 +111,7 @@ void VersusScene::Initialize()
 	
 	//m_pCoilyPlayer->Transform(false);
 	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	//m_pCoilyPlayer->GetEntity()->GetTransform()->Translate(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
+	//m_pCoilyPlayer->GetEntity()->GetTransform()->SetLocation(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
 	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
 //}
 

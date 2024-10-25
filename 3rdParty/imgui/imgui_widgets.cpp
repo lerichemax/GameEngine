@@ -1468,7 +1468,7 @@ bool ImGui::SplitterBehavior(const ImRect& bb, ImGuiID id, ImGuiAxis axis, float
                 IM_ASSERT(*size2 - mouse_delta >= min_size2);
             *size1 += mouse_delta;
             *size2 -= mouse_delta;
-            bb_render.Translate((axis == ImGuiAxis_X) ? ImVec2(mouse_delta, 0.0f) : ImVec2(0.0f, mouse_delta));
+            bb_render.SetLocation((axis == ImGuiAxis_X) ? ImVec2(mouse_delta, 0.0f) : ImVec2(0.0f, mouse_delta));
             MarkItemEdited(id);
         }
     }

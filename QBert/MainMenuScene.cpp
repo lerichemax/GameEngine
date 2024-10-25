@@ -26,7 +26,7 @@ void MainMenuScene::Initialize()
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/UI/Title.png");
 	rendererComp->Layer = 10;
 
-	pTitleObject->GetTransform()->Translate(300, 50);
+	pTitleObject->GetTransform()->SetLocation(300, 50);
 	pTitleObject->GetTransform()->Scale(0.8f);
 
 	auto pSoloBtn = CreateGameObject();
@@ -42,7 +42,7 @@ void MainMenuScene::Initialize()
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
 
-	pSoloBtn->GetTransform()->Translate(400, 200);
+	pSoloBtn->GetTransform()->SetLocation(400, 200);
 
 	auto coopBtn = CreateGameObject();
 
@@ -58,7 +58,7 @@ void MainMenuScene::Initialize()
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
 
-	coopBtn->GetTransform()->Translate(400, 250);
+	coopBtn->GetTransform()->SetLocation(400, 250);
 
 	auto vsBtn = CreateGameObject();
 	
@@ -74,7 +74,7 @@ void MainMenuScene::Initialize()
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
 	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
 
-	vsBtn->GetTransform()->Translate(400, 300);
+	vsBtn->GetTransform()->SetLocation(400, 300);
 
 	auto quitBtn = CreateGameObject();
 
@@ -90,9 +90,9 @@ void MainMenuScene::Initialize()
 	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
 	btn->SetOnClickFunction(new QuitGameCommand{  });
 
-	quitBtn->GetTransform()->Translate(400, 350);
+	quitBtn->GetTransform()->SetLocation(400, 350);
 
 	Instantiate("FPSCounter");
 
-	GetCameraObject()->GetComponent<TransformComponent>()->Translate(450, 300);
+	GetCameraObject()->GetComponent<TransformComponent>()->SetLocation(450, 300);
 }

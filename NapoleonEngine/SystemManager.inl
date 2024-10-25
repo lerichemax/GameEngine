@@ -8,12 +8,14 @@ T* const SystemManager::RegisterSystem(Registry* const pRegistry)
 
 	if (m_Systems.find(type) != m_Systems.end())
 	{
-		Debugger::Get().LogWarning("System with hash code " + std::to_string(type) + " already registered");
+		LOG_WARNING("System %s already registered", typeid(T).name());
 		return nullptr;
 	}
 
 	auto pSystem = new T{};
 	m_Systems.insert(std::make_pair(type, std::unique_ptr<T>(pSystem)));
+	
+	LOG_WARNING("System %s registered", typeid(T).name());
 
 	return pSystem;
 }
@@ -35,7 +37,6 @@ void SystemManager::UpdateSignature(Signature signature)
 
 	if (m_Systems.find(type) == m_Systems.end())
 	{
-		//TODO : LOG
 		RegisterSystem<T>(signature);
 	}
 	else

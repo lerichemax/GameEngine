@@ -15,7 +15,7 @@ std::unique_ptr<JsonReader> Deserializer::ReadFile(std::string const& filename)
 
 	if (file == nullptr)
 	{
-		Debugger::Get().LogError("File " + filename + " not found");
+		LOG_ERROR("File %s not found", filename.c_str());
 	}
 
 	fseek(file, 0, SEEK_END);

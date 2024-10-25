@@ -193,8 +193,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadObject(std::string const& attribute)
 		{
 			return attributeReader;
 		}
-
-		Debugger::Get().LogWarning(std::string{ "No object found for key " + attribute });
+		LOG_WARNING("No object found for key %s", attribute.c_str());
 	}
 	
 	return nullptr;
@@ -210,7 +209,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadArray(std::string const& attribute) 
 		{
 			return attributeReader;
 		}
-		Debugger::Get().LogWarning(std::string{ "No array found for key " + attribute });
+		LOG_WARNING("No array found for key %s", attribute.c_str());
 	}
 
 	return nullptr;
@@ -223,7 +222,7 @@ std::unique_ptr<JsonReader> JsonReader::ReadArrayIndex(SizeType index) const
 		return std::unique_ptr<JsonReader>(new JsonReader{ &(*m_JsonValue)[index]});
 	}
 
-	Debugger::Get().LogWarning(std::string{ "This Json object is not an array" });
+	LOG_WARNING("This Json object is not an array");
 	return nullptr;
 }
 
@@ -281,13 +280,13 @@ std::unique_ptr<JsonReader> JsonReader::ReadAttribute(std::string const& attribu
 {
 	if (m_JsonValue->ObjectEmpty())
 	{
-		Debugger::Get().LogWarning(std::string{ "JsonReader::ReadAttribute - > Nothing to read" });
+		LOG_WARNING("JsonReader::ReadAttribute - > Nothing to read");
 		return nullptr;
 	}
 
 	if (!m_JsonValue->HasMember(attribute.c_str()))
 	{
-		Debugger::Get().LogWarning(std::string{ "JsonReader::ReadAttribute - > attribute " + attribute + " not found in current Json object" });
+		LOG_WARNING("JsonReader::ReadAttribute - > attribute  %s not found in current Json object", attribute.c_str());
 		return nullptr;
 	}
 

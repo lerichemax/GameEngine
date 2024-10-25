@@ -91,7 +91,7 @@ std::shared_ptr<GameObject> GameObject::FindChildrenWithTag(std::string const& t
 		}
 	}
 
-	Debugger::Get().LogWarning("No GameObject found with tag " + tag);
+	LOG_WARNING("No GameObject found with tag %s", tag.c_str());
 	return nullptr;
 }
 

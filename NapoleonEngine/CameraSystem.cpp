@@ -25,7 +25,7 @@ bool CameraSystem::TrySetMainCamera(Entity cameraEntity)
 
 	if (entityIt == m_Entities.end())
 	{
-		Debugger::Get().LogWarning("This entity has no camera component");
+		LOG_WARNING("Entity %d has no camera component", cameraEntity);
 		return false;
 	}
 

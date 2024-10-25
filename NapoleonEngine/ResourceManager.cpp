@@ -133,7 +133,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 		}
 		catch (std::runtime_error const& error)
 		{
-			Debugger::Get().LogError(error.what());
+			LOG_ERROR(error.what());
 		}
 	}
 
@@ -207,7 +207,7 @@ ID ResourceManager::ResourceManagerImpl::GetEffect(const std::string& file)
 		}
 		catch (std::runtime_error const& error)
 		{
-			Debugger::Get().LogError(error.what());
+			LOG_ERROR(error.what());
 		}
 	}
 

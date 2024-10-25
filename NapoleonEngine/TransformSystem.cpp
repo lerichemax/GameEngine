@@ -1,20 +1,21 @@
 #include "PCH.h"
 #include "TransformSystem.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 void TransformSystem::Update()
 {
 	for (Entity const& entity : m_Entities)
 	{
-		auto transComp = m_pRegistry->GetComponent<TransformComponent>(entity);
+		auto* const pTrans = m_pRegistry->GetComponent<TransformComponent>(entity);
 
-		if (!transComp->IsActive())
+		if (!pTrans->IsActive())
 		{
 			continue;
 		}
 
-		RecursivelyUpdateHierarchy(transComp);
-
-		transComp->m_World = BuildTransformMatrix(transComp->m_WorldLocation, transComp->m_WorldRotation, transComp->m_WorldScale);
+		RecursivelyUpdateHierarchy(pTrans);
 	}
 }
 
@@ -26,33 +27,16 @@ void TransformSystem::SetSignature() const
 	m_pRegistry->SetSystemSignature<TransformSystem>(signature);
 }
 
-void TransformSystem::RecursivelyUpdateHierarchy(TransformComponent* const transformComponent) const
+void TransformSystem::RecursivelyUpdateHierarchy(TransformComponent* const pTransformComponent) const
 {
-	//if (!transformComponent->HasChanged())
-	//{
-	//	return;
-	//}
-
-	if (transformComponent->m_pParent != nullptr)
+	if (pTransformComponent->m_pParent != nullptr)
 	{
-		RecursivelyUpdateHierarchy(transformComponent->m_pParent);
+		RecursivelyUpdateHierarchy(pTransformComponent->m_pParent);
 
-		transformComponent->m_WorldLocation = transformComponent->m_pParent->m_WorldLocation + transformComponent->m_Location;
-		transformComponent->m_WorldRotation = transformComponent->m_pParent->m_WorldRotation + transformComponent->m_Rotation;
-		transformComponent->m_WorldScale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_Scale;
-
-		transformComponent->m_Location = transformComponent->m_WorldLocation - transformComponent->m_pParent->m_WorldLocation;
-		transformComponent->m_Rotation = transformComponent->m_WorldRotation - transformComponent->m_pParent->m_WorldRotation;
-		//transformComponent->m_Scale = transformComponent->m_pParent->m_WorldScale * transformComponent->m_WorldScale;
+		pTransformComponent->m_LocalTransformMatrix = glm::inverse(pTransformComponent->m_pParent->m_WorldTransformMatrix) * pTransformComponent->m_WorldTransformMatrix;
 	}
 	else
 	{
-		transformComponent->m_Location = transformComponent->m_WorldLocation;
-		transformComponent->m_Rotation = transformComponent->m_WorldRotation;
-		transformComponent->m_Scale = transformComponent->m_WorldScale;
+		pTransformComponent->m_LocalTransformMatrix = pTransformComponent->m_WorldTransformMatrix;
 	}
-
-	transformComponent->m_OldPosition = transformComponent->m_WorldLocation;
-	transformComponent->m_OldRotation = transformComponent->m_WorldRotation;
-	transformComponent->m_OldScale = transformComponent->m_WorldScale;
 }

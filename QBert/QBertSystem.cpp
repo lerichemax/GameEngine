@@ -216,7 +216,7 @@ void QBertSystem::SetStartQubes(GameMode mode)
 		pQube->Characters.insert(entity);
 
 		auto pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-		pTransform->Translate(pQube->CharacterPos);
+		pTransform->SetLocation(pQube->CharacterPos);
 	}
 }
 
@@ -349,7 +349,7 @@ void QBertSystem::JumpOffDisk(Entity qbertEntity)
 	pMove->bCanMove = true;
 	pMove->CurrentDirection = ConnectionDirection::null;
 
-	pTransform->Translate(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
+	pTransform->SetLocation(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
 }
 
 void QBertSystem::SetSignature() const
