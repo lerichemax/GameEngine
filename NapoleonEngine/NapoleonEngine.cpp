@@ -16,7 +16,6 @@
 #include "Deserializer.h"
 
 #include "TextRendererComponent.h"
-#include "CameraComponent.h"
 #include "TransformComponent.h"
 #include "RendererComponent.h"
 
@@ -88,13 +87,6 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
 
 	PrefabsManager::Get().SavePrefab(fpsCounterPrefab, "FPSCounter");
-
-	//Camera prefab
-	auto cameraPrefab = PrefabsManager::Get().CreatePrefab();
-	auto cameraObject = cameraPrefab->GetRoot();
-
-	cameraObject->AddComponent<CameraComponent>();
-	PrefabsManager::Get().SavePrefab(cameraPrefab, "Camera");
 
 	//game specific prefab
 	CreatePrefabs();

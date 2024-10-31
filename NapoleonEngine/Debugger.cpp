@@ -28,11 +28,13 @@ void Debugger::SetConsoleColor(LogLevel level) const
 	{
 	case Info:
 		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+		break;
 	case Warning:
 		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 		break;
 	case Error:
 		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED );
+		break;
 	}
 
 }

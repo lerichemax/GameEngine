@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "Camera.h"
 
 #define SAFE_DELETE(ptr) \
 	if (ptr != nullptr) \
@@ -51,4 +52,9 @@ template <ComponentDerived T>
 inline T* const FindComponentsOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentsOfType<T>();
+}
+
+inline Camera2D* const GetCamera()
+{
+	return SceneManager::Get().GetActiveScene()->GetCamera();
 }

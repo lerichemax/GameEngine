@@ -79,7 +79,6 @@ void VersusScene::Initialize()
 	pPointsP2->GetTransform()->SetLocation(20.f, 100.f);
 
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->SetLocation(450, 300);
 }
 
 //void VersusScene::ResetGame()

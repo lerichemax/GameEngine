@@ -8,7 +8,6 @@
 #include "AudioSystem.h"
 #include "System.h"
 #include "UiSystem.h"
-#include "CameraSystem.h"
 
 #include "RendererComponent.h"
 #include "TextRendererComponent.h"
@@ -20,7 +19,6 @@
 #include <algorithm>
 #include <map>
 
-#include "CameraComponent.h"
 #include "Timer.h"
 
 //************************************
@@ -131,7 +129,7 @@ Scene::Scene(const std::string& name)
 	m_pTextRenderer(nullptr),
 	m_pLayeredRenderer(nullptr),
 	m_pUi(nullptr),
-	m_pCameraSystem(nullptr),
+	m_pCamera(std::make_unique<Camera2D>(Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight())),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
@@ -157,14 +155,6 @@ void Scene::OnLoad()
 	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
 	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
-	m_pCameraSystem = m_pRegistry->RegisterSystem<CameraSystem>();
-
-	auto pCameraObject = CreateGameObject();
-
-	m_CameraEntity = pCameraObject->GetEntity();
-
-	pCameraObject->AddComponent<CameraComponent>();
-	m_pCameraSystem->TrySetMainCamera(m_CameraEntity);
 
 	m_bIsActive = true;
 	
@@ -192,11 +182,6 @@ void Scene::OnLoad()
 	Renderer::Get().SetBackgroundColor(m_BackgroundColor);
 }
 
-void InitializeCamera()
-{
-
-}
-
 void Scene::Update()
 {	
 	for (auto* const pSystem : m_pSystems )
@@ -204,6 +189,7 @@ void Scene::Update()
 		pSystem->Update();
 	}
 
+	m_pCamera->Update();
 	m_pTransformSystem->Update(); // move to update systems above ? 
 	m_pCollisionSystem->Update();
 	m_pUi->Update();
@@ -213,19 +199,10 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	if (!EntityManager::IsEntityValid(m_pCameraSystem->m_MainCameraEntity))
-	{
-		LOG_ERROR("Scene::Render - > no camera currently active")
-	}
-
 	m_pTextRenderer->Update();
 
-	glPushMatrix();
-	{	
-		m_pCameraSystem->Update();
-		m_pLayeredRenderer->Update();
-	}
-	glPopMatrix();
+
+	m_pLayeredRenderer->Update();
 }
 
 void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
@@ -245,11 +222,6 @@ void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 	}
 
 	BaseScene::Deserialize(reader, context);
-}
-
-std::shared_ptr<GameObject> Scene::GetCameraObject() const
-{
-	return std::shared_ptr<GameObject>(new GameObject{m_CameraEntity, m_pRegistry.get()});
 }
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)

@@ -111,6 +111,9 @@
     <ClCompile Include="CharacterPoint.cpp">
       <Filter>GameScripts\Components</Filter>
     </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -221,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="CharacterLives.h">
       <Filter>GameScripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

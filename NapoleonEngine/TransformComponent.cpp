@@ -123,6 +123,11 @@ float TransformComponent::GetLocalRotation() const
 	return angle;
 }
 
+glm::mat3x3 const& TransformComponent::GetWorldTransformMatrix() const
+{
+	return m_WorldTransformMatrix;
+}
+
 void TransformComponent::SetParent(TransformComponent* const pParent)
 {
 	if (!IS_VALID(pParent))

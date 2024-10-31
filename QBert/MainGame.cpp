@@ -30,11 +30,11 @@
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
 
-
 #include "CoopScene.h"
 #include "MainMenuScene.h"
 #include "VersusScene.h"
 #include "SoloScene.h"
+#include "TestScene.h"
 
 #include "QuitGameCommand.h"
 #include "PauseGameCommand.h"
@@ -61,6 +61,7 @@ void MainGame::InitGame() const
 	SceneManager::Get().AddScene(new SoloScene{});
 	SceneManager::Get().AddScene(new CoopScene{});
 	SceneManager::Get().AddScene(new VersusScene{});
+	SceneManager::Get().AddScene(new TestScene{});
 	SceneManager::Get().LoadScene("MainMenuScene");
 }
 

@@ -34,6 +34,8 @@ public:
 	float GetRotation() const;
 	float GetLocalRotation() const;
 
+	glm::mat3x3 const& GetWorldTransformMatrix() const;
+
 	void SetParent(TransformComponent* const pParent);
 
 	void Serialize(StreamWriter& writer) const override;

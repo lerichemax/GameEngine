@@ -213,6 +213,7 @@
     <ClCompile Include="PyramidSystem.cpp" />
     <ClCompile Include="QubeSystem.cpp" />
     <ClCompile Include="SoloScene.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="UIManagerSystem.cpp" />
     <ClCompile Include="UiManagerComponent.cpp" />
     <ClCompile Include="VersusGameManager.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="PyramidSystem.h" />
     <ClInclude Include="QubeSystem.h" />
     <ClInclude Include="SoloScene.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="UIManagerSystem.h" />
     <ClInclude Include="UiManagerComponent.h" />
     <ClInclude Include="VersusGameManager.h" />

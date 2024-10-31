@@ -9,7 +9,6 @@
 
 class SceneRenderer;
 class GameObject;
-class CameraSystem;
 class TransformSystem;
 class LayeredRendererSystem;
 class TextRendererSystem;
@@ -17,10 +16,10 @@ class System;
 class AudioSystem;
 class UiSystem;
 class CollisionSystem;
+class Camera2D;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
-	template <SystemDerived T> friend T* const GetSystem();
 
 public:
 	explicit BaseScene(const std::string& name);
@@ -77,7 +76,6 @@ void Prefab::AddRequiredSystem()
 	m_RequiredSystems.insert(type);
 }
 
-class ShapeRenderer;
 class Scene : public BaseScene
 {
 public:
@@ -95,15 +93,16 @@ public:
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 protected:
-	std::shared_ptr<GameObject> GetCameraObject() const;
-
 	Color m_BackgroundColor{ 0,0,0,0 };
+
+	Camera2D* const GetCamera() const { return m_pCamera.get(); }
 
 private:
 	friend class SceneManager;
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
+	friend Camera2D* const GetCamera();
 	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
@@ -116,10 +115,10 @@ private:
 	TransformSystem* m_pTransformSystem;
 	CollisionSystem* m_pCollisionSystem;
 	AudioSystem* m_pAudio;
-	CameraSystem* m_pCameraSystem;
 	UiSystem* m_pUi;
 
-	Entity m_CameraEntity;
+	std::unique_ptr<Camera2D> m_pCamera;
+
 	std::vector<System*> m_pSystems;
 
 	bool m_bIsActive;
@@ -130,6 +129,7 @@ private:
 		
 	void OnLoad();
 	void CleanUpScene();
+
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };

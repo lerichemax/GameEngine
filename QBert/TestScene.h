@@ -1,11 +1,12 @@
 #pragma once
 #include "Scene.h"
 
-class CoopScene  final : public Scene
+class TestScene  final : public Scene
 {
 public:
-	CoopScene();
+	TestScene();
 
 protected:
 	void Initialize() override;
 };
+#pragma once

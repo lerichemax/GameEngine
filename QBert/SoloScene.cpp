@@ -12,7 +12,6 @@
 #include "UiManagerComponent.h"
 #include "EnemySpawnerComponent.h"
 #include "AiControllerComponent.h"
-#include "CameraComponent.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
 #include "CharacterLives.h"
@@ -104,5 +103,6 @@ void SoloScene::Initialize()
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
 	
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->SetLocation(450, 300);
+
+	GetCamera()->SetZoomLevel(5.f);
 }

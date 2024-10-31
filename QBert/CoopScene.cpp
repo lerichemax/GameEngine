@@ -116,5 +116,4 @@ void CoopScene::Initialize()
 	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
 
 	Instantiate("FPSCounter");
-	GetCameraObject()->GetTransform()->SetLocation(450, 300);
 }

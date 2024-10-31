@@ -197,9 +197,6 @@
     <ClInclude Include="writer.h">
       <Filter>rapidjson</Filter>
     </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -284,8 +281,8 @@
     <ClInclude Include="CollisionSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="CameraSystem.h">
-      <Filter>ECS\Systems</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,9 +360,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Registry.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
@@ -435,8 +429,8 @@
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="CameraSystem.cpp">
-      <Filter>ECS\Systems</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

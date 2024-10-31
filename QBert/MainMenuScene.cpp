@@ -9,7 +9,6 @@
 #include "TextRendererComponent.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
-#include "CameraComponent.h"
 #include "UiSystem.h"
 
 MainMenuScene::MainMenuScene()
@@ -93,6 +92,4 @@ void MainMenuScene::Initialize()
 	quitBtn->GetTransform()->SetLocation(400, 350);
 
 	Instantiate("FPSCounter");
-
-	GetCameraObject()->GetComponent<TransformComponent>()->SetLocation(450, 300);
 }
