@@ -10,6 +10,8 @@
 
 class EntityManager
 {
+	template<ComponentDerived... Components> friend class View;
+
 public:
 	EntityManager();
 	Entity CreateEntity();
@@ -19,11 +21,12 @@ public:
 	void AddChild(Entity parent, Entity child);
 	std::vector<Entity> GetEntitiesWithSignature(Signature const&  signature);
 	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
-	std::vector<Entity> GetEntityHierarchy(Entity entity) const; //not fully functional, TODO : make recursive
+	std::vector<Entity> GetEntityHierarchy(Entity entity) const;
 	void SetTag(Entity entity, std::string const& tag);
 	std::string GetTag(Entity entity) const;
-	bool HasTag(Entity entity, std::string const& tag) const;
-	bool HasATag(Entity entity) const;
+	bool EntityHasTag(Entity entity, std::string const& tag) const;
+	bool EntityHasATag(Entity entity) const;
+	bool EntityHasSignature(Entity entity, Signature signature) const;
 
 	static bool IsEntityValid(Entity entity);
 

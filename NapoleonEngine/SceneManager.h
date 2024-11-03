@@ -31,7 +31,5 @@ private:
 		
 	SceneManager();
 
-	void Initialize();
 	void Update();
-	void Render();
 };

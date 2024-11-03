@@ -38,7 +38,7 @@ public:
 	
 private:
 	friend class Singleton<Debugger>;
-	friend void Renderer::Render();
+	friend void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor);
 		
 	Debugger();
 
@@ -47,7 +47,7 @@ private:
 	std::vector<geo::Shape*> m_Shapes;
 	std::vector<geo::Shape*> m_OwnedShapes;
 
-	void Render();
+	void Render(Renderer* const pRenderer);
 };
 
 #define FORMAT_LOG(level) #level " : " 

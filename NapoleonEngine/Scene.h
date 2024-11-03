@@ -7,11 +7,8 @@
 #include <memory>
 #include <unordered_set>
 
-class SceneRenderer;
 class GameObject;
 class TransformSystem;
-class LayeredRendererSystem;
-class TextRendererSystem;
 class System;
 class AudioSystem;
 class UiSystem;
@@ -86,11 +83,11 @@ public:
 	Scene& operator=(const Scene& other) = delete;
 	Scene& operator=(Scene&& other) = delete;
 		
-	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
 
 	template <SystemDerived T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	Color const& GetBackgroundColor() const;
 
 protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
@@ -102,7 +99,6 @@ private:
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	friend Camera2D* const GetCamera();
 	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
@@ -110,8 +106,6 @@ private:
 		
 	std::vector<ColliderComponent*> m_pColliders;
 		
-	TextRendererSystem* m_pTextRenderer;
-	LayeredRendererSystem* m_pLayeredRenderer;
 	TransformSystem* m_pTransformSystem;
 	CollisionSystem* m_pCollisionSystem;
 	AudioSystem* m_pAudio;

@@ -85,7 +85,7 @@ std::shared_ptr<GameObject> GameObject::FindChildrenWithTag(std::string const& t
 
 	for (Entity child : children)
 	{
-		if (m_pRegistry->HasTag(child, tag))
+		if (m_pRegistry->EntityHasTag(child, tag))
 		{
 			return std::shared_ptr<GameObject>{new GameObject{ child, m_pRegistry }};
 		}

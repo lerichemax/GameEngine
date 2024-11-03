@@ -71,16 +71,16 @@ void Debugger::DrawDebugShape(geo::Shape* const pShape)
 	m_Shapes.push_back(pShape);
 }
 
-void Debugger::Render()
+void Debugger::Render(Renderer* const pRenderer)
 {
 	for (geo::Shape* pShape : m_Shapes)
 	{
-		Renderer::Get().RenderShape(*pShape);
+		pRenderer->RenderShape(*pShape);
 	}
 	
 	for (geo::Shape* pShape : m_OwnedShapes)
 	{
-		Renderer::Get().RenderShape(*pShape);
+		pRenderer->RenderShape(*pShape);
 		SAFE_DELETE(pShape);
 	}
 

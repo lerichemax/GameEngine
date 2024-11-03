@@ -3,14 +3,11 @@
 #include "GameObject.h"
 #include "TextRendererSystem.h"
 #include "TransformSystem.h"
-#include "LayeredRendererSystem.h"
 #include "CollisionSystem.h"
 #include "AudioSystem.h"
 #include "System.h"
 #include "UiSystem.h"
 
-#include "RendererComponent.h"
-#include "TextRendererComponent.h"
 #include "TransformComponent.h"
 
 
@@ -126,10 +123,8 @@ Scene::Scene(const std::string& name)
 	m_pTransformSystem(nullptr),
 	m_pCollisionSystem(nullptr),
 	m_pAudio(nullptr),
-	m_pTextRenderer(nullptr),
-	m_pLayeredRenderer(nullptr),
 	m_pUi(nullptr),
-	m_pCamera(std::make_unique<Camera2D>(Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight())),
+	m_pCamera(std::make_unique<Camera2D>(NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight())),
 	m_bIsActive(false),
 	m_bIsInitialized(false)
 {
@@ -152,9 +147,9 @@ void Scene::OnLoad()
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
 	m_pCollisionSystem = m_pRegistry->RegisterSystem<CollisionSystem>();
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
-	m_pTextRenderer = m_pRegistry->RegisterSystem<TextRendererSystem>();
-	m_pLayeredRenderer = m_pRegistry->RegisterSystem<LayeredRendererSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
+
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<TextRendererSystem>());
 
 	m_bIsActive = true;
 	
@@ -178,8 +173,6 @@ void Scene::OnLoad()
 		counter++;
 		nbrSystems = m_pSystems.size();
 	}
-
-	Renderer::Get().SetBackgroundColor(m_BackgroundColor);
 }
 
 void Scene::Update()
@@ -197,13 +190,6 @@ void Scene::Update()
 	m_pAudio->Update();
 }
 
-void Scene::Render() const
-{
-	m_pTextRenderer->Update();
-
-
-	m_pLayeredRenderer->Update();
-}
 
 void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
@@ -222,6 +208,11 @@ void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 	}
 
 	BaseScene::Deserialize(reader, context);
+}
+
+Color const& Scene::GetBackgroundColor() const
+{
+	return m_BackgroundColor;
 }
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)

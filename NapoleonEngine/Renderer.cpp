@@ -14,25 +14,13 @@
 
 SDL_Renderer* Renderer::m_pRenderer{};
 
-Renderer::Renderer()
-	: Singleton<Renderer>(),
-	m_pWindow(nullptr),
-	m_BackgroundColor(0, 0, 0, 0)
-{
-	
-}
-
-Renderer::~Renderer()
-{
-	Destroy();
-}
-
-void Renderer::Init(unsigned int Width, unsigned int Height, std::string const& name)
+Renderer::Renderer(unsigned int Width, unsigned int Height, std::string const& name)
+	: m_pWindow(nullptr)
 {
 	CreateSDLWindow(Width, Height, name);
 
 	m_pRenderer = SDL_CreateRenderer(m_pWindow, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (m_pRenderer == nullptr) 
+	if (m_pRenderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -43,14 +31,49 @@ void Renderer::Init(unsigned int Width, unsigned int Height, std::string const& 
 	ImGui_ImplOpenGL2_Init();
 }
 
-void Renderer::Render()
+Renderer::~Renderer()
 {
-	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
+	Destroy();
+}
+
+void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor)
+{
+	SDL_SetRenderDrawColor(m_pRenderer, backgroundColor.R, backgroundColor.G, backgroundColor.B, backgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
 
-	SceneManager::Get().Render();
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<RendererComponent>());
+	signature.set(pRegistry->GetComponentType<TransformComponent>());
 
-	Debugger::Get().Render();
+	auto entities = pRegistry->GetEntitiesWithSignature(signature);
+
+	std::sort(entities.begin(), entities.end(), [pRegistry](Entity a, Entity b) {
+		return pRegistry->GetComponent<RendererComponent>(a)->Layer < pRegistry->GetComponent<RendererComponent>(b)->Layer;
+	});
+
+	for (Entity entity : entities)
+	{
+		auto* const renderComp = pRegistry->GetComponent<RendererComponent>(entity);
+
+		if (!renderComp->IsActive())
+		{
+			continue;
+		}
+
+		if (renderComp->pTexture != nullptr)
+		{
+			auto* const pTransform = pRegistry->GetComponent<TransformComponent>(entity);
+			RenderTexture(*renderComp->pTexture, *pTransform);
+		}
+
+		if (renderComp->pShape != nullptr)
+		{
+			RenderShape(*renderComp->pShape);
+		}
+	}
+
+
+	Debugger::Get().Render(this);
 
 	SDL_RenderPresent(m_pRenderer);
 }

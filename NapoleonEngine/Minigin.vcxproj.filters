@@ -269,9 +269,6 @@
     <ClInclude Include="ScriptComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="LayeredRendererSystem.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="TextRendererSystem.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -283,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,9 +417,6 @@
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="LayeredRendererSystem.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="TextRendererSystem.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -431,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

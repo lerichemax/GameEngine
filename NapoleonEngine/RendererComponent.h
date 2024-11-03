@@ -9,6 +9,7 @@ class Texture2D;
 struct RendererComponent : public Component
 {
 	friend class LayeredRendererSystem;
+	friend class Renderer;
 public:
 	uint8_t Layer{};
 

@@ -50,13 +50,12 @@
 
 
 MainGame::MainGame()
-	:NapoleonEngine()
+	:NapoleonEngine(900, 600, "QBert")
 {
-	Initialize(900, 600, "QBert");
 }
 
 void MainGame::InitGame() const
-{	
+{
 	SceneManager::Get().AddScene(new MainMenuScene{});
 	SceneManager::Get().AddScene(new SoloScene{});
 	SceneManager::Get().AddScene(new CoopScene{});
@@ -344,7 +343,7 @@ void MainGame::CreatePrefabs() const
 	auto menuObj = menuPrefab->GetRoot();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 127}, true} );
+	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true});
 	pShapeRenderer->Layer = 10;
 
 	auto textObject = menuPrefab->CreateGameObject();
@@ -416,7 +415,7 @@ void MainGame::CreatePrefabs() const
 	menuObj = quitMenuPrefab->GetRoot();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 255}, true });
+	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 255}, true });
 	pShapeRenderer->Layer = 10;
 
 	textObject = quitMenuPrefab->CreateGameObject();

@@ -77,6 +77,12 @@ ComponentType Registry::GetComponentType() const
 	return m_pComponentManager->GetComponentType<T>();
 }
 
+template <ComponentDerived... Components> 
+View<Components...> Registry::GetView() const
+{
+	return View<Components...>(this);
+}
+
 template <SystemDerived T>
 T* const Registry::RegisterSystem()
 {

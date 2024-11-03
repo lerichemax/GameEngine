@@ -22,7 +22,7 @@ void Registry::DestroyEntity(Entity entity)
 
 void Registry::TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther)
 {
-	if (pOther->m_pEntityManager->HasATag(originEntity))
+	if (pOther->m_pEntityManager->EntityHasATag(originEntity))
 	{
 		m_pEntityManager->SetTag(destinationEntity, pOther->GetTag(originEntity));
 	}
@@ -193,9 +193,9 @@ std::string Registry::GetTag(Entity entity) const
 	return m_pEntityManager->GetTag(entity);
 }
 
-bool Registry::HasTag(Entity entity, std::string const& tag) const
+bool Registry::EntityHasTag(Entity entity, std::string const& tag) const
 {
-	return m_pEntityManager->HasTag(entity, tag);
+	return m_pEntityManager->EntityHasTag(entity, tag);
 }
 
 int Registry::GetLivingEntitiesCount() const
@@ -217,6 +217,11 @@ std::unordered_set<Entity> const& Registry::GetChildren(Entity entity) const
 std::vector<Entity> Registry::GetEntityHierarchy(Entity entity) const
 {
 	return m_pEntityManager->GetEntityHierarchy(entity);
+}
+
+std::vector<Entity> Registry::GetEntitiesWithSignature(Signature const& signature)
+{
+	return m_pEntityManager->GetEntitiesWithSignature(signature);
 }
 
 std::vector<Component*> Registry::GetEntityComponents(Entity entity)

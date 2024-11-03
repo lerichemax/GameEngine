@@ -28,7 +28,7 @@ void CoilySystem::Start()
 
 	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
 	pJumper->OnJumpedToDeath.Subscribe([this](Entity entity) {
-		if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
+		if (!m_pRegistry->EntityHasTag(entity, ENEMY_TAG))
 		{
 			return;
 		}
@@ -36,7 +36,7 @@ void CoilySystem::Start()
 	});
 
 	pJumper->OnJumpLanded.Subscribe([this](Entity entity) {
-		if (!m_pRegistry->HasTag(entity, ENEMY_TAG))
+		if (!m_pRegistry->EntityHasTag(entity, ENEMY_TAG))
 		{
 			return;
 		}
@@ -61,7 +61,7 @@ void CoilySystem::Start()
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
 		auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
-		if (IS_VALID(pCoily) || m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (IS_VALID(pCoily) || m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			ResetCoily(*m_Entities.begin());
 		}
