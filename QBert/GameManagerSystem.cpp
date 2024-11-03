@@ -90,7 +90,7 @@ void GameManagerSystem::SubscribeLifeSystem()
 	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
 
 	pLivesSystem->OnDied.Subscribe([this](Entity deadEntity, int) {
-		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		if (m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 		{
 			switch (m_GameMode)
 			{
@@ -126,7 +126,7 @@ void GameManagerSystem::SubscribeLifeSystem()
 		Timer::Get().SetTimeScale(0);
 		if (m_GameMode == GameMode::Versus)
 		{
-			if (m_pRegistry->HasTag(entity, QBERT_TAG))
+			if (m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 			{
 				HandleEndRound(false);
 			}

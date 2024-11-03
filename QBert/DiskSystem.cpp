@@ -14,7 +14,7 @@
 void DiskSystem::Start()
 {
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
-		if (m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		if (m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 		{
 			for (Entity entity : m_Entities)
 			{

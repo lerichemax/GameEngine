@@ -105,7 +105,7 @@ void PyramidSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
-		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
 			pPyramid->DiskSpawnTimer = 0;

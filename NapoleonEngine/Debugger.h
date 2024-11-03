@@ -38,7 +38,7 @@ public:
 	
 private:
 	friend class Singleton<Debugger>;
-	friend void Renderer::Render();
+	friend void Renderer::Render(Registry* const pRegistry);
 		
 	Debugger();
 

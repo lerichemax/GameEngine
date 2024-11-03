@@ -52,12 +52,12 @@ void QubeSystem::Start()
 
 		pQube->Characters.insert(entity);
 
-		if (m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			HandleQBertLanding(pMoveComp->CurrentQube);
 		}
 
-		if (m_pRegistry->HasTag(entity, ENEMY_TAG))
+		if (m_pRegistry->EntityHasTag(entity, ENEMY_TAG))
 		{
 			auto* const pEnemy = m_pRegistry->GetComponent<AiControllerComponent>(entity);
 			if (pEnemy->Type == EnemyType::SlickSam && pQube->bIsFlipped)
@@ -71,7 +71,7 @@ void QubeSystem::Start()
 		for (Entity entity : m_Entities)
 		{
 			auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
-			if (pQube->Characters.contains(deadEntity) && m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+			if (pQube->Characters.contains(deadEntity) && m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 			{
 				pQube->Characters.clear();
 				pQube->Characters.insert(deadEntity);

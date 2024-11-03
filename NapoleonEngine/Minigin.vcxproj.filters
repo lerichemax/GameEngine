@@ -284,6 +284,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

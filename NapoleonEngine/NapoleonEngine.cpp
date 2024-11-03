@@ -141,7 +141,7 @@ void NapoleonEngine::Run()
 			m_bQuit = !input.ProcessInput();
 			sceneManager.Update();	
 			
-			renderer.Render();
+			renderer.Render(sceneManager.GetActiveScene()->m_pRegistry.get());
 
 			Timer::Get().Sleep();
 		}

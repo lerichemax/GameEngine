@@ -4,6 +4,7 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "View.h"
 
 #include <memory>
 
@@ -11,6 +12,7 @@ class JSonReader;
 class StreamWriter;
 class Registry final
 {
+	template<ComponentDerived... Components> friend class View;
 public:
 	Registry();
 
@@ -25,6 +27,7 @@ public:
 	template <ComponentDerived T> std::vector<T*> const FindComponentsOfType() const;
 	template <ComponentDerived T> T* const GetComponentInChildren(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
+	template <ComponentDerived... Components> View<Components...> GetView() const;
 
 	template <SystemDerived T> T* const RegisterSystem();
 	template <SystemDerived T> void SetSystemSignature(Signature signature);
@@ -32,6 +35,8 @@ public:
 
 	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
 	std::vector<Entity> GetEntityHierarchy(Entity entity) const;
+	std::vector<Entity> GetEntitiesWithSignature(Signature const& signature);
+
 	std::vector<Component*> GetEntityComponents(Entity entity);
 	
 	void SetEntityActive(Entity entity, bool isActive);
@@ -39,7 +44,7 @@ public:
 	void AddChild(Entity parent, Entity child);
 	void SetTag(Entity entity, std::string const& tag);
 	std::string GetTag(Entity entity) const;
-	bool HasTag(Entity entity, std::string const& tag) const;
+	bool EntityHasTag(Entity entity, std::string const& tag) const;
 	int GetLivingEntitiesCount() const;
 	Entity GetEntityAtIndex(int idx) const;
 

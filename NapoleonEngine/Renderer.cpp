@@ -43,12 +43,42 @@ void Renderer::Init(unsigned int Width, unsigned int Height, std::string const& 
 	ImGui_ImplOpenGL2_Init();
 }
 
-void Renderer::Render()
+void Renderer::Render(Registry* const pRegistry)
 {
 	SDL_SetRenderDrawColor(m_pRenderer, m_BackgroundColor.R, m_BackgroundColor.G, m_BackgroundColor.B, m_BackgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
 
-	SceneManager::Get().Render();
+	Signature signature;
+	signature.set(pRegistry->GetComponentType<RendererComponent>());
+	signature.set(pRegistry->GetComponentType<TransformComponent>());
+
+	auto entities = pRegistry->GetEntitiesWithSignature(signature);
+
+	std::sort(entities.begin(), entities.end(), [pRegistry](Entity a, Entity b) {
+		return pRegistry->GetComponent<RendererComponent>(a)->Layer < pRegistry->GetComponent<RendererComponent>(b)->Layer;
+	});
+
+	for (Entity entity : entities)
+	{
+		auto* const renderComp = pRegistry->GetComponent<RendererComponent>(entity);
+
+		if (!renderComp->IsActive())
+		{
+			continue;
+		}
+
+		if (renderComp->pTexture != nullptr)
+		{
+			auto* const pTransform = pRegistry->GetComponent<TransformComponent>(entity);
+			RenderTexture(*renderComp->pTexture, *pTransform);
+		}
+
+		if (renderComp->pShape != nullptr)
+		{
+			RenderShape(*renderComp->pShape);
+		}
+	}
+
 
 	Debugger::Get().Render();
 

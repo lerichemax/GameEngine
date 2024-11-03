@@ -63,7 +63,7 @@ std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& sig
 
 	for (Entity i = 0; i < m_LivingEntitiesCount; i++)
 	{
-		if ((m_Signatures[i] & signature) == signature)
+		if (EntityHasSignature(i, signature))
 		{
 			entities.push_back(i);
 		}
@@ -77,14 +77,15 @@ std::unordered_set<Entity> const& EntityManager::GetChildren(Entity entity) cons
 	return m_EntitiesHierarchy.at(entity);
 }
 
-std::vector<Entity> EntityManager::GetEntityHierarchy(Entity entity) const
+std::vector<Entity> EntityManager::GetEntityHierarchy(Entity entity) const //TODO: modify to avoid multiple vector copies.
 {
 	std::vector<Entity> hierarchy;
 	hierarchy.push_back(entity);
 
 	for (Entity child : GetChildren(entity))
 	{
-		hierarchy.push_back(child);
+		std::vector childHierarchy = GetEntityHierarchy(entity);
+		hierarchy.insert(childHierarchy.begin(), childHierarchy.end(), hierarchy.end());
 	}
 	return hierarchy;
 }
@@ -106,9 +107,9 @@ std::string EntityManager::GetTag(Entity entity) const
 	return it->second;
 }
 
-bool EntityManager::HasTag(Entity entity, std::string const& tag) const
+bool EntityManager::EntityHasTag(Entity entity, std::string const& tag) const
 {
-	if (!HasATag(entity))
+	if (!EntityHasATag(entity))
 	{
 		return false;
 	}
@@ -116,11 +117,16 @@ bool EntityManager::HasTag(Entity entity, std::string const& tag) const
 	return m_EntityToTag.at(entity) == tag;
 }
 
-bool EntityManager::HasATag(Entity entity) const
+bool EntityManager::EntityHasATag(Entity entity) const
 {
 	auto it = m_EntityToTag.find(entity);
 
 	return it != m_EntityToTag.end();
+}
+
+bool EntityManager::EntityHasSignature(Entity entity, Signature signature) const
+{
+	return (m_Signatures[entity] & signature) == signature;
 }
 
 bool EntityManager::IsEntityValid(Entity entity)

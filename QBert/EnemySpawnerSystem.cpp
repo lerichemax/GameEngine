@@ -35,7 +35,7 @@ void EnemySpawnerSystem::Start()
 	}
 
 	m_pRegistry->GetSystem<JumperSystem>()->OnFell.Subscribe([this](Entity entity) {
-		if (!m_pRegistry->HasTag(entity, ENEMY_TAG)) 
+		if (!m_pRegistry->EntityHasTag(entity, ENEMY_TAG)) 
 		{
 			return;
 		}
@@ -52,7 +52,7 @@ void EnemySpawnerSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
-		if (!m_pRegistry->HasTag(deadEntity, QBERT_TAG))
+		if (!m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 		{
 			auto* const pAiController = m_pRegistry->GetComponent<AiControllerComponent>(deadEntity);
 			auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pAiController](Entity managedEntity) {

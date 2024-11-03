@@ -84,12 +84,6 @@ void SceneManager::SceneManagerImpl::Update()
 
 void SceneManager::SceneManagerImpl::Render()
 {
-	if (m_pActiveScene == nullptr)
-	{
-		LOG_ERROR("SceneManager::Render - > no scene active");
-		NapoleonEngine::Quit();
-		return;
-	}
 
 	m_pActiveScene->Render();
 }
@@ -129,9 +123,11 @@ Scene* SceneManager::SceneManagerImpl::GetActiveScene() const
 {
 	if (m_pActiveScene == nullptr)
 	{
-		LOG_WARNING("SceneManager::GetActiveScene - > no scene active");
+		LOG_ERROR("SceneManager::Render - > no scene active");
+		NapoleonEngine::Quit();
 		return nullptr;
 	}
+
 	return m_pActiveScene;
 }
 

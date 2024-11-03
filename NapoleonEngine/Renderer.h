@@ -10,14 +10,14 @@ struct Shape;
 struct RendererComponent;
 class Texture2D;
 class TransformComponent;
-class TransformComponent;
+class Registry;
 class Renderer final : public Singleton<Renderer>
 {
 public:
 	~Renderer();
 
 	void Init(unsigned int Width, unsigned int Height, std::string const& name);
-	void Render();
+	void Render(Registry* const pRegistry);
 	void Destroy();
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;

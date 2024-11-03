@@ -35,7 +35,7 @@ void QBertSystem::Start()
 		});
 
 		m_pRegistry->GetComponent<ColliderComponent>(entity)->OnTriggerEnter.Subscribe([this, entity](Entity otherEntity) {
-			if (m_pRegistry->HasTag(otherEntity, ENEMY_TAG))
+			if (m_pRegistry->EntityHasTag(otherEntity, ENEMY_TAG))
 			{	
 				GetHurt(entity);
 			}
@@ -45,7 +45,7 @@ void QBertSystem::Start()
 	auto* const pMoveSystem = m_pRegistry->GetSystem<CharacterMovementSystem>();
 
 	pMoveSystem->OnMoveStarted.Subscribe([this](Entity entity) {
-		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (!m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			return;
 		}
@@ -59,7 +59,7 @@ void QBertSystem::Start()
 	auto* const pJumper = m_pRegistry->GetSystem<JumperSystem>();
 
 	pJumper->OnJumpedToDeath.Subscribe([this](Entity entity) {
-		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (!m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			return;
 		}
@@ -71,7 +71,7 @@ void QBertSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int lives) {
-		if (!m_pRegistry->HasTag(entity, QBERT_TAG))
+		if (!m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
 			return;
 		}

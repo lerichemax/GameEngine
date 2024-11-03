@@ -71,7 +71,7 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		m_pJumper->Jump(entity, pTransform->GetLocation(), pCurrentQube->GetEnemyTopPosition(pMoveComp->Mode));
 	}
-	else if (pCurrentQube->ConnectionToDisk->Direction != ConnectionDirection::null && !m_pRegistry->HasTag(entity, ENEMY_TAG))
+	else if (pCurrentQube->ConnectionToDisk->Direction != ConnectionDirection::null && !m_pRegistry->EntityHasTag(entity, ENEMY_TAG))
 	{
 		OnMoveStarted.Notify(entity);
 
