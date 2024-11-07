@@ -12,8 +12,6 @@ T* const Registry::AddComponent(Entity entity)
 
 	m_pEntityManager->SetSignature(entity, signature);
 
-	m_pSystemManager->EntitySignatureChanged(entity, signature);
-
 	return comp;
 }
 
@@ -26,7 +24,6 @@ void Registry::RemoveComponent(Entity entity)
 	signature.set(m_pComponentManager->GetComponentType<T>(), false);
 	m_pEntityManager->SetSignature(entity, signature);
 
-	m_pSystemManager->EntitySignatureChanged(entity, signature);
 }
 
 template <ComponentDerived T>
@@ -78,9 +75,20 @@ ComponentType Registry::GetComponentType() const
 }
 
 template <ComponentDerived... Components> 
-View<Components...> Registry::GetView() const
+View<Components...> Registry::GetView()
 {
-	return View<Components...>(this);
+	View<Components...> view( this );
+
+	return view;
+}
+
+template <ComponentDerived... Components> 
+std::vector<Entity> Registry::GetEntities()
+{
+	Signature signature;
+	(signature.set(GetComponentType<Components>()), ...);
+
+	return std::forward<std::vector<Entity>>(GetEntitiesWithSignature(signature));
 }
 
 template <SystemDerived T>
@@ -88,34 +96,12 @@ T* const Registry::RegisterSystem()
 {
 	auto pSystem = m_pSystemManager->RegisterSystem<T>(this);
 	pSystem->m_pRegistry = this;
-	pSystem->SetSignature();
-
-	OnSystemSignatureChanged<T>(m_pSystemManager->GetSystemSignature<T>());
-
-	Factory<System>::Get().RegisterType<T>([]() {
-		return new T{};
-		});
 
 	return pSystem;
-}
-
-template <SystemDerived T>
-void Registry::SetSystemSignature(Signature signature)
-{
-	m_pSystemManager->SetSignature<T>(signature);
-	OnSystemSignatureChanged<T>(signature);
 }
 
 template <SystemDerived T>
 T* const Registry::GetSystem() const
 {
 	return m_pSystemManager->GetSystem<T>();
-}
-
-template <SystemDerived T>
-void Registry::OnSystemSignatureChanged(Signature const& signature)
-{
-	std::vector<Entity> entities = m_pEntityManager->GetEntitiesWithSignature(signature);
-
-	m_pSystemManager->AssignEntitiesToSystem<T>(entities);
 }

@@ -27,15 +27,17 @@
 
 void PyramidSystem::Initialize()
 {
-	assert(!m_Entities.empty() && "Pyramid System : No entities matching Pyramid system signature.");
+	auto view = m_pRegistry->GetView<PyramidComponent, TransformComponent>();
 
-	Entity pyramidEntity = *m_Entities.begin();
+	assert(view.begin() != view.end() && "Pyramid System : No entities matching Pyramid system signature.");
+
+	m_PyramidEntity = *view.begin();
 	
 	glm::vec2 startPos{ 0,0 };
 	glm::vec2 lastPos{ startPos };
 
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(pyramidEntity);
-	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(pyramidEntity);
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
+	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(m_PyramidEntity);
 
 	//spawn qubes
 	for (unsigned int i = pPyramidComp->MAX_WIDTH; i != 0; i--)
@@ -91,9 +93,9 @@ void PyramidSystem::Start()
 	});
 
 	m_pDiskSystem->OnDiskReachedTop.Subscribe([this](Entity diskEntity) {
-		m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin())->NbrDisksSpawned--;
+		m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity)->NbrDisksSpawned--;
 
-		auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+		auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 		Entity qubeEntity = *std::find_if(pPyramid->Qubes.begin(), pPyramid->Qubes.end(), [this, diskEntity](Entity qubeEntity) {
 			return m_pRegistry->GetComponent<QubeComponent>(qubeEntity)->ConnectionToDisk->Disk == diskEntity;
@@ -107,7 +109,7 @@ void PyramidSystem::Start()
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
 		if (m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
-			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+			auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 			pPyramid->DiskSpawnTimer = 0;
 			pPyramid->NbrDisksSpawned = 0;
 		}
@@ -126,13 +128,13 @@ void PyramidSystem::Update()
 
 Entity PyramidSystem::GetTop() const
 { 
-	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 	return pPyramidComp->Qubes.front(); 
 }
 
 Entity PyramidSystem::GetRandomTopQube() const
 {
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 	int random{ rand() % 2 + 1 };
 
 	auto* pQube = m_pRegistry->GetComponent<QubeComponent>(pPyramidComp->Qubes[random]);
@@ -178,9 +180,7 @@ Entity PyramidSystem::GetSpawnQube(MovementMode mode) const
 
 Entity PyramidSystem::GetQubeAtIndex(int index) const
 {
-	Entity pyramidEntity = *m_Entities.begin();
-
-	auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(pyramidEntity);
+	auto* const pPyramid = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 	if (pPyramid->Qubes.size() <= index)
 	{
@@ -192,21 +192,21 @@ Entity PyramidSystem::GetQubeAtIndex(int index) const
 
 Entity PyramidSystem::GetEscheresqueLeftTop() const
 { 
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 	return pPyramidComp->Qubes.back();
 }
 
 Entity PyramidSystem::GetEscheresqueRightTop() const
 { 
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 	return pPyramidComp->Qubes[pPyramidComp->Qubes.size() - pPyramidComp->MAX_WIDTH];
 }
 
 void PyramidSystem::DiskSpawnerTimer()
 {
-	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 	//Spawn Disks
 	if (pPyramidComp->NbrDisksSpawned < pPyramidComp->MAX_NBR_DISKS)
@@ -326,9 +326,7 @@ void PyramidSystem::CreateEscheresqueLeftConnections(PyramidComponent* const pPy
 
 void PyramidSystem::CheckAllQubesFlipped() const
 {
-	Entity pyramidEntity = *m_Entities.begin();
-
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(pyramidEntity);
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 	for (auto qube : pPyramidComp->Qubes)
 	{	
 		if (!m_pRegistry->GetComponent<QubeComponent>(qube)->bIsFlipped)
@@ -344,7 +342,7 @@ void PyramidSystem::Reset(Level level)
 	//m_DiskSpawnTimer = 0;
 	//NbrDisksSpawned = 0;
 	//
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 	auto* const pQubeSystem = m_pRegistry->GetSystem<QubeSystem>();
 
 	for (Entity qubeEntity : pPyramidComp->Qubes)
@@ -384,7 +382,7 @@ bool PyramidSystem::IsOutsideOfPyramid(Entity qubeEntity, PyramidComponent* cons
 
 bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, ConnectionDirection* directionsArray, size_t arraySize) const
 {
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 	int const currentIdx = GetQubeIndex(startingQube);
 	int targetIdx = GetQubeIndex(targetQube);
 	bool bTargetOnDisk = false;
@@ -509,23 +507,9 @@ bool PyramidSystem::TryFindPathTo(Entity startingQube, Entity targetQube, Connec
 	return true;
 }
 
-void PyramidSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(PyramidSystem)).hash_code()));
-}
-
-void PyramidSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<PyramidComponent>());
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-
-	m_pRegistry->SetSystemSignature<PyramidSystem>(signature);
-}
-
 int PyramidSystem::GetQubeIndex(Entity qubeEntity) const
 {
-	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(*m_Entities.begin());
+	auto* const pPyramidComp = m_pRegistry->GetComponent<PyramidComponent>(m_PyramidEntity);
 
 	for (int i{}; i < static_cast<int>(pPyramidComp->Qubes.size()); i++)
 	{

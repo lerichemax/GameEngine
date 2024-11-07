@@ -25,13 +25,9 @@ class GameManagerSystem : public System
 public:
 	GameManagerSystem();
 
-	void Serialize(StreamWriter& writer) const override;
-
 	void TogglePause();
 
 	void SetGameMode(GameMode mode);
-
-	void SetSignature() const override;
 
 	EventHandler<GameManagerSystem, bool> OnGamePaused;
 	EventHandler<GameManagerSystem, std::string const&> OnGameEnded;

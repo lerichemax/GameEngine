@@ -3,13 +3,13 @@
 #include "Factories.h"
 
 
-std::unordered_map<size_t, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<size_t, ComponentType>{};
+std::unordered_map<std::string, ComponentType> ComponentManager::m_ComponentTypes = std::unordered_map<std::string, ComponentType>{};
 ComponentType ComponentManager::m_NextComponentType = ComponentType{};
 
 void ComponentManager::CleanUp()
 {
 	m_ComponentTypes.clear();
-	std::unordered_map<size_t, ComponentType>().swap(m_ComponentTypes);
+	std::unordered_map<std::string, ComponentType>().swap(m_ComponentTypes);
 	m_NextComponentType = 0;
 }
 
@@ -28,7 +28,7 @@ std::vector<Component*> ComponentManager::GetComponentsForSignature(Entity entit
 {
 	std::vector<Component*> components;
 
-	for (std::pair<size_t, ComponentType> const& pair : m_ComponentTypes)
+	for (std::pair<std::string, ComponentType> const& pair : m_ComponentTypes)
 	{
 		if (signature[pair.second] == 1)
 		{
@@ -45,19 +45,17 @@ std::vector<Component*> ComponentManager::GetComponentsForSignature(Entity entit
 
 ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context)
 {
-	int64_t typeInt;
-	reader->ReadInt64("type", typeInt);
+	std::string type;
+	reader->ReadString("type", type);
 
-	size_t hash = static_cast<size_t>(typeInt);
-
-	auto pComp = Factory<Component, ComponentManager* const>::Get().Create(hash, this);
+	auto pComp = Factory<Component, ComponentManager* const>::Get().Create(type, this);
 
 	assert(pComp != nullptr && "Failed to construct object from type");
 
 	pComp->Deserialize(reader, context);
 	context.Add(pComp->GetId(), pComp);
 
-	m_ComponentArrays.at(hash)->ForceInsertData(pComp, entity);
+	m_ComponentArrays.at(type)->ForceInsertData(pComp, entity);
 
-	return m_ComponentTypes.at(hash);
+	return m_ComponentTypes.at(type);
 }

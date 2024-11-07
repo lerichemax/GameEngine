@@ -9,9 +9,6 @@ class AiControllerSystem : public System {
 public:
 	AiControllerSystem() = default;
 
-	void SetSignature() const override;
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void Start() override;
 	void Update() override;

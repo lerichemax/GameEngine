@@ -32,13 +32,13 @@ public:
 private:
 	friend class Registry;
 
-	static std::unordered_map<size_t, ComponentType> m_ComponentTypes;
-	std::unordered_map<size_t, std::unique_ptr<IComponentArray>> m_ComponentArrays{};
+	static std::unordered_map<std::string, ComponentType> m_ComponentTypes;
+	std::unordered_map<std::string, std::unique_ptr<IComponentArray>> m_ComponentArrays{};
 	static ComponentType m_NextComponentType;
 
 	template<ComponentDerived T> void RegisterComponent();
 	template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
-	template<ComponentDerived T> void RegisterComponentArray(size_t typeHash);
+	template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
 
 	ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
 	static void CleanUp();

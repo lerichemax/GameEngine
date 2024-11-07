@@ -8,11 +8,9 @@ public:
 	UIManagerSystem() = default;
 	~UIManagerSystem() = default;
 
-	void Serialize(StreamWriter& writer) const override;
-
-	void SetSignature() const override;
-
 protected:
 	void Start() override;
 
+private:
+	Entity m_UiEntity{NULL_ENTITY};
 };

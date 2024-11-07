@@ -1,0 +1,119 @@
+{
+    "name": "WrongWay",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "Enemy",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 2.0,
+                        "y": 2.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 2.0,
+                        "y": 2.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 44,
+                    "entity": 0
+                },
+                {
+                    "type": "struct MovementComponent",
+                    "textIdleDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
+                    "textIdleDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
+                    "textIdleUpRight": "",
+                    "textIdleUpLeft": "",
+                    "textJumpDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
+                    "textJumpDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
+                    "textJumpUpRight": "",
+                    "textJumpUpLeft": "",
+                    "mode": 1,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 46,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 7,
+                    "texture": {
+                        "filepath": "Textures/Enemies/WrongWay/WrongWay_Right.png"
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 45,
+                    "entity": 0
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "lives": 1,
+                    "maxLives": 1,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 48,
+                    "entity": 0
+                },
+                {
+                    "type": "struct JumpComponent",
+                    "direction": {
+                        "x": 1.0,
+                        "y": 0.0
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 47,
+                    "entity": 0
+                },
+                {
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 49,
+                    "entity": 0,
+                    "type": "class ColliderComponent",
+                    "shape": {
+                        "type": "struct geo::Rectangle",
+                        "width": 32,
+                        "height": 32,
+                        "isFilled": false,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "color": {
+                            "r": 255,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                        }
+                    },
+                    "draw": false,
+                    "trigger": false
+                },
+                {
+                    "type": "struct AiControllerComponent",
+                    "enemyType": 2,
+                    "points": 0,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 50,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

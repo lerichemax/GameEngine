@@ -1,0 +1,94 @@
+{
+    "name": "Slick",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "Enemy",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 1.5,
+                        "y": 1.5
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 1.5,
+                        "y": 1.5
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 61,
+                    "entity": 0
+                },
+                {
+                    "type": "struct MovementComponent",
+                    "textIdleDownRight": "Textures/Enemies/SlickSam/Slick_Down_Right.png",
+                    "textIdleDownLeft": "Textures/Enemies/SlickSam/Slick_Down_Left.png",
+                    "textIdleUpRight": "",
+                    "textIdleUpLeft": "",
+                    "textJumpDownRight": "Textures/Enemies/SlickSam/Slick_Up_Right.png",
+                    "textJumpDownLeft": "Textures/Enemies/SlickSam/Slick_Up_Left",
+                    "textJumpUpRight": "",
+                    "textJumpUpLeft": "",
+                    "mode": 0,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 63,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 7,
+                    "texture": {
+                        "filepath": "Textures/Enemies/SlickSam/Slick_Down_Right.png"
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 62,
+                    "entity": 0
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "lives": 1,
+                    "maxLives": 1,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 65,
+                    "entity": 0
+                },
+                {
+                    "type": "struct JumpComponent",
+                    "direction": {
+                        "x": 0.0,
+                        "y": -1.0
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 64,
+                    "entity": 0
+                },
+                {
+                    "type": "struct AiControllerComponent",
+                    "enemyType": 0,
+                    "points": 300,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 66,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

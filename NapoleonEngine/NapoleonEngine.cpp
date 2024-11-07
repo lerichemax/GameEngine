@@ -29,8 +29,9 @@ class ObserverManager;
 bool NapoleonEngine::m_bQuit = false;
 NapoleonEngine* NapoleonEngine::m_pEngine = nullptr;
 
-NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name)
-	:m_pRenderer{std::make_unique<Renderer>(Width, Height, name)}
+NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs)
+	: m_pRenderer{std::make_unique<Renderer>(Width, Height, name)},
+	m_bCreatePrefabs{ bCreatePrefabs }
 {
 	assert(m_pEngine == nullptr && "Trying to instantiate more than one Engine instance");
 
@@ -79,8 +80,6 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	fpsCounterObject->AddComponent<FPSCounter>();
 	fpsCounterObject->AddComponent<RendererComponent>()->Layer = 10;
 	fpsCounterObject->GetTransform()->SetLocation(20.f, 20.f);
-
-	fpsCounterPrefab->AddRequiredSystem<FPSCounterSystem>();
 
 	PrefabsManager::Get().SavePrefab(fpsCounterPrefab, "FPSCounter");
 
@@ -132,7 +131,11 @@ void NapoleonEngine::Cleanup()
 
 void NapoleonEngine::Run()
 {
-	CreateBasePrefabs();
+	if (m_bCreatePrefabs)
+	{
+		CreateBasePrefabs();
+	}
+
 	InitGame();
 	{
 		auto& sceneManager = SceneManager::Get();

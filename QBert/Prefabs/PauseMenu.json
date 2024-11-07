@@ -1,0 +1,404 @@
+{
+    "name": "PauseMenu",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 79,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 10,
+                    "Shape": {
+                        "type": "struct geo::Rectangle",
+                        "width": 900,
+                        "height": 600,
+                        "isFilled": true,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 127
+                        }
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 80,
+                    "entity": 0
+                }
+            ],
+            "children": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "Entity": 1,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": 79,
+                    "position": {
+                        "x": 400.0,
+                        "y": 100.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 400.0,
+                        "y": 100.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 81,
+                    "entity": 1
+                },
+                {
+                    "type": "class TextRendererComponent",
+                    "txt": "Pause",
+                    "color": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 255
+                    },
+                    "font": {
+                        "fontName": "./Data/Fonts/Lingua.otf",
+                        "fontSize": 42
+                    },
+                    "fontName": "./Data/Fonts/Lingua.otf",
+                    "fontSize": 42,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 82,
+                    "entity": 1
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 11,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 83,
+                    "entity": 1
+                }
+            ],
+            "children": []
+        },
+        {
+            "Entity": 2,
+            "Tag": "ResumeBtn",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": 79,
+                    "position": {
+                        "x": 400.0,
+                        "y": 200.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 400.0,
+                        "y": 200.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 84,
+                    "entity": 2
+                },
+                {
+                    "type": "class TextRendererComponent",
+                    "txt": "Resume",
+                    "color": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 255
+                    },
+                    "font": {
+                        "fontName": "./Data/Fonts/Lingua.otf",
+                        "fontSize": 30
+                    },
+                    "fontName": "./Data/Fonts/Lingua.otf",
+                    "fontSize": 30,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 85,
+                    "entity": 2
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 11,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 86,
+                    "entity": 2
+                },
+                {
+                    "type": "class ButtonComponent",
+                    "visualize": false,
+                    "dimension": {
+                        "x": 110.0,
+                        "y": 30.0
+                    },
+                    "onSelect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                        },
+                        "id": 88
+                    },
+                    "onDeselect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                        },
+                        "id": 89
+                    }
+                }
+            ],
+            "children": []
+        },
+        {
+            "Entity": 3,
+            "Tag": "BackToMainBtn",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": 79,
+                    "position": {
+                        "x": 400.0,
+                        "y": 300.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 400.0,
+                        "y": 300.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 90,
+                    "entity": 3
+                },
+                {
+                    "type": "class TextRendererComponent",
+                    "txt": "Back to Main Menu",
+                    "color": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 255
+                    },
+                    "font": {
+                        "fontName": "./Data/Fonts/Lingua.otf",
+                        "fontSize": 30
+                    },
+                    "fontName": "./Data/Fonts/Lingua.otf",
+                    "fontSize": 30,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 91,
+                    "entity": 3
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 11,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 92,
+                    "entity": 3
+                },
+                {
+                    "type": "class ButtonComponent",
+                    "visualize": false,
+                    "dimension": {
+                        "x": 254.0,
+                        "y": 30.0
+                    },
+                    "onClick": {
+                        "id": 96,
+                        "type": "class SwitchScene",
+                        "sceneName": "MainMenuScene"
+                    },
+                    "onSelect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                        },
+                        "id": 94
+                    },
+                    "onDeselect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                        },
+                        "id": 95
+                    }
+                }
+            ],
+            "children": []
+        },
+        {
+            "Entity": 4,
+            "Tag": "QuitBtn",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": 79,
+                    "position": {
+                        "x": 400.0,
+                        "y": 400.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 400.0,
+                        "y": 400.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 97,
+                    "entity": 4
+                },
+                {
+                    "type": "class TextRendererComponent",
+                    "txt": "Quit",
+                    "color": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 255
+                    },
+                    "font": {
+                        "fontName": "./Data/Fonts/Lingua.otf",
+                        "fontSize": 30
+                    },
+                    "fontName": "./Data/Fonts/Lingua.otf",
+                    "fontSize": 30,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 98,
+                    "entity": 4
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 11,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 99,
+                    "entity": 4
+                },
+                {
+                    "type": "class ButtonComponent",
+                    "visualize": false,
+                    "dimension": {
+                        "x": 65.0,
+                        "y": 30.0
+                    },
+                    "onClick": {
+                        "id": 103,
+                        "type": "class QuitGameCommand"
+                    },
+                    "onSelect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                        },
+                        "id": 101
+                    },
+                    "onDeselect": {
+                        "type": "class SwitchTextColor",
+                        "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                        },
+                        "id": 102
+                    }
+                }
+            ],
+            "children": []
+        }
+    ]
+}

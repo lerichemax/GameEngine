@@ -11,12 +11,14 @@
 
 void UIManagerSystem::Start()
 {
-	Entity entity = *m_Entities.cbegin();
+	auto view = m_pRegistry->GetView< UiManagerComponent>();
+
+	m_UiEntity = *view.begin();
 
 	for (CharacterPoint* pPointComp : m_pRegistry->FindComponentsOfType<CharacterPoint>())
 	{
-		pPointComp->OnPointsUpdated.Subscribe([this, entity](int points, Entity playerEntity) {
-			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+		pPointComp->OnPointsUpdated.Subscribe([this](int points, Entity playerEntity) {
+			auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(m_UiEntity);
 
 			auto* const pCharacter = m_pRegistry->GetComponent<CharacterControllerComponent>(playerEntity);
 
@@ -37,7 +39,7 @@ void UIManagerSystem::Start()
 
 	auto* const pLivesSystem = m_pRegistry->GetSystem<LivesSystem>();
 
-	pLivesSystem->OnDied.Subscribe([this, entity](Entity deadEntity, int lives) {
+	pLivesSystem->OnDied.Subscribe([this](Entity deadEntity, int lives) {
 		auto* const pCharacter = m_pRegistry->GetComponent<CharacterControllerComponent>(deadEntity);
 
 		if (!IS_VALID(pCharacter))
@@ -45,7 +47,7 @@ void UIManagerSystem::Start()
 			return;
 		}
 
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(m_UiEntity);
 
 		if (pCharacter->PlayerNumber == 1 && pUiComp->LivesCounterTextEntity != NULL_ENTITY)
 		{
@@ -67,14 +69,14 @@ void UIManagerSystem::Start()
 		return;
 	}
 
-	pGameManager->OnGamePaused.Subscribe([this, entity](bool isPaused) {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+	pGameManager->OnGamePaused.Subscribe([this](bool isPaused) {
+		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(m_UiEntity);
 
 		m_pRegistry->SetEntityHierarchyActive(pUiComp->PauseMenuEntity, isPaused);
 		});
 
-	pGameManager->OnGameEnded.Subscribe([this, entity](std::string const& endText) {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+	pGameManager->OnGameEnded.Subscribe([this](std::string const& endText) {
+		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(m_UiEntity);
 		auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
 
 		pText->SetText(endText);
@@ -82,27 +84,12 @@ void UIManagerSystem::Start()
 		m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
 		});
 
-	pGameManager->OnGameOver.Subscribe([this, entity]() {
-		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(entity);
+	pGameManager->OnGameOver.Subscribe([this]() {
+		auto* const pUiComp = m_pRegistry->GetComponent<UiManagerComponent>(m_UiEntity);
 		auto* const pText = m_pRegistry->GetComponentInChildren<TextRendererComponent>(pUiComp->GameOverMenuEntity);
 
 		pText->SetText("Game Over");
 
 		m_pRegistry->SetEntityHierarchyActive(pUiComp->GameOverMenuEntity, true);
 		});
-}
-
-void UIManagerSystem::SetSignature() const
-{
-	Signature signature{};
-	signature.set(m_pRegistry->GetComponentType<UiManagerComponent>());
-
-	m_pRegistry->SetSystemSignature<UIManagerSystem>(signature);
-}
-
-void UIManagerSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(UIManagerSystem)).hash_code()));
-
-	System::Serialize(writer);
 }

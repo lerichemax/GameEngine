@@ -26,7 +26,10 @@ void AiControllerSystem::Update()
 	{
 		return;
 	}
-	for (Entity entity : m_Entities)
+
+	auto view = m_pRegistry->GetView<AiControllerComponent, MovementComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pAiControllerComp = m_pRegistry->GetComponent<AiControllerComponent>(entity);
 
@@ -91,17 +94,4 @@ void AiControllerSystem::ChooseDirection(MovementComponent* const pMover) const
 	}
 
 	pMover->CurrentDirection = dir;
-}
-
-void AiControllerSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(AiControllerSystem)).hash_code()));
-}
-
-void AiControllerSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<AiControllerComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-	m_pRegistry->SetSystemSignature<AiControllerSystem>(signature);
 }

@@ -41,11 +41,7 @@ void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor)
 	SDL_SetRenderDrawColor(m_pRenderer, backgroundColor.R, backgroundColor.G, backgroundColor.B, backgroundColor.A);
 	SDL_RenderClear(m_pRenderer);
 
-	Signature signature;
-	signature.set(pRegistry->GetComponentType<RendererComponent>());
-	signature.set(pRegistry->GetComponentType<TransformComponent>());
-
-	auto entities = pRegistry->GetEntitiesWithSignature(signature);
+	auto entities = pRegistry->GetEntities<RendererComponent, TransformComponent>();
 
 	std::sort(entities.begin(), entities.end(), [pRegistry](Entity a, Entity b) {
 		return pRegistry->GetComponent<RendererComponent>(a)->Layer < pRegistry->GetComponent<RendererComponent>(b)->Layer;

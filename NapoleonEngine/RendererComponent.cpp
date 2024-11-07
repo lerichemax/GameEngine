@@ -11,7 +11,7 @@ void RendererComponent::SetShape(geo::Shape* shape)
 
 void RendererComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(RendererComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(RendererComponent).name());
 
 	writer.WriteInt("layer", Layer);
 
@@ -50,10 +50,10 @@ void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 
 	if (IS_VALID(shapeObj)) //have this handled by shape deserializer ?
 	{
-		int64_t type;
-		shapeObj->ReadInt64("type", type);
+		std::string type;
+		shapeObj->ReadString("type", type);
 
-		pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(static_cast<size_t>(type))));
+		pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(type)));
 		if (pShape != nullptr)
 		{
 			pShape->Deserialize(shapeObj.get());

@@ -17,23 +17,12 @@ class SystemManager
 {
 public:
 	template <SystemDerived T> T* const RegisterSystem(Registry* const pRegistry);
-	template <SystemDerived T> void SetSignature(Signature signature);
-	template <SystemDerived T> void UpdateSignature(Signature signature);
-	template <SystemDerived T> Signature const& GetSystemSignature() const;
-	template <SystemDerived T> void AssignEntitiesToSystem(std::vector<Entity> const& entities) const;
 	template <SystemDerived T> T* const GetSystem() const;
-
-	void EntityDestroyed(Entity entity);
-	void EntitySignatureChanged(Entity entity, Signature const& entitySignature);
 
 private:
 	friend class Registry;
 
-	std::unordered_map<size_t, Signature> m_Signatures;
-	std::unordered_map<size_t, std::unique_ptr<System>> m_Systems;
-
-	bool ForceAddSystem(size_t type, System* system);
-	System* const GetSystemFromType(size_t type) const;
+	std::unordered_map<std::string, std::unique_ptr<System>> m_Systems;
 };
 
 #include "SystemManager.inl"

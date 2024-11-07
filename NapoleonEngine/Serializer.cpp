@@ -18,8 +18,6 @@ std::unique_ptr<Document> Serializer::Serialize(ISerializable const& serializabl
 
 	writer.m_BufferWriter.EndObject();
 
-	//std::cout << buffer.GetString() << std::endl;
-
 	pDoc->Parse(buffer.GetString());
 
 	return pDoc;
@@ -33,8 +31,6 @@ std::unique_ptr<Document> Serializer::Serialize(IContextSerializable const& seri
 	StreamWriter writer{ buffer };
 
 	writer.WriteObject(const_cast<IContextSerializable*>(&serializable)); //to change
-
-	//std::cout << buffer.GetString() << std::endl;
 
 	pDoc->Parse(buffer.GetString());
 

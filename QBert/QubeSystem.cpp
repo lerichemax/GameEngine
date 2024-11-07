@@ -24,7 +24,9 @@ EventHandler<QubeSystem> QubeSystem::OnAnyQubeFlipped{};
 
 void QubeSystem::Initialize()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<QubeComponent, TransformComponent, RendererComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pTextureRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 		auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
@@ -68,7 +70,8 @@ void QubeSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
-		for (Entity entity : m_Entities)
+		auto view = m_pRegistry->GetView<QubeComponent, TransformComponent, RendererComponent>();
+		for (Entity entity : view)
 		{
 			auto* const pQube = m_pRegistry->GetComponent<QubeComponent>(entity);
 			if (pQube->Characters.contains(deadEntity) && m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
@@ -153,19 +156,4 @@ void QubeSystem::Reset(Level level, Entity entity)
 	auto* const pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 	
 	pRenderer->pTexture = pQube->pDefaultText;
-}
-
-void QubeSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(QubeSystem)).hash_code()));
-}
-
-void QubeSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<QubeComponent>());
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
-
-	m_pRegistry->SetSystemSignature<QubeSystem>(signature);
 }

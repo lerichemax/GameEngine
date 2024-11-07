@@ -18,9 +18,11 @@ public:
 	unsigned int GetWindowHeight() const;
 
 protected:
-	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name);
+	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs);
 
 	virtual void CreatePrefabs() const = 0;
+
+
 
 private:
 	static bool m_bQuit;
@@ -29,6 +31,8 @@ private:
 	std::vector<SingletonWrapper*> m_Singletons;
 
 	std::unique_ptr<Renderer> m_pRenderer;
+
+	bool m_bCreatePrefabs;
 
 	void CreateBasePrefabs();
 };

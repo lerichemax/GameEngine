@@ -8,7 +8,8 @@
 
 void FPSCounterSystem::Update()
 {
-	for (Entity const& entity : m_Entities)
+	auto view = m_pRegistry->GetView<FPSCounter, TextRendererComponent>();
+	for (Entity entity : view)
 	{
 		auto* const fpsCounter = m_pRegistry->GetComponent<FPSCounter>(entity);
 
@@ -24,18 +25,4 @@ void FPSCounterSystem::Update()
 			}
 		}
 	}
-}
-
-void FPSCounterSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<FPSCounter>());
-	signature.set(m_pRegistry->GetComponentType<TextRendererComponent>());
-
-	m_pRegistry->SetSystemSignature<FPSCounterSystem>(signature);
-}
-
-void FPSCounterSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64(std::string{ "type" }, static_cast<int64_t>(std::type_index(typeid(FPSCounterSystem)).hash_code()));
 }

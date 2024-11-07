@@ -27,7 +27,9 @@
 
 void QBertSystem::Start()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+
+	for (Entity entity : view)
 	{
 		m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, entity](Entity diskEntity) {
 			auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(diskEntity);
@@ -89,7 +91,8 @@ void QBertSystem::Start()
 	});
 
 	m_pRegistry->GetSystem<PyramidSystem>()->OnAllQubesFlipped.Subscribe([this](int points) {
-		for (Entity entity : m_Entities)
+		auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+		for (Entity entity : view)
 		{
 			m_pRegistry->GetComponent<CharacterPoint>(entity)->AddPoints(points);
 		}
@@ -98,7 +101,9 @@ void QBertSystem::Start()
 
 void QBertSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pQbert = m_pRegistry->GetComponent<QbertComponent>(entity);
 
@@ -131,24 +136,27 @@ void QBertSystem::ResetToCurrentQube(Entity qbertEntity)
 
 void QBertSystem::Reset(GameMode gameMode)
 {
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+
 	auto* const pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
+
 	switch (gameMode)
 	{
 	case GameMode::Normal:
-		for (Entity entity : m_Entities)
+		for (Entity entity : view)
 		{
 			SetToQube(entity, pPyramid->GetTop());
 		}
 		break;
 	case GameMode::Coop:
 		SetStartQubes(gameMode);
-		for (Entity entity : m_Entities)
+		for (Entity entity : view)
 		{
 			ResetToCurrentQube(entity);
 		}
 		break;
 	case GameMode::Versus:
-		for (Entity entity : m_Entities)
+		for (Entity entity : view)
 		{
 			SetToQube(entity, pPyramid->GetQubeAtIndex(1));
 		}
@@ -173,11 +181,12 @@ void QBertSystem::SetToQube(Entity qbertEntity, Entity qubeEntity)
 
 void QBertSystem::SetStartQubes(GameMode mode)
 {
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
 	auto* const pPyramid = m_pRegistry->GetSystem<PyramidSystem>();
 	switch (mode)
 	{
 	case GameMode::Normal:
-		for (Entity entity : m_Entities) //should only be one
+		for (Entity entity : view) //should only be one
 		{
 			m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetTop();
 		}
@@ -185,7 +194,7 @@ void QBertSystem::SetStartQubes(GameMode mode)
 	case GameMode::Coop:
 	{
 		int count = 0; // we assume we only have two players
-		for (Entity entity : m_Entities)
+		for (Entity entity : view)
 		{
 			if (count == 0)
 			{
@@ -201,7 +210,7 @@ void QBertSystem::SetStartQubes(GameMode mode)
 		break;
 	}
 	case GameMode::Versus:
-		for (Entity entity : m_Entities) // should only be one
+		for (Entity entity : view) // should only be one
 		{
 			m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube = pPyramid->GetQubeAtIndex(1);
 		}
@@ -210,7 +219,7 @@ void QBertSystem::SetStartQubes(GameMode mode)
 		break;
 	}
 
-	for (Entity entity : m_Entities)
+	for (Entity entity : view)
 	{
 		auto pQube = m_pRegistry->GetComponent<QubeComponent>(m_pRegistry->GetComponent<MovementComponent>(entity)->CurrentQube);
 		pQube->Characters.insert(entity);
@@ -222,7 +231,8 @@ void QBertSystem::SetStartQubes(GameMode mode)
 
 void QBertSystem::AddPoints(int points)
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+	for (Entity entity : view)
 	{
 		m_pRegistry->GetComponent<CharacterPoint>(entity)->AddPoints(points);
 	}
@@ -236,7 +246,8 @@ void QBertSystem::OnJumped(Entity qbertEntity)
 
 void QBertSystem::HandleEnemyEncounter(Entity characterEntity, std::unordered_set<Entity> const& qubeCharacterEntities)
 {
-	for (Entity qbertEntity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent, QbertComponent>();
+	for (Entity qbertEntity : view)
 	{
 		auto* const pMover = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
 
@@ -350,19 +361,4 @@ void QBertSystem::JumpOffDisk(Entity qbertEntity)
 	pMove->CurrentDirection = ConnectionDirection::null;
 
 	pTransform->SetLocation(m_pRegistry->GetComponent<QubeComponent>(pMove->CurrentQube)->CharacterPos);
-}
-
-void QBertSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());
-	signature.set(m_pRegistry->GetComponentType<QbertComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-
-	m_pRegistry->SetSystemSignature<QBertSystem>(signature);
-}
-
-void QBertSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(QBertSystem)).hash_code()));
 }

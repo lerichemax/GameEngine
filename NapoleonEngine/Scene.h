@@ -7,9 +7,9 @@
 #include <memory>
 #include <unordered_set>
 
+class System;
 class GameObject;
 class TransformSystem;
-class System;
 class AudioSystem;
 class UiSystem;
 class CollisionSystem;
@@ -37,7 +37,6 @@ protected:
 	std::string m_Name;
 
 	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
-
 };
 
 class Prefab : public BaseScene
@@ -50,28 +49,12 @@ public:
 	std::shared_ptr<GameObject> CreateGameObject() override;
 	std::shared_ptr<GameObject> GetRoot() const;
 
-	template <SystemDerived T> void AddRequiredSystem();
-
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void SetName(std::string const& name);
 
 private:
 	Entity m_pRootEntity;
-	std::unordered_set<size_t> m_RequiredSystems;
 };
-
-template <SystemDerived T> 
-void Prefab::AddRequiredSystem() 
-{
-	size_t type = std::type_index(typeid(T)).hash_code();
-
-	assert(m_RequiredSystems.find(type) == m_RequiredSystems.end() && std::string("System with Hash " + std::to_string(type) + " already added as required.").c_str());
-
-	m_pRegistry->RegisterSystem<T>();
-	m_RequiredSystems.insert(type);
-}
 
 class Scene : public BaseScene
 {

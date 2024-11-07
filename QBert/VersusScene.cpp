@@ -3,7 +3,17 @@
 
 #include "UIManagerSystem.h"
 #include "DiskSystem.h"
+#include "PyramidSystem.h"
+#include "QubeSystem.h"
 #include "GameManagerSystem.h"
+#include "QBertSystem.h"
+#include "CharacterControllerSystem.h"
+#include "CharacterMovementSystem.h"
+#include "JumperSystem.h"
+#include "LivesSystem.h"
+#include "AiControllerSystem.h"
+#include "CoilySystem.h"
+#include "FPSCounterSystem.h"
 
 #include "UiManagerComponent.h"
 #include "CharacterLives.h"
@@ -46,11 +56,18 @@ void VersusScene::Initialize()
 
 	//pyramid
 	Instantiate("Pyramid");
+	AddSystem<PyramidSystem>();
 	AddSystem<DiskSystem>();
+	AddSystem<QubeSystem>();
 
 	//Qbert
 	auto pQbertObj = Instantiate("QBert");
 	pQbertObj->GetComponent<CharacterLives>()->Init(4);
+	AddSystem<QBertSystem>();
+	AddSystem<CharacterControllerSystem>();
+	AddSystem<CharacterMovementSystem>();
+	AddSystem<JumperSystem>();
+	AddSystem<LivesSystem>();
 
 	//game manager
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
@@ -78,96 +95,9 @@ void VersusScene::Initialize()
 	pTextPointsP2->SetTextColor(255, 0, 255);
 	pPointsP2->GetTransform()->SetLocation(20.f, 100.f);
 
+	AddSystem<AiControllerSystem>();
+	AddSystem<CoilySystem>();
+
 	Instantiate("FPSCounter");
+	AddSystem<FPSCounterSystem>();
 }
-
-//void VersusScene::ResetGame()
-//{
-//	//m_pPyramid->Reset();
-//	
-//	m_pQbert->Reset(true, m_pPyramid->GetTop());
-//	//m_pQbert->GetEntity()->GetComponent<RendererComponent>()->ChangeLayer(Layer::foreground);
-//	m_pQbert->SetCanMove();
-//	
-//	m_pCoilyPlayer->Transform(false);
-//	m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-//	m_pCoilyPlayer->GetEntity()->GetTransform()->SetLocation(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-//	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-//	//m_pCoilyPlayer->GetEntity()->GetComponent<CharacterPoint>()->Reset();
-//	
-//	//m_pRoundText->SetText("Round 1");
-//	//m_pTextP1->SetText("P1: 0");
-//	//m_pTextP2->SetText("P2: 0");
-//	SetIsPaused(false);
-//	m_pPauseMenu->SetActive(false);
-//	m_pGameOverMenu->SetActive(false);
-//}
-
-//void VersusScene::ResetScene(Level ) //ignore level, always resets to level 1
-//{
-	//m_pPyramid->Reset();
-	//m_pQbert->Reset(false, m_pPyramid->GetTop());
-	
-	//m_pCoilyPlayer->Transform(false);
-	//m_pCoilyPlayer->SetCurrentQube(m_pPyramid->GetQube(2));
-	//m_pCoilyPlayer->GetEntity()->GetTransform()->SetLocation(m_pCoilyPlayer->GetCurrentQube()->GetCharacterPos());
-	//m_pCoilyPlayer->GetEntity()->GetComponent<CoilyCharacterController>()->SetEnable(true);
-//}
-
-//void VersusScene::DeclareInput()
-//{
-	//Player1
-	//InputManager::Get().AddInputAction(24, new InputAction(SDLK_w, KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upRight, m_pQbert)));
-	//InputManager::Get().AddInputAction(25, new InputAction{ SDLK_d , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert) });
-	//InputManager::Get().AddInputAction(26, new InputAction{ SDLK_s , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert) });
-	//InputManager::Get().AddInputAction(27, new InputAction{ SDLK_a , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert) });
-
-	//InputManager::Get().AddInputAction(28,
-	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
-	//		new MoveCommand(ConnectionDirection::upRight, m_pQbert), PlayerNbr::One));
-	//InputManager::Get().AddInputAction(29,
-	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downRight, m_pQbert), PlayerNbr::One });
-	//InputManager::Get().AddInputAction(30,
-	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downLeft, m_pQbert), PlayerNbr::One });
-	//InputManager::Get().AddInputAction(31,
-	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upLeft, m_pQbert), PlayerNbr::One });
-
-	////Player2
-	//InputManager::Get().AddInputAction(32, new InputAction(SDLK_UP, KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer)));
-	//InputManager::Get().AddInputAction(33, new InputAction{ SDLK_RIGHT , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer) });
-	//InputManager::Get().AddInputAction(34, new InputAction{ SDLK_DOWN , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer) });
-	//InputManager::Get().AddInputAction(35, new InputAction{ SDLK_LEFT , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer) });
-
-	//InputManager::Get().AddInputAction(36,
-	//	new InputAction(ControllerButton::ButtonUp, KeyActionState::pressed,
-	//		new MoveCommand(ConnectionDirection::upRight, m_pCoilyPlayer), PlayerNbr::Two));
-	//InputManager::Get().AddInputAction(37,
-	//	new InputAction{ ControllerButton::ButtonRight , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downRight, m_pCoilyPlayer), PlayerNbr::Two });
-	//InputManager::Get().AddInputAction(38,
-	//	new InputAction{ ControllerButton::ButtonDown , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::downLeft, m_pCoilyPlayer), PlayerNbr::Two });
-	//InputManager::Get().AddInputAction(39,
-	//	new InputAction{ ControllerButton::ButtonLeft , KeyActionState::pressed,
-	//	new MoveCommand(ConnectionDirection::upLeft, m_pCoilyPlayer), PlayerNbr::Two });
-
-	//InputManager::Get().AddInputAction(105, new InputAction{ SDLK_ESCAPE, KeyActionState::pressed,
-	//new PauseGameCommand(this, m_pPauseMenu) });
-
-	//InputManager::Get().AddInputAction(106, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
-	//	new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::One });
-
-	//InputManager::Get().AddInputAction(107, new InputAction{ ControllerButton::Start, KeyActionState::pressed,
-	//new PauseGameCommand(this, m_pPauseMenu), PlayerNbr::Two });
-//}

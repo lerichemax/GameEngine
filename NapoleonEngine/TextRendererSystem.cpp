@@ -7,7 +7,8 @@
 
 void TextRendererSystem::Update()
 {
-	for (Entity const& entity : m_Entities)
+	auto view = m_pRegistry->GetView<TransformComponent, RendererComponent, TextRendererComponent>();
+	for (Entity const& entity : view)
 	{
 		auto textRenderComp = m_pRegistry->GetComponent<TextRendererComponent>(entity);
 
@@ -24,14 +25,4 @@ void TextRendererSystem::Update()
 
 		textRenderComp->m_NeedsUpdate = false;
 	}
-}
-
-void TextRendererSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
-	signature.set(m_pRegistry->GetComponentType<TextRendererComponent>());
-
-	m_pRegistry->SetSystemSignature<TextRendererSystem>(signature);
 }

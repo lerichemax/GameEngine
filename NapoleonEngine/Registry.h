@@ -27,15 +27,14 @@ public:
 	template <ComponentDerived T> std::vector<T*> const FindComponentsOfType() const;
 	template <ComponentDerived T> T* const GetComponentInChildren(Entity entity) const;
 	template <ComponentDerived T> ComponentType GetComponentType() const;
-	template <ComponentDerived... Components> View<Components...> GetView() const;
+	template <ComponentDerived... Components> View<Components...> GetView();
+	template <ComponentDerived... Components> std::vector<Entity> GetEntities();
 
 	template <SystemDerived T> T* const RegisterSystem();
-	template <SystemDerived T> void SetSystemSignature(Signature signature);
 	template <SystemDerived T> T* const GetSystem() const;
 
 	std::unordered_set<Entity> const& GetChildren(Entity entity) const;
 	std::vector<Entity> GetEntityHierarchy(Entity entity) const;
-	std::vector<Entity> GetEntitiesWithSignature(Signature const& signature);
 
 	std::vector<Component*> GetEntityComponents(Entity entity);
 	
@@ -54,16 +53,15 @@ public:
 	void DeserializeEntities(JsonReader const* reader, SerializationMap& context);
 	void RestoreEntitiesContext(JsonReader const* reader, SerializationMap const& context);
 
-	System* const AddSystemFromHash(size_t type);
 
 private:
 	std::unique_ptr<ComponentManager> m_pComponentManager;
 	std::unique_ptr<EntityManager> m_pEntityManager;
 	std::unique_ptr<SystemManager> m_pSystemManager;
 
-	template <SystemDerived T> void OnSystemSignatureChanged(Signature const& signature);
 
 	void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
+	std::vector<Entity> GetEntitiesWithSignature(Signature const& signature);
 };
 
 #include "Registry.inl"

@@ -59,30 +59,35 @@ void CoilySystem::Start()
 		});
 	}
 
-	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity entity, int nbrLives) {
+	auto view = m_pRegistry->GetView<AiControllerComponent, MovementComponent, CoilyComponent>();
+	m_CoilyEntity = *view.begin();
+
+	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this, &view](Entity entity, int nbrLives) {
 		auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(entity);
 		if (IS_VALID(pCoily) || m_pRegistry->EntityHasTag(entity, QBERT_TAG))
 		{
-			ResetCoily(*m_Entities.begin());
+			ResetCoily(m_CoilyEntity);
 		}
 	});
 
-	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this](Entity entity) {
-		if (m_pRegistry->GetComponent<CoilyComponent>(*m_Entities.begin())->IsActive())
+	m_pRegistry->GetSystem<DiskSystem>()->OnDiskReachedTop.Subscribe([this, &view](Entity entity) {
+		if (m_pRegistry->GetComponent<CoilyComponent>(m_CoilyEntity)->IsActive())
 		{
-			SearchForQbert(*m_Entities.begin());
+			SearchForQbert(m_CoilyEntity);
 		}
 	});
 }
 
 void CoilySystem::Update()
 {
-	if (m_Entities.empty())
+	auto view = m_pRegistry->GetView<AiControllerComponent, MovementComponent, CoilyComponent>();
+
+	if (view.begin() == view.end())
 	{
 		return;
 	}
 
-	Entity coilyEntity = *m_Entities.begin();
+	Entity coilyEntity = *view.begin();
 	
 	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
 
@@ -205,15 +210,13 @@ void CoilySystem::SearchForQbert(Entity entity)
 
 void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 {
-	if (!m_pRegistry->GetComponent<CoilyComponent>(*m_Entities.begin())->IsActive())
+	if (!m_pRegistry->GetComponent<CoilyComponent>(m_CoilyEntity)->IsActive())
 	{
 		AiControllerSystem::ChooseDirection(pMover);
 		return;
 	}
 
-	Entity coilyEntity = *m_Entities.begin();
-
-	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(coilyEntity);
+	auto* const pCoily = m_pRegistry->GetComponent<CoilyComponent>(m_CoilyEntity);
 	
 	if (pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue == pCoily->MOVEMENT_QUEUE_SIZE)
 	{
@@ -223,18 +226,4 @@ void CoilySystem::ChooseDirection(MovementComponent* const pMover) const
 
 	pMover->CurrentDirection = pCoily->MovementQueue[pCoily->MOVEMENT_QUEUE_SIZE - pCoily->CurrentlyInQueue];
 	pCoily->CurrentlyInQueue--;
-}
-
-void CoilySystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CoilySystem)).hash_code()));
-}
-
-void CoilySystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<AiControllerComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-	signature.set(m_pRegistry->GetComponentType<CoilyComponent>());
-	m_pRegistry->SetSystemSignature<CoilySystem>(signature);
 }

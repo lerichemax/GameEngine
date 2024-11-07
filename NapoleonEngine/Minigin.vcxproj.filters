@@ -236,9 +236,6 @@
     <ClInclude Include="System.h">
       <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>ECS\Entity</Filter>
     </ClInclude>
@@ -283,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="View.h">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +393,6 @@
     <ClCompile Include="System.cpp">
       <Filter>ECS\Systems\Base</Filter>
     </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS\Entity</Filter>
     </ClCompile>
@@ -429,9 +426,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentManager.inl">
@@ -440,10 +434,13 @@
     <None Include="ComponentArray.inl">
       <Filter>ECS\Components\Base</Filter>
     </None>
+    <None Include="Registry.inl">
+      <Filter>ECS</Filter>
+    </None>
     <None Include="SystemManager.inl">
       <Filter>ECS\Systems\Base</Filter>
     </None>
-    <None Include="Registry.inl">
+    <None Include="View.inl">
       <Filter>ECS</Filter>
     </None>
   </ItemGroup>

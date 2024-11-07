@@ -7,7 +7,9 @@
 
 void LivesSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterLives>();
+
+	for (Entity entity : view)
 	{
 		auto* const pLivesComp = m_pRegistry->GetComponent<CharacterLives>(entity);
 
@@ -27,16 +29,4 @@ void LivesSystem::Update()
 			}
 		}
 	}
-}
-
-void LivesSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(LivesSystem)).hash_code()));
-}
-
-void LivesSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<CharacterLives>());
-	m_pRegistry->SetSystemSignature<LivesSystem>(signature);
 }

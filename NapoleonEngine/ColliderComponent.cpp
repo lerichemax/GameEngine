@@ -34,7 +34,7 @@ void ColliderComponent::Serialize(StreamWriter& writer) const
 {
 	Component::Serialize(writer);
 
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(ColliderComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(ColliderComponent).name());
 
 	if (pShape == nullptr)
 	{
@@ -56,10 +56,10 @@ void ColliderComponent::Deserialize(JsonReader const* reader, SerializationMap& 
 	{
 		return;
 	}
-	int64_t type;
-	shapeObj->ReadInt64("type", type);
+	std::string type;
+	shapeObj->ReadString("type", type);
 
-	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(static_cast<size_t>(type))));
+	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(type)));
 	if (pShape != nullptr)
 	{
 		pShape->Deserialize(shapeObj.get());

@@ -11,9 +11,6 @@ public:
 
 	EventHandler<CoilySystem, Entity> OnCoilyTransformed;
 
-	void SetSignature() const override;
-	void Serialize(StreamWriter& writer) const override;
-
 	void ResetCoily(Entity entity);
 
 protected:
@@ -24,7 +21,8 @@ protected:
 private:
 	PyramidSystem* m_pPyramid{};
 
-	Entity m_Qbert{};
+	Entity m_Qbert{NULL_ENTITY};
+	Entity m_CoilyEntity{NULL_ENTITY};
 
 	void HandleJumpToDeath(Entity coilyEntity);
 	void HandleCoilyTransform(Entity entity);

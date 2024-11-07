@@ -31,7 +31,9 @@ void CharacterMovementSystem::Start()
 
 void CharacterMovementSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<RendererComponent, MovementComponent, JumpComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pMoveComp = m_pRegistry->GetComponent<MovementComponent>(entity);
 
@@ -104,21 +106,6 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		m_pJumper->JumpToDeath(entity, pTransform->GetLocation(), dist);
 	}
-}
-
-void CharacterMovementSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<RendererComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-	signature.set(m_pRegistry->GetComponentType<JumpComponent>());
-
-	m_pRegistry->SetSystemSignature<CharacterMovementSystem>(signature);
-}
-
-void CharacterMovementSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int>(std::type_index(typeid(CharacterMovementSystem)).hash_code()));
 }
 
 void CharacterMovementSystem::MoveToCurrentQube(Entity entity)

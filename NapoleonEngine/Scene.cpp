@@ -94,20 +94,6 @@ std::shared_ptr<GameObject> Prefab::GetRoot() const
 	return std::shared_ptr<GameObject>(new GameObject{m_pRootEntity, m_pRegistry.get()});
 }
 
-void Prefab::Serialize(StreamWriter& writer) const
-{
-	BaseScene::Serialize(writer);
-
-	writer.StartArray("systems");
-	{
-		for (size_t system : m_RequiredSystems)
-		{
-			writer.WriteIntNoKey(static_cast<int64>(system));
-		}
-	}
-	writer.EndArray();
-}
-
 void Prefab::SetName(std::string const& name)
 {
 	m_Name = name;
@@ -193,20 +179,6 @@ void Scene::Update()
 
 void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
 {
-	auto systems = reader->ReadArray("systems");
-
-	if (IS_VALID(systems))
-	{
-		for (SizeType i = 0; i < systems->GetArraySize(); i++)
-		{
-			System* const pAddedSystem = m_pRegistry->AddSystemFromHash(static_cast<size_t>(systems->ReadArrayIndexAsInt64(i)));
-			if (pAddedSystem != nullptr)
-			{
-				m_pSystems.push_back(pAddedSystem);
-			}
-		}
-	}
-
 	BaseScene::Deserialize(reader, context);
 }
 

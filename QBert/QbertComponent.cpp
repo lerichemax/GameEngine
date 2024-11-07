@@ -9,7 +9,7 @@ QbertComponent::QbertComponent()
 
 void QbertComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(QbertComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(QbertComponent).name());
 	writer.WriteInt("jumpId", pJumpSound->GetId());
 	writer.WriteInt("fallId", pFallSound->GetId());
 	writer.WriteInt("swearId", pSwearSound->GetId());

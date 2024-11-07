@@ -4,24 +4,24 @@
 template<ComponentDerived T>
 void ComponentManager::RegisterComponent()
 {
-	size_t typeHash{ std::type_index(typeid(T)).hash_code() };
+	std::string type{ typeid(T).name() };
 
-	if (m_ComponentTypes.find(typeHash) == m_ComponentTypes.end())
+	if (m_ComponentTypes.find(type) == m_ComponentTypes.end())
 	{
-		m_ComponentTypes.insert(std::make_pair(typeHash, m_NextComponentType++));
+		m_ComponentTypes.insert(std::make_pair(type, m_NextComponentType++));
 
 		Factory<Component, ComponentManager* const>::Get().RegisterType<T>([](ComponentManager* const compManager) {
 			T* t = new T{};
 
-			size_t compTypeHash{ std::type_index(typeid(T)).hash_code() };
+			std::string type{ typeid(T).name() };
 
-			compManager->RegisterComponentArray<T>(compTypeHash);
+			compManager->RegisterComponentArray<T>(type);
 
 			return t;
 			});
 	}
 
-	RegisterComponentArray<T>(typeHash);
+	RegisterComponentArray<T>(type);
 }
 
 template<ComponentDerived T>
@@ -29,9 +29,9 @@ ComponentType ComponentManager::GetComponentType()
 {
 	RegisterComponent<T>();
 
-	size_t typeHash{ std::type_index(typeid(T)).hash_code() };
+	std::string type{ typeid(T).name() };
 
-	return m_ComponentTypes[typeHash];
+	return m_ComponentTypes[type];
 }
 
 template<ComponentDerived T>
@@ -84,18 +84,18 @@ std::vector<T*> const ComponentManager::FindComponentsOfType()
 template <ComponentDerived T>
 ComponentArray<T>* const ComponentManager::GetComponentArray()
 {
-	size_t typeHash{ std::type_index(typeid(T)).hash_code() };
+	std::string type{ typeid(T).name() };
 
-	assert(m_ComponentTypes.find(typeHash) != m_ComponentTypes.end() && "Component type not registered before use");
+	assert(m_ComponentTypes.find(type) != m_ComponentTypes.end() && "Component type not registered before use");
 
-	return static_cast<ComponentArray<T>*>(m_ComponentArrays[typeHash].get());
+	return static_cast<ComponentArray<T>*>(m_ComponentArrays[type].get());
 }
 
 template<ComponentDerived T>
-void ComponentManager::RegisterComponentArray(size_t typeHash)
+void ComponentManager::RegisterComponentArray(std::string const& type)
 {
-	if (m_ComponentArrays.find(typeHash) == m_ComponentArrays.end())
+	if (m_ComponentArrays.find(type) == m_ComponentArrays.end())
 	{
-		m_ComponentArrays.insert(std::make_pair(typeHash, std::make_unique<ComponentArray<T>>()));
+		m_ComponentArrays.insert(std::make_pair(type, std::make_unique<ComponentArray<T>>()));
 	}
 }
