@@ -10,9 +10,6 @@ public:
 	EventHandler<LivesSystem, Entity, int> OnDied;
 	EventHandler<LivesSystem, Entity> OnPlayerDied;
 
-	void SetSignature() const override;
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void Update() override;
 };

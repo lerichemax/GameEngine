@@ -27,7 +27,7 @@ void CharacterLives::Reset()
 
 void CharacterLives::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(CharacterLives)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(CharacterLives).name());
 	writer.WriteInt("lives", NbrLives);
 	writer.WriteInt("maxLives", MaxLives);
 	

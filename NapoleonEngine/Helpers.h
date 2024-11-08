@@ -53,8 +53,3 @@ inline T* const FindComponentsOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentsOfType<T>();
 }
-
-inline Camera2D* const GetCamera()
-{
-	return SceneManager::Get().GetActiveScene()->GetCamera();
-}

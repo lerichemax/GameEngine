@@ -13,9 +13,6 @@ public:
 	EventHandler<CharacterMovementSystem, Entity> OnJumpedOnDisk;
 	EventHandler<CharacterMovementSystem, Entity, std::unordered_set<Entity> const&> OnMeetCharacter;
 
-	void SetSignature() const override;
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void Start();
 	void Update() override;

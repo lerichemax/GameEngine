@@ -7,12 +7,9 @@
 #include <memory>
 #include <unordered_set>
 
-class SceneRenderer;
+class System;
 class GameObject;
 class TransformSystem;
-class LayeredRendererSystem;
-class TextRendererSystem;
-class System;
 class AudioSystem;
 class UiSystem;
 class CollisionSystem;
@@ -40,7 +37,6 @@ protected:
 	std::string m_Name;
 
 	std::shared_ptr<GameObject> CreateGameObjectNoTransform();
-
 };
 
 class Prefab : public BaseScene
@@ -53,28 +49,12 @@ public:
 	std::shared_ptr<GameObject> CreateGameObject() override;
 	std::shared_ptr<GameObject> GetRoot() const;
 
-	template <SystemDerived T> void AddRequiredSystem();
-
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void SetName(std::string const& name);
 
 private:
 	Entity m_pRootEntity;
-	std::unordered_set<size_t> m_RequiredSystems;
 };
-
-template <SystemDerived T> 
-void Prefab::AddRequiredSystem() 
-{
-	size_t type = std::type_index(typeid(T)).hash_code();
-
-	assert(m_RequiredSystems.find(type) == m_RequiredSystems.end() && std::string("System with Hash " + std::to_string(type) + " already added as required.").c_str());
-
-	m_pRegistry->RegisterSystem<T>();
-	m_RequiredSystems.insert(type);
-}
 
 class Scene : public BaseScene
 {
@@ -86,11 +66,11 @@ public:
 	Scene& operator=(const Scene& other) = delete;
 	Scene& operator=(Scene&& other) = delete;
 		
-	void Render() const;
 	bool IsActive() const { return m_bIsActive; }
 
 	template <SystemDerived T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	Color const& GetBackgroundColor() const;
 
 protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
@@ -102,7 +82,6 @@ private:
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	friend Camera2D* const GetCamera();
 	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
@@ -110,8 +89,6 @@ private:
 		
 	std::vector<ColliderComponent*> m_pColliders;
 		
-	TextRendererSystem* m_pTextRenderer;
-	LayeredRendererSystem* m_pLayeredRenderer;
 	TransformSystem* m_pTransformSystem;
 	CollisionSystem* m_pCollisionSystem;
 	AudioSystem* m_pAudio;

@@ -142,7 +142,7 @@ void TransformComponent::SetParent(TransformComponent* const pParent)
 
 void TransformComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(TransformComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(TransformComponent).name());
 	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
 
 	vec2 location = GetLocalLocation();

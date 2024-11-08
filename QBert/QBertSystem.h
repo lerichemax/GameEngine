@@ -9,10 +9,6 @@ class QBertSystem : public System
 public:
 	EventHandler<QBertSystem> OnQBertEncounteredEnemy;
 
-	 void SetSignature() const override;
-
-	 void Serialize(StreamWriter& writer) const override;
-
 	 void ResetToCurrentQube(Entity qbertEntity);
 	 void Reset(GameMode gameMode);
 

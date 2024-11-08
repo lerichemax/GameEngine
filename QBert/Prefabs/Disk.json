@@ -1,0 +1,56 @@
+{
+    "name": "Disk",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 2.0,
+                        "y": 2.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 2.0,
+                        "y": 2.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 75,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 7,
+                    "texture": {
+                        "filepath": "Textures/Disk.png"
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 77,
+                    "entity": 0
+                },
+                {
+                    "type": "struct DiskComponent",
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 76,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

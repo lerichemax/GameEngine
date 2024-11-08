@@ -27,7 +27,7 @@ void MovementComponent::SetTextureJumpNames(std::string const& downRight, std::s
 
 void MovementComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(MovementComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(MovementComponent).name());
 
 	writer.WriteString("textIdleDownRight", TextureIdleDownRight);
 	writer.WriteString("textIdleDownLeft", TextureIdleDownLeft);

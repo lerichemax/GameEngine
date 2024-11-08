@@ -3,7 +3,7 @@
 
 void ScriptComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(ScriptComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(ScriptComponent).name());
 	writer.WriteString("script", ScriptFile);
 
 	Component::Serialize(writer);

@@ -16,7 +16,8 @@ void DiskSystem::Start()
 	m_pRegistry->GetSystem<LivesSystem>()->OnDied.Subscribe([this](Entity deadEntity, int nbrLives) {
 		if (m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 		{
-			for (Entity entity : m_Entities)
+			auto view = m_pRegistry->GetView<DiskComponent, TransformComponent>();
+			for (Entity entity : view)
 			{
 				m_pRegistry->SetEntityActive(entity, false);
 			}
@@ -26,7 +27,9 @@ void DiskSystem::Start()
 
 void DiskSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<DiskComponent, TransformComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pDiskComp = m_pRegistry->GetComponent<DiskComponent>(entity);
 		if (!pDiskComp->IsActive() || pDiskComp->QbertEntity == NULL_ENTITY)
@@ -74,7 +77,9 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 	auto* const pQubeTransform = m_pRegistry->GetComponent<TransformComponent>(qubeEntity);
 	auto* const pQubeRenderer = m_pRegistry->GetComponent<RendererComponent>(qubeEntity);
 
-	Entity diskEntity = *std::find_if(m_Entities.begin(), m_Entities.end(), [this](Entity entity) {
+	auto view = m_pRegistry->GetView<DiskComponent, TransformComponent>();
+
+	Entity diskEntity = *std::find_if(view.begin(), view.end(), [this](Entity entity) {
 		auto* const pDisk = m_pRegistry->GetComponent<DiskComponent>(entity);
 		return !pDisk->IsActive();
 		});
@@ -99,17 +104,4 @@ void DiskSystem::SpawnDisk(Entity qubeEntity)
 
 	pQube->ConnectionToDisk->Disk = diskEntity;
 	LOG_INFO("Disk spawned");
-}
-
-void DiskSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<DiskComponent>());
-
-	m_pRegistry->SetSystemSignature<DiskSystem>(signature);
-}
-
-void DiskSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(DiskSystem)).hash_code()));
 }

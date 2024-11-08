@@ -6,7 +6,9 @@
 
 void TransformSystem::Update()
 {
-	for (Entity const& entity : m_Entities)
+	auto view = m_pRegistry->GetView<TransformComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pTrans = m_pRegistry->GetComponent<TransformComponent>(entity);
 
@@ -19,21 +21,13 @@ void TransformSystem::Update()
 	}
 }
 
-void TransformSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-
-	m_pRegistry->SetSystemSignature<TransformSystem>(signature);
-}
-
 void TransformSystem::RecursivelyUpdateHierarchy(TransformComponent* const pTransformComponent) const
 {
 	if (pTransformComponent->m_pParent != nullptr)
 	{
 		RecursivelyUpdateHierarchy(pTransformComponent->m_pParent);
 
-		pTransformComponent->m_LocalTransformMatrix = glm::inverse(pTransformComponent->m_pParent->m_WorldTransformMatrix) * pTransformComponent->m_WorldTransformMatrix;
+		pTransformComponent->m_WorldTransformMatrix = pTransformComponent->m_pParent->m_WorldTransformMatrix * pTransformComponent->m_LocalTransformMatrix;
 	}
 	else
 	{

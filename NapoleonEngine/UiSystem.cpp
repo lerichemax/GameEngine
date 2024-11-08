@@ -9,7 +9,9 @@
 
 void UiSystem::Update()
 {
-	for (Entity const& entity : m_Entities)
+	auto view = m_pRegistry->GetView<TransformComponent, ButtonComponent>();
+
+	for (Entity entity : view)
 	{
 		auto btn = m_pRegistry->GetComponent<ButtonComponent>(entity);
 
@@ -59,13 +61,4 @@ void UiSystem::Update()
 			btn->Click();
 		}
 	}
-}
-
-void UiSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-	signature.set(m_pRegistry->GetComponentType<ButtonComponent>());
-
-	m_pRegistry->SetSystemSignature<UiSystem>(signature);
 }

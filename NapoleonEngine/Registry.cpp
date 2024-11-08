@@ -17,7 +17,6 @@ void Registry::DestroyEntity(Entity entity)
 {
 	m_pEntityManager->DestroyEntity(entity);
 	m_pComponentManager->EntityDestroyed(entity);
-	m_pSystemManager->EntityDestroyed(entity);
 }
 
 void Registry::TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther)
@@ -135,25 +134,6 @@ void Registry::DeserializeComponents(Entity entity, JsonReader const* reader /*a
 	}
 	
 	m_pEntityManager->SetSignature(entity, signature);
-	m_pSystemManager->EntitySignatureChanged(entity, signature);
-}
-
-System* const Registry::AddSystemFromHash(size_t type)
-{
-	auto* const pSystem = Factory<System>::Get().Create(type);
-
-	if (m_pSystemManager->ForceAddSystem(type, pSystem))
-	{
-		System* const pAddedSystem = m_pSystemManager->GetSystemFromType(type);
-		pAddedSystem->m_pRegistry = this;
-		pAddedSystem->SetSignature();
-		return pAddedSystem;
-	}
-	else
-	{
-		delete pSystem;
-		return nullptr;
-	}
 }
 
 void Registry::SetEntityActive(Entity entity, bool isActive)

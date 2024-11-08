@@ -20,20 +20,20 @@ public:
 	template <Derived<T> D> 
 	void RegisterType(Creator creator)
 	{
-		size_t type{ std::type_index(typeid(D)).hash_code() };
+		std::string type{ typeid(D).name() };
 
 		m_Creators[type] = creator;
 	}
 
-	T* Create(size_t hashCode, params... parameters)
+	T* Create(std::string type, params... parameters)
 	{
-		std::string errorMsg{ "Component with hash_code " + std::to_string(hashCode) + " not registered for creation."};
+		std::string errorMsg{ "Component " + type + " not registered for creation."};
 
-		assert(m_Creators.find(hashCode) != m_Creators.end() && errorMsg.c_str());
+		assert(m_Creators.find(type) != m_Creators.end() && errorMsg.c_str());
 
-		return m_Creators.at(hashCode)(parameters...);
+		return m_Creators.at(type)(parameters...);
 	}
 
 private:
-	std::unordered_map<size_t, Creator> m_Creators;
+	std::unordered_map <std::string, Creator> m_Creators;
 };

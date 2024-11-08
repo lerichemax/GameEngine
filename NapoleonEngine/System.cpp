@@ -6,13 +6,8 @@
 
 
 System::System(System const& other)
-	:m_Entities{}
 {
 }
 
-void System::AddEntity(Entity entity)
-{
-	m_Entities.insert(entity);
-}
 
 #pragma warning(pop)

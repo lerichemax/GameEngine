@@ -178,20 +178,6 @@ void GameManagerSystem::Update()
 	}
 }
 
-void GameManagerSystem::SetSignature() const
-{
-	Signature signature{};
-
-	m_pRegistry->SetSystemSignature<GameManagerSystem>(signature);
-}
-
-void GameManagerSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString("type", typeid(GameManagerSystem).name());
-
-	System::Serialize(writer);
-}
-
 void GameManagerSystem::TogglePause()
 {
 	Timer::Get().SetTimeScale(m_IsPaused ? 1.f : 0.f);

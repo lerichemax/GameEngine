@@ -23,9 +23,6 @@ public:
 	void HandleQBertLanding(Entity qubeEntity);
 	void Reset(Level level, Entity entity);
 
-	void Serialize(StreamWriter& writer) const override;
-	void SetSignature() const override;
-
 protected:
 	void Initialize() override;
 	void Start() override;

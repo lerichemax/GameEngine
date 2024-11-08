@@ -30,9 +30,6 @@ public:
 	void PartialReset();
 	bool TryFindPathTo(Entity startingQube, Entity targetQube, ConnectionDirection* directionsArray, size_t arraySize) const; //used by coily to move to qbert
 
-	void Serialize(StreamWriter& writer) const override;
-	void SetSignature() const override;
-
 protected:
 	void Initialize();
 	void Start();
@@ -40,6 +37,7 @@ protected:
 
 private:
 	DiskSystem* m_pDiskSystem;
+	Entity m_PyramidEntity{ NULL_ENTITY };
 
 	void CreateConnections(std::vector<Entity> const& qubes);
 	void CreateEscheresqueRightConnections(PyramidComponent* const pPyramid);

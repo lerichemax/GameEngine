@@ -11,7 +11,8 @@
 
 void CharacterControllerSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent>();
+	for (Entity entity : view)
 	{
 		auto* const pCharacterControl = m_pRegistry->GetComponent<CharacterControllerComponent>(entity);
 
@@ -46,16 +47,3 @@ void CharacterControllerSystem::Update()
 	}
 }
 
-void CharacterControllerSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CharacterControllerSystem)).hash_code()));
-}
-
-void CharacterControllerSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<CharacterControllerComponent>());
-	signature.set(m_pRegistry->GetComponentType<MovementComponent>());
-
-	m_pRegistry->SetSystemSignature<CharacterControllerSystem>(signature);
-}

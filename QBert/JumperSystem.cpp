@@ -9,7 +9,8 @@
 
 void JumperSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<JumpComponent, TransformComponent>();
+	for (Entity entity : view)
 	{
 		auto* const pJumpComp = m_pRegistry->GetComponent<JumpComponent>(entity);
 
@@ -134,18 +135,4 @@ void JumperSystem::UpdateFall(Entity entity)
 		}
 		return;
 	}
-}
-
-void JumperSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(JumperSystem)).hash_code()));
-}
-
-void JumperSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<JumpComponent>());
-	signature.set(m_pRegistry->GetComponentType<TransformComponent>());
-
-	m_pRegistry->SetSystemSignature<JumperSystem>(signature);
 }

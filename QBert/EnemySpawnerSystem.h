@@ -10,9 +10,6 @@ class EnemySpawnerSystem : public System
 public:
 	EnemySpawnerSystem() = default;
 
-	void SetSignature() const override;
-	void Serialize(StreamWriter& writer) const override;
-
 	void Reset();
 
 	EventHandler<EnemySpawnerSystem, Entity> OnEnemySpawned;

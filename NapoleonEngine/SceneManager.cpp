@@ -18,7 +18,6 @@ public:
 
 	void Initialize();
 	void Update();
-	void Render();
 	
 	Scene const* GetScene(std::string const& sceneName) const;
 	void AddScene(Scene* pScene);
@@ -48,15 +47,6 @@ SceneManager::SceneManagerImpl::~SceneManagerImpl()
 	}
 }
 
-void SceneManager::SceneManagerImpl::Initialize()
-{
-	//for (auto& pScene : m_pScenesMap)
-	//{
-	//	pScene.second->Initialize();
-	//	pScene.second->DeclareInput();
-	//}
-}
-
 void SceneManager::SceneManagerImpl::Update()
 {
 	if (m_pNextActiveScene != nullptr)
@@ -69,6 +59,7 @@ void SceneManager::SceneManagerImpl::Update()
 		m_pActiveScene = m_pNextActiveScene;
 		m_pActiveScene->m_bIsActive = true;
 		m_pActiveScene->OnLoad();
+		
 		m_pNextActiveScene = nullptr;
 	}
 
@@ -80,12 +71,6 @@ void SceneManager::SceneManagerImpl::Update()
 	{
 		NapoleonEngine::Quit();
 	}
-}
-
-void SceneManager::SceneManagerImpl::Render()
-{
-
-	m_pActiveScene->Render();
 }
 
 Scene const* SceneManager::SceneManagerImpl::GetScene(std::string const& sceneName) const
@@ -111,7 +96,6 @@ void SceneManager::SceneManagerImpl::LoadScene(std::string const& name)
 	}
 	
 	m_pNextActiveScene = scene;
-	Renderer::Get().SetBackgroundColor(0, 0, 0, 0);
 }
 
 void SceneManager::SceneManagerImpl::ReloadCurrentScene()
@@ -166,19 +150,9 @@ SceneManager::~SceneManager()
 
 }
 
-void SceneManager::Initialize()
-{
-	m_pImpl->Initialize();
-}
-
 void SceneManager::Update()
 {
 	m_pImpl->Update();
-}
-
-void SceneManager::Render()
-{
-	m_pImpl->Render();
 }
 
 void SceneManager::LoadScene(std::string const& name)

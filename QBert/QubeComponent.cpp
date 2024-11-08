@@ -25,7 +25,7 @@ QubeComponent::~QubeComponent()
 
 void QubeComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(QubeComponent)).hash_code()));
+	writer.WriteString(std::string{ "type" }, typeid(QubeComponent).name());
 	
 	Component::Serialize(writer);
 }

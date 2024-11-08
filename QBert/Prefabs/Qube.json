@@ -1,0 +1,53 @@
+{
+    "name": "Qube",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 1.75,
+                        "y": 1.75
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 1.75,
+                        "y": 1.75
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 29,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 2,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 31,
+                    "entity": 0
+                },
+                {
+                    "type": "struct QubeComponent",
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 30,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

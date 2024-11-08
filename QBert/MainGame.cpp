@@ -1,19 +1,6 @@
 #include "PCH.h"
 #include "MainGame.h"
 
-#include "CharacterControllerSystem.h"
-#include "CharacterMovementSystem.h"
-#include "JumperSystem.h"
-#include "QubeSystem.h"
-#include "PyramidSystem.h"
-#include "QBertSystem.h"
-#include "DiskSystem.h"
-#include "AiControllerSystem.h"
-#include "CoilySystem.h"
-#include "LivesSystem.h"
-#include "ScriptingSystem.h"
-#include "CollisionSystem.h"
-
 #include "AudioComponent.h"
 #include "TextRendererComponent.h"
 #include "ButtonComponent.h"
@@ -50,13 +37,12 @@
 
 
 MainGame::MainGame()
-	:NapoleonEngine()
+	:NapoleonEngine(900, 600, "QBert", true)
 {
-	Initialize(900, 600, "QBert");
 }
 
 void MainGame::InitGame() const
-{	
+{
 	SceneManager::Get().AddScene(new MainMenuScene{});
 	SceneManager::Get().AddScene(new SoloScene{});
 	SceneManager::Get().AddScene(new CoopScene{});
@@ -154,13 +140,6 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->GetTransform()->Scale(1.5f);
 	pQbertObj->SetTag(QBERT_TAG);
 
-	qbertPrefab->AddRequiredSystem<CharacterControllerSystem>();
-	qbertPrefab->AddRequiredSystem<CharacterMovementSystem>();
-	qbertPrefab->AddRequiredSystem<JumperSystem>();
-	qbertPrefab->AddRequiredSystem<QBertSystem>();
-	qbertPrefab->AddRequiredSystem<LivesSystem>();
-	qbertPrefab->AddRequiredSystem<CollisionSystem>();
-
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 
 
@@ -171,7 +150,6 @@ void MainGame::CreatePrefabs() const
 	qubeObject->AddComponent<QubeComponent>();
 	qubeObject->AddComponent<RendererComponent>()->Layer = 2;
 
-	qubePf->AddRequiredSystem<QubeSystem>();
 	pPrefabManager.SavePrefab(qubePf, "Qube");
 
 	//Pyramid
@@ -179,7 +157,6 @@ void MainGame::CreatePrefabs() const
 	auto pyramidObject = pyramidPf->GetRoot();
 	pyramidObject->GetTransform()->SetLocation(250.f, 400.f);
 	pyramidObject->AddComponent<PyramidComponent>();
-	pyramidPf->AddRequiredSystem<PyramidSystem>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	//Ugg + WrongWay
@@ -207,8 +184,6 @@ void MainGame::CreatePrefabs() const
 	pUggobject->SetTag(ENEMY_TAG);
 	pUggobject->GetTransform()->Scale(1.5f);
 
-	pUggPrefab->AddRequiredSystem<AiControllerSystem>();
-
 	pPrefabManager.SavePrefab(pUggPrefab, "Ugg");
 
 	auto pWrongWayPrefab = pPrefabManager.CreatePrefab();
@@ -234,8 +209,6 @@ void MainGame::CreatePrefabs() const
 
 	pWrongWayObject->SetTag(ENEMY_TAG);
 	pWrongWayObject->GetTransform()->Scale(2.f);
-
-	pWrongWayPrefab->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pWrongWayPrefab, "WrongWay");
 
@@ -265,9 +238,6 @@ void MainGame::CreatePrefabs() const
 	pCoilyObject->SetTag(ENEMY_TAG);
 	pCoilyObject->GetTransform()->Scale(1.5f);
 
-	pCoilyPrefab->AddRequiredSystem<CoilySystem>();
-	pCoilyPrefab->AddRequiredSystem<AiControllerSystem>();
-
 	pPrefabManager.SavePrefab(pCoilyPrefab, "Coily");
 
 	//SlickSam
@@ -291,8 +261,6 @@ void MainGame::CreatePrefabs() const
 
 	pSlickObject->GetTransform()->Scale(1.5f);
 	pSlickObject->SetTag(ENEMY_TAG);
-
-	pSlickPf->AddRequiredSystem<AiControllerSystem>();
 
 	pPrefabManager.SavePrefab(pSlickPf, "Slick");
 
@@ -319,8 +287,6 @@ void MainGame::CreatePrefabs() const
 	pSamObject->GetTransform()->Scale(1.5f);
 	pSamObject->SetTag(ENEMY_TAG);
 
-	pSamPf->AddRequiredSystem<AiControllerSystem>();
-
 	pPrefabManager.SavePrefab(pSamPf, "Sam");
 
 	//Disks
@@ -334,7 +300,6 @@ void MainGame::CreatePrefabs() const
 
 	pDiskObject->GetTransform()->Scale(2);
 
-	pDiskPf->AddRequiredSystem<DiskSystem>();
 	pPrefabManager.SavePrefab(pDiskPf, "Disk");
 
 	//Pause Menu
@@ -344,7 +309,7 @@ void MainGame::CreatePrefabs() const
 	auto menuObj = menuPrefab->GetRoot();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 127}, true} );
+	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true});
 	pShapeRenderer->Layer = 10;
 
 	auto textObject = menuPrefab->CreateGameObject();
@@ -416,7 +381,7 @@ void MainGame::CreatePrefabs() const
 	menuObj = quitMenuPrefab->GetRoot();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},Renderer::Get().GetWindowWidth(), Renderer::Get().GetWindowHeight(), Color{0,0,0, 255}, true });
+	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 255}, true });
 	pShapeRenderer->Layer = 10;
 
 	textObject = quitMenuPrefab->CreateGameObject();

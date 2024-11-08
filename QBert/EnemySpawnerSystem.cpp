@@ -24,7 +24,9 @@ void EnemySpawnerSystem::Start()
 		Reset();
 		});
 
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<EnemySpawnerComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pSpawner = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
 
@@ -55,7 +57,9 @@ void EnemySpawnerSystem::Start()
 		if (!m_pRegistry->EntityHasTag(deadEntity, QBERT_TAG))
 		{
 			auto* const pAiController = m_pRegistry->GetComponent<AiControllerComponent>(deadEntity);
-			auto entityIt = std::find_if(m_Entities.begin(), m_Entities.end(), [this, pAiController](Entity managedEntity) {
+			auto view = m_pRegistry->GetView<EnemySpawnerComponent>();
+
+			auto entityIt = std::find_if(view.begin(), view.end(), [this, pAiController](Entity managedEntity) {
 				return m_pRegistry->GetComponent<EnemySpawnerComponent>(managedEntity)->Type == pAiController->Type;
 				});
 
@@ -75,7 +79,9 @@ void EnemySpawnerSystem::Update()
 		return;
 	}
 
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<EnemySpawnerComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pSpawnerComp = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
 
@@ -121,7 +127,9 @@ void EnemySpawnerSystem::Spawn(EnemySpawnerComponent* const pSpawnerComp) const
 
 void EnemySpawnerSystem::Reset()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<EnemySpawnerComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pSpawnerComp = m_pRegistry->GetComponent<EnemySpawnerComponent>(entity);
 
@@ -132,17 +140,4 @@ void EnemySpawnerSystem::Reset()
 			pSpawnerComp->NbrEnemies = 0;
 		}
 	}
-}
-
-void EnemySpawnerSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<EnemySpawnerComponent>());
-
-	m_pRegistry->SetSystemSignature<EnemySpawnerSystem>(signature);
-}
-
-void EnemySpawnerSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(EnemySpawnerSystem)).hash_code()));
 }

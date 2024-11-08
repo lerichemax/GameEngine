@@ -82,7 +82,7 @@ void Point::Draw(SDL_Renderer* pRenderer) const
 
 void Point::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Point)).hash_code()));
+	writer.WriteString("type", typeid(Point).name());
 
 	Shape::Serialize(writer);
 }
@@ -171,7 +171,7 @@ bool Rectangle::IsOverlapping(Circle* const pCircle) const
 
 void Rectangle::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Rectangle)).hash_code()));
+	writer.WriteString("type", typeid(Rectangle).name());
 
 	writer.WriteInt("width", Width);
 	writer.WriteInt("height", Height);
@@ -304,7 +304,7 @@ void Line::Draw(SDL_Renderer* pRenderer) const
 
 void Line::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Line)).hash_code()));
+	writer.WriteString("type", typeid(Line).name());
 
 	writer.WriteVector("endPos", EndPos);
 
@@ -372,7 +372,7 @@ bool Circle::IsOverlapping(Circle* const pCircle) const
 
 void Circle::Serialize(StreamWriter& writer) const
 {
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(Circle)).hash_code()));
+	writer.WriteString("type", typeid(Circle).name());
 
 	writer.WriteInt("radius", Radius);
 

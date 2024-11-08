@@ -236,9 +236,6 @@
     <ClInclude Include="System.h">
       <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>ECS\Entity</Filter>
     </ClInclude>
@@ -269,9 +266,6 @@
     <ClInclude Include="ScriptComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="LayeredRendererSystem.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="TextRendererSystem.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -286,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="View.h">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,9 +393,6 @@
     <ClCompile Include="System.cpp">
       <Filter>ECS\Systems\Base</Filter>
     </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS\Entity</Filter>
     </ClCompile>
@@ -419,9 +413,6 @@
     </ClCompile>
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="LayeredRendererSystem.cpp">
-      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="TextRendererSystem.cpp">
       <Filter>Rendering</Filter>
@@ -446,10 +437,13 @@
     <None Include="ComponentArray.inl">
       <Filter>ECS\Components\Base</Filter>
     </None>
+    <None Include="Registry.inl">
+      <Filter>ECS</Filter>
+    </None>
     <None Include="SystemManager.inl">
       <Filter>ECS\Systems\Base</Filter>
     </None>
-    <None Include="Registry.inl">
+    <None Include="View.inl">
       <Filter>ECS</Filter>
     </None>
   </ItemGroup>

@@ -10,14 +10,14 @@ class Font;
 struct _TTF_Font;
 class ResourceManager final : public Singleton<ResourceManager>
 {
+	friend class NapoleonEngine;
+
 public:
 	ResourceManager(ResourceManager const& other) = delete;
 	ResourceManager(ResourceManager&& other) = delete;
 	ResourceManager& operator=(ResourceManager const& rhs) = delete;
 	ResourceManager& operator=(ResourceManager&& rhs) = delete;
 	~ResourceManager();
-		
-	void Init(const std::string& data);
 		
 	Texture2D* const GetTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
@@ -33,4 +33,6 @@ private:
 	class ResourceManagerImpl;
 	std::unique_ptr<ResourceManagerImpl> m_pImpl;
 	ResourceManager();
+
+	void Init(const std::string& data, Renderer* const pRenderer);
 };

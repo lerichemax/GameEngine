@@ -19,8 +19,7 @@ void PauseGameCommand::Execute(GameObject const& gObject)
 void PauseGameCommand::Serialize(StreamWriter& writer) const
 {
 
-	writer.WriteInt64("type", static_cast<int64_t>(std::type_index(typeid(PauseGameCommand)).hash_code()));
-	writer.WriteInt("gameManager", m_pGameManager->GetId());
+	writer.WriteString("type", typeid(PauseGameCommand).name());
 	Command::Serialize(writer);
 }
 

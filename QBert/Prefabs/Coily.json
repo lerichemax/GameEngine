@@ -1,0 +1,112 @@
+{
+    "name": "Coily",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "Enemy",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "scale": {
+                        "x": 1.5,
+                        "y": 1.5
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "world_scale": {
+                        "x": 1.5,
+                        "y": 1.5
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 52,
+                    "entity": 0
+                },
+                {
+                    "type": "struct MovementComponent",
+                    "textIdleDownRight": "Textures/Enemies/Coily/Coily_Egg_Small.png",
+                    "textIdleDownLeft": "Textures/Enemies/Coily/Coily_Egg_Small.png",
+                    "textIdleUpRight": "",
+                    "textIdleUpLeft": "",
+                    "textJumpDownRight": "Textures/Enemies/Coily/Coily_Egg_Big.png",
+                    "textJumpDownLeft": "Textures/Enemies/Coily/Coily_Egg_Big.png",
+                    "textJumpUpRight": "",
+                    "textJumpUpLeft": "",
+                    "mode": 0,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 54,
+                    "entity": 0
+                },
+                {
+                    "type": "struct CoilyComponent",
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 58,
+                    "entity": 0
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "id": 4,
+                    "volume": 50.0,
+                    "loop": false,
+                    "play": false,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 59,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 7,
+                    "texture": {
+                        "filepath": "Textures/Enemies/Coily/Coily_Egg_Small.png"
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 53,
+                    "entity": 0
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "lives": 1,
+                    "maxLives": 1,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 56,
+                    "entity": 0
+                },
+                {
+                    "type": "struct JumpComponent",
+                    "direction": {
+                        "x": 0.0,
+                        "y": -1.0
+                    },
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 55,
+                    "entity": 0
+                },
+                {
+                    "type": "struct AiControllerComponent",
+                    "enemyType": 1,
+                    "points": 500,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 57,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

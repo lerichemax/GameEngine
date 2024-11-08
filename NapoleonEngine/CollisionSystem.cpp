@@ -5,7 +5,9 @@
 
 void CollisionSystem::Update()
 {
-	for (Entity entity : m_Entities)
+	auto view = m_pRegistry->GetView<ColliderComponent, TransformComponent>();
+
+	for (Entity entity : view)
 	{
 		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
 		if (!pCollider->IsActive())
@@ -23,7 +25,7 @@ void CollisionSystem::Update()
 		}
 	}
 
-	for (Entity entity : m_Entities) // slow ?
+	for (Entity entity : view) // nested loop - > slow ? //TODO investigate more efficient algorythm
 	{
 		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
 		if (!pCollider->IsActive())
@@ -31,7 +33,7 @@ void CollisionSystem::Update()
 			continue;
 		}
 
-		for (Entity otherEntity : m_Entities)
+		for (Entity otherEntity : view)
 		{
 			if (entity == otherEntity)
 			{
@@ -84,16 +86,4 @@ void CollisionSystem::HandleCollision(ColliderComponent* const pCollider, Collid
 	//	{
 	//		pCollider->TriggerExit(pOtherCollider->GetEntity()->GetEntity());
 	//}
-}
-
-void CollisionSystem::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt64("type", static_cast<int64>(std::type_index(typeid(CollisionSystem)).hash_code()));
-}
-
-void CollisionSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<ColliderComponent>());
-	m_pRegistry->SetSystemSignature<CollisionSystem>(signature);
 }

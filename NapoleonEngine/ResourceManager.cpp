@@ -27,7 +27,7 @@ public:
 	ResourceManagerImpl& operator=(ResourceManagerImpl&& rhs) = delete;
 	~ResourceManagerImpl();
 
-	void Init(const std::string& data);
+	void Init(const std::string& data, Renderer* const pRenderer);
 
 	Texture2D* const GetTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
@@ -38,6 +38,8 @@ public:
 	SoundEffect* const GetEffectById(ID id) const;
 
 private:
+	Renderer* m_pRenderer;
+
 	std::string m_DataPath;
 
 	std::map<std::string, std::unique_ptr<Texture2D>> m_pTextures;
@@ -77,9 +79,10 @@ ResourceManager::ResourceManagerImpl::~ResourceManagerImpl()
 	IMG_Quit();
 }
 
-void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
+void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath, Renderer* const pRenderer)
 {
 	m_DataPath = dataPath;
+	m_pRenderer = pRenderer;
 
 	// load support for png and jpg, this takes a while!
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG)
@@ -101,7 +104,7 @@ void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath)
 Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
-	auto const texture = IMG_LoadTexture(Renderer::Get().GetSDLRenderer(), fullPath.c_str());
+	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
 		return nullptr;
@@ -113,7 +116,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
-	auto const texture = IMG_LoadTexture(Renderer::Get().GetSDLRenderer(), fullPath.c_str());
+	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
@@ -164,7 +167,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto const texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surf);
+	auto const texture = SDL_CreateTextureFromSurface(m_pRenderer->GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
@@ -250,9 +253,9 @@ ResourceManager::~ResourceManager()
 
 }
 
-void ResourceManager::Init(const std::string& dataPath)
+void ResourceManager::Init(const std::string& data, Renderer* const pRenderer)
 {
-	m_pImpl->Init(dataPath);
+	m_pImpl->Init(data, pRenderer);
 }
 
 Texture2D* const ResourceManager::GetTexture(const std::string& file)

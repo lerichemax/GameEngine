@@ -1,0 +1,66 @@
+{
+    "name": "LivesUI",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "parent": -1,
+                    "position": {
+                        "x": 20.0,
+                        "y": 40.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "rotation": 0.0,
+                    "world_position": {
+                        "x": 20.0,
+                        "y": 40.0
+                    },
+                    "world_scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "world_rotation": 0.0,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 6,
+                    "entity": 0
+                },
+                {
+                    "type": "class TextRendererComponent",
+                    "txt": "P1 Lives: ",
+                    "color": {
+                        "r": 255,
+                        "g": 0,
+                        "b": 0,
+                        "a": 0
+                    },
+                    "font": {
+                        "fontName": "./Data/Fonts/Lingua.otf",
+                        "fontSize": 15
+                    },
+                    "fontName": "./Data/Fonts/Lingua.otf",
+                    "fontSize": 15,
+                    "IsActive": true,
+                    "IsUnique": true,
+                    "ID": 7,
+                    "entity": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "layer": 10,
+                    "IsActive": true,
+                    "IsUnique": false,
+                    "ID": 8,
+                    "entity": 0
+                }
+            ],
+            "children": []
+        }
+    ]
+}

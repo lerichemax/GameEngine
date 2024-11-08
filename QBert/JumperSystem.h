@@ -15,10 +15,6 @@ public:
 	virtual void Jump(Entity entity, glm::vec2 const& startPos, glm::vec2 const& targetPos);
 	void JumpToDeath(Entity entity, glm::vec2 const& startPos, float xDist);
 
-	void Serialize(StreamWriter& writer) const override;
-
-	void SetSignature() const override;
-
 protected:
 	void Update() override;
 

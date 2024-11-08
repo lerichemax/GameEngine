@@ -277,7 +277,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="istreamwrapper.h" />
     <ClInclude Include="JsonReaderWriter.h" />
-    <ClInclude Include="LayeredRendererSystem.h" />
     <ClInclude Include="memorybuffer.h" />
     <ClInclude Include="memorystream.h" />
     <ClInclude Include="ostreamwrapper.h" />
@@ -379,7 +378,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FPSCounterSystem.cpp" />
     <ClCompile Include="JsonReaderWriter.cpp" />
-    <ClCompile Include="LayeredRendererSystem.cpp" />
     <ClCompile Include="PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -404,7 +402,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="System.cpp" />
-    <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TextRendererComponent.cpp" />
     <ClCompile Include="TextRendererSystem.cpp" />
     <ClCompile Include="Texture2D.cpp" />
@@ -419,6 +416,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <None Include="ComponentManager.inl" />
     <None Include="Registry.inl" />
     <None Include="SystemManager.inl" />
+    <None Include="View.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

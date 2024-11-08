@@ -8,6 +8,15 @@
 #include "EnemySpawnerSystem.h"
 #include "UIManagerSystem.h"
 #include "GameManagerSystem.h"
+#include "CharacterControllerSystem.h"
+#include "CharacterMovementSystem.h"
+#include "JumperSystem.h"
+#include "QubeSystem.h"
+#include "PyramidSystem.h"
+#include "AiControllerSystem.h"
+#include "CoilySystem.h"
+#include "LivesSystem.h"
+#include "FPSCounterSystem.h"
 
 #include "UiManagerComponent.h"
 #include "EnemySpawnerComponent.h"
@@ -38,6 +47,7 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
+
 	auto pLivesP1 = Instantiate("LivesUI");
 	auto pPointsP1 = Instantiate("PointsUI");
 
@@ -60,10 +70,17 @@ void SoloScene::Initialize()
 
 	//pyramid
 	Instantiate("Pyramid");
+	AddSystem<PyramidSystem>();
 	AddSystem<DiskSystem>();
+	AddSystem<QubeSystem>();
 
 	//Qbert
 	auto pQbertObj = Instantiate("QBert");
+	AddSystem<QBertSystem>();
+	AddSystem<CharacterControllerSystem>();
+	AddSystem<CharacterMovementSystem>();
+	AddSystem<JumperSystem>();
+	AddSystem<LivesSystem>();
 
 	pLivesP1->GetComponent<TextRendererComponent>()->SetText("P1 Lives: " + std::to_string(pQbertObj->GetComponent<CharacterLives>()->NbrLives));
 
@@ -74,7 +91,9 @@ void SoloScene::Initialize()
 	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
 
 	//ENEMIES SPAWNERS
-	AddSystem<EnemySpawnerSystem>();
+	//AddSystem<EnemySpawnerSystem>();
+	//AddSystem<AiControllerSystem>();
+	//AddSystem<CoilySystem>();
 	
 	// Slick Sam
 	auto pSlickSamSpawnerObj = CreateGameObject();
@@ -82,8 +101,8 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 7;
 	pSpawnerComp->Type = EnemyType::SlickSam;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	//	Coily
 	auto pCoilySpawnerObj = CreateGameObject();
@@ -91,7 +110,7 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 1;
 	pSpawnerComp->SpawnInterval = 10;
 	pSpawnerComp->Type = EnemyType::Coily;
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
 
 	//	Ugg
 	auto pUggObject = CreateGameObject();
@@ -99,10 +118,9 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 6;
 	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
-	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
+	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
 	
 	Instantiate("FPSCounter");
-
-	GetCamera()->SetZoomLevel(5.f);
+	AddSystem<FPSCounterSystem>();
 }

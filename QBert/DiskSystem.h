@@ -14,10 +14,6 @@ public:
 
 	void SpawnDisk(Entity qubeEntity);
 
-	void SetSignature() const override;
-
-	void Serialize(StreamWriter& writer) const override;
-
 protected:
 	void Start() override;
 	void Update() override;

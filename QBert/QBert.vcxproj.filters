@@ -36,9 +36,6 @@
     <ClCompile Include="GameManagerSystem.cpp">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="VersusGameManager.cpp">
-      <Filter>GameScripts\Systems\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterControllerSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
@@ -148,9 +145,6 @@
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClInclude>
     <ClInclude Include="GameManagerSystem.h">
-      <Filter>GameScripts\Systems\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="VersusGameManager.h">
       <Filter>GameScripts\Systems\Managers</Filter>
     </ClInclude>
     <ClInclude Include="CharacterControllerSystem.h">

@@ -11,7 +11,8 @@
 
 void AudioSystem::Update()
 {
-	for (Entity const& entity : m_Entities)
+	auto view = m_pRegistry->GetView<AudioComponent>();
+	for (Entity const& entity : view)
 	{
 		auto audioComps = m_pRegistry->GetComponents<AudioComponent>(entity);
 		for (AudioComponent* const audio : audioComps)
@@ -31,12 +32,4 @@ void AudioSystem::Update()
 			}
 		}
 	}
-}
-
-void AudioSystem::SetSignature() const
-{
-	Signature signature;
-	signature.set(m_pRegistry->GetComponentType<AudioComponent>());
-
-	m_pRegistry->SetSystemSignature<AudioSystem>(signature);
 }

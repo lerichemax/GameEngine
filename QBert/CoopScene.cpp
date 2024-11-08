@@ -6,6 +6,14 @@
 #include "PyramidSystem.h"
 #include "EnemySpawnerSystem.h"
 #include "GameManagerSystem.h"
+#include "QubeSystem.h"
+#include "QBertSystem.h"
+#include "CharacterControllerSystem.h"
+#include "CharacterMovementSystem.h"
+#include "JumperSystem.h"
+#include "LivesSystem.h"
+#include "AiControllerSystem.h"
+#include "CoilySystem.h"
 
 #include "UiManagerComponent.h"
 #include "TextRendererComponent.h"
@@ -75,6 +83,12 @@ void CoopScene::Initialize()
 	pTextPointsP2->SetText("P2 Points: " + std::to_string(pQbertObj2->GetComponent<CharacterLives>()->NbrLives));
 	pPointsP2->GetTransform()->SetLocation(20.f, 100.f);
 
+	AddSystem<QBertSystem>();
+	AddSystem<CharacterControllerSystem>();
+	AddSystem<CharacterMovementSystem>();
+	AddSystem<JumperSystem>();
+	AddSystem<LivesSystem>();
+
 	//Pause Menu
 	auto pPauseMenuObject = Instantiate("PauseMenu");
 	pPauseMenuObject->SetActive(false);
@@ -87,10 +101,14 @@ void CoopScene::Initialize()
 	
 	//pyramid
 	Instantiate("Pyramid");
+	AddSystem<PyramidSystem>();
 	AddSystem<DiskSystem>();
+	AddSystem<QubeSystem>();
 
 	//ENEMIES SPAWNERS
 	AddSystem<EnemySpawnerSystem>();
+	AddSystem<AiControllerSystem>();
+	AddSystem<CoilySystem>();
 
 	// Slick Sam
 	auto pSlickSamSpawnerObj = CreateGameObject();
@@ -112,6 +130,7 @@ void CoopScene::Initialize()
 
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
 	pGameManager->SetGameMode(GameMode::Coop);
+
 
 	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
 

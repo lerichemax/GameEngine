@@ -17,6 +17,7 @@ public:
 		bool operator==(ViewIterator const& other);
 		bool operator!=(ViewIterator const& other);
 
+		ViewIterator& operator=(ViewIterator const& other);
 		ViewIterator& operator++();
 		Entity operator*();
 
@@ -38,16 +39,4 @@ private:
 	Signature BuildSignature() const;
 };
 
-template<ComponentDerived... Components>
-View<Components...>::ViewIterator& View<Components...>::ViewIterator::operator++()
-{
-	m_Iterator++;
-	Advance();
-	return *this;
-}
-
-template<ComponentDerived... Components>
-Entity View<Components...>::ViewIterator::operator*()
-{
-	return *m_Iterator;
-}
+#include "View.inl"

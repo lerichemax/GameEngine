@@ -7,25 +7,22 @@ using namespace geo;
 struct SDL_Window;
 struct SDL_Renderer;
 struct Shape;
-struct RendererComponent;
 class Texture2D;
 class TransformComponent;
 class Registry;
-class Renderer final : public Singleton<Renderer>
+class Renderer final
 {
 public:
+	Renderer(unsigned int Width, unsigned int Height, std::string const& name);
 	~Renderer();
 
-	void Init(unsigned int Width, unsigned int Height, std::string const& name);
-	void Render(Registry* const pRegistry);
+	void Render(Registry* const pRegistry, Color const& backgroundColor);
 	void Destroy();
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;
 	void RenderTexture(const Texture2D& texture, float x, float y, float Width, float Height) const;
 	void RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const;
 	void RenderShape(geo::Shape const& pShape) const;
-	void SetBackgroundColor(Color Color) { m_BackgroundColor = Color; }
-	void SetBackgroundColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) { SetBackgroundColor(Color{ r,g,b,a }); }
 		
 	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
 
@@ -42,8 +39,6 @@ private:
 
 	unsigned int m_WindowWidth{};
 	unsigned int m_WindowHeight{};
-		
-	Color m_BackgroundColor;
 
 	int GetOpenGLDriverIndex();
 

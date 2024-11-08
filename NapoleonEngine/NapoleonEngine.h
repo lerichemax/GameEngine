@@ -1,5 +1,7 @@
 #pragma once
 
+class Renderer;
+class SceneManager;
 class SingletonWrapper;
 class NapoleonEngine
 {
@@ -12,18 +14,25 @@ public:
 	static NapoleonEngine* GetEngine();
 
 	void RegisterSingleton(SingletonWrapper* singleton);
+	unsigned int GetWindowWidth() const;
+	unsigned int GetWindowHeight() const;
 
 protected:
-	NapoleonEngine();
+	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs);
 
-	void Initialize(unsigned int Width, unsigned int Height, std::string const& name);
 	virtual void CreatePrefabs() const = 0;
+
+
 
 private:
 	static bool m_bQuit;
 	static NapoleonEngine* m_pEngine;
 
 	std::vector<SingletonWrapper*> m_Singletons;
+
+	std::unique_ptr<Renderer> m_pRenderer;
+
+	bool m_bCreatePrefabs;
 
 	void CreateBasePrefabs();
 };

@@ -216,7 +216,6 @@
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="UIManagerSystem.cpp" />
     <ClCompile Include="UiManagerComponent.cpp" />
-    <ClCompile Include="VersusGameManager.cpp" />
     <ClCompile Include="VersusScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +255,6 @@
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="UIManagerSystem.h" />
     <ClInclude Include="UiManagerComponent.h" />
-    <ClInclude Include="VersusGameManager.h" />
     <ClInclude Include="VersusScene.h" />
   </ItemGroup>
   <ItemGroup>
