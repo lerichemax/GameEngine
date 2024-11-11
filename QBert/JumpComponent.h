@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct JumpComponent : public Component
+struct JumpComponent : public ecs::Component
 {
 	const float JUMP_SPEED{ 200.f };
 	const float JUMP_MAX_HEIGHT{ 17.f };

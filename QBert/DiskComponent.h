@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct DiskComponent : public Component
+struct DiskComponent : public ecs::Component
 {
 	float const OFFSET{ -45 };
 	float const DROP_MAX_TIME{ 0.75f };

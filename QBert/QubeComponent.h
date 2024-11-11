@@ -20,7 +20,7 @@ struct DiskConnection
 enum class Level;
 enum class EnemyType;
 
-struct QubeComponent : public Component
+struct QubeComponent : public ecs::Component
 {
 	QubeComponent();
 	~QubeComponent();

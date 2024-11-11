@@ -9,7 +9,7 @@ enum class MovementMode
 };
 
 enum class ConnectionDirection;
-struct MovementComponent : public Component
+struct MovementComponent : public ecs::Component
 {
 	MovementComponent();
 

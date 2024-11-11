@@ -16,6 +16,7 @@
 #include "ScriptComponent.h"
 #include "CharacterLives.h"
 #include "CharacterPoint.h"
+#include "ColliderComponent.h"
 
 #include "CoopScene.h"
 #include "MainMenuScene.h"

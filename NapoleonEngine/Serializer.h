@@ -22,11 +22,11 @@ public:
 class SerializationMap final
 {
 public:
-	void Add(int Id, Entity pRef);
+	void Add(int Id, ecs::Entity pRef);
 
 	template <typename T> void Add(int Id, T* pRef);
 	template <typename T> T* GetRef(int id) const;
-	template <> inline Entity* GetRef<Entity>(int id) const;
+	template <> inline ecs::Entity* GetRef<ecs::Entity>(int id) const;
 
 private:
 	friend class Serializer;
@@ -35,7 +35,7 @@ private:
 	SerializationMap();
 
 	std::map<int, void*> m_Refs{};
-	std::map<int, Entity> m_EntityRefs{};
+	std::map<int, ecs::Entity> m_EntityRefs{};
 
 };
 
@@ -78,12 +78,12 @@ T* SerializationMap::GetRef(int id) const
 }
 
 template <>
-Entity* SerializationMap::GetRef<Entity>(int id) const
+ecs::Entity* SerializationMap::GetRef<ecs::Entity>(int id) const
 {
 	auto it = m_EntityRefs.find(id);
 	if (it != m_EntityRefs.end())
 	{
-		return const_cast<Entity*>(&it->second);
+		return const_cast<ecs::Entity*>(&it->second);
 	}
 	return nullptr;
 }

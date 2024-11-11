@@ -5,7 +5,7 @@
 
 struct EnemySpawnerComponent;
 class PyramidSystem;
-class EnemySpawnerSystem : public System
+class EnemySpawnerSystem : public ecs::System
 {
 public:
 	EnemySpawnerSystem() = default;

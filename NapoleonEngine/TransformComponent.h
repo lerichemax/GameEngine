@@ -10,7 +10,7 @@
 #include "Scene.h"
 
 
-class TransformComponent final: public Component
+class TransformComponent final: public ecs::Component
 {
 	friend class TransformSystem;
 	friend class GameObject;

@@ -2,7 +2,7 @@
 #include "Component.h"
 
 enum class EnemyType;
-struct EnemySpawnerComponent : public Component
+struct EnemySpawnerComponent : public ecs::Component
 {
 	unsigned int MaxEnemies;
 	float SpawnInterval;

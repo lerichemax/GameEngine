@@ -4,7 +4,7 @@
 
 class QBert;
 class QubeSystem;
-class DiskSystem final : public System
+class DiskSystem final : public ecs::System
 {
 public:
 	DiskSystem() = default;

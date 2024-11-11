@@ -22,7 +22,10 @@ inline void WriteLog(const char* level, const char* format, ...)
 	vprintf(formatStr.c_str(), arg);
 	va_end(arg);
 }
-
+namespace ecs
+{
+	class Registry;
+}
 
 class Debugger final : public Singleton<Debugger>
 {
@@ -39,7 +42,7 @@ public:
 private:
 	friend class Singleton<Debugger>;
 
-	friend void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor);
+	friend void Renderer::Render(ecs::Registry* const pRegistry, Color const& backgroundColor);
 		
 	Debugger();
 

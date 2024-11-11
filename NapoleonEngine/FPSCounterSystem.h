@@ -1,7 +1,7 @@
 #pragma once
 #include "System.h"
 
-class FPSCounterSystem : public System
+class FPSCounterSystem : public ecs::System
 {
 protected:
 	void Update() override;

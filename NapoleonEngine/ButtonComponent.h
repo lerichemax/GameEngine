@@ -10,7 +10,7 @@
 template<typename T>
 concept CommandDerived = std::derived_from<T, Command>;
 
-class ButtonComponent : public Component
+class ButtonComponent : public ecs::Component
 {
 	friend class UiSystem;
 

@@ -12,7 +12,7 @@ class QubeSystem;
 class DiskSystem;
 class ComponentManager;
 struct PyramidComponent;
-class PyramidSystem final : public System
+class PyramidSystem final : public ecs::System
 {
 public:
 	PyramidSystem() = default;

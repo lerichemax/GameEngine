@@ -4,7 +4,7 @@
 #define QBERT_TAG "Qbert"
 
 struct AudioComponent;
-struct QbertComponent : public Component
+struct QbertComponent : public ecs::Component
 {
 	QbertComponent();
 

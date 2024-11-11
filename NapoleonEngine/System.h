@@ -4,22 +4,25 @@
 
 #include <set>
 
-class Registry;
-class System
+class ecs::Registry;
+
+namespace ecs
 {
-	friend class Registry;
-	friend class Scene;
+	class System
+	{
+		friend class Registry;
+		friend class Scene;
 
-public:
-	virtual ~System() = default;
+	public:
+		virtual ~System() = default;
 
-protected:
-	virtual void Initialize() {};
-	virtual void Start() {};
-	virtual void Update() {};
+	protected:
+		virtual void Initialize() {};
+		virtual void Start() {};
+		virtual void Update() {};
 
-	System() = default;
-	System(System const& other);
+		System() = default;
 
-	Registry* m_pRegistry;
-};
+		Registry* m_pRegistry;
+	};
+}

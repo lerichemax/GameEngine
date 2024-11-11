@@ -42,13 +42,13 @@ inline std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec
 	return SceneManager::Get().GetActiveScene()->InstantiatePrefab(name, location);
 }
 
-template <ComponentDerived T>
+template <ecs::ComponentDerived T>
 inline T* const FindComponentOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentOfType<T>();
 }
 
-template <ComponentDerived T>
+template <ecs::ComponentDerived T>
 inline T* const FindComponentsOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentsOfType<T>();

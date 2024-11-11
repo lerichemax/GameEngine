@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct AudioComponent final : public Component
+struct AudioComponent final : public ecs::Component
 {
 	friend class AudioSystem;
 public:

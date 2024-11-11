@@ -1,19 +1,24 @@
 #pragma once
-#include "SceneManager.h"
-#include "ColliderComponent.h"
-#include "Registry.h"
 #include "Entity.h"
+#include "ComponentArray.h"
+#include "SystemManager.h"
+#include "Registry.h"
 
 #include <memory>
 #include <unordered_set>
 
-class System;
+namespace ecs
+{
+	class System;
+}
+
 class GameObject;
 class TransformSystem;
 class AudioSystem;
 class UiSystem;
 class CollisionSystem;
 class Camera2D;
+class ColliderComponent;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
@@ -32,7 +37,7 @@ public:
 protected:
 	BaseScene();
 
-	std::unique_ptr<Registry> m_pRegistry;
+	std::unique_ptr<ecs::Registry> m_pRegistry;
 
 	std::string m_Name;
 
@@ -53,7 +58,7 @@ protected:
 	void SetName(std::string const& name);
 
 private:
-	Entity m_pRootEntity;
+	ecs::Entity m_pRootEntity;
 };
 
 class Scene : public BaseScene
@@ -68,7 +73,7 @@ public:
 		
 	bool IsActive() const { return m_bIsActive; }
 
-	template <SystemDerived T> T* const AddSystem();
+	template <ecs::SystemDerived T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 	Color const& GetBackgroundColor() const;
 
@@ -82,7 +87,7 @@ private:
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	template <ComponentDerived T> friend T* const FindComponentOfType();
+	template <ecs::ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
@@ -96,7 +101,7 @@ private:
 
 	std::unique_ptr<Camera2D> m_pCamera;
 
-	std::vector<System*> m_pSystems;
+	std::vector<ecs::System*> m_pSystems;
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -111,7 +116,7 @@ private:
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
-template <SystemDerived T>
+template <ecs::SystemDerived T>
 T* const Scene::AddSystem()
 {
 	auto* const pNewSystem = m_pRegistry->RegisterSystem<T>();

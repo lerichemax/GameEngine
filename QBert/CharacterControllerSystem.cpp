@@ -9,6 +9,8 @@
 
 #include "InputManager.h"
 
+using namespace ecs;
+
 void CharacterControllerSystem::Update()
 {
 	auto view = m_pRegistry->GetView<CharacterControllerComponent, MovementComponent>();

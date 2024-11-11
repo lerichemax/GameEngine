@@ -207,7 +207,7 @@
                     "texture": {
                         "filepath": "Textures/QBert/HurtText.png"
                     },
-                    "IsActive": true,
+                    "IsActive": false,
                     "IsUnique": false,
                     "ID": 27,
                     "entity": 1

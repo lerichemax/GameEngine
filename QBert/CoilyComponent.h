@@ -2,7 +2,7 @@
 #include "Component.h"
 
 enum class ConnectionDirection;
-struct CoilyComponent : public Component
+struct CoilyComponent : public ecs::Component
 {
 	CoilyComponent();
 

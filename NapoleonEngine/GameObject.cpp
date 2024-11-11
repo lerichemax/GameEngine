@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+using namespace ecs;
 
 GameObject::GameObject(Entity entity, Registry* const pRegistry)
 	:m_pRegistry(pRegistry),

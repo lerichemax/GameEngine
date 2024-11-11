@@ -2,7 +2,7 @@
 #include "System.h"
 #include "Event.h"
 
-class LivesSystem final : public System {
+class LivesSystem final : public ecs::System {
 
 public:
 	LivesSystem() = default;

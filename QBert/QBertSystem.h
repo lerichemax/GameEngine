@@ -3,8 +3,7 @@
 #include "Event.h"
 
 enum class GameMode;
-class Registry;
-class QBertSystem : public System 
+class QBertSystem : public ecs::System
 {
 public:
 	EventHandler<QBertSystem> OnQBertEncounteredEnemy;

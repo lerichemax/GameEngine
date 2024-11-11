@@ -2,7 +2,7 @@
 #include "System.h"
 
 class TextRendererComponent;
-class UIManagerSystem : public System
+class UIManagerSystem : public ecs::System
 {
 public:
 	UIManagerSystem() = default;

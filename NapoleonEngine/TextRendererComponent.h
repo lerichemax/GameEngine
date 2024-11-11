@@ -6,7 +6,7 @@
 #include <string>
 #include <SDL_pixels.h>
 
-class TextRendererComponent : public Component
+class TextRendererComponent : public ecs::Component
 {
 	friend class TextRendererSystem;
 	friend class ResourceManager;

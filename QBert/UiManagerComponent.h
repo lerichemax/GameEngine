@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct UiManagerComponent : public Component
+struct UiManagerComponent : public ecs::Component
 {
 	Entity PointsCounterTextEntity{ NULL_ENTITY };
 	Entity LivesCounterTextEntity{ NULL_ENTITY };

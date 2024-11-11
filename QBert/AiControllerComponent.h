@@ -13,7 +13,7 @@ enum class EnemyType
 
 
 class Command;
-struct AiControllerComponent : public Component
+struct AiControllerComponent : public ecs::Component
 {
 	float const MOVE_INTERVAL{ 0.5f };
 	float MoveTimer;

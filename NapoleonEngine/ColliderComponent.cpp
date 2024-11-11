@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "ColliderComponent.h"
 
+using namespace ecs;
+
 void ColliderComponent::SetShape(geo::Shape* pNewShape)
 {
 	assert(pShape == nullptr && "Can't reassign shape (yet)");
