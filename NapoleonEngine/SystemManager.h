@@ -8,21 +8,25 @@
 #include <concepts>
 #include <typeindex>
 
-template <typename T>
-concept SystemDerived = std::derived_from<T, System>;
+namespace ecs {
+	template <typename T>
+	concept SystemDerived = std::derived_from<T, System>;
 
-class ComponentManager;
-class Registry;
-class SystemManager
-{
-public:
-	template <SystemDerived T> T* const RegisterSystem(Registry* const pRegistry);
-	template <SystemDerived T> T* const GetSystem() const;
+	class ComponentManager;
+	class Registry;
 
-private:
-	friend class Registry;
+	class SystemManager
+	{
+	public:
+		template <SystemDerived T> T* const RegisterSystem(Registry* const pRegistry);
+		template <SystemDerived T> T* const GetSystem() const;
 
-	std::unordered_map<std::string, std::unique_ptr<System>> m_Systems;
-};
+	private:
+		friend class Registry;
+
+		std::unordered_map<std::string, std::unique_ptr<ecs::System>> m_Systems;
+	};
+}
+
 
 #include "SystemManager.inl"

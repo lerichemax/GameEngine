@@ -32,7 +32,7 @@ public:
 protected:
 	BaseScene();
 
-	std::unique_ptr<Registry> m_pRegistry;
+	std::unique_ptr<ecs::Registry> m_pRegistry;
 
 	std::string m_Name;
 
@@ -68,7 +68,7 @@ public:
 		
 	bool IsActive() const { return m_bIsActive; }
 
-	template <SystemDerived T> T* const AddSystem();
+	template <ecs::SystemDerived T> T* const AddSystem();
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 	Color const& GetBackgroundColor() const;
 
@@ -96,7 +96,7 @@ private:
 
 	std::unique_ptr<Camera2D> m_pCamera;
 
-	std::vector<System*> m_pSystems;
+	std::vector<ecs::System*> m_pSystems;
 
 	bool m_bIsActive;
 	bool m_bIsInitialized;
@@ -111,7 +111,7 @@ private:
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);
 };
 
-template <SystemDerived T>
+template <ecs::SystemDerived T>
 T* const Scene::AddSystem()
 {
 	auto* const pNewSystem = m_pRegistry->RegisterSystem<T>();

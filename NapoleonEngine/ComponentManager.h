@@ -10,38 +10,41 @@
 #include <memory>
 #include <typeindex>
 
-class ComponentManager final
+namespace ecs
 {
-	friend class NapoleonEngine;
-public:
-	~ComponentManager() = default;
+	class ComponentManager final
+	{
+		friend class NapoleonEngine;
+	public:
+		~ComponentManager() = default;
 
-	template<ComponentDerived T> ComponentType GetComponentType();
+		template<ComponentDerived T> ComponentType GetComponentType();
 
-	template<ComponentDerived T> T* const AddComponent(Entity entity);
+		template<ComponentDerived T> T* const AddComponent(Entity entity);
 
-	template<ComponentDerived T> void RemoveComponent(Entity entity);
-	template<ComponentDerived T> T* const GetComponent(Entity entity);
-	template<ComponentDerived T> std::vector<T*> GetComponents(Entity entity);
-	template<ComponentDerived T> T* const FindComponentOfType();
-	template<ComponentDerived T> std::vector<T*> const FindComponentsOfType();
-	
-	void EntityDestroyed(Entity entity);
-	std::vector<Component*> GetComponentsForSignature(Entity entity, Signature signature);
+		template<ComponentDerived T> void RemoveComponent(Entity entity);
+		template<ComponentDerived T> T* const GetComponent(Entity entity);
+		template<ComponentDerived T> std::vector<T*> GetComponents(Entity entity);
+		template<ComponentDerived T> T* const FindComponentOfType();
+		template<ComponentDerived T> std::vector<T*> const FindComponentsOfType();
 
-private:
-	friend class Registry;
+		void EntityDestroyed(Entity entity);
+		std::vector<Component*> GetComponentsForSignature(Entity entity, Signature signature);
 
-	static std::unordered_map<std::string, ComponentType> m_ComponentTypes;
-	std::unordered_map<std::string, std::unique_ptr<IComponentArray>> m_ComponentArrays{};
-	static ComponentType m_NextComponentType;
+	private:
+		friend class Registry;
 
-	template<ComponentDerived T> void RegisterComponent();
-	template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
-	template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
+		static std::unordered_map<std::string, ComponentType> m_ComponentTypes;
+		std::unordered_map<std::string, std::unique_ptr<IComponentArray>> m_ComponentArrays{};
+		static ComponentType m_NextComponentType;
 
-	ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
-	static void CleanUp();
-};
+		template<ComponentDerived T> void RegisterComponent();
+		template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
+		template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
+
+		ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
+		static void CleanUp();
+	};
+}
 
 #include "ComponentManager.inl"

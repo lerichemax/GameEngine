@@ -16,7 +16,7 @@ public:
 	Renderer(unsigned int Width, unsigned int Height, std::string const& name);
 	~Renderer();
 
-	void Render(Registry* const pRegistry, Color const& backgroundColor);
+	void Render(ecs::Registry* const pRegistry, Color const& backgroundColor);
 	void Destroy();
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;

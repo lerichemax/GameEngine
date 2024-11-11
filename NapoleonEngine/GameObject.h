@@ -9,7 +9,7 @@ class GameObject final
 	friend class Scene;
 public:
 	~GameObject() = default;
-	GameObject(Entity entity, Registry* const pRegistry);
+	GameObject(Entity entity, ecs::Registry* const pRegistry);
 	GameObject(const GameObject& other) = delete;
 	GameObject(GameObject&& other);
 	GameObject& operator=(const GameObject& other) = delete;
@@ -39,7 +39,7 @@ private:
 	friend class PrefabsManager;
 	friend class BaseScene;
 
-	Registry* m_pRegistry;
+	ecs::Registry* m_pRegistry;
 
 	Entity m_Entity;
 };

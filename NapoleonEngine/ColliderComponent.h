@@ -6,11 +6,11 @@
 #include <set>
 
 struct geo::Shape;
-class ColliderComponent : public Component
+class ColliderComponent : public ecs::Component
 {
 	friend class CollisionSystem;
 
-	typedef EventHandler<ColliderComponent, Entity> CollisionEvent;
+	typedef EventHandler<ColliderComponent, ecs::Entity> CollisionEvent;
 
 public:
 	CollisionEvent OnTriggerEnter;
@@ -28,9 +28,9 @@ public:
 
 private:
 	std::unique_ptr<geo::Shape> pShape{ nullptr };
-	std::set<Entity> OverlappingColliders;
+	std::set<ecs::Entity> OverlappingColliders;
 
-	void TriggerEnter(Entity other);
-	void TriggerExit(Entity other);
-	void Collide(Entity other);
+	void TriggerEnter(ecs::Entity other);
+	void TriggerExit(ecs::Entity other);
+	void Collide(ecs::Entity other);
 };

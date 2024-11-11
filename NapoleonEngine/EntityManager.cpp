@@ -84,7 +84,7 @@ std::vector<Entity> EntityManager::GetEntityHierarchy(Entity entity) const //TOD
 
 	for (Entity child : GetChildren(entity))
 	{
-		std::vector childHierarchy = GetEntityHierarchy(entity);
+		std::vector childHierarchy = GetEntityHierarchy(child);
 		hierarchy.insert(childHierarchy.begin(), childHierarchy.end(), hierarchy.end());
 	}
 	return hierarchy;

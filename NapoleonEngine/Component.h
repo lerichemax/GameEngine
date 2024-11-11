@@ -4,40 +4,40 @@
 
 #include <bitset>
 
-class GameObject;
-
-using ComponentType = uint8_t;
-
-const ComponentType MAX_COMPONENTS = 32;
-
-using Signature = std::bitset<MAX_COMPONENTS>;
-
-struct Component : public IContextSerializable
+namespace ecs 
 {
-	template<typename T> friend class ComponentArray;
-	friend class Registry;
-	friend class GameObject;
+	using ComponentType = uint8_t;
 
-	Component() = default;
-	Component(bool unique);
+	const ComponentType MAX_COMPONENTS = 32;
 
-	virtual ~Component() = default;
+	using Signature = std::bitset<MAX_COMPONENTS>;
 
-	bool IsActive() const;
-	bool IsUnique() const;
+	struct Component : public ::IContextSerializable
+	{
+		template<typename T> friend class ComponentArray;
+		friend class Registry;
 
-	void SetActive(bool isActive);
+		Component() = default;
+		Component(bool unique);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+		virtual ~Component() = default;
 
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+		bool IsActive() const;
+		bool IsUnique() const;
 
-	Entity GetEntity() const { return m_Entity; }
+		void SetActive(bool isActive);
 
-private:
-	Entity m_Entity;
+		void Serialize(StreamWriter& writer) const override;
+		void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
-	bool m_IsActive{true};
-	bool m_IsUnique{};
-};
+		void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+
+		Entity GetEntity() const { return m_Entity; }
+
+	private:
+		Entity m_Entity;
+
+		bool m_IsActive{ true };
+		bool m_IsUnique{};
+	};
+}

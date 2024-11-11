@@ -390,9 +390,6 @@
     <ClCompile Include="ComponentManager.cpp">
       <Filter>ECS\Components\Base</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>ECS\Entity</Filter>
     </ClCompile>
@@ -425,9 +422,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

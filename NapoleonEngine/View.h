@@ -1,42 +1,44 @@
 #pragma once
 #include "ComponentManager.h"
 
-class Registry;
+class ecs::Registry;
 
-template<ComponentDerived... Components>
-class View
-{
-public:
-	View(Registry* const pRegistry);
-
-	class ViewIterator
+namespace ecs {
+	template<ComponentDerived... Components>
+	class View
 	{
 	public:
-		ViewIterator(Registry* const pRegistry, Signature signature, std::vector<Entity>::const_iterator it);
+		View(Registry* const pRegistry);
 
-		bool operator==(ViewIterator const& other);
-		bool operator!=(ViewIterator const& other);
+		class ViewIterator
+		{
+		public:
+			ViewIterator(Registry* const pRegistry, Signature signature, std::vector<Entity>::const_iterator it);
 
-		ViewIterator& operator=(ViewIterator const& other);
-		ViewIterator& operator++();
-		Entity operator*();
+			bool operator==(ViewIterator const& other);
+			bool operator!=(ViewIterator const& other);
+
+			ViewIterator& operator=(ViewIterator const& other);
+			ViewIterator& operator++();
+			Entity operator*();
+
+		private:
+			Registry* const m_pRegistry;
+			Signature m_Signature;
+			std::vector<Entity>::const_iterator m_Iterator;
+
+			void Advance();
+		};
+
+		ViewIterator begin();
+		ViewIterator end();
 
 	private:
 		Registry* const m_pRegistry;
 		Signature m_Signature;
-		std::vector<Entity>::const_iterator m_Iterator;
 
-		void Advance();
+		Signature BuildSignature() const;
 	};
-
-	ViewIterator begin();
-	ViewIterator end();
-
-private:
-	Registry* const m_pRegistry;
-	Signature m_Signature;
-
-	Signature BuildSignature() const;
-};
+}
 
 #include "View.inl"
