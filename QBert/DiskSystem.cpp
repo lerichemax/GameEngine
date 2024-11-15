@@ -44,7 +44,7 @@ void DiskSystem::Update()
 			glm::vec2 distance{ pDiskComp->TargetPosition - pTransform->GetLocation() };
 			glm::vec2 direction{ glm::normalize(distance) };
 
-			direction *= (pDiskComp->MOVE_SPEED * Timer::Get().GetDeltaTime());
+			direction *= (pDiskComp->MOVE_SPEED * TimerLocator::Get()->GetDeltaTime());
 			pTransform->SetLocation(pTransform->GetLocation() + direction);
 
 			distance = pDiskComp->TargetPosition - pTransform->GetLocation();
@@ -57,7 +57,7 @@ void DiskSystem::Update()
 		{
 			if (pDiskComp->DropTimer < pDiskComp->DROP_MAX_TIME)
 			{
-				pDiskComp->DropTimer += Timer::Get().GetDeltaTime();
+				pDiskComp->DropTimer += TimerLocator::Get()->GetDeltaTime();
 			}
 			else
 			{

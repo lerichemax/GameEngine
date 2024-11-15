@@ -11,26 +11,26 @@
 #include "Renderer.h"
 #include "Timer.h"
 #include "PrefabsManager.h"
-#include "SerializerServiceLocator.h"
 #include "Serializer.h"
 #include "Deserializer.h"
+#include "Factories.h"
 
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
 #include "RendererComponent.h"
-
-#include "FPSCounterSystem.h"
+#include "ButtonComponent.h"
+#include "ColliderComponent.h"
+#include "ScriptComponent.h"
 
 #include "FPSCounter.h"
 #include "Scene.h"
-
-class ObserverManager;
 
 bool NapoleonEngine::m_bQuit = false;
 NapoleonEngine* NapoleonEngine::m_pEngine = nullptr;
 
 NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs)
 	: m_pRenderer{std::make_unique<Renderer>(Width, Height, name)},
+	m_pTimer{ std::unique_ptr<Timer>(new Timer{}) },
 	m_bCreatePrefabs{ bCreatePrefabs }
 {
 	assert(m_pEngine == nullptr && "Trying to instantiate more than one Engine instance");
@@ -61,8 +61,7 @@ NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::str
 		LOG_ERROR(error.what());
 	}
 
-	SerializerServiceLocator::RegisterSerializer(new Serializer{});
-	SerializerServiceLocator::RegisterDeserializer(new Deserializer{});
+	TimerLocator::RegisterTimer(m_pTimer.get());
 }
 
 void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
@@ -85,6 +84,22 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 
 	//game specific prefab
 	CreatePrefabs();
+}
+
+void NapoleonEngine::RegisterComponentsToFactory() const
+{
+	Factory<ecs::Component>& factory = Factory<ecs::Component>::Get();
+
+	factory.RegisterType<AudioComponent>(CreateComponent<AudioComponent>);
+	factory.RegisterType<ButtonComponent>(CreateComponent<ButtonComponent>);
+	factory.RegisterType<ColliderComponent>(CreateComponent<ColliderComponent>);
+	factory.RegisterType<FPSCounter>(CreateComponent<FPSCounter>);
+	factory.RegisterType<RendererComponent>(CreateComponent<RendererComponent>);
+	factory.RegisterType<ScriptComponent>(CreateComponent<ScriptComponent>);
+	factory.RegisterType<TextRendererComponent>(CreateComponent<TextRendererComponent>);
+	factory.RegisterType<TransformComponent>(CreateComponent<TransformComponent>);
+
+	RegisterComponentsToFactory_Imp(factory);
 }
 
 void NapoleonEngine::Quit()
@@ -125,7 +140,6 @@ void NapoleonEngine::Cleanup()
 	
 	SDL_Quit();
 
-	SerializerServiceLocator::CleanUp();
 	ComponentManager::CleanUp();
 }
 
@@ -139,20 +153,21 @@ void NapoleonEngine::Run()
 	}
 
 	InitGame();
+	RegisterComponentsToFactory();
 	{
 		auto& sceneManager = SceneManager::Get();
 		auto& input = InputManager::Get();
 	
 		while (!m_bQuit)
 		{
-			Timer::Get().Update();
+			m_pTimer->Update();
 			
 			m_bQuit = !input.ProcessInput();
 			sceneManager.Update();
 			
 			m_pRenderer->Render(sceneManager.GetActiveScene()->m_pRegistry.get(), sceneManager.GetActiveScene()->GetBackgroundColor());
 
-			Timer::Get().Sleep();
+			m_pTimer->Sleep();
 		}
 	}
 

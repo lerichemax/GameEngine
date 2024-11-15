@@ -131,7 +131,7 @@ void Scene::CleanUpScene()
 
 void Scene::OnLoad()
 {
-	Timer::Get().SetTimeScale(1);
+	TimerLocator::Get()->SetTimeScale(1);
 	m_pRegistry = std::make_unique<Registry>();
 	m_pTransformSystem = m_pRegistry->RegisterSystem<TransformSystem>();
 	m_pCollisionSystem = m_pRegistry->RegisterSystem<CollisionSystem>();

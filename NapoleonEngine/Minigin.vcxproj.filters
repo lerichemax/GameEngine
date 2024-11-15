@@ -221,9 +221,6 @@
     <ClInclude Include="JsonReaderWriter.h">
       <Filter>Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="SerializerServiceLocator.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>ECS\Components\Base</Filter>
     </ClInclude>
@@ -379,9 +376,6 @@
       <Filter>Serialization</Filter>
     </ClCompile>
     <ClCompile Include="JsonReaderWriter.cpp">
-      <Filter>Serialization</Filter>
-    </ClCompile>
-    <ClCompile Include="SerializerServiceLocator.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">

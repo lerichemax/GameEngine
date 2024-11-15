@@ -11,16 +11,6 @@ namespace ecs
 		if (m_ComponentTypes.find(type) == m_ComponentTypes.end())
 		{
 			m_ComponentTypes.insert(std::make_pair(type, m_NextComponentType++));
-
-			Factory<Component, ComponentManager* const>::Get().RegisterType<T>([](ComponentManager* const compManager) {
-				T* t = new T{};
-
-				std::string type{ typeid(T).name() };
-
-				compManager->RegisterComponentArray<T>(type);
-
-				return t;
-			});
 		}
 
 		RegisterComponentArray<T>(type);

@@ -288,7 +288,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="ScriptComponent.h" />
     <ClInclude Include="ScriptingSystem.h" />
     <ClInclude Include="Serializer.h" />
-    <ClInclude Include="SerializerServiceLocator.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
@@ -387,7 +386,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="ScriptingSystem.cpp" />
     <ClCompile Include="Serializer.cpp" />
-    <ClCompile Include="SerializerServiceLocator.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />

@@ -4,6 +4,7 @@
 #include "writer.h"
 
 #include <string>
+#include <glm/vec2.hpp>
 
 using namespace rapidjson;
 

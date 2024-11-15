@@ -15,7 +15,7 @@ void FPSCounterSystem::Update()
 
 		if (fpsCounter != nullptr && fpsCounter->IsActive())
 		{
-			fpsCounter->m_FPS = Timer::Get().GetFPS();
+			fpsCounter->m_FPS = TimerLocator::Get()->GetFPS();
 
 			auto* const text = m_pRegistry->GetComponent<TextRendererComponent>(entity);
 

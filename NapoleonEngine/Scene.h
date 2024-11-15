@@ -22,7 +22,8 @@ class ColliderComponent;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
-
+	template<ecs::ComponentDerived C> friend C* CreateComponent();
+	template <ecs::ComponentDerived T> friend T* const FindComponentOfType();
 public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
@@ -87,7 +88,6 @@ private:
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	template <ecs::ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);

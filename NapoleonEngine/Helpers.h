@@ -53,3 +53,13 @@ inline T* const FindComponentsOfType()
 {
 	return SceneManager::Get().GetActiveScene()->m_pRegistry->FindComponentsOfType<T>();
 }
+
+template<ecs::ComponentDerived C>
+inline C* CreateComponent()
+{
+	C* comp = new C{};
+
+	SceneManager::Get().GetActiveScene()->m_pRegistry->RegisterComponent<C>();
+
+	return comp;
+}

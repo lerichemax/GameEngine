@@ -56,7 +56,7 @@ void ScriptingSystem::Update()
 		if (lua_isfunction(m_pState, -1))
 		{
 			lua_pushinteger(m_pState, entity);
-			lua_pushnumber(m_pState, Timer::Get().GetDeltaTime());
+			lua_pushnumber(m_pState, TimerLocator::Get()->GetDeltaTime());
 
 			if (lua_pcall(m_pState, 2, 0, 0) != LUA_OK) {
 
@@ -66,27 +66,6 @@ void ScriptingSystem::Update()
 		}
 	}
 }
-
-//int ScriptingSystem::lua_GetTransformComponent(lua_State* pState)
-//{
-//	Entity entity = static_cast<Entity>(luaL_checkinteger(pState, 1));
-//
-//	auto* pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-//
-//	if (!IS_VALID(pTransform))
-//	{
-//		lua_pushnil(pState);
-//		return 1;
-//	}
-//
-//	TransformComponent** pLuaTransform = (TransformComponent**)lua_newuserdata(pState, sizeof(pTransform));
-//	pLuaTransform = &pTransform;
-//
-//	luaL_getmetatable(pState, "TransformMetaTable");
-//	lua_setmetatable(pState, -2);
-//
-//	return 1;
-//}
 
 int ScriptingSystem::lua_GetPosition(lua_State* pState)
 {

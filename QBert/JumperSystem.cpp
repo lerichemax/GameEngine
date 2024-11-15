@@ -89,7 +89,7 @@ void JumperSystem::UpdateJump(Entity entity)
 
 	dir = glm::normalize(dir);
 
-	pTransform->SetLocation(Pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
+	pTransform->SetLocation(Pos + dir * pJump->JUMP_SPEED * TimerLocator::Get()->GetDeltaTime());
 
 	if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 	{
@@ -115,7 +115,7 @@ void JumperSystem::UpdateFall(Entity entity)
 		glm::vec2 dir = pJump->Halfway - Pos;
 		dir = glm::normalize(dir);
 
-		pTransform->SetLocation(Pos + dir * pJump->JUMP_SPEED * Timer::Get().GetDeltaTime());
+		pTransform->SetLocation(Pos + dir * pJump->JUMP_SPEED * TimerLocator::Get()->GetDeltaTime());
 
 		if (glm::length(pTransform->GetLocation() - pJump->Halfway) <= 2.f)
 		{
@@ -124,8 +124,8 @@ void JumperSystem::UpdateFall(Entity entity)
 	}
 	else
 	{
-		pTransform->SetLocation(Pos - pJump->Direction * (pJump->FALL_SPEED * Timer::Get().GetDeltaTime()));
-		pJump->FallTime += Timer::Get().GetDeltaTime();
+		pTransform->SetLocation(Pos - pJump->Direction * (pJump->FALL_SPEED * TimerLocator::Get()->GetDeltaTime()));
+		pJump->FallTime += TimerLocator::Get()->GetDeltaTime();
 		if (pJump->FallTime >= pJump->FALL_TIME)
 		{
 			OnFell.Notify(entity);

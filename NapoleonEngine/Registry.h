@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "SystemManager.h"
 #include "View.h"
+#include "Helpers.h"
 
 #include <memory>
 
@@ -23,6 +24,7 @@ namespace ecs
 		void DestroyEntity(Entity entity);
 
 		template <ComponentDerived T> T* const AddComponent(Entity entity);
+		template<ComponentDerived T> void RegisterComponent();
 		template <ComponentDerived T> void RemoveComponent(Entity entity);
 		template <ComponentDerived T> T* const GetComponent(Entity entity) const;
 		template <ComponentDerived T> std::vector<T*> GetComponents(Entity entity) const;

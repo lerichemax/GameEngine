@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "JsonReaderWriter.h"
 #include "Factories.h"
+#include "Helpers.h"
 
 #include <unordered_map>
 #include <string>
@@ -15,6 +16,7 @@ namespace ecs
 	class ComponentManager final
 	{
 		friend class NapoleonEngine;
+
 	public:
 		~ComponentManager() = default;
 
@@ -27,6 +29,7 @@ namespace ecs
 		template<ComponentDerived T> std::vector<T*> GetComponents(Entity entity);
 		template<ComponentDerived T> T* const FindComponentOfType();
 		template<ComponentDerived T> std::vector<T*> const FindComponentsOfType();
+		template<ComponentDerived T> void RegisterComponent();
 
 		void EntityDestroyed(Entity entity);
 		std::vector<Component*> GetComponentsForSignature(Entity entity, Signature signature);
@@ -38,7 +41,6 @@ namespace ecs
 		std::unordered_map<std::string, std::unique_ptr<IComponentArray>> m_ComponentArrays{};
 		static ComponentType m_NextComponentType;
 
-		template<ComponentDerived T> void RegisterComponent();
 		template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
 		template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
 

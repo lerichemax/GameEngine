@@ -17,6 +17,12 @@ namespace ecs
 		return comp;
 	}
 
+	template<ComponentDerived T> 
+	void Registry::RegisterComponent()
+	{
+		m_pComponentManager->RegisterComponent<T>();
+	}
+
 	template <ComponentDerived T>
 	void Registry::RemoveComponent(Entity entity)
 	{
