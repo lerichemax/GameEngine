@@ -14,6 +14,4 @@ struct EnemySpawnerComponent : public ecs::Component
 	EnemyType Type;
 
 	std::vector<Entity> SpawnedEnemies;
-
-	void Serialize(StreamWriter& writer) const override;
 };

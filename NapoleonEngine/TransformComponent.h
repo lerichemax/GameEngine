@@ -9,7 +9,7 @@
 #include "System.h"
 #include "Scene.h"
 
-
+struct lua_State;
 class TransformComponent final: public ecs::Component
 {
 	friend class TransformSystem;

@@ -17,6 +17,8 @@
 #include "NapoleonEngine.h"
 #include "SceneManager.h"
 
+#define DATA_PATH "./Data/"
+
 class ResourceManager::ResourceManagerImpl final
 {
 public:
@@ -27,7 +29,7 @@ public:
 	ResourceManagerImpl& operator=(ResourceManagerImpl&& rhs) = delete;
 	~ResourceManagerImpl();
 
-	void Init(const std::string& data, Renderer* const pRenderer);
+	void Init(Renderer* const pRenderer);
 
 	Texture2D* const GetTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
@@ -39,8 +41,6 @@ public:
 
 private:
 	Renderer* m_pRenderer;
-
-	std::string m_DataPath;
 
 	std::map<std::string, std::unique_ptr<Texture2D>> m_pTextures;
 	std::map<int, std::unique_ptr<Texture2D>> m_pTxtTextures;
@@ -56,8 +56,7 @@ private:
 };
 
 ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
-	:m_DataPath(),
-	m_pTextures(),
+	:m_pTextures(),
 	m_pFonts()
 {
 	TextRendererComponent::OnAnyDestroyed.Subscribe([this](int id) {
@@ -79,9 +78,8 @@ ResourceManager::ResourceManagerImpl::~ResourceManagerImpl()
 	IMG_Quit();
 }
 
-void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath, Renderer* const pRenderer)
+void ResourceManager::ResourceManagerImpl::Init(Renderer* const pRenderer)
 {
-	m_DataPath = dataPath;
 	m_pRenderer = pRenderer;
 
 	// load support for png and jpg, this takes a while!
@@ -103,7 +101,7 @@ void ResourceManager::ResourceManagerImpl::Init(const std::string& dataPath, Ren
 
 Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
 {
-	const auto fullPath = m_DataPath + file;
+	const auto fullPath = DATA_PATH + file;
 	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
@@ -115,7 +113,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 
 Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std::string& file)
 {
-	const auto fullPath = m_DataPath + file;
+	const auto fullPath = DATA_PATH + file;
 	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
@@ -230,14 +228,14 @@ SoundEffect* const ResourceManager::ResourceManagerImpl::GetEffectById(ID id) co
 
 Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
 {
-	m_pFonts.push_back(std::make_unique<Font>( m_DataPath + file, size ));
+	m_pFonts.push_back(std::make_unique<Font>(DATA_PATH + file, size ));
 	return m_pFonts.back().get();
 }
 
 SoundEffect* const ResourceManager::ResourceManagerImpl::LoadEffect(const std::string& file)
 {
 
-	auto pEffect = new SoundEffect{ m_DataPath + file }; 
+	auto pEffect = new SoundEffect{ DATA_PATH + file };
 	m_pEffects.insert(std::make_pair(pEffect->GetId(), std::unique_ptr<SoundEffect>{pEffect}));
 	return pEffect;
 }
@@ -253,9 +251,9 @@ ResourceManager::~ResourceManager()
 
 }
 
-void ResourceManager::Init(const std::string& data, Renderer* const pRenderer)
+void ResourceManager::Init(Renderer* const pRenderer)
 {
-	m_pImpl->Init(data, pRenderer);
+	m_pImpl->Init(pRenderer);
 }
 
 Texture2D* const ResourceManager::GetTexture(const std::string& file)

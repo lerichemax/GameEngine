@@ -10,9 +10,3 @@ CoilyComponent::CoilyComponent()
 	}
 }
 
-void CoilyComponent::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString(std::string{ "type" }, typeid(CoilyComponent).name());
-
-	Component::Serialize(writer);
-}

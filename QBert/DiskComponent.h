@@ -17,6 +17,4 @@ struct DiskComponent : public ecs::Component
 
 	Entity QbertEntity{NULL_ENTITY};
 	bool bHasReachedTop;
-
-	void Serialize(StreamWriter& writer) const override;
 };

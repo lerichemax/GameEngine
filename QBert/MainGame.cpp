@@ -22,7 +22,6 @@
 #include "MainMenuScene.h"
 #include "VersusScene.h"
 #include "SoloScene.h"
-#include "TestScene.h"
 
 #include "QuitGameCommand.h"
 #include "PauseGameCommand.h"
@@ -48,7 +47,6 @@ void MainGame::InitGame() const
 	SceneManager::Get().AddScene(new SoloScene{});
 	SceneManager::Get().AddScene(new CoopScene{});
 	SceneManager::Get().AddScene(new VersusScene{});
-	SceneManager::Get().AddScene(new TestScene{});
 	SceneManager::Get().LoadScene("MainMenuScene");
 }
 
@@ -60,7 +58,7 @@ void MainGame::CreatePrefabs() const
 
 	//lives
 	auto const livesPrefab = pPrefabManager.CreatePrefab();
-	auto livesObj = livesPrefab->GetRoot();
+	auto livesObj = livesPrefab->CreateGameObject();
 	livesObj->GetTransform()->SetLocation(20.f, 40.f);
 
 
@@ -75,7 +73,7 @@ void MainGame::CreatePrefabs() const
 
 	//points
 	auto const pointsrefab = pPrefabManager.CreatePrefab();
-	auto const pointsObj = pointsrefab->GetRoot();
+	auto const pointsObj = pointsrefab->CreateGameObject();
 	pointsObj->GetTransform()->SetLocation(20.f, 60.f);
 
 	textRenderer = pointsObj->AddComponent<TextRendererComponent>();
@@ -87,7 +85,7 @@ void MainGame::CreatePrefabs() const
 
 	//QBert
 	auto qbertPrefab = pPrefabManager.CreatePrefab();
-	auto pQbertObj = qbertPrefab->GetRoot();
+	auto pQbertObj = qbertPrefab->CreateGameObject();
 
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
 	rendererComp->Layer = 8;
@@ -146,7 +144,7 @@ void MainGame::CreatePrefabs() const
 
 	//Qube prefab
 	auto qubePf = pPrefabManager.CreatePrefab();
-	auto qubeObject = qubePf->GetRoot();
+	auto qubeObject = qubePf->CreateGameObject();
 	qubeObject->GetTransform()->Scale(1.75f);
 	qubeObject->AddComponent<QubeComponent>();
 	qubeObject->AddComponent<RendererComponent>()->Layer = 2;
@@ -155,14 +153,14 @@ void MainGame::CreatePrefabs() const
 
 	//Pyramid
 	auto pyramidPf = pPrefabManager.CreatePrefab();
-	auto pyramidObject = pyramidPf->GetRoot();
+	auto pyramidObject = pyramidPf->CreateGameObject();
 	pyramidObject->GetTransform()->SetLocation(250.f, 400.f);
 	pyramidObject->AddComponent<PyramidComponent>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
 	//Ugg + WrongWay
 	auto pUggPrefab = pPrefabManager.CreatePrefab();
-	auto pUggobject = pUggPrefab->GetRoot();
+	auto pUggobject = pUggPrefab->CreateGameObject();
 	auto* const pUggRenderer = pUggobject->AddComponent<RendererComponent>();
 	pUggRenderer->Layer = 7;
 	pUggRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/WrongWay/Ugg_Right.png");
@@ -188,7 +186,7 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(pUggPrefab, "Ugg");
 
 	auto pWrongWayPrefab = pPrefabManager.CreatePrefab();
-	auto pWrongWayObject = pWrongWayPrefab->GetRoot();
+	auto pWrongWayObject = pWrongWayPrefab->CreateGameObject();
 	auto* const pWrongWayRenderer = pWrongWayObject->AddComponent<RendererComponent>();
 	pWrongWayRenderer->Layer = 7;
 	pWrongWayRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/Enemies/WrongWay/WrongWay_Right.png");
@@ -215,7 +213,7 @@ void MainGame::CreatePrefabs() const
 
 	//Coily prefab
 	auto pCoilyPrefab = pPrefabManager.CreatePrefab();
-	auto pCoilyObject = pCoilyPrefab->GetRoot();
+	auto pCoilyObject = pCoilyPrefab->CreateGameObject();
 
 	auto* const pCoilyRenderer = pCoilyObject->AddComponent<RendererComponent>();
 
@@ -243,7 +241,7 @@ void MainGame::CreatePrefabs() const
 
 	//SlickSam
 	auto pSlickPf = pPrefabManager.CreatePrefab(); //slick
-	auto pSlickObject = pSlickPf->GetRoot();
+	auto pSlickObject = pSlickPf->CreateGameObject();
 
 	auto* const pSlickRenderer = pSlickObject->AddComponent<RendererComponent>();
 	pSlickRenderer->Layer = 7;
@@ -266,7 +264,7 @@ void MainGame::CreatePrefabs() const
 	pPrefabManager.SavePrefab(pSlickPf, "Slick");
 
 	auto pSamPf = pPrefabManager.CreatePrefab(); //sam	
-	auto pSamObject = pSamPf->GetRoot();
+	auto pSamObject = pSamPf->CreateGameObject();
 
 	auto* const pSamRenderer = pSamObject->AddComponent<RendererComponent>();
 	pSamRenderer->Layer = 7;
@@ -292,7 +290,7 @@ void MainGame::CreatePrefabs() const
 
 	//Disks
 	auto pDiskPf = pPrefabManager.CreatePrefab();
-	auto pDiskObject = pDiskPf->GetRoot();
+	auto pDiskObject = pDiskPf->CreateGameObject();
 
 	pDiskObject->AddComponent<DiskComponent>();
 	auto* const pDiskRenderer = pDiskObject->AddComponent<RendererComponent>();
@@ -307,7 +305,7 @@ void MainGame::CreatePrefabs() const
 	auto const biggerFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 42);
 	auto const lessBigFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 30);
 	auto menuPrefab = pPrefabManager.CreatePrefab();
-	auto menuObj = menuPrefab->GetRoot();
+	auto menuObj = menuPrefab->CreateGameObject();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
 	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true});
@@ -379,7 +377,7 @@ void MainGame::CreatePrefabs() const
 
 	//Game over menu (opaque)
 	auto quitMenuPrefab = pPrefabManager.CreatePrefab();
-	menuObj = quitMenuPrefab->GetRoot();
+	menuObj = quitMenuPrefab->CreateGameObject();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
 	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 255}, true });

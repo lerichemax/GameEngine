@@ -142,11 +142,11 @@
                     "entity": 0
                 },
                 {
+                    "type": "class ColliderComponent",
                     "IsActive": true,
                     "IsUnique": false,
                     "ID": 25,
                     "entity": 0,
-                    "type": "class ColliderComponent",
                     "shape": {
                         "type": "struct geo::Rectangle",
                         "width": 24,

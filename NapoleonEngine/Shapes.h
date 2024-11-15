@@ -45,7 +45,7 @@ namespace geo
 			Other
 		};
 
-		virtual bool IsOverlapping(Rectangle* const pRec) const { return false; }
+		virtual bool IsOverlapping(Rectangle* const pRec) const { pRec; return false; }
 		virtual bool IsOverlapping(Circle* const pRec) const { return false; }
 
 	public:

@@ -13,4 +13,8 @@ protected:
 
 private: 
 	lua_State* m_pState;
+
+	//int lua_GetTransformComponent(lua_State* pState);
+	int lua_GetPosition(lua_State* pState);
+	int lua_SetPosition(lua_State* pState);
 };

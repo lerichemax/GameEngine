@@ -52,8 +52,6 @@ struct QubeComponent : public ecs::Component
 
 	unsigned int JumpCounter{};
 
-	void Serialize(StreamWriter& writer) const override;
-
 	bool HasConnection(ConnectionDirection direction) const;
 	bool HasConnectionForMovementMode(MovementMode mode, ConnectionDirection direction) const;
 	bool HasConnectionToDisk() const;

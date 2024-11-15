@@ -19,7 +19,6 @@ ButtonComponent::ButtonComponent()
 
 void ButtonComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(ButtonComponent).name());
 	writer.WriteBool("visualize", bVisualize);
 	writer.WriteVector("dimension", Dimensions);
 

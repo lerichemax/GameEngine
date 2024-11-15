@@ -22,8 +22,6 @@ protected:
 
 	virtual void CreatePrefabs() const = 0;
 
-
-
 private:
 	static bool m_bQuit;
 	static NapoleonEngine* m_pEngine;
@@ -35,4 +33,6 @@ private:
 	bool m_bCreatePrefabs;
 
 	void CreateBasePrefabs();
+	void StartHeapControl();
+	void DumpMemoryLeaks();
 };

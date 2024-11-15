@@ -3,7 +3,6 @@
 
 void AiControllerComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(AiControllerComponent).name());
 	writer.WriteInt("enemyType", static_cast<int>(Type));
 	writer.WriteInt("points", PointsForKill);
 

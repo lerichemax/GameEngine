@@ -52,7 +52,6 @@ public:
 	explicit Prefab();
 
 	std::shared_ptr<GameObject> CreateGameObject() override;
-	std::shared_ptr<GameObject> GetRoot() const;
 
 protected:
 	void SetName(std::string const& name);
@@ -81,6 +80,7 @@ protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
 
 	Camera2D* const GetCamera() const { return m_pCamera.get(); }
+	virtual void Initialize() {};
 
 private:
 	friend class SceneManager;
@@ -106,7 +106,6 @@ private:
 	bool m_bIsActive;
 	bool m_bIsInitialized;
 
-	virtual void Initialize() {};
 	void Update();
 		
 	void OnLoad();

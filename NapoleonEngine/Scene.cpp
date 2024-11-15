@@ -1,15 +1,16 @@
 #include "PCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+
 #include "TextRendererSystem.h"
 #include "TransformSystem.h"
 #include "CollisionSystem.h"
 #include "AudioSystem.h"
 #include "System.h"
 #include "UiSystem.h"
+#include "ScriptingSystem.h"
 
 #include "TransformComponent.h"
-
 
 #include "PrefabsManager.h"
 
@@ -76,7 +77,7 @@ std::shared_ptr<GameObject> BaseScene::CreateGameObjectNoTransform()
 
 Prefab::Prefab()
 	:BaseScene(),
-	m_pRootEntity{ BaseScene::CreateGameObject()->GetEntity()}
+	m_pRootEntity{ NULL_ENTITY }
 {
 }
 
@@ -84,14 +85,16 @@ std::shared_ptr<GameObject> Prefab::CreateGameObject()
 {
 	auto newobject = BaseScene::CreateGameObject();
 
-	m_pRegistry->AddChild(m_pRootEntity, newobject->GetEntity());
+	if (m_pRootEntity == NULL_ENTITY)
+	{
+		m_pRootEntity = newobject->GetEntity();
+	}
+	else
+	{
+		m_pRegistry->AddChild(m_pRootEntity, newobject->GetEntity());
+	}
 
 	return newobject;
-}
-
-std::shared_ptr<GameObject> Prefab::GetRoot() const
-{
-	return std::shared_ptr<GameObject>(new GameObject{m_pRootEntity, m_pRegistry.get()});
 }
 
 void Prefab::SetName(std::string const& name)
@@ -135,6 +138,7 @@ void Scene::OnLoad()
 	m_pAudio = m_pRegistry->RegisterSystem<AudioSystem>();
 	m_pUi = m_pRegistry->RegisterSystem<UiSystem>();
 
+	m_pSystems.push_back(m_pRegistry->RegisterSystem<ScriptingSystem>());
 	m_pSystems.push_back(m_pRegistry->RegisterSystem<TextRendererSystem>());
 
 	m_bIsActive = true;

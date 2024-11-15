@@ -8,12 +8,13 @@
 #include "Deserializer.h"
 
 #include <map>
+#include <filesystem>
 
 #include "filewritestream.h"
 #include "filereadstream.h"
 #include "prettywriter.h"
 
-#define PREFAB_SAVE_FOLDER "./Prefabs/"
+#define PREFAB_SAVE_FOLDER "./Prefabs"
 
 class Scene;
 class PrefabsManager::PrefabsManagerImpl
@@ -53,7 +54,7 @@ void PrefabsManager::PrefabsManagerImpl::SavePrefab(std::shared_ptr<Prefab> pPre
 
 void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
 {
-	auto pDoc = LoadPrefabFromFile(PREFAB_SAVE_FOLDER + name + ".json");
+	auto pDoc = LoadPrefabFromFile(PREFAB_SAVE_FOLDER"/" + name + ".json");
 
 	if (!IS_VALID(pDoc))
 	{
@@ -66,7 +67,12 @@ void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& na
 
 void PrefabsManager::PrefabsManagerImpl::SavePrefabToFile(std::string const& name, Document* const pDoc) const
 {
-	std::string filename{ PREFAB_SAVE_FOLDER + name + ".json" };
+	if (!std::filesystem::exists(PREFAB_SAVE_FOLDER))
+	{
+		std::filesystem::create_directory(PREFAB_SAVE_FOLDER);
+	}
+
+	std::string filename{ PREFAB_SAVE_FOLDER"/" + name + ".json"};
 
 	FILE* pFile;
 	fopen_s(&pFile, filename.c_str(),

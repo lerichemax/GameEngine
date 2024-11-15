@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 
-class TestScene  final : public Scene
+class TestScene final : public Scene
 {
 public:
 	TestScene();
@@ -9,4 +9,3 @@ public:
 protected:
 	void Initialize() override;
 };
-#pragma once

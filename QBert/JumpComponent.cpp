@@ -3,8 +3,6 @@
 
 void JumpComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(JumpComponent).name());
-
 	writer.WriteVector("direction", Direction);
 
 	Component::Serialize(writer);

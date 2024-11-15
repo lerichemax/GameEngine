@@ -11,6 +11,4 @@ struct UiManagerComponent : public ecs::Component
 
 	Entity PauseMenuEntity{ NULL_ENTITY };
 	Entity GameOverMenuEntity{ NULL_ENTITY };
-
-	void Serialize(StreamWriter& writer) const override;
 };

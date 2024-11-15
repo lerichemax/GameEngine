@@ -1,11 +1,10 @@
 #include "PCH.h"
-
 #include "MainGame.h"
 
 int main()
 {
-	MainGame engine{};
-	engine.Run();
+	MainGame Game{};
+	Game.Run();
 
 	return 0;
 }

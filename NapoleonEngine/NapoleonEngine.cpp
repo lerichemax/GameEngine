@@ -54,7 +54,7 @@ NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::str
 
 	try
 	{
-		ResourceManager::Get().Init("./Data/", m_pRenderer.get());
+		ResourceManager::Get().Init(m_pRenderer.get());
 	}
 	catch (std::runtime_error const& error)
 	{
@@ -69,7 +69,7 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 {
 	//Fps counter prefab
 	auto fpsCounterPrefab = PrefabsManager::Get().CreatePrefab();
-	auto fpsCounterObject = fpsCounterPrefab->GetRoot();
+	auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
 	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
 
 	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
@@ -131,6 +131,8 @@ void NapoleonEngine::Cleanup()
 
 void NapoleonEngine::Run()
 {
+	StartHeapControl();
+
 	if (m_bCreatePrefabs)
 	{
 		CreateBasePrefabs();
@@ -155,4 +157,28 @@ void NapoleonEngine::Run()
 	}
 
 	Cleanup();
+
+	DumpMemoryLeaks();
+}
+
+void NapoleonEngine::StartHeapControl()
+{
+#if defined(DEBUG) | defined(_DEBUG)
+	// Notify user if heap is corrupt
+	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+
+	// Report detected leaks when the program exits
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	// Set a breakpoint on the specified object allocation order number
+	//_CrtSetBreakAlloc(14240);
+
+#endif
+}
+
+void NapoleonEngine::DumpMemoryLeaks()
+{
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtDumpMemoryLeaks();
+#endif
 }

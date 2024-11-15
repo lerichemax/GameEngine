@@ -6,6 +6,4 @@
 struct FPSCounter : public Component
 {
 	int m_FPS;
-
-	void Serialize(StreamWriter& writer) const override;
 };

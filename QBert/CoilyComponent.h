@@ -11,6 +11,4 @@ struct CoilyComponent : public ecs::Component
 	ConnectionDirection MovementQueue[MOVEMENT_QUEUE_SIZE]{};
 
 	int CurrentlyInQueue{};
-
-	void Serialize(StreamWriter& writer) const override;
 };

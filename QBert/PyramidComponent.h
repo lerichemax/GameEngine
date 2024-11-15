@@ -12,6 +12,4 @@ struct PyramidComponent : public ecs::Component
 	float DiskSpawnTimer;
 
 	std::vector<Entity> Qubes;
-
-	void Serialize(StreamWriter& writer) const override;
 };

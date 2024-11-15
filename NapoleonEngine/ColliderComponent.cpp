@@ -36,8 +36,6 @@ void ColliderComponent::Serialize(StreamWriter& writer) const
 {
 	Component::Serialize(writer);
 
-	writer.WriteString(std::string{ "type" }, typeid(ColliderComponent).name());
-
 	if (pShape == nullptr)
 	{
 		return;

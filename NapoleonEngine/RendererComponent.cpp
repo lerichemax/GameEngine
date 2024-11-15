@@ -11,8 +11,6 @@ void RendererComponent::SetShape(geo::Shape* shape)
 
 void RendererComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(RendererComponent).name());
-
 	writer.WriteInt("layer", Layer);
 
 	if (IS_VALID(pTexture))
