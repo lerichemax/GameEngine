@@ -23,12 +23,6 @@ QubeComponent::~QubeComponent()
 	SAFE_DELETE(ConnectionToDisk);
 }
 
-void QubeComponent::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString(std::string{ "type" }, typeid(QubeComponent).name());
-	
-	Component::Serialize(writer);
-}
 
 bool QubeComponent::HasConnection(ConnectionDirection direction) const
 {

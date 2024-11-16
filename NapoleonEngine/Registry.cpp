@@ -44,7 +44,10 @@ void Registry::SerializeEntities(StreamWriter& writer)
 
 					for (Component* const pComp : components)
 					{
-						writer.WriteObject(pComp);
+						writer.m_BufferWriter.StartObject();
+						writer.WriteString(std::string{ "type" }, typeid(*pComp).name());
+						pComp->Serialize(writer);
+						writer.m_BufferWriter.EndObject();
 					}
 				}
 				writer.EndArray();

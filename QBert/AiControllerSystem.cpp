@@ -58,7 +58,7 @@ void AiControllerSystem::HandleAi(MovementComponent* const pMovement, AiControll
 
 	if (pController->MoveTimer < pController->MOVE_INTERVAL)
 	{
-		pController->MoveTimer += Timer::Get().GetDeltaTime();
+		pController->MoveTimer += TimerLocator::Get()->GetDeltaTime();
 	}
 	else
 	{

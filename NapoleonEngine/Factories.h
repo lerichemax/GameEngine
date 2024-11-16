@@ -11,10 +11,10 @@
 template <class D, class B>
 concept Derived = std::derived_from<D, B>;
 
-template <class T, typename... params>
-class Factory final : public Singleton<Factory<T, params...>>
+template <class T>
+class Factory final : public Singleton<Factory<T>>
 {
-	using Creator = std::function<T*(params...)>;
+	using Creator = std::function<T*()>;
 
 public:
 	template <Derived<T> D> 
@@ -25,13 +25,13 @@ public:
 		m_Creators[type] = creator;
 	}
 
-	T* Create(std::string type, params... parameters)
+	T* Create(std::string type)
 	{
 		std::string errorMsg{ "Component " + type + " not registered for creation."};
 
 		assert(m_Creators.find(type) != m_Creators.end() && errorMsg.c_str());
 
-		return m_Creators.at(type)(parameters...);
+		return m_Creators.at(type)();
 	}
 
 private:

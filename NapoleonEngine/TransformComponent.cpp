@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
+#include "lua.hpp"
 
 TransformComponent::TransformComponent() 
 	: Component(true),
@@ -142,7 +143,6 @@ void TransformComponent::SetParent(TransformComponent* const pParent)
 
 void TransformComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(TransformComponent).name());
 	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
 
 	vec2 location = GetLocalLocation();

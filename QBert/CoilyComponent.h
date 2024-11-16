@@ -2,7 +2,7 @@
 #include "Component.h"
 
 enum class ConnectionDirection;
-struct CoilyComponent : public Component
+struct CoilyComponent : public ecs::Component
 {
 	CoilyComponent();
 
@@ -11,6 +11,4 @@ struct CoilyComponent : public Component
 	ConnectionDirection MovementQueue[MOVEMENT_QUEUE_SIZE]{};
 
 	int CurrentlyInQueue{};
-
-	void Serialize(StreamWriter& writer) const override;
 };

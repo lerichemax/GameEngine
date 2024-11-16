@@ -27,7 +27,6 @@ void CharacterLives::Reset()
 
 void CharacterLives::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(CharacterLives).name());
 	writer.WriteInt("lives", NbrLives);
 	writer.WriteInt("maxLives", MaxLives);
 	

@@ -9,7 +9,7 @@ class GameObject final
 	friend class Scene;
 public:
 	~GameObject() = default;
-	GameObject(Entity entity, ecs::Registry* const pRegistry);
+	GameObject(ecs::Entity entity, ecs::Registry* const pRegistry);
 	GameObject(const GameObject& other) = delete;
 	GameObject(GameObject&& other);
 	GameObject& operator=(const GameObject& other) = delete;
@@ -31,7 +31,7 @@ public:
 	bool IsActive() const;
 	std::string GetTag() const; //add compareTag function
 	std::shared_ptr<GameObject> FindChildrenWithTag(std::string const& tag) const;
-	Entity GetEntity() const { return m_Entity; }
+	ecs::Entity GetEntity() const { return m_Entity; }
 		
 	void SetTag(std::string const& tag, bool applyToChildren = false);
 
@@ -41,7 +41,7 @@ private:
 
 	ecs::Registry* m_pRegistry;
 
-	Entity m_Entity;
+	ecs::Entity m_Entity;
 };
 
 template <typename T>

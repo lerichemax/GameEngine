@@ -1,23 +1,29 @@
 #pragma once
-#include "SceneManager.h"
-#include "ColliderComponent.h"
-#include "Registry.h"
 #include "Entity.h"
+#include "ComponentArray.h"
+#include "SystemManager.h"
+#include "Registry.h"
 
 #include <memory>
 #include <unordered_set>
 
-class System;
+namespace ecs
+{
+	class System;
+}
+
 class GameObject;
 class TransformSystem;
 class AudioSystem;
 class UiSystem;
 class CollisionSystem;
 class Camera2D;
+class ColliderComponent;
 class BaseScene : public IContextSerializable
 {
 	friend class NapoleonEngine;
-
+	template<ecs::ComponentDerived C> friend C* CreateComponent();
+	template <ecs::ComponentDerived T> friend T* const FindComponentOfType();
 public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
@@ -47,13 +53,12 @@ public:
 	explicit Prefab();
 
 	std::shared_ptr<GameObject> CreateGameObject() override;
-	std::shared_ptr<GameObject> GetRoot() const;
 
 protected:
 	void SetName(std::string const& name);
 
 private:
-	Entity m_pRootEntity;
+	ecs::Entity m_pRootEntity;
 };
 
 class Scene : public BaseScene
@@ -76,13 +81,13 @@ protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
 
 	Camera2D* const GetCamera() const { return m_pCamera.get(); }
+	virtual void Initialize() {};
 
 private:
 	friend class SceneManager;
 	friend class NapoleonEngine;
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name);
 	friend std::shared_ptr<GameObject> Instantiate(std::string const& name, glm::vec2 const& location);
-	template <ComponentDerived T> friend T* const FindComponentOfType();
 		
 	void AddCollider(ColliderComponent* pCollider);
 	void RemoveCollider(ColliderComponent* pCollider);
@@ -101,7 +106,6 @@ private:
 	bool m_bIsActive;
 	bool m_bIsInitialized;
 
-	virtual void Initialize() {};
 	void Update();
 		
 	void OnLoad();

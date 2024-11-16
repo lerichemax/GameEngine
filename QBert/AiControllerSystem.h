@@ -4,7 +4,7 @@
 enum class ConnectionDirection;
 struct AiControllerComponent;
 struct MovementComponent;
-class AiControllerSystem : public System {
+class AiControllerSystem : public ecs::System {
 
 public:
 	AiControllerSystem() = default;

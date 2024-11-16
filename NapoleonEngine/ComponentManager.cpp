@@ -47,7 +47,7 @@ ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonRe
 	std::string type;
 	reader->ReadString("type", type);
 
-	auto pComp = Factory<Component, ComponentManager* const>::Get().Create(type, this);
+	auto pComp = Factory<Component>::Get().Create(type);
 
 	assert(pComp != nullptr && "Failed to construct object from type");
 

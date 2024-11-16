@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct DiskComponent : public Component
+struct DiskComponent : public ecs::Component
 {
 	float const OFFSET{ -45 };
 	float const DROP_MAX_TIME{ 0.75f };
@@ -17,6 +17,4 @@ struct DiskComponent : public Component
 
 	Entity QbertEntity{NULL_ENTITY};
 	bool bHasReachedTop;
-
-	void Serialize(StreamWriter& writer) const override;
 };

@@ -186,13 +186,10 @@
     <ClCompile Include="CharacterMovementSystem.cpp" />
     <ClCompile Include="CoilyComponent.cpp" />
     <ClCompile Include="CoilySystem.cpp" />
-    <ClCompile Include="DiskComponent.cpp" />
-    <ClCompile Include="EnemySpawnerComponent.cpp" />
     <ClCompile Include="EnemySpawnerSystem.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
     <ClCompile Include="LivesSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
-    <ClCompile Include="PyramidComponent.cpp" />
     <ClCompile Include="QbertComponent.cpp" />
     <ClCompile Include="QBertSystem.cpp" />
     <ClCompile Include="QubeComponent.cpp" />
@@ -213,7 +210,6 @@
     <ClCompile Include="PyramidSystem.cpp" />
     <ClCompile Include="QubeSystem.cpp" />
     <ClCompile Include="SoloScene.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="UIManagerSystem.cpp" />
     <ClCompile Include="UiManagerComponent.cpp" />
     <ClCompile Include="VersusScene.cpp" />
@@ -252,7 +248,6 @@
     <ClInclude Include="PyramidSystem.h" />
     <ClInclude Include="QubeSystem.h" />
     <ClInclude Include="SoloScene.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="UIManagerSystem.h" />
     <ClInclude Include="UiManagerComponent.h" />
     <ClInclude Include="VersusScene.h" />

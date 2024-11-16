@@ -12,7 +12,7 @@ class PyramidSystem;
 class QBert;
 enum class ConnectionDirection;
 enum class Level;
-class QubeSystem final : public System 
+class QubeSystem final : public ecs::System
 {
 public:
 	QubeSystem() = default;

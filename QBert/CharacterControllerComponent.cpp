@@ -3,8 +3,6 @@
 
 void CharacterControllerComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(CharacterControllerComponent).name());
-
 	writer.WriteInt("right", static_cast<int>(Right));
 	writer.WriteInt("left", static_cast<int>(Left));
 	writer.WriteInt("up", static_cast<int>(Up));

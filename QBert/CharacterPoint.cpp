@@ -16,7 +16,6 @@ void CharacterPoint::AddPoints(int nbrPoint)
 
 void CharacterPoint::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(CharacterPoint).name());
 	writer.WriteInt("points", m_NbrPoints);
 
 	Component::Serialize(writer);

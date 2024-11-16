@@ -123,7 +123,7 @@ void GameManagerSystem::SubscribeLifeSystem()
 			}
 		}
 
-		Timer::Get().SetTimeScale(0);
+		TimerLocator::Get()->SetTimeScale(0);
 		if (m_GameMode == GameMode::Versus)
 		{
 			if (m_pRegistry->EntityHasTag(entity, QBERT_TAG))
@@ -180,7 +180,7 @@ void GameManagerSystem::Update()
 
 void GameManagerSystem::TogglePause()
 {
-	Timer::Get().SetTimeScale(m_IsPaused ? 1.f : 0.f);
+	TimerLocator::Get()->SetTimeScale(m_IsPaused ? 1.f : 0.f);
 
 	m_IsPaused = !m_IsPaused;
 	OnGamePaused.Notify(m_IsPaused);
@@ -215,7 +215,7 @@ void GameManagerSystem::HandleEndGame()
 	case Level::Level3:
 		LOG_INFO("YOU FINISHED LEVEL 3!");
 		OnGameEnded.Notify("You win");
-		Timer::Get().SetTimeScale(0.f);
+		TimerLocator::Get()->SetTimeScale(0.f);
 		break;
 	default:
 		break;

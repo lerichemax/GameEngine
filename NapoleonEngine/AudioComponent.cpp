@@ -20,8 +20,6 @@ void AudioComponent::SetAudioClip(std::string const& clipLocation)
 
 void AudioComponent::Serialize(StreamWriter& writer) const
 {
-	writer.WriteString(std::string{ "type" }, typeid(AudioComponent).name());
-
 	writer.WriteInt("id", m_AudioId);
 	writer.WriteDouble("volume", m_Volume);
 	writer.WriteBool("loop", m_Loop);

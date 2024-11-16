@@ -6,7 +6,7 @@
 
 
 class Texture2D;
-struct RendererComponent : public Component
+struct RendererComponent : public ecs::Component
 {
 	friend class LayeredRendererSystem;
 	friend class Renderer;

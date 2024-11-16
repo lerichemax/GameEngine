@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-struct CharacterControllerComponent : public Component
+struct CharacterControllerComponent : public ecs::Component
 {
 	void Serialize(StreamWriter& writer) const override;
 	void Deserialize(JsonReader const* reader, SerializationMap& context) override;

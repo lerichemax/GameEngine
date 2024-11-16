@@ -57,9 +57,6 @@
     <ClCompile Include="UiManagerComponent.cpp">
       <Filter>GameScripts\Components</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawnerComponent.cpp">
-      <Filter>GameScripts\Components\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterControllerComponent.cpp">
       <Filter>GameScripts\Components\Characters</Filter>
     </ClCompile>
@@ -84,12 +81,6 @@
     <ClCompile Include="QubeComponent.cpp">
       <Filter>GameScripts\Components\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="PyramidComponent.cpp">
-      <Filter>GameScripts\Components\Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="DiskComponent.cpp">
-      <Filter>GameScripts\Components\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="LivesSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
@@ -107,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="CharacterPoint.cpp">
       <Filter>GameScripts\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="CharacterLives.h">
       <Filter>GameScripts\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Event.h"
 
-class CharacterPoint final : public Component
+class CharacterPoint final : public ecs::Component
 {
 public:
 	CharacterPoint();

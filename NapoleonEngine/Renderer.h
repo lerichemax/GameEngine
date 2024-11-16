@@ -9,7 +9,12 @@ struct SDL_Renderer;
 struct Shape;
 class Texture2D;
 class TransformComponent;
-class Registry;
+
+namespace ecs 
+{
+	class Registry;
+}
+
 class Renderer final
 {
 public:

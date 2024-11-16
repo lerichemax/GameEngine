@@ -20,7 +20,7 @@ class PyramidSystem;
 class CharacterPoint;
 struct CharacterLives;
 class QBertSystem;
-class GameManagerSystem : public System
+class GameManagerSystem : public ecs::System
 {
 public:
 	GameManagerSystem();

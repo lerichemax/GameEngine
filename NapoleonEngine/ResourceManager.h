@@ -34,5 +34,5 @@ private:
 	std::unique_ptr<ResourceManagerImpl> m_pImpl;
 	ResourceManager();
 
-	void Init(const std::string& data, Renderer* const pRenderer);
+	void Init(Renderer* const pRenderer);
 };

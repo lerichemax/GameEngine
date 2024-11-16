@@ -4,14 +4,20 @@
 #include "writer.h"
 
 #include <string>
+#include <glm/vec2.hpp>
 
 using namespace rapidjson;
+
+namespace ecs
+{
+	class Registry;
+}
 
 class ISerializable;
 class StreamWriter
 {
 	friend class Serializer;
-	friend class Registry;
+	friend class ecs::Registry;
 public:
 	StreamWriter(StringBuffer& buffer);
 

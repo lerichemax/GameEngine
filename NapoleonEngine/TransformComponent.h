@@ -9,8 +9,8 @@
 #include "System.h"
 #include "Scene.h"
 
-
-class TransformComponent final: public Component
+struct lua_State;
+class TransformComponent final: public ecs::Component
 {
 	friend class TransformSystem;
 	friend class GameObject;

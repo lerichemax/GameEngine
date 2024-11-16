@@ -3,7 +3,7 @@
 
 #include "Event.h"
 
-class JumperSystem : public System
+class JumperSystem : public ecs::System
 {
 public:
 	JumperSystem() = default;

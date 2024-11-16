@@ -1,6 +1,8 @@
 #include "PCH.h"
 #include "ColliderComponent.h"
 
+using namespace ecs;
+
 void ColliderComponent::SetShape(geo::Shape* pNewShape)
 {
 	assert(pShape == nullptr && "Can't reassign shape (yet)");
@@ -33,8 +35,6 @@ void ColliderComponent::Collide(Entity other)
 void ColliderComponent::Serialize(StreamWriter& writer) const
 {
 	Component::Serialize(writer);
-
-	writer.WriteString(std::string{ "type" }, typeid(ColliderComponent).name());
 
 	if (pShape == nullptr)
 	{

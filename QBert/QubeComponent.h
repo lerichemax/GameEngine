@@ -20,7 +20,7 @@ struct DiskConnection
 enum class Level;
 enum class EnemyType;
 
-struct QubeComponent : public Component
+struct QubeComponent : public ecs::Component
 {
 	QubeComponent();
 	~QubeComponent();
@@ -51,8 +51,6 @@ struct QubeComponent : public Component
 	bool bIsSideColumn{};
 
 	unsigned int JumpCounter{};
-
-	void Serialize(StreamWriter& writer) const override;
 
 	bool HasConnection(ConnectionDirection direction) const;
 	bool HasConnectionForMovementMode(MovementMode mode, ConnectionDirection direction) const;

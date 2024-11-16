@@ -2,7 +2,7 @@
 #include "Component.h"
 
 enum class EnemyType;
-struct EnemySpawnerComponent : public Component
+struct EnemySpawnerComponent : public ecs::Component
 {
 	unsigned int MaxEnemies;
 	float SpawnInterval;
@@ -14,6 +14,4 @@ struct EnemySpawnerComponent : public Component
 	EnemyType Type;
 
 	std::vector<Entity> SpawnedEnemies;
-
-	void Serialize(StreamWriter& writer) const override;
 };

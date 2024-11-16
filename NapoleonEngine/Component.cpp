@@ -2,6 +2,8 @@
 #include "Component.h"
 #include "GameObject.h"
 
+using namespace ecs;
+
 Component::Component(bool unique)
 	:m_IsActive{true},
 	m_IsUnique{ unique }

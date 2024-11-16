@@ -3,23 +3,24 @@
 
 #include "TransformComponent.h"
 #include "Scene.h"
-#include "SerializerServiceLocator.h"
-#include "SerializerServiceLocator.h"
+
+#include "Serializer.h"
 #include "Deserializer.h"
 
 #include <map>
+#include <filesystem>
 
 #include "filewritestream.h"
 #include "filereadstream.h"
 #include "prettywriter.h"
 
-#define PREFAB_SAVE_FOLDER "./Prefabs/"
+#define PREFAB_SAVE_FOLDER "./Prefabs"
 
 class Scene;
 class PrefabsManager::PrefabsManagerImpl
 {
 public:
-	PrefabsManagerImpl() = default;
+	PrefabsManagerImpl();
 	~PrefabsManagerImpl() = default;
 	PrefabsManagerImpl(PrefabsManagerImpl const& other) = delete;
 	PrefabsManagerImpl(PrefabsManagerImpl&& other) = delete;
@@ -31,10 +32,18 @@ public:
 	void InstantiatePrefab(std::string const& name, Scene* const targetScene) const;
 
 private:
+	std::unique_ptr<Serializer> m_pSerializer;
+	std::unique_ptr<Deserializer> m_pDeserializer;
 
 	void SavePrefabToFile(std::string const& name, Document* const pDoc) const;
 	std::unique_ptr<rapidjson::Document> LoadPrefabFromFile(std::string const& name) const;
 };
+
+PrefabsManager::PrefabsManagerImpl::PrefabsManagerImpl()
+	:m_pSerializer{std::make_unique<Serializer>()},
+	m_pDeserializer{std::make_unique<Deserializer>()}
+{
+}
 
 std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::CreatePrefab()
 {
@@ -47,13 +56,13 @@ std::shared_ptr<Prefab> PrefabsManager::PrefabsManagerImpl::CreatePrefab()
 void PrefabsManager::PrefabsManagerImpl::SavePrefab(std::shared_ptr<Prefab> pPrefab, std::string const& name)
 {
 	pPrefab->SetName(name);
-	auto writtenPrefab = SerializerServiceLocator::GetSerializerService().Serialize(*pPrefab);
+	auto writtenPrefab = m_pSerializer->Serialize(*pPrefab);
 	SavePrefabToFile(name, writtenPrefab.get());
 }
 
 void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& name, Scene* const targetScene) const
 {
-	auto pDoc = LoadPrefabFromFile(PREFAB_SAVE_FOLDER + name + ".json");
+	auto pDoc = LoadPrefabFromFile(PREFAB_SAVE_FOLDER"/" + name + ".json");
 
 	if (!IS_VALID(pDoc))
 	{
@@ -61,12 +70,17 @@ void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& na
 		return;
 	}
 
-	SerializerServiceLocator::GetDeserializerService().DeserializePrefabIntoScene(pDoc.get(), targetScene);
+	m_pDeserializer->DeserializePrefabIntoScene(pDoc.get(), targetScene);
 }
 
 void PrefabsManager::PrefabsManagerImpl::SavePrefabToFile(std::string const& name, Document* const pDoc) const
 {
-	std::string filename{ PREFAB_SAVE_FOLDER + name + ".json" };
+	if (!std::filesystem::exists(PREFAB_SAVE_FOLDER))
+	{
+		std::filesystem::create_directory(PREFAB_SAVE_FOLDER);
+	}
+
+	std::string filename{ PREFAB_SAVE_FOLDER"/" + name + ".json"};
 
 	FILE* pFile;
 	fopen_s(&pFile, filename.c_str(),

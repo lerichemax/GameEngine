@@ -6,7 +6,7 @@
 class TextureRendererComponent;
 class JumperSystem;
 struct MovementComponent;
-class CharacterMovementSystem : public System
+class CharacterMovementSystem : public ecs::System
 {
 public:
 	EventHandler<CharacterMovementSystem, Entity> OnMoveStarted;

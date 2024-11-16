@@ -115,7 +115,7 @@ void QBertSystem::Update()
 			}
 			else
 			{
-				pQbert->ResetTimer += Timer::Get().GetDeltaTime();
+				pQbert->ResetTimer += TimerLocator::Get()->GetDeltaTime();
 			}
 		}
 	}

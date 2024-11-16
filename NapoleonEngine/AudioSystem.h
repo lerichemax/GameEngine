@@ -9,9 +9,7 @@
 
 using ID = unsigned int;
 
-class SoundEffect;
-class Registry;
-class AudioSystem : public System
+class AudioSystem : public ecs::System
 {
 public:
 	AudioSystem() = default;

@@ -142,11 +142,11 @@
                     "entity": 0
                 },
                 {
+                    "type": "class ColliderComponent",
                     "IsActive": true,
                     "IsUnique": false,
                     "ID": 25,
                     "entity": 0,
-                    "type": "class ColliderComponent",
                     "shape": {
                         "type": "struct geo::Rectangle",
                         "width": 24,
@@ -207,7 +207,7 @@
                     "texture": {
                         "filepath": "Textures/QBert/HurtText.png"
                     },
-                    "IsActive": true,
+                    "IsActive": false,
                     "IsUnique": false,
                     "ID": 27,
                     "entity": 1
