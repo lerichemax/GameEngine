@@ -49,6 +49,9 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RendererComponent.h">
@@ -263,9 +266,6 @@
     <ClInclude Include="ScriptComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="TextRendererSystem.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="TransformSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -280,6 +280,12 @@
     </ClInclude>
     <ClInclude Include="SystemManager.h">
       <Filter>ECS\Systems\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflection.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendererSystem.h">
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +350,6 @@
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -356,7 +359,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Registry.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
@@ -402,12 +404,6 @@
     <ClCompile Include="ScriptingSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRendererSystem.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="TransformSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
@@ -416,6 +412,15 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationMap.h">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationMap.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendererSystem.cpp">
+      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +438,15 @@
     </None>
     <None Include="View.inl">
       <Filter>ECS</Filter>
+    </None>
+    <None Include="Reflection.inl">
+      <Filter>Reflection</Filter>
+    </None>
+    <None Include="SerializationMap.inl">
+      <Filter>Serialization</Filter>
+    </None>
+    <None Include="JsonReaderWriter.inl">
+      <Filter>Serialization</Filter>
     </None>
   </ItemGroup>
 </Project>

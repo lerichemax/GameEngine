@@ -24,19 +24,3 @@ void CharacterLives::Reset()
 	NbrLives = MaxLives;
 	bIsDead = false;
 }
-
-void CharacterLives::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt("lives", NbrLives);
-	writer.WriteInt("maxLives", MaxLives);
-	
-	Component::Serialize(writer);
-}
-
-void CharacterLives::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	reader->ReadInt("lives", NbrLives);
-	reader->ReadInt("maxLives", MaxLives);
-
-	Component::Deserialize(reader, context);
-}

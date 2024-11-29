@@ -47,7 +47,6 @@ SoloScene::SoloScene()
 
 void SoloScene::Initialize()
 {
-
 	auto pLivesP1 = Instantiate("LivesUI");
 	auto pPointsP1 = Instantiate("PointsUI");
 
@@ -90,10 +89,10 @@ void SoloScene::Initialize()
 
 	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
 
-	//ENEMIES SPAWNERS
-	//AddSystem<EnemySpawnerSystem>();
-	//AddSystem<AiControllerSystem>();
-	//AddSystem<CoilySystem>();
+	//ENEMIES
+	AddSystem<EnemySpawnerSystem>();
+	AddSystem<AiControllerSystem>();
+	AddSystem<CoilySystem>();
 	
 	// Slick Sam
 	auto pSlickSamSpawnerObj = CreateGameObject();
@@ -101,8 +100,8 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 7;
 	pSpawnerComp->Type = EnemyType::SlickSam;
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Slick")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Sam")->GetEntity());
 
 	//	Coily
 	auto pCoilySpawnerObj = CreateGameObject();
@@ -110,7 +109,7 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 1;
 	pSpawnerComp->SpawnInterval = 10;
 	pSpawnerComp->Type = EnemyType::Coily;
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Coily")->GetEntity());
 
 	//	Ugg
 	auto pUggObject = CreateGameObject();
@@ -118,8 +117,8 @@ void SoloScene::Initialize()
 	pSpawnerComp->MaxEnemies = 2;
 	pSpawnerComp->SpawnInterval = 6;
 	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
-	//pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
+	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
 	
 	Instantiate("FPSCounter");
 	AddSystem<FPSCounterSystem>();

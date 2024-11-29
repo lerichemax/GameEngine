@@ -7,53 +7,63 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 105,
-                    "entity": 0
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "layer": 10,
-                    "Shape": {
-                        "type": "struct geo::Rectangle",
-                        "width": 900,
-                        "height": 600,
-                        "isFilled": true,
+                    "m_WorldTransformMatrix": {
                         "position": {
                             "x": 0.0,
                             "y": 0.0
                         },
-                        "color": {
-                            "r": 0,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 91
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 10,
+                    "pShape": {
+                        "type": "struct geo::Rectangle",
+                        "Width": 900,
+                        "Height": 600,
+                        "bIsFilled": true,
+                        "pShapeColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 0,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "Pos": {
+                            "x": 0.0,
+                            "y": 0.0
                         }
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 106,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 92
                 }
             ],
             "children": [
@@ -69,57 +79,67 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": 105,
-                    "position": {
-                        "x": 400.0,
-                        "y": 100.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 100.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 100.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 400.0,
-                        "y": 100.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 107,
-                    "entity": 1
+                    "m_pParent": 91,
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 93
                 },
                 {
                     "type": "class TextRendererComponent",
-                    "txt": "Game Over",
-                    "color": {
-                        "r": 255,
-                        "g": 255,
-                        "b": 255,
-                        "a": 255
+                    "m_pFont": {
+                        "type": "class Font",
+                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_Size": 42
                     },
-                    "font": {
-                        "fontName": "./Data/Fonts/Lingua.otf",
-                        "fontSize": 42
+                    "m_Text": "Game Over",
+                    "m_pTextColor": {
+                        "type": "struct geo::Color",
+                        "B": 255,
+                        "R": 255,
+                        "G": 255,
+                        "A": 255
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 42,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 108,
-                    "entity": 1
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 94
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 11,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 109,
-                    "entity": 1
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 11,
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 95
                 }
             ],
             "children": []
@@ -130,89 +150,105 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": 105,
-                    "position": {
-                        "x": 400.0,
-                        "y": 200.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 200.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 200.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 400.0,
-                        "y": 200.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 110,
-                    "entity": 2
+                    "m_pParent": 91,
+                    "m_Entity": 2,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 96
                 },
                 {
                     "type": "class TextRendererComponent",
-                    "txt": "Replay",
-                    "color": {
-                        "r": 255,
-                        "g": 255,
-                        "b": 255,
-                        "a": 255
+                    "m_pFont": {
+                        "type": "class Font",
+                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_Size": 30
                     },
-                    "font": {
-                        "fontName": "./Data/Fonts/Lingua.otf",
-                        "fontSize": 30
+                    "m_Text": "Replay",
+                    "m_pTextColor": {
+                        "type": "struct geo::Color",
+                        "B": 255,
+                        "R": 255,
+                        "G": 255,
+                        "A": 255
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 111,
-                    "entity": 2
+                    "m_Entity": 2,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 97
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 11,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 112,
-                    "entity": 2
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 11,
+                    "m_Entity": 2,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 98
                 },
                 {
                     "type": "class ButtonComponent",
-                    "visualize": false,
-                    "dimension": {
+                    "Dimensions": {
                         "x": 100.0,
                         "y": 30.0
                     },
-                    "onClick": {
+                    "bVisualize": false,
+                    "m_pOnSelect": {
+                        "type": "class SwitchTextColor",
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "m_Id": 100
+                    },
+                    "m_pOnClick": {
                         "type": "class ReloadSceneCommand",
-                        "id": 116
+                        "m_Id": 102
                     },
-                    "onSelect": {
+                    "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 255,
+                            "R": 255,
+                            "G": 255,
+                            "A": 255
                         },
-                        "id": 114
+                        "m_Id": 101
                     },
-                    "onDeselect": {
-                        "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 255,
-                            "b": 255,
-                            "a": 255
-                        },
-                        "id": 115
-                    }
+                    "m_Entity": 2,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 99
                 }
             ],
             "children": []
@@ -223,90 +259,106 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": 105,
-                    "position": {
-                        "x": 400.0,
-                        "y": 300.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 300.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 300.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 400.0,
-                        "y": 300.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 117,
-                    "entity": 3
+                    "m_pParent": 91,
+                    "m_Entity": 3,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 103
                 },
                 {
                     "type": "class TextRendererComponent",
-                    "txt": "Back to Main Menu",
-                    "color": {
-                        "r": 255,
-                        "g": 255,
-                        "b": 255,
-                        "a": 255
+                    "m_pFont": {
+                        "type": "class Font",
+                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_Size": 30
                     },
-                    "font": {
-                        "fontName": "./Data/Fonts/Lingua.otf",
-                        "fontSize": 30
+                    "m_Text": "Back to Main Menu",
+                    "m_pTextColor": {
+                        "type": "struct geo::Color",
+                        "B": 255,
+                        "R": 255,
+                        "G": 255,
+                        "A": 255
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 118,
-                    "entity": 3
+                    "m_Entity": 3,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 104
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 11,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 119,
-                    "entity": 3
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 11,
+                    "m_Entity": 3,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 105
                 },
                 {
                     "type": "class ButtonComponent",
-                    "visualize": false,
-                    "dimension": {
+                    "Dimensions": {
                         "x": 260.0,
                         "y": 30.0
                     },
-                    "onClick": {
-                        "id": 123,
+                    "bVisualize": false,
+                    "m_pOnSelect": {
+                        "type": "class SwitchTextColor",
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "m_Id": 107
+                    },
+                    "m_pOnClick": {
                         "type": "class SwitchScene",
-                        "sceneName": "MainMenuScene"
+                        "m_TargetSceneName": "MainMenuScene",
+                        "m_Id": 109
                     },
-                    "onSelect": {
+                    "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 255,
+                            "R": 255,
+                            "G": 255,
+                            "A": 255
                         },
-                        "id": 121
+                        "m_Id": 108
                     },
-                    "onDeselect": {
-                        "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 255,
-                            "b": 255,
-                            "a": 255
-                        },
-                        "id": 122
-                    }
+                    "m_Entity": 3,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 106
                 }
             ],
             "children": []
@@ -317,89 +369,105 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": 105,
-                    "position": {
-                        "x": 400.0,
-                        "y": 400.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 400.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 400.0,
+                            "y": 400.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 400.0,
-                        "y": 400.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 124,
-                    "entity": 4
+                    "m_pParent": 91,
+                    "m_Entity": 4,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 110
                 },
                 {
                     "type": "class TextRendererComponent",
-                    "txt": "Quit",
-                    "color": {
-                        "r": 255,
-                        "g": 255,
-                        "b": 255,
-                        "a": 255
+                    "m_pFont": {
+                        "type": "class Font",
+                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_Size": 30
                     },
-                    "font": {
-                        "fontName": "./Data/Fonts/Lingua.otf",
-                        "fontSize": 30
+                    "m_Text": "Quit",
+                    "m_pTextColor": {
+                        "type": "struct geo::Color",
+                        "B": 255,
+                        "R": 255,
+                        "G": 255,
+                        "A": 255
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 125,
-                    "entity": 4
+                    "m_Entity": 4,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 111
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 11,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 126,
-                    "entity": 4
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 11,
+                    "m_Entity": 4,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 112
                 },
                 {
                     "type": "class ButtonComponent",
-                    "visualize": false,
-                    "dimension": {
+                    "Dimensions": {
                         "x": 65.0,
                         "y": 30.0
                     },
-                    "onClick": {
-                        "id": 130,
-                        "type": "class QuitGameCommand"
-                    },
-                    "onSelect": {
+                    "bVisualize": false,
+                    "m_pOnSelect": {
                         "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
                         },
-                        "id": 128
+                        "m_Id": 114
                     },
-                    "onDeselect": {
+                    "m_pOnClick": {
+                        "type": "class QuitGameCommand",
+                        "m_Id": 116
+                    },
+                    "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
-                        "color": {
-                            "r": 255,
-                            "g": 255,
-                            "b": 255,
-                            "a": 255
+                        "m_pTargetColor": {
+                            "type": "struct geo::Color",
+                            "B": 255,
+                            "R": 255,
+                            "G": 255,
+                            "A": 255
                         },
-                        "id": 129
-                    }
+                        "m_Id": 115
+                    },
+                    "m_Entity": 4,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 113
                 }
             ],
             "children": []

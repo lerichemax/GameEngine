@@ -1,11 +1,22 @@
 #include "PCH.h"
 #include "JumperSystem.h"
+#include "QBertSystem.h"
 
 #include "JumpComponent.h"
 #include "AiControllerComponent.h"
 #include "QbertComponent.h"
 
 #include "Timer.h"
+
+void JumperSystem::Start()
+{
+	auto pQbertSystem = m_pRegistry->GetSystem<QBertSystem>();
+	pQbertSystem->OnQBertEncounteredEnemy.Subscribe([this](Entity qbertEntity) {
+		auto pJumpComponent = m_pRegistry->GetComponent<JumpComponent>(qbertEntity);
+		pJumpComponent->bIsFalling = false;
+		pJumpComponent->bIsJumping = false;
+		});
+}
 
 void JumperSystem::Update()
 {

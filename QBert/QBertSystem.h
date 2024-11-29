@@ -6,7 +6,7 @@ enum class GameMode;
 class QBertSystem : public ecs::System
 {
 public:
-	EventHandler<QBertSystem> OnQBertEncounteredEnemy;
+	EventHandler<QBertSystem, Entity> OnQBertEncounteredEnemy;
 
 	 void ResetToCurrentQube(Entity qbertEntity);
 	 void Reset(GameMode gameMode);

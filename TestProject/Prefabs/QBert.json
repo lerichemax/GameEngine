@@ -7,48 +7,133 @@
             "components": [
                 {
                     "type": "struct ScriptComponent",
-                    "script": "MoveLeft",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 8,
-                    "entity": 0
+                    "ScriptFile": "MoveLeft",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 7
                 },
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 4
+                },
+                {
+                    "type": "class ColliderComponent",
+                    "bDraw": false,
+                    "bIsTrigger": true,
+                    "pShape": {
+                        "type": "struct geo::Rectangle",
+                        "Width": 24,
+                        "Height": 24,
+                        "bIsFilled": false,
+                        "pShapeColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "Pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
                     },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 6,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 6
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 8,
-                    "texture": {
-                        "filepath": "Textures/QBert/QBert1_DownLeft_Qube.png"
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 7,
-                    "entity": 0
+                    "Layer": 8,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 5
+                }
+            ],
+            "children": [
+                1
+            ]
+        },
+        {
+            "Entity": 1,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": -10.0,
+                            "y": -34.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": -10.0,
+                            "y": -34.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_pParent": 4,
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 8
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/QBert/HurtText.png",
+                        "m_Width": 48.0,
+                        "m_Height": 28.0
+                    },
+                    "Layer": 8,
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 9
                 }
             ],
             "children": []

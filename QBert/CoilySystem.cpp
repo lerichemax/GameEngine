@@ -116,7 +116,7 @@ void CoilySystem::HandleJumpToDeath(Entity coilyEntity)
 
 	auto* const pController = m_pRegistry->GetComponent<CharacterControllerComponent>(coilyEntity);
 
-	if (!pCoily->IsActive() && (IS_VALID(pController) && !pController->IsActive()))
+	if (!pCoily->IsActive() || (IS_VALID(pController) && !pController->IsActive()))
 	{
 		HandleCoilyTransform(coilyEntity);
 		SearchForQbert(coilyEntity);
@@ -148,7 +148,7 @@ void CoilySystem::HandleCoilyTransform(Entity entity)
 	pMovement->CurrentDirection = ConnectionDirection::null;
 
 	m_pRegistry->GetComponent<CoilyComponent>(entity)->SetActive(true);
-	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(false);
+	m_pRegistry->GetComponent<AiControllerComponent>(entity)->SetActive(true);
 
 	OnCoilyTransformed.Notify(entity);
 }

@@ -261,6 +261,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="Event.h" />
     <ClInclude Include="Factories.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="Reflection.h" />
     <ClInclude Include="Registry.h" />
     <ClInclude Include="cursorstreamwrapper.h" />
     <ClInclude Include="Debugger.h" />
@@ -368,7 +369,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Registry.cpp" />
@@ -383,12 +383,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="ScriptingSystem.cpp" />
+    <ClCompile Include="SerializationMap.cpp" />
+    <ClCompile Include="SerializationMap.h" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="NapoleonEngine.cpp" />
@@ -410,7 +410,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
   <ItemGroup>
     <None Include="ComponentArray.inl" />
     <None Include="ComponentManager.inl" />
+    <None Include="JsonReaderWriter.inl" />
+    <None Include="Reflection.inl" />
     <None Include="Registry.inl" />
+    <None Include="SerializationMap.inl" />
     <None Include="SystemManager.inl" />
     <None Include="View.inl" />
   </ItemGroup>

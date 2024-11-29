@@ -4,39 +4,28 @@
 
 AudioComponent::AudioComponent()
 	:m_AudioId{-1},
-	m_Volume{50}
+	m_Volume{50},
+	m_Loop{false},
+	m_Play{false}
 {
 }	
 
 void AudioComponent::Play()
 {
+	if (m_AudioId == -1)
+	{
+		RetrieveAudioId();
+	}
 	m_Play = true;
 }
 
 void AudioComponent::SetAudioClip(std::string const& clipLocation)
 {
-	m_AudioId = ResourceManager::Get().GetEffect(clipLocation);
+	m_AudioClipLocation = clipLocation;
+	RetrieveAudioId();
 }
 
-void AudioComponent::Serialize(StreamWriter& writer) const
+void AudioComponent::RetrieveAudioId()
 {
-	writer.WriteInt("id", m_AudioId);
-	writer.WriteDouble("volume", m_Volume);
-	writer.WriteBool("loop", m_Loop);
-	writer.WriteBool("play", m_Play);
-
-	Component::Serialize(writer);
-}
-
-void AudioComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	int id;
-	reader->ReadInt("id", id);
-	m_AudioId = id;
-
-	reader->ReadDouble("volume", m_Volume);
-	reader->ReadBool("loop", m_Loop);
-	reader->ReadBool("play", m_Play);
-
-	Component::Deserialize(reader, context);
+	m_AudioId = ResourceManager::Get().GetEffect(m_AudioClipLocation);
 }

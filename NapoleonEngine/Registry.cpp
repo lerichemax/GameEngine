@@ -44,10 +44,9 @@ void Registry::SerializeEntities(StreamWriter& writer)
 
 					for (Component* const pComp : components)
 					{
-						writer.m_BufferWriter.StartObject();
-						writer.WriteString(std::string{ "type" }, typeid(*pComp).name());
-						pComp->Serialize(writer);
-						writer.m_BufferWriter.EndObject();
+						Reflection::Get().SerializeClass(pComp, writer);
+						//writer.WriteString(std::string{ "type" }, typeid(*pComp).name());
+						//pComp->Serialize(writer);
 					}
 				}
 				writer.EndArray();
@@ -66,7 +65,7 @@ void Registry::SerializeEntities(StreamWriter& writer)
 	writer.EndArray();
 }
 
-void Registry::DeserializeEntities(JsonReader const* reader, SerializationMap& context)
+void Registry::DeserializeEntities(JsonReader* const reader, SerializationMap& context)
 {
 	auto objects = reader->ReadArray("entities");
 
@@ -75,12 +74,6 @@ void Registry::DeserializeEntities(JsonReader const* reader, SerializationMap& c
 		Entity newEntity = m_pEntityManager->CreateEntity();
 		int entity;
 		auto serializedEntityReader = objects->ReadArrayIndex(i);
-
-		if (m_pEntityManager->m_CreatedEntities.size() > 5)
-		{
-			Entity* entt = &m_pEntityManager->m_CreatedEntities[5];
-			entt = nullptr;
-		}
 
 		serializedEntityReader->ReadInt( "Entity" , entity);
 		context.Add(entity, newEntity);
@@ -93,7 +86,7 @@ void Registry::DeserializeEntities(JsonReader const* reader, SerializationMap& c
 	}
 }
 
-void Registry::RestoreEntitiesContext(JsonReader const* reader, SerializationMap const& context)
+void Registry::RestoreEntitiesContext(JsonReader* const reader, SerializationMap const& context)
 {
 	auto entitiesObject = reader->ReadArray("entities");
 
@@ -108,10 +101,9 @@ void Registry::RestoreEntitiesContext(JsonReader const* reader, SerializationMap
 		auto jsonComponents = entityReadObject->ReadArray( "components" );
 		auto components = GetEntityComponents(entity);
 
-		for (size_t j = 0; j < components.size(); j++)
+		for (size_t j = 0; j < jsonComponents->GetArraySize(); j++)
 		{
-			components[j]->RestoreContext(jsonComponents->ReadArrayIndex(j).get(), context);
-			components[j]->m_Entity = entity;
+			m_pComponentManager->RestoreEntityComponentContext(entity, jsonComponents->ReadArrayIndex(j).get(), context);
 		}
 
 		auto children = entityReadObject->ReadArray( "children" );
@@ -126,7 +118,7 @@ void Registry::RestoreEntitiesContext(JsonReader const* reader, SerializationMap
 	}
 }
 
-void Registry::DeserializeComponents(Entity entity, JsonReader const* reader /*array*/, SerializationMap& context)
+void Registry::DeserializeComponents(Entity entity, JsonReader* const reader /*array*/, SerializationMap& context)
 {
 	Signature signature = m_pEntityManager->GetSignature(entity);
 	for (SizeType i = 0; i < reader->GetArraySize(); i++)

@@ -108,7 +108,6 @@ void CoopScene::Initialize()
 	//ENEMIES SPAWNERS
 	AddSystem<EnemySpawnerSystem>();
 	AddSystem<AiControllerSystem>();
-	AddSystem<CoilySystem>();
 
 	// Slick Sam
 	auto pSlickSamSpawnerObj = CreateGameObject();

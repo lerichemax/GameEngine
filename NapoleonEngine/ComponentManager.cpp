@@ -42,19 +42,31 @@ std::vector<Component*> ComponentManager::GetComponentsForSignature(Entity entit
 	return components;
 }
 
-ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context)
+ComponentType ComponentManager::DeserializeAndAddComponent(Entity entity, JsonReader* const reader, SerializationMap& context)
 {
 	std::string type;
 	reader->ReadString("type", type);
 
-	auto pComp = Factory<Component>::Get().Create(type);
+	auto pComp = Factory::Get().Create<Component>(type);
 
 	assert(pComp != nullptr && "Failed to construct object from type");
 
-	pComp->Deserialize(reader, context);
+	Reflection::Get().DeserializeClass(pComp, reader);
 	context.Add(pComp->GetId(), pComp);
 
 	m_ComponentArrays.at(type)->ForceInsertData(pComp, entity);
-
 	return m_ComponentTypes.at(type);
+}
+
+void ComponentManager::RestoreEntityComponentContext(Entity entity, JsonReader* const reader, SerializationMap const& context)
+{
+	std::string type;
+	reader->ReadString("type", type);
+
+	auto pComp = m_ComponentArrays.at(type)->GetBaseData(entity);
+	if (IS_VALID(pComp))
+	{
+		Reflection::Get().RestoreClassContext(pComp, reader, context);
+		pComp->m_Entity = entity;
+	}
 }

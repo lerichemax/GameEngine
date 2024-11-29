@@ -3,7 +3,6 @@
 #include "ComponentArray.h"
 #include "Entity.h"
 #include "JsonReaderWriter.h"
-#include "Factories.h"
 #include "Helpers.h"
 
 #include <unordered_map>
@@ -44,7 +43,9 @@ namespace ecs
 		template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
 		template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
 
-		ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
+		ComponentType DeserializeAndAddComponent(Entity entity, JsonReader* const reader, SerializationMap& context);
+		void RestoreEntityComponentContext(Entity entity, JsonReader* const reader, SerializationMap const& context);
+
 		static void CleanUp();
 	};
 }

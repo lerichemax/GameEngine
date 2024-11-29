@@ -14,7 +14,7 @@ std::unique_ptr<Document> Serializer::Serialize(ISerializable const& serializabl
 	StreamWriter writer{ buffer };
 	
 	writer.m_BufferWriter.StartObject();
-	serializable.Serialize(writer);
+	//serializable.Serialize(writer);
 
 	writer.m_BufferWriter.EndObject();
 
@@ -30,21 +30,28 @@ std::unique_ptr<Document> Serializer::Serialize(IContextSerializable const& seri
 	StringBuffer buffer;
 	StreamWriter writer{ buffer };
 
-	writer.WriteObject(const_cast<IContextSerializable*>(&serializable)); //to change
+	//writer.WriteObject(const_cast<IContextSerializable*>(&serializable)); //to change
 
 	pDoc->Parse(buffer.GetString());
 
 	return pDoc;
 }
 
-SerializationMap::SerializationMap()
+std::unique_ptr<Document> Serializer::Serialize(Prefab const& serializable) // temp ?
 {
-	m_Refs.insert(std::make_pair(- 1, nullptr));
-}
+	std::unique_ptr<Document> pDoc = std::make_unique<Document>();
 
-void SerializationMap::Add(int Id, Entity pRef)
-{
-	m_EntityRefs[Id] = pRef;
+	StringBuffer buffer;
+	StreamWriter writer{ buffer };
+
+	writer.m_BufferWriter.StartObject();
+	serializable.Serialize(writer);
+
+	writer.m_BufferWriter.EndObject();
+
+	pDoc->Parse(buffer.GetString());
+
+	return pDoc;
 }
 
 IContextSerializable::IContextSerializable()
