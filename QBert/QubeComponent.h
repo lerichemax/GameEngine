@@ -59,3 +59,5 @@ struct QubeComponent : public ecs::Component
 	Entity GetConnectionForMovementMode(MovementMode mode, ConnectionDirection direction) const;
 	glm::vec2 const& GetEnemyTopPosition(MovementMode mode) const;
 };
+
+SERIALIZE_CLASS(QubeComponent, ecs::Component)

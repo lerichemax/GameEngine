@@ -17,22 +17,21 @@ struct MovementComponent : public ecs::Component
 
 	Entity CurrentQube;
 
-	std::string TextureIdleDownRight;
-	std::string TextureIdleDownLeft;
-	std::string TextureIdleUpRight;
-	std::string TextureIdleUpLeft;
-
-	std::string TextureJumpDownRight;
-	std::string TextureJumpDownLeft;
-	std::string TextureJumpUpRight;
-	std::string TextureJumpUpLeft;
+	PROPERTY(std::string, TextureIdleDownRight);
+	PROPERTY(std::string, TextureIdleDownLeft);
+	PROPERTY(std::string, TextureIdleUpRight);
+	PROPERTY(std::string, TextureIdleUpLeft);
+						
+	PROPERTY(std::string, TextureJumpDownRight);
+	PROPERTY(std::string, TextureJumpDownLeft);
+	PROPERTY(std::string, TextureJumpUpRight);
+	PROPERTY(std::string, TextureJumpUpLeft);
 
 	ConnectionDirection CurrentDirection;
-	MovementMode Mode;
+	PROPERTY(MovementMode, Mode);
 
 	void SetTextureIdleNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);
 	void SetTextureJumpNames(std::string const& downRight, std::string const& downLeft, std::string const& upRight, std::string const& upLeft);
-
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 };
+
+SERIALIZE_CLASS(MovementComponent, ecs::Component)

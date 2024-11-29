@@ -35,6 +35,9 @@ void Debugger::SetConsoleColor(LogLevel level) const
 	case Error:
 		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED );
 		break;
+	case None:
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		break;
 	}
 
 }
@@ -44,7 +47,7 @@ void Debugger::DrawDebugLine(glm::vec2 const& startPos, glm::vec2 const& EndPos,
 	m_OwnedShapes.push_back(new Line(startPos, EndPos, col));
 }
 
-void Debugger::DrawDebugPoint(glm::vec2 const& Pos, unsigned int thickness , Color const& Color)
+void Debugger::DrawDebugPoint(glm::vec2 const& Pos, int thickness , Color const& Color)
 {
 	if (thickness == 1 )
 	{
@@ -56,12 +59,12 @@ void Debugger::DrawDebugPoint(glm::vec2 const& Pos, unsigned int thickness , Col
 	}
 }
 
-void Debugger::DrawDebugCircle(glm::vec2 const& center, unsigned int radius , Color const& col)
+void Debugger::DrawDebugCircle(glm::vec2 const& center, int radius , Color const& col)
 {
 	m_OwnedShapes.push_back(new Circle(center, radius, col));
 }
 
-void Debugger::DrawDebugRectangle(glm::vec2 const& Pos, unsigned int Width, unsigned int Height, Color const& Color)
+void Debugger::DrawDebugRectangle(glm::vec2 const& Pos, int Width, int Height, Color const& Color)
 {
 	m_OwnedShapes.push_back(new geo::Rectangle{ Pos, Width, Height, Color });
 }

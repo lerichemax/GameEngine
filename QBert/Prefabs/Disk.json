@@ -7,47 +7,53 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 2.0,
-                        "y": 2.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 2.0,
-                        "y": 2.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 75,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 63
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 7,
-                    "texture": {
-                        "filepath": "Textures/Disk.png"
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Disk.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 77,
-                    "entity": 0
+                    "Layer": 7,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 65
                 },
                 {
                     "type": "struct DiskComponent",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 76,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 64
                 }
             ],
             "children": []

@@ -453,20 +453,3 @@ void MainGame::CreatePrefabs() const
 
 	pPrefabManager.SavePrefab(quitMenuPrefab, "GameOverMenu");
 }
-
-void MainGame::RegisterComponentsToFactory_Imp(Factory<Component>& factory) const
-{
-	factory.RegisterType<AiControllerComponent>(CreateComponent<AiControllerComponent>);
-	factory.RegisterType<CoilyComponent>(CreateComponent<CoilyComponent>);
-	factory.RegisterType<EnemySpawnerComponent>(CreateComponent<EnemySpawnerComponent>);
-	factory.RegisterType<CharacterControllerComponent>(CreateComponent<CharacterControllerComponent>);
-	factory.RegisterType<QbertComponent>(CreateComponent<QbertComponent>);
-	factory.RegisterType<DiskComponent>(CreateComponent<DiskComponent>);
-	factory.RegisterType<PyramidComponent>(CreateComponent<PyramidComponent>);
-	factory.RegisterType<QubeComponent>(CreateComponent<QubeComponent>);
-	factory.RegisterType<CharacterLives>(CreateComponent<CharacterLives>);
-	factory.RegisterType<CharacterPoint>(CreateComponent<CharacterPoint>);
-	factory.RegisterType<JumpComponent>(CreateComponent<JumpComponent>);
-	factory.RegisterType<MovementComponent>(CreateComponent<MovementComponent>);
-	factory.RegisterType<UiManagerComponent>(CreateComponent<UiManagerComponent>);
-}

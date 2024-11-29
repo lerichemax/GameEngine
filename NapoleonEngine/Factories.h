@@ -1,6 +1,5 @@
 #pragma once
 #include "Singleton.h"
-#include "ComponentArray.h"
 
 #include <functional>
 #include <unordered_map>
@@ -8,30 +7,27 @@
 #include <typeindex>
 
 
-template <class D, class B>
-concept Derived = std::derived_from<D, B>;
-
-template <class T>
-class Factory final : public Singleton<Factory<T>>
+class Factory final : public Singleton<Factory>
 {
-	using Creator = std::function<T*()>;
+	using Creator = std::function<void* ()>;
 
 public:
-	template <Derived<T> D> 
+	template <typename T>
 	void RegisterType(Creator creator)
 	{
-		std::string type{ typeid(D).name() };
+		std::string type{ typeid(T).name() };
 
 		m_Creators[type] = creator;
 	}
 
+	template <typename T>
 	T* Create(std::string type)
 	{
-		std::string errorMsg{ "Component " + type + " not registered for creation."};
+		std::string errorMsg{ "Component " + type + " not registered for creation." };
 
 		assert(m_Creators.find(type) != m_Creators.end() && errorMsg.c_str());
 
-		return m_Creators.at(type)();
+		return static_cast<T*>(m_Creators.at(type)());
 	}
 
 private:

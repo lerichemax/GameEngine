@@ -7,44 +7,53 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.75,
+                            "y": 1.75
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.75,
-                        "y": 1.75
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.75,
+                            "y": 1.75
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 1.75,
-                        "y": 1.75
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 29,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 24
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 2,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 31,
-                    "entity": 0
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 2,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 26
                 },
                 {
                     "type": "struct QubeComponent",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 30,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 25
                 }
             ],
             "children": []

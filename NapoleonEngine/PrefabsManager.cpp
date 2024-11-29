@@ -130,6 +130,11 @@ PrefabsManager::PrefabsManager()
 {
 }
 
+PrefabsManager::~PrefabsManager()
+{
+
+}
+
 std::shared_ptr<Prefab> PrefabsManager::CreatePrefab()
 {
 	return m_pImpl->CreatePrefab();

@@ -3,6 +3,7 @@
 
 #include "RendererComponent.h"
 #include "ScriptComponent.h"
+#include "ColliderComponent.h"
 
 #include "TestScene.h"
 
@@ -31,6 +32,10 @@ void MainGame::CreatePrefabs() const
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
 	rendererComp->Layer = 8;
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
+
+	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->bIsTrigger = true;
 
 	pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "MoveLeft";
 

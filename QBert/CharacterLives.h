@@ -8,16 +8,15 @@ struct CharacterLives final : public Component
 public:
 	CharacterLives();
 
-	int MaxLives{};
-	int NbrLives{};
+	PROPERTY(int, MaxLives);
+	PROPERTY(int, NbrLives);
 
 	void Init(int nbrLives);
 	void Die();
 	void Reset();
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
 private:
 	bool bIsDead{false};
 };
+
+SERIALIZE_CLASS(CharacterLives, ecs::Component)
