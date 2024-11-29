@@ -23,12 +23,12 @@ void PauseGameCommand::Serialize(StreamWriter& writer) const
 	Command::Serialize(writer);
 }
 
-void PauseGameCommand::Deserialize(JsonReader const* reader, SerializationMap& context)
+void PauseGameCommand::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	Command::Deserialize(reader, context);
 }
 
-void PauseGameCommand::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void PauseGameCommand::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	int id{-1};
 	reader->ReadInt("gameManager", id);

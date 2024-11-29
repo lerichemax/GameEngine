@@ -23,8 +23,8 @@ namespace ecs
 		virtual void ForceInsertData(Component*, Entity entity) = 0;
 	};
 
-	template<typename T>
-	concept ComponentDerived = std::derived_from<T, Component>;
+	//template<typename T>
+	//concept ComponentDerived = std::derived_from<T, Component>;
 
 	template<typename T>
 	class ComponentArray;

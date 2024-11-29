@@ -4,7 +4,9 @@
 
 AudioComponent::AudioComponent()
 	:m_AudioId{-1},
-	m_Volume{50}
+	m_Volume{50},
+	m_Loop{false},
+	m_Play{false}
 {
 }	
 
@@ -28,7 +30,7 @@ void AudioComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void AudioComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void AudioComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	int id;
 	reader->ReadInt("id", id);

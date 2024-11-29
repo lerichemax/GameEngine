@@ -14,6 +14,6 @@ public:
 
 	virtual void Execute(GameObject const& gObject) = 0;
 
-	virtual void Serialize(StreamWriter& writer) const override;
-	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	virtual void Serialize(StreamWriter& writer) const;
+	virtual void Deserialize(JsonReader* const reader, SerializationMap& context);
 };

@@ -3,6 +3,11 @@
 
 using namespace ecs;
 
+ColliderComponent::ColliderComponent()
+	:pShape{nullptr}
+{
+}
+
 void ColliderComponent::SetShape(geo::Shape* pNewShape)
 {
 	assert(pShape == nullptr && "Can't reassign shape (yet)");
@@ -46,7 +51,7 @@ void ColliderComponent::Serialize(StreamWriter& writer) const
 	writer.WriteBool("trigger", bIsTrigger);
 }
 
-void ColliderComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void ColliderComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	Component::Deserialize(reader, context);
 

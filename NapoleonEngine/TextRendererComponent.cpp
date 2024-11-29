@@ -9,21 +9,24 @@ int TextRendererComponent::Id_Increment = 0;
 EventHandler<TextRendererComponent, int> TextRendererComponent::OnAnyDestroyed{};
 
 TextRendererComponent::TextRendererComponent()
-	:Component(true)
+	:Component(true),
+	m_pFont{ new Font{} },
+	m_pTextColor{ new Color{ 255,255,255,255 } }
 {
 	m_TextId = Id_Increment++;
 }
 
-TextRendererComponent::TextRendererComponent(std::string const& text, Font* const font)
+TextRendererComponent::TextRendererComponent(std::string const& text, std::string const& fullPath, int size)
 	:Component(true),
 	m_Text{text},
-	m_pFont{font}
+	m_pFont{ ResourceManager::Get().GetFont(fullPath, size) }
 {
 	m_TextId = Id_Increment++;
 }
 
 TextRendererComponent::~TextRendererComponent()
 {
+	SAFE_DELETE(m_pTextColor);
 	OnAnyDestroyed.Notify(m_TextId);
 }
 
@@ -41,30 +44,31 @@ void TextRendererComponent::SetFont(Font* const pFont)
 
 void TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 {
-	m_TextColor = SDL_Color{ r,g,b };
+	SAFE_DELETE(m_pTextColor);
+	m_pTextColor = new Color{ r,g,b };
 	m_NeedsUpdate = true;
+}
+
+SDL_Color TextRendererComponent::GetSDLColor() const
+{
+	return SDL_Color{ (*m_pTextColor).R, (*m_pTextColor).G, (*m_pTextColor).B, (*m_pTextColor).A };
 }
 
 void TextRendererComponent::Serialize(StreamWriter& writer) const
 {
 	writer.WriteString("txt", m_Text);
 
-	Color Color{ m_TextColor.r, m_TextColor.g , m_TextColor.b, m_TextColor.a };
-
-	writer.WriteObject("color", &Color);
+	writer.WriteObject("color", m_pTextColor);
 	writer.WriteObject("font", m_pFont);
-	m_pFont->Serialize(writer);
 
 	Component::Serialize(writer);
 }
 
-void TextRendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void TextRendererComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadString("txt", m_Text);
 	auto colorObject = reader->ReadObject("color");
-	Color Color{ 0,0,0,0 };
-	Color.Deserialize(colorObject.get());
-	m_TextColor = SDL_Color{ Color.R, Color.G, Color.B, Color.A };
+	m_pTextColor->Deserialize(colorObject.get());
 
 	auto pFontreader = reader->ReadObject("font");
 

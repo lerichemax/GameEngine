@@ -3,6 +3,8 @@
 #include "stringbuffer.h"
 #include "writer.h"
 
+#include "SerializationMap.h" // remove later
+
 #include <string>
 #include <glm/vec2.hpp>
 
@@ -14,10 +16,12 @@ namespace ecs
 }
 
 class ISerializable;
+class IContextSerializable;
 class StreamWriter
 {
 	friend class Serializer;
 	friend class ecs::Registry;
+	friend class Reflection;
 public:
 	StreamWriter(StringBuffer& buffer);
 
@@ -34,12 +38,38 @@ public:
 	void WriteObject(std::string const& name, ISerializable* const serializableObject);
 	void WriteObject(std::string const& name, ISerializable const* const serializableObject);
 	void WriteObject(ISerializable* const serializableObject);
+	void WriteBinary(std::string const& key, const char* binaryData, size_t dataLength);
+
 	void StartArray(std::string const& name);
 	void EndArray();
+
+	void Write(std::string const& key, int value);
+	void Write(std::string const& key, unsigned char value);
+	void Write(std::string const& key, int64_t value);
+	void Write(std::string const& key, bool value);
+	void Write(std::string const& key, std::string const& value);
+	void Write(std::string const& key, float value);
+	void Write(std::string const& key, double value);
+	void Write(std::string const& key, glm::vec2 const& value);
+	void Write(std::string const& key, glm::mat3x3 value);
+	template<typename T> void Write(std::string const& key, T* const serializableObject);
 
 private:
 	Writer<StringBuffer> m_BufferWriter;
 };
+
+template<typename T> 
+void StreamWriter::Write(std::string const& key, T* const serializableObject)
+{
+	if (serializableObject == nullptr)
+	{
+		return; // log
+	}
+
+	m_BufferWriter.Key(key.c_str());
+	Reflection::Get().SerializeClass(serializableObject, *this);
+}
+
 
 class JsonReader
 {
@@ -53,6 +83,7 @@ public:
 	void ReadDouble(std::string const& attribute, float& value) const;
 	void ReadDouble(std::string const& attribute, double& value) const;
 	void ReadVector(std::string const& attribute, glm::vec2& value) const;
+	void ReadBinary(std::string const& attribute, std::vector<char> data) const;
 	std::unique_ptr<JsonReader> ReadObject(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArray(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArrayIndex(SizeType index) const;
@@ -60,6 +91,18 @@ public:
 	std::string ReadArrayIndexAsString(SizeType index) const;
 	int ReadArrayIndexAsInt(SizeType index) const;
 	int64_t ReadArrayIndexAsInt64(SizeType index) const;
+
+	void Read(std::string const& key, int& value) const;
+	void Read(std::string const& key, uint8_t& value) const;
+	void Read(std::string const& key, int64_t& value) const;
+	void Read(std::string const& key, std::string& value) const;
+	void Read(std::string const& key, bool& value) const;
+	void Read(std::string const& key, float& value) const;
+	void Read(std::string const& key, double& value) const;
+	void Read(std::string const& key, glm::vec2& value) const;
+	void Read(std::string const& key, glm::mat3x3& value) const;
+	template<typename T> void Read(std::string const& key, T* const serializableObject) const;
+
 	SizeType GetArraySize() const;
 	bool IsValid() const;
 
@@ -68,3 +111,17 @@ private:
 
 	std::unique_ptr<JsonReader> ReadAttribute(std::string const& attribute) const;
 };
+
+template<typename T> 
+void JsonReader::Read(std::string const& key, T* const serializableObject) const
+{
+	if (serializableObject == nullptr)
+	{
+		return; // log
+	}
+
+	SerializationMap context{};
+
+	auto attributeReader = ReadAttribute(key);
+	Reflection::Get().DeserializeClass(serializableObject, attributeReader.get(), context);
+}

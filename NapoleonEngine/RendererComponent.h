@@ -11,15 +11,19 @@ struct RendererComponent : public ecs::Component
 	friend class LayeredRendererSystem;
 	friend class Renderer;
 public:
-	uint8_t Layer{};
+	RendererComponent();
 
-	Texture2D* pTexture{ nullptr };
+	PROPERTY(uint8_t, Layer);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	PROPERTY(Texture2D*, pTexture);
+
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 	void SetShape(geo::Shape* shape);
 
 private:
-	std::unique_ptr<geo::Shape> pShape{ nullptr };
+	PROPERTY(std::unique_ptr<geo::Shape>, pShape);
 };
+
+SERIALIZE_CLASS(RendererComponent)

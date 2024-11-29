@@ -6,98 +6,49 @@
 #include "writer.h"
 
 #include "Entity.h"
+#include "Reflection.h"
 
 #include <map>
 
 using namespace rapidjson;
 
-class ISerializable
+class SerializationMap;
+
+class ISerializable //eventually I want to get rid of this
 {
 public:
-	virtual void Serialize(StreamWriter& writer) const = 0;
-	virtual void Deserialize(JsonReader const* reader) {};
-
-};
-
-class SerializationMap final
-{
-public:
-	void Add(int Id, ecs::Entity pRef);
-
-	template <typename T> void Add(int Id, T* pRef);
-	template <typename T> T* GetRef(int id) const;
-	template <> inline ecs::Entity* GetRef<ecs::Entity>(int id) const;
-
-private:
-	friend class Serializer;
-	friend class Deserializer;
-
-	SerializationMap();
-
-	std::map<int, void*> m_Refs{};
-	std::map<int, ecs::Entity> m_EntityRefs{};
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader);
 
 };
 
 class IContextSerializable : public ISerializable
 {
 public:
-	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) = 0;
+	virtual void Deserialize(JsonReader* const reader, SerializationMap& context) = 0;
 
-	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) {};
+	virtual void RestoreContext(JsonReader* const reader, SerializationMap const& context) {};
 
 	int GetId() const { return m_Id; };
 
 protected:
 	IContextSerializable();
 
-	int m_Id;
+	PROPERTY(int, m_Id);
 
 private:
 	static int Id;
 };
 
+SERIALIZE_CLASS(IContextSerializable)
+
+class Prefab;
 class Serializer
 {
 public:
 	std::unique_ptr<Document> Serialize(ISerializable const& serializable);
 	std::unique_ptr<Document> Serialize(IContextSerializable const& serializable);
+	std::unique_ptr<Document> Serialize(Prefab const& serializable);
 
 private:
 };
-
-template <typename T> 
-T* SerializationMap::GetRef(int id) const
-{
-	auto it = m_Refs.find(id);
-	if (it != m_Refs.end())
-	{
-		return static_cast<T*>(m_Refs.at(id));
-	}
-	return nullptr;
-}
-
-template <>
-ecs::Entity* SerializationMap::GetRef<ecs::Entity>(int id) const
-{
-	auto it = m_EntityRefs.find(id);
-	if (it != m_EntityRefs.end())
-	{
-		return const_cast<ecs::Entity*>(&it->second);
-	}
-	return nullptr;
-}
-
-template <typename T>
-void SerializationMap::Add(int id, T* pRef)
-{
-	auto it = m_Refs.find(id);
-	if (it == m_Refs.end())
-	{
-		m_Refs.insert(std::make_pair(id, pRef));
-	}
-	else
-	{
-		//Debugger::Get().Log("ID alrady added to the context");
-	}
-}

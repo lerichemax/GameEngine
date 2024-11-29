@@ -9,7 +9,7 @@ void AiControllerComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void AiControllerComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void AiControllerComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	int type = -1;
 	reader->ReadInt("enemyType", type);

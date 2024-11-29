@@ -21,9 +21,8 @@ public:
 	static void Quit();
 	static NapoleonEngine* GetEngine();
 
-	void RegisterSingleton(SingletonWrapper* singleton);
-	unsigned int GetWindowWidth() const;
-	unsigned int GetWindowHeight() const;
+	int GetWindowWidth() const;
+	int GetWindowHeight() const;
 
 protected:
 	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs);
@@ -34,8 +33,6 @@ protected:
 private:
 	static bool m_bQuit;
 	static NapoleonEngine* m_pEngine;
-
-	std::vector<SingletonWrapper*> m_Singletons;
 
 	std::unique_ptr<Renderer> m_pRenderer;
 	std::unique_ptr<Timer> m_pTimer;

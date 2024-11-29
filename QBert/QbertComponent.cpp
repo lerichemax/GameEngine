@@ -16,7 +16,7 @@ void QbertComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void QbertComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void QbertComponent::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	Component::RestoreContext(reader, context);
 

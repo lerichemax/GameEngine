@@ -18,8 +18,8 @@ struct JumpComponent : public ecs::Component
 	glm::vec2 Halfway;
 	glm::vec2 Direction;
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 	void Reset();
 };

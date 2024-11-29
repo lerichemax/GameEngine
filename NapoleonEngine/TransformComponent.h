@@ -38,17 +38,18 @@ public:
 
 	void SetParent(TransformComponent* const pParent);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
+	void RestoreContext(JsonReader* const reader, SerializationMap const& context) override;
+
+	static glm::mat3x3 BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float rotation);
 
 private:
 
-	glm::mat3x3 m_WorldTransformMatrix{};
-	glm::mat3x3 m_LocalTransformMatrix{};
-
+	PROPERTY(glm::mat3x3, m_WorldTransformMatrix);
+	PROPERTY(glm::mat3x3, m_LocalTransformMatrix);
 
 	TransformComponent* m_pParent{};
-
-	glm::mat3x3 BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float rotation);
 };
+
+SERIALIZE_CLASS(TransformComponent) // special case. Maybe exclude from reflection ? At least for properties 

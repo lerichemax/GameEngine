@@ -16,5 +16,5 @@ public:
 	void Execute(GameObject const& gObject) override;
 
 	void Serialize(StreamWriter& writer) const;
-	void Deserialize(JsonReader const* reader, SerializationMap& context);
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 };

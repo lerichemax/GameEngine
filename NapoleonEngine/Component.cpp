@@ -4,6 +4,12 @@
 
 using namespace ecs;
 
+Component::Component()
+	:m_IsActive{ true },
+	m_IsUnique{ false }
+{
+}
+
 Component::Component(bool unique)
 	:m_IsActive{true},
 	m_IsUnique{ unique }
@@ -33,14 +39,14 @@ void Component::Serialize(StreamWriter& writer) const
 	writer.WriteInt( "entity" , m_Entity);
 }
 
-void Component::Deserialize(JsonReader const* reader, SerializationMap& context)
+void Component::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadBool( "IsActive" , m_IsActive);
 	reader->ReadBool( "IsUnique" , m_IsUnique);
 	reader->ReadInt( "ID" , m_Id);
 }
 
-void Component::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void Component::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	int id = -1;
 	reader->ReadInt(std::string{ "entity" }, id);

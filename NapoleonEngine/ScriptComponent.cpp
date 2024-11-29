@@ -8,7 +8,7 @@ void ScriptComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void ScriptComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void ScriptComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadString("script", ScriptFile);
 

@@ -3,6 +3,36 @@
 
 using namespace geo;
 
+Color& Color::operator=(Color&& other)
+{
+	R = other.R;
+	G = other.G;
+	B = other.B;
+	A = other.A;
+
+	return *this;
+}
+
+Color::Color(unsigned char r, unsigned char g, unsigned char b)
+	:R{ r },
+	G{ g },
+	B{ b },
+	A{ 255 }
+{
+}
+
+Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+	:R{ r },
+	G{ g },
+	B{ b },
+	A{ a }
+{
+}
+
+void Color::Print() {
+	printf("R: %d G: %d B: %d A: %d \n", R, G, B, A);
+}
+
 void Color::Serialize(StreamWriter& writer) const
 {
 	writer.WriteInt("r", R);
@@ -11,7 +41,7 @@ void Color::Serialize(StreamWriter& writer) const
 	writer.WriteInt("a", A);
 }
 
-void Color::Deserialize(JsonReader const* reader)
+void Color::Deserialize(JsonReader* const reader)
 {
 	if (reader == nullptr || !reader->IsValid())
 	{
@@ -35,14 +65,14 @@ void Color::Deserialize(JsonReader const* reader)
 void geo::Shape::Serialize(StreamWriter& writer) const
 {
 	writer.WriteVector("position", Pos);
-	writer.WriteObject("color", &ShapeColor);
+	writer.WriteObject("color", pShapeColor);
 }
 
-void geo::Shape::Deserialize(JsonReader const* reader)
+void geo::Shape::Deserialize(JsonReader* const reader)
 {
 	auto colorObj = reader->ReadObject("color");
 
-	ShapeColor.Deserialize(colorObj.get());
+	pShapeColor->Deserialize(colorObj.get());
 }
 
 bool geo::Shape::IsOverlapping(Shape* const pOther) const
@@ -76,7 +106,7 @@ Point::Point(glm::vec2 const& pos, Color const& col)
 
 void Point::Draw(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
 	SDL_RenderDrawPoint(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y));
 }
 
@@ -87,7 +117,7 @@ void Point::Serialize(StreamWriter& writer) const
 	Shape::Serialize(writer);
 }
 
-void Point::Deserialize(JsonReader const* reader)
+void Point::Deserialize(JsonReader* const reader)
 {
 	auto posObject = reader->ReadObject("position");
 	posObject->ReadDouble("x", Pos.x);
@@ -102,7 +132,7 @@ Rectangle::Rectangle()
 
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Height, Color const& col, bool filled)
+Rectangle::Rectangle(glm::vec2 const& pos, int Width, int Height, Color const& col, bool filled)
 	:Shape(ShapeType::Rectangle, pos, col),
 	Width{ Width },
 	Height{ Height },
@@ -113,7 +143,7 @@ Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Heig
 		});
 }
 
-Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Height, bool filled)
+Rectangle::Rectangle(glm::vec2 const& pos, int Width, int Height, bool filled)
 	:Shape(ShapeType::Rectangle, pos),
 	Width{Width},
 	Height{Height},
@@ -125,7 +155,7 @@ Rectangle::Rectangle(glm::vec2 const& pos, unsigned int Width, unsigned int Heig
 }
 
 
-Rectangle::Rectangle(unsigned int x, unsigned int y, unsigned int Width, unsigned int Height, bool filled)
+Rectangle::Rectangle(int x, int y, int Width, int Height, bool filled)
 	:Shape(ShapeType::Rectangle, {x, y}),
 	Width(Width),
 	Height(Height),
@@ -140,7 +170,7 @@ void Rectangle::Draw(SDL_Renderer* pRenderer) const
 {
 	if (!bIsFilled)
 	{
-		SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+		SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
 		SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
 			static_cast<int>(Height) };
 		SDL_RenderDrawRect(pRenderer, &rect);
@@ -153,7 +183,7 @@ void Rectangle::Draw(SDL_Renderer* pRenderer) const
 
 void Rectangle::Fill(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, ShapeColor.A);
+	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, pShapeColor->A);
 	SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
 		static_cast<int>(Height) };
 	SDL_RenderFillRect(pRenderer, &rect);
@@ -180,14 +210,11 @@ void Rectangle::Serialize(StreamWriter& writer) const
 	Shape::Serialize(writer);
 }
 
-void Rectangle::Deserialize(JsonReader const* reader)
+void Rectangle::Deserialize(JsonReader* const reader)
 {
-	int temp = 0;
-	reader->ReadInt("width", temp);
-	Width = static_cast<unsigned int>(temp);
+	reader->ReadInt("width", Width);
 
-	reader->ReadInt("height", temp);
-	Height = static_cast<unsigned int>(temp);
+	reader->ReadInt("height", Height);
 
 	reader->ReadBool("isFilled", bIsFilled);
 
@@ -248,7 +275,7 @@ bool geo::AreOverlapping(Circle const& c1, Circle const& c2)
 	return (squaredDistance < squaredTouchingDistance);
 }
 
-unsigned int geo::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec2 const& b)
+int geo::DistPointLine(glm::vec2 const& p, glm::vec2 const& a, glm::vec2 const& b)
 {
 	//vectors
 	glm::vec2 ab{ b - a};
@@ -297,7 +324,7 @@ Line::Line(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col)
 
 void Line::Draw(SDL_Renderer* pRenderer) const
 {
-	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
 	SDL_RenderDrawLine(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y),
 		static_cast<int>(EndPos.x), static_cast<int>(EndPos.y));
 }
@@ -311,7 +338,7 @@ void Line::Serialize(StreamWriter& writer) const
 	Shape::Serialize(writer);
 }
 
-void Line::Deserialize(JsonReader const* reader)
+void Line::Deserialize(JsonReader* const reader)
 {
 	auto posObject = reader->ReadObject("startPos");
 
@@ -327,7 +354,7 @@ Circle::Circle()
 	:Shape{ShapeType::Circle}
 {
 }
-Circle::Circle(glm::vec2 const& center, unsigned int Radius, Color const& col)
+Circle::Circle(glm::vec2 const& center, int Radius, Color const& col)
 	:Shape(ShapeType::Circle, center, col),
 	Radius(Radius)
 {
@@ -336,7 +363,7 @@ Circle::Circle(glm::vec2 const& center, unsigned int Radius, Color const& col)
 		});
 }
 
-Circle::Circle(glm::vec2 const& center, unsigned int Radius)
+Circle::Circle(glm::vec2 const& center, int Radius)
 	:Shape(ShapeType::Circle, center),
 	Radius(Radius)
 {
@@ -350,7 +377,7 @@ void Circle::Draw(SDL_Renderer* pRenderer) const
 {
 	float const dAngle{ static_cast<float>(M_PI)/Radius };
 
-	SDL_SetRenderDrawColor(pRenderer, ShapeColor.R, ShapeColor.G, ShapeColor.B, 255);
+	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
 	
 
 	for (float angle = 0.0; angle < static_cast<float>(2 * M_PI); angle += dAngle)
@@ -379,11 +406,9 @@ void Circle::Serialize(StreamWriter& writer) const
 	Shape::Serialize(writer);
 }
 
-void Circle::Deserialize(JsonReader const* reader)
+void Circle::Deserialize(JsonReader* const reader)
 {
-	int temp = 0;
-	reader->ReadInt("width", temp);
-	Radius = static_cast<unsigned int>(temp);
+	reader->ReadInt("radius", Radius);
 
 	Shape::Deserialize(reader);
 }

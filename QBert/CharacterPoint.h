@@ -13,8 +13,8 @@ public:
 	int GetPoints() const { return m_NbrPoints; }
 	void Reset() { m_NbrPoints = 0; }
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 private:
 	int m_NbrPoints;

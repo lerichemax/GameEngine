@@ -166,7 +166,7 @@ void TransformComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void TransformComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	vec2 location;
 	vec2 scale;
@@ -189,7 +189,7 @@ void TransformComponent::Deserialize(JsonReader const* reader, SerializationMap&
 	Component::Deserialize(reader, context);
 }
 
-void TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void TransformComponent::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	int parent = -1;
 	reader->ReadInt(std::string{ "parent" }, parent);

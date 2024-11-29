@@ -42,7 +42,7 @@ void MovementComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void MovementComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void MovementComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	Component::Deserialize(reader, context);
 

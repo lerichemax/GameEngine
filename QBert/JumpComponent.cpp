@@ -8,7 +8,7 @@ void JumpComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void JumpComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void JumpComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadVector("direction", Direction);
 

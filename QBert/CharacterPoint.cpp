@@ -21,7 +21,7 @@ void CharacterPoint::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void CharacterPoint::Deserialize(JsonReader const* reader, SerializationMap& context)
+void CharacterPoint::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadInt("points", m_NbrPoints);
 
