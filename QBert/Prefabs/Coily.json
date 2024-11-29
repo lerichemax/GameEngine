@@ -7,103 +7,108 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.5,
-                        "y": 1.5
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 1.5,
-                        "y": 1.5
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 52,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 43
                 },
                 {
                     "type": "struct MovementComponent",
-                    "textIdleDownRight": "Textures/Enemies/Coily/Coily_Egg_Small.png",
-                    "textIdleDownLeft": "Textures/Enemies/Coily/Coily_Egg_Small.png",
-                    "textIdleUpRight": "",
-                    "textIdleUpLeft": "",
-                    "textJumpDownRight": "Textures/Enemies/Coily/Coily_Egg_Big.png",
-                    "textJumpDownLeft": "Textures/Enemies/Coily/Coily_Egg_Big.png",
-                    "textJumpUpRight": "",
-                    "textJumpUpLeft": "",
-                    "mode": 0,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 54,
-                    "entity": 0
+                    "TextureIdleDownRight": "Textures/Enemies/Coily/Coily_Egg_Small.png",
+                    "TextureIdleDownLeft": "Textures/Enemies/Coily/Coily_Egg_Small.png",
+                    "TextureIdleUpRight": "",
+                    "TextureIdleUpLeft": "",
+                    "TextureJumpDownRight": "Textures/Enemies/Coily/Coily_Egg_Big.png",
+                    "TextureJumpDownLeft": "Textures/Enemies/Coily/Coily_Egg_Big.png",
+                    "TextureJumpUpRight": "",
+                    "TextureJumpUpLeft": "",
+                    "Mode": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 45
                 },
                 {
                     "type": "struct CoilyComponent",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 58,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 49
                 },
                 {
                     "type": "struct AudioComponent",
-                    "id": 4,
-                    "volume": 50.0,
-                    "loop": false,
-                    "play": false,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 59,
-                    "entity": 0
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/snake-fall.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 50
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 7,
-                    "texture": {
-                        "filepath": "Textures/Enemies/Coily/Coily_Egg_Small.png"
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/Coily/Coily_Egg_Small.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 53,
-                    "entity": 0
+                    "Layer": 7,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 44
                 },
                 {
                     "type": "struct CharacterLives",
-                    "lives": 1,
-                    "maxLives": 1,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 56,
-                    "entity": 0
+                    "NbrLives": 1,
+                    "MaxLives": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 47
                 },
                 {
                     "type": "struct JumpComponent",
-                    "direction": {
+                    "Direction": {
                         "x": 0.0,
                         "y": -1.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 55,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 46
                 },
                 {
                     "type": "struct AiControllerComponent",
-                    "enemyType": 1,
-                    "points": 500,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 57,
-                    "entity": 0
+                    "PointsForKill": 500,
+                    "Type": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 48
                 }
             ],
             "children": []

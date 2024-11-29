@@ -14,7 +14,6 @@ public:
 	~ReloadSceneCommand() = default;
 
 	void Execute(GameObject const& gObject) override;
-
-	void Serialize(StreamWriter& writer) const;
-	void Deserialize(JsonReader const* reader, SerializationMap& context);
 };
+
+SERIALIZE_CLASS(ReloadSceneCommand, IContextSerializable)

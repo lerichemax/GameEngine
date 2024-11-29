@@ -11,7 +11,7 @@
 
 void AiControllerSystem::Start()
 {
-	m_pRegistry->GetSystem<QBertSystem>()->OnQBertEncounteredEnemy.Subscribe([this]() {
+	m_pRegistry->GetSystem<QBertSystem>()->OnQBertEncounteredEnemy.Subscribe([this](Entity qbertEntity) {
 		m_bIsPaused = true;
 		});
 

@@ -20,8 +20,10 @@ void TextRendererSystem::Update()
 
 		auto renderComp = m_pRegistry->GetComponent<RendererComponent>(entity); //log if absent (also when adding)
 
+		assert(textRenderComp->m_pFont != nullptr && "Font is null");
+
 		renderComp->pTexture = ResourceManager::Get().GetTextTexture(textRenderComp->m_pFont->GetFont(), textRenderComp->m_Text.c_str(),
-			textRenderComp->m_TextColor, textRenderComp->m_TextId);
+			textRenderComp->GetSDLColor(), textRenderComp->m_TextId);
 
 		textRenderComp->m_NeedsUpdate = false;
 	}

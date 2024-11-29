@@ -1,8 +1,16 @@
 #include "PCH.h"
 #include "Texture2D.h"
 #include "Renderer.h"
+#include "ResourceManager.h"
 
 #include <SDL.h>
+
+Texture2D::Texture2D()
+	:m_pTexture(nullptr),
+	m_Width(),
+	m_Height()
+{
+}
 
 Texture2D::Texture2D(SDL_Texture* texture)
 	:m_pTexture(texture),
@@ -34,17 +42,19 @@ Texture2D::~Texture2D()
 	SDL_DestroyTexture(m_pTexture);
 }
 
-SDL_Texture* Texture2D::GetSDLTexture() const
+SDL_Texture* Texture2D::GetSDLTexture()
 {
+	if (!IS_VALID(m_pTexture))
+	{
+		GetTexture();
+	}
 	return m_pTexture;
 }
 
-void Texture2D::Serialize(StreamWriter& writer) const
+void Texture2D::GetTexture()
 {
-	writer.WriteString("filepath", m_FilePath);
-}
-
-void Texture2D::Deserialize(JsonReader const* reader)
-{
-	reader->ReadString("filepath", m_FilePath);
+	if (!m_FilePath.empty())
+	{
+		m_pTexture = ResourceManager::Get().GetSDLTexture(m_FilePath);
+	}
 }

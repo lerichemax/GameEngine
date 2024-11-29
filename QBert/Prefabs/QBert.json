@@ -7,164 +7,168 @@
             "components": [
                 {
                     "type": "struct CharacterControllerComponent",
-                    "right": 7,
-                    "left": 4,
-                    "up": 26,
-                    "down": 22,
-                    "playerNbr": 1,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 20,
-                    "entity": 0
+                    "PlayerNumber": 1,
+                    "Down": 22,
+                    "Right": 7,
+                    "Up": 26,
+                    "Left": 4,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 16
                 },
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "scale": {
-                        "x": 1.5,
-                        "y": 1.5
-                    },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 1.5,
-                        "y": 1.5
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 14,
-                    "entity": 0
-                },
-                {
-                    "type": "struct MovementComponent",
-                    "textIdleDownRight": "Textures/QBert/QBert1_DownRight_Qube.png",
-                    "textIdleDownLeft": "Textures/QBert/QBert1_DownLeft_Qube.png",
-                    "textIdleUpRight": "Textures/QBert/QBert1_UpRight_Qube.png",
-                    "textIdleUpLeft": "Textures/QBert/QBert1_UpLeft_Qube.png",
-                    "textJumpDownRight": "Textures/QBert/QBert1_DownRight_Jump.png",
-                    "textJumpDownLeft": "Textures/QBert/QBert1_DownLeft_Jump.png",
-                    "textJumpUpRight": "Textures/QBert/QBert1_UpRight_Jump.png",
-                    "textJumpUpLeft": "Textures/QBert/QBert1_UpLeft_Jump.png",
-                    "mode": 0,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 21,
-                    "entity": 0
-                },
-                {
-                    "type": "struct AudioComponent",
-                    "id": 1,
-                    "volume": 50.0,
-                    "loop": false,
-                    "play": false,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 16,
-                    "entity": 0
-                },
-                {
-                    "type": "struct AudioComponent",
-                    "id": 2,
-                    "volume": 50.0,
-                    "loop": false,
-                    "play": false,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 17,
-                    "entity": 0
-                },
-                {
-                    "type": "struct AudioComponent",
-                    "id": 3,
-                    "volume": 50.0,
-                    "loop": false,
-                    "play": false,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 18,
-                    "entity": 0
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "layer": 8,
-                    "texture": {
-                        "filepath": "Textures/QBert/QBert1_DownLeft_Qube.png"
-                    },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 15,
-                    "entity": 0
-                },
-                {
-                    "type": "struct QbertComponent",
-                    "jumpId": 16,
-                    "fallId": 18,
-                    "swearId": 17,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 19,
-                    "entity": 0
-                },
-                {
-                    "type": "struct CharacterLives",
-                    "lives": 3,
-                    "maxLives": 3,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 22,
-                    "entity": 0
-                },
-                {
-                    "type": "class CharacterPoint",
-                    "points": 0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 23,
-                    "entity": 0
-                },
-                {
-                    "type": "struct JumpComponent",
-                    "direction": {
-                        "x": 0.0,
-                        "y": -1.0
-                    },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 24,
-                    "entity": 0
-                },
-                {
-                    "type": "class ColliderComponent",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 25,
-                    "entity": 0,
-                    "shape": {
-                        "type": "struct geo::Rectangle",
-                        "width": 24,
-                        "height": 24,
-                        "isFilled": false,
+                    "m_WorldTransformMatrix": {
                         "position": {
                             "x": 0.0,
                             "y": 0.0
                         },
-                        "color": {
-                            "r": 255,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 10
+                },
+                {
+                    "type": "struct MovementComponent",
+                    "TextureIdleDownRight": "Textures/QBert/QBert1_DownRight_Qube.png",
+                    "TextureIdleDownLeft": "Textures/QBert/QBert1_DownLeft_Qube.png",
+                    "TextureIdleUpRight": "Textures/QBert/QBert1_UpRight_Qube.png",
+                    "TextureIdleUpLeft": "Textures/QBert/QBert1_UpLeft_Qube.png",
+                    "TextureJumpDownRight": "Textures/QBert/QBert1_DownRight_Jump.png",
+                    "TextureJumpDownLeft": "Textures/QBert/QBert1_DownLeft_Jump.png",
+                    "TextureJumpUpRight": "Textures/QBert/QBert1_UpRight_Jump.png",
+                    "TextureJumpUpLeft": "Textures/QBert/QBert1_UpLeft_Jump.png",
+                    "Mode": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 17
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/jump.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 12
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/swear.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 13
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/fall.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 14
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
+                    },
+                    "Layer": 8,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 11
+                },
+                {
+                    "type": "struct QbertComponent",
+                    "pJumpSound": 12,
+                    "pFallSound": 14,
+                    "pSwearSound": 13,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 15
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "NbrLives": 3,
+                    "MaxLives": 3,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 18
+                },
+                {
+                    "type": "class CharacterPoint",
+                    "m_NbrPoints": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 19
+                },
+                {
+                    "type": "struct JumpComponent",
+                    "Direction": {
+                        "x": 0.0,
+                        "y": -1.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 20
+                },
+                {
+                    "type": "class ColliderComponent",
+                    "bDraw": false,
+                    "bIsTrigger": true,
+                    "pShape": {
+                        "type": "struct geo::Rectangle",
+                        "Width": 24,
+                        "Height": 24,
+                        "bIsFilled": false,
+                        "pShapeColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "Pos": {
+                            "x": 0.0,
+                            "y": 0.0
                         }
                     },
-                    "draw": false,
-                    "trigger": true
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 21
                 }
             ],
             "children": [
@@ -177,40 +181,47 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": 14,
-                    "position": {
-                        "x": -10.0,
-                        "y": -34.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": -10.0,
+                            "y": -34.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": -10.0,
+                            "y": -34.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": -10.0,
-                        "y": -34.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 26,
-                    "entity": 1
+                    "m_pParent": 10,
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 22
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 8,
-                    "texture": {
-                        "filepath": "Textures/QBert/HurtText.png"
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/QBert/HurtText.png",
+                        "m_Width": 48.0,
+                        "m_Height": 28.0
                     },
-                    "IsActive": false,
-                    "IsUnique": false,
-                    "ID": 27,
-                    "entity": 1
+                    "Layer": 8,
+                    "m_Entity": 1,
+                    "m_IsActive": false,
+                    "m_IsUnique": false,
+                    "m_Id": 23
                 }
             ],
             "children": []

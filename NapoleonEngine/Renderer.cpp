@@ -91,7 +91,7 @@ void Renderer::Destroy()
 
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void Renderer::RenderTexture(Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -100,7 +100,7 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float Width, const float Height) const
+void Renderer::RenderTexture(Texture2D& texture, const float x, const float y, const float Width, const float Height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -110,7 +110,7 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const
+void Renderer::RenderTexture(Texture2D& texture, TransformComponent const& pTransform) const
 {
 	glPushMatrix();
 	{

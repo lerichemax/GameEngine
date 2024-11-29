@@ -3,6 +3,13 @@
 
 using namespace ecs;
 
+ColliderComponent::ColliderComponent()
+	:bIsTrigger{},
+	bDraw{},
+	pShape{nullptr}
+{
+}
+
 void ColliderComponent::SetShape(geo::Shape* pNewShape)
 {
 	assert(pShape == nullptr && "Can't reassign shape (yet)");
@@ -32,39 +39,3 @@ void ColliderComponent::Collide(Entity other)
 	OnCollision.Notify(other);
 }
 
-void ColliderComponent::Serialize(StreamWriter& writer) const
-{
-	Component::Serialize(writer);
-
-	if (pShape == nullptr)
-	{
-		return;
-	}
-
-	writer.WriteObject("shape", pShape.get());
-	writer.WriteBool("draw", bDraw);
-	writer.WriteBool("trigger", bIsTrigger);
-}
-
-void ColliderComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	Component::Deserialize(reader, context);
-
-	auto shapeObj = reader->ReadObject("shape");
-
-	if (shapeObj == nullptr)
-	{
-		return;
-	}
-	std::string type;
-	shapeObj->ReadString("type", type);
-
-	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(Factory<geo::Shape>::Get().Create(type)));
-	if (pShape != nullptr)
-	{
-		pShape->Deserialize(shapeObj.get());
-	}
-
-	reader->ReadBool("draw", bDraw);
-	reader->ReadBool("trigger", bIsTrigger);
-}

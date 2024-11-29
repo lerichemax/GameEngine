@@ -8,9 +8,9 @@ struct QbertComponent : public ecs::Component
 {
 	QbertComponent();
 
-	AudioComponent* pJumpSound{};
-	AudioComponent* pFallSound{};
-	AudioComponent* pSwearSound{};
+	PROPERTY(AudioComponent*, pJumpSound);
+	PROPERTY(AudioComponent*, pFallSound);
+	PROPERTY(AudioComponent*, pSwearSound);
 
 	float const MAX_RESET_TIME{ 0.75f };
 	float ResetTimer{};
@@ -18,7 +18,6 @@ struct QbertComponent : public ecs::Component
 	Entity Disk;
 
 	bool bOnResetCoolDown{};
-
-	void Serialize(StreamWriter& writer) const override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
 };
+
+SERIALIZE_CLASS(QbertComponent, ecs::Component)

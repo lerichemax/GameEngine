@@ -19,7 +19,7 @@ class UiSystem;
 class CollisionSystem;
 class Camera2D;
 class ColliderComponent;
-class BaseScene : public IContextSerializable
+class BaseScene
 {
 	friend class NapoleonEngine;
 	template<ecs::ComponentDerived C> friend C* CreateComponent();
@@ -31,9 +31,8 @@ public:
 	virtual [[nodiscard]] std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
-	void Serialize(StreamWriter& writer) const override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void RestoreContext(JsonReader* const reader, SerializationMap const& context);
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 protected:
 	BaseScene();
@@ -53,6 +52,7 @@ public:
 	explicit Prefab();
 
 	std::shared_ptr<GameObject> CreateGameObject() override;
+	void Serialize(StreamWriter& writer) const;
 
 protected:
 	void SetName(std::string const& name);
@@ -74,7 +74,7 @@ public:
 	bool IsActive() const { return m_bIsActive; }
 
 	template <ecs::SystemDerived T> T* const AddSystem();
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 	Color const& GetBackgroundColor() const;
 
 protected:

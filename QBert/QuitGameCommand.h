@@ -13,5 +13,6 @@ public:
 
 	void Execute(GameObject const& gObject) override;
 
-	void Serialize(StreamWriter& writer) const override;
 };
+
+SERIALIZE_CLASS(QuitGameCommand, IContextSerializable)

@@ -13,7 +13,6 @@
 #include "PrefabsManager.h"
 #include "Serializer.h"
 #include "Deserializer.h"
-#include "Factories.h"
 
 #include "TextRendererComponent.h"
 #include "TransformComponent.h"
@@ -64,7 +63,7 @@ NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::str
 	TimerLocator::RegisterTimer(m_pTimer.get());
 }
 
-void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
+void NapoleonEngine::CreateBasePrefabs()
 {
 	//Fps counter prefab
 	auto fpsCounterPrefab = PrefabsManager::Get().CreatePrefab();
@@ -86,22 +85,6 @@ void NapoleonEngine::CreateBasePrefabs() //TODO : save and load from JSON
 	CreatePrefabs();
 }
 
-void NapoleonEngine::RegisterComponentsToFactory() const
-{
-	Factory<ecs::Component>& factory = Factory<ecs::Component>::Get();
-
-	factory.RegisterType<AudioComponent>(CreateComponent<AudioComponent>);
-	factory.RegisterType<ButtonComponent>(CreateComponent<ButtonComponent>);
-	factory.RegisterType<ColliderComponent>(CreateComponent<ColliderComponent>);
-	factory.RegisterType<FPSCounter>(CreateComponent<FPSCounter>);
-	factory.RegisterType<RendererComponent>(CreateComponent<RendererComponent>);
-	factory.RegisterType<ScriptComponent>(CreateComponent<ScriptComponent>);
-	factory.RegisterType<TextRendererComponent>(CreateComponent<TextRendererComponent>);
-	factory.RegisterType<TransformComponent>(CreateComponent<TransformComponent>);
-
-	RegisterComponentsToFactory_Imp(factory);
-}
-
 void NapoleonEngine::Quit()
 {
 	m_bQuit = true;
@@ -112,30 +95,18 @@ NapoleonEngine* NapoleonEngine::GetEngine()
 	return m_pEngine;
 }
 
-void NapoleonEngine::RegisterSingleton(SingletonWrapper* singleton)
-{
-	m_Singletons.push_back(singleton);
-}
-
-unsigned int NapoleonEngine::GetWindowWidth() const
+int NapoleonEngine::GetWindowWidth() const
 {
 	return m_pRenderer->GetWindowWidth();
 }
 
-unsigned int NapoleonEngine::GetWindowHeight() const
+int NapoleonEngine::GetWindowHeight() const
 {
 	return m_pRenderer->GetWindowHeight();
 }
 
 void NapoleonEngine::Cleanup()
 {
-	for (size_t i = 0; i < m_Singletons.size(); i++)
-	{
-		delete m_Singletons[i];
-	}
-
-	m_Singletons.clear();
-
 	m_pEngine = nullptr;
 	
 	SDL_Quit();
@@ -153,7 +124,7 @@ void NapoleonEngine::Run()
 	}
 
 	InitGame();
-	RegisterComponentsToFactory();
+
 	{
 		auto& sceneManager = SceneManager::Get();
 		auto& input = InputManager::Get();
@@ -186,7 +157,7 @@ void NapoleonEngine::StartHeapControl()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Set a breakpoint on the specified object allocation order number
-	//_CrtSetBreakAlloc(14240);
+	//_CrtSetBreakAlloc(1261182);
 
 #endif
 }

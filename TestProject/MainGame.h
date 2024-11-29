@@ -9,6 +9,4 @@ public:
 	void InitGame() const override;
 	void CreatePrefabs() const override;
 
-protected:
-	void RegisterComponentsToFactory_Imp(Factory<ecs::Component>& factory) const override {};
 };

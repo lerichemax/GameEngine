@@ -9,8 +9,8 @@
 class SwitchTextColor final : public Command
 {
 public:
-	SwitchTextColor() = default;
-	SwitchTextColor(Color targetColor);
+	SwitchTextColor();
+	SwitchTextColor(Color const& targetColor);
 
 	SwitchTextColor(SwitchTextColor const& other) = delete;
 	SwitchTextColor(SwitchTextColor&& other) = delete;
@@ -20,9 +20,8 @@ public:
 
 	void Execute(GameObject const& gObject) override;
 
-	void Serialize(StreamWriter& writer) const;
-	void Deserialize(JsonReader const* reader, SerializationMap& context);
-
 private:
-	Color m_TargetColor{};
+	PROPERTY(Color*, m_pTargetColor);
 };
+
+SERIALIZE_CLASS(SwitchTextColor, IContextSerializable)

@@ -3,8 +3,8 @@
 
 struct ScriptComponent : public Component
 {
-	std::string ScriptFile;
+	PROPERTY(std::string, ScriptFile);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 };
+
+SERIALIZE_CLASS(ScriptComponent, ecs::Component)

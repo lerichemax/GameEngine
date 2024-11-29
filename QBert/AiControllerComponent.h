@@ -18,10 +18,9 @@ struct AiControllerComponent : public ecs::Component
 	float const MOVE_INTERVAL{ 0.5f };
 	float MoveTimer;
 
-	int PointsForKill;
+	PROPERTY(int, PointsForKill);
 
-	EnemyType Type;
-
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	PROPERTY(EnemyType, Type);
 };
+
+SERIALIZE_CLASS(AiControllerComponent, ecs::Component)

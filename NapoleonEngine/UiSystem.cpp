@@ -25,7 +25,7 @@ void UiSystem::Update()
 		if (btn->bVisualize)
 		{
 			Debugger::Get().DrawDebugRectangle(transform->GetLocation(),
-				static_cast<unsigned int>(btn->Dimensions.x), static_cast<unsigned int>(btn->Dimensions.y),
+				static_cast<int>(btn->Dimensions.x), static_cast<int>(btn->Dimensions.y),
 				Color{ 255,0,0,1 });
 		}
 		glm::vec2 const mousePos = InputManager::Get().GetMousePosition();

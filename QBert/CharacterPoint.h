@@ -13,9 +13,9 @@ public:
 	int GetPoints() const { return m_NbrPoints; }
 	void Reset() { m_NbrPoints = 0; }
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
 
 private:
-	int m_NbrPoints;
+	PROPERTY(int, m_NbrPoints);
 };
+
+SERIALIZE_CLASS(CharacterPoint, ecs::Component)

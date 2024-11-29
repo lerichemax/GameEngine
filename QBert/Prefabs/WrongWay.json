@@ -7,110 +7,117 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "scale": {
-                        "x": 2.0,
-                        "y": 2.0
-                    },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 2.0,
-                        "y": 2.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 44,
-                    "entity": 0
-                },
-                {
-                    "type": "struct MovementComponent",
-                    "textIdleDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
-                    "textIdleDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
-                    "textIdleUpRight": "",
-                    "textIdleUpLeft": "",
-                    "textJumpDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
-                    "textJumpDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
-                    "textJumpUpRight": "",
-                    "textJumpUpLeft": "",
-                    "mode": 1,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 46,
-                    "entity": 0
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "layer": 7,
-                    "texture": {
-                        "filepath": "Textures/Enemies/WrongWay/WrongWay_Right.png"
-                    },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 45,
-                    "entity": 0
-                },
-                {
-                    "type": "struct CharacterLives",
-                    "lives": 1,
-                    "maxLives": 1,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 48,
-                    "entity": 0
-                },
-                {
-                    "type": "struct JumpComponent",
-                    "direction": {
-                        "x": 1.0,
-                        "y": 0.0
-                    },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 47,
-                    "entity": 0
-                },
-                {
-                    "type": "class ColliderComponent",
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 49,
-                    "entity": 0,
-                    "shape": {
-                        "type": "struct geo::Rectangle",
-                        "width": 32,
-                        "height": 32,
-                        "isFilled": false,
+                    "m_WorldTransformMatrix": {
                         "position": {
                             "x": 0.0,
                             "y": 0.0
                         },
-                        "color": {
-                            "r": 255,
-                            "g": 0,
-                            "b": 0,
-                            "a": 255
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 36
+                },
+                {
+                    "type": "struct MovementComponent",
+                    "TextureIdleDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
+                    "TextureIdleDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
+                    "TextureIdleUpRight": "",
+                    "TextureIdleUpLeft": "",
+                    "TextureJumpDownRight": "Textures/Enemies/WrongWay/WrongWay_Right.png",
+                    "TextureJumpDownLeft": "Textures/Enemies/WrongWay/WrongWay_left.png",
+                    "TextureJumpUpRight": "",
+                    "TextureJumpUpLeft": "",
+                    "Mode": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 38
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/WrongWay/WrongWay_Right.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
+                    },
+                    "Layer": 7,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 37
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "NbrLives": 1,
+                    "MaxLives": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 40
+                },
+                {
+                    "type": "struct JumpComponent",
+                    "Direction": {
+                        "x": 1.0,
+                        "y": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 39
+                },
+                {
+                    "type": "class ColliderComponent",
+                    "bDraw": false,
+                    "bIsTrigger": false,
+                    "pShape": {
+                        "type": "struct geo::Rectangle",
+                        "Width": 32,
+                        "Height": 32,
+                        "bIsFilled": false,
+                        "pShapeColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "Pos": {
+                            "x": 0.0,
+                            "y": 0.0
                         }
                     },
-                    "draw": false,
-                    "trigger": false
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 41
                 },
                 {
                     "type": "struct AiControllerComponent",
-                    "enemyType": 2,
-                    "points": 0,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 50,
-                    "entity": 0
+                    "PointsForKill": 0,
+                    "Type": 2,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 42
                 }
             ],
             "children": []

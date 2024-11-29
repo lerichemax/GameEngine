@@ -10,7 +10,7 @@ class JSonReader;
 class PrefabsManager final : public Singleton<PrefabsManager>
 {
 public:
-	~PrefabsManager() = default;
+	~PrefabsManager();
 	PrefabsManager(PrefabsManager const& other) = delete;
 	PrefabsManager(PrefabsManager&& other) = delete;
 	PrefabsManager& operator=(PrefabsManager const&) = delete;
