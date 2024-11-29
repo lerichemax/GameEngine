@@ -23,7 +23,7 @@ public:
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(_TTF_Font*, const char* txt, SDL_Color Color, int id);
 
-	Font* const GetFont(const std::string& file, unsigned int size);
+	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);
 	SoundEffect* const GetEffectById(ID id) const;
 	

@@ -15,8 +15,8 @@ public:
 	void Die();
 	void Reset();
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 private:
 	bool bIsDead{false};

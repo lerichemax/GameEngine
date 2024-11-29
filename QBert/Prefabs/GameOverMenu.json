@@ -106,8 +106,6 @@
                         "fontName": "./Data/Fonts/Lingua.otf",
                         "fontSize": 42
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 42,
                     "IsActive": true,
                     "IsUnique": true,
                     "ID": 108,
@@ -167,8 +165,6 @@
                         "fontName": "./Data/Fonts/Lingua.otf",
                         "fontSize": 30
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
                     "IsActive": true,
                     "IsUnique": true,
                     "ID": 111,
@@ -260,8 +256,6 @@
                         "fontName": "./Data/Fonts/Lingua.otf",
                         "fontSize": 30
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
                     "IsActive": true,
                     "IsUnique": true,
                     "ID": 118,
@@ -354,8 +348,6 @@
                         "fontName": "./Data/Fonts/Lingua.otf",
                         "fontSize": 30
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 30,
                     "IsActive": true,
                     "IsUnique": true,
                     "ID": 125,

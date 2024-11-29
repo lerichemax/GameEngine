@@ -19,6 +19,6 @@ struct QbertComponent : public ecs::Component
 
 	bool bOnResetCoolDown{};
 
-	void Serialize(StreamWriter& writer) const override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void RestoreContext(JsonReader* const reader, SerializationMap const& context);
 };

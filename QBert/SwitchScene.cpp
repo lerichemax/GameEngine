@@ -22,7 +22,7 @@ void SwitchScene::Serialize(StreamWriter& writer) const
 	writer.WriteString("sceneName", m_TargetSceneName);
 }
 
-void SwitchScene::Deserialize(JsonReader const* reader, SerializationMap& context)
+void SwitchScene::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	Command::Deserialize(reader, context);
 

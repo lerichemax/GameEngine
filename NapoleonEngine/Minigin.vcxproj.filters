@@ -49,6 +49,9 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RendererComponent.h">
@@ -281,6 +284,9 @@
     <ClInclude Include="SystemManager.h">
       <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Reflection.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererComponent.cpp">
@@ -343,9 +349,6 @@
     </ClCompile>
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>ECS\Components</Filter>
@@ -417,6 +420,15 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Reflection.cpp">
+      <Filter>Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationMap.h">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationMap.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentManager.inl">
@@ -433,6 +445,12 @@
     </None>
     <None Include="View.inl">
       <Filter>ECS</Filter>
+    </None>
+    <None Include="Reflection.inl">
+      <Filter>Reflection</Filter>
+    </None>
+    <None Include="SerializationMap.inl">
+      <Filter>Serialization</Filter>
     </None>
   </ItemGroup>
 </Project>

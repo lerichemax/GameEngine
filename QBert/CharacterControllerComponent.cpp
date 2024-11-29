@@ -12,7 +12,7 @@ void CharacterControllerComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void CharacterControllerComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void CharacterControllerComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	int tmpInt{-1};
 

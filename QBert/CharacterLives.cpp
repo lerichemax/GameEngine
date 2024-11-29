@@ -33,7 +33,7 @@ void CharacterLives::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void CharacterLives::Deserialize(JsonReader const* reader, SerializationMap& context)
+void CharacterLives::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadInt("lives", NbrLives);
 	reader->ReadInt("maxLives", MaxLives);

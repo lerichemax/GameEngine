@@ -35,7 +35,7 @@ public:
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color Color, int id);
 
-	Font* const GetFont(const std::string& file, unsigned int size);
+	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);
 	SoundEffect* const GetEffectById(ID id) const;
 
@@ -181,7 +181,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	return m_pTxtTextures[id].get();
 }
 
-Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, int size)
 {
 	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](std::unique_ptr<Font>& pFont)
 		{
@@ -271,7 +271,7 @@ Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* tx
 	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
 }
 
-Font* const ResourceManager::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::GetFont(const std::string& file, int size)
 {
 	return m_pImpl->GetFont(file, size);
 }

@@ -112,30 +112,18 @@ NapoleonEngine* NapoleonEngine::GetEngine()
 	return m_pEngine;
 }
 
-void NapoleonEngine::RegisterSingleton(SingletonWrapper* singleton)
-{
-	m_Singletons.push_back(singleton);
-}
-
-unsigned int NapoleonEngine::GetWindowWidth() const
+int NapoleonEngine::GetWindowWidth() const
 {
 	return m_pRenderer->GetWindowWidth();
 }
 
-unsigned int NapoleonEngine::GetWindowHeight() const
+int NapoleonEngine::GetWindowHeight() const
 {
 	return m_pRenderer->GetWindowHeight();
 }
 
 void NapoleonEngine::Cleanup()
 {
-	for (size_t i = 0; i < m_Singletons.size(); i++)
-	{
-		delete m_Singletons[i];
-	}
-
-	m_Singletons.clear();
-
 	m_pEngine = nullptr;
 	
 	SDL_Quit();

@@ -18,7 +18,7 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	m_BackgroundColor = { 0, 77, 153, 1 };
+	m_BackgroundColor = geo::Color{ 0, 77, 153, 1 };
 
 	auto pTitleObject = CreateGameObject();
 	auto rendererComp = pTitleObject->AddComponent<RendererComponent>();

@@ -10,7 +10,7 @@ class Font : public ISerializable
 {
 public:
 		
-	explicit Font(const std::string& fullPath, unsigned int size);
+	explicit Font(const std::string& fullPath, int size);
 	~Font();
 
 	Font(const Font &) = delete;
@@ -20,14 +20,17 @@ public:
 
 	_TTF_Font* GetFont() const;
 	std::string GetFilePath() const { return m_FilePath; }
-	unsigned int GetSize() const { return m_Size; }
+	int GetSize() const { return m_Size; }
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader);
 
 private:
 	_TTF_Font* m_Font;
-	unsigned int m_Size;
 
-	std::string m_FilePath;
+	PROPERTY(int, m_Size);
+
+	PROPERTY(std::string, m_FilePath);
 };
+
+SERIALIZE_CLASS(Font);

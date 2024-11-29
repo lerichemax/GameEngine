@@ -4,7 +4,7 @@
 
 
 
-Font::Font(const std::string& fullPath, unsigned int size)
+Font::Font(const std::string& fullPath, int size)
 	: m_Font(nullptr),
 	m_Size(size),
 	m_FilePath(fullPath)
@@ -31,12 +31,10 @@ void Font::Serialize(StreamWriter& writer) const
 	writer.WriteInt("fontSize", m_Size);
 }
 
-void Font::Deserialize(JsonReader const* reader)
+void Font::Deserialize(JsonReader* const reader)
 {
 	std::string fontName;
 	reader->ReadString("fontName", m_FilePath);
 
-	int size;
-	reader->ReadInt("fontSize", size);
-	m_Size = size;
+	reader->ReadInt("fontSize", m_Size);
 }

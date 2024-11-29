@@ -20,21 +20,24 @@ public:
 	void SetText(std::string const& text);
 	void SetFont(Font* const pFont);
 	void SetTextColor(Uint8 r, Uint8 g, Uint8 b);
+	SDL_Color GetSDLColor() const;
 
 	void Serialize(StreamWriter& writer) const;
-	void Deserialize(JsonReader const* reader, SerializationMap& context);
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) {}
+	void RestoreContext(JsonReader* const reader, SerializationMap const& context) {}
 
 private:
 	static int Id_Increment;
 	int m_TextId;
 
-	std::string m_Text;
-	Font* m_pFont{};
-	SDL_Color m_TextColor{ 255,255,255,255 };
+	PROPERTY(std::string, m_Text);
+	PROPERTY(Font*, m_pFont);
+	PROPERTY(Color*, m_pTextColor);
 
 	bool m_NeedsUpdate{};
 
 	static EventHandler<TextRendererComponent, int> OnAnyDestroyed;
 };
+
+SERIALIZE_CLASS(TextRendererComponent)

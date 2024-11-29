@@ -38,7 +38,7 @@ void ButtonComponent::Serialize(StreamWriter& writer) const
 	}
 }
 
-void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void ButtonComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	reader->ReadBool("visualize", bVisualize);
 	auto dimensionObject = reader->ReadObject("dimension");
@@ -91,7 +91,7 @@ void ButtonComponent::Deserialize(JsonReader const* reader, SerializationMap& co
 	Component::Deserialize(reader, context);
 }
 
-void ButtonComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void ButtonComponent::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	std::string type;
 	auto onclickReader = reader->ReadObject("onClick");

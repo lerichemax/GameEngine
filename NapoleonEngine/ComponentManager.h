@@ -44,7 +44,7 @@ namespace ecs
 		template<ComponentDerived T> ComponentArray<T>* const GetComponentArray();
 		template<ComponentDerived T> void RegisterComponentArray(std::string const& type);
 
-		ComponentType DeserializeAndAddComponent(Entity entity, JsonReader const* reader, SerializationMap& context);
+		ComponentType DeserializeAndAddComponent(Entity entity, JsonReader* const reader, SerializationMap& context);
 		static void CleanUp();
 	};
 }

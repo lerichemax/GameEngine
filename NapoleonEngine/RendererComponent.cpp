@@ -4,6 +4,14 @@
 
 #include "Texture2D.h"
 
+RendererComponent::RendererComponent()
+	:Layer{0},
+	pTexture{nullptr},
+	pShape{nullptr}
+{
+
+}
+
 void RendererComponent::SetShape(geo::Shape* shape)
 {
 	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(shape));
@@ -26,7 +34,7 @@ void RendererComponent::Serialize(StreamWriter& writer) const
 	Component::Serialize(writer);
 }
 
-void RendererComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
+void RendererComponent::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	int layer;
 	reader->ReadInt("layer", layer);

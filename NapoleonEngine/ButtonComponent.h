@@ -22,23 +22,23 @@ public:
 	template<CommandDerived T> void SetOnSelectFunction(T* func);
 	template<CommandDerived T> void SetOnDeselectFunction(T* func);
 
-	glm::vec2 Dimensions;
+	PROPERTY(glm::vec2, Dimensions);
 
-	bool bVisualize;
+	PROPERTY(bool, bVisualize);
 
 	EventHandler<ButtonComponent> OnSelect;
 	EventHandler<ButtonComponent> OnDeselect;
 	EventHandler<ButtonComponent> OnClick;
 
-	virtual void Serialize(StreamWriter& writer) const override;
-	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	virtual void Serialize(StreamWriter& writer) const;
+	virtual void Deserialize(JsonReader* const reader, SerializationMap& context);
 
-	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	virtual void RestoreContext(JsonReader* const reader, SerializationMap const& context) override;
 
 private:
-	std::unique_ptr<Command> m_pOnClick{};
-	std::unique_ptr<Command> m_pOnSelect{};
-	std::unique_ptr<Command> m_pOnDeselect{};
+	PROPERTY(std::unique_ptr<Command>, m_pOnClick);
+	PROPERTY(std::unique_ptr<Command>, m_pOnSelect);
+	PROPERTY(std::unique_ptr<Command>, m_pOnDeselect);
 
 	bool m_bIsSelected;
 
@@ -46,6 +46,8 @@ private:
 	void Deselect();
 	void Click();
 };
+
+SERIALIZE_CLASS(ButtonComponent)
 
 template<CommandDerived T> 
 void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?

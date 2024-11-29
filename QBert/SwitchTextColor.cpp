@@ -25,7 +25,7 @@ void SwitchTextColor::Serialize(StreamWriter& writer) const
 
 	Command::Serialize(writer);
 }
-void SwitchTextColor::Deserialize(JsonReader const* reader, SerializationMap& context)
+void SwitchTextColor::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	auto colorReader = reader->ReadObject("color");
 	m_TargetColor.Deserialize(colorReader.get());

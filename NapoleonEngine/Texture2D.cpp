@@ -38,13 +38,3 @@ SDL_Texture* Texture2D::GetSDLTexture() const
 {
 	return m_pTexture;
 }
-
-void Texture2D::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString("filepath", m_FilePath);
-}
-
-void Texture2D::Deserialize(JsonReader const* reader)
-{
-	reader->ReadString("filepath", m_FilePath);
-}

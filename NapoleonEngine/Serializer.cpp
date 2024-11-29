@@ -6,6 +6,16 @@
 
 int IContextSerializable::Id = 0;
 
+void ISerializable::Serialize(StreamWriter& writer) const
+{
+	Reflection::Get().SerializeClass(const_cast<ISerializable*>(this), writer);
+}
+
+void ISerializable::Deserialize(JsonReader* const reader)
+{
+	//Reflection::Get().DeserializeClass(this, reader);
+}
+
 std::unique_ptr<Document> Serializer::Serialize(ISerializable const& serializable)
 {
 	std::unique_ptr<Document> pDoc = std::make_unique<Document>();
@@ -37,14 +47,21 @@ std::unique_ptr<Document> Serializer::Serialize(IContextSerializable const& seri
 	return pDoc;
 }
 
-SerializationMap::SerializationMap()
+std::unique_ptr<Document> Serializer::Serialize(Prefab const& serializable) // temp ?
 {
-	m_Refs.insert(std::make_pair(- 1, nullptr));
-}
+	std::unique_ptr<Document> pDoc = std::make_unique<Document>();
 
-void SerializationMap::Add(int Id, Entity pRef)
-{
-	m_EntityRefs[Id] = pRef;
+	StringBuffer buffer;
+	StreamWriter writer{ buffer };
+
+	writer.m_BufferWriter.StartObject();
+	serializable.Serialize(writer);
+
+	writer.m_BufferWriter.EndObject();
+
+	pDoc->Parse(buffer.GetString());
+
+	return pDoc;
 }
 
 IContextSerializable::IContextSerializable()

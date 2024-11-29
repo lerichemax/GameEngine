@@ -3,8 +3,8 @@
 
 struct CharacterControllerComponent : public ecs::Component
 {
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 	bool m_BlockInput = false;
 

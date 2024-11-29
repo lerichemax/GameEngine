@@ -13,24 +13,28 @@ class ColliderComponent : public ecs::Component
 	typedef EventHandler<ColliderComponent, ecs::Entity> CollisionEvent;
 
 public:
+	ColliderComponent();
+
 	CollisionEvent OnTriggerEnter;
 	CollisionEvent OnTriggerExit;
 	CollisionEvent OnCollision;
 
-	bool bIsTrigger;
-	bool bDraw;
+	PROPERTY(bool, bIsTrigger);
+	PROPERTY(bool, bDraw);
 
 	void SetShape(geo::Shape* pNewShape);
 	geo::Shape* const GetShape() const;
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
+	void Serialize(StreamWriter& writer) const;
+	void Deserialize(JsonReader* const reader, SerializationMap& context);
 
 private:
-	std::unique_ptr<geo::Shape> pShape{ nullptr };
+	PROPERTY(std::unique_ptr<geo::Shape>, pShape);
 	std::set<ecs::Entity> OverlappingColliders;
 
 	void TriggerEnter(ecs::Entity other);
 	void TriggerExit(ecs::Entity other);
 	void Collide(ecs::Entity other);
 };
+
+SERIALIZE_CLASS(ColliderComponent)

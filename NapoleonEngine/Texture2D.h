@@ -18,16 +18,15 @@ public:
 	float GetWidth() const { return m_Width; }
 	float GetHeight() const { return m_Height; }
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader) override;
-
 private:
 	SDL_Texture* m_pTexture;
-	std::string m_FilePath{};
-	float m_Width;
-	float m_Height;
+	PROPERTY(std::string, m_FilePath);
+	PROPERTY(float, m_Width);
+	PROPERTY(float, m_Height);
 
 	explicit Texture2D(SDL_Texture* texture, std::string const& filePath);
 
 	void InitTexture();
 };
+
+SERIALIZE_CLASS(Texture2D);
