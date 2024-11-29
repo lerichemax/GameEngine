@@ -12,3 +12,5 @@ struct UiManagerComponent : public ecs::Component
 	Entity PauseMenuEntity{ NULL_ENTITY };
 	Entity GameOverMenuEntity{ NULL_ENTITY };
 };
+
+SERIALIZE_CLASS(UiManagerComponent, ecs::Component)

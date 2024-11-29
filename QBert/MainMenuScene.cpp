@@ -1,6 +1,9 @@
 #include "PCH.h"
 #include "MainMenuScene.h"
 
+#include "UiSystem.h"
+#include "FPSCounterSystem.h"
+
 #include "GameObject.h"
 #include "RendererComponent.h"
 #include "ButtonComponent.h"
@@ -9,7 +12,7 @@
 #include "TextRendererComponent.h"
 #include "SwitchScene.h"
 #include "SwitchTextColor.h"
-#include "UiSystem.h"
+
 
 MainMenuScene::MainMenuScene()
 	:Scene("MainMenuScene")
@@ -18,7 +21,7 @@ MainMenuScene::MainMenuScene()
 
 void MainMenuScene::Initialize()
 {
-	m_BackgroundColor = { 0, 77, 153, 1 };
+	m_BackgroundColor = geo::Color{ 0, 77, 153, 1 };
 
 	auto pTitleObject = CreateGameObject();
 	auto rendererComp = pTitleObject->AddComponent<RendererComponent>();
@@ -92,4 +95,6 @@ void MainMenuScene::Initialize()
 	quitBtn->GetTransform()->SetLocation(400, 350);
 
 	Instantiate("FPSCounter");
+
+	AddSystem<FPSCounterSystem>();
 }

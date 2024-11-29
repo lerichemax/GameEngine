@@ -13,3 +13,5 @@ struct PyramidComponent : public ecs::Component
 
 	std::vector<Entity> Qubes;
 };
+
+SERIALIZE_CLASS(PyramidComponent, ecs::Component)

@@ -7,57 +7,66 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 20.0,
-                        "y": 40.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 20.0,
+                            "y": 40.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 20.0,
+                            "y": 40.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 20.0,
-                        "y": 40.0
-                    },
-                    "world_scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 6,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 4
                 },
                 {
                     "type": "class TextRendererComponent",
-                    "txt": "P1 Lives: ",
-                    "color": {
-                        "r": 255,
-                        "g": 0,
-                        "b": 0,
-                        "a": 0
+                    "m_pFont": {
+                        "type": "class Font",
+                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_Size": 15
                     },
-                    "font": {
-                        "fontName": "./Data/Fonts/Lingua.otf",
-                        "fontSize": 15
+                    "m_Text": "P1 Lives: ",
+                    "m_pTextColor": {
+                        "type": "struct geo::Color",
+                        "B": 0,
+                        "R": 255,
+                        "G": 0,
+                        "A": 255
                     },
-                    "fontName": "./Data/Fonts/Lingua.otf",
-                    "fontSize": 15,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 7,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 5
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 10,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 8,
-                    "entity": 0
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "",
+                        "m_Width": 0.0,
+                        "m_Height": 0.0
+                    },
+                    "Layer": 10,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 6
                 }
             ],
             "children": []

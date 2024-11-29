@@ -7,85 +7,91 @@
             "components": [
                 {
                     "type": "class TransformComponent",
-                    "parent": -1,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
                     },
-                    "scale": {
-                        "x": 1.5,
-                        "y": 1.5
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
                     },
-                    "rotation": 0.0,
-                    "world_position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "world_scale": {
-                        "x": 1.5,
-                        "y": 1.5
-                    },
-                    "world_rotation": 0.0,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 68,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 57
                 },
                 {
                     "type": "struct MovementComponent",
-                    "textIdleDownRight": "Textures/Enemies/SlickSam/Sam_Down_Right.png",
-                    "textIdleDownLeft": "Textures/Enemies/SlickSam/Sam_Down_Left.png",
-                    "textIdleUpRight": "",
-                    "textIdleUpLeft": "",
-                    "textJumpDownRight": "Textures/Enemies/SlickSam/Sam_Up_Right.png",
-                    "textJumpDownLeft": "Textures/Enemies/SlickSam/Sam_Up_Left",
-                    "textJumpUpRight": "",
-                    "textJumpUpLeft": "",
-                    "mode": 0,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 70,
-                    "entity": 0
+                    "TextureIdleDownRight": "Textures/Enemies/SlickSam/Sam_Down_Right.png",
+                    "TextureIdleDownLeft": "Textures/Enemies/SlickSam/Sam_Down_Left.png",
+                    "TextureIdleUpRight": "",
+                    "TextureIdleUpLeft": "",
+                    "TextureJumpDownRight": "Textures/Enemies/SlickSam/Sam_Up_Right.png",
+                    "TextureJumpDownLeft": "Textures/Enemies/SlickSam/Sam_Up_Left",
+                    "TextureJumpUpRight": "",
+                    "TextureJumpUpLeft": "",
+                    "Mode": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 59
                 },
                 {
                     "type": "struct RendererComponent",
-                    "layer": 7,
-                    "texture": {
-                        "filepath": "Textures/Enemies/SlickSam/Sam_Down_Right.png"
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/SlickSam/Sam_Down_Right.png",
+                        "m_Width": 16.0,
+                        "m_Height": 16.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 69,
-                    "entity": 0
+                    "Layer": 7,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 58
                 },
                 {
                     "type": "struct CharacterLives",
-                    "lives": 1,
-                    "maxLives": 1,
-                    "IsActive": true,
-                    "IsUnique": true,
-                    "ID": 72,
-                    "entity": 0
+                    "NbrLives": 1,
+                    "MaxLives": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 61
                 },
                 {
                     "type": "struct JumpComponent",
-                    "direction": {
+                    "Direction": {
                         "x": 0.0,
                         "y": -1.0
                     },
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 71,
-                    "entity": 0
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 60
                 },
                 {
                     "type": "struct AiControllerComponent",
-                    "enemyType": 0,
-                    "points": 300,
-                    "IsActive": true,
-                    "IsUnique": false,
-                    "ID": 73,
-                    "entity": 0
+                    "PointsForKill": 300,
+                    "Type": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 62
                 }
             ],
             "children": []

@@ -18,3 +18,5 @@ struct DiskComponent : public ecs::Component
 	Entity QbertEntity{NULL_ENTITY};
 	bool bHasReachedTop;
 };
+
+SERIALIZE_CLASS(DiskComponent, ecs::Component)
