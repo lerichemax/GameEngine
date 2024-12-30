@@ -4,6 +4,8 @@
 
 #include <bitset>
 
+class GameObject;
+
 namespace ecs 
 {
 	using ComponentType = uint8_t;
@@ -17,6 +19,7 @@ namespace ecs
 		template<typename T> friend class ComponentArray;
 		friend class ComponentManager;
 		friend class Registry;
+		friend class ::GameObject;
 
 		Component();
 		Component(bool unique);
