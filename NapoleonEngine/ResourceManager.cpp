@@ -32,10 +32,11 @@ public:
 	void Init(Renderer* const pRenderer);
 
 	Texture2D* const GetTexture(const std::string& file);
+	SDL_Texture* const GetSDLTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color Color, int id);
 
-	Font* const GetFont(const std::string& file, unsigned int size);
+	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);
 	SoundEffect* const GetEffectById(ID id) const;
 
@@ -141,6 +142,24 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	return m_pTextures.at(file).get();
 }
 
+SDL_Texture* const ResourceManager::ResourceManagerImpl::GetSDLTexture(const std::string& file)
+{
+	if (m_pTextures.find(file) == m_pTextures.end())
+	{
+		try
+		{
+			return SafeLoadTexture(file)->GetSDLTexture();
+
+		}
+		catch (std::runtime_error const& error)
+		{
+			LOG_ERROR(error.what());
+		}
+	}
+
+	return m_pTextures.at(file)->GetSDLTexture();
+}
+
 bool ResourceManager::ResourceManagerImpl::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
 {
 	if (m_pTextures.find(fileName) == m_pTextures.end())
@@ -181,7 +200,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	return m_pTxtTextures[id].get();
 }
 
-Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, int size)
 {
 	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](std::unique_ptr<Font>& pFont)
 		{
@@ -260,6 +279,10 @@ Texture2D* const ResourceManager::GetTexture(const std::string& file)
 {
 	return m_pImpl->GetTexture(file);
 }
+SDL_Texture* const ResourceManager::GetSDLTexture(const std::string& file)
+{
+	return m_pImpl->GetSDLTexture(file);
+}
 
 bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
 {
@@ -271,7 +294,7 @@ Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* tx
 	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
 }
 
-Font* const ResourceManager::GetFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::GetFont(const std::string& file, int size)
 {
 	return m_pImpl->GetFont(file, size);
 }

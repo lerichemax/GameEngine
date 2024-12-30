@@ -12,3 +12,5 @@ struct CoilyComponent : public ecs::Component
 
 	int CurrentlyInQueue{};
 };
+
+SERIALIZE_CLASS(CoilyComponent, ecs::Component)

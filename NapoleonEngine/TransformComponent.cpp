@@ -28,6 +28,11 @@ void TransformComponent::SetLocalLocation(vec2 const& loc)
 	}
 }
 
+void TransformComponent::SetLocalLocation(float x, float y)
+{
+	SetLocalLocation({ x,y });
+}
+
 void TransformComponent::SetLocation(vec2 const& loc)
 {
 	vec3 pos3{ loc.x, loc.y, 1 };
@@ -140,61 +145,6 @@ void TransformComponent::SetParent(TransformComponent* const pParent)
 	m_LocalTransformMatrix = glm::inverse(m_pParent->m_WorldTransformMatrix) * m_WorldTransformMatrix;
 }
 
-
-void TransformComponent::Serialize(StreamWriter& writer) const
-{
-	writer.WriteInt("parent", m_pParent == nullptr ? -1 : m_pParent->GetId());
-
-	vec2 location = GetLocalLocation();
-	vec2 scale = GetLocalScale();
-	float rotation = GetLocalRotation();
-
-	writer.WriteVector("position", location);
-	writer.WriteVector("scale", scale);
-
-	writer.WriteDouble("rotation", rotation);
-
-	location = GetLocation();
-	scale = GetScale();
-	rotation = GetRotation();
-
-	writer.WriteVector("world_position", location);
-	writer.WriteVector("world_scale", scale);
-
-	writer.WriteDouble("world_rotation", rotation);
-	
-	Component::Serialize(writer);
-}
-
-void TransformComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	vec2 location;
-	vec2 scale;
-	float rotation;
-
-	reader->ReadVector("position", location);
-	reader->ReadVector("scale", scale);
-
-	reader->ReadDouble(std::string{ "rotation" }, rotation);
-
-	m_LocalTransformMatrix = BuildTransformMatrix(location, scale, rotation);
-
-	reader->ReadVector("world_position", location);
-	reader->ReadVector("world_scale", scale);
-
-	reader->ReadDouble(std::string{ "world_rotation" }, rotation);
-
-	m_WorldTransformMatrix = BuildTransformMatrix(location, scale, rotation);
-
-	Component::Deserialize(reader, context);
-}
-
-void TransformComponent::RestoreContext(JsonReader const* reader, SerializationMap const& context)
-{
-	int parent = -1;
-	reader->ReadInt(std::string{ "parent" }, parent);
-	m_pParent = context.GetRef<TransformComponent>(parent);
-}
 
 glm::mat3x3 TransformComponent::BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float angle)
 {

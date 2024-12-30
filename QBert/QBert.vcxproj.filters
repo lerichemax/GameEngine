@@ -54,17 +54,8 @@
     <ClCompile Include="QBertSystem.cpp">
       <Filter>GameScripts\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="UiManagerComponent.cpp">
-      <Filter>GameScripts\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterControllerComponent.cpp">
-      <Filter>GameScripts\Components\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="QbertComponent.cpp">
       <Filter>GameScripts\Components\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="AiControllerComponent.cpp">
-      <Filter>GameScripts\Components\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="CoilyComponent.cpp">
       <Filter>GameScripts\Components\Characters\Enemies</Filter>

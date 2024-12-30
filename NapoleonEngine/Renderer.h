@@ -24,15 +24,15 @@ public:
 	void Render(ecs::Registry* const pRegistry, Color const& backgroundColor);
 	void Destroy();
 
-	void RenderTexture(const Texture2D& texture, float x, float y) const;
-	void RenderTexture(const Texture2D& texture, float x, float y, float Width, float Height) const;
-	void RenderTexture(const Texture2D& texture, TransformComponent const& pTransform) const;
+	void RenderTexture(Texture2D& texture, float x, float y) const;
+	void RenderTexture(Texture2D& texture, float x, float y, float Width, float Height) const;
+	void RenderTexture(Texture2D& texture, TransformComponent const& pTransform) const;
 	void RenderShape(geo::Shape const& pShape) const;
 		
 	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
 
-	unsigned int GetWindowWidth() const { return m_WindowWidth; }
-	unsigned int GetWindowHeight() const { return m_WindowHeight; }
+	int GetWindowWidth() const { return m_WindowWidth; }
+	int GetWindowHeight() const { return m_WindowHeight; }
 	
 private:
 	friend class Singleton<Renderer>;
@@ -42,8 +42,8 @@ private:
 		
 	SDL_Window* m_pWindow{};
 
-	unsigned int m_WindowWidth{};
-	unsigned int m_WindowHeight{};
+	int m_WindowWidth{};
+	int m_WindowHeight{};
 
 	int GetOpenGLDriverIndex();
 

@@ -323,7 +323,7 @@ void QBertSystem::GetHurt(Entity qbertEntity)
 	pQBert->pSwearSound->Play();
 	pQBert->bOnResetCoolDown = true;
 
-	OnQBertEncounteredEnemy.Notify();
+	OnQBertEncounteredEnemy.Notify(qbertEntity);
 }
 
 void QBertSystem::OnJumpedToDeath(Entity qbertEntity)

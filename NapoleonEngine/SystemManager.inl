@@ -10,14 +10,14 @@ namespace ecs
 
 		if (m_Systems.find(type) != m_Systems.end())
 		{
-			LOG_WARNING("System %s already registered", type.c_str());
+			LOG_INFO("System %s already registered", type.c_str());
 			return nullptr;
 		}
 
 		auto pSystem = new T{};
 		m_Systems.insert(std::make_pair(type, std::unique_ptr<T>(pSystem)));
 
-		LOG_WARNING("System %s registered", typeid(T).name());
+		LOG_INFO("System %s registered", typeid(T).name());
 
 		return pSystem;
 	}

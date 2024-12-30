@@ -3,6 +3,7 @@
 
 #include "RendererComponent.h"
 #include "ScriptComponent.h"
+#include "ColliderComponent.h"
 
 #include "TestScene.h"
 
@@ -10,7 +11,7 @@
 #include "ResourceManager.h"
 
 MainGame::MainGame()
-	:NapoleonEngine{500, 500, "Test", false}
+	:NapoleonEngine{500, 500, "Test", true}
 {
 
 }
@@ -32,7 +33,20 @@ void MainGame::CreatePrefabs() const
 	rendererComp->Layer = 8;
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
+	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
+	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->bIsTrigger = true;
+
 	pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "MoveLeft";
+
+	auto pHurtTextObj = qbertPrefab->CreateGameObject();
+
+	auto pHurtRenderer = pHurtTextObj->AddComponent<RendererComponent>();
+	pHurtRenderer->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/HurtText.png");
+	pHurtRenderer->Layer = 8;
+
+	pQbertObj->AddChild(pHurtTextObj);
+	pHurtTextObj->GetTransform()->SetLocalLocation(-10, -34);
 
 	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
 }

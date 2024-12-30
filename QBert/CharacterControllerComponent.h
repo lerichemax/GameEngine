@@ -3,15 +3,14 @@
 
 struct CharacterControllerComponent : public ecs::Component
 {
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
 	bool m_BlockInput = false;
 
-	int PlayerNumber;
+	PROPERTY(int, PlayerNumber);
 
-	SDL_Scancode Right;
-	SDL_Scancode Left;
-	SDL_Scancode Up;
-	SDL_Scancode Down;
+	PROPERTY(SDL_Scancode, Right);
+	PROPERTY(SDL_Scancode, Left);
+	PROPERTY(SDL_Scancode, Up);
+	PROPERTY(SDL_Scancode, Down);
 };
+
+SERIALIZE_CLASS(CharacterControllerComponent, ecs::Component);

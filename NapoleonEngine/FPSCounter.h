@@ -1,9 +1,9 @@
 #pragma once
 #include "Component.h"
 
-#include "System.h"
-
-struct FPSCounter : public Component
+struct FPSCounter : public ecs::Component
 {
 	int m_FPS;
 };
+
+SERIALIZE_CLASS(FPSCounter, ecs::Component)

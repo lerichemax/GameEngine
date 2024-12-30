@@ -15,9 +15,10 @@ namespace ecs
 	struct Component : public ::IContextSerializable
 	{
 		template<typename T> friend class ComponentArray;
+		friend class ComponentManager;
 		friend class Registry;
 
-		Component() = default;
+		Component();
 		Component(bool unique);
 
 		virtual ~Component() = default;
@@ -27,17 +28,14 @@ namespace ecs
 
 		void SetActive(bool isActive);
 
-		void Serialize(StreamWriter& writer) const override;
-		void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
-		void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
-
 		Entity GetEntity() const { return m_Entity; }
 
 	private:
-		Entity m_Entity;
+		PROPERTY(Entity, m_Entity);
 
-		bool m_IsActive{ true };
-		bool m_IsUnique{};
+		PROPERTY(bool, m_IsActive);
+		PROPERTY(bool, m_IsUnique);
 	};
+
+	SERIALIZE_CLASS(Component, ::IContextSerializable)
 }

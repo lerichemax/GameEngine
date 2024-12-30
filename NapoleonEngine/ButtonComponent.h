@@ -2,7 +2,6 @@
 #include "Component.h"
 #include "Command.h"
 
-#include "Factories.h"
 #include "Event.h"
 
 #include <memory>
@@ -16,29 +15,23 @@ class ButtonComponent : public ecs::Component
 
 public:
 	ButtonComponent();
-	~ButtonComponent() {};
 
 	template<CommandDerived T> void SetOnClickFunction(T* func);
 	template<CommandDerived T> void SetOnSelectFunction(T* func);
 	template<CommandDerived T> void SetOnDeselectFunction(T* func);
 
-	glm::vec2 Dimensions;
+	PROPERTY(glm::vec2, Dimensions);
 
-	bool bVisualize;
+	PROPERTY(bool, bVisualize);
 
 	EventHandler<ButtonComponent> OnSelect;
 	EventHandler<ButtonComponent> OnDeselect;
 	EventHandler<ButtonComponent> OnClick;
 
-	virtual void Serialize(StreamWriter& writer) const override;
-	virtual void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-
-	virtual void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
-
 private:
-	std::unique_ptr<Command> m_pOnClick{};
-	std::unique_ptr<Command> m_pOnSelect{};
-	std::unique_ptr<Command> m_pOnDeselect{};
+	PROPERTY(Command*, m_pOnClick);
+	PROPERTY(Command*, m_pOnSelect);
+	PROPERTY(Command*, m_pOnDeselect);
 
 	bool m_bIsSelected;
 
@@ -47,30 +40,22 @@ private:
 	void Click();
 };
 
+SERIALIZE_CLASS(ButtonComponent, ecs::Component)
+
 template<CommandDerived T> 
 void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
 {
-	Factory<Command>::Get().RegisterType<T>([]() {
-		return new T{};
-		});
-
-	m_pOnClick.reset(func);
+	m_pOnClick = func;
 }
 
 template<CommandDerived T> 
 void ButtonComponent::SetOnSelectFunction(T* func)
 {
-	Factory<Command>::Get().RegisterType<T>([]() {
-		return new T{};
-		});
-	m_pOnSelect.reset(func);
+	m_pOnSelect = func;
 }
 
 template<CommandDerived T> 
 void ButtonComponent::SetOnDeselectFunction(T* func)
 {
-	Factory<Command>::Get().RegisterType<T>([]() {
-		return new T{};
-		});
-	m_pOnDeselect.reset(func);
+	m_pOnDeselect = func;
 }

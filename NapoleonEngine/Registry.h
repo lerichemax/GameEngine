@@ -55,16 +55,15 @@ namespace ecs
 		void TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther);
 
 		void SerializeEntities(StreamWriter& writer);
-		void DeserializeEntities(JsonReader const* reader, SerializationMap& context);
-		void RestoreEntitiesContext(JsonReader const* reader, SerializationMap const& context);
-
+		void DeserializeEntities(JsonReader* const reader, SerializationMap& context);
+		void RestoreEntitiesContext(JsonReader* const reader, SerializationMap const& context);
 
 	private:
 		std::unique_ptr<ComponentManager> m_pComponentManager;
 		std::unique_ptr<EntityManager> m_pEntityManager;
 		std::unique_ptr<SystemManager> m_pSystemManager;
 
-		void DeserializeComponents(Entity entity, JsonReader const* reader, SerializationMap& context);
+		void DeserializeComponents(Entity entity, JsonReader* const reader, SerializationMap& context);
 		std::vector<Entity> GetEntitiesWithSignature(Signature const& signature);
 	};
 }

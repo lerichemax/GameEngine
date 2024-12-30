@@ -15,3 +15,5 @@ struct EnemySpawnerComponent : public ecs::Component
 
 	std::vector<Entity> SpawnedEnemies;
 };
+
+SERIALIZE_CLASS(EnemySpawnerComponent, ecs::Component)

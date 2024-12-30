@@ -1,6 +1,7 @@
 #include "PCH.h"
 #include "Deserializer.h"
 #include "Serializer.h"
+#include "SerializationMap.h"
 #include "JsonReaderWriter.h"
 #include "Scene.h"
 

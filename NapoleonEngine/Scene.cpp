@@ -9,6 +9,7 @@
 #include "System.h"
 #include "UiSystem.h"
 #include "ScriptingSystem.h"
+#include "NapoleonEngine.h"
 
 #include "TransformComponent.h"
 
@@ -49,19 +50,12 @@ std::shared_ptr<GameObject> BaseScene::CreateGameObject()
 	return newObject;
 }
 
-void BaseScene::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString("name", m_Name);
-
-	m_pRegistry->SerializeEntities(writer);
-}
-
-void BaseScene::Deserialize(JsonReader const* reader, SerializationMap& context)
+void BaseScene::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	m_pRegistry->DeserializeEntities(reader, context);
 }
 
-void BaseScene::RestoreContext(JsonReader const* reader, SerializationMap const& context)
+void BaseScene::RestoreContext(JsonReader* const reader, SerializationMap const& context)
 {
 	m_pRegistry->RestoreEntitiesContext(reader, context);
 }
@@ -100,6 +94,13 @@ std::shared_ptr<GameObject> Prefab::CreateGameObject()
 void Prefab::SetName(std::string const& name)
 {
 	m_Name = name;
+}
+
+void Prefab::Serialize(StreamWriter& writer) const
+{
+	writer.WriteString("name", m_Name);
+
+	m_pRegistry->SerializeEntities(writer);
 }
 
 //************************************
@@ -181,7 +182,7 @@ void Scene::Update()
 }
 
 
-void Scene::Deserialize(JsonReader const* reader, SerializationMap& context)
+void Scene::Deserialize(JsonReader* const reader, SerializationMap& context)
 {
 	BaseScene::Deserialize(reader, context);
 }

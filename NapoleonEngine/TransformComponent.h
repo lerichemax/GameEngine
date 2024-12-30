@@ -21,6 +21,7 @@ public:
 	TransformComponent();
 
 	void SetLocalLocation(vec2 const& loc);
+	void SetLocalLocation(float x, float y);
 	void SetLocation(vec2 const& translation);
 	void SetLocation(float x, float y);
 	void Scale(vec2 const& scale);
@@ -38,17 +39,14 @@ public:
 
 	void SetParent(TransformComponent* const pParent);
 
-	void Serialize(StreamWriter& writer) const override;
-	void Deserialize(JsonReader const* reader, SerializationMap& context) override;
-	void RestoreContext(JsonReader const* reader, SerializationMap const& context) override;
+	static glm::mat3x3 BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float rotation);
 
 private:
 
-	glm::mat3x3 m_WorldTransformMatrix{};
-	glm::mat3x3 m_LocalTransformMatrix{};
+	PROPERTY(glm::mat3x3, m_WorldTransformMatrix);
+	PROPERTY(glm::mat3x3, m_LocalTransformMatrix);
 
-
-	TransformComponent* m_pParent{};
-
-	glm::mat3x3 BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float rotation);
+	PROPERTY(TransformComponent*, m_pParent);
 };
+
+SERIALIZE_CLASS(TransformComponent, ecs::Component) // special case. Maybe exclude from reflection ? At least for properties 

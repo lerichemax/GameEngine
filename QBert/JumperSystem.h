@@ -16,6 +16,7 @@ public:
 	void JumpToDeath(Entity entity, glm::vec2 const& startPos, float xDist);
 
 protected:
+	void Start() override;
 	void Update() override;
 
 private:

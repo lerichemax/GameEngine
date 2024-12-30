@@ -24,39 +24,3 @@ void MovementComponent::SetTextureJumpNames(std::string const& downRight, std::s
 	TextureJumpUpRight = upRight;
 	TextureJumpUpLeft = upLeft;
 }
-
-void MovementComponent::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString("textIdleDownRight", TextureIdleDownRight);
-	writer.WriteString("textIdleDownLeft", TextureIdleDownLeft);
-	writer.WriteString("textIdleUpRight", TextureIdleUpRight);
-	writer.WriteString("textIdleUpLeft", TextureIdleUpLeft);
-
-	writer.WriteString("textJumpDownRight", TextureJumpDownRight);
-	writer.WriteString("textJumpDownLeft", TextureJumpDownLeft);
-	writer.WriteString("textJumpUpRight", TextureJumpUpRight);
-	writer.WriteString("textJumpUpLeft", TextureJumpUpLeft);
-
-	writer.WriteInt("mode", static_cast<int>(Mode));
-
-	Component::Serialize(writer);
-}
-
-void MovementComponent::Deserialize(JsonReader const* reader, SerializationMap& context)
-{
-	Component::Deserialize(reader, context);
-
-	reader->ReadString("textIdleDownRight", TextureIdleDownRight);
-	reader->ReadString("textIdleDownLeft", TextureIdleDownLeft);
-	reader->ReadString("textIdleUpRight", TextureIdleUpRight);
-	reader->ReadString("textIdleUpLeft", TextureIdleUpLeft);
-
-	reader->ReadString("textJumpDownRight", TextureJumpDownRight);
-	reader->ReadString("textJumpDownLeft", TextureJumpDownLeft);
-	reader->ReadString("textJumpUpRight", TextureJumpUpRight);
-	reader->ReadString("textJumpUpLeft", TextureJumpUpLeft);
-
-	int tempMode{};
-	reader->ReadInt("mode", tempMode);
-	Mode = static_cast<MovementMode>(tempMode);
-}
