@@ -63,12 +63,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 10,
                     "m_Entity": 0,
                     "m_IsActive": true,

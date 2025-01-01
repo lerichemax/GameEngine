@@ -71,9 +71,7 @@
                     "type": "struct RendererComponent",
                     "pTexture": {
                         "type": "class Texture2D",
-                        "m_FilePath": "Textures/Enemies/Coily/Coily_Egg_Small.png",
-                        "m_Width": 16.0,
-                        "m_Height": 16.0
+                        "m_FilePath": "Textures/Enemies/Coily/Coily_Egg_Small.png"
                     },
                     "Layer": 7,
                     "m_Entity": 0,

@@ -36,12 +36,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 10,
                     "pShape": {
                         "type": "struct geo::Rectangle",
@@ -129,12 +123,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 11,
                     "m_Entity": 1,
                     "m_IsActive": true,
@@ -200,12 +188,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 11,
                     "m_Entity": 2,
                     "m_IsActive": true,
@@ -309,12 +291,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 11,
                     "m_Entity": 3,
                     "m_IsActive": true,
@@ -419,12 +395,6 @@
                 },
                 {
                     "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "",
-                        "m_Width": 0.0,
-                        "m_Height": 0.0
-                    },
                     "Layer": 11,
                     "m_Entity": 4,
                     "m_IsActive": true,

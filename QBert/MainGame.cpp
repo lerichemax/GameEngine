@@ -39,7 +39,7 @@
 
 
 MainGame::MainGame()
-	:NapoleonEngine(900, 600, "QBert", true)
+	:NapoleonEngine(900, 600, "QBert", false)
 {
 }
 

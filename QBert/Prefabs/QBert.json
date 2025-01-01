@@ -96,9 +96,7 @@
                     "type": "struct RendererComponent",
                     "pTexture": {
                         "type": "class Texture2D",
-                        "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png",
-                        "m_Width": 16.0,
-                        "m_Height": 16.0
+                        "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png"
                     },
                     "Layer": 8,
                     "m_Entity": 0,
@@ -213,9 +211,7 @@
                     "type": "struct RendererComponent",
                     "pTexture": {
                         "type": "class Texture2D",
-                        "m_FilePath": "Textures/QBert/HurtText.png",
-                        "m_Width": 48.0,
-                        "m_Height": 28.0
+                        "m_FilePath": "Textures/QBert/HurtText.png"
                     },
                     "Layer": 8,
                     "m_Entity": 1,

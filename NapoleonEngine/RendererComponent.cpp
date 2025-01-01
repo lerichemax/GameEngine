@@ -6,7 +6,7 @@
 
 RendererComponent::RendererComponent()
 	:Layer{0},
-	pTexture{ new Texture2D{} },
+	pTexture{ nullptr },
 	pShape{nullptr}
 {
 

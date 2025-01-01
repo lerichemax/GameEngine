@@ -21,9 +21,11 @@ public:
 
 private:
 	SDL_Texture* m_pTexture;
+
 	PROPERTY(std::string, m_FilePath);
-	PROPERTY(float, m_Width);
-	PROPERTY(float, m_Height);
+
+	float m_Width;
+	float m_Height;
 
 	explicit Texture2D(SDL_Texture* texture, std::string const& filePath);
 

@@ -54,9 +54,7 @@
                     "type": "struct RendererComponent",
                     "pTexture": {
                         "type": "class Texture2D",
-                        "m_FilePath": "Textures/Enemies/WrongWay/WrongWay_Right.png",
-                        "m_Width": 16.0,
-                        "m_Height": 16.0
+                        "m_FilePath": "Textures/Enemies/WrongWay/WrongWay_Right.png"
                     },
                     "Layer": 7,
                     "m_Entity": 0,

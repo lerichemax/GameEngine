@@ -1,6 +1,8 @@
 #include "JsonReaderWriter.h"
 #include "Factories.h"
 
+#include <type_traits>
+
 template<typename T>
 void StreamWriter::Write(std::string const& key, T* const serializableObject)
 {
@@ -34,10 +36,14 @@ void JsonReader::Read(std::string const& key, T*& serializableObject) const
 	{
 		std::string type;
 		attributeReader->ReadString("type", type);
+		T* pObj = nullptr;
 
-		auto pShape = Factory::Get().Create<T>(type);
+		if (!type.empty())
+		{
+			pObj = Factory::Get().Create<T>(type);
+		}
 
-		serializableObject = pShape;
+		serializableObject = pObj;
 	}
 
 	Reflection::Get().DeserializeClass(serializableObject, attributeReader.get());
