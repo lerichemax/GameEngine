@@ -7,6 +7,7 @@
 #include "backends/imgui_impl_opengl2.h"
 
 #include <SDL.h>
+#include <algorithm>
 
 #include "RendererComponent.h"
 #include "SceneManager.h"
