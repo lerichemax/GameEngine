@@ -17,6 +17,10 @@ class IContextSerializable
 {
 public:
 	IContextSerializable();
+	IContextSerializable(IContextSerializable const& other);
+	IContextSerializable(IContextSerializable&& other);
+	IContextSerializable& operator=(IContextSerializable const& other);
+	IContextSerializable& operator=(IContextSerializable&& other);
 
 	int GetId() const { return m_Id; };
 
@@ -35,7 +39,6 @@ class Prefab;
 class Serializer
 {
 public:
-	std::unique_ptr<Document> Serialize(ISerializable const& serializable);
 	std::unique_ptr<Document> Serialize(IContextSerializable const& serializable);
 	std::unique_ptr<Document> Serialize(Prefab const& serializable);
 };

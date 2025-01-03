@@ -4,10 +4,11 @@
 
 #include <memory>
 #include <map>
+#include <SDL_ttf.h>
 
 class Texture2D;
 class Font;
-struct _TTF_Font;
+class Renderer;
 class ResourceManager final : public Singleton<ResourceManager>
 {
 	friend class NapoleonEngine;
@@ -22,7 +23,7 @@ public:
 	Texture2D* const GetTexture(const std::string& file);
 	SDL_Texture* const GetSDLTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
-	Texture2D* const GetTextTexture(_TTF_Font*, const char* txt, SDL_Color Color, int id);
+	Texture2D* const GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id);
 
 	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);

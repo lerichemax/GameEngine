@@ -1,5 +1,6 @@
 #include "JsonReaderWriter.h"
 #include "Factories.h"
+#include "ResourceManager.h"
 
 #include <type_traits>
 
@@ -47,6 +48,50 @@ void JsonReader::Read(std::string const& key, T*& serializableObject) const
 	}
 
 	Reflection::Get().DeserializeClass(serializableObject, attributeReader.get());
+}
+
+template<>
+inline void JsonReader::Read<Font>(std::string const& key, Font*& serializableObject) const
+{
+	auto attributeReader = ReadAttribute(key);
+
+	if (attributeReader == nullptr)
+	{
+		//log
+		return;
+	}
+
+	if (serializableObject == nullptr)
+	{
+		std::string filePath;
+		attributeReader->ReadString("m_FilePath", filePath);
+		
+		int size;
+		attributeReader->ReadInt("m_Size", size);
+
+		serializableObject = ResourceManager::Get().GetFont(filePath, size);
+	}
+}
+
+template<>
+inline void JsonReader::Read<Texture2D>(std::string const& key, Texture2D*& serializableObject) const
+{
+	auto attributeReader = ReadAttribute(key);
+
+	if (attributeReader == nullptr)
+	{
+		//log
+		return;
+	}
+
+	if (serializableObject == nullptr)
+	{
+		std::string filePath;
+		attributeReader->ReadString("m_FilePath", filePath);
+
+
+		serializableObject = ResourceManager::Get().GetTexture(filePath);
+	}
 }
 
 template<EnumType E>

@@ -10,7 +10,7 @@ EventHandler<TextRendererComponent, int> TextRendererComponent::OnAnyDestroyed{}
 
 TextRendererComponent::TextRendererComponent()
 	:Component(true),
-	m_pFont{ new Font{} },
+	m_pFont{ nullptr },
 	m_pTextColor{ new Color{ 255,255,255,255 } }
 {
 	m_TextId = Id_Increment++;
@@ -44,8 +44,9 @@ void TextRendererComponent::SetFont(Font* const pFont)
 
 void TextRendererComponent::SetTextColor(Uint8 r, Uint8 g, Uint8 b)
 {
-	SAFE_DELETE(m_pTextColor);
-	m_pTextColor = new Color{ r,g,b };
+	m_pTextColor->R = r;
+	m_pTextColor->G = g;
+	m_pTextColor->B = b;
 	m_NeedsUpdate = true;
 }
 

@@ -87,7 +87,7 @@ void SoloScene::Initialize()
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
 	pGameManager->SetGameMode(GameMode::Normal);
 
-	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
+	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction( PauseGameCommand{ pGameManager });
 
 	//ENEMIES
 	AddSystem<EnemySpawnerSystem>();

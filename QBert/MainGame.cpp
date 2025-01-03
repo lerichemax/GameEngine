@@ -310,7 +310,7 @@ void MainGame::CreatePrefabs() const
 	auto menuObj = menuPrefab->CreateGameObject();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true});
+	pShapeRenderer->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true));
 	pShapeRenderer->Layer = 10;
 
 	auto textObject = menuPrefab->CreateGameObject();
@@ -332,8 +332,8 @@ void MainGame::CreatePrefabs() const
 
 	auto resumeBtn = btnObj->AddComponent<ButtonComponent>();
 	resumeBtn->Dimensions = { 110, 30 };
-	resumeBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	resumeBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
+	resumeBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	resumeBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 200);
@@ -349,9 +349,9 @@ void MainGame::CreatePrefabs() const
 
 	auto backBtn = btnObj->AddComponent<ButtonComponent>();
 	backBtn->Dimensions = { 254, 30 };
-	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	backBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	backBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	backBtn->SetOnClickFunction( SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 300);
@@ -367,9 +367,9 @@ void MainGame::CreatePrefabs() const
 
 	auto quitBtn = btnObj->AddComponent<ButtonComponent>();
 	quitBtn->Dimensions = { 65, 30 };
-	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
+	quitBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	quitBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	quitBtn->SetOnClickFunction( QuitGameCommand{ });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 400);
@@ -382,7 +382,7 @@ void MainGame::CreatePrefabs() const
 	menuObj = quitMenuPrefab->CreateGameObject();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
-	pShapeRenderer->SetShape(new geo::Rectangle{ glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 255}, true });
+	pShapeRenderer->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 255}, true ));
 	pShapeRenderer->Layer = 10;
 
 	textObject = quitMenuPrefab->CreateGameObject();
@@ -405,9 +405,9 @@ void MainGame::CreatePrefabs() const
 	btnObj->AddComponent<RendererComponent>()->Layer = 11;
 	auto replayBtn = btnObj->AddComponent<ButtonComponent>();
 	replayBtn->Dimensions = { 100, 30 };
-	replayBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	replayBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	replayBtn->SetOnClickFunction(new ReloadSceneCommand{});
+	replayBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	replayBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	replayBtn->SetOnClickFunction( ReloadSceneCommand{});
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 200);
@@ -424,9 +424,9 @@ void MainGame::CreatePrefabs() const
 
 	backBtn = btnObj->AddComponent<ButtonComponent>();
 	backBtn->Dimensions = { 260, 30 };
-	backBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	backBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	backBtn->SetOnClickFunction(new SwitchScene{ "MainMenuScene" });
+	backBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	backBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	backBtn->SetOnClickFunction( SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 300);
@@ -443,9 +443,9 @@ void MainGame::CreatePrefabs() const
 
 	quitBtn = btnObj->AddComponent<ButtonComponent>();
 	quitBtn->Dimensions = { 65, 30 };
-	quitBtn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0,} });
-	quitBtn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	quitBtn->SetOnClickFunction(new QuitGameCommand{ });
+	quitBtn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0,} });
+	quitBtn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	quitBtn->SetOnClickFunction( QuitGameCommand{ });
 
 	menuObj->AddChild(btnObj);
 	btnObj->GetTransform()->SetLocation(400, 400);

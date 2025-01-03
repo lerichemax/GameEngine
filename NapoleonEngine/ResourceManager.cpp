@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include "TextRendererComponent.h"
 
@@ -247,14 +247,29 @@ SoundEffect* const ResourceManager::ResourceManagerImpl::GetEffectById(ID id) co
 
 Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
 {
-	m_pFonts.push_back(std::make_unique<Font>(DATA_PATH + file, size ));
+	std::string fullPath{ DATA_PATH + file };
+	_TTF_Font* pFont = TTF_OpenFont(fullPath.c_str(), size);
+	if (pFont == nullptr)
+	{
+		LOG_ERROR("Failed to load font: %s", SDL_GetError());
+		return nullptr;
+	}
+
+	m_pFonts.push_back(std::make_unique<Font>(pFont, file, size ));
 	return m_pFonts.back().get();
 }
 
 SoundEffect* const ResourceManager::ResourceManagerImpl::LoadEffect(const std::string& file)
 {
+	std::string fullPath{ DATA_PATH + file };
+	Mix_Chunk* pMixChunk = Mix_LoadWAV(fullPath.c_str());
+	if (pMixChunk == nullptr)
+	{
+		std::string errorMsg = "SoundEffect: Failed to load " + fullPath + ",\n SDL_mixer Error: " + Mix_GetError() + '\n';
+		LOG_ERROR("SoundEffect: Failed to load %s\n SDL_mixer Error: %s", fullPath.c_str(), Mix_GetError());
+	}
 
-	auto pEffect = new SoundEffect{ DATA_PATH + file };
+	auto pEffect = new SoundEffect{  pMixChunk, file };
 	m_pEffects.insert(std::make_pair(pEffect->GetId(), std::unique_ptr<SoundEffect>{pEffect}));
 	return pEffect;
 }
@@ -288,7 +303,7 @@ bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTe
 {
 	return m_pImpl->TryGetTexture(fileName, pTexture);
 }
-
+//Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id);
 Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
 	return m_pImpl->GetTextTexture(pFont, txt, Color, id);

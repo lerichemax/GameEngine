@@ -11,12 +11,12 @@ class SwitchTextColor final : public Command
 public:
 	SwitchTextColor();
 	SwitchTextColor(Color const& targetColor);
+	SwitchTextColor(SwitchTextColor const& other);
+	SwitchTextColor(SwitchTextColor&& other);
+	SwitchTextColor& operator=(SwitchTextColor const& other);
+	SwitchTextColor& operator=(SwitchTextColor&& other);
 
-	SwitchTextColor(SwitchTextColor const& other) = delete;
-	SwitchTextColor(SwitchTextColor&& other) = delete;
-	SwitchTextColor& operator=(SwitchTextColor const& rhs) = delete;
-	SwitchTextColor& operator=(SwitchTextColor&& rhs) = delete;
-	~SwitchTextColor() = default;
+	~SwitchTextColor();
 
 	void Execute(GameObject const& gObject) override;
 

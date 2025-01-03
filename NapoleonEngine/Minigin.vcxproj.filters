@@ -13,9 +13,6 @@
     <Filter Include="Prefabs">
       <UniqueIdentifier>{d6f9c765-012c-4870-b324-7d94db18c2b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="rapidjson">
-      <UniqueIdentifier>{ee39c17a-27bb-49ae-9df6-f53a37f6aeeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{924cf001-f587-4bf8-b076-25edeae1b37d}</UniqueIdentifier>
     </Filter>
@@ -24,9 +21,6 @@
     </Filter>
     <Filter Include="ECS\Components">
       <UniqueIdentifier>{3402e0d0-f4f4-4389-9f49-a4055e57d448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Systems">
-      <UniqueIdentifier>{11a305e1-b1ce-43c3-acb1-2211f2d0c740}</UniqueIdentifier>
     </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{160fbd26-60bd-44c6-b471-406f372e98a2}</UniqueIdentifier>
@@ -37,12 +31,6 @@
     <Filter Include="ECS\Components\Base">
       <UniqueIdentifier>{cb37869b-1a8c-4c95-8311-20c276275744}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECS\Systems\Base">
-      <UniqueIdentifier>{0a4f6500-32f4-4a43-a290-fdc3c48d07be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Entity">
-      <UniqueIdentifier>{2d999d6e-183c-4cd3-9f31-a40d0ab78038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{9a2bf632-4d37-407d-b022-9429feecb67c}</UniqueIdentifier>
     </Filter>
@@ -52,17 +40,17 @@
     <Filter Include="Reflection">
       <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS\Entity">
+      <UniqueIdentifier>{a1c24874-8ee8-4c24-b50d-9fb7704cfa3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Systems">
+      <UniqueIdentifier>{7856f8d9-9b20-4d2a-8e94-bda0f273a8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Systems\Base">
+      <UniqueIdentifier>{0fe4b0a5-cd00-4ac6-a195-ea983a4d4e80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RendererComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRendererComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -125,95 +113,11 @@
     <ClInclude Include="PrefabsManager.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="allocators.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="cursorstreamwrapper.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="document.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="encodedstream.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="encodings.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="filereadstream.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="filewritestream.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="fwd.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="istreamwrapper.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="memorybuffer.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="memorystream.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ostreamwrapper.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="pointer.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="prettywriter.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidjson.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="reader.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="schema.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="stream.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="stringbuffer.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="writer.h">
-      <Filter>rapidjson</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Registry.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioSystem.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="UiSystem.h">
-      <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Serializer.h">
       <Filter>Serialization</Filter>
@@ -224,29 +128,8 @@
     <ClInclude Include="JsonReaderWriter.h">
       <Filter>Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>ECS\Components\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentArray.h">
-      <Filter>ECS\Components\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>ECS\Components\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>ECS\Systems\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSCounterSystem.h">
-      <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Debugger.h">
       <Filter>Core</Filter>
@@ -260,44 +143,86 @@
     <ClInclude Include="Singleton.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptingSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="View.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>ECS\Systems\Base</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
       <Filter>Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="TextRendererSystem.h">
+    <ClInclude Include="ECS\include\Registry.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\View.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\AudioComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ButtonComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ColliderComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\Component.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentArray.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentManager.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\AudioSystem.h">
       <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\CollisionSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\Entity.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\EntityManager.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\System.h">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\SystemManager.h">
+      <Filter>ECS\Systems\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\UiSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\TransformSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\TextRendererSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ScriptingSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\FPSCounterSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\RendererComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ScriptComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\TextRendererComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\TransformComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\FPSCounter.h">
+      <Filter>ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RendererComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRendererComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -350,26 +275,8 @@
     <ClCompile Include="PrefabsManager.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Registry.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioComponent.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioSystem.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="UiSystem.cpp">
-      <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">
       <Filter>Serialization</Filter>
@@ -380,18 +287,6 @@
     <ClCompile Include="JsonReaderWriter.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>ECS\Components\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>ECS\Components\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>ECS\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSCounterSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="PCH.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -400,15 +295,6 @@
     </ClCompile>
     <ClCompile Include="Shapes.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptingSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Rendering</Filter>
@@ -419,26 +305,59 @@
     <ClCompile Include="SerializationMap.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="TextRendererSystem.cpp">
+    <ClCompile Include="ECS\src\Registry.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\AudioComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ButtonComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ColliderComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\Component.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ComponentManager.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\AudioSystem.cpp">
       <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\CollisionSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\EntityManager.cpp">
+      <Filter>ECS\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\UiSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\TransformSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\TextRendererSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ScriptingSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\FPSCounterSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\RendererComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\TextRendererComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\TransformComponent.cpp">
+      <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ComponentManager.inl">
-      <Filter>ECS\Components\Base</Filter>
-    </None>
-    <None Include="ComponentArray.inl">
-      <Filter>ECS\Components\Base</Filter>
-    </None>
-    <None Include="Registry.inl">
-      <Filter>ECS</Filter>
-    </None>
-    <None Include="SystemManager.inl">
-      <Filter>ECS\Systems\Base</Filter>
-    </None>
-    <None Include="View.inl">
-      <Filter>ECS</Filter>
-    </None>
     <None Include="Reflection.inl">
       <Filter>Reflection</Filter>
     </None>
@@ -447,6 +366,21 @@
     </None>
     <None Include="JsonReaderWriter.inl">
       <Filter>Serialization</Filter>
+    </None>
+    <None Include="ECS\include\View.inl">
+      <Filter>ECS</Filter>
+    </None>
+    <None Include="ECS\include\Registry.inl">
+      <Filter>ECS</Filter>
+    </None>
+    <None Include="ECS\include\ComponentArray.inl">
+      <Filter>ECS\Components</Filter>
+    </None>
+    <None Include="ECS\include\ComponentManager.inl">
+      <Filter>ECS\Components</Filter>
+    </None>
+    <None Include="ECS\include\SystemManager.inl">
+      <Filter>ECS\Systems\Base</Filter>
     </None>
   </ItemGroup>
 </Project>

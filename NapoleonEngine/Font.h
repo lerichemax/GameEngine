@@ -9,9 +9,7 @@ struct _TTF_Font;
 class Font
 {
 public:
-		
-	Font() = default;
-	explicit Font(const std::string& fullPath, int size);
+	explicit Font(_TTF_Font* pFont, const std::string& fullPath, int size);
 	~Font();
 
 	Font(const Font &) = delete;
@@ -32,8 +30,6 @@ private:
 	PROPERTY(int, m_Size);
 
 	PROPERTY(std::string, m_FilePath);
-
-	void LoadFont();
 };
 
 SERIALIZE_CLASS(Font);

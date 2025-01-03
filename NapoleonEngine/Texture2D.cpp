@@ -5,13 +5,6 @@
 
 #include <SDL.h>
 
-Texture2D::Texture2D()
-	:m_pTexture(nullptr),
-	m_Width(),
-	m_Height()
-{
-}
-
 Texture2D::Texture2D(SDL_Texture* texture)
 	:m_pTexture(texture),
 	m_Width(),

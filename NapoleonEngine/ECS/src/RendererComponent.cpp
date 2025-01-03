@@ -12,7 +12,7 @@ RendererComponent::RendererComponent()
 
 }
 
-void RendererComponent::SetShape(geo::Shape* shape)
+void RendererComponent::SetShape(std::unique_ptr<geo::Shape> pNewShape)
 {
-	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(shape));
+	pShape = std::move(pNewShape);
 } 

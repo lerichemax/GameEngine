@@ -17,6 +17,13 @@ ButtonComponent::ButtonComponent()
 {
 }
 
+ButtonComponent::~ButtonComponent()
+{
+	SAFE_DELETE(m_pOnClick);
+	SAFE_DELETE(m_pOnSelect);
+	SAFE_DELETE(m_pOnDeselect);
+}
+
 void ButtonComponent::Select()
 {
 	m_bIsSelected = true;

@@ -5,17 +5,12 @@
 
 ID SoundEffect::m_AutoIncrementId{};
 
-SoundEffect::SoundEffect(std::string const& path)
+SoundEffect::SoundEffect(Mix_Chunk* pMixChunk, std::string const& path) // gain ownership of pMixChunk
 	:m_Id(),
-	m_pMixChunk{ Mix_LoadWAV(path.c_str()) },
+	m_pMixChunk{ pMixChunk },
 	m_Volume(),
 	m_SavedVolume()
 {
-	if (m_pMixChunk == nullptr)
-	{
-		std::string errorMsg = "SoundEffect: Failed to load " + path + ",\n SDL_mixer Error: " + Mix_GetError() + '\n';
-		LOG_ERROR("SoundEffect: Failed to load %s\n SDL_mixer Error: %s", path.c_str(), Mix_GetError());
-	}
 	m_AutoIncrementId++;
 	m_Id = m_AutoIncrementId;
 }

@@ -11,7 +11,7 @@
 #include "ResourceManager.h"
 
 MainGame::MainGame()
-	:NapoleonEngine{500, 500, "Test", false}
+	:NapoleonEngine{500, 500, "Test", true}
 {
 
 }

@@ -5,10 +5,8 @@ struct SDL_Texture;
 class Texture2D final
 {
 	friend class ResourceManager;
-public:
-	Texture2D();
-	explicit Texture2D(SDL_Texture* texture);
 
+public:
 	Texture2D(const Texture2D&) = delete;
 	Texture2D(Texture2D&&) = delete;
 	Texture2D& operator= (const Texture2D&) = delete;
@@ -28,6 +26,7 @@ private:
 	float m_Height;
 
 	explicit Texture2D(SDL_Texture* texture, std::string const& filePath);
+	explicit Texture2D(SDL_Texture* texture); // use for font textures, they don't need a file path
 
 	void InitTexture();
 	void GetTexture();

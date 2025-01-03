@@ -73,7 +73,7 @@ void VersusScene::Initialize()
 	auto* const pGameManager = AddSystem<GameManagerSystem>();
 	pGameManager->SetGameMode(GameMode::Versus);
 
-	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
+	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction( PauseGameCommand{ pGameManager });
 
 	//Coily
 	auto pCoilyObj = Instantiate("Coily");

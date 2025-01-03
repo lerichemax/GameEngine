@@ -20,8 +20,8 @@ namespace ecs
 	class Registry;
 }
 
-class ISerializable;
-class IContextSerializable;
+class Font;
+class Texture2D;
 class StreamWriter
 {
 	friend class Serializer;

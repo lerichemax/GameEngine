@@ -15,10 +15,11 @@ class ButtonComponent : public ecs::Component
 
 public:
 	ButtonComponent();
+	~ButtonComponent();
 
-	template<CommandDerived T> void SetOnClickFunction(T* func);
-	template<CommandDerived T> void SetOnSelectFunction(T* func);
-	template<CommandDerived T> void SetOnDeselectFunction(T* func);
+	template<CommandDerived T> void SetOnClickFunction(T const& func);
+	template<CommandDerived T> void SetOnSelectFunction(T const& func);
+	template<CommandDerived T> void SetOnDeselectFunction(T const& func);
 
 	PROPERTY(glm::vec2, Dimensions);
 
@@ -43,19 +44,22 @@ private:
 SERIALIZE_CLASS(ButtonComponent, ecs::Component)
 
 template<CommandDerived T> 
-void ButtonComponent::SetOnClickFunction(T* func) //pass command as ref ?
+void ButtonComponent::SetOnClickFunction(T const& func) 
 {
-	m_pOnClick = func;
+	SAFE_DELETE(m_pOnClick);
+	m_pOnClick = new T{ func };
 }
 
 template<CommandDerived T> 
-void ButtonComponent::SetOnSelectFunction(T* func)
+void ButtonComponent::SetOnSelectFunction(T const& func)
 {
-	m_pOnSelect = func;
+	SAFE_DELETE(m_pOnSelect);
+	m_pOnSelect = new T{ func };
 }
 
 template<CommandDerived T> 
-void ButtonComponent::SetOnDeselectFunction(T* func)
+void ButtonComponent::SetOnDeselectFunction(T const& func)
 {
-	m_pOnDeselect = func;
+	SAFE_DELETE(m_pOnDeselect);
+	m_pOnDeselect = new T{ func };
 }

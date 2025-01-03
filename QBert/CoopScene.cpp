@@ -131,7 +131,7 @@ void CoopScene::Initialize()
 	pGameManager->SetGameMode(GameMode::Coop);
 
 
-	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction(new PauseGameCommand{ pGameManager });
+	pPauseMenuObject->FindChildrenWithTag("ResumeBtn")->GetComponent<ButtonComponent>()->SetOnClickFunction( PauseGameCommand{ pGameManager });
 
 	Instantiate("FPSCounter");
 }

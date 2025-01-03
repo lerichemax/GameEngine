@@ -175,7 +175,7 @@ void Reflection::RegisterClass()
 	{
 		Factory::Get().RegisterType<T>(CreateComponent<T>);
 	}
-	else if constexpr (!std::is_abstract<T>::value)
+	else if constexpr (!std::is_abstract<T>::value && std::is_default_constructible_v<T>)
 	{
 		Factory::Get().RegisterType<T>([]() { return new T{}; });
 	}

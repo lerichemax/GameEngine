@@ -17,7 +17,7 @@ public:
 
 	PROPERTY(Texture2D*, pTexture);
 
-	void SetShape(geo::Shape* shape);
+	void SetShape(std::unique_ptr<geo::Shape> pNewShape);
 
 private:
 	PROPERTY(std::unique_ptr<geo::Shape>, pShape);

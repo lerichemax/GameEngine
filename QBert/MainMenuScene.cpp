@@ -40,9 +40,9 @@ void MainMenuScene::Initialize()
 
 	auto btn = pSoloBtn->AddComponent<ButtonComponent>();
 	btn->Dimensions = { 70,30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
-	btn->SetOnClickFunction(new SwitchScene{"SoloScene"});
+	btn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0}});
+	btn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255}});
+	btn->SetOnClickFunction( SwitchScene{"SoloScene"});
 
 	pSoloBtn->GetTransform()->SetLocation(400, 200);
 
@@ -56,9 +56,9 @@ void MainMenuScene::Initialize()
 
 	btn = coopBtn->AddComponent<ButtonComponent>();
 	btn->Dimensions = { 80, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0}});
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	btn->SetOnClickFunction(new SwitchScene{"CoopScene"});
+	btn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0}});
+	btn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	btn->SetOnClickFunction( SwitchScene{"CoopScene"});
 
 	coopBtn->GetTransform()->SetLocation(400, 250);
 
@@ -72,9 +72,9 @@ void MainMenuScene::Initialize()
 
 	btn = vsBtn->AddComponent<ButtonComponent>();
 	btn->Dimensions = { 92, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255}});
-	btn->SetOnClickFunction(new SwitchScene{"VersusScene"});
+	btn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0} });
+	btn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255}});
+	btn->SetOnClickFunction( SwitchScene{"VersusScene"});
 
 	vsBtn->GetTransform()->SetLocation(400, 300);
 
@@ -88,9 +88,9 @@ void MainMenuScene::Initialize()
 
 	btn = quitBtn->AddComponent<ButtonComponent>();
 	btn->Dimensions = { 70, 30 };
-	btn->SetOnSelectFunction(new SwitchTextColor{ Color{255,0,0} });
-	btn->SetOnDeselectFunction(new SwitchTextColor{ Color{255,255,255} });
-	btn->SetOnClickFunction(new QuitGameCommand{  });
+	btn->SetOnSelectFunction( SwitchTextColor{ Color{255,0,0} });
+	btn->SetOnDeselectFunction( SwitchTextColor{ Color{255,255,255} });
+	btn->SetOnClickFunction( QuitGameCommand{  });
 
 	quitBtn->GetTransform()->SetLocation(400, 350);
 

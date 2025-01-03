@@ -1,13 +1,10 @@
 #pragma once
 #include "System.h"
 #include "SoundInterface.h"
-#include "AudioComponent.h"
 
 #include <map>
 #include <string>
 #include <mutex>
-
-using ID = unsigned int; // TODO:  differentiate from serialization context idea
 
 class AudioSystem : public ecs::System
 {

@@ -77,24 +77,24 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)ECS\Systems;$(ProjectDir)ECS\Entity;$(ProjectDir)ECS\Components;$(ProjectDir)ECS;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src;$(MSBuildProjectDirectory)ECS</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
@@ -138,7 +138,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)ECS\include;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\lua\src</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
@@ -174,7 +174,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)ECS\Systems;$(ProjectDir)ECS\Entity;$(ProjectDir)ECS\Components;$(ProjectDir)ECS;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x86\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src;$(MSBuildProjectDirectory)ECS</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
@@ -211,7 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)ECS\Systems;$(ProjectDir)ECS\Entity;$(ProjectDir)ECS\Components;$(ProjectDir)ECS;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\Opengl\x64\include;$(SolutionDir)3rdParty\Opengl\include;$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;$(SolutionDir)3rdParty\lua\src;$(MSBuildProjectDirectory)ECS</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4201; 4100</DisableSpecificWarnings>
@@ -248,77 +248,56 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
-    <ClInclude Include="allocators.h" />
-    <ClInclude Include="AudioComponent.h" />
-    <ClInclude Include="AudioSystem.h" />
-    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Command.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentArray.h" />
+    <ClInclude Include="ECS\include\AudioComponent.h" />
+    <ClInclude Include="ECS\include\AudioSystem.h" />
+    <ClInclude Include="ECS\include\ButtonComponent.h" />
+    <ClInclude Include="ECS\include\ColliderComponent.h" />
+    <ClInclude Include="ECS\include\CollisionSystem.h" />
+    <ClInclude Include="ECS\include\Component.h" />
+    <ClInclude Include="ECS\include\ComponentArray.h" />
+    <ClInclude Include="ECS\include\ComponentManager.h" />
+    <ClInclude Include="ECS\include\Entity.h" />
+    <ClInclude Include="ECS\include\EntityManager.h" />
+    <ClInclude Include="ECS\include\FPSCounter.h" />
+    <ClInclude Include="ECS\include\FPSCounterSystem.h" />
+    <ClInclude Include="ECS\include\Registry.h" />
+    <ClInclude Include="ECS\include\RendererComponent.h" />
+    <ClInclude Include="ECS\include\ScriptComponent.h" />
+    <ClInclude Include="ECS\include\ScriptingSystem.h" />
+    <ClInclude Include="ECS\include\System.h" />
+    <ClInclude Include="ECS\include\SystemManager.h" />
+    <ClInclude Include="ECS\include\TextRendererComponent.h" />
+    <ClInclude Include="ECS\include\TextRendererSystem.h" />
+    <ClInclude Include="ECS\include\TransformComponent.h" />
+    <ClInclude Include="ECS\include\TransformSystem.h" />
+    <ClInclude Include="ECS\include\UiSystem.h" />
+    <ClInclude Include="ECS\include\View.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Factories.h" />
-    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Reflection.h" />
-    <ClInclude Include="Registry.h" />
-    <ClInclude Include="cursorstreamwrapper.h" />
     <ClInclude Include="Debugger.h" />
     <ClInclude Include="Deserializer.h" />
-    <ClInclude Include="document.h" />
-    <ClInclude Include="encodedstream.h" />
-    <ClInclude Include="encodings.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
-    <ClInclude Include="filereadstream.h" />
-    <ClInclude Include="filewritestream.h" />
-    <ClInclude Include="FPSCounterSystem.h" />
-    <ClInclude Include="fwd.h" />
     <ClInclude Include="Helpers.h" />
-    <ClInclude Include="istreamwrapper.h" />
     <ClInclude Include="JsonReaderWriter.h" />
-    <ClInclude Include="memorybuffer.h" />
-    <ClInclude Include="memorystream.h" />
-    <ClInclude Include="ostreamwrapper.h" />
-    <ClInclude Include="pointer.h" />
-    <ClInclude Include="prettywriter.h" />
-    <ClInclude Include="rapidjson.h" />
-    <ClInclude Include="reader.h" />
-    <ClInclude Include="schema.h" />
-    <ClInclude Include="ScriptComponent.h" />
-    <ClInclude Include="ScriptingSystem.h" />
     <ClInclude Include="Serializer.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="NapoleonEngine.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="PrefabsManager.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundInterface.h" />
-    <ClInclude Include="stream.h" />
-    <ClInclude Include="stringbuffer.h" />
-    <ClInclude Include="System.h" />
-    <ClInclude Include="SystemManager.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="TextRendererComponent.h" />
-    <ClInclude Include="TextRendererSystem.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TransformSystem.h" />
-    <ClInclude Include="UiSystem.h" />
-    <ClInclude Include="View.h" />
-    <ClInclude Include="writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp">
@@ -363,19 +342,26 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="AudioComponent.cpp" />
-    <ClCompile Include="AudioSystem.cpp" />
-    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ColliderComponent.cpp" />
-    <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ComponentManager.cpp" />
-    <ClCompile Include="Registry.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Deserializer.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="FPSCounterSystem.cpp" />
+    <ClCompile Include="ECS\src\AudioComponent.cpp" />
+    <ClCompile Include="ECS\src\AudioSystem.cpp" />
+    <ClCompile Include="ECS\src\ButtonComponent.cpp" />
+    <ClCompile Include="ECS\src\ColliderComponent.cpp" />
+    <ClCompile Include="ECS\src\CollisionSystem.cpp" />
+    <ClCompile Include="ECS\src\Component.cpp" />
+    <ClCompile Include="ECS\src\ComponentManager.cpp" />
+    <ClCompile Include="ECS\src\EntityManager.cpp" />
+    <ClCompile Include="ECS\src\FPSCounterSystem.cpp" />
+    <ClCompile Include="ECS\src\Registry.cpp" />
+    <ClCompile Include="ECS\src\RendererComponent.cpp" />
+    <ClCompile Include="ECS\src\ScriptingSystem.cpp" />
+    <ClCompile Include="ECS\src\TextRendererComponent.cpp" />
+    <ClCompile Include="ECS\src\TextRendererSystem.cpp" />
+    <ClCompile Include="ECS\src\TransformComponent.cpp" />
+    <ClCompile Include="ECS\src\TransformSystem.cpp" />
+    <ClCompile Include="ECS\src\UiSystem.cpp" />
     <ClCompile Include="JsonReaderWriter.cpp" />
     <ClCompile Include="PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -383,7 +369,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ScriptingSystem.cpp" />
     <ClCompile Include="SerializationMap.cpp" />
     <ClCompile Include="SerializationMap.h" />
     <ClCompile Include="Serializer.cpp" />
@@ -394,28 +379,22 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="NapoleonEngine.cpp" />
     <ClCompile Include="PrefabsManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="RendererComponent.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
-    <ClCompile Include="TextRendererComponent.cpp" />
-    <ClCompile Include="TextRendererSystem.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="TransformSystem.cpp" />
-    <ClCompile Include="UiSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ComponentArray.inl" />
-    <None Include="ComponentManager.inl" />
+    <None Include="ECS\include\ComponentArray.inl" />
+    <None Include="ECS\include\ComponentManager.inl" />
+    <None Include="ECS\include\Registry.inl" />
+    <None Include="ECS\include\SystemManager.inl" />
+    <None Include="ECS\include\View.inl" />
     <None Include="JsonReaderWriter.inl" />
     <None Include="Reflection.inl" />
-    <None Include="Registry.inl" />
     <None Include="SerializationMap.inl" />
-    <None Include="SystemManager.inl" />
-    <None Include="View.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

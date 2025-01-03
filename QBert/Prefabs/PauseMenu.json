@@ -105,7 +105,7 @@
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 42
                     },
                     "m_Text": "Pause",
@@ -170,7 +170,7 @@
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Resume",
@@ -210,7 +210,7 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 75
+                        "m_Id": 76
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -221,7 +221,7 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 76
+                        "m_Id": 78
                     },
                     "m_Entity": 2,
                     "m_IsActive": true,
@@ -263,13 +263,13 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 77
+                    "m_Id": 79
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Back to Main Menu",
@@ -283,7 +283,7 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 78
+                    "m_Id": 80
                 },
                 {
                     "type": "struct RendererComponent",
@@ -291,7 +291,7 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 79
+                    "m_Id": 81
                 },
                 {
                     "type": "class ButtonComponent",
@@ -309,12 +309,12 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 81
+                        "m_Id": 84
                     },
                     "m_pOnClick": {
                         "type": "class SwitchScene",
                         "m_TargetSceneName": "MainMenuScene",
-                        "m_Id": 83
+                        "m_Id": 88
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -325,12 +325,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 82
+                        "m_Id": 86
                     },
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 80
+                    "m_Id": 82
                 }
             ],
             "children": []
@@ -367,13 +367,13 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 84
+                    "m_Id": 89
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Quit",
@@ -387,7 +387,7 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 85
+                    "m_Id": 90
                 },
                 {
                     "type": "struct RendererComponent",
@@ -395,7 +395,7 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 86
+                    "m_Id": 91
                 },
                 {
                     "type": "class ButtonComponent",
@@ -413,11 +413,11 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 88
+                        "m_Id": 94
                     },
                     "m_pOnClick": {
                         "type": "class QuitGameCommand",
-                        "m_Id": 90
+                        "m_Id": 98
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -428,12 +428,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 89
+                        "m_Id": 96
                     },
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 87
+                    "m_Id": 92
                 }
             ],
             "children": []

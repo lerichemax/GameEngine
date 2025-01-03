@@ -38,7 +38,7 @@
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 15
                     },
                     "m_Text": "P1 Points: 0 ",

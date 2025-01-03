@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 91
+                    "m_Id": 99
                 },
                 {
                     "type": "struct RendererComponent",
@@ -57,7 +57,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 92
+                    "m_Id": 100
                 }
             ],
             "children": [
@@ -95,17 +95,17 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 91,
+                    "m_pParent": 99,
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 93
+                    "m_Id": 101
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 42
                     },
                     "m_Text": "Game Over",
@@ -119,7 +119,7 @@
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 94
+                    "m_Id": 102
                 },
                 {
                     "type": "struct RendererComponent",
@@ -127,7 +127,7 @@
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 95
+                    "m_Id": 103
                 }
             ],
             "children": []
@@ -160,17 +160,17 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 91,
+                    "m_pParent": 99,
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 96
+                    "m_Id": 104
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Replay",
@@ -184,7 +184,7 @@
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 97
+                    "m_Id": 105
                 },
                 {
                     "type": "struct RendererComponent",
@@ -192,7 +192,7 @@
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 98
+                    "m_Id": 106
                 },
                 {
                     "type": "class ButtonComponent",
@@ -210,11 +210,11 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 100
+                        "m_Id": 109
                     },
                     "m_pOnClick": {
                         "type": "class ReloadSceneCommand",
-                        "m_Id": 102
+                        "m_Id": 113
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -225,12 +225,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 101
+                        "m_Id": 111
                     },
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 99
+                    "m_Id": 107
                 }
             ],
             "children": []
@@ -263,17 +263,17 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 91,
+                    "m_pParent": 99,
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 103
+                    "m_Id": 114
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Back to Main Menu",
@@ -287,7 +287,7 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 104
+                    "m_Id": 115
                 },
                 {
                     "type": "struct RendererComponent",
@@ -295,7 +295,7 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 105
+                    "m_Id": 116
                 },
                 {
                     "type": "class ButtonComponent",
@@ -313,12 +313,12 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 107
+                        "m_Id": 119
                     },
                     "m_pOnClick": {
                         "type": "class SwitchScene",
                         "m_TargetSceneName": "MainMenuScene",
-                        "m_Id": 109
+                        "m_Id": 123
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -329,12 +329,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 108
+                        "m_Id": 121
                     },
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 106
+                    "m_Id": 117
                 }
             ],
             "children": []
@@ -367,17 +367,17 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 91,
+                    "m_pParent": 99,
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 110
+                    "m_Id": 124
                 },
                 {
                     "type": "class TextRendererComponent",
                     "m_pFont": {
                         "type": "class Font",
-                        "m_FilePath": "./Data/Fonts/Lingua.otf",
+                        "m_FilePath": "Fonts/Lingua.otf",
                         "m_Size": 30
                     },
                     "m_Text": "Quit",
@@ -391,7 +391,7 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 111
+                    "m_Id": 125
                 },
                 {
                     "type": "struct RendererComponent",
@@ -399,7 +399,7 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 112
+                    "m_Id": 126
                 },
                 {
                     "type": "class ButtonComponent",
@@ -417,11 +417,11 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 114
+                        "m_Id": 129
                     },
                     "m_pOnClick": {
                         "type": "class QuitGameCommand",
-                        "m_Id": 116
+                        "m_Id": 133
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -432,12 +432,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 115
+                        "m_Id": 131
                     },
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 113
+                    "m_Id": 127
                 }
             ],
             "children": []

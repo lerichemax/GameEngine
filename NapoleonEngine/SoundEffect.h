@@ -1,14 +1,14 @@
 #pragma once
 #include <string>
 
-#include "AudioSystem.h"
+using ID = unsigned int; // TODO:  differentiate from serialization context ID
 
 struct Mix_Chunk;
 class SoundEffect final
 {
 	friend class AudioSystem;
 public:
-	explicit SoundEffect(std::string const& path);
+	explicit SoundEffect(Mix_Chunk* pMixChunk, std::string const& path);
 	SoundEffect(SoundEffect const& other) = delete;
 	SoundEffect(SoundEffect&& other) = delete;
 	SoundEffect& operator=(SoundEffect const& rhs) = delete;
