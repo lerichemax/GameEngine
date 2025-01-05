@@ -13,7 +13,6 @@
 #include "LivesSystem.h"
 #include "AiControllerSystem.h"
 #include "CoilySystem.h"
-#include "FPSCounterSystem.h"
 
 #include "UiManagerComponent.h"
 #include "CharacterLives.h"
@@ -97,7 +96,4 @@ void VersusScene::Initialize()
 
 	AddSystem<AiControllerSystem>();
 	AddSystem<CoilySystem>();
-
-	Instantiate("FPSCounter");
-	AddSystem<FPSCounterSystem>();
 }

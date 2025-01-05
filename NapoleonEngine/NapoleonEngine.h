@@ -23,7 +23,7 @@ public:
 protected:
 	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs);
 
-	virtual void CreatePrefabs() const = 0;
+	virtual void CreatePrefabs() const {};
 
 private:
 	static bool m_bQuit;
@@ -34,7 +34,6 @@ private:
 
 	bool m_bCreatePrefabs;
 
-	void CreateBasePrefabs();
 	void StartHeapControl();
 	void DumpMemoryLeaks();
 };

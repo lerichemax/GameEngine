@@ -110,6 +110,7 @@ private:
 		
 	void OnLoad();
 	void CleanUpScene();
+	void AddFPSCounter();
 
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name);
 	std::shared_ptr<GameObject> InstantiatePrefab(std::string const& name, glm::vec2 const& location);

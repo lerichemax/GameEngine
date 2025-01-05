@@ -1,5 +1,10 @@
 #include "PCH.h"
 #include "Scene.h"
+
+#include "NapoleonEngine.h"
+#include "PrefabsManager.h"
+#include "Timer.h"
+
 #include "GameObject.h"
 
 #include "TextRendererSystem.h"
@@ -9,16 +14,17 @@
 #include "System.h"
 #include "UiSystem.h"
 #include "ScriptingSystem.h"
-#include "NapoleonEngine.h"
+#include "FPSCounterSystem.h"
 
 #include "TransformComponent.h"
-
-#include "PrefabsManager.h"
+#include "TextRendererComponent.h"
+#include "FPSCounter.h"
+#include "RendererComponent.h"
 
 #include <algorithm>
 #include <map>
 
-#include "Timer.h"
+
 
 //************************************
 // BaseScene
@@ -143,6 +149,8 @@ void Scene::OnLoad()
 	m_pSystems.push_back(m_pRegistry->RegisterSystem<TextRendererSystem>());
 
 	m_bIsActive = true;
+
+	AddFPSCounter();
 	
 	Initialize();
 
@@ -164,6 +172,24 @@ void Scene::OnLoad()
 		counter++;
 		nbrSystems = m_pSystems.size();
 	}
+}
+
+void Scene::AddFPSCounter()
+{
+	//FPS Counter
+	auto fpsCounterObject = CreateGameObject();
+	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
+
+	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
+	txtRenderer->SetText("FPS");
+	txtRenderer->SetFont(font);
+	txtRenderer->SetTextColor(0, 255, 0);
+
+	fpsCounterObject->AddComponent<FPSCounter>();
+	fpsCounterObject->AddComponent<RendererComponent>()->Layer = 10;
+	fpsCounterObject->GetTransform()->SetLocation(20.f, 20.f);
+
+	AddSystem<FPSCounterSystem>();
 }
 
 void Scene::Update()

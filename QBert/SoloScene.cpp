@@ -16,7 +16,6 @@
 #include "AiControllerSystem.h"
 #include "CoilySystem.h"
 #include "LivesSystem.h"
-#include "FPSCounterSystem.h"
 
 #include "UiManagerComponent.h"
 #include "EnemySpawnerComponent.h"
@@ -119,7 +118,4 @@ void SoloScene::Initialize()
 	pSpawnerComp->Type = EnemyType::WrongWay; //ugg and wrong way use the same type
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("Ugg")->GetEntity());
 	pSpawnerComp->SpawnedEnemies.push_back(Instantiate("WrongWay")->GetEntity());
-	
-	Instantiate("FPSCounter");
-	AddSystem<FPSCounterSystem>();
 }

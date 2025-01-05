@@ -23,20 +23,13 @@ void Timer::Update()
 	m_DeltaTime =  duration<float>(currentTime - m_LastTime).count();
 	if (m_DeltaTime > 0.1f)
 	{
-		m_DeltaTime = 0.02f; //prevents deltatime to rise too high when debugging
+		m_DeltaTime = 0.02f; //prevents deltatime from rising too high when debugging
 	}
 	m_LastTime = currentTime;
 	m_Lag += m_DeltaTime;
+	m_FPS = static_cast<int>(1 / m_DeltaTime);
+
 	m_DeltaTime *= m_TimeScale;
-	
-	if (m_TimeScale > 0.f)
-	{
-		m_FPS = static_cast<int>(1 / m_DeltaTime);
-	}
-	else
-	{
-		m_FPS = 0;
-	}
 }
 
 void Timer::Sleep()

@@ -2,7 +2,6 @@
 #include "MainMenuScene.h"
 
 #include "UiSystem.h"
-#include "FPSCounterSystem.h"
 
 #include "GameObject.h"
 #include "RendererComponent.h"
@@ -93,8 +92,4 @@ void MainMenuScene::Initialize()
 	btn->SetOnClickFunction( QuitGameCommand{  });
 
 	quitBtn->GetTransform()->SetLocation(400, 350);
-
-	Instantiate("FPSCounter");
-
-	AddSystem<FPSCounterSystem>();
 }

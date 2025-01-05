@@ -63,28 +63,6 @@ NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::str
 	TimerLocator::RegisterTimer(m_pTimer.get());
 }
 
-void NapoleonEngine::CreateBasePrefabs()
-{
-	//Fps counter prefab
-	auto fpsCounterPrefab = PrefabsManager::Get().CreatePrefab();
-	auto fpsCounterObject = fpsCounterPrefab->CreateGameObject();
-	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
-
-	auto txtRenderer = fpsCounterObject->AddComponent<TextRendererComponent>();
-	txtRenderer->SetText("FPS");
-	txtRenderer->SetFont(font);
-	txtRenderer->SetTextColor(0, 255, 0);
-	
-	fpsCounterObject->AddComponent<FPSCounter>();
-	fpsCounterObject->AddComponent<RendererComponent>()->Layer = 10;
-	fpsCounterObject->GetTransform()->SetLocation(20.f, 20.f);
-
-	PrefabsManager::Get().SavePrefab(fpsCounterPrefab, "FPSCounter");
-
-	//game specific prefab
-	CreatePrefabs();
-}
-
 void NapoleonEngine::Quit()
 {
 	m_bQuit = true;
@@ -120,7 +98,7 @@ void NapoleonEngine::Run()
 
 	if (m_bCreatePrefabs)
 	{
-		CreateBasePrefabs();
+		CreatePrefabs();
 	}
 
 	InitGame();
