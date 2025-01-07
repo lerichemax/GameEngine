@@ -6,6 +6,4 @@ class TransformSystem : public System {
 public:
 	void Update() override;
 
-private:
-	void RecursivelyUpdateHierarchy(TransformComponent* const transformComponent) const;
 };

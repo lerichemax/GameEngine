@@ -6,12 +6,13 @@
 #include "ColliderComponent.h"
 
 #include "TestScene.h"
+#include "2DPlanets.h"
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
 
 MainGame::MainGame()
-	:NapoleonEngine{500, 500, "Test", true}
+	:NapoleonEngine{1000, 1000, "Tests", true}
 {
 
 }
@@ -19,7 +20,8 @@ MainGame::MainGame()
 void MainGame::InitGame() const
 {
 	SceneManager::Get().AddScene(new TestScene{});
-	SceneManager::Get().LoadScene("TestScene");
+	SceneManager::Get().AddScene(new Planets{});
+	SceneManager::Get().LoadScene("Planets");
 }
 
 void MainGame::CreatePrefabs() const

@@ -21,9 +21,6 @@ public:
 	std::string GetFilePath() const { return m_FilePath; }
 	int GetSize() const { return m_Size; }
 
-	void Serialize(StreamWriter& writer) const;
-	void Deserialize(JsonReader* const reader);
-
 private:
 	_TTF_Font* m_pFont{ nullptr };
 

@@ -26,6 +26,8 @@ void TransformComponent::SetLocalLocation(vec2 const& loc)
 	{
 		m_WorldTransformMatrix = m_LocalTransformMatrix;
 	}
+
+	m_bWasChanged = true;
 }
 
 void TransformComponent::SetLocalLocation(float x, float y)
@@ -47,6 +49,8 @@ void TransformComponent::SetLocation(vec2 const& loc)
 	{
 		m_LocalTransformMatrix = m_WorldTransformMatrix;
 	}
+
+	m_bWasChanged = true;
 }
 
 void TransformComponent::SetLocation(float x, float y)
@@ -71,6 +75,8 @@ void TransformComponent::Scale(vec2 const& scale)
 	{
 		m_LocalTransformMatrix = m_WorldTransformMatrix;
 	}
+
+	m_bWasChanged = true;
 }
 
 void TransformComponent::Scale(float scale)
@@ -92,59 +98,56 @@ void TransformComponent::Rotate(float rotation)
 	{
 		m_LocalTransformMatrix = m_WorldTransformMatrix;
 	}
+
+	m_bWasChanged = true;
 }
 
-glm::vec2 TransformComponent::GetLocation() const 
+glm::vec2 TransformComponent::GetLocation() 
 { 
+	UpdateTransformHierarchy();
 	return m_WorldTransformMatrix[2]; 
 }
-glm::vec2 TransformComponent::GetLocalLocation() const 
+glm::vec2 TransformComponent::GetLocalLocation() 
 { 
+	UpdateTransformHierarchy();
 	return m_LocalTransformMatrix[2];
 }
-glm::vec2 TransformComponent::GetScale() const 
+glm::vec2 TransformComponent::GetScale() 
 { 
+	UpdateTransformHierarchy();
 	vec2 scale{};
 	scale.x = glm::sqrt(glm::pow(m_WorldTransformMatrix[0][0], 2.f) + glm::pow(m_WorldTransformMatrix[0][1], 2.f));
 	scale.y = glm::sqrt(glm::pow(m_WorldTransformMatrix[1][0], 2.f) + glm::pow(m_WorldTransformMatrix[1][1], 2.f));
 
 	return scale;
 }
-glm::vec2 TransformComponent::GetLocalScale() const 
+glm::vec2 TransformComponent::GetLocalScale() 
 { 
+	UpdateTransformHierarchy();
 	vec2 scale{};
 	scale.x = glm::sqrt(glm::pow(m_LocalTransformMatrix[0][0], 2.f) + glm::pow(m_LocalTransformMatrix[0][1], 2.f));
 	scale.y = glm::sqrt(glm::pow(m_LocalTransformMatrix[1][0], 2.f) + glm::pow(m_LocalTransformMatrix[1][1], 2.f));
 
 	return scale;
 }
-float TransformComponent::GetRotation() const 
+float TransformComponent::GetRotation() 
 { 
+	UpdateTransformHierarchy();
 	float angle = glm::atan(m_WorldTransformMatrix[0][1], m_WorldTransformMatrix[0][0]);
 	return angle;
 }
-float TransformComponent::GetLocalRotation() const 
+float TransformComponent::GetLocalRotation() 
 {
+	UpdateTransformHierarchy();
 	float angle = glm::atan(m_LocalTransformMatrix[0][1], m_LocalTransformMatrix[0][0]);
 	return angle;
 }
 
-glm::mat3x3 const& TransformComponent::GetWorldTransformMatrix() const
+glm::mat3x3 const& TransformComponent::GetWorldTransformMatrix()
 {
+	UpdateTransformHierarchy();
 	return m_WorldTransformMatrix;
 }
-
-void TransformComponent::SetParent(TransformComponent* const pParent)
-{
-	if (!IS_VALID(pParent))
-	{
-		return;
-	}
-
-	m_pParent = pParent;
-	m_LocalTransformMatrix = glm::inverse(m_pParent->m_WorldTransformMatrix) * m_WorldTransformMatrix;
-}
-
 
 glm::mat3x3 TransformComponent::BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float angle)
 {
@@ -165,4 +168,30 @@ glm::mat3x3 TransformComponent::BuildTransformMatrix(glm::vec2 const& translatio
 	scaling = glm::scale(identityMatrix, scale);
 
 	return trans * rotation * scaling;
+}
+
+bool TransformComponent::WasChanged() const
+{
+	return m_bWasChanged && IS_VALID(m_pParent) ? m_pParent->WasChanged() : true;
+}
+
+void TransformComponent::UpdateTransformHierarchy()
+{
+	if (!WasChanged())
+	{
+		return;
+	}
+
+	if (IS_VALID(m_pParent))
+	{
+		m_pParent->UpdateTransformHierarchy();
+
+		m_WorldTransformMatrix = m_pParent->m_WorldTransformMatrix * m_LocalTransformMatrix;
+	}
+	else
+	{
+		m_LocalTransformMatrix = m_WorldTransformMatrix;
+	}
+
+	m_bWasChanged = false;
 }

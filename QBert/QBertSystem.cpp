@@ -355,7 +355,7 @@ void QBertSystem::JumpOffDisk(Entity qbertEntity)
 	auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(qbertEntity);
 	auto* const pMove = m_pRegistry->GetComponent<MovementComponent>(qbertEntity);
 
-	pTransform->SetParent(nullptr);
+	pTransform->m_pParent = nullptr;
 	pMove->CurrentQube = m_pRegistry->GetSystem<PyramidSystem>()->GetTop();
 	pMove->bCanMove = true;
 	pMove->CurrentDirection = ConnectionDirection::null;

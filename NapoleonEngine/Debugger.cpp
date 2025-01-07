@@ -78,12 +78,12 @@ void Debugger::Render(Renderer* const pRenderer)
 {
 	for (geo::Shape* pShape : m_Shapes)
 	{
-		pRenderer->RenderShape(*pShape);
+		pRenderer->RenderShape(*pShape, { 0, 0 });
 	}
 	
 	for (geo::Shape* pShape : m_OwnedShapes)
 	{
-		pRenderer->RenderShape(*pShape);
+		pRenderer->RenderShape(*pShape, {0, 0});
 		SAFE_DELETE(pShape);
 	}
 

@@ -85,7 +85,7 @@ void CharacterMovementSystem::Move(Entity entity)
 
 		pDisk->QbertEntity = entity;
 		pTransform->SetLocation(pDiskTransform->GetLocation());
-		pTransform->SetParent(pDiskTransform);
+		pTransform->m_pParent = pDiskTransform;
 
 		pMoveComp->CurrentQube = NULL_ENTITY;
 

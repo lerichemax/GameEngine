@@ -17,20 +17,6 @@ void TransformSystem::Update()
 			continue;
 		}
 
-		RecursivelyUpdateHierarchy(pTrans);
-	}
-}
-
-void TransformSystem::RecursivelyUpdateHierarchy(TransformComponent* const pTransformComponent) const
-{
-	if (pTransformComponent->m_pParent != nullptr)
-	{
-		RecursivelyUpdateHierarchy(pTransformComponent->m_pParent);
-
-		pTransformComponent->m_WorldTransformMatrix = pTransformComponent->m_pParent->m_WorldTransformMatrix * pTransformComponent->m_LocalTransformMatrix;
-	}
-	else
-	{
-		pTransformComponent->m_LocalTransformMatrix = pTransformComponent->m_WorldTransformMatrix;
+		pTrans->UpdateTransformHierarchy();
 	}
 }

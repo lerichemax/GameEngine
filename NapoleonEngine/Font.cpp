@@ -23,17 +23,3 @@ TTF_Font* Font::GetFont()
 {
 	return m_pFont;
 }
-
-void Font::Serialize(StreamWriter& writer) const
-{
-	writer.WriteString("fontName", m_FilePath);
-	writer.WriteInt("fontSize", m_Size);
-}
-
-void Font::Deserialize(JsonReader* const reader)
-{
-	std::string fontName;
-	reader->ReadString("fontName", m_FilePath);
-
-	reader->ReadInt("fontSize", m_Size);
-}

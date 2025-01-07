@@ -6,9 +6,9 @@
 Camera2D::Camera2D(uint32_t width, uint32_t height)
 	:m_Width{ width },
 	m_Height{ height },
-	m_Location{ width / 2.f, height / 2.f },
+	m_Location{ },
 	m_Scale{ 1.f },
-	m_bNeedsUpdate{ false },
+	m_bNeedsUpdate{ true },
 	m_CameraMatrix{ 1.f },
 	m_OrthogonalProjection{ 1.f }
 {

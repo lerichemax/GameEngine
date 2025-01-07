@@ -10,7 +10,7 @@
 #include "Scene.h"
 
 struct lua_State;
-class TransformComponent final: public ecs::Component
+class TransformComponent final : public ecs::Component
 {
 	friend class TransformSystem;
 	friend class GameObject;
@@ -28,25 +28,27 @@ public:
 	void Scale(float scale);
 	void Rotate(float rotation);
 
-	glm::vec2 GetLocation() const;
-	glm::vec2 GetLocalLocation() const;
-	glm::vec2 GetScale() const;
-	glm::vec2 GetLocalScale() const;
-	float GetRotation() const;
-	float GetLocalRotation() const;
+	glm::vec2 GetLocation();
+	glm::vec2 GetLocalLocation();
+	glm::vec2 GetScale();
+	glm::vec2 GetLocalScale();
+	float GetRotation();
+	float GetLocalRotation();
 
-	glm::mat3x3 const& GetWorldTransformMatrix() const;
-
-	void SetParent(TransformComponent* const pParent);
+	glm::mat3x3 const& GetWorldTransformMatrix() ;
 
 	static glm::mat3x3 BuildTransformMatrix(glm::vec2 const& translation, glm::vec2 const& scale, float rotation);
 
-private:
+	PROPERTY(TransformComponent*, m_pParent);
 
+private:
 	PROPERTY(glm::mat3x3, m_WorldTransformMatrix);
 	PROPERTY(glm::mat3x3, m_LocalTransformMatrix);
 
-	PROPERTY(TransformComponent*, m_pParent);
+	bool m_bWasChanged;
+
+	bool WasChanged() const;
+	void UpdateTransformHierarchy();
 };
 
-SERIALIZE_CLASS(TransformComponent, ecs::Component) // special case. Maybe exclude from reflection ? At least for properties 
+SERIALIZE_CLASS(TransformComponent, ecs::Component)

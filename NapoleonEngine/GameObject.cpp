@@ -32,7 +32,7 @@ TransformComponent* const GameObject::GetTransform() const
 
 void GameObject::AddChild(GameObject* const pChild)
 {
-	pChild->GetTransform()->SetParent(GetTransform());
+	pChild->GetTransform()->m_pParent = GetTransform();
 	m_pRegistry->AddChild(m_Entity, pChild->m_Entity);
 }
 

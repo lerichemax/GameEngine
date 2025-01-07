@@ -72,10 +72,10 @@ Point::Point(glm::vec2 const& pos, Color const& col)
 
 }
 
-void Point::Draw(SDL_Renderer* pRenderer) const
+void Point::Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
 {
 	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
-	SDL_RenderDrawPoint(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y));
+	SDL_RenderDrawPoint(pRenderer, static_cast<int>(loc.x + Pos.x), static_cast<int>(loc.y + Pos.y));
 }
 
 Rectangle::Rectangle()
@@ -110,25 +110,25 @@ Rectangle::Rectangle(int x, int y, int Width, int Height, bool filled)
 
 }
 
-void Rectangle::Draw(SDL_Renderer* pRenderer) const
+void Rectangle::Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
 {
 	if (!bIsFilled)
 	{
 		SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
-		SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
+		SDL_Rect rect{ static_cast<int>(loc.x + Pos.x), static_cast<int>(loc.y + Pos.y), static_cast<int>(Width),
 			static_cast<int>(Height) };
 		SDL_RenderDrawRect(pRenderer, &rect);
 	}
 	else
 	{
-		Fill(pRenderer);
+		Fill(pRenderer, loc);
 	}
 }
 
-void Rectangle::Fill(SDL_Renderer* pRenderer) const
+void Rectangle::Fill(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
 {
 	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, pShapeColor->A);
-	SDL_Rect rect{ static_cast<int>(Pos.x), static_cast<int>(Pos.y), static_cast<int>(Width),
+	SDL_Rect rect{ static_cast<int>(loc.x + Pos.x), static_cast<int>(loc.y + Pos.y), static_cast<int>(Width),
 		static_cast<int>(Height) };
 	SDL_RenderFillRect(pRenderer, &rect);
 }
@@ -241,11 +241,11 @@ Line::Line(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col)
 {
 }
 
-void Line::Draw(SDL_Renderer* pRenderer) const
+void Line::Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
 {
 	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
-	SDL_RenderDrawLine(pRenderer, static_cast<int>(Pos.x), static_cast<int>(Pos.y),
-		static_cast<int>(EndPos.x), static_cast<int>(EndPos.y));
+	SDL_RenderDrawLine(pRenderer, static_cast<int>(loc.x + Pos.x), static_cast<int>(loc.y + Pos.y),
+		static_cast<int>(loc.x + EndPos.x), static_cast<int>(loc.y + EndPos.y));
 }
 
 // Circle
@@ -266,17 +266,40 @@ Circle::Circle(glm::vec2 const& center, int Radius)
 
 }
 
-void Circle::Draw(SDL_Renderer* pRenderer) const
+void Circle::Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
 {
-	float const dAngle{ static_cast<float>(M_PI)/Radius };
-
-	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
-	
-
-	for (float angle = 0.0; angle < static_cast<float>(2 * M_PI); angle += dAngle)
+	if (!bIsFilled)
 	{
-		SDL_RenderDrawPoint(pRenderer, static_cast<int>(Pos.x + Radius * cos(angle)), 
-			static_cast<int>(Pos.y + Radius * sin(angle)));
+		float const dAngle{ static_cast<float>(M_PI) / Radius };
+
+		for (float angle = 0.0; angle < static_cast<float>(2 * M_PI); angle += dAngle)
+		{
+			SDL_RenderDrawPoint(pRenderer, static_cast<int>((loc.x + Pos.x) + Radius * cos(angle)),
+				static_cast<int>((loc.y + Pos.y) + Radius * sin(angle)));
+		}
+	}
+	else 
+	{
+		Fill(pRenderer, loc);
+	}
+
+}
+
+void Circle::Fill(SDL_Renderer* pRenderer, glm::vec2 const& loc) const
+{
+	SDL_SetRenderDrawColor(pRenderer, pShapeColor->R, pShapeColor->G, pShapeColor->B, 255);
+
+	for (int w = 0; w < Radius * 2; w++)
+	{
+		for (int h = 0; h < Radius * 2; h++)
+		{
+			int dx = Radius - w; // horizontal offset
+			int dy = Radius - h; // vertical offset
+			if ((dx * dx + dy * dy) <= (Radius * Radius))
+			{
+				SDL_RenderDrawPoint(pRenderer, static_cast<int>(loc.x + Pos.x) + dx, static_cast<int>(loc.y + Pos.y) + dy);
+			}
+		}
 	}
 }
 

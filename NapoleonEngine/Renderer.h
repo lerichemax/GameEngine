@@ -26,8 +26,8 @@ public:
 
 	void RenderTexture(Texture2D& texture, float x, float y) const;
 	void RenderTexture(Texture2D& texture, float x, float y, float Width, float Height) const;
-	void RenderTexture(Texture2D& texture, TransformComponent const& pTransform) const;
-	void RenderShape(geo::Shape const& pShape) const;
+	void RenderTexture(Texture2D& texture, TransformComponent& pTransform) const;
+	void RenderShape(geo::Shape const& pShape, glm::vec2 const& loc) const;
 		
 	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
 

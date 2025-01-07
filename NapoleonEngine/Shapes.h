@@ -46,7 +46,7 @@ namespace geo
 		PROPERTY(Color*, pShapeColor);
 		PROPERTY(glm::vec2, Pos);
 
-		virtual void Draw(SDL_Renderer* pRenderer) const = 0;
+		virtual void Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const = 0;
 
 		explicit Shape(ShapeType type, glm::vec2 const& pos = glm::vec2{}, Color const& col = Color{ 1,1,1 });
 
@@ -65,7 +65,7 @@ namespace geo
 		Point();
 		explicit Point(glm::vec2 const& Pos, Color const& col);
 
-		void Draw(SDL_Renderer* pRenderer) const override;
+		void Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const override;
 	};
 
 	struct Circle;
@@ -80,8 +80,8 @@ namespace geo
 		explicit Rectangle(glm::vec2 const& pos, int width, int height, bool filled = false);
 		explicit Rectangle(int x, int y, int width, int height, bool filled = false);
 
-		void Draw(SDL_Renderer* pRenderer) const override;
-		void Fill(SDL_Renderer* pRenderer) const;
+		void Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const override;
+		void Fill(SDL_Renderer* pRenderer, glm::vec2 const& loc) const;
 
 		bool IsOverlapping(Rectangle* const pRec) const override;
 		bool IsOverlapping(Circle* const pRec) const override;
@@ -96,7 +96,7 @@ namespace geo
 		Line();
 		explicit Line(glm::vec2 const& startPos, glm::vec2 const& EndPos, Color const& col);
 
-		void Draw(SDL_Renderer* pRenderer) const override;
+		void Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const override;
 	};
 
 	SERIALIZE_CLASS(Line, Shape);
@@ -104,12 +104,14 @@ namespace geo
 	struct Circle final : public Shape
 	{
 		PROPERTY(int, Radius);
+		PROPERTY(bool, bIsFilled);
 
 		Circle();
 		explicit Circle(glm::vec2 const& center, int radius, Color const& col);
 		explicit Circle(glm::vec2 const& center, int radius);
 
-		void Draw(SDL_Renderer* pRenderer) const override;
+		void Draw(SDL_Renderer* pRenderer, glm::vec2 const& loc) const override;
+		void Fill(SDL_Renderer* pRenderer, glm::vec2 const& loc) const;
 
 		bool IsOverlapping(Rectangle* const pRec) const override;
 		bool IsOverlapping(Circle* const pRec) const override;

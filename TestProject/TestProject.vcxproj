@@ -141,12 +141,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="2DPlanets.cpp" />
+    <ClCompile Include="GravitySystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2DPlanets.h" />
+    <ClInclude Include="GravitySystem.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <ItemGroup>

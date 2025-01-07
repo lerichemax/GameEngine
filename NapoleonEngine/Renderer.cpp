@@ -57,15 +57,16 @@ void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor)
 			continue;
 		}
 
+		auto* const pTransform = pRegistry->GetComponent<TransformComponent>(entity);
+
 		if (renderComp->pTexture != nullptr)
 		{
-			auto* const pTransform = pRegistry->GetComponent<TransformComponent>(entity);
 			RenderTexture(*renderComp->pTexture, *pTransform);
 		}
 
 		if (renderComp->pShape != nullptr)
 		{
-			RenderShape(*renderComp->pShape);
+			RenderShape(*renderComp->pShape, pTransform->GetLocation());
 		}
 	}
 
@@ -111,7 +112,7 @@ void Renderer::RenderTexture(Texture2D& texture, const float x, const float y, c
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(Texture2D& texture, TransformComponent const& pTransform) const
+void Renderer::RenderTexture(Texture2D& texture, TransformComponent& pTransform) const
 {
 	glPushMatrix();
 	{
@@ -129,9 +130,9 @@ void Renderer::RenderTexture(Texture2D& texture, TransformComponent const& pTran
 	glPopMatrix();
 }
 
-void Renderer::RenderShape(geo::Shape const& pShape) const 
+void Renderer::RenderShape(geo::Shape const& pShape, glm::vec2 const& loc) const
 {
-	pShape.Draw(m_pRenderer);
+	pShape.Draw(m_pRenderer, loc);
 }
 
 int Renderer::GetOpenGLDriverIndex()

@@ -6,16 +6,37 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="2DPlanets.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GravitySystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="TestScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="2DPlanets.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GravitySystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
       <UniqueIdentifier>{6d311165-b33a-4d26-83d5-95821cd2a683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{436efa90-2cc7-4a8a-bf52-cfbfa22cc574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{c516bd50-5a75-46ed-a849-5ddde45c39ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

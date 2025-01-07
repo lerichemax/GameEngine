@@ -303,7 +303,7 @@ bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTe
 {
 	return m_pImpl->TryGetTexture(fileName, pTexture);
 }
-//Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id);
+
 Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
 	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
