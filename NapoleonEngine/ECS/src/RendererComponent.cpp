@@ -7,7 +7,8 @@
 RendererComponent::RendererComponent()
 	:Layer{0},
 	pTexture{ nullptr },
-	pShape{nullptr}
+	pShape{nullptr},
+	Space{RenderSpace::World}
 {
 
 }

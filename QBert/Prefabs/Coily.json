@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 43
+                    "m_Id": 39
                 },
                 {
                     "type": "struct MovementComponent",
@@ -48,14 +48,36 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 45
+                    "m_Id": 41
+                },
+                {
+                    "type": "struct CharacterLives",
+                    "NbrLives": 1,
+                    "MaxLives": 1,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 43
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/Coily/Coily_Egg_Small.png"
+                    },
+                    "Layer": 7,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 40
                 },
                 {
                     "type": "struct CoilyComponent",
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 49
+                    "m_Id": 45
                 },
                 {
                     "type": "struct AudioComponent",
@@ -65,28 +87,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 50
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "Textures/Enemies/Coily/Coily_Egg_Small.png"
-                    },
-                    "Layer": 7,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 44
-                },
-                {
-                    "type": "struct CharacterLives",
-                    "NbrLives": 1,
-                    "MaxLives": 1,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": true,
-                    "m_Id": 47
+                    "m_Id": 46
                 },
                 {
                     "type": "struct JumpComponent",
@@ -97,7 +98,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 46
+                    "m_Id": 42
                 },
                 {
                     "type": "struct AiControllerComponent",
@@ -106,7 +107,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 48
+                    "m_Id": 44
                 }
             ],
             "children": []

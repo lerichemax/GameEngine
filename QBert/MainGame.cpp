@@ -39,11 +39,11 @@
 
 
 MainGame::MainGame()
-	:NapoleonEngine(900, 600, "QBert", false)
+	:NapoleonEngine(900, 600, "QBert", true)
 {
 }
 
-void MainGame::InitGame() const
+void MainGame::RegisterScenes() const
 {
 	SceneManager::Get().AddScene(new MainMenuScene{});
 	SceneManager::Get().AddScene(new SoloScene{});
@@ -156,7 +156,7 @@ void MainGame::CreatePrefabs() const
 	//Pyramid
 	auto pyramidPf = pPrefabManager.CreatePrefab();
 	auto pyramidObject = pyramidPf->CreateGameObject();
-	pyramidObject->GetTransform()->SetLocation(250.f, 400.f);
+	pyramidObject->GetTransform()->SetLocation(-150.f, 100.f);
 	pyramidObject->AddComponent<PyramidComponent>();
 	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
 
@@ -312,6 +312,7 @@ void MainGame::CreatePrefabs() const
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
 	pShapeRenderer->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{0,0},NapoleonEngine::GetEngine()->GetWindowWidth(), NapoleonEngine::GetEngine()->GetWindowHeight(), Color{0,0,0, 127}, true));
 	pShapeRenderer->Layer = 10;
+	pShapeRenderer->Space = RenderSpace::Screen;
 
 	auto textObject = menuPrefab->CreateGameObject();
 
@@ -354,7 +355,7 @@ void MainGame::CreatePrefabs() const
 	backBtn->SetOnClickFunction( SwitchScene{ "MainMenuScene" });
 
 	menuObj->AddChild(btnObj);
-	btnObj->GetTransform()->SetLocation(400, 300);
+	btnObj->GetTransform()->SetLocation(400,300);
 	btnObj->SetTag("BackToMainBtn");
 
 	//Quit Btn

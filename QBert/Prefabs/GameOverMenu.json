@@ -32,11 +32,12 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 99
+                    "m_Id": 95
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 10,
+                    "Space": 0,
                     "pShape": {
                         "type": "struct geo::Rectangle",
                         "Width": 900,
@@ -57,7 +58,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 100
+                    "m_Id": 96
                 }
             ],
             "children": [
@@ -73,6 +74,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 95,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": 400.0,
@@ -95,11 +97,10 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 99,
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 101
+                    "m_Id": 97
                 },
                 {
                     "type": "class TextRendererComponent",
@@ -119,15 +120,16 @@
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 102
+                    "m_Id": 98
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 11,
+                    "Space": 0,
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 103
+                    "m_Id": 99
                 }
             ],
             "children": []
@@ -138,6 +140,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 95,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": 400.0,
@@ -160,11 +163,10 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 99,
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 104
+                    "m_Id": 100
                 },
                 {
                     "type": "class TextRendererComponent",
@@ -184,15 +186,16 @@
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 105
+                    "m_Id": 101
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 11,
+                    "Space": 0,
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 106
+                    "m_Id": 102
                 },
                 {
                     "type": "class ButtonComponent",
@@ -210,11 +213,11 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 109
+                        "m_Id": 105
                     },
                     "m_pOnClick": {
                         "type": "class ReloadSceneCommand",
-                        "m_Id": 113
+                        "m_Id": 109
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -225,12 +228,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 111
+                        "m_Id": 107
                     },
                     "m_Entity": 2,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 107
+                    "m_Id": 103
                 }
             ],
             "children": []
@@ -241,6 +244,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 95,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": 400.0,
@@ -263,11 +267,10 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 99,
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 114
+                    "m_Id": 110
                 },
                 {
                     "type": "class TextRendererComponent",
@@ -287,15 +290,16 @@
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 115
+                    "m_Id": 111
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 11,
+                    "Space": 0,
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 116
+                    "m_Id": 112
                 },
                 {
                     "type": "class ButtonComponent",
@@ -313,12 +317,12 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 119
+                        "m_Id": 115
                     },
                     "m_pOnClick": {
                         "type": "class SwitchScene",
                         "m_TargetSceneName": "MainMenuScene",
-                        "m_Id": 123
+                        "m_Id": 119
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -329,12 +333,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 121
+                        "m_Id": 117
                     },
                     "m_Entity": 3,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 117
+                    "m_Id": 113
                 }
             ],
             "children": []
@@ -345,6 +349,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 95,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": 400.0,
@@ -367,11 +372,10 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 99,
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 124
+                    "m_Id": 120
                 },
                 {
                     "type": "class TextRendererComponent",
@@ -391,15 +395,16 @@
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 125
+                    "m_Id": 121
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 11,
+                    "Space": 0,
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 126
+                    "m_Id": 122
                 },
                 {
                     "type": "class ButtonComponent",
@@ -417,11 +422,11 @@
                             "G": 0,
                             "A": 255
                         },
-                        "m_Id": 129
+                        "m_Id": 125
                     },
                     "m_pOnClick": {
                         "type": "class QuitGameCommand",
-                        "m_Id": 133
+                        "m_Id": 129
                     },
                     "m_pOnDeselect": {
                         "type": "class SwitchTextColor",
@@ -432,12 +437,12 @@
                             "G": 255,
                             "A": 255
                         },
-                        "m_Id": 131
+                        "m_Id": 127
                     },
                     "m_Entity": 4,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 127
+                    "m_Id": 123
                 }
             ],
             "children": []

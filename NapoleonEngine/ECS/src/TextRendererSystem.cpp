@@ -5,6 +5,17 @@
 
 #include "ResourceManager.h"
 
+void TextRendererSystem::Initialize()
+{
+	auto view = m_pRegistry->GetView<TransformComponent, RendererComponent, TextRendererComponent>();
+	for (Entity const& entity : view)
+	{
+		auto pRenderComp = m_pRegistry->GetComponent<RendererComponent>(entity);
+
+		pRenderComp->Space = RenderSpace::Screen;
+	}
+}
+
 void TextRendererSystem::Update()
 {
 	auto view = m_pRegistry->GetView<TransformComponent, RendererComponent, TextRendererComponent>();
@@ -18,7 +29,7 @@ void TextRendererSystem::Update()
 			continue;
 		}
 
-		auto renderComp = m_pRegistry->GetComponent<RendererComponent>(entity); //log if absent (also when adding)
+		auto renderComp = m_pRegistry->GetComponent<RendererComponent>(entity);
 
 		assert(textRenderComp->m_pFont != nullptr && "Font is null");
 

@@ -37,9 +37,6 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{d645b1c5-301b-4891-978a-d4f5aa7a172f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Reflection">
-      <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ECS\Entity">
       <UniqueIdentifier>{a1c24874-8ee8-4c24-b50d-9fb7704cfa3b}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="ECS\Systems\Base">
       <UniqueIdentifier>{0fe4b0a5-cd00-4ac6-a195-ea983a4d4e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization\Reflection">
+      <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SoundInterface.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
     <ClInclude Include="SoundEffect.h">
       <Filter>Audio</Filter>
     </ClInclude>
@@ -147,7 +144,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
-      <Filter>Reflection</Filter>
+      <Filter>Serialization\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\Registry.h">
       <Filter>ECS</Filter>
@@ -359,7 +356,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Reflection.inl">
-      <Filter>Reflection</Filter>
+      <Filter>Serialization\Reflection</Filter>
     </None>
     <None Include="SerializationMap.inl">
       <Filter>Serialization</Filter>

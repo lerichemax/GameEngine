@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\Opengl\x64\include\GLFW;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(SolutionDir)3rdParty\Opengl\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -94,8 +94,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)3rdParty\lua\src;$(SolutionDir)3rdParty\rapidjson;$(SolutionDir)3rdParty\Opengl\x64\include\GLFW;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)3rdParty\lua\lib;$(SolutionDir)3rdParty\Opengl\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -295,7 +295,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundEffect.h" />
-    <ClInclude Include="SoundInterface.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>

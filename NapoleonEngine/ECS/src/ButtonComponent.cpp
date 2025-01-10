@@ -8,7 +8,7 @@
 
 ButtonComponent::ButtonComponent()
 	:Component(true),
-	Dimensions(100, 50), //by default
+	Dimensions(100, 50),
 	m_bIsSelected(false),
 	bVisualize(false),
 	m_pOnClick(nullptr),

@@ -1,9 +1,9 @@
 #include "PCH.h"
 #include "TransformComponent.h"
+#include "TransformSystem.h"
 
 #include "GameObject.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
-#include <glm/gtx/matrix_decompose.hpp>
 #include "lua.hpp"
 
 TransformComponent::TransformComponent() 
@@ -116,8 +116,7 @@ glm::vec2 TransformComponent::GetScale()
 { 
 	UpdateTransformHierarchy();
 	vec2 scale{};
-	scale.x = glm::sqrt(glm::pow(m_WorldTransformMatrix[0][0], 2.f) + glm::pow(m_WorldTransformMatrix[0][1], 2.f));
-	scale.y = glm::sqrt(glm::pow(m_WorldTransformMatrix[1][0], 2.f) + glm::pow(m_WorldTransformMatrix[1][1], 2.f));
+	TransformSystem::ExtractScale(m_WorldTransformMatrix, scale);
 
 	return scale;
 }
@@ -125,21 +124,22 @@ glm::vec2 TransformComponent::GetLocalScale()
 { 
 	UpdateTransformHierarchy();
 	vec2 scale{};
-	scale.x = glm::sqrt(glm::pow(m_LocalTransformMatrix[0][0], 2.f) + glm::pow(m_LocalTransformMatrix[0][1], 2.f));
-	scale.y = glm::sqrt(glm::pow(m_LocalTransformMatrix[1][0], 2.f) + glm::pow(m_LocalTransformMatrix[1][1], 2.f));
+	TransformSystem::ExtractScale(m_LocalTransformMatrix, scale);
 
 	return scale;
 }
 float TransformComponent::GetRotation() 
 { 
 	UpdateTransformHierarchy();
-	float angle = glm::atan(m_WorldTransformMatrix[0][1], m_WorldTransformMatrix[0][0]);
+	float angle;
+	TransformSystem::ExtractRotation(m_WorldTransformMatrix, angle);
 	return angle;
 }
 float TransformComponent::GetLocalRotation() 
 {
 	UpdateTransformHierarchy();
-	float angle = glm::atan(m_LocalTransformMatrix[0][1], m_LocalTransformMatrix[0][0]);
+	float angle;
+	TransformSystem::ExtractRotation(m_LocalTransformMatrix, angle);
 	return angle;
 }
 

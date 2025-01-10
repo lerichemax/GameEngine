@@ -36,11 +36,6 @@ NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::str
 
 	m_pEngine = this;
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-	{
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
-	}
-
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		std::string errorMsg{ "Core::Initialize( ), error when calling Mix_OpenAudio: " };
@@ -101,7 +96,7 @@ void NapoleonEngine::Run()
 		CreatePrefabs();
 	}
 
-	InitGame();
+	RegisterScenes();
 
 	{
 		auto& sceneManager = SceneManager::Get();
@@ -114,7 +109,7 @@ void NapoleonEngine::Run()
 			m_bQuit = !input.ProcessInput();
 			sceneManager.Update();
 			
-			m_pRenderer->Render(sceneManager.GetActiveScene()->m_pRegistry.get(), sceneManager.GetActiveScene()->GetBackgroundColor());
+			m_pRenderer->Render(sceneManager.GetActiveScene()->m_pRegistry.get(), sceneManager.GetActiveScene()->GetBackgroundColor(), sceneManager.GetActiveScene()->GetCamera());
 
 			m_pTimer->Sleep();
 		}

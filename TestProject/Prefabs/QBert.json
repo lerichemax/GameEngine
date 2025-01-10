@@ -49,6 +49,7 @@
                         "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png"
                     },
                     "Layer": 8,
+                    "Space": 0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
@@ -126,6 +127,7 @@
                         "m_FilePath": "Textures/QBert/HurtText.png"
                     },
                     "Layer": 8,
+                    "Space": 0,
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": false,

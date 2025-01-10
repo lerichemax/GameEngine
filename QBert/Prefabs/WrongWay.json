@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 36
+                    "m_Id": 32
                 },
                 {
                     "type": "struct MovementComponent",
@@ -48,19 +48,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 38
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "Textures/Enemies/WrongWay/WrongWay_Right.png"
-                    },
-                    "Layer": 7,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 37
+                    "m_Id": 34
                 },
                 {
                     "type": "struct CharacterLives",
@@ -69,7 +57,20 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 40
+                    "m_Id": 36
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/WrongWay/WrongWay_Right.png"
+                    },
+                    "Layer": 7,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 33
                 },
                 {
                     "type": "struct JumpComponent",
@@ -80,7 +81,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 39
+                    "m_Id": 35
                 },
                 {
                     "type": "class ColliderComponent",
@@ -106,7 +107,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 41
+                    "m_Id": 37
                 },
                 {
                     "type": "struct AiControllerComponent",
@@ -115,7 +116,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 42
+                    "m_Id": 38
                 }
             ],
             "children": []

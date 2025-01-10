@@ -9,11 +9,18 @@ struct SDL_Renderer;
 struct Shape;
 class Texture2D;
 class TransformComponent;
+class Camera2D;
 
 namespace ecs 
 {
 	class Registry;
 }
+
+struct SDLDestroyer
+{
+	void operator()(SDL_Window* pWindow) const;
+	void operator()(SDL_Renderer* pRenderer) const;
+};
 
 class Renderer final
 {
@@ -21,26 +28,26 @@ public:
 	Renderer(unsigned int Width, unsigned int Height, std::string const& name);
 	~Renderer();
 
-	void Render(ecs::Registry* const pRegistry, Color const& backgroundColor);
+	void Render(ecs::Registry* const pRegistry, Color const& backgroundColor, Camera2D const* pCamera);
 	void Destroy();
 
 	void RenderTexture(Texture2D& texture, float x, float y) const;
 	void RenderTexture(Texture2D& texture, float x, float y, float Width, float Height) const;
-	void RenderTexture(Texture2D& texture, TransformComponent& pTransform) const;
+	void RenderTexture(Texture2D& texture, glm::mat3 const& transform) const;
 	void RenderShape(geo::Shape const& pShape, glm::vec2 const& loc) const;
 		
-	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
+	SDL_Renderer* const GetSDLRenderer() { return m_pRenderer.get(); }
 
-	int GetWindowWidth() const { return m_WindowWidth; }
-	int GetWindowHeight() const { return m_WindowHeight; }
+	int GetWindowWidth() const { return m_WindowWidth; } // maybe remove
+	int GetWindowHeight() const { return m_WindowHeight; } // maybe remove
 	
 private:
 	friend class Singleton<Renderer>;
-		
-	static SDL_Renderer* m_pRenderer;
+
 	Renderer();
 		
-	SDL_Window* m_pWindow{};
+	std::unique_ptr<SDL_Renderer, SDLDestroyer> m_pRenderer{};
+	std::unique_ptr<SDL_Window, SDLDestroyer> m_pWindow{};
 
 	int m_WindowWidth{};
 	int m_WindowHeight{};

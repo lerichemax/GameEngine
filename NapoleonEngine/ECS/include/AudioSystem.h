@@ -1,10 +1,5 @@
 #pragma once
 #include "System.h"
-#include "SoundInterface.h"
-
-#include <map>
-#include <string>
-#include <mutex>
 
 class AudioSystem : public ecs::System
 {
@@ -16,5 +11,4 @@ public:
 	AudioSystem& operator=(AudioSystem&& rhs) = delete;
 
 	void Update() override;
-
 };

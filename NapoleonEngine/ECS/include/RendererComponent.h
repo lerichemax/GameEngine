@@ -4,6 +4,11 @@
 
 #include <memory>
 
+enum class RenderSpace
+{
+	World,
+	Screen
+};
 
 class Texture2D;
 struct RendererComponent : public ecs::Component
@@ -16,6 +21,7 @@ public:
 	PROPERTY(uint8_t, Layer);
 
 	PROPERTY(Texture2D*, pTexture);
+	PROPERTY(RenderSpace, Space);
 
 	void SetShape(std::unique_ptr<geo::Shape> pNewShape);
 

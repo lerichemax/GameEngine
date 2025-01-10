@@ -15,7 +15,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 16
+                    "m_Id": 12
                 },
                 {
                     "type": "class TransformComponent",
@@ -44,7 +44,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 10
+                    "m_Id": 6
                 },
                 {
                     "type": "struct MovementComponent",
@@ -60,36 +60,15 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 17
-                },
-                {
-                    "type": "struct AudioComponent",
-                    "m_Volume": 50.0,
-                    "m_Loop": false,
-                    "m_AudioClipLocation": "Sounds/jump.mp3",
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 12
-                },
-                {
-                    "type": "struct AudioComponent",
-                    "m_Volume": 50.0,
-                    "m_Loop": false,
-                    "m_AudioClipLocation": "Sounds/swear.mp3",
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
                     "m_Id": 13
                 },
                 {
-                    "type": "struct AudioComponent",
-                    "m_Volume": 50.0,
-                    "m_Loop": false,
-                    "m_AudioClipLocation": "Sounds/fall.mp3",
+                    "type": "struct CharacterLives",
+                    "NbrLives": 3,
+                    "MaxLives": 3,
                     "m_Entity": 0,
                     "m_IsActive": true,
-                    "m_IsUnique": false,
+                    "m_IsUnique": true,
                     "m_Id": 14
                 },
                 {
@@ -99,29 +78,51 @@
                         "m_FilePath": "Textures/QBert/QBert1_DownLeft_Qube.png"
                     },
                     "Layer": 8,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 7
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/jump.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 8
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/swear.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 9
+                },
+                {
+                    "type": "struct AudioComponent",
+                    "m_Volume": 50.0,
+                    "m_Loop": false,
+                    "m_AudioClipLocation": "Sounds/fall.mp3",
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 10
+                },
+                {
+                    "type": "struct QbertComponent",
+                    "pJumpSound": 8,
+                    "pFallSound": 10,
+                    "pSwearSound": 9,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
                     "m_Id": 11
-                },
-                {
-                    "type": "struct QbertComponent",
-                    "pJumpSound": 12,
-                    "pFallSound": 14,
-                    "pSwearSound": 13,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 15
-                },
-                {
-                    "type": "struct CharacterLives",
-                    "NbrLives": 3,
-                    "MaxLives": 3,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": true,
-                    "m_Id": 18
                 },
                 {
                     "type": "class CharacterPoint",
@@ -129,7 +130,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 19
+                    "m_Id": 15
                 },
                 {
                     "type": "struct JumpComponent",
@@ -140,7 +141,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 20
+                    "m_Id": 16
                 },
                 {
                     "type": "class ColliderComponent",
@@ -166,7 +167,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 21
+                    "m_Id": 17
                 }
             ],
             "children": [
@@ -179,6 +180,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 6,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": -10.0,
@@ -201,11 +203,10 @@
                         },
                         "rotation": 0.0
                     },
-                    "m_pParent": 10,
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 22
+                    "m_Id": 18
                 },
                 {
                     "type": "struct RendererComponent",
@@ -214,10 +215,11 @@
                         "m_FilePath": "Textures/QBert/HurtText.png"
                     },
                     "Layer": 8,
+                    "Space": 0,
                     "m_Entity": 1,
                     "m_IsActive": false,
                     "m_IsUnique": false,
-                    "m_Id": 23
+                    "m_Id": 19
                 }
             ],
             "children": []

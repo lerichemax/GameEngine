@@ -10,7 +10,7 @@ class Scene;
 class NapoleonEngine
 {
 public:
-	virtual void InitGame() const = 0;
+	virtual void RegisterScenes() const = 0;
 	virtual void Cleanup();
 	void Run();
 		

@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 4
+                    "m_Id": 0
                 },
                 {
                     "type": "class TextRendererComponent",
@@ -52,15 +52,16 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 5
+                    "m_Id": 1
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 10,
+                    "Space": 0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 6
+                    "m_Id": 2
                 }
             ],
             "children": []

@@ -9,8 +9,8 @@
                     "type": "class TransformComponent",
                     "m_WorldTransformMatrix": {
                         "position": {
-                            "x": 250.0,
-                            "y": 400.0
+                            "x": -150.0,
+                            "y": 100.0
                         },
                         "scale": {
                             "x": 1.0,
@@ -20,8 +20,8 @@
                     },
                     "m_LocalTransformMatrix": {
                         "position": {
-                            "x": 250.0,
-                            "y": 400.0
+                            "x": -150.0,
+                            "y": 100.0
                         },
                         "scale": {
                             "x": 1.0,
@@ -32,14 +32,14 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 27
+                    "m_Id": 23
                 },
                 {
                     "type": "struct PyramidComponent",
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 28
+                    "m_Id": 24
                 }
             ],
             "children": []

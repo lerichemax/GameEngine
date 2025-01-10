@@ -450,13 +450,13 @@ std::unique_ptr<JsonReader> JsonReader::ReadAttribute(std::string const& attribu
 {
 	if (m_JsonValue->ObjectEmpty())
 	{
-		LOG_WARNING("JsonReader::ReadAttribute - > Nothing to read");
+		//LOG_WARNING("JsonReader::ReadAttribute - > Nothing to read");
 		return nullptr;
 	}
 
 	if (!m_JsonValue->HasMember(attribute.c_str()))
 	{
-		LOG_WARNING("JsonReader::ReadAttribute - > attribute  %s not found in current Json object", attribute.c_str());
+		//LOG_WARNING("JsonReader::ReadAttribute - > attribute  %s not found in current Json object", attribute.c_str());
 		return nullptr;
 	}
 

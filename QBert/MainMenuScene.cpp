@@ -23,9 +23,10 @@ void MainMenuScene::Initialize()
 	m_BackgroundColor = geo::Color{ 0, 77, 153, 1 };
 
 	auto pTitleObject = CreateGameObject();
-	auto rendererComp = pTitleObject->AddComponent<RendererComponent>();
-	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/UI/Title.png");
-	rendererComp->Layer = 10;
+	auto pRendererComp = pTitleObject->AddComponent<RendererComponent>();
+	pRendererComp->Space = RenderSpace::Screen;
+	pRendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/UI/Title.png");
+	pRendererComp->Layer = 10;
 
 	pTitleObject->GetTransform()->SetLocation(300, 50);
 	pTitleObject->GetTransform()->Scale(0.8f);

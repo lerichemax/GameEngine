@@ -32,22 +32,23 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 24
+                    "m_Id": 20
                 },
                 {
                     "type": "struct RendererComponent",
                     "Layer": 2,
+                    "Space": 0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 26
+                    "m_Id": 22
                 },
                 {
                     "type": "struct QubeComponent",
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 25
+                    "m_Id": 21
                 }
             ],
             "children": []

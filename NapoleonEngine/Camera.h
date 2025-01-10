@@ -8,9 +8,10 @@ public:
 	void SetPosition(glm::vec2 const& position);
 	void SetZoomLevel(float zoom);
 
-	glm::mat4 const& GetCameraMatrix() const;
+	glm::mat3 const& GetCameraMatrix() const;
 
 	void Update();
+	glm::mat3 TransformToCameraSpace(glm::mat3 const& transform) const;
 
 private:
 	uint32_t m_Width;
@@ -21,6 +22,6 @@ private:
 
 	bool m_bNeedsUpdate;
 
-	glm::mat4 m_CameraMatrix;
-	glm::mat4 m_OrthogonalProjection;
+	glm::mat3 m_CameraMatrix;
+	//glm::mat4 m_OrthogonalProjection;
 };

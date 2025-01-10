@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 51
+                    "m_Id": 47
                 },
                 {
                     "type": "struct MovementComponent",
@@ -48,19 +48,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 53
-                },
-                {
-                    "type": "struct RendererComponent",
-                    "pTexture": {
-                        "type": "class Texture2D",
-                        "m_FilePath": "Textures/Enemies/SlickSam/Slick_Down_Right.png"
-                    },
-                    "Layer": 7,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 52
+                    "m_Id": 49
                 },
                 {
                     "type": "struct CharacterLives",
@@ -69,7 +57,20 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 55
+                    "m_Id": 51
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Textures/Enemies/SlickSam/Slick_Down_Right.png"
+                    },
+                    "Layer": 7,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 48
                 },
                 {
                     "type": "struct JumpComponent",
@@ -80,7 +81,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 54
+                    "m_Id": 50
                 },
                 {
                     "type": "struct AiControllerComponent",
@@ -89,7 +90,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 56
+                    "m_Id": 52
                 }
             ],
             "children": []

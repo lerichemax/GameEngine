@@ -17,7 +17,7 @@ MainGame::MainGame()
 
 }
 
-void MainGame::InitGame() const
+void MainGame::RegisterScenes() const
 {
 	SceneManager::Get().AddScene(new TestScene{});
 	SceneManager::Get().AddScene(new Planets{});

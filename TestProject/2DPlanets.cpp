@@ -18,8 +18,6 @@ void Planets::Initialize()
 
 	pRenderer->SetShape(std::make_unique<Circle>(glm::vec2{ 0,0 }, 50, Color{ 255,0,0 }));
 
-	pSun->GetTransform()->SetLocation(500, 500);
-
 	auto pPlanet = CreateGameObject();
 	auto pPlanetRenderer = pPlanet->AddComponent<RendererComponent>();
 
