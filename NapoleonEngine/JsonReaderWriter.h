@@ -11,7 +11,7 @@
 #include <glm/vec2.hpp>
 
 template <typename T>
-concept EnumType = std::is_enum<T>::value;
+concept EnumType = std::is_enum_v<T>;
 
 using namespace rapidjson;
 
