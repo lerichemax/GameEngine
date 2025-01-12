@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{d815dc37-ec78-45cd-bcc2-95c8fee1b6e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{2f165c75-6530-4837-a0f3-233c6b7e254b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{44329f33-6ceb-42d4-b212-a460a97fea19}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControllerSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainGame.h" />
+    <ClInclude Include="GameScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControllerSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

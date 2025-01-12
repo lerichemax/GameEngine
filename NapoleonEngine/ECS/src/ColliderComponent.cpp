@@ -10,11 +10,9 @@ ColliderComponent::ColliderComponent()
 {
 }
 
-void ColliderComponent::SetShape(geo::Shape* pNewShape)
+void ColliderComponent::SetShape(std::unique_ptr<geo::Shape> pNewShape)
 {
-	assert(pShape == nullptr && "Can't reassign shape (yet)");
-
-	pShape = std::unique_ptr<geo::Shape>(std::forward<geo::Shape*>(pNewShape));
+	pShape = std::move(pNewShape);
 }
 
 geo::Shape* const ColliderComponent::GetShape() const

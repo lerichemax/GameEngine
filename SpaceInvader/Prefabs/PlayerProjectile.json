@@ -1,0 +1,80 @@
+{
+    "name": "PlayerProjectile",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 0
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Projectiles/Projectile_Player.png"
+                    },
+                    "Layer": 0,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 1
+                },
+                {
+                    "type": "class ColliderComponent",
+                    "bDraw": true,
+                    "bIsTrigger": false,
+                    "pShape": {
+                        "type": "struct geo::Rectangle",
+                        "Width": 2,
+                        "Height": 8,
+                        "bIsFilled": false,
+                        "pShapeColor": {
+                            "type": "struct geo::Color",
+                            "B": 0,
+                            "R": 255,
+                            "G": 0,
+                            "A": 255
+                        },
+                        "Pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 2
+                }
+            ],
+            "children": []
+        }
+    ]
+}

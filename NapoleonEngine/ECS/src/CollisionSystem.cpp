@@ -19,8 +19,10 @@ void CollisionSystem::Update()
 
 		pCollider->pShape->Pos = pTransform->GetLocation();
 
-		if (pCollider->bDraw)
+		if (pCollider->bDraw) // fix drawing on the wrong position
 		{
+			/*auto pShape = pCollider->GetShape();
+			pShape->Pos = { 300,200 };*/
 			Debugger::Get().DrawDebugShape(pCollider->GetShape());
 		}
 	}

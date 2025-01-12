@@ -36,7 +36,7 @@ void MainGame::CreatePrefabs() const
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->SetShape(std::make_unique<geo::Rectangle>(pQbertObj->GetTransform()->GetLocation(), 24,24, Color{255, 0, 0} ));
 	pCollider->bIsTrigger = true;
 
 	pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "MoveLeft";

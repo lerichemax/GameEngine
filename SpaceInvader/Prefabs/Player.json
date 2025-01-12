@@ -1,0 +1,100 @@
+{
+    "name": "Player",
+    "entities": [
+        {
+            "Entity": 0,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 150.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 150.0
+                        },
+                        "scale": {
+                            "x": 1.5,
+                            "y": 1.5
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 3
+                },
+                {
+                    "type": "struct RendererComponent",
+                    "pTexture": {
+                        "type": "class Texture2D",
+                        "m_FilePath": "Player.png"
+                    },
+                    "Layer": 0,
+                    "Space": 0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 4
+                },
+                {
+                    "type": "struct PlayerComponent",
+                    "MoveSpeed": 100.0,
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 5
+                }
+            ],
+            "children": [
+                1
+            ]
+        },
+        {
+            "Entity": 1,
+            "Tag": "",
+            "components": [
+                {
+                    "type": "class TransformComponent",
+                    "m_WorldTransformMatrix": {
+                        "position": {
+                            "x": 8.5,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_LocalTransformMatrix": {
+                        "position": {
+                            "x": 8.5,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "rotation": 0.0
+                    },
+                    "m_Entity": 1,
+                    "m_IsActive": true,
+                    "m_IsUnique": true,
+                    "m_Id": 6
+                }
+            ],
+            "children": []
+        }
+    ]
+}

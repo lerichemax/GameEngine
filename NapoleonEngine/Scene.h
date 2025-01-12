@@ -81,7 +81,7 @@ protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
 
 	Camera2D* const GetCamera() const { return m_pCamera.get(); }
-	virtual void Initialize() {};
+	virtual void Initialize() = 0;
 
 private:
 	friend class SceneManager;

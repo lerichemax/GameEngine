@@ -22,7 +22,7 @@ public:
 	PROPERTY(bool, bIsTrigger);
 	PROPERTY(bool, bDraw);
 
-	void SetShape(geo::Shape* pNewShape);
+	void SetShape(std::unique_ptr<geo::Shape> pNewShape);
 	geo::Shape* const GetShape() const;
 
 private:

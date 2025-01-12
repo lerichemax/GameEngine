@@ -126,7 +126,7 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->AddComponent<JumpComponent>()->Direction = {0, -1};
 
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->SetShape(std::make_unique<geo::Rectangle>( pQbertObj->GetTransform()->GetLocation(), 24,24, Color{255, 0, 0} ));
 	pCollider->bIsTrigger = true;
 
 	auto pHurtTextObj = qbertPrefab->CreateGameObject();
@@ -176,7 +176,7 @@ void MainGame::CreatePrefabs() const
 	pUggobject->AddComponent<CharacterLives>()->Init(1);
 
 	pCollider = pUggobject->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pUggobject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->SetShape(std::make_unique<geo::Rectangle>(pUggobject->GetTransform()->GetLocation(), 32,32, Color{255, 0, 0} ));
 
 	auto* pAiController = pUggobject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
@@ -202,7 +202,7 @@ void MainGame::CreatePrefabs() const
 	pWrongWayObject->AddComponent<CharacterLives>()->Init(1);
 
 	pCollider = pWrongWayObject->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pWrongWayObject->GetTransform()->GetLocation(), 32,32, {255, 0, 0} });
+	pCollider->SetShape(std::make_unique<geo::Rectangle>(pWrongWayObject->GetTransform()->GetLocation(), 32,32, Color{255, 0, 0} ));
 
 	pAiController = pWrongWayObject->AddComponent<AiControllerComponent>();
 	pAiController->Type = EnemyType::WrongWay;
