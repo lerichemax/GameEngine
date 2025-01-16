@@ -16,8 +16,8 @@ public:
 	SceneManagerImpl& operator=(SceneManagerImpl&& rhs) = delete;
 	~SceneManagerImpl();
 
-	void Initialize();
 	void Update();
+	void CleanUp();
 	
 	Scene const* GetScene(std::string const& sceneName) const;
 	void AddScene(Scene* pScene);
@@ -25,26 +25,27 @@ public:
 	void LoadScene(std::string const& name);
 	void ReloadCurrentScene();
 	Scene* GetActiveScene() const;
+	void SetPrefabsManagerPtr(std::weak_ptr<PrefabsManager> pPrefabsManager);
 
 private:
 	Scene* m_pNextActiveScene;
 
 	Scene* m_pActiveScene;
 	std::map <std::string, Scene*> m_pScenesMap;
+
+	std::weak_ptr<PrefabsManager> m_pPrefabsManager;
 };
 
 SceneManager::SceneManagerImpl::SceneManagerImpl()
 	:m_pScenesMap(),
+	m_pNextActiveScene(nullptr),
 	m_pActiveScene(nullptr)
 {
 }
 
 SceneManager::SceneManagerImpl::~SceneManagerImpl()
 {
-	for (auto pScene : m_pScenesMap)
-	{
-		SAFE_DELETE(pScene.second);
-	}
+	CleanUp();
 }
 
 void SceneManager::SceneManagerImpl::Update()
@@ -70,6 +71,14 @@ void SceneManager::SceneManagerImpl::Update()
 	else
 	{
 		NapoleonEngine::Quit();
+	}
+}
+
+void SceneManager::SceneManagerImpl::CleanUp()
+{
+	for (auto pScene : m_pScenesMap)
+	{
+		SAFE_DELETE(pScene.second);
 	}
 }
 
@@ -115,13 +124,18 @@ Scene* SceneManager::SceneManagerImpl::GetActiveScene() const
 	return m_pActiveScene;
 }
 
+void SceneManager::SceneManagerImpl::SetPrefabsManagerPtr(std::weak_ptr<PrefabsManager> pPrefabsManager)
+{
+	m_pPrefabsManager = pPrefabsManager;
+}
+
 void SceneManager::SceneManagerImpl::AddScene(Scene* pScene)
 {
 	if (m_pScenesMap.find(pScene->m_Name) != m_pScenesMap.end())
 	{
 		LOG_ERROR("SceneManager::AddScene - > The scene %s can't be added twice", pScene->GetName().c_str());
-
 	}
+	pScene->m_pPrefabsManager = m_pPrefabsManager.lock();
 	m_pScenesMap.insert(std::make_pair(pScene->m_Name, pScene));
 }
 
@@ -153,6 +167,16 @@ SceneManager::~SceneManager()
 void SceneManager::Update()
 {
 	m_pImpl->Update();
+}
+
+void SceneManager::SetPrefabsManagerPtr(std::weak_ptr<PrefabsManager> pPrefabsManager)
+{
+	m_pImpl->SetPrefabsManagerPtr(pPrefabsManager);
+}
+
+void SceneManager::CleanUp()
+{
+	m_pImpl->CleanUp();
 }
 
 void SceneManager::LoadScene(std::string const& name)

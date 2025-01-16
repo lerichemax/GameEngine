@@ -7,6 +7,8 @@ struct PlayerComponent final : public ecs::Component
 	PROPERTY(float, MoveSpeed);
 	PROPERTY(float, ShootDelay);
 
+	float ShootTimer;
+
 };
 
 SERIALIZE_CLASS(PlayerComponent, ecs::Component)

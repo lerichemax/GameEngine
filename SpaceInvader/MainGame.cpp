@@ -6,6 +6,7 @@
 #include "RendererComponent.h"
 #include "PlayerComponent.h"
 #include "ColliderComponent.h"
+#include "ProjectileComponent.h"
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
@@ -22,19 +23,26 @@ void MainGame::RegisterScenes() const
 	SceneManager::Get().LoadScene("Game Scene");
 }
 
-void MainGame::CreatePrefabs() const
+void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const
 {
-	auto pProjectilePrefab = PrefabsManager::Get().CreatePrefab();
+	//player projectile
+	auto pProjectilePrefab = pPrefabManager->CreatePrefab();
 	auto pProjectileObject = pProjectilePrefab->CreateGameObject();
 	pProjectileObject->AddComponent<RendererComponent>()->pTexture = ResourceManager::Get().GetTexture("Projectiles/Projectile_Player.png");
 	auto pCollider = pProjectileObject->AddComponent<ColliderComponent>();
+	pCollider->bIsTrigger = true;
 	pCollider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{ 0,0 }, 2, 8, Color{255,0,0}));
-	//pCollider->bDraw = true;
+	pCollider->bDraw = true;
 	pProjectileObject->GetTransform()->Scale(2.f);
 
-	PrefabsManager::Get().SavePrefab(pProjectilePrefab, "PlayerProjectile");
+	auto pProjectileComponent = pProjectileObject->AddComponent<ProjectileComponent>();
+	pProjectileComponent->MoveSpeed = 300.f;
+	pProjectileComponent->MoveDirection = -1;
 
-	auto pPlayerPrefab = PrefabsManager::Get().CreatePrefab();
+	pPrefabManager->SavePrefab(pProjectilePrefab, "PlayerProjectile");
+
+	//player
+	auto pPlayerPrefab = pPrefabManager->CreatePrefab();
 	auto pPlayerObject = pPlayerPrefab->CreateGameObject();
 	auto pRenderer = pPlayerObject->AddComponent<RendererComponent>();
 	pRenderer->pTexture = ResourceManager::Get().GetTexture("Player.png");
@@ -45,13 +53,25 @@ void MainGame::CreatePrefabs() const
 
 	auto pShootTransform = pPlayerPrefab->CreateGameObject();
 	pShootTransform->GetTransform()->SetLocalLocation({ 8.5f, -1 });
-	//auto pShapeRenderer = pShootTransform->AddComponent<RendererComponent>();
-	//pShapeRenderer->SetShape(std::make_unique<Circle>(glm::vec2{ 0,0 }, 2, Color{ 255, 0,0 } ));
-	//pShapeRenderer->Layer = 10;
-	//pPlayerObject->AddChild(pShootTransform);
+	pPlayerObject->AddChild(pShootTransform);
 	
-	PrefabsManager::Get().SavePrefab(pPlayerPrefab, "Player");
+	pPrefabManager->SavePrefab(pPlayerPrefab, "Player");
 
 
+	//ENEMIES
+	//enemy 1
+	auto pEnemy1Prefab = pPrefabManager->CreatePrefab();
+	auto pEnemy1Object = pEnemy1Prefab->CreateGameObject();
+	auto pEnemy1Renderer = pEnemy1Object->AddComponent<RendererComponent>();
+	pEnemy1Renderer->pTexture = ResourceManager::Get().GetTexture("Alien1-1.png");
+	auto pEnemy1Collider = pEnemy1Object->AddComponent<ColliderComponent>();
+	pEnemy1Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{6.f, 0.f}, 20, 20, Color{ 255,0,0 }));
+	pEnemy1Collider->bDraw = true;
+	pEnemy1Collider->bIsTrigger = true;
+
+	pEnemy1Object->GetTransform()->Scale(2.f);
+	pEnemy1Object->SetTag("Enemy");
+
+	pPrefabManager->SavePrefab(pEnemy1Prefab, "Enemy1");
 
 }

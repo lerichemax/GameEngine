@@ -71,6 +71,8 @@ void PrefabsManager::PrefabsManagerImpl::InstantiatePrefab(std::string const& na
 	}
 
 	m_pDeserializer->DeserializePrefabIntoScene(pDoc.get(), targetScene);
+
+	LOG_INFO("Prefab %s instantiated into %s", name.c_str(), targetScene->GetName().c_str());
 }
 
 void PrefabsManager::PrefabsManagerImpl::SavePrefabToFile(std::string const& name, Document* const pDoc) const
@@ -125,8 +127,7 @@ std::unique_ptr<rapidjson::Document> PrefabsManager::PrefabsManagerImpl::LoadPre
 }
 
 PrefabsManager::PrefabsManager()
-	:Singleton<PrefabsManager>(),
-	m_pImpl(new PrefabsManagerImpl{})
+	:m_pImpl(new PrefabsManagerImpl{})
 {
 }
 

@@ -32,7 +32,7 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 3
+                    "m_Id": 4
                 },
                 {
                     "type": "struct RendererComponent",
@@ -45,15 +45,16 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 4
+                    "m_Id": 5
                 },
                 {
                     "type": "struct PlayerComponent",
+                    "ShootDelay": 0.5,
                     "MoveSpeed": 100.0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 5
+                    "m_Id": 6
                 }
             ],
             "children": [
@@ -66,6 +67,7 @@
             "components": [
                 {
                     "type": "class TransformComponent",
+                    "m_pParent": 4,
                     "m_WorldTransformMatrix": {
                         "position": {
                             "x": 8.5,
@@ -91,7 +93,7 @@
                     "m_Entity": 1,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 6
+                    "m_Id": 7
                 }
             ],
             "children": []

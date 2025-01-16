@@ -52,14 +52,12 @@ void MainGame::RegisterScenes() const
 	SceneManager::Get().LoadScene("MainMenuScene");
 }
 
-void MainGame::CreatePrefabs() const
+void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const
 {
 	auto const font = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 15);
 
-	auto& pPrefabManager = PrefabsManager::Get();
-
 	//lives
-	auto const livesPrefab = pPrefabManager.CreatePrefab();
+	auto const livesPrefab = pPrefabManager->CreatePrefab();
 	auto livesObj = livesPrefab->CreateGameObject();
 	livesObj->GetTransform()->SetLocation(20.f, 40.f);
 
@@ -71,10 +69,10 @@ void MainGame::CreatePrefabs() const
 
 	livesObj->AddComponent<RendererComponent>()->Layer = 10;
 
-	pPrefabManager.SavePrefab(livesPrefab, "LivesUI");
+	pPrefabManager->SavePrefab(livesPrefab, "LivesUI");
 
 	//points
-	auto const pointsrefab = pPrefabManager.CreatePrefab();
+	auto const pointsrefab = pPrefabManager->CreatePrefab();
 	auto const pointsObj = pointsrefab->CreateGameObject();
 	pointsObj->GetTransform()->SetLocation(20.f, 60.f);
 
@@ -83,10 +81,10 @@ void MainGame::CreatePrefabs() const
 	textRenderer->SetFont(font);
 
 	pointsObj->AddComponent<RendererComponent>()->Layer = 10;
-	pPrefabManager.SavePrefab(pointsrefab, "PointsUI");
+	pPrefabManager->SavePrefab(pointsrefab, "PointsUI");
 
 	//QBert
-	auto qbertPrefab = pPrefabManager.CreatePrefab();
+	auto qbertPrefab = pPrefabManager->CreatePrefab();
 	auto pQbertObj = qbertPrefab->CreateGameObject();
 
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
@@ -141,27 +139,27 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->GetTransform()->Scale(1.5f);
 	pQbertObj->SetTag(QBERT_TAG);
 
-	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
+	pPrefabManager->SavePrefab(qbertPrefab, "QBert");
 
 
 	//Qube prefab
-	auto qubePf = pPrefabManager.CreatePrefab();
+	auto qubePf = pPrefabManager->CreatePrefab();
 	auto qubeObject = qubePf->CreateGameObject();
 	qubeObject->GetTransform()->Scale(1.75f);
 	qubeObject->AddComponent<QubeComponent>();
 	qubeObject->AddComponent<RendererComponent>()->Layer = 2;
 
-	pPrefabManager.SavePrefab(qubePf, "Qube");
+	pPrefabManager->SavePrefab(qubePf, "Qube");
 
 	//Pyramid
-	auto pyramidPf = pPrefabManager.CreatePrefab();
+	auto pyramidPf = pPrefabManager->CreatePrefab();
 	auto pyramidObject = pyramidPf->CreateGameObject();
 	pyramidObject->GetTransform()->SetLocation(-150.f, 100.f);
 	pyramidObject->AddComponent<PyramidComponent>();
-	pPrefabManager.SavePrefab(pyramidPf, "Pyramid");
+	pPrefabManager->SavePrefab(pyramidPf, "Pyramid");
 
 	//Ugg + WrongWay
-	auto pUggPrefab = pPrefabManager.CreatePrefab();
+	auto pUggPrefab = pPrefabManager->CreatePrefab();
 	auto pUggobject = pUggPrefab->CreateGameObject();
 	auto* const pUggRenderer = pUggobject->AddComponent<RendererComponent>();
 	pUggRenderer->Layer = 7;
@@ -185,9 +183,9 @@ void MainGame::CreatePrefabs() const
 	pUggobject->SetTag(ENEMY_TAG);
 	pUggobject->GetTransform()->Scale(1.5f);
 
-	pPrefabManager.SavePrefab(pUggPrefab, "Ugg");
+	pPrefabManager->SavePrefab(pUggPrefab, "Ugg");
 
-	auto pWrongWayPrefab = pPrefabManager.CreatePrefab();
+	auto pWrongWayPrefab = pPrefabManager->CreatePrefab();
 	auto pWrongWayObject = pWrongWayPrefab->CreateGameObject();
 	auto* const pWrongWayRenderer = pWrongWayObject->AddComponent<RendererComponent>();
 	pWrongWayRenderer->Layer = 7;
@@ -211,10 +209,10 @@ void MainGame::CreatePrefabs() const
 	pWrongWayObject->SetTag(ENEMY_TAG);
 	pWrongWayObject->GetTransform()->Scale(2.f);
 
-	pPrefabManager.SavePrefab(pWrongWayPrefab, "WrongWay");
+	pPrefabManager->SavePrefab(pWrongWayPrefab, "WrongWay");
 
 	//Coily prefab
-	auto pCoilyPrefab = pPrefabManager.CreatePrefab();
+	auto pCoilyPrefab = pPrefabManager->CreatePrefab();
 	auto pCoilyObject = pCoilyPrefab->CreateGameObject();
 
 	auto* const pCoilyRenderer = pCoilyObject->AddComponent<RendererComponent>();
@@ -239,10 +237,10 @@ void MainGame::CreatePrefabs() const
 	pCoilyObject->SetTag(ENEMY_TAG);
 	pCoilyObject->GetTransform()->Scale(1.5f);
 
-	pPrefabManager.SavePrefab(pCoilyPrefab, "Coily");
+	pPrefabManager->SavePrefab(pCoilyPrefab, "Coily");
 
 	//SlickSam
-	auto pSlickPf = pPrefabManager.CreatePrefab(); //slick
+	auto pSlickPf = pPrefabManager->CreatePrefab(); //slick
 	auto pSlickObject = pSlickPf->CreateGameObject();
 
 	auto* const pSlickRenderer = pSlickObject->AddComponent<RendererComponent>();
@@ -263,9 +261,9 @@ void MainGame::CreatePrefabs() const
 	pSlickObject->GetTransform()->Scale(1.5f);
 	pSlickObject->SetTag(ENEMY_TAG);
 
-	pPrefabManager.SavePrefab(pSlickPf, "Slick");
+	pPrefabManager->SavePrefab(pSlickPf, "Slick");
 
-	auto pSamPf = pPrefabManager.CreatePrefab(); //sam	
+	auto pSamPf = pPrefabManager->CreatePrefab(); //sam	
 	auto pSamObject = pSamPf->CreateGameObject();
 
 	auto* const pSamRenderer = pSamObject->AddComponent<RendererComponent>();
@@ -288,10 +286,10 @@ void MainGame::CreatePrefabs() const
 	pSamObject->GetTransform()->Scale(1.5f);
 	pSamObject->SetTag(ENEMY_TAG);
 
-	pPrefabManager.SavePrefab(pSamPf, "Sam");
+	pPrefabManager->SavePrefab(pSamPf, "Sam");
 
 	//Disks
-	auto pDiskPf = pPrefabManager.CreatePrefab();
+	auto pDiskPf = pPrefabManager->CreatePrefab();
 	auto pDiskObject = pDiskPf->CreateGameObject();
 
 	pDiskObject->AddComponent<DiskComponent>();
@@ -301,12 +299,12 @@ void MainGame::CreatePrefabs() const
 
 	pDiskObject->GetTransform()->Scale(2);
 
-	pPrefabManager.SavePrefab(pDiskPf, "Disk");
+	pPrefabManager->SavePrefab(pDiskPf, "Disk");
 
 	//Pause Menu
 	auto const biggerFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 42);
 	auto const lessBigFont = ResourceManager::Get().GetFont("Fonts/Lingua.otf", 30);
-	auto menuPrefab = pPrefabManager.CreatePrefab();
+	auto menuPrefab = pPrefabManager->CreatePrefab();
 	auto menuObj = menuPrefab->CreateGameObject();
 
 	auto* pShapeRenderer = menuObj->AddComponent<RendererComponent>();
@@ -376,10 +374,10 @@ void MainGame::CreatePrefabs() const
 	btnObj->GetTransform()->SetLocation(400, 400);
 	btnObj->SetTag("QuitBtn");
 
-	pPrefabManager.SavePrefab(menuPrefab, "PauseMenu");
+	pPrefabManager->SavePrefab(menuPrefab, "PauseMenu");
 
 	//Game over menu (opaque)
-	auto quitMenuPrefab = pPrefabManager.CreatePrefab();
+	auto quitMenuPrefab = pPrefabManager->CreatePrefab();
 	menuObj = quitMenuPrefab->CreateGameObject();
 
 	pShapeRenderer = menuObj->AddComponent<RendererComponent>();
@@ -452,5 +450,5 @@ void MainGame::CreatePrefabs() const
 	btnObj->GetTransform()->SetLocation(400, 400);
 	btnObj->SetTag("QuitBtn");
 
-	pPrefabManager.SavePrefab(quitMenuPrefab, "GameOverMenu");
+	pPrefabManager->SavePrefab(quitMenuPrefab, "GameOverMenu");
 }

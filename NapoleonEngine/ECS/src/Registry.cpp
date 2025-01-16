@@ -15,23 +15,16 @@ Entity Registry::CreateEntity()
 
 void Registry::DestroyEntity(Entity entity)
 {
-	m_pEntityManager->DestroyEntity(entity);
-	m_pComponentManager->EntityDestroyed(entity);
-}
+	m_pEntityManager->m_EntityToDeleteBuffer.push_back(entity);
 
-void Registry::TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther)
-{
-	if (pOther->m_pEntityManager->EntityHasATag(originEntity))
-	{
-		m_pEntityManager->SetTag(destinationEntity, pOther->GetTag(originEntity));
-	}
+	LOG_INFO("Entity %d destroyed", entity);
 }
 
 void Registry::SerializeEntities(StreamWriter& writer)
 {
 	writer.StartArray("entities");
 	{
-		for (Entity entity : m_pEntityManager->m_CreatedEntities)
+		for (Entity entity : m_pEntityManager->m_EntityToAddBuffer)
 		{
 			writer.m_BufferWriter.StartObject();
 			{
@@ -45,8 +38,6 @@ void Registry::SerializeEntities(StreamWriter& writer)
 					for (Component* const pComp : components)
 					{
 						Reflection::Get().SerializeClass(pComp, writer);
-						//writer.WriteString(std::string{ "type" }, typeid(*pComp).name());
-						//pComp->Serialize(writer);
 					}
 				}
 				writer.EndArray();
@@ -94,7 +85,7 @@ void Registry::RestoreEntitiesContext(JsonReader* const reader, SerializationMap
 
 	for (size_t i = 0; i < arraySize; i++)
 	{
-		Entity entity = *(m_pEntityManager->m_CreatedEntities.begin() + (m_pEntityManager->m_CreatedEntities.size() - (arraySize - i)));
+		Entity entity = *(m_pEntityManager->m_EntityToAddBuffer.begin() + (m_pEntityManager->m_EntityToAddBuffer.size() - (arraySize - i)));
 
 		auto entityReadObject = entitiesObject->ReadArrayIndex(i);
 
@@ -173,15 +164,38 @@ bool Registry::EntityHasTag(Entity entity, std::string const& tag) const
 	return m_pEntityManager->EntityHasTag(entity, tag);
 }
 
-int Registry::GetLivingEntitiesCount() const
+size_t Registry::GetNextEntityIdx() const
+{
+	return m_pEntityManager->m_EntityToAddBuffer.size();
+}
+
+int Registry::GetLivingEntitiesCount() const 
 {
 	return m_pEntityManager->m_LivingEntitiesCount;
 }
 
-Entity Registry::GetEntityAtIndex(int idx) const
+Entity Registry::GetNewEntityAtIndex(size_t idx) const 
 {
-	assert(idx < m_pEntityManager->m_LivingEntitiesCount && "idx out of range");
-	return m_pEntityManager->m_CreatedEntities[idx];
+	assert(idx < m_pEntityManager->m_EntityToAddBuffer.size() && "idx out of range");
+	return m_pEntityManager->m_EntityToAddBuffer[idx];
+}
+
+void Registry::Update()
+{
+	m_pEntityManager->Update();
+
+	DoDestroyEntities();
+}
+
+void Registry::DoDestroyEntities()
+{
+	for (Entity entity : m_pEntityManager->m_EntityToDeleteBuffer)
+	{
+		m_pEntityManager->DestroyEntity(entity);
+		m_pComponentManager->EntityDestroyed(entity);
+	}
+
+	m_pEntityManager->m_EntityToDeleteBuffer.clear();
 }
 
 std::unordered_set<Entity> const& Registry::GetChildren(Entity entity) const

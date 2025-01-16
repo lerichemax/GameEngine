@@ -54,7 +54,7 @@ Renderer::~Renderer()
 	Destroy();
 }
 
-void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor, Camera2D const* pCamera)
+void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor)
 {
 	SDL_SetRenderDrawColor(m_pRenderer.get(), backgroundColor.R, backgroundColor.G, backgroundColor.B, backgroundColor.A);
 	SDL_RenderClear(m_pRenderer.get());
@@ -81,7 +81,7 @@ void Renderer::Render(Registry* const pRegistry, Color const& backgroundColor, C
 		{
 		case RenderSpace::World:
 		{
-			auto cameraSpaceTransform = pCamera->TransformToCameraSpace(pTransform->GetWorldTransformMatrix());
+			auto cameraSpaceTransform = CameraLocator::Get()->TransformIntoCameraSpace(pTransform->GetWorldTransformMatrix());
 			if (IS_VALID(pRenderComp->pTexture))
 			{
 				RenderTexture(*pRenderComp->pTexture, cameraSpaceTransform);

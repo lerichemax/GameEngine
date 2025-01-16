@@ -12,7 +12,7 @@ protected:
 	void Update() override;
 
 private: 
-	lua_State* m_pState;
+	lua_State* m_pState{ nullptr };
 
 	int lua_GetPosition(lua_State* pState);
 	int lua_SetPosition(lua_State* pState);

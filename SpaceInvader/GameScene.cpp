@@ -2,6 +2,7 @@
 #include "GameScene.h"
 
 #include "PlayerControllerSystem.h"
+#include "ProjectileSystem.h"
 
 #include "PrefabsManager.h"
 
@@ -14,6 +15,8 @@ GameScene::GameScene()
 void GameScene::Initialize()
 {
 	Instantiate("Player");
+	Instantiate("Enemy1");
 
 	AddSystem<PlayerControllerSystem>();
+	AddSystem<ProjectileSystem>();
 }

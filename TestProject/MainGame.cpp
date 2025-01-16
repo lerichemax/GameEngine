@@ -24,11 +24,9 @@ void MainGame::RegisterScenes() const
 	SceneManager::Get().LoadScene("Planets");
 }
 
-void MainGame::CreatePrefabs() const
+void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const
 {
-	auto& pPrefabManager = PrefabsManager::Get();
-
-	auto qbertPrefab = pPrefabManager.CreatePrefab();
+	auto qbertPrefab = pPrefabManager->CreatePrefab();
 	auto pQbertObj = qbertPrefab->CreateGameObject();
 
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
@@ -50,5 +48,5 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->AddChild(pHurtTextObj);
 	pHurtTextObj->GetTransform()->SetLocalLocation(-10, -34);
 
-	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
+	pPrefabManager->SavePrefab(qbertPrefab, "QBert");
 }

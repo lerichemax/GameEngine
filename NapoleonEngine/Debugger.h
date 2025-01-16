@@ -42,7 +42,7 @@ public:
 private:
 	friend class Singleton<Debugger>;
 
-	friend void Renderer::Render(ecs::Registry* const pRegistry, Color const& backgroundColor, Camera2D const* pCamera);
+	friend void Renderer::Render(ecs::Registry* const pRegistry, Color const& backgroundColor);
 		
 	Debugger();
 

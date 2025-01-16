@@ -3,7 +3,7 @@
 
 struct FPSCounter : public ecs::Component
 {
-	int m_FPS;
+	int m_FPS{};
 };
 
 SERIALIZE_CLASS(FPSCounter, ecs::Component)

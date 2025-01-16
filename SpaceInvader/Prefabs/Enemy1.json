@@ -1,9 +1,9 @@
 {
-    "name": "PlayerProjectile",
+    "name": "Enemy1",
     "entities": [
         {
             "Entity": 0,
-            "Tag": "",
+            "Tag": "Enemy",
             "components": [
                 {
                     "type": "class TransformComponent",
@@ -32,29 +32,20 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": true,
-                    "m_Id": 0
-                },
-                {
-                    "type": "struct ProjectileComponent",
-                    "MoveSpeed": 300.0,
-                    "MoveDirection": -1,
-                    "m_Entity": 0,
-                    "m_IsActive": true,
-                    "m_IsUnique": false,
-                    "m_Id": 3
+                    "m_Id": 8
                 },
                 {
                     "type": "struct RendererComponent",
                     "pTexture": {
                         "type": "class Texture2D",
-                        "m_FilePath": "Projectiles/Projectile_Player.png"
+                        "m_FilePath": "Alien1-1.png"
                     },
                     "Layer": 0,
                     "Space": 0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 1
+                    "m_Id": 9
                 },
                 {
                     "type": "class ColliderComponent",
@@ -62,8 +53,8 @@
                     "bIsTrigger": true,
                     "m_pShape": {
                         "type": "struct geo::Rectangle",
-                        "Width": 2,
-                        "Height": 8,
+                        "Width": 20,
+                        "Height": 20,
                         "bIsFilled": false,
                         "pShapeColor": {
                             "type": "struct geo::Color",
@@ -73,18 +64,18 @@
                             "A": 255
                         },
                         "Pos": {
-                            "x": 0.0,
+                            "x": 6.0,
                             "y": 0.0
                         }
                     },
                     "m_Offset": {
-                        "x": 0.0,
+                        "x": 6.0,
                         "y": 0.0
                     },
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 2
+                    "m_Id": 10
                 }
             ],
             "children": []

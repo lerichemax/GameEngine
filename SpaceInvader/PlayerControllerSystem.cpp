@@ -28,11 +28,14 @@ void PlayerControllerSystem::Update()
 
 		if (InputManager::Get().IsUp(SDL_SCANCODE_SPACE))
 		{
-			Instantiate("PlayerProjectile");
-
-			//add delay between projectile
+			if (pPlayer->ShootTimer <= 0)
+			{
+ 				Instantiate("PlayerProjectile", m_pRegistry->GetComponentInChildren<TransformComponent>(entity)->GetLocation());
+				pPlayer->ShootTimer = pPlayer->ShootDelay;
+			}
 		}
 
+		pPlayer->ShootTimer -= TimerLocator::Get()->GetDeltaTime();
 		glm::vec2 location = pTransform->GetLocation();
 		pTransform->SetLocation(location.x + (moveValue * pPlayer->MoveSpeed * TimerLocator::Get()->GetDeltaTime()), location.y);
 	}
