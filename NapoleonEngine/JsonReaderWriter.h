@@ -32,11 +32,8 @@ public:
 
 	void WriteInt(std::string const& key, int value);
 	void WriteInt64(std::string const& key, int64_t value);
-	void WriteIntNoKey(int value);
-	void WriteIntNoKey(int64_t value);
 	void WriteBool(std::string const& key, bool value);
 	void WriteString(std::string const& key, std::string const& value);
-	void WriteStringNoKey(std::string const& value);
 	void WriteDouble(std::string const& key, float value);
 	void WriteDouble(std::string const& key, double value);
 	void WriteVector(std::string const& key, glm::vec2 const& vec);
@@ -54,6 +51,7 @@ public:
 	void Write(std::string const& key, double value);
 	void Write(std::string const& key, glm::vec2 const& value);
 	void Write(std::string const& key, glm::mat3x3 value);
+	template<typename T> void Write(std::string const& key, std::vector<T> values);
 	template<typename T> void Write(std::string const& key, T* const serializableObject);
 	template<EnumType E> void Write(std::string const& key, E& enumObject);
 
@@ -93,6 +91,7 @@ public:
 	void Read(std::string const& key, glm::vec2& value) const;
 	void Read(std::string const& key, glm::mat3x3& value) const;
 	template<typename T> void Read(std::string const& key, T*& serializableObject) const;
+	template<typename T> void Read(std::string const& key, std::vector<T> values) const;
 	template<EnumType E> void Read(std::string const& key, E& enumValue) const;
 
 	SizeType GetArraySize() const;

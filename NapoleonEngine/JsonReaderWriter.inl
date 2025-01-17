@@ -4,6 +4,17 @@
 
 #include <type_traits>
 
+template<typename T> 
+void StreamWriter::Write(std::string const& key, std::vector<T> values)
+{
+	StartArray(key);
+	for (T const& value : values)
+	{
+		Write("", value);
+	}
+	EndArray()
+}
+
 template<typename T>
 void StreamWriter::Write(std::string const& key, T* const serializableObject)
 {
@@ -48,6 +59,25 @@ void JsonReader::Read(std::string const& key, T*& serializableObject) const
 	}
 
 	Reflection::Get().DeserializeClass(serializableObject, attributeReader.get());
+}
+
+template<typename T> 
+void JsonReader::Read(std::string const& key, std::vector<T> values) const
+{
+	auto pArray = ReadArray(key);
+
+	if (attributeReader == nullptr)
+	{
+		//log
+		return;
+	}
+
+	for (size_t i = 0; i < pArray->GetArraySize(); i++)
+	{
+		auto pArrayidx = pArray->ReadArrayIndex(i);
+		T t;
+		pArrayidx->Read(t);
+	}
 }
 
 template<>

@@ -68,58 +68,71 @@ StreamWriter::StreamWriter(StringBuffer& buffer)
 
 void StreamWriter::WriteInt(std::string const& key, int value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+	
 	m_BufferWriter.Int(value);
 }
 
 void StreamWriter::WriteInt64(std::string const& key, int64_t value)
 {
-	m_BufferWriter.Key(key.c_str());
-	m_BufferWriter.Int64(value);
-}
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
 
-void StreamWriter::WriteIntNoKey(int value)
-{
-	m_BufferWriter.Int(value);
-}
-
-void StreamWriter::WriteIntNoKey(int64_t value)
-{
 	m_BufferWriter.Int64(value);
 }
 
 void StreamWriter::WriteBool(std::string const& key, bool value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Bool(value);
 }
 
 void StreamWriter::WriteString(std::string const& key, std::string const& value)
 {
-	m_BufferWriter.Key(key.c_str());
-	m_BufferWriter.String(value.c_str());
-}
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
 
-void StreamWriter::WriteStringNoKey(std::string const& value)
-{
 	m_BufferWriter.String(value.c_str());
 }
 
 void StreamWriter::WriteDouble(std::string const& key, float value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Double(value);
 }
 
 void StreamWriter::WriteDouble(std::string const& key, double value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Double(value);
 }
 
 void StreamWriter::WriteVector(std::string const& key, glm::vec2 const& vec)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.StartObject();
 	WriteDouble("x", vec.x);
 	WriteDouble("y", vec.y);

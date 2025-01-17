@@ -161,15 +161,6 @@
     <ClInclude Include="ECS\include\ColliderComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\include\Component.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\include\ComponentArray.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\include\ComponentManager.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\include\AudioSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -216,6 +207,18 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\FPSCounter.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\Component.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentArray.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentManager.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -314,12 +317,6 @@
     <ClCompile Include="ECS\src\ColliderComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\src\Component.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\src\ComponentManager.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ECS\src\AudioSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
@@ -353,6 +350,15 @@
     <ClCompile Include="ECS\src\TransformComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ECS\src\Component.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ComponentManager.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Reflection.inl">
@@ -370,14 +376,14 @@
     <None Include="ECS\include\Registry.inl">
       <Filter>ECS</Filter>
     </None>
-    <None Include="ECS\include\ComponentArray.inl">
-      <Filter>ECS\Components</Filter>
-    </None>
-    <None Include="ECS\include\ComponentManager.inl">
-      <Filter>ECS\Components</Filter>
-    </None>
     <None Include="ECS\include\SystemManager.inl">
       <Filter>ECS\Systems\Base</Filter>
+    </None>
+    <None Include="ECS\include\ComponentArray.inl">
+      <Filter>ECS\Components\Base</Filter>
+    </None>
+    <None Include="ECS\include\ComponentManager.inl">
+      <Filter>ECS\Components\Base</Filter>
     </None>
   </ItemGroup>
 </Project>

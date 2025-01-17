@@ -36,20 +36,6 @@ void CollisionSystem::Update()
 		TransformSystem::ExtractTranslation(transformed, transformedLocation);
 		pCollider->GetShape()->Pos = pCollider->m_Offset + transformedLocation;
 
-		if (pCollider->bDraw) // fix drawing on the wrong position
-		{
-			Debugger::Get().DrawDebugShape(pCollider->GetShape());
-		}
-	}
-
-	for (Entity entity : view) // nested loop - > slow ? //TODO investigate more efficient algorythm
-	{
-		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
-		if (!pCollider->IsActive())
-		{
-			continue;
-		}
-
 		for (Entity otherEntity : view)
 		{
 			if (entity == otherEntity)
@@ -72,7 +58,20 @@ void CollisionSystem::Update()
 			{
 				HandleCollision(pCollider, pOtherCollider);
 			}
+
+			if (pCollider->bDraw)
+			{
+				Debugger::Get().DrawDebugShape(pCollider->GetShape());
+			}
 		}
+	}
+
+	for (Entity entity : view)
+	{
+		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
+
+		pCollider->m_PreviousLocation = pTransform->GetLocation();
 	}
 }
 
@@ -99,9 +98,14 @@ void CollisionSystem::HandleOverlapping(ColliderComponent* const pCollider, Coll
 void CollisionSystem::HandleCollision(ColliderComponent* const pCollider, ColliderComponent* const pOtherCollider)
 {
 	//TODO
+	if (pCollider->m_pShape->IsOverlapping(pOtherCollider->GetShape()))
+	{
+		m_pRegistry->GetComponent<TransformComponent>(pCollider->GetEntity())->SetLocation(pCollider->m_PreviousLocation);
+		m_pRegistry->GetComponent<TransformComponent>(pOtherCollider->GetEntity())->SetLocation(pOtherCollider->m_PreviousLocation);
 
-	//	else if (!bWasOverlapping && !pCollider->bIsTrigger)
-	//	{
-	//		pCollider->TriggerExit(pOtherCollider->GetEntity()->GetEntity());
-	//}
+		pCollider->Collide(pOtherCollider->GetEntity());
+		pOtherCollider->Collide(pCollider->GetEntity());
+
+		Collision.Notify(pCollider->GetEntity(), pOtherCollider->GetEntity());
+	}
 }
