@@ -46,7 +46,7 @@ void Registry::SerializeEntities(StreamWriter& writer)
 				writer.StartArray(std::string{ "children" });
 				for (Entity child : children)
 				{
-					writer.WriteIntNoKey(static_cast<int>(child));
+					writer.WriteInt("", static_cast<int>(child));
 				}
 				writer.EndArray();
 			}

@@ -12,7 +12,7 @@ void StreamWriter::Write(std::string const& key, std::vector<T> values)
 	{
 		Write("", value);
 	}
-	EndArray()
+	EndArray();
 }
 
 template<typename T>
@@ -31,6 +31,26 @@ template<EnumType E>
 void StreamWriter::Write(std::string const& key, E& enumObject)
 {
 	WriteInt(key, static_cast<int>(enumObject));
+}
+
+template<typename T> 
+void JsonReader::Read(T*& serializableObject) const
+{
+	if (serializableObject == nullptr)
+	{
+		std::string type;
+		ReadString("type", type);
+		T* pObj = nullptr;
+
+		if (!type.empty())
+		{
+			pObj = Factory::Get().Create<T>(type);
+		}
+
+		serializableObject = pObj;
+	}
+
+	Reflection::Get().DeserializeClass(serializableObject, this);
 }
 
 template<typename T>
@@ -66,7 +86,7 @@ void JsonReader::Read(std::string const& key, std::vector<T> values) const
 {
 	auto pArray = ReadArray(key);
 
-	if (attributeReader == nullptr)
+	if (pArray == nullptr)
 	{
 		//log
 		return;
@@ -75,8 +95,17 @@ void JsonReader::Read(std::string const& key, std::vector<T> values) const
 	for (size_t i = 0; i < pArray->GetArraySize(); i++)
 	{
 		auto pArrayidx = pArray->ReadArrayIndex(i);
-		T t;
-		pArrayidx->Read(t);
+
+		if constexpr (std::is_pointer_v<T>)
+		{
+			T* pT = new T{};
+			pArrayidx->Read(pT);
+		}
+		else 
+		{
+			T t;
+			pArrayidx->Read(t);
+		}
 	}
 }
 

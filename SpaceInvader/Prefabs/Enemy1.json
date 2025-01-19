@@ -50,7 +50,7 @@
                 {
                     "type": "class ColliderComponent",
                     "bDraw": true,
-                    "bIsTrigger": false,
+                    "bIsTrigger": true,
                     "m_pShape": {
                         "type": "struct geo::Rectangle",
                         "Width": 20,
