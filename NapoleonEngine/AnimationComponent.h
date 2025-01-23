@@ -3,10 +3,14 @@
 
 struct AnimationComponent final : public ecs::Component
 {
+	friend class AnimationSystem;
+public:
 	PROPERTY(std::vector<std::string>, AnimationSprites);
 	PROPERTY(float, TimePerSprite);
 
-	int CurrentSpriteIndex;
+private:
+	int CurrentSpriteIndex = 0;
+	float SpriteTimer = 0.f;
 };
 
 SERIALIZE_CLASS(AnimationComponent, ecs::Component)

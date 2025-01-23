@@ -82,7 +82,7 @@ void JsonReader::Read(std::string const& key, T*& serializableObject) const
 }
 
 template<typename T> 
-void JsonReader::Read(std::string const& key, std::vector<T> values) const
+void JsonReader::Read(std::string const& key, std::vector<T>& values) const
 {
 	auto pArray = ReadArray(key);
 
@@ -100,11 +100,13 @@ void JsonReader::Read(std::string const& key, std::vector<T> values) const
 		{
 			T* pT = new T{};
 			pArrayidx->Read(pT);
+			values.push_back(pT);
 		}
 		else 
 		{
 			T t;
 			pArrayidx->Read(t);
+			values.push_back(t);
 		}
 	}
 }

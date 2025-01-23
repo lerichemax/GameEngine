@@ -104,7 +104,7 @@ public:
 	void Read(glm::mat3x3& value) const;
 
 	template<typename T> void Read(std::string const& key, T*& serializableObject) const;
-	template<typename T> void Read(std::string const& key, std::vector<T> values) const;
+	template<typename T> void Read(std::string const& key, std::vector<T>& values) const;
 	template<EnumType E> void Read(std::string const& key, E& enumValue) const;
 
 	SizeType GetArraySize() const;

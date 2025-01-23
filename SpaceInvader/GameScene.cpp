@@ -3,6 +3,7 @@
 
 #include "PlayerControllerSystem.h"
 #include "ProjectileSystem.h"
+#include "AnimationSystem.h"
 
 #include "PrefabsManager.h"
 
@@ -19,4 +20,5 @@ void GameScene::Initialize()
 
 	AddSystem<PlayerControllerSystem>();
 	AddSystem<ProjectileSystem>();
+	AddSystem<AnimationSystem>();
 }

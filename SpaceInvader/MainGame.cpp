@@ -7,6 +7,7 @@
 #include "PlayerComponent.h"
 #include "ColliderComponent.h"
 #include "ProjectileComponent.h"
+#include "AnimationComponent.h"
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
@@ -64,6 +65,11 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	auto pEnemy1Object = pEnemy1Prefab->CreateGameObject();
 	auto pEnemy1Renderer = pEnemy1Object->AddComponent<RendererComponent>();
 	pEnemy1Renderer->pTexture = ResourceManager::Get().GetTexture("Alien1-1.png");
+	auto pEnemy1Animation = pEnemy1Object->AddComponent<AnimationComponent>();
+	pEnemy1Animation->AnimationSprites.push_back("Alien1-1.png");
+	pEnemy1Animation->AnimationSprites.push_back("Alien1-2.png");
+	pEnemy1Animation->TimePerSprite = 0.25f;
+
 	auto pEnemy1Collider = pEnemy1Object->AddComponent<ColliderComponent>();
 	pEnemy1Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{6.f, 0.f}, 20, 20, Color{ 255,0,0 }));
 	pEnemy1Collider->bDraw = true;
