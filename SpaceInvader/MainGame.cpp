@@ -13,7 +13,7 @@
 #include "ResourceManager.h"
 
 MainGame::MainGame()
-	:NapoleonEngine{600, 400, "Space Invaders", true}
+	:NapoleonEngine{400, 500, "Space Invaders", true}
 {
 
 }
@@ -79,5 +79,25 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	pEnemy1Object->SetTag("Enemy");
 
 	pPrefabManager->SavePrefab(pEnemy1Prefab, "Enemy1");
+
+	//enemy 2
+	auto pEnemy2Prefab = pPrefabManager->CreatePrefab();
+	auto pEnemy2Object = pEnemy2Prefab->CreateGameObject();
+	auto pEnemy2Renderer = pEnemy2Object->AddComponent<RendererComponent>();
+	pEnemy2Renderer->pTexture = ResourceManager::Get().GetTexture("Alien2-1.png");
+	auto pEnemy2Animation = pEnemy2Object->AddComponent<AnimationComponent>();
+	pEnemy2Animation->AnimationSprites.push_back("Alien2-1.png");
+	pEnemy2Animation->AnimationSprites.push_back("Alien2-2.png");
+	pEnemy2Animation->TimePerSprite = 0.25f;
+
+	auto pEnemy2Collider = pEnemy2Object->AddComponent<ColliderComponent>();
+	pEnemy2Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{ 6.f, 0.f }, 20, 20, Color{ 255,0,0 }));
+	pEnemy2Collider->bDraw = true;
+	pEnemy2Collider->bIsTrigger = true;
+
+	pEnemy2Object->GetTransform()->Scale(2.f);
+	pEnemy2Object->SetTag("Enemy");
+
+	pPrefabManager->SavePrefab(pEnemy2Prefab, "Enemy2");
 
 }

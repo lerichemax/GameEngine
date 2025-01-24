@@ -4,6 +4,10 @@
 #include "PlayerControllerSystem.h"
 #include "ProjectileSystem.h"
 #include "AnimationSystem.h"
+#include "EnemySystem.h"
+
+#include "EnemyInfoComponent.h"
+#include "EnemyGroupComponent.h"
 
 #include "PrefabsManager.h"
 
@@ -16,9 +20,18 @@ GameScene::GameScene()
 void GameScene::Initialize()
 {
 	Instantiate("Player");
-	Instantiate("Enemy1");
+
+	auto pEnemyInfoObj = CreateGameObject();
+	pEnemyInfoObj->AddComponent<EnemyGroupComponent>();
+	auto pEnemyInfo = pEnemyInfoObj->AddComponent<EnemyInfoComponent>();
+	pEnemyInfo->EnemyPrefab = "Enemy1";
+
+	pEnemyInfo = pEnemyInfoObj->AddComponent<EnemyInfoComponent>();
+	pEnemyInfo->EnemyPrefab = "Enemy2";
+	pEnemyInfo->Rows = 2;
 
 	AddSystem<PlayerControllerSystem>();
 	AddSystem<ProjectileSystem>();
 	AddSystem<AnimationSystem>();
+	AddSystem<EnemySystem>();
 }

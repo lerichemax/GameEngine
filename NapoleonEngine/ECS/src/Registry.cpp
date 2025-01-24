@@ -146,6 +146,7 @@ void Registry::SetEntityHierarchyActive(Entity entity, bool isActive)
 
 void Registry::AddChild(Entity parent, Entity child)
 {
+	GetComponent<TransformComponent>(child)->m_pParent = GetComponent<TransformComponent>(parent);
 	m_pEntityManager->AddChild(parent, child);
 }
 
