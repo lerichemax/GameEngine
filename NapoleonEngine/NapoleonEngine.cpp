@@ -131,7 +131,7 @@ void NapoleonEngine::StartHeapControl()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Set a breakpoint on the specified object allocation order number
-	//_CrtSetBreakAlloc(165);
+	//_CrtSetBreakAlloc(186);
 
 #endif
 }

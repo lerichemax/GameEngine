@@ -8,9 +8,12 @@
 #include "ColliderComponent.h"
 #include "ProjectileComponent.h"
 #include "AnimationComponent.h"
+#include "LifeComponent.h"
 
 #include "PrefabsManager.h"
 #include "ResourceManager.h"
+
+#include "Animation.h"
 
 MainGame::MainGame()
 	:NapoleonEngine{400, 500, "Space Invaders", true}
@@ -33,13 +36,13 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	auto pCollider = pProjectileObject->AddComponent<ColliderComponent>();
 	pCollider->bIsTrigger = true;
 	pCollider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{ 0,0 }, 2, 8, Color{255,0,0}));
-	pCollider->bDraw = true;
 	pProjectileObject->GetTransform()->Scale(2.f);
 
 	auto pProjectileComponent = pProjectileObject->AddComponent<ProjectileComponent>();
 	pProjectileComponent->MoveSpeed = 300.f;
 	pProjectileComponent->MoveDirection = -1;
 
+	pProjectileObject->SetTag("Projectile");
 	pPrefabManager->SavePrefab(pProjectilePrefab, "PlayerProjectile");
 
 	//player
@@ -66,13 +69,14 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	auto pEnemy1Renderer = pEnemy1Object->AddComponent<RendererComponent>();
 	pEnemy1Renderer->pTexture = ResourceManager::Get().GetTexture("Alien1-1.png");
 	auto pEnemy1Animation = pEnemy1Object->AddComponent<AnimationComponent>();
-	pEnemy1Animation->AnimationSprites.push_back("Alien1-1.png");
-	pEnemy1Animation->AnimationSprites.push_back("Alien1-2.png");
-	pEnemy1Animation->TimePerSprite = 0.25f;
+	pEnemy1Animation->SetAnimation(ResourceManager::Get().RegisterAnimation("Alien1_Idle", "Alien1-1.png", "Alien1-2.png"));
+	auto pEnemy1Life = pEnemy1Object->AddComponent<LifeComponent>();
+	auto pAlienDeathAnim = ResourceManager::Get().RegisterAnimation("Alien_Death", "Alien_Explosion.png");
+	pAlienDeathAnim->m_bLoop = false;
+	pEnemy1Life->pDeathAnimation = pAlienDeathAnim;
 
 	auto pEnemy1Collider = pEnemy1Object->AddComponent<ColliderComponent>();
 	pEnemy1Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{6.f, 0.f}, 20, 20, Color{ 255,0,0 }));
-	pEnemy1Collider->bDraw = true;
 	pEnemy1Collider->bIsTrigger = true;
 
 	pEnemy1Object->GetTransform()->Scale(2.f);
@@ -86,18 +90,36 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	auto pEnemy2Renderer = pEnemy2Object->AddComponent<RendererComponent>();
 	pEnemy2Renderer->pTexture = ResourceManager::Get().GetTexture("Alien2-1.png");
 	auto pEnemy2Animation = pEnemy2Object->AddComponent<AnimationComponent>();
-	pEnemy2Animation->AnimationSprites.push_back("Alien2-1.png");
-	pEnemy2Animation->AnimationSprites.push_back("Alien2-2.png");
-	pEnemy2Animation->TimePerSprite = 0.25f;
+	pEnemy2Animation->SetAnimation(ResourceManager::Get().RegisterAnimation("Alien2_Idle", "Alien2-1.png", "Alien2-2.png"));
+	auto pEnemy2Life = pEnemy2Object->AddComponent<LifeComponent>();
+	pEnemy2Life->pDeathAnimation = pAlienDeathAnim;
 
 	auto pEnemy2Collider = pEnemy2Object->AddComponent<ColliderComponent>();
 	pEnemy2Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{ 6.f, 0.f }, 20, 20, Color{ 255,0,0 }));
-	pEnemy2Collider->bDraw = true;
 	pEnemy2Collider->bIsTrigger = true;
 
 	pEnemy2Object->GetTransform()->Scale(2.f);
 	pEnemy2Object->SetTag("Enemy");
 
 	pPrefabManager->SavePrefab(pEnemy2Prefab, "Enemy2");
+
+	//enemy 3
+	auto pEnemy3Prefab = pPrefabManager->CreatePrefab();
+	auto pEnemy3Object = pEnemy3Prefab->CreateGameObject();
+	auto pEnemy3Renderer = pEnemy3Object->AddComponent<RendererComponent>();
+	pEnemy3Renderer->pTexture = ResourceManager::Get().GetTexture("Alien3-1.png");
+	auto pEnemy3Animation = pEnemy3Object->AddComponent<AnimationComponent>();
+	pEnemy3Animation->SetAnimation(ResourceManager::Get().RegisterAnimation("Alien3_Idle", "Alien3-1.png", "Alien3-2.png"));
+	auto pEnemy3Life = pEnemy3Object->AddComponent<LifeComponent>();
+	pEnemy3Life->pDeathAnimation = pAlienDeathAnim;
+
+	auto pEnemy3Collider = pEnemy3Object->AddComponent<ColliderComponent>();
+	pEnemy3Collider->SetShape(std::make_unique<geo::Rectangle>(glm::vec2{ 6.f, 0.f }, 20, 20, Color{ 255,0,0 }));
+	pEnemy3Collider->bIsTrigger = true;
+
+	pEnemy3Object->GetTransform()->Scale(2.f);
+	pEnemy3Object->SetTag("Enemy");
+
+	pPrefabManager->SavePrefab(pEnemy3Prefab, "Enemy3");
 
 }

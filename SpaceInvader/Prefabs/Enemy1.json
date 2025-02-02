@@ -49,7 +49,7 @@
                 },
                 {
                     "type": "class ColliderComponent",
-                    "bDraw": true,
+                    "bDraw": false,
                     "bIsTrigger": true,
                     "m_pShape": {
                         "type": "struct geo::Rectangle",
@@ -75,19 +75,42 @@
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
-                    "m_Id": 11
+                    "m_Id": 12
                 },
                 {
                     "type": "struct AnimationComponent",
-                    "AnimationSprites": [
-                        "Alien1-1.png",
-                        "Alien1-2.png"
-                    ],
-                    "TimePerSprite": 0.25,
+                    "bIsPaused": false,
+                    "pAnimation": {
+                        "type": "class Animation",
+                        "m_bLoop": true,
+                        "m_AnimationSprites": [
+                            "Alien1-1.png",
+                            "Alien1-2.png"
+                        ],
+                        "m_TimePerSprite": 0.25,
+                        "m_Name": "Alien1_Idle"
+                    },
+                    "Rate": 1.0,
                     "m_Entity": 0,
                     "m_IsActive": true,
                     "m_IsUnique": false,
                     "m_Id": 10
+                },
+                {
+                    "type": "struct LifeComponent",
+                    "pDeathAnimation": {
+                        "type": "class Animation",
+                        "m_bLoop": false,
+                        "m_AnimationSprites": [
+                            "Alien_Explosion.png"
+                        ],
+                        "m_TimePerSprite": 0.25,
+                        "m_Name": "Alien_Death"
+                    },
+                    "m_Entity": 0,
+                    "m_IsActive": true,
+                    "m_IsUnique": false,
+                    "m_Id": 11
                 }
             ],
             "children": []

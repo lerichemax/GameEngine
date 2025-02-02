@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include "Animation.h"
 
 #include <vector>
 #include <map>
@@ -19,44 +20,7 @@
 
 #define DATA_PATH "./Data/"
 
-class ResourceManager::ResourceManagerImpl final
-{
-public:
-	ResourceManagerImpl();
-	ResourceManagerImpl(ResourceManagerImpl const& other) = delete;
-	ResourceManagerImpl(ResourceManagerImpl&& other) = delete;
-	ResourceManagerImpl& operator=(ResourceManagerImpl const& rhs) = delete;
-	ResourceManagerImpl& operator=(ResourceManagerImpl&& rhs) = delete;
-	~ResourceManagerImpl();
-
-	void Init(Renderer* const pRenderer);
-
-	Texture2D* const GetTexture(const std::string& file);
-	SDL_Texture* const GetSDLTexture(const std::string& file);
-	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
-	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color Color, int id);
-
-	Font* const GetFont(const std::string& file, int size);
-	ID GetEffect(const std::string& file);
-	SoundEffect* const GetEffectById(ID id) const;
-
-private:
-	Renderer* m_pRenderer;
-
-	std::map<std::string, std::unique_ptr<Texture2D>> m_pTextures;
-	std::map<int, std::unique_ptr<Texture2D>> m_pTxtTextures;
-
-	std::vector<std::unique_ptr<Font>> m_pFonts;
-	std::map<std::string, std::unique_ptr<SoundEffect>> m_pEffectsStr;
-	std::map<ID, std::unique_ptr<SoundEffect>> m_pEffects;
-
-	Texture2D* const LoadTexture(const std::string& file);
-	Texture2D* const SafeLoadTexture(const std::string& file);
-	Font* const LoadFont(const std::string& file, unsigned int size);
-	SoundEffect* const LoadEffect(const std::string& file);
-};
-
-ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
+ResourceManager::ResourceManager()
 	:m_pTextures(),
 	m_pFonts()
 {
@@ -69,7 +33,7 @@ ResourceManager::ResourceManagerImpl::ResourceManagerImpl()
 	});
 }
 
-ResourceManager::ResourceManagerImpl::~ResourceManagerImpl()
+ResourceManager::~ResourceManager()
 {
 	TextRendererComponent::OnAnyDestroyed.UnsuscribeAll();
 
@@ -79,7 +43,7 @@ ResourceManager::ResourceManagerImpl::~ResourceManagerImpl()
 	IMG_Quit();
 }
 
-void ResourceManager::ResourceManagerImpl::Init(Renderer* const pRenderer)
+void ResourceManager::Init(Renderer* const pRenderer)
 {
 	m_pRenderer = pRenderer;
 
@@ -100,7 +64,7 @@ void ResourceManager::ResourceManagerImpl::Init(Renderer* const pRenderer)
 	}
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::string& file)
+Texture2D* const ResourceManager::LoadTexture(const std::string& file)
 {
 	const auto fullPath = DATA_PATH + file;
 	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
@@ -112,7 +76,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::LoadTexture(const std::st
 	return m_pTextures.insert(std::make_pair(file, std::unique_ptr<Texture2D>(new Texture2D{ texture, file }))).first->second.get();
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std::string& file)
+Texture2D* const ResourceManager::SafeLoadTexture(const std::string& file)
 {
 	const auto fullPath = DATA_PATH + file;
 	auto const texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
@@ -124,7 +88,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::SafeLoadTexture(const std
 	return m_pTextures.insert(std::make_pair(file, std::unique_ptr<Texture2D>(new Texture2D{ texture, file }))).first->second.get();
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::string& file)
+Texture2D* const ResourceManager::GetTexture(const std::string& file)
 {
 	if (m_pTextures.find(file) == m_pTextures.end())
 	{
@@ -142,7 +106,7 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTexture(const std::str
 	return m_pTextures.at(file).get();
 }
 
-SDL_Texture* const ResourceManager::ResourceManagerImpl::GetSDLTexture(const std::string& file)
+SDL_Texture* const ResourceManager::GetSDLTexture(const std::string& file)
 {
 	if (m_pTextures.find(file) == m_pTextures.end())
 	{
@@ -160,7 +124,7 @@ SDL_Texture* const ResourceManager::ResourceManagerImpl::GetSDLTexture(const std
 	return m_pTextures.at(file)->GetSDLTexture();
 }
 
-bool ResourceManager::ResourceManagerImpl::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
+bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
 {
 	if (m_pTextures.find(fileName) == m_pTextures.end())
 	{
@@ -177,7 +141,7 @@ bool ResourceManager::ResourceManagerImpl::TryGetTexture(std::string const& file
 	return true;
 }
 
-Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
+Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
 	const auto surf = TTF_RenderText_Blended(pFont, txt, Color);
 	if (surf == nullptr)
@@ -200,7 +164,17 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	return m_pTxtTextures[id].get();
 }
 
-Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, int size)
+Animation* const ResourceManager::GetAnimation(std::string const& animationName)
+{
+	auto pAnimIt = m_pAnimations.find(animationName);
+	if (pAnimIt != m_pAnimations.end())
+	{
+		return pAnimIt->second.get();
+	}
+	return nullptr;
+}
+
+Font* const ResourceManager::GetFont(const std::string& file, int size)
 {
 	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](std::unique_ptr<Font>& pFont)
 		{
@@ -216,7 +190,7 @@ Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& fil
 	}
 }
 
-ID ResourceManager::ResourceManagerImpl::GetEffect(const std::string& file)
+ID ResourceManager::GetEffect(const std::string& file)
 {
 	if (m_pEffectsStr.find(file) == m_pEffectsStr.end())
 	{
@@ -234,7 +208,7 @@ ID ResourceManager::ResourceManagerImpl::GetEffect(const std::string& file)
 	return m_pEffectsStr.at(file)->GetId();
 }
 
-SoundEffect* const ResourceManager::ResourceManagerImpl::GetEffectById(ID id) const
+SoundEffect* const ResourceManager::GetEffectById(ID id) const
 {
 	auto it = m_pEffects.find(id);
 
@@ -245,7 +219,7 @@ SoundEffect* const ResourceManager::ResourceManagerImpl::GetEffectById(ID id) co
 	return nullptr;
 }
 
-Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& file, unsigned int size)
+Font* const ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	std::string fullPath{ DATA_PATH + file };
 	_TTF_Font* pFont = TTF_OpenFont(fullPath.c_str(), size);
@@ -259,7 +233,7 @@ Font* const ResourceManager::ResourceManagerImpl::LoadFont(const std::string& fi
 	return m_pFonts.back().get();
 }
 
-SoundEffect* const ResourceManager::ResourceManagerImpl::LoadEffect(const std::string& file)
+SoundEffect* const ResourceManager::LoadEffect(const std::string& file)
 {
 	std::string fullPath{ DATA_PATH + file };
 	Mix_Chunk* pMixChunk = Mix_LoadWAV(fullPath.c_str());
@@ -274,52 +248,8 @@ SoundEffect* const ResourceManager::ResourceManagerImpl::LoadEffect(const std::s
 	return pEffect;
 }
 
-ResourceManager::ResourceManager()
-	:Singleton<ResourceManager>(),
-	m_pImpl(std::make_unique<ResourceManagerImpl>())
+Animation* const ResourceManager::AddAnimation(std::string const& animationName, std::vector<std::string> const& textureFiles)
 {
-}
-
-ResourceManager::~ResourceManager()
-{
-
-}
-
-void ResourceManager::Init(Renderer* const pRenderer)
-{
-	m_pImpl->Init(pRenderer);
-}
-
-Texture2D* const ResourceManager::GetTexture(const std::string& file)
-{
-	return m_pImpl->GetTexture(file);
-}
-SDL_Texture* const ResourceManager::GetSDLTexture(const std::string& file)
-{
-	return m_pImpl->GetSDLTexture(file);
-}
-
-bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTexture)
-{
-	return m_pImpl->TryGetTexture(fileName, pTexture);
-}
-
-Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
-{
-	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
-}
-
-Font* const ResourceManager::GetFont(const std::string& file, int size)
-{
-	return m_pImpl->GetFont(file, size);
-}
-
-ID ResourceManager::GetEffect(const std::string& file)
-{
-	return m_pImpl->GetEffect(file);
-}
-
-SoundEffect* const ResourceManager::GetEffectById(ID id) const
-{
-	return m_pImpl->GetEffectById(id);
+	auto animationPair = m_pAnimations.emplace(animationName, std::make_unique<Animation>(animationName, textureFiles));
+	return animationPair.first->second.get();
 }

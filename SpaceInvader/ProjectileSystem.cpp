@@ -3,13 +3,20 @@
 #include "CollisionSystem.h"
 
 #include "ProjectileComponent.h"
+#include "LifeComponent.h"
+#include "ColliderComponent.h"
+#include "AnimationComponent.h"
 
 void ProjectileSystem::Initialize()
 {
 	CollisionSystem::TriggerEnter.Subscribe([this](Entity entityA, Entity entityB) {
-		//Entity enemyEntity = m_pRegistry->GetTag(entityA) == "Enemy" ? entityA : entityB;
-		m_pRegistry->DestroyEntity(entityA);
-		m_pRegistry->DestroyEntity(entityB);
+		Entity projectileEntity = m_pRegistry->GetTag(entityA) == "Projectile" ? entityA : entityB;
+		Entity otherEntity = projectileEntity == entityA ? entityB : entityA;
+		m_pRegistry->DestroyEntity(projectileEntity);
+
+		m_pRegistry->GetComponent<LifeComponent>(otherEntity)->bIsHit = true;
+		m_pRegistry->GetComponent<ColliderComponent>(otherEntity)->SetActive(false);
+		m_pRegistry->GetComponent<AnimationComponent>(otherEntity)->Rate = 1.5f;
 		});
 }
 

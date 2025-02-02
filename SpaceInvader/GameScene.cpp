@@ -5,6 +5,7 @@
 #include "ProjectileSystem.h"
 #include "AnimationSystem.h"
 #include "EnemySystem.h"
+#include "LifeSystem.h"
 
 #include "EnemyInfoComponent.h"
 #include "EnemyGroupComponent.h"
@@ -30,8 +31,13 @@ void GameScene::Initialize()
 	pEnemyInfo->EnemyPrefab = "Enemy2";
 	pEnemyInfo->Rows = 2;
 
+	pEnemyInfo = pEnemyInfoObj->AddComponent<EnemyInfoComponent>();
+	pEnemyInfo->EnemyPrefab = "Enemy3";
+	pEnemyInfo->Rows = 1;
+
 	AddSystem<PlayerControllerSystem>();
 	AddSystem<ProjectileSystem>();
 	AddSystem<AnimationSystem>();
 	AddSystem<EnemySystem>();
+	AddSystem<LifeSystem>();
 }

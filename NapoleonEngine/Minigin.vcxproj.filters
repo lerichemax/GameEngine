@@ -224,6 +224,9 @@
     <ClInclude Include="AnimationSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -364,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="AnimationSystem.cpp">
       <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
