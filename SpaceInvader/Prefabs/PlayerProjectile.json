@@ -3,7 +3,7 @@
     "entities": [
         {
             "Entity": 0,
-            "Tag": "",
+            "Tag": "Projectile",
             "components": [
                 {
                     "type": "class TransformComponent",

@@ -7,9 +7,10 @@
 void ProjectileSystem::Initialize()
 {
 	CollisionSystem::TriggerEnter.Subscribe([this](Entity entityA, Entity entityB) {
-		//Entity enemyEntity = m_pRegistry->GetTag(entityA) == "Enemy" ? entityA : entityB;
-		m_pRegistry->DestroyEntity(entityA);
-		m_pRegistry->DestroyEntity(entityB);
+		Entity projectileEntity = m_pRegistry->GetTag(entityA) == "Projectile" ? entityA : entityB;
+		Entity otherEntity = projectileEntity == entityA ? entityB : entityA;
+		m_pRegistry->DestroyEntity(projectileEntity);
+		m_pRegistry->DestroyEntity(otherEntity);
 		});
 }
 

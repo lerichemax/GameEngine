@@ -9,6 +9,7 @@
 class Texture2D;
 class Font;
 class Renderer;
+class Animation;
 class ResourceManager final : public Singleton<ResourceManager>
 {
 	friend class NapoleonEngine;
@@ -23,7 +24,9 @@ public:
 	Texture2D* const GetTexture(const std::string& file);
 	SDL_Texture* const GetSDLTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
-	Texture2D* const GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id);
+	Texture2D* const GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id); // pass font wrapper ?
+	Animation* const GetAnimation(std::string const& animationName);
+	Animation* const RegisterAnimation(std::string const& animationName, std::string const& textureFiles...);
 
 	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);

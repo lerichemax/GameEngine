@@ -29,6 +29,9 @@
     <ClCompile Include="EnemySystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="LifeSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -56,5 +59,13 @@
     <ClInclude Include="EnemyGroupComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="LifeSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LifeComponent.h">
+      <Filter>Components</Filter>
+    </None>
   </ItemGroup>
 </Project>

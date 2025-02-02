@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="EnemySystem.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="LifeSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
@@ -159,11 +160,15 @@
     <ClInclude Include="EnemyInfoComponent.h" />
     <ClInclude Include="EnemySystem.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="LifeSystem.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerControllerSystem.h" />
     <ClInclude Include="ProjectileComponent.h" />
     <ClInclude Include="ProjectileSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LifeComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

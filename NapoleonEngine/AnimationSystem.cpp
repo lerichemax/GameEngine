@@ -16,12 +16,19 @@ void AnimationSystem::Update()
 		auto pAnimation = m_pRegistry->GetComponent<AnimationComponent>(entity);
 		auto pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 
-		if (pAnimation->SpriteTimer <= 0.f)
+		if (!pAnimation->bIsPaused && pAnimation->SpriteTimer <= 0.f)
 		{
 			pAnimation->CurrentSpriteIndex++;
 			if (pAnimation->CurrentSpriteIndex >= pAnimation->AnimationSprites.size())
 			{
-				pAnimation->CurrentSpriteIndex = 0;
+				if (pAnimation->bLoop)
+				{
+					pAnimation->CurrentSpriteIndex = 0;
+				}
+				else
+				{
+					pAnimation->bAnimationFinished = true;
+				}
 			}
 
 			pRenderer->pTexture = ResourceManager::Get().GetTexture(pAnimation->AnimationSprites[pAnimation->CurrentSpriteIndex]);

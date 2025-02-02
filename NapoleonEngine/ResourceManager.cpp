@@ -35,6 +35,8 @@ public:
 	SDL_Texture* const GetSDLTexture(const std::string& file);
 	bool TryGetTexture(std::string const& fileName, Texture2D*& pTexture);
 	Texture2D* const GetTextTexture(TTF_Font*, const char* txt, SDL_Color Color, int id);
+	Animation* const GetAnimation(std::string const& animationName);
+	template<typename... TextureFiles> Animation* const RegisterAnimation(std::string const& animationName, TextureFiles&&... textureFiles);
 
 	Font* const GetFont(const std::string& file, int size);
 	ID GetEffect(const std::string& file);
@@ -45,6 +47,7 @@ private:
 
 	std::map<std::string, std::unique_ptr<Texture2D>> m_pTextures;
 	std::map<int, std::unique_ptr<Texture2D>> m_pTxtTextures;
+	std::map<int, std::unique_ptr<Animation>> m_pAnimations;
 
 	std::vector<std::unique_ptr<Font>> m_pFonts;
 	std::map<std::string, std::unique_ptr<SoundEffect>> m_pEffectsStr;
@@ -200,6 +203,26 @@ Texture2D* const ResourceManager::ResourceManagerImpl::GetTextTexture(TTF_Font* 
 	return m_pTxtTextures[id].get();
 }
 
+Animation* const ResourceManager::ResourceManagerImpl::GetAnimation(std::string const& animationName)
+{
+	
+}
+
+template<typename... TextureFiles> 
+Animation* const ResourceManager::ResourceManagerImpl::RegisterAnimation(std::string const& animationName, TextureFiles&&... textureFiles)
+{
+	static_assert((std::is_convertible_v<TextureFiles, std::string> && ...),
+		"All texture files must be of type std::string or convertible to std::string");
+
+	std::vector<std::string> files;
+	for (const auto& texture : textureFiles) {
+		files.push_back(static_cast<std::string>(texture));
+	}
+
+	auto animationPair = m_pAnimations.emplace(animationName, std::make_unique<Animation>(files));
+	return animationPair.second;
+}
+
 Font* const ResourceManager::ResourceManagerImpl::GetFont(const std::string& file, int size)
 {
 	auto fontIt = std::find_if(m_pFonts.begin(), m_pFonts.end(), [&file, &size](std::unique_ptr<Font>& pFont)
@@ -307,6 +330,16 @@ bool ResourceManager::TryGetTexture(std::string const& fileName, Texture2D*& pTe
 Texture2D* const ResourceManager::GetTextTexture(TTF_Font* pFont, const char* txt, SDL_Color Color, int id)
 {
 	return m_pImpl->GetTextTexture(pFont, txt, Color, id);
+}
+
+Animation* const ResourceManager::GetAnimation(std::string const& animationName)
+{
+	return m_pImpl->GetAnimation(animationName);
+}
+
+Animation* const ResourceManager::RegisterAnimation(std::string const& animationName, std::string const& textureFiles...)
+{
+
 }
 
 Font* const ResourceManager::GetFont(const std::string& file, int size)

@@ -40,6 +40,7 @@ void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) con
 	pProjectileComponent->MoveSpeed = 300.f;
 	pProjectileComponent->MoveDirection = -1;
 
+	pProjectileObject->SetTag("Projectile");
 	pPrefabManager->SavePrefab(pProjectilePrefab, "PlayerProjectile");
 
 	//player
