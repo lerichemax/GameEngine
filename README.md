@@ -14,7 +14,19 @@ The solution only compiles on 64bits for now.
 
 # Game Engine <a id='gameEngine'></a>
 ## ECS
-The engine is based on an Entity-Component-System.
+Each "object" in a scene is an entity to which components can be added. This components contain data that can then be manipulated by systems.
+Entities, components and systems are managed by separated managers and a Registry class exists to oversee them all. Creating new entities and adding components to them require calls to the Registry. 
+Entities can be wrapped in a GameObject object to allow simple adding or removing of components or children entities.
+
+## Serializer
+The engine supports serialization to a JSON or binary format. This is used for the prefab and the reflection system but will be extended to support a save system.
+
+## Reflection system
+The refelection system allows the auto serialization of a class without requiring the user to override a Serialize adn Deserialize function himself.
+
+ ![Screenshot 2025-03-30 145752](https://github.com/user-attachments/assets/268e8463-97be-4532-b466-67b70eedc098)
+
+ By calling the macro SERIALIZE_CLASS(_class_, _parent_) the class and all its member variables declared using the property MACRO will be reflected and serialized.
 
 ## Guide 
 ### Requirements
@@ -61,6 +73,6 @@ Make sure you include PCH.h in all cpp file you create.
 
 - Saved prefabs can then be instantiated by calling the global Instantiate function.
 
- ![Screenshot 2025-03-30 134300](https://github.com/user-attachments/assets/b8d150e1-2617-4c72-81f7-d107af78e297)
+  ![Screenshot 2025-03-30 134300](https://github.com/user-attachments/assets/b8d150e1-2617-4c72-81f7-d107af78e297)
 
 - The rest of the objects necessary to your scene can be added in the Scene::Initialize overriden fucntion.
