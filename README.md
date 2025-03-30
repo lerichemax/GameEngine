@@ -56,5 +56,11 @@ Make sure you include PCH.h in all cpp file you create.
 
 - In MainGame::CreatePrefabs, one can create a prefab by calling on the PrefabManager, then create game objects in it and add components to it. Finally, call Save on the prefab manager and give it a name. Note that the function CreatePrefab will only be called if the fourth argument in the constructor is true. It should be called only when you make a change to a prefab.
 
-  ![Screenshot 2025-01-06 160353](https://github.com/user-attachments/assets/c3501830-268e-470e-83dc-88f76f8a7ea6)
+  ![Screenshot 2025-03-30 133925](https://github.com/user-attachments/assets/2ae49d8f-c999-4ee2-903b-80ae1e0b0b0b)
 
+
+- Saved prefabs can then be instantiated by calling the global Instantiate function.
+
+ ![Screenshot 2025-03-30 134300](https://github.com/user-attachments/assets/b8d150e1-2617-4c72-81f7-d107af78e297)
+
+- The rest of the objects necessary to your scene can be added in the Scene::Initialize overriden fucntion.
