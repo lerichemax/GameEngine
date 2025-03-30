@@ -3,6 +3,9 @@
 #include "CollisionSystem.h"
 
 #include "ProjectileComponent.h"
+#include "LifeComponent.h"
+#include "ColliderComponent.h"
+#include "AnimationComponent.h"
 
 void ProjectileSystem::Initialize()
 {
@@ -10,7 +13,9 @@ void ProjectileSystem::Initialize()
 		Entity projectileEntity = m_pRegistry->GetTag(entityA) == "Projectile" ? entityA : entityB;
 		Entity otherEntity = projectileEntity == entityA ? entityB : entityA;
 		m_pRegistry->DestroyEntity(projectileEntity);
-		m_pRegistry->DestroyEntity(otherEntity);
+		m_pRegistry->GetComponent<LifeComponent>(otherEntity)->bIsHit = true;
+		m_pRegistry->GetComponent<ColliderComponent>(otherEntity)->SetActive(false);
+		m_pRegistry->GetComponent<AnimationComponent>(otherEntity)->Rate = 1.5f;
 		});
 }
 

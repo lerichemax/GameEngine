@@ -19,7 +19,7 @@ void EnemySystem::Start()
 
 		auto pEnemyInfos = m_pRegistry->GetComponents<EnemyInfoComponent>(entity);
 
-		glm::vec2 startPosition{ -200,-150 };
+		glm::vec2 startPosition{ -200,-200 };
 		glm::vec2 currentPosition{ startPosition };
 		float textHeight = 0;
 

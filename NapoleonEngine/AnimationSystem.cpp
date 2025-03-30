@@ -6,6 +6,7 @@
 
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "Animation.h"
 
 void AnimationSystem::Update()
 {
@@ -13,28 +14,42 @@ void AnimationSystem::Update()
 
 	for (Entity entity : view)
 	{
-		auto pAnimation = m_pRegistry->GetComponent<AnimationComponent>(entity);
+		auto pAnimationComp = m_pRegistry->GetComponent<AnimationComponent>(entity);
 		auto pRenderer = m_pRegistry->GetComponent<RendererComponent>(entity);
 
-		if (!pAnimation->bIsPaused && pAnimation->SpriteTimer <= 0.f)
+		auto pAnimation = pAnimationComp->pAnimation;
+		if (!IS_VALID(pAnimation))
 		{
-			pAnimation->CurrentSpriteIndex++;
-			if (pAnimation->CurrentSpriteIndex >= pAnimation->AnimationSprites.size())
+			continue;
+		}
+
+		if (!pAnimationComp->bInitialized)
+		{
+			pRenderer->pTexture = ResourceManager::Get().GetTexture(pAnimation->m_AnimationSprites[pAnimationComp->CurrentSpriteIndex]);
+			pAnimationComp->bInitialized = true;
+			continue;
+		}
+
+		if (!pAnimationComp->bIsPaused && pAnimationComp->SpriteTimer >= pAnimation->m_TimePerSprite * pAnimationComp->Rate)
+		{
+			pAnimationComp->CurrentSpriteIndex++;
+			if (pAnimationComp->CurrentSpriteIndex >= pAnimation->m_AnimationSprites.size())
 			{
-				if (pAnimation->bLoop)
+				if (pAnimation->m_bLoop)
 				{
-					pAnimation->CurrentSpriteIndex = 0;
+					pAnimationComp->CurrentSpriteIndex = 0;
 				}
 				else
 				{
-					pAnimation->bAnimationFinished = true;
+					pAnimationComp->bAnimationFinished = true;
+					continue;
 				}
 			}
 
-			pRenderer->pTexture = ResourceManager::Get().GetTexture(pAnimation->AnimationSprites[pAnimation->CurrentSpriteIndex]);
-			pAnimation->SpriteTimer = pAnimation->TimePerSprite;
+			pRenderer->pTexture = ResourceManager::Get().GetTexture(pAnimation->m_AnimationSprites[pAnimationComp->CurrentSpriteIndex]);
+			pAnimationComp->SpriteTimer = 0.f;
 		}
 
-		pAnimation->SpriteTimer -= TimerLocator::Get()->GetDeltaTime();
+		pAnimationComp->SpriteTimer += TimerLocator::Get()->GetDeltaTime();
 	}
 }

@@ -11,15 +11,16 @@ void LifeSystem::Update()
 	for (Entity entity : view)
 	{
 		auto pLife = m_pRegistry->GetComponent<LifeComponent>(entity);
-		auto pAnimation = m_pRegistry->GetComponent<AnimationComponent>(entity);
+		auto pAnimationComp = m_pRegistry->GetComponent<AnimationComponent>(entity);
 
 		if (pLife->bIsHit)
 		{
 			if (!pLife->bIsDead)
 			{
-				//change animation to death animation
+				pAnimationComp->SetAnimation(pLife->pDeathAnimation);
+				pLife->bIsDead = true;
 			}
-			else if (pAnimation->IsAnimationFinished())
+			else if (pAnimationComp->IsAnimationFinished())
 			{
 				m_pRegistry->DestroyEntity(entity);
 			}

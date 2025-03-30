@@ -155,6 +155,27 @@ inline void JsonReader::Read<Texture2D>(std::string const& key, Texture2D*& seri
 	}
 }
 
+template<>
+inline void JsonReader::Read<Animation>(std::string const& key, Animation*& serializableObject) const
+{
+	auto attributeReader = ReadAttribute(key);
+
+	if (attributeReader == nullptr)
+	{
+		//log
+		return;
+	}
+
+	if (serializableObject == nullptr)
+	{
+		std::string animationName;
+		attributeReader->ReadString("m_Name", animationName);
+
+
+		serializableObject = ResourceManager::Get().GetAnimation(animationName);
+	}
+}
+
 template<EnumType E>
 void JsonReader::Read(std::string const& key, E& enumValue) const
 {
