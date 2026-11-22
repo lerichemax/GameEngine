@@ -21,7 +21,7 @@ void MainGame::RegisterScenes() const
 {
 	SceneManager::Get().AddScene(new TestScene{});
 	SceneManager::Get().AddScene(new Planets{});
-	SceneManager::Get().LoadScene("Planets");
+	SceneManager::Get().LoadScene("TestScene");
 }
 
 void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const

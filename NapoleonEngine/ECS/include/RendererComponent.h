@@ -18,15 +18,15 @@ struct RendererComponent : public ecs::Component
 public:
 	RendererComponent();
 
-	PROPERTY(uint8_t, Layer);
+	MEMBER(uint8_t, Layer);
 
-	PROPERTY(Texture2D*, pTexture);
-	PROPERTY(RenderSpace, Space);
+	MEMBER(Texture2D*, pTexture);
+	MEMBER(RenderSpace, Space);
 
 	void SetShape(std::unique_ptr<geo::Shape> pNewShape);
 
 private:
-	PROPERTY(std::unique_ptr<geo::Shape>, pShape);
+	MEMBER(std::unique_ptr<geo::Shape>, pShape);
 };
 
-SERIALIZE_CLASS(RendererComponent, ecs::Component)
+REGISTER_TYPE(RendererComponent, ecs::Component)

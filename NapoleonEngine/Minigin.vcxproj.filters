@@ -46,7 +46,7 @@
     <Filter Include="ECS\Systems\Base">
       <UniqueIdentifier>{0fe4b0a5-cd00-4ac6-a195-ea983a4d4e80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Serialization\Reflection">
+    <Filter Include="Reflection">
       <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -144,7 +144,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
-      <Filter>Serialization\Reflection</Filter>
+      <Filter>Reflection</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\Registry.h">
       <Filter>ECS</Filter>
@@ -226,6 +226,18 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeHash.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeId.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberVars.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableId.h">
+      <Filter>Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,7 +386,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Reflection.inl">
-      <Filter>Serialization\Reflection</Filter>
+      <Filter>Reflection</Filter>
     </None>
     <None Include="SerializationMap.inl">
       <Filter>Serialization</Filter>
