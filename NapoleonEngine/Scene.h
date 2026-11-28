@@ -28,7 +28,7 @@ public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
 
-	virtual [[nodiscard]] std::shared_ptr<GameObject> CreateGameObject();
+	[[nodiscard]] virtual std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
 	void RestoreContext(JsonReader* const reader, SerializationMap const& context);

@@ -253,7 +253,7 @@
     <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NapoleonEngine\Minigin.vcxproj">
+    <ProjectReference Include="..\NapoleonEngine\NapoleonEngine.vcxproj">
       <Project>{41b0ec47-d48c-4b0f-951b-d98595ffae0a}</Project>
     </ProjectReference>
   </ItemGroup>

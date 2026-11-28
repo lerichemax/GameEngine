@@ -9,7 +9,7 @@
 
 namespace ecs
 {
-	class Component;
+	struct Component;
 }
 
 enum TypeFlags
@@ -66,11 +66,12 @@ public:
 	template<typename T>
 	static void RegisterTypeId()
 	{
-		uint64_t const typeId = TypeId<T>::Create().GetId();
+		uint64_t const typeId = TypeId::Create<T>().GetId();
+		auto& typeInfos = GetStatics();
 
-		assert(!TypeInfos.contains(typeId) && "TypeId already registered");
+		assert(!typeInfos.TypeInfos.contains(typeId) && "TypeId already registered");
 
-		TypeInfos.emplace(typeId, TypeInfo::Create<T>());
+		typeInfos.TypeInfos.emplace(typeId, TypeInfo::Create<T>());
 	}
 
 	friend bool operator==(TypeId const& lhs, TypeId const& rhs)
@@ -90,7 +91,7 @@ private:
 		return data;
 	}
 
-	int ID;
+	uint64_t ID;
 };
 
 template<typename T>
@@ -109,7 +110,7 @@ inline constexpr TypeInfo TypeInfo::Create()
 	if (std::is_base_of<ecs::Component, T>::value)
 	{
 		info.bIsComponent = true;
-		info.ComponentConstructor = []() -> ecs::Component* { CreateComponent<T>() }
+		info.ComponentConstructor = []() -> ecs::Component* { CreateComponent<T>(); };
 	}
 
 	return info;
@@ -118,7 +119,7 @@ inline constexpr TypeInfo TypeInfo::Create()
 template <typename T>
 inline constexpr TypeId TypeId::Create()
 {
-	return TypeId(Reflection::TypeHash<T>());
+	return TypeId(ReflectionSystem::TypeHash<T>());
 }
 
 template <typename T>

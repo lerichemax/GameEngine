@@ -107,10 +107,10 @@ static constexpr VariableId Create()
 	using Type_RemovedRef = std::remove_reference_t<Type_RemovedExtents>;
 	using Type_RemovedPointers = remove_all_pointers_t<Type_RemovedRef>;
 
-	using StrippedType = std::remove_cvref_t<Type_RemovedPointer>;
+	using StrippedType = std::remove_cvref_t<Type_RemovedPointers>;
 	RegisterType<StrippedType>();
 
-	if (constexpr std::is_same_v<T, void>)
+	if constexpr ( std::is_same_v<T, void>)
 	{
 		return VariableId(TypeId::Create<void>());
 	}
@@ -126,10 +126,10 @@ static constexpr VariableId Create()
 
 		auto variable = VariableId(TypeId::Create<StrippedType>());
 
-		if (constexpr isRef) variable.SetReferenceFlag();
-		if (constexpr isRValRef) variable.SetRValReferenceFlag();
-		if (constexpr isConst) variable.SetConstFlag(); 
-		if (constexpr isVolatile) variable.SetVolatileFlag();
+		if constexpr (isRef) variable.SetReferenceFlag();
+		if constexpr (isRValRef) variable.SetRValReferenceFlag();
+		if constexpr (isConst) variable.SetConstFlag();
+		if constexpr (isVolatile) variable.SetVolatileFlag();
 
 		variable.SetPointerAmount(pointerAmount);
 		variable.SetArraySize(arraySize);
@@ -138,7 +138,7 @@ static constexpr VariableId Create()
 	}
 }
 
-bool operator==(VariableId const& lhs, VariableId const& rhs)
+inline bool operator==(VariableId const& lhs, VariableId const& rhs)
 {
 	return lhs.Type == rhs.Type &&
 		lhs.ArraySize == rhs.ArraySize &&

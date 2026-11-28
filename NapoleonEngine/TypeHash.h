@@ -37,7 +37,7 @@ namespace ReflectionSystem
 		constexpr auto wrapped_name = wrapped_type_name<T>();
 		constexpr auto prefix_length = wrapped_type_name_prefix_length();
 		constexpr auto suffix_length = wrapped_type_name_suffix_length();
-		constexpr auto type_name_length = wrapped_name_length - prefix_length - suffix_length;
+		constexpr auto type_name_length = wrapped_name.length() - prefix_length - suffix_length;
 		return wrapped_name.substr(prefix_length, type_name_length);
 	}
 

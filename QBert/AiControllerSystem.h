@@ -1,5 +1,5 @@
 #pragma once
-#include "AiControllerSystem.h"
+#include "System.h"
 
 enum class ConnectionDirection;
 struct AiControllerComponent;
