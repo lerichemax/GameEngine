@@ -148,6 +148,8 @@ void Scene::OnLoad()
 	m_pSystems.push_back(m_pRegistry->RegisterSystem<ScriptingSystem>());
 	m_pSystems.push_back(m_pRegistry->RegisterSystem<TextRendererSystem>());
 
+	CameraLocator::RegisterCamera(m_pCamera.get());
+
 	m_bIsActive = true;
 
 	AddFPSCounter();
@@ -157,6 +159,12 @@ void Scene::OnLoad()
 	size_t nbrSystems = m_pSystems.size();
 	size_t counter = 0;
 
+	m_pRegistry->Update();
+
+	m_pTransformSystem->Initialize();
+	m_pCollisionSystem->Initialize();
+	m_pAudio->Initialize();
+	m_pUi->Initialize();
 	while (counter < nbrSystems)
 	{
 		m_pSystems[counter]->Initialize();
@@ -166,6 +174,10 @@ void Scene::OnLoad()
 
 	nbrSystems = m_pSystems.size();
 	counter = 0;
+	m_pTransformSystem->Start();
+	m_pCollisionSystem->Start();
+	m_pAudio->Start();
+	m_pUi->Start();
 	while (counter < nbrSystems)
 	{
 		m_pSystems[counter]->Start();
@@ -194,23 +206,19 @@ void Scene::AddFPSCounter()
 
 void Scene::Update()
 {	
+	m_pRegistry->Update();
+
 	for (auto* const pSystem : m_pSystems )
 	{
 		pSystem->Update();
 	}
 
-	m_pCamera->Update();
-	m_pTransformSystem->Update(); // move to update systems above ? 
+	m_pCamera->Update(); //not needed so far
+	m_pTransformSystem->Update();
 	m_pCollisionSystem->Update();
 	m_pUi->Update();
 
 	m_pAudio->Update();
-}
-
-
-void Scene::Deserialize(JsonReader* const reader, SerializationMap& context)
-{
-	BaseScene::Deserialize(reader, context);
 }
 
 Color const& Scene::GetBackgroundColor() const
@@ -220,20 +228,20 @@ Color const& Scene::GetBackgroundColor() const
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name)
 {
-	int index = m_pRegistry->GetLivingEntitiesCount();
+	size_t index = m_pRegistry->GetNextEntityIdx();
 
-	PrefabsManager::Get().InstantiatePrefab(name, this);
+	m_pPrefabsManager->InstantiatePrefab(name, this);
 
-	return std::shared_ptr<GameObject>(new GameObject{ m_pRegistry->GetEntityAtIndex(index), m_pRegistry.get() });
+	return std::shared_ptr<GameObject>(new GameObject{ m_pRegistry->GetNewEntityAtIndex(index), m_pRegistry.get() });
 }
 
 std::shared_ptr<GameObject> Scene::InstantiatePrefab(std::string const& name, glm::vec2 const& location)
 {
-	int index = m_pRegistry->GetLivingEntitiesCount();
+	size_t index = m_pRegistry->GetNextEntityIdx();
 
-	PrefabsManager::Get().InstantiatePrefab(name, this);
+	m_pPrefabsManager->InstantiatePrefab(name, this);
 
-	auto pNewObject = std::shared_ptr<GameObject>(new GameObject{ m_pRegistry->GetEntityAtIndex(index), m_pRegistry.get() });
+	auto pNewObject = std::shared_ptr<GameObject>(new GameObject{ m_pRegistry->GetNewEntityAtIndex(index), m_pRegistry.get() });
 
 	pNewObject->GetTransform()->SetLocation(location);
 

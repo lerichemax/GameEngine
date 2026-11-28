@@ -7,6 +7,6 @@ public:
 	MainGame();
 
 	void RegisterScenes() const override;
-	void CreatePrefabs() const override;
+	void CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const override;
 
 };

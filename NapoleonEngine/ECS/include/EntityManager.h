@@ -37,9 +37,13 @@ namespace ecs
 
 		std::queue<Entity> m_AvailableEntities;
 		std::vector<Entity> m_CreatedEntities;
+		std::vector<Entity> m_EntityToAddBuffer;
+		std::vector<Entity> m_EntityToDeleteBuffer;
 		std::array<Signature, MAX_ENTITIES> m_Signatures;
 		std::unordered_map<Entity, std::unordered_set<Entity>> m_EntitiesHierarchy{};
 		std::unordered_map<Entity, std::string> m_EntityToTag{};
 		int32_t m_LivingEntitiesCount{};
+		
+		void Update();
 	};
 }

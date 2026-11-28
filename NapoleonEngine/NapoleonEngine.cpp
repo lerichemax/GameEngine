@@ -30,6 +30,7 @@ NapoleonEngine* NapoleonEngine::m_pEngine = nullptr;
 NapoleonEngine::NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs)
 	: m_pRenderer{std::make_unique<Renderer>(Width, Height, name)},
 	m_pTimer{ std::unique_ptr<Timer>(new Timer{}) },
+	m_pPrefabManager{std::make_shared<PrefabsManager>()},
 	m_bCreatePrefabs{ bCreatePrefabs }
 {
 	assert(m_pEngine == nullptr && "Trying to instantiate more than one Engine instance");
@@ -93,9 +94,9 @@ void NapoleonEngine::Run()
 
 	if (m_bCreatePrefabs)
 	{
-		CreatePrefabs();
+		CreatePrefabs(m_pPrefabManager);
 	}
-
+	SceneManager::Get().SetPrefabsManagerPtr(m_pPrefabManager);
 	RegisterScenes();
 
 	{
@@ -109,9 +110,9 @@ void NapoleonEngine::Run()
 			m_bQuit = !input.ProcessInput();
 			sceneManager.Update();
 			
-			m_pRenderer->Render(sceneManager.GetActiveScene()->m_pRegistry.get(), sceneManager.GetActiveScene()->GetBackgroundColor(), sceneManager.GetActiveScene()->GetCamera());
+			m_pRenderer->Render(sceneManager.GetActiveScene()->m_pRegistry.get(), sceneManager.GetActiveScene()->GetBackgroundColor());
 
-			m_pTimer->Sleep();
+			m_pTimer->Sleep(); // caps FPS
 		}
 	}
 
@@ -130,7 +131,7 @@ void NapoleonEngine::StartHeapControl()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Set a breakpoint on the specified object allocation order number
-	//_CrtSetBreakAlloc(165);
+	//_CrtSetBreakAlloc(186);
 
 #endif
 }

@@ -21,14 +21,12 @@ void MainGame::RegisterScenes() const
 {
 	SceneManager::Get().AddScene(new TestScene{});
 	SceneManager::Get().AddScene(new Planets{});
-	SceneManager::Get().LoadScene("Planets");
+	SceneManager::Get().LoadScene("TestScene");
 }
 
-void MainGame::CreatePrefabs() const
+void MainGame::CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const
 {
-	auto& pPrefabManager = PrefabsManager::Get();
-
-	auto qbertPrefab = pPrefabManager.CreatePrefab();
+	auto qbertPrefab = pPrefabManager->CreatePrefab();
 	auto pQbertObj = qbertPrefab->CreateGameObject();
 
 	auto rendererComp = pQbertObj->AddComponent<RendererComponent>();
@@ -36,7 +34,7 @@ void MainGame::CreatePrefabs() const
 	rendererComp->pTexture = ResourceManager::Get().GetTexture("Textures/QBert/QBert1_DownLeft_Qube.png");
 
 	auto* pCollider = pQbertObj->AddComponent<ColliderComponent>();
-	pCollider->SetShape(new geo::Rectangle{ pQbertObj->GetTransform()->GetLocation(), 24,24, {255, 0, 0} });
+	pCollider->SetShape(std::make_unique<geo::Rectangle>(pQbertObj->GetTransform()->GetLocation(), 24,24, Color{255, 0, 0} ));
 	pCollider->bIsTrigger = true;
 
 	pQbertObj->AddComponent<ScriptComponent>()->ScriptFile = "MoveLeft";
@@ -50,5 +48,5 @@ void MainGame::CreatePrefabs() const
 	pQbertObj->AddChild(pHurtTextObj);
 	pHurtTextObj->GetTransform()->SetLocalLocation(-10, -34);
 
-	pPrefabManager.SavePrefab(qbertPrefab, "QBert");
+	pPrefabManager->SavePrefab(qbertPrefab, "QBert");
 }

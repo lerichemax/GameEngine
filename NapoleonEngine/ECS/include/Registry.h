@@ -50,9 +50,10 @@ namespace ecs
 		std::string GetTag(Entity entity) const;
 		bool EntityHasTag(Entity entity, std::string const& tag) const;
 		int GetLivingEntitiesCount() const;
-		Entity GetEntityAtIndex(int idx) const;
+		size_t GetNextEntityIdx() const;
+		Entity GetNewEntityAtIndex(size_t idx) const;
 
-		void TransferTags(Entity originEntity, Entity destinationEntity, Registry* const pOther);
+		void Update();
 
 		void SerializeEntities(StreamWriter& writer);
 		void DeserializeEntities(JsonReader* const reader, SerializationMap& context);
@@ -65,6 +66,8 @@ namespace ecs
 
 		void DeserializeComponents(Entity entity, JsonReader* const reader, SerializationMap& context);
 		std::vector<Entity> GetEntitiesWithSignature(Signature const& signature);
+
+		void DoDestroyEntities();
 	};
 }
 

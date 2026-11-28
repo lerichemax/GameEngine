@@ -6,6 +6,7 @@
 
 class Scene;
 class NapoleonEngine;
+class PrefabsManager;
 class SceneManager final : public Singleton<SceneManager>
 {
 public:
@@ -32,4 +33,6 @@ private:
 	SceneManager();
 
 	void Update();
+	void SetPrefabsManagerPtr(std::weak_ptr<PrefabsManager> pPrefabsManager);
+	void CleanUp();
 };

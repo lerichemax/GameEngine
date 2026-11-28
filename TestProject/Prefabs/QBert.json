@@ -59,7 +59,7 @@
                     "type": "class ColliderComponent",
                     "bDraw": false,
                     "bIsTrigger": true,
-                    "pShape": {
+                    "m_pShape": {
                         "type": "struct geo::Rectangle",
                         "Width": 24,
                         "Height": 24,
@@ -75,6 +75,10 @@
                             "x": 0.0,
                             "y": 0.0
                         }
+                    },
+                    "m_Offset": {
+                        "x": 0.0,
+                        "y": 0.0
                     },
                     "m_Entity": 0,
                     "m_IsActive": true,

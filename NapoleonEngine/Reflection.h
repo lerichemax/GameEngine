@@ -2,6 +2,9 @@
 #include "Singleton.h"
 #include "JsonReaderWriter.h"
 
+#include "TypeId.h"
+#include "MemberVars.h"
+
 #include <unordered_map>
 #include <functional>
 #include <string>

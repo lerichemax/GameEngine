@@ -104,7 +104,8 @@ public:
 		state(state),
 		isTriggered(false),
 		pCommand(pCom),
-		lastKeyPos(LastKeyPosition::up)
+		lastKeyPos(LastKeyPosition::up),
+		playerNbr(PlayerNbr::One)
 	{
 	}
 	~InputAction();

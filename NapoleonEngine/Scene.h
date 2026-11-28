@@ -28,7 +28,7 @@ public:
 	explicit BaseScene(const std::string& name);
 	virtual ~BaseScene();
 
-	virtual [[nodiscard]] std::shared_ptr<GameObject> CreateGameObject();
+	[[nodiscard]] virtual std::shared_ptr<GameObject> CreateGameObject();
 	std::string GetName() const { return m_Name; }
 
 	void RestoreContext(JsonReader* const reader, SerializationMap const& context);
@@ -74,14 +74,12 @@ public:
 	bool IsActive() const { return m_bIsActive; }
 
 	template <ecs::SystemDerived T> T* const AddSystem();
-	void Deserialize(JsonReader* const reader, SerializationMap& context);
 	Color const& GetBackgroundColor() const;
 
 protected:
 	Color m_BackgroundColor{ 0,0,0,0 };
 
-	Camera2D* const GetCamera() const { return m_pCamera.get(); }
-	virtual void Initialize() {};
+	virtual void Initialize() = 0;
 
 private:
 	friend class SceneManager;
@@ -100,6 +98,7 @@ private:
 	UiSystem* m_pUi;
 
 	std::unique_ptr<Camera2D> m_pCamera;
+	std::shared_ptr<PrefabsManager> m_pPrefabsManager;
 
 	std::vector<ecs::System*> m_pSystems;
 

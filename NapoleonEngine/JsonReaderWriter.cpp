@@ -68,58 +68,71 @@ StreamWriter::StreamWriter(StringBuffer& buffer)
 
 void StreamWriter::WriteInt(std::string const& key, int value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+	
 	m_BufferWriter.Int(value);
 }
 
 void StreamWriter::WriteInt64(std::string const& key, int64_t value)
 {
-	m_BufferWriter.Key(key.c_str());
-	m_BufferWriter.Int64(value);
-}
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
 
-void StreamWriter::WriteIntNoKey(int value)
-{
-	m_BufferWriter.Int(value);
-}
-
-void StreamWriter::WriteIntNoKey(int64_t value)
-{
 	m_BufferWriter.Int64(value);
 }
 
 void StreamWriter::WriteBool(std::string const& key, bool value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Bool(value);
 }
 
 void StreamWriter::WriteString(std::string const& key, std::string const& value)
 {
-	m_BufferWriter.Key(key.c_str());
-	m_BufferWriter.String(value.c_str());
-}
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
 
-void StreamWriter::WriteStringNoKey(std::string const& value)
-{
 	m_BufferWriter.String(value.c_str());
 }
 
 void StreamWriter::WriteDouble(std::string const& key, float value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Double(value);
 }
 
 void StreamWriter::WriteDouble(std::string const& key, double value)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.Double(value);
 }
 
 void StreamWriter::WriteVector(std::string const& key, glm::vec2 const& vec)
 {
-	m_BufferWriter.Key(key.c_str());
+	if (!key.empty())
+	{
+		m_BufferWriter.Key(key.c_str());
+	}
+
 	m_BufferWriter.StartObject();
 	WriteDouble("x", vec.x);
 	WriteDouble("y", vec.y);
@@ -249,13 +262,14 @@ void JsonReader::ReadBool(std::string const& attribute, bool& value) const
 	}
 }
 
-void JsonReader::ReadDouble(std::string const& attribute, float& value) const
+void JsonReader::ReadFloat(std::string const& attribute, float& value) const
 {
-	double valueDouble = 0;
+	auto attributeReader = ReadAttribute(attribute);
 
-	ReadDouble(attribute, valueDouble);
-
-	value = static_cast<float>(valueDouble);
+	if (attributeReader != nullptr)
+	{
+		value = attributeReader->m_JsonValue->GetFloat();
+	}
 }
 
 void JsonReader::ReadDouble(std::string const& attribute, double& value) const
@@ -274,8 +288,8 @@ void JsonReader::ReadVector(std::string const& attribute, glm::vec2& value) cons
 
 	if (attributeReader != nullptr)
 	{
-		attributeReader->ReadDouble("x", value.x);
-		attributeReader->ReadDouble("y", value.y);
+		attributeReader->ReadFloat("x", value.x);
+		attributeReader->ReadFloat("y", value.y);
 	}
 }
 
@@ -392,7 +406,7 @@ void JsonReader::Read(std::string const& key, bool& value) const
 }
 void JsonReader::Read(std::string const& key, float& value) const
 {
-	ReadDouble(key, value);
+	ReadFloat(key, value);
 }
 void JsonReader::Read(std::string const& key, double& value) const
 {
@@ -415,10 +429,36 @@ void JsonReader::Read(std::string const& key, glm::mat3x3& value) const // assum
 		attributeReader->ReadVector("position", location);
 		attributeReader->ReadVector("scale", scale);
 
-		attributeReader->ReadDouble(std::string{ "rotation" }, rotation);
+		attributeReader->ReadFloat(std::string{ "rotation" }, rotation);
 
 		value = TransformComponent::BuildTransformMatrix(location, scale, rotation);
 	}
+}
+
+void JsonReader::Read(int& value) const { value = m_JsonValue->GetInt(); }
+void JsonReader::Read(uint8_t& value) const{ value = static_cast<uint8_t>(m_JsonValue->GetInt()); }
+void JsonReader::Read(int64_t& value) const { value = m_JsonValue->GetInt64(); }
+void JsonReader::Read(std::string& value) const { value = m_JsonValue->GetString(); }
+void JsonReader::Read(bool& value) const { value = m_JsonValue->GetBool(); }
+void JsonReader::Read(float& value) const { value = m_JsonValue->GetFloat(); }
+void JsonReader::Read(double& value) const { value = m_JsonValue->GetDouble(); }
+void JsonReader::Read(glm::vec2& value) const
+{ 
+	ReadFloat("x", value.x);
+	ReadFloat("y", value.y);
+}
+void JsonReader::Read(glm::mat3x3& value) const
+{
+	vec2 location;
+	vec2 scale;
+	float rotation;
+
+	ReadVector("position", location);
+	ReadVector("scale", scale);
+
+	ReadFloat(std::string{ "rotation" }, rotation);
+
+	value = TransformComponent::BuildTransformMatrix(location, scale, rotation);
 }
 
 SizeType JsonReader::GetArraySize() const

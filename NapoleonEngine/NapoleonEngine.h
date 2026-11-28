@@ -6,7 +6,7 @@ namespace ecs {
 
 class Renderer;
 class Timer;
-class Scene;
+class PrefabsManager;
 class NapoleonEngine
 {
 public:
@@ -23,7 +23,7 @@ public:
 protected:
 	NapoleonEngine(unsigned int Width, unsigned int Height, std::string const& name, bool bCreatePrefabs);
 
-	virtual void CreatePrefabs() const {};
+	virtual void CreatePrefabs(std::shared_ptr<PrefabsManager> pPrefabManager) const {};
 
 private:
 	static bool m_bQuit;
@@ -31,6 +31,7 @@ private:
 
 	std::unique_ptr<Renderer> m_pRenderer;
 	std::unique_ptr<Timer> m_pTimer;
+	std::shared_ptr<PrefabsManager> m_pPrefabManager;
 
 	bool m_bCreatePrefabs;
 

@@ -32,11 +32,8 @@ public:
 
 	void WriteInt(std::string const& key, int value);
 	void WriteInt64(std::string const& key, int64_t value);
-	void WriteIntNoKey(int value);
-	void WriteIntNoKey(int64_t value);
 	void WriteBool(std::string const& key, bool value);
 	void WriteString(std::string const& key, std::string const& value);
-	void WriteStringNoKey(std::string const& value);
 	void WriteDouble(std::string const& key, float value);
 	void WriteDouble(std::string const& key, double value);
 	void WriteVector(std::string const& key, glm::vec2 const& vec);
@@ -54,6 +51,7 @@ public:
 	void Write(std::string const& key, double value);
 	void Write(std::string const& key, glm::vec2 const& value);
 	void Write(std::string const& key, glm::mat3x3 value);
+	template<typename T> void Write(std::string const& key, std::vector<T> values);
 	template<typename T> void Write(std::string const& key, T* const serializableObject);
 	template<EnumType E> void Write(std::string const& key, E& enumObject);
 
@@ -71,12 +69,13 @@ public:
 	void ReadInt64(std::string const& attribute, int64_t&	value) const;
 	void ReadString(std::string const& attribute, std::string& value) const;
 	void ReadBool(std::string const& attribute, bool& value) const;
-	void ReadDouble(std::string const& attribute, float& value) const;
+	void ReadFloat(std::string const& attribute, float& value) const;
 	void ReadDouble(std::string const& attribute, double& value) const;
 	void ReadVector(std::string const& attribute, glm::vec2& value) const;
 	void ReadBinary(std::string const& attribute, std::vector<char> data) const;
 	std::unique_ptr<JsonReader> ReadObject(std::string const& attribute) const;
 	std::unique_ptr<JsonReader> ReadArray(std::string const& attribute) const;
+
 	std::unique_ptr<JsonReader> ReadArrayIndex(SizeType index) const;
 	std::unique_ptr<JsonReader> ReadArrayIndex(size_t index) const;
 	std::string ReadArrayIndexAsString(SizeType index) const;
@@ -92,7 +91,20 @@ public:
 	void Read(std::string const& key, double& value) const;
 	void Read(std::string const& key, glm::vec2& value) const;
 	void Read(std::string const& key, glm::mat3x3& value) const;
+	template<typename T> void Read(T*& serializableObject) const;
+
+	void Read(int& value) const;
+	void Read(uint8_t& value) const;
+	void Read(int64_t& value) const;
+	void Read(std::string& value) const;
+	void Read(bool& value) const;
+	void Read(float& value) const;
+	void Read(double& value) const;
+	void Read(glm::vec2& value) const;
+	void Read(glm::mat3x3& value) const;
+
 	template<typename T> void Read(std::string const& key, T*& serializableObject) const;
+	template<typename T> void Read(std::string const& key, std::vector<T>& values) const;
 	template<EnumType E> void Read(std::string const& key, E& enumValue) const;
 
 	SizeType GetArraySize() const;

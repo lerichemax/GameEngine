@@ -46,7 +46,7 @@
     <Filter Include="ECS\Systems\Base">
       <UniqueIdentifier>{0fe4b0a5-cd00-4ac6-a195-ea983a4d4e80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Serialization\Reflection">
+    <Filter Include="Reflection">
       <UniqueIdentifier>{ab09f440-bfe9-485f-9d0c-25dbda6250b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -144,7 +144,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
-      <Filter>Serialization\Reflection</Filter>
+      <Filter>Reflection</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\Registry.h">
       <Filter>ECS</Filter>
@@ -159,15 +159,6 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\ColliderComponent.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\include\Component.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\include\ComponentArray.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\include\ComponentManager.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="ECS\include\AudioSystem.h">
@@ -217,6 +208,36 @@
     </ClInclude>
     <ClInclude Include="ECS\include\FPSCounter.h">
       <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\Component.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentArray.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\include\ComponentManager.h">
+      <Filter>ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeHash.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeId.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberVars.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableId.h">
+      <Filter>Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,12 +335,6 @@
     <ClCompile Include="ECS\src\ColliderComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\src\Component.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\src\ComponentManager.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ECS\src\AudioSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
@@ -353,10 +368,25 @@
     <ClCompile Include="ECS\src\TransformComponent.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ECS\src\Component.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\src\ComponentManager.cpp">
+      <Filter>ECS\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Reflection.inl">
-      <Filter>Serialization\Reflection</Filter>
+      <Filter>Reflection</Filter>
     </None>
     <None Include="SerializationMap.inl">
       <Filter>Serialization</Filter>
@@ -370,14 +400,14 @@
     <None Include="ECS\include\Registry.inl">
       <Filter>ECS</Filter>
     </None>
-    <None Include="ECS\include\ComponentArray.inl">
-      <Filter>ECS\Components</Filter>
-    </None>
-    <None Include="ECS\include\ComponentManager.inl">
-      <Filter>ECS\Components</Filter>
-    </None>
     <None Include="ECS\include\SystemManager.inl">
       <Filter>ECS\Systems\Base</Filter>
+    </None>
+    <None Include="ECS\include\ComponentArray.inl">
+      <Filter>ECS\Components\Base</Filter>
+    </None>
+    <None Include="ECS\include\ComponentManager.inl">
+      <Filter>ECS\Components\Base</Filter>
     </None>
   </ItemGroup>
 </Project>

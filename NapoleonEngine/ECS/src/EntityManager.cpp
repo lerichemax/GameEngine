@@ -14,7 +14,8 @@ Entity EntityManager::CreateEntity()
 	assert(m_LivingEntitiesCount < MAX_ENTITIES && "Too many entities in existence");
 
 	Entity id = m_AvailableEntities.front();
-	m_CreatedEntities.push_back(id);
+	//m_CreatedEntities.push_back(id);
+	m_EntityToAddBuffer.push_back(id);
 	m_AvailableEntities.pop();
 	m_LivingEntitiesCount++;
 
@@ -61,11 +62,11 @@ std::vector<Entity> EntityManager::GetEntitiesWithSignature(Signature const& sig
 {
 	std::vector<Entity> entities;
 
-	for (Entity i = 0; i < m_LivingEntitiesCount; i++)
+	for (Entity entity : m_CreatedEntities)
 	{
-		if (EntityHasSignature(i, signature))
+		if (EntityHasSignature(entity, signature))
 		{
-			entities.push_back(i);
+			entities.push_back(entity);
 		}
 	}
 
@@ -132,4 +133,10 @@ bool EntityManager::EntityHasSignature(Entity entity, Signature signature) const
 bool EntityManager::IsEntityValid(Entity entity)
 {
 	return entity <= MAX_ENTITIES;
+}
+
+void EntityManager::Update()
+{
+	m_CreatedEntities.insert(m_CreatedEntities.end(), m_EntityToAddBuffer.begin(), m_EntityToAddBuffer.end());
+	m_EntityToAddBuffer.clear();
 }

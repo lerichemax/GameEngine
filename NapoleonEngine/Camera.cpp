@@ -3,6 +3,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+ICamera* CameraLocator::m_pCameraService = nullptr;
+
 Camera2D::Camera2D(uint32_t width, uint32_t height)
 	:m_Width{ width },
 	m_Height{ height },
@@ -58,7 +60,17 @@ void Camera2D::Update()
 	//m_bNeedsUpdate = false;
 }
 
-glm::mat3 Camera2D::TransformToCameraSpace(glm::mat3 const& transform) const
+glm::mat3 Camera2D::TransformIntoCameraSpace(glm::mat3 const& transform) const
 {
 	return m_CameraMatrix * transform;
+}
+
+uint32_t Camera2D::GetWidth() const
+{
+	return m_Width;
+}
+
+uint32_t Camera2D::GetHeight() const
+{
+	return m_Height;
 }

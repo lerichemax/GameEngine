@@ -22,12 +22,14 @@ public:
 	PROPERTY(bool, bIsTrigger);
 	PROPERTY(bool, bDraw);
 
-	void SetShape(geo::Shape* pNewShape);
+	void SetShape(std::unique_ptr<geo::Shape> pNewShape);
 	geo::Shape* const GetShape() const;
 
 private:
-	PROPERTY(std::unique_ptr<geo::Shape>, pShape);
-	std::set<ecs::Entity> OverlappingColliders;
+	PROPERTY(std::unique_ptr<geo::Shape>, m_pShape);
+	std::set<ecs::Entity> m_OverlappingColliders;
+	PROPERTY(glm::vec2, m_Offset);
+	glm::vec2 m_PreviousLocation;
 
 	void TriggerEnter(ecs::Entity other);
 	void TriggerExit(ecs::Entity other);

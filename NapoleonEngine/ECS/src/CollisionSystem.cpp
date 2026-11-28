@@ -1,7 +1,21 @@
 #include "PCH.h"
 #include "CollisionSystem.h"
+#include "TransformSystem.h"
 
 #include "ColliderComponent.h"
+
+#include "Camera.h"
+
+EventHandler<CollisionSystem, Entity, Entity> CollisionSystem::TriggerEnter{};
+EventHandler<CollisionSystem, Entity, Entity> CollisionSystem::TriggerExit{};
+EventHandler<CollisionSystem, Entity, Entity> CollisionSystem::Collision{};
+
+CollisionSystem::~CollisionSystem()
+{
+	TriggerEnter.UnsuscribeAll();
+	TriggerExit.UnsuscribeAll();
+	Collision.UnsuscribeAll();
+}
 
 void CollisionSystem::Update()
 {
@@ -10,28 +24,17 @@ void CollisionSystem::Update()
 	for (Entity entity : view)
 	{
 		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
-		if (!pCollider->IsActive())
+		if (!pCollider->IsActive() || !IS_VALID(pCollider->GetShape()))
 		{
 			continue;
 		}
 
 		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
-
-		pCollider->pShape->Pos = pTransform->GetLocation();
-
-		if (pCollider->bDraw)
-		{
-			Debugger::Get().DrawDebugShape(pCollider->GetShape());
-		}
-	}
-
-	for (Entity entity : view) // nested loop - > slow ? //TODO investigate more efficient algorythm
-	{
-		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
-		if (!pCollider->IsActive())
-		{
-			continue;
-		}
+		
+		glm::mat3 transformed = CameraLocator::Get()->TransformIntoCameraSpace(pTransform->GetWorldTransformMatrix());
+		glm::vec2 transformedLocation;
+		TransformSystem::ExtractTranslation(transformed, transformedLocation);
+		pCollider->GetShape()->Pos = pCollider->m_Offset + transformedLocation;
 
 		for (Entity otherEntity : view)
 		{
@@ -55,35 +58,54 @@ void CollisionSystem::Update()
 			{
 				HandleCollision(pCollider, pOtherCollider);
 			}
+
+			if (pCollider->bDraw)
+			{
+				Debugger::Get().DrawDebugShape(pCollider->GetShape());
+			}
 		}
+	}
+
+	for (Entity entity : view)
+	{
+		auto* const pCollider = m_pRegistry->GetComponent<ColliderComponent>(entity);
+		auto* const pTransform = m_pRegistry->GetComponent<TransformComponent>(entity);
+
+		pCollider->m_PreviousLocation = pTransform->GetLocation();
 	}
 }
 
 void CollisionSystem::HandleOverlapping(ColliderComponent* const pCollider, ColliderComponent* const pOtherCollider)
 {
 	bool bWasOverlapping = 
-		std::find(pCollider->OverlappingColliders.begin(), pCollider->OverlappingColliders.end(), pOtherCollider->GetEntity()) != pCollider->OverlappingColliders.end();
+		std::find(pCollider->m_OverlappingColliders.begin(), pCollider->m_OverlappingColliders.end(), pOtherCollider->GetEntity()) != pCollider->m_OverlappingColliders.end();
 	
-	if (pCollider->pShape->IsOverlapping(pOtherCollider->GetShape()))
+	if (pCollider->m_pShape->IsOverlapping(pOtherCollider->GetShape()))
 	{	
 		if (!bWasOverlapping)
 		{
 			pCollider->TriggerEnter(pOtherCollider->GetEntity());
-			pCollider->OverlappingColliders.insert(pOtherCollider->GetEntity());
+			TriggerEnter.Notify(pCollider->GetEntity(), pOtherCollider->GetEntity());
 		}
 	}
 	else if (bWasOverlapping)
 	{
-		pCollider->OverlappingColliders.erase(pOtherCollider->GetEntity());
+		pCollider->TriggerExit(pOtherCollider->GetEntity());
+		TriggerExit.Notify(pCollider->GetEntity(), pOtherCollider->GetEntity());
 	}
 }
 
 void CollisionSystem::HandleCollision(ColliderComponent* const pCollider, ColliderComponent* const pOtherCollider)
 {
 	//TODO
+	if (pCollider->m_pShape->IsOverlapping(pOtherCollider->GetShape()))
+	{
+		m_pRegistry->GetComponent<TransformComponent>(pCollider->GetEntity())->SetLocation(pCollider->m_PreviousLocation);
+		m_pRegistry->GetComponent<TransformComponent>(pOtherCollider->GetEntity())->SetLocation(pOtherCollider->m_PreviousLocation);
 
-	//	else if (!bWasOverlapping && !pCollider->bIsTrigger)
-	//	{
-	//		pCollider->TriggerExit(pOtherCollider->GetEntity()->GetEntity());
-	//}
+		pCollider->Collide(pOtherCollider->GetEntity());
+		pOtherCollider->Collide(pCollider->GetEntity());
+
+		Collision.Notify(pCollider->GetEntity(), pOtherCollider->GetEntity());
+	}
 }

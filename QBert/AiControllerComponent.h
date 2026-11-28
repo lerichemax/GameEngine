@@ -16,7 +16,7 @@ class Command;
 struct AiControllerComponent : public ecs::Component
 {
 	float const MOVE_INTERVAL{ 0.5f };
-	float MoveTimer;
+	float MoveTimer{};
 
 	PROPERTY(int, PointsForKill);
 
